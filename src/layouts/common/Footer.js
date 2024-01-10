@@ -1,6 +1,16 @@
+import { useEffect, useState } from 'react';
 import './Footer.css';
 
 function Footer() {
+
+  const [loader, setLoader] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoader(false);
+    }, 2000)
+  }, [])
+
   return <>
     <footer id="footer" class="footer">
 
@@ -70,7 +80,7 @@ function Footer() {
                   </div>
                   <div class="credits">
 
-                    Designed by <a href="https://sparkgenieit.com/">Spark Genie IR Solutions</a>
+                    Designed by <a href="https://sparkgenieit.com/">Spark Genie IT Solutions</a>
                   </div>
                 </div>
 
@@ -91,7 +101,7 @@ function Footer() {
   <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i
       class="bi bi-arrow-up-short"></i></a>
 
-  <div id="preloader"></div>
+  {loader && <div id="preloader"></div>}
 
   </>
 }

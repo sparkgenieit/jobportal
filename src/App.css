@@ -28,6 +28,14 @@
   color: #61dafb;
 }
 
+.homeBg{
+  background-image: url('assets/bg.webp');
+  background-size: cover;
+  height: 500px;
+  width: 100%;
+  color:white;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

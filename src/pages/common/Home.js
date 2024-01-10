@@ -11,8 +11,8 @@ function Home() {
         <main id="main">
 
             <section class="inner-page" data-aos="fade-up">
-                <div class="container-fluid" style={{ backgroundSize: 'cover', height: '500px', width: '100%' }}>
-                    <div class="text-light d-flex flex-column justify-content-center align-items-center" style={{ height: '500px', width: '100%' }}>
+                <div class="container-fluid homeBg">
+                    <div class=" d-flex flex-column justify-content-center align-items-center" style={{ height: '500px', width: '100%' }}>
                         <div class="text-center">
                             <div class="mt-5">
                                 <h3>The <span class=" text-success">#1</span> Job Board for hiring or Find your next job</h3>
@@ -26,7 +26,7 @@ function Home() {
                                     <input type="text" class="my-1 rounded  col-3" placeholder="Your Keyword" />
                                     <button type="button" class="btn btn-primary col-3">Search</button>
                                     <br />
-                                    <p class="text-light">Popular Searches: &nbsp;&nbsp;&nbsp; Designer,Web ,IOS, Developer, PHP, Senior, Engineer</p>
+                                    <p class="">Popular Searches: &nbsp;&nbsp;&nbsp; Designer,Web ,IOS, Developer, PHP, Senior, Engineer</p>
                                 </div>
                             </div>
 
@@ -57,7 +57,7 @@ function Home() {
 
                         <div class="container-fluid px-3">
                             <div class="d-flex justify-content-between my-3">
-                                <div class="h2 text-light">My Jobs</div>
+                                <div class="h2 ">My Jobs</div>
                                 <div class="mt-1">
                                     <button class="btn btn-outline-light btn-sm "> Admin - My Jobs</button>
                                 </div>
