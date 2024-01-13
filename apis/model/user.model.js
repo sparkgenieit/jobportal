@@ -23,9 +23,7 @@ let userSchema = new Schema(
     role: {
       type: String
     },
-    photo: {
-      type: Array
-    },
+    
     code: {
       type: String
     },
