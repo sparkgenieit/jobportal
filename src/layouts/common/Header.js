@@ -9,7 +9,8 @@ function Heder() {
 
         <a href="index.html" class="logo d-flex align-items-center scrollto me-auto me-lg-0">
 
-          <h2>Working Holiday Jobs New Zealand</h2>
+        <img  src="assets/images/logo-black.png"
+            alt="logo" />
 
         </a>
 

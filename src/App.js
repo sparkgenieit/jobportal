@@ -3,13 +3,17 @@ import AOS from 'aos';
 import './App.css';
 import 'aos/dist/aos.css';
 import Home from './pages/common/Home';
-import Comanyhome from "./pages/company/Companyhome";
+import CompanyLogin from "./pages/company/login";
+import AdminLogin from "./pages/admin/login";
+import SuperAdminLogin from "./pages/superadmin/login";
 
 function App() {
   return <BrowserRouter>
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/company" element={<Comanyhome/>} />
+      <Route path="/company" element={<CompanyLogin/>} />
+      <Route path="/admin" element={<AdminLogin/>} />
+      <Route path="/superadmin" element={<SuperAdminLogin/>} />
     </Routes>
 </BrowserRouter > 
 }
