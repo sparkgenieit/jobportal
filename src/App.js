@@ -10,6 +10,7 @@ import SuperAdminLogin from "./pages/superadmin/login";
 import UserRegistration from "./pages/common/UserRegistration";
 import UserLogin from "./pages/common/UserLogin";
 import UserProfile from "./pages/common/UserProfile";
+import CompanyProfile from "./pages/company/CompanyProfile";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -22,6 +23,8 @@ function App() {
       <Route path="/profile" element={token ? <UserProfile /> : <Navigate to="/" />} />
 
       <Route path="/company" element={<CompanyLogin/>} />
+      <Route path="/company/profile" element={<CompanyProfile/>} /> 
+
       <Route path="/admin" element={<AdminLogin/>} />
       <Route path="/superadmin" element={<SuperAdminLogin/>} />
     </Routes>

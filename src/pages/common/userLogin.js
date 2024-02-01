@@ -1,4 +1,4 @@
-import './userLogin.css';
+import './UserLogin.css';
 
 import Head from "../../layouts/common/Head";
 import Heder from '../../layouts/common/Header';
@@ -132,7 +132,7 @@ function UserLogin() {
             
           <div class="container-fluid h-custom">
           
-            <div class="row" style={{ "textAlign": "right", 'height': '50px' }}>
+            <div className="row" style={{ "textAlign": "right", 'height': '50px' }}>
               <a href="/company" style={{ 'textDecoration': 'none' }}><storng>Are you an Employer?</storng></a>
             </div>
             <div class="row d-flex justify-content-center align-items-center h-100">

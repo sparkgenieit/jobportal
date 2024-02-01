@@ -1,12 +1,10 @@
 import './Home.css';
 
-import Head from "../../layouts/common/Head";
 import Heder from '../../layouts/common/Header';
 import Footer from '../../layouts/common/Footer';
 
 function Home() {
     return <>
-        <Head />
         <Heder />
         <main id="main">
 

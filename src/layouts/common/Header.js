@@ -3,6 +3,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Head from './Head';
 
 
 function Heder() {
@@ -16,6 +17,7 @@ function Heder() {
   };
 
   return <>
+    <Head />
     <header id="header" class="header fixed-top" data-scrollto-offset="0">
       <div class="container-fluid d-flex align-items-center justify-content-between">
 
