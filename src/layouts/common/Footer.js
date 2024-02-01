@@ -12,7 +12,7 @@ function Footer() {
   }, [])
 
   return <>
-    <footer id="footer" class="footer">
+    <footer id="footer" class="footer" style={{'padding':'0px'}}>
 
       <div class="footer-content">
         <div class="container">

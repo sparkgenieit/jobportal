@@ -1,20 +1,32 @@
 import './Header.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 function Heder() {
+  const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setToken('');
+    localStorage.removeItem('token'); // Remove token from localStorage
+    navigate('/');
+  };
+
   return <>
     <header id="header" class="header fixed-top" data-scrollto-offset="0">
       <div class="container-fluid d-flex align-items-center justify-content-between">
 
-        <a href="index.html" class="logo d-flex align-items-center scrollto me-auto me-lg-0">
+        <a href="/" style={{"width":"15%"}} class="logo d-flex align-items-center scrollto me-auto me-lg-0">
 
-        <img  src="assets/images/logo-black.png"
+        <img  src="/assets/images/logo-black.png"
             alt="logo" />
 
         </a>
 
-        <nav id="navbar" class="navbar d-flex ">
+        <nav id="navbar" style={{"width":"60%"}} class="navbar d-flex ">
           <ul>
 
             <li><a class="nav-link scrollto mx-3" href="index.html#about">Home</a></li>
@@ -47,14 +59,16 @@ function Heder() {
             </li>
 
 
-            <li><a class="nav-link scrollto mx-3" href="index.html#about">Login</a></li>
 
           </ul>
           <i class="bi bi-list mobile-nav-toggle d-none"></i>
         </nav>
 
-        <a class="btn-getstarted scrollto" href="index.html#about">Get Started</a>
 
+        {!token && <><a class="btn-getstarted scrollto nav-link" href="/login" style={{'textDecoration': 'none'}}>Login</a>
+        <a class="btn-getstarted scrollto nav-link" href="/company" style={{'textDecoration': 'none'}}>Employer Login</a></>}
+
+        {token && <button onClick={() => handleLogout()} class="btn-getstarted scrollto nav-link" >Logout</button>}
       </div>
     </header>
   </>
