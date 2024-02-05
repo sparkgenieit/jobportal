@@ -10,7 +10,7 @@ import userService from '../../services/common/user.service';
 
 import { Hourglass } from "react-loader-spinner";
 
-function CompanyRegistration() {
+function UserRegistration() {
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -102,18 +102,21 @@ function CompanyRegistration() {
 
     if (!error) {
 
-      userService.create({ firstName, lastName, email, password, role: 'user' })
+      userService.create({ firstName, lastName, email, password, role: 'employer' })
         .then(response => {
           console.log(response.data);
           localStorage.setItem('token', response.data.token);
           setIsRegister(true);
-          localStorage.setItem('role', response.data.role)
+          const token = response.data.token;
+
           // Store the token securely (e.g., in localStorage or HTTP-only cookies)
+          localStorage.setItem('token', token);
+          localStorage.setItem('role', response.data.role)
           localStorage.setItem('fullname', firstName+" "+lastName);
           localStorage.setItem('email', email);
           setTimeout(() => {
             // Inside the handleLogin function
-            navigate('/profile'); // Redirect to the dashboard after login
+            navigate('/company/profile'); // Redirect to the dashboard after login
           }, 1500);
 
         })
@@ -216,4 +219,4 @@ function CompanyRegistration() {
   );
 }
 
-export default CompanyRegistration;
+export default UserRegistration;

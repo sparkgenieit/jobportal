@@ -14,9 +14,9 @@ function UserLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '' })
-  
+
   const [loader, setLoader] = useState(false);
-  
+
   const navigate = useNavigate();
 
 
@@ -90,6 +90,8 @@ function UserLogin() {
 
           // Store the token securely (e.g., in localStorage or HTTP-only cookies)
           localStorage.setItem('token', token);
+
+          localStorage.setItem('role', response.data.role)
           setTimeout(() => {
             // Inside the handleLogin function
             navigate('/profile'); // Redirect to the dashboard after login
@@ -125,70 +127,42 @@ function UserLogin() {
 
   return (
     <>
-      <Head />
-      <Heder />
-      <main id="main" style={{ 'paddingTop': '150px' }}>
-        <section >
-            
-          <div class="container-fluid h-custom">
-          
-            <div className="row" style={{ "textAlign": "right", 'height': '50px' }}>
-              <a href="/company" style={{ 'textDecoration': 'none' }}><storng>Are you an Employer?</storng></a>
+
+
+      <div class="row">
+        <div class="col-12">
+          {errors && errors.loginError && <div class="alert alert-danger" role="alert">
+            {errors && errors.loginError}</div>}
+          <form>
+
+            <div class="form-outline mb-4">
+
+              <label class="form-label" for="form3Example3">Email address</label>
+              <input type="email" class="form-control form-control-lg"
+                value={email} onChange={(event) => { validate('email', event.target.value, 'Email'); setEmail(event.target.value) }} required id="email" placeholder="Email" />
+              <span class="error col-12">{errors && errors.email}</span>
             </div>
-            <div class="row d-flex justify-content-center align-items-center h-100">
-              <div class="col-md-9 col-lg-6 col-xl-5">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-                  class="img-fluid" alt="Sample image" />
-              </div>
-              <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-              {errors && errors.loginError && <div class="alert alert-danger" role="alert">
-                  {errors && errors.loginError}</div>}
-                <form>
-                  <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                    <h3 class="lead fw-normal mb-5 me-3">Login</h3>
-                   <hr/>
-                  </div>
 
-                  <div class="form-outline mb-4">
-                  
-                  <label class="form-label" for="form3Example3">Email address</label>
-                    <input type="email" class="form-control form-control-lg"
-                      value={email} onChange={(event) => { validate('email', event.target.value, 'Email'); setEmail(event.target.value) }} required  id="email" placeholder="Email" />
-                    <span class="error col-12">{errors && errors.email}</span>
-                  </div>
+            <div class="form-outline mb-3">
 
-                  <div class="form-outline mb-3">
-                  
-                  <label class="form-label" for="form3Example4">Password</label>
-                    <input type="password" id="password" name="password" value={password} onChange={(event) => { validate('password', event.target.value, 'Password'); setPassword(event.target.value) }} required placeholder="Password" class="form-control form-control-lg"
-                      />
-                    <span class="error col-12">{errors && errors.password}</span>
-                  </div>
-
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="form-check mb-0">
-                      <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                      <label class="form-check-label" for="form2Example3">
-                        Remember me
-                      </label>
-                    </div>
-                    <a href="#!" class="text-body">Forgot password?</a>
-                  </div>
-
-                  <div class="text-center text-lg-start mt-4 pt-2">
-                    <button type="button" onClick={() => login()} class="btn btn-primary btn-lg"
-                      style={{"paddingLeft": "2.5rem", "paddingRight": "2.5rem"}}>Login</button>
-                    <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="/register"
-                      class="link-danger">Register</a></p>
-                  </div>
-
-                </form>
-              </div>
+              <label class="form-label" for="form3Example4">Password</label>
+              <input type="password" id="password" name="password" value={password} onChange={(event) => { validate('password', event.target.value, 'Password'); setPassword(event.target.value) }} required placeholder="Password" class="form-control form-control-lg"
+              />
+              <span class="error col-12">{errors && errors.password}</span>
             </div>
-          </div>
-        </section>
-      </main>
-      <Footer />
+
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="form-check mb-0">
+                <button type="button" onClick={() => login()} class="btn btn-primary btn-lg"
+                  style={{ "paddingLeft": "2.5rem", "paddingRight": "2.5rem" }}>Login</button>
+              </div>
+              <a href="#!" class="text-body">Forgot password?</a>
+            </div>
+
+
+          </form>
+        </div>
+      </div>
       <Hourglass
         visible={loader}
         height="80"

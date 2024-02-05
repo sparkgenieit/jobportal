@@ -1,8 +1,13 @@
 import './Header.css';
 import './assets/vendors/mdi/css/materialdesignicons.min.css';
 import './assets/vendors/css/vendor.bundle.base.css';
+import { useState } from 'react';
 
 function Header() {
+  const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const [fullname, setFullname] = useState(localStorage.getItem('fullname') || '');
+  const [role, setRole] = useState(localStorage.getItem('role') || '');
+  
   return (
    <>
       
@@ -33,7 +38,7 @@ function Header() {
                   <span class="availability-status online"></span>
                 </div>
                 <div class="nav-profile-text">
-                  <p class="mb-1 text-black">David Greymaax</p>
+                  <p class="mb-1 text-black">{fullname}</p>
                 </div>
               </a>
               <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">

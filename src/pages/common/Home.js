@@ -1,11 +1,11 @@
 import './Home.css';
 
-import Heder from '../../layouts/common/Header';
+import Header from '../../layouts/common/Header';
 import Footer from '../../layouts/common/Footer';
 
 function Home() {
     return <>
-        <Heder />
+        <Header />
         <main id="main">
 
             <section class="inner-page" data-aos="fade-up">
@@ -319,9 +319,9 @@ function Home() {
 
                     </div>
                 </div>
-            </section >
+            </section>
 
-        </main >
+        </main>
         <Footer />
     </>
 }
