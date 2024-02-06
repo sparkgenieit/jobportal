@@ -347,8 +347,8 @@ function CompanyProfile() {
               </div>
 
               <div className="row">
-                <div className="col-12">
-                  <div className="card">
+                <div className="col-12 bg-white">
+                  {/* <div className="card"> */}
                     <div className="card-body">
                       <h4 className="card-title">Employer Profile </h4>
                       <form className="form-sample">
@@ -555,7 +555,7 @@ function CompanyProfile() {
                         </div>
                       </form>
                     </div>
-                  </div>
+                  {/* </div> */}
                 </div>
 
 
