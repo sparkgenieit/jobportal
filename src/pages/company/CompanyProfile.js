@@ -2,6 +2,7 @@ import Header from '../../layouts/company/Header';
 import Footer from '../../layouts/company/Footer';
 import Sidebar from '../../layouts/company/Sidebar';
 import { useState } from 'react';
+import Head from '../../layouts/company/Head';
 
 function CompanyProfile() {
   const [companyName, setCompanyName] = useState("");
@@ -350,7 +351,7 @@ function CompanyProfile() {
   }
   return (
     <>
-
+    <Head />
       <div className="container-scroller">
 
         <Header />

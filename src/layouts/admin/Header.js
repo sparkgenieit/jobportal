@@ -1,12 +1,10 @@
 import './Header.css';
-import './assets/vendors/mdi/css/materialdesignicons.min.css';
-import './assets/vendors/css/vendor.bundle.base.css';
 import './assets/css/style.css';
+import Head from './Head';
 
 function Heder() {
   return (
    <>
-      
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
           <a lass="navbar-brand" href="../../index.html"><img height="100px" width="100px" src="assets/images/logo.png"

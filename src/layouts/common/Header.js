@@ -33,6 +33,7 @@ function Header() {
   };
 
   const goToDashoard = () => {
+    console.log("hii")
     navigate('/company');
   }
 
