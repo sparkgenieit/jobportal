@@ -79,8 +79,6 @@ const List = () => {
                               <td><b>Username</b></td>
                               <td><b>Password</b></td>
                               <td style={{paddingLeft:"100px"}}><b>Action</b></td>
-                              
-
                             </tr>
                           </thead>
                           <tbody>
