@@ -1,7 +1,7 @@
 import './Header.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { Modal, Button,Tabs, Tab } from "react-bootstrap";
+import { Modal, Button, Tabs, Tab } from "react-bootstrap";
 
 
 import { useState } from 'react';
@@ -42,19 +42,19 @@ function Header() {
     <header id="header" class="header" data-scrollto-offset="0">
       <div class="container-fluid d-flex align-items-center justify-content-between">
 
-        <a href="/" style={{"width":"15%"}} class="logo d-flex align-items-center scrollto me-auto me-lg-0">
+        <a href="/" style={{ "width": "15%" }} class="logo d-flex align-items-center scrollto me-auto me-lg-0">
 
-        <img  src="/assets/images/logo-black.png"
+          <img src="/assets/images/logo-black.png"
             alt="logo" />
 
         </a>
 
-        <nav id="navbar" style={{"width":"60%"}} class="navbar d-flex ">
+        <nav id="navbar" style={{ "width": "60%" }} class="navbar d-flex ">
           <ul>
 
-            <li><a class="nav-link scrollto mx-3" href="index.html#about">Home</a></li>
+            <li><a class="nav-link scrollto mx-3" href="/">Home</a></li>
 
-            <li><a class="nav-link scrollto mx-3" href="index.html#about">Jobs</a></li>
+            <li><a class="nav-link scrollto mx-3" href="/jobd">Jobs</a></li>
 
             <li class="dropdown">
               <a href="#" class="menu-item first-item expand-btn">Info</a>
@@ -89,106 +89,45 @@ function Header() {
 
 
         {!token && <><button type="button" class="btn btn-primary" onClick={handleShow}>
-  Login / Register
-</button>
+          Login / Register
+        </button>
 
-    </>}
+        </>}
 
         {token && <>
-        <span>Hi {fullname} {role}</span>, 
-        <button onClick={() => handleLogout()} class="btn-getstarted scrollto nav-link" >Logout</button>
-        {role == 'employer' && <button type="button" class="btn btn-secondary ml-2" onClick={() => goToDashoard()}>
-  Employer Dashboard
-</button>}
-</>
+          <span>Hi {fullname} {role}</span>,
+          <button onClick={() => handleLogout()} class="btn-getstarted scrollto nav-link" >Logout</button>
+          {role == 'employer' && <button type="button" class="btn btn-secondary ml-2" onClick={() => goToDashoard()}>
+            Employer Dashboard
+          </button>}
+        </>
         }
       </div>
     </header>
     <Modal show={show} onHide={handleClose}>
-        <Modal.Body>
-{/* 
-        <div class="d-flex justify-content-center align-items-center mt-5">
-
-
-<div class="card">
-
-    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-        <li class="nav-item text-center">
-          <a class="nav-link active btl" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Login</a>
-        </li>
-        <li class="nav-item text-center">
-          <a class="nav-link btr" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Signup</a>
-        </li>
-       
-      </ul>
-      <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-          
-          <div class="form px-4 pt-5">
-
-            <input type="text" name="" class="form-control" placeholder="Email or Phone" />
-
-            <input type="text" name="" class="form-control" placeholder="Password" />
-            <button class="btn btn-dark btn-block">Login</button>
-
-          </div>
-
-
-
-        </div>
-        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-          
-
-          <div class="form px-4">
-
-            <input type="text" name="" class="form-control" placeholder="Name" />
-
-            <input type="text" name="" class="form-control" placeholder="Email" />
-
-            <input type="text" name="" class="form-control" placeholder="Phone" />
-
-            <input type="text" name="" class="form-control" placeholder="Password" />
-
-            <button class="btn btn-dark btn-block">Signup</button>
-            
-
-          </div>
-
-
-
-        </div>
-        
-       </div>
-    
-  
-  
-
-</div>
-
-
-</div> */}
-
-<Tabs justify className="mb-3">
-      <Tab eventKey="login" title="Login">
-      <UserLogin />
-      </Tab>
-      <Tab eventKey="register" title="Register">
+      <Modal.Body>
 
         <Tabs justify className="mb-3">
-      <Tab eventKey="user" title="Register as User">
-         <UserRegistration />
-      </Tab>
-      <Tab eventKey="company" title="Register as Employer">
-        <CompanyRegistration />
-      </Tab>
-    </Tabs>
+          <Tab eventKey="login" title="Login">
+            <UserLogin />
+          </Tab>
+          <Tab eventKey="register" title="Register">
 
-      </Tab>
-    </Tabs>
+            <Tabs justify className="mb-3">
+              <Tab eventKey="user" title="Register as User">
+                <UserRegistration />
+              </Tab>
+              <Tab eventKey="company" title="Register as Employer">
+                <CompanyRegistration />
+              </Tab>
+            </Tabs>
 
-        </Modal.Body>
-       
-      </Modal>
+          </Tab>
+        </Tabs>
+
+      </Modal.Body>
+
+    </Modal>
 
   </>
 }

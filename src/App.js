@@ -1,17 +1,22 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate  } from "react-router-dom";
 import AOS from 'aos';
-import './App.css';
 import 'aos/dist/aos.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import CompanyProfile from "./pages/company/CompanyProfile";
-
-
+//common
 import Home from './pages/common/Home';
 import UserRegistration from "./pages/common/UserRegistration";
 import UserLogin from "./pages/common/UserLogin";
 import UserProfile from "./pages/common/UserProfile";
+
+
+//company
+import CompanyHome from "./pages/company/Home";
+import CompanyProfile from "./pages/company/CompanyProfile";
+import Postajob from "./pages/company/jobs/Postajob";
+
+
 
 
 
@@ -26,9 +31,11 @@ function App() {
       <Route path="/register" element={!token ? <UserRegistration /> : <Navigate to="/" />} />
       <Route path="/profile" element={token ? <UserProfile /> : <Navigate to="/" />} />
 
-      <Route path="/company" element={(token && role == 'employer') ? <CompanyProfile/> : <Navigate to="/" />} />
-
+      <Route path="/company" element={(token && role == 'employer') ? <CompanyHome/> : <Navigate to="/" />} />
       <Route path="/company/profile" element={(token && role == 'employer') ? <CompanyProfile/>  : <Navigate to="/" />} /> 
+      <Route path="/company/jobs/add" element={(token && role == 'employer') ? <Postajob/>  : <Navigate to="/" />} /> 
+
+
     </Routes>
 </BrowserRouter> 
 }
