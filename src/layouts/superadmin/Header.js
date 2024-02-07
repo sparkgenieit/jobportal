@@ -2,7 +2,7 @@ import './Header.css';
 import './assets/vendors/mdi/css/materialdesignicons.min.css';
 import './assets/vendors/css/vendor.bundle.base.css';
 import './assets/css/style.css';
-import Head from './Head';
+import Head from './Header.js';
 
 function Heder() {
   return (
