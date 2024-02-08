@@ -355,7 +355,9 @@ function CompanyProfile() {
 
 <Header />
 <div class="container-fluid page-body-wrapper">
+  <div className='pt-4'>
   <Sidebar />
+  </div>
   <div class="main-panel">
     <div className="content-wrapper">
       <div className="page-header">
@@ -392,7 +394,7 @@ function CompanyProfile() {
                     <div className="form-group row">
                       <label className="col-sm-3 col-form-label">Category<span className='text-danger'>*</span></label>
                       <div className="col-sm-9">
-                        <select className="form-control " value={category} onChange={(event) => handleInput('category', event)}  >
+                        <select className="form-control  " value={category} onChange={(event) => handleInput('category', event)}  >
                           <option >IT</option>
                           <option>Non-IT</option>
 

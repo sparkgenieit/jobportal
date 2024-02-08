@@ -1,6 +1,3 @@
-import Heder from '../../layouts/company/Header';
-import Footer from '../../layouts/company/Footer';
-import Sidebar from '../../layouts/company/Sidebar';
 
 function login() {
     return <>
