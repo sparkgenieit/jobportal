@@ -386,7 +386,7 @@ function CompanyProfile() {
                       <label className="col-3 col-form-label mb-3">Company<span className='text-danger'>*</span></label>
                       <div className="col-9">
                         <input type="text" className="form-control" value={companyName} onChange={(event) => handleInput('companyName', event)} />
-                        {errors.CompanyErrors && <span className='text-danger'>Please enter Company Name</span>}
+                        {errors.CompanyErrors && <span className='text-danger'>Please nter Company Name</span>}
                       </div>
                     </div>
                     <div className="form-group row">
@@ -397,7 +397,7 @@ function CompanyProfile() {
                           <option>Non-IT</option>
 
                         </select>
-                        {errors.categoryErrors && <span className='text-danger'>Please select category</span>}
+                        {errors.categoryErrors && <span className='text-danger'>Please Select Category</span>}
 
                       </div>
                     </div>
@@ -405,7 +405,7 @@ function CompanyProfile() {
                       <label className="col-3 col-form-label mb-3">WebSite<span className='text-danger'>*</span></label>
                       <div className="col-9">
                         <input type="text" className="form-control" value={webSite} onChange={(event) => handleInput('webSite', event)} />
-                        {errors.webSiteErrors && <span className='text-danger'>Please enter webSite URL</span>}
+                        {errors.webSiteErrors && <span className='text-danger'>Please Enter webSite URL</span>}
                       </div>
 
                     </div>
@@ -421,7 +421,7 @@ function CompanyProfile() {
                         <label className="col-sm-3 col-form-label">Address1<span className='text-danger'>*</span></label>
                         <div className="col-sm-9">
                           <input type="text" class="form-control" value={address} onChange={(event) => handleInput('address', event)} />
-                          {errors.addressErrors && <span className='text-danger'>Please enter Address1</span>}
+                          {errors.addressErrors && <span className='text-danger'>Please Enter Address1</span>}
                           <div className="bgcol" id="error"></div>
                         </div>
                       </div>
@@ -432,7 +432,7 @@ function CompanyProfile() {
                         <label className="col-sm-4 col-form-label">Address2<span className='text-danger'>*</span></label>
                         <div className="col-sm-8">
                           <input type="text" class="form-control" value={address2} onChange={(event) => handleInput('address2', event)} />
-                          {errors.address2Errors && <span className='text-danger'>Please enter Address2</span>}
+                          {errors.address2Errors && <span className='text-danger'>Please Enter Address2</span>}
                           <div className="bgcol" id="error2"></div>
                         </div>
                       </div>
@@ -448,7 +448,7 @@ function CompanyProfile() {
                         <label className="col-sm-3 col-form-label">State<span className='text-danger'>*</span></label>
                         <div className="col-sm-9">
                           <input type="text" className="form-control" value={state} onChange={(event) => handleInput('state', event)} />
-                          {errors.stateErrors && <span className='text-danger'>Please enter state</span>}
+                          {errors.stateErrors && <span className='text-danger'>Please Enter State</span>}
                           <div className="bgcol" id="error1"></div>
                         </div>
                       </div>
@@ -459,7 +459,7 @@ function CompanyProfile() {
                         <label className="col-sm-4 col-form-label">Postalcode<span className='text-danger'>*</span></label>
                         <div className="col-sm-8">
                           <input type="text" className="form-control" value={postalCode} onChange={(event) => handleInput('postalCode', event)} />
-                          {errors.postalCodeErrors && <span className='text-danger'>Please enter Postalcode</span>}
+                          {errors.postalCodeErrors && <span className='text-danger'>Please Enter Postalcode</span>}
 
                         </div>
                       </div>
@@ -472,7 +472,7 @@ function CompanyProfile() {
                         <label className="col-sm-3 col-form-label">City<span className='text-danger'>*</span></label>
                         <div className="col-sm-9">
                           <input type="text" className="form-control" value={city} onChange={(event) => handleInput('city', event)} />
-                          {errors.cityErrors && <span className='text-danger'>Please enter City</span>}
+                          {errors.cityErrors && <span className='text-danger'>Please Enter City</span>}
                         </div>
                       </div>
                     </div>
@@ -487,7 +487,7 @@ function CompanyProfile() {
                             <option>Russia</option>
                             <option>Britain</option>
                           </select>
-                          {errors.countryErrors && <span className='text-danger'>Please select country</span>}
+                          {errors.countryErrors && <span className='text-danger'>Please Select Country</span>}
                         </div>
                       </div>
                     </div>
@@ -512,7 +512,7 @@ function CompanyProfile() {
                           <label className="col-sm-3 col-form-label">About<span className='text-danger'>*</span></label>
                           <div className="col-sm-9">
                             <input type="text" className="form-control" value={aboutCompany} onChange={(event) => handleInput('aboutCompany', event)} />
-                            {errors.aboutCompanyErrors && <span className='text-danger'>Please enter About</span>}
+                            {errors.aboutCompanyErrors && <span className='text-danger'>Please Enter About</span>}
 
                           </div>
                         </div>
@@ -523,7 +523,7 @@ function CompanyProfile() {
                           <label className="col-sm-3 col-form-label ">Mission<span className='text-danger'>*</span></label>
                           <div className="col-sm-9">
                             <input type="text" className="form-control " value={mission} onChange={(event) => handleInput('mission', event)} />
-                            {errors.missionErrors && <span className='text-danger'>Please enter Mission</span>}
+                            {errors.missionErrors && <span className='text-danger'>Please Enter Mission</span>}
 
                           </div>
                         </div>
@@ -536,7 +536,7 @@ function CompanyProfile() {
                         <label className="col-sm-3 col-form-label">Cluture<span className='text-danger'>*</span></label>
                         <div className="col-sm-9">
                           <input type="text" className="form-control" value={work} onChange={(event) => handleInput('work', event)} />
-                          {errors.workErrors && <span className='text-danger'>Please enter Work</span>}
+                          {errors.workErrors && <span className='text-danger'>Please Enter Work</span>}
 
                         </div>
                       </div>
@@ -548,7 +548,7 @@ function CompanyProfile() {
                           <label className="col-sm-3 col-form-label">Facebook<span className='text-danger'>*</span></label>
                           <div className="col-sm-9">
                             <input type="text" className="form-control" value={facebook} onChange={(event) => handleInput('facebook', event)} />
-                            {errors.facebookErrors && <span className='text-danger'>Please enter facebook ID</span>}
+                            {errors.facebookErrors && <span className='text-danger'>Please Enter Facebook URL</span>}
                             <div className="bgcol" id="error8"></div>
                           </div>
                         </div>
@@ -559,7 +559,7 @@ function CompanyProfile() {
                           <label class="col-sm-3 col-form-label">Instagram<span className='text-danger'>*</span></label>
                           <div className="col-sm-9">
                             <input type="text" className="form-control" value={instagram} onChange={(event) => handleInput('instagram', event)} />
-                            {errors.instagramErrors && <span className='text-danger'>Please enter instagram ID</span>}
+                            {errors.instagramErrors && <span className='text-danger'>Please Enter Instagram URL</span>}
                             <div className="bgcol" id="error9"></div>
                           </div>
                         </div>
@@ -571,7 +571,7 @@ function CompanyProfile() {
                         <label className="col-sm-3 col-form-label">Linkedin<span className='text-danger'>*</span></label>
                         <div className="col-sm-9">
                           <input type="text" className="form-control" value={linkdin} onChange={(event) => handleInput('linkdin', event)} />
-                          {errors.linkdinErrors && <span className='text-danger'>Please enter linkdin ID</span>}
+                          {errors.linkdinErrors && <span className='text-danger'>Please Enter Linkdin URL</span>}
                           <div className="bgcol" id="error10"></div>
                         </div>
                       </div>
@@ -584,8 +584,8 @@ function CompanyProfile() {
                 </div>
 
                 <div className="row">
-                  <div className="col-md-6">
-                    <button type="button" onClick={() => companyButton()} className="btn btn-gradient-primary me-2">Submit</button>
+                  <div className="col-md-12">
+                    <button type="button" onClick={() => companyButton()} className="btn btn-gradient-primary float-end">Save</button>
                   </div>
                 </div>
               </div>
