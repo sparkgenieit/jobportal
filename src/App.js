@@ -16,6 +16,8 @@ import CompanyHome from "./pages/company/Home";
 import CompanyProfile from "./pages/company/CompanyProfile";
 import Postajob from "./pages/company/jobs/Postajob";
 
+import Jobqueuelist from "./pages/admin/joblist/Jobqueuelist";
+
 
 
 
@@ -34,6 +36,8 @@ function App() {
       <Route path="/company" element={(token && role == 'employer') ? <CompanyHome/> : <Navigate to="/" />} />
       <Route path="/company/profile" element={(token && role == 'employer') ? <CompanyProfile/>  : <Navigate to="/" />} /> 
       <Route path="/company/jobs/add" element={(token && role == 'employer') ? <Postajob/>  : <Navigate to="/" />} /> 
+
+      <Route path="/admin/Jobqueuelist" element={(token && role == 'employer') ? <Jobqueuelist/>  : <Jobqueuelist/>} /> 
 
 
     </Routes>
