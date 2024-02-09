@@ -35,7 +35,7 @@ function App() {
 
       <Route path="/company" element={(token && role == 'employer') ? <CompanyHome/> : <Navigate to="/" />} />
       <Route path="/company/profile" element={(token && role == 'employer') ? <CompanyProfile/>  : <Navigate to="/" />} /> 
-      <Route path="/company/jobs/add" element={(token && role == 'employer') ? <Postajob/>  : <Navigate to="/" />} /> 
+      <Route path="/company/postajob" element={(token && role == 'employer') ? <Postajob/>  : <Postajob/>} /> 
 
       <Route path="/admin/Jobqueuelist" element={(token && role == 'employer') ? <Jobqueuelist/>  : <Jobqueuelist/>} /> 
 
