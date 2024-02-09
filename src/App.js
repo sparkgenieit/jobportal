@@ -17,6 +17,7 @@ import CompanyProfile from "./pages/company/CompanyProfile";
 import Postajob from "./pages/company/jobs/Postajob";
 
 import Jobqueuelist from "./pages/admin/joblist/Jobqueuelist";
+import ViewProfile from "./pages/common/ViewProfile";
 
 
 
@@ -32,6 +33,7 @@ function App() {
       <Route path="/login" element={!token ? <UserLogin /> : <Navigate to="/" />} />
       <Route path="/register" element={!token ? <UserRegistration /> : <Navigate to="/" />} />
       <Route path="/profile" element={token ? <UserProfile /> : <Navigate to="/" />} />
+      <Route path="/viewprofile" element={token ? <ViewProfile /> : <Navigate to="/" />} />
 
       <Route path="/company" element={(token && role == 'employer') ? <CompanyHome/> : <Navigate to="/" />} />
       <Route path="/company/profile" element={(token && role == 'employer') ? <CompanyProfile/>  : <Navigate to="/" />} /> 
