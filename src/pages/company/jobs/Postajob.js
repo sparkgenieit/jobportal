@@ -2,7 +2,7 @@ import Header from '../../../layouts/company/Header';
 import Footer from '../../../layouts/company/Footer';
 import Sidebar from '../../../layouts/company/Sidebar';
 import { useState } from 'react';
-import './padd.css';
+
 
 function Postajob() {
   const [description, setDescription] = useState('');
@@ -15,9 +15,9 @@ function Postajob() {
   const [creationDate, setCreationDate] = useState('');
   const [training, setTraining] = useState('');
   const [company, setCompany] = useState('');
-  const [duration,setDuration] = useState('');
-  
-  
+  const [duration, setDuration] = useState('');
+
+
 
 
 
@@ -28,7 +28,7 @@ function Postajob() {
   const [vacanciesMsg, setVacanciesMsg] = useState('Please Enter Number Of Vacancies');
   const [companyMsg, setCompanyMsg] = useState('Please Enter Company Name');
   const [trainingMsg, setTrainingMsg] = useState('Please Specify Training');
-  
+
 
 
   const [subdropdown, setSubDropDown] = useState(false);
@@ -89,8 +89,8 @@ function Postajob() {
     creationDateErrors: false,
     trainingErrors: false,
     companyErrors: false,
-    duration:false,
-   
+    duration: false,
+
   })
 
 
@@ -176,7 +176,7 @@ function Postajob() {
     }
     if (creationDate == '') {
       eObj = { ...eObj, creationDateErrors: true };
-    
+
     }
     else {
       eObj = { ...eObj, creationDateErrors: false };
@@ -217,7 +217,7 @@ function Postajob() {
       eObj = { ...eObj, duration: false };
     }
 
-    
+
     setErrors(eObj);
   }
 
@@ -350,9 +350,9 @@ function Postajob() {
 
     }
 
-    
 
-    
+
+
 
   }
   return (
@@ -419,43 +419,43 @@ function Postajob() {
                           <div className="form-group row">
                             <label className="col-sm-3 col-form-label">Job Type<span className='text-danger'>*</span></label>
                             <div className="col-sm-3">
-                              
-                                <div class="col-sm-5">
-                                  <div class="form-check">
 
-                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value={jobType} onChange={(event) => handleInput('jobtype', event)} /> FullTime
-                                  </div>
+                              <div class="col-sm-5">
+                                <div class="form-check">
+
+                                  <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value={jobType} onChange={(event) => handleInput('jobtype', event)} /> FullTime
                                 </div>
+                              </div>
 
-                                <div class="col-sm-5">
-                                  <div class="form-check">
+                              <div class="col-sm-5">
+                                <div class="form-check">
 
-                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value={jobType} onChange={(event) => handleInput('jobtype', event)} /> Casual
-                                  </div>
+                                  <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value={jobType} onChange={(event) => handleInput('jobtype', event)} /> Casual
                                 </div>
+                              </div>
 
-                                <div class="col-sm-5">
-                                  <div class="form-check">
+                              <div class="col-sm-5">
+                                <div class="form-check">
 
-                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2"value={jobType} onChange={(event) => handleInput('jobtype', event)} /> Freelance
-                                  </div>
+                                  <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value={jobType} onChange={(event) => handleInput('jobtype', event)} /> Freelance
                                 </div>
+                              </div>
 
                             </div>
-                           
+
                             <div className="col-sm-4">
                               <div className="form-check">
                                 <div class="col-sm-5">
                                   <div class="form-check">
 
-                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value={jobType} onChange={(event) => handleInput('jobtype', event)}/> PartTime
+                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value={jobType} onChange={(event) => handleInput('jobtype', event)} /> PartTime
                                   </div>
                                 </div>
 
                                 <div class="col-sm-5">
                                   <div class="form-check">
 
-                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2"value={jobType} onChange={(event) => handleInput('jobtype', event)} /> Contract
+                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value={jobType} onChange={(event) => handleInput('jobtype', event)} /> Contract
                                   </div>
                                 </div>
 
@@ -468,14 +468,14 @@ function Postajob() {
 
                               </div>
                             </div>
-                           {/* { errors&& errors.jobTypeErrors &&<div className='mx-auto col-6 text-danger'>please select one</div>} */}
+                            {/* { errors&& errors.jobTypeErrors &&<div className='mx-auto col-6 text-danger'>please select one</div>} */}
                           </div>
                         </div>
-                       
-                        
+
+
                       </div>
                       <div className='row'>
-                        
+
                         <div className="col-md-6">
                           <div className="form-group row">
                             <label className="col-sm-3 col-form-label">Location<span className='text-danger'>*</span></label>
@@ -564,7 +564,7 @@ function Postajob() {
                           <div className="form-group row">
                             <label className="col-sm-3 col-form-label">Duration<span className='text-danger'>*</span></label>
                             <div className="col-sm-8">
-                              <select className="form-control  col-6 "value={duration} onChange={(event) => handleInput('duration', event)} >
+                              <select className="form-control  col-6 " value={duration} onChange={(event) => handleInput('duration', event)} >
                                 <option></option>
                                 <option className="fw-bold" value="Agriculture"> Less than a month</option>
                                 <option className="fw-bold" value="Hospitality">1 Month</option>
@@ -577,7 +577,7 @@ function Postajob() {
 
 
                               </select>
-                              {errors&& errors.duration &&<div className='text-danger'>Please select one</div>}
+                              {errors && errors.duration && <div className='text-danger'>Please select one</div>}
 
 
                               <div className="bgcol" id="jobCategoryError"></div>
@@ -627,13 +627,6 @@ function Postajob() {
                                 {creative && <option>Writing and content creation</option>}
 
 
-
-
-
-
-
-
-
                               </select>
                               {errors.subCategoryErrors && <span className='text-danger'>Please select Sub Category</span>}
                               <div className="bgcol" id="subCategoryError"></div>
@@ -659,47 +652,38 @@ function Postajob() {
                             <label className="col-sm-1 col-form-label">Benifits</label>
                           </div>
                           <div className=" row ">
-                            <div className="col-4">
+                            <div className="col-3">
                               <div className="form-check">
-
                                 <input type="checkbox" className="form-check-input " name="workinghoursRadio"
                                   id="workinghoursRadio1" value="" />Accomdation
-
-                              </div>
-
-                            </div>
-                            <div className="col-3">
-                              <div className="form-check">
-
-                                <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                  id="workinghoursRadio1" value="" />Food
-
-                              </div>
-
-                            </div>
-                            <div className="col-3">
-                              <div className="form-check">
-
-                                <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                  id="workinghoursRadio1" value="" />Transport
-
-
-
                               </div>
 
                             </div>
                             <div className="col-2">
                               <div className="form-check">
-
                                 <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                  id="workinghoursRadio1" value="" />Others
-
-
+                                  id="workinghoursRadio1" value="" />Food
                               </div>
 
                             </div>
-
+                            <div className="col-3">
+                              <div className="form-check">
+                                <input type="checkbox" className="form-check-input" name="workinghoursRadio"
+                                  id="workinghoursRadio1" value="" />Transport
+                              </div>
+                            </div>
+                            <div className="col-4 ">
+                              <div className="form-check">
+                                <input type="checkbox" className="form-check-input" name="workinghoursRadio"
+                                  id="workinghoursRadio1" value="" />Others
+                                  <input type='text' className='form-control col-5' />
+                                   
+                              </div>
+                              
+                              </div>
+                            
                           </div>
+                          
                         </div>
                       </div>
                       <div className="row">
@@ -747,29 +731,15 @@ function Postajob() {
 
                       <div className="col-md-12">
                         <div className="form-group row">
-                          
-                            <label className="col-sm-3 col-form-labe ">Employer questions</label>
-                         
+
+                          <label className="col-sm-3 col-form-labe ">Employer questions</label>
+
                           <div>
                             <div className=" mt-3 row">
 
                               <input className="form-control col" value="" type="text" placeholder="Questions" />&nbsp;&nbsp;
                               <button className='col-1 btn bg-secondary' type="button" onClick={addTextbox}>+</button>
-                              <div>
-                                {arr.map((x, index) => {
-                                  return (
-                                    <div className='mt-3 d-flex ' key={index}>
-                                      <input className="form-control " value="" type="text" />&nbsp;&nbsp;
-                                      <div>
-                                        <button type="button" className='btn bg-secondary col-sm' onClick={() => delTextBox()}>-</button>
-                                      </div>
-                                    </div>
-                                  )
-                                }
-                                )
-                                }
 
-                              </div>
 
                             </div>
 
@@ -778,11 +748,24 @@ function Postajob() {
                         </div>
 
                       </div>
+                      <div>
+                        {arr.map((x, index) => {
+                          return (
+                            <div key={index}className=" mt-3 row">
+                            <input className="form-control col" value="" type="text" placeholder="Questions" />&nbsp;&nbsp;
+                            <button className='col-1 btn bg-secondary' type="button" onClick={()=>delTextBox()}>-</button>
+                            </div>
+                          )
+                        }
+                        )
+                        }
+
+                      </div>
 
                       <div class="form-group">
                         <div className='col-11 p-3'>
                           <button className="btn btn-primary  float-end" type="button" onClick={() => companyButton()}>
-                            Submit
+                            Save
                           </button>
                         </div>
 
