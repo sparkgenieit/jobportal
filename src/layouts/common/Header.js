@@ -39,7 +39,9 @@ function Header() {
 
   return <>
     <Head />
+  
     <header id="header" class="header" data-scrollto-offset="0">
+      <div className='row'>
       <div class="container-fluid d-flex align-items-center justify-content-between">
 
         <a href="/" style={{ "width": "15%" }} class="logo d-flex align-items-center scrollto me-auto me-lg-0">
@@ -49,7 +51,7 @@ function Header() {
 
         </a>
 
-        <nav id="navbar" style={{ "width": "60%" }} class="navbar d-flex ">
+        <nav id="navbar" style={{"width": "60%"}} class="navbar d-flex ">
           <ul>
 
             <li><a class="nav-link scrollto mx-3" href="/">Home</a></li>
@@ -87,21 +89,27 @@ function Header() {
           <i class="bi bi-list mobile-nav-toggle d-none"></i>
         </nav>
 
-
-        {!token && <><button type="button" class="btn btn-primary" onClick={handleShow}>
-          Login / Register
-        </button>
-
-        </>}
-
-        {token && <>
-          <span>Hi {fullname} {role}</span>,
-          <button onClick={() => handleLogout()} class="btn-getstarted scrollto nav-link" >Logout</button>
-          {role == 'employer' && <button type="button" class="btn btn-secondary ml-2" onClick={() => goToDashoard()}>
-            Employer Dashboard
-          </button>}
-        </>
-        }
+              <div className='col-2'>
+                {!token && <><button type="button" class="btn btn-primary" onClick={handleShow}>
+                  Login / Register
+                </button>
+            </>}
+            </div>
+            
+            
+            {token && <>
+            
+              <span className='header mx-5 '>Hi {fullname} {role}</span>
+              <button type='button' onClick={() => handleLogout()} className=" btn bg-primary text-light  btn-getstarted scrollto nav-link mx-5" >Logout</button>
+              {role == 'employer' && <button type="button" class="btn btn-secondary ml-2" onClick={() => goToDashoard()}>
+                Employer Dashboard
+              </button>}
+              
+            </>
+            
+            }
+          
+        </div>
       </div>
     </header>
     <Modal show={show} onHide={handleClose}>
