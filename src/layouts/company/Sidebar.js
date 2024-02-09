@@ -19,7 +19,7 @@ function Sidebar() {
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/company">
+            <a class="nav-link" href="/company/profile">
               <span class="menu-title">Dashboard</span>
               <div className='mx-5 bg-lite '><svg xmlns="http://www.w3.org/2000/svg" width="90" height="20" fill="currentColor" class="bi bi-house-dash" viewBox="0 0 16 16">
             <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 1 1 0-1"/>
