@@ -9,10 +9,10 @@ function singleJob() {
 <section class="inner-page">
 <div class="container ">
 <div width="100%">
-    <img class="rounded" src="assets/images/job-bg.jpeg" width="100%" height="400px">
+    <img class="rounded" src="assets/images/job-bg.jpeg" width="100%" height="400px" />
 
 </div>
-<div class=" row d-flex justify-content-between my-4">
+<div class=" row d-flex justify-content-between my-4 bg-dark">
     <div class="col-8">
         <p class="fw-bold h4">Senior Full Stack Engineer, Creator Success Full Time</p>
         <p>Full Time 3Mins</p>
@@ -30,7 +30,7 @@ function singleJob() {
             <hr>
             <div class="row-sm">
                 <div class="col-5">
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between bg-dark">
                         <p style="margin-right: 22px;">Industry</p>
                         <p class="fw-bold">Mechanical/Auto/Automotive, Civil/Construction</p>
 
