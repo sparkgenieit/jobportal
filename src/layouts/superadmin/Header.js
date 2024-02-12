@@ -4,7 +4,7 @@ import './assets/vendors/css/vendor.bundle.base.css';
 import './assets/css/style.css';
 import Head from './Header.js';
 
-function Heder() {
+function Header() {
   return (
    <>
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -158,4 +158,4 @@ function Heder() {
   );
 }
 
-export default Heder;
+export default Header;
