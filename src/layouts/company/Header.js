@@ -6,6 +6,14 @@ function Header() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [fullname, setFullname] = useState(localStorage.getItem('fullname') || '');
   const [role, setRole] = useState(localStorage.getItem('role') || '');
+
+  const handleLogout = () => {
+    setToken('');
+    localStorage.removeItem('token'); // Remove token from localStorage
+    localStorage.removeItem('role');
+    
+  };
+
   
   return (
    <>
@@ -50,6 +58,14 @@ function Header() {
             <li class="nav-item d-none d-lg-block full-screen-link">
               <a class="nav-link">
                 <i class="mdi mdi-fullscreen" id="fullscreen-button"></i>
+              </a>
+            </li>
+            <li class="nav-item nav-logout d-none d-lg-block">
+              <a class="nav-link" href="/">
+              <svg xmlns="http://www.w3.org/2000/svg" width="50" height="20" fill="currentColor" class="bi bi-house-dash " viewBox="0 0 16 16">
+            <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 1 1 0-1"/>
+              <path d="M7.293 1.5a1 1 0 0 1 1.414 0L11 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l2.354 2.353a.5.5 0 0 1-.708.708L8 2.207l-5 5V13.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 2 13.5V8.207l-.646.647a.5.5 0 1 1-.708-.708z"/>
+              </svg>
               </a>
             </li>
             <li class="nav-item dropdown">
@@ -140,13 +156,15 @@ function Header() {
                 <h6 class="p-3 mb-0 text-center">See all notifications</h6>
               </div>
             </li>
+            
             <li class="nav-item nav-logout d-none d-lg-block">
-              <a class="nav-link" href="/">
+              <a onClick={() => handleLogout()} class="nav-link" href="/">
                 <i class="mdi mdi-power"></i>
               </a>
             </li>
+           
             <li class="nav-item nav-settings d-none d-lg-block">
-              <a class="nav-link" href="#">
+              <a  class="nav-link" href="#">
                 <i class="mdi mdi-format-line-spacing"></i>
               </a>
             </li>
