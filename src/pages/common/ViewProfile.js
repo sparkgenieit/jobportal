@@ -90,6 +90,15 @@ function ViewProfile() {
         issueDate: "30-4-2022",
         expiryDate: "30-4-2028",
         validinNZ: "yes",
+        certificateDes: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exerc culpa nesciunt nihil aut nostrum explicabo reprehenderit?",
+
+      },
+      {
+        name: "Java",
+        authority: "Harvard",
+        issueDate: "30-4-2022",
+        expiryDate: "30-4-2028",
+        validinNZ: "yes",
         certificateDes: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitat culpa nesciunt nihil aut nostrum explicabo reprehenderit?",
 
       }
@@ -129,7 +138,7 @@ function ViewProfile() {
                   <h4 className="card-title col-9 ">User Profile </h4>
                 
                   <div className='col-3 text-center'>
-                  <button type="button" className="btn btn-gradient-primary col-3">Edit</button>
+                  <button type="button" className="btn btn-gradient-primary"><a href='/profile'>Edit</a></button>
                   </div>
 
 
@@ -193,16 +202,16 @@ function ViewProfile() {
 
                   <p className="card-description fw-bold mt-3"><strong>Work History :</strong></p>
                   <div className="row">
-                    <div className="col-md-11 small card">
+                    <div className="col-md-11 small card table-responsive-sm">
                       <table class="table-sm ">
                         <thead>
-                          <tr className='text-center' >
-                            <th scope="col">Job Title</th>
-                            <th scope="col">Employer</th>
-                            <th scope="col">Location</th>
-                            <th scope="col">From</th>
-                            <th scope="col">To</th>
-                            <th scope="col">Description</th>
+                          <tr className=' border-bottom' >
+                            <th className='px-3'>Job Title</th>
+                            <th className='px-3' >Employer</th>
+                            <th className='px-3' >Location</th>
+                            <th className='px-3' >From</th>
+                            <th className='px-3'>To</th>
+                            <th className='px-3'>Description</th>
 
                           </tr>
                         </thead>
@@ -211,13 +220,13 @@ function ViewProfile() {
                             user.workhistory.map((x, index) => {
                               return (
                                 <>
-                                  <tr key={index}>
-                                    <td scope="row">{x.jobTitle}</td>
-                                    <td>{x.employer}</td>
-                                    <td>{x.location}</td>
-                                    <td>{x.from}</td>
-                                    <td>{x.to}</td>
-                                    <td>{x.workDescription}</td>
+                                  <tr className='border-bottom' key={index}>
+                                    <td className='px-3'>{x.jobTitle}</td>
+                                    <td className='px-3'>{x.employer}</td>
+                                    <td className='px-3'>{x.location}</td>
+                                    <td className='px-3'>{x.from}</td>
+                                    <td className='px-3'>{x.to}</td>
+                                    <td className='px-3'>{x.workDescription}</td>
                                   </tr>
 
                                 </>
@@ -239,15 +248,15 @@ function ViewProfile() {
                   </div>
                   <p className="card-description mt-3 fw-bold"><strong>Education :</strong></p>
                   <div className="row">
-                    <div className="col-md-11 small">
-                      <table class="table-sm table-bordered ">
+                    <div className="col-md-11 small card table-responsive-sm">
+                      <table class="table-sm">
                         <thead>
-                          <tr>
-                            <th scope="col">Education Provider</th>
-                            <th scope="col">Qualification</th>
-                            <th scope="col">Year Completed</th>
-                            <th scope="col">Valid in NZ?</th>
-                            <th scope="col">Description</th>
+                          <tr className=' border-bottom'>
+                            <th className='px-3' >Education Provider</th>
+                            <th className='px-3'  >Qualification</th>
+                            <th className='px-3' >Year Completed</th>
+                            <th className='px-3' >Valid in NZ?</th>
+                            <th className='px-3' >Description</th>
 
 
 
@@ -258,12 +267,12 @@ function ViewProfile() {
                           {
                             user.education.map((x, index) => {
                               return (
-                                <tr key={index}>
-                                  <td scope="row">{x.educationProvider}</td>
-                                  <td>{x.qualification}</td>
-                                  <td>{x.yearCompleted}</td>
-                                  <td>{x.validinNZ}</td>
-                                  <td>{x.eduDescription}</td>
+                                <tr  className='border-bottom' key={index}>
+                                  <td className='px-3' >{x.educationProvider}</td>
+                                   <td className='px-3' >{x.qualification}</td>
+                                   <td className='px-3' >{x.yearCompleted}</td>
+                                   <td className='px-3' >{x.validinNZ}</td>
+                                   <td className='px-3' >{x.eduDescription}</td>
 
 
                                 </tr>
@@ -287,17 +296,17 @@ function ViewProfile() {
 
                   <p className="card-description mt-3 fw-bold"><strong>Licences :</strong></p>
                   <div className="row">
-                    <div className="col-md-11 small">
-                      <table class="table-sm table-bordered ">
+                    <div className="col-md-11 small card table-responsive-sm">
+                      <table class="table-sm  ">
 
                         <thead>
-                          <tr>
-                            <th scope="col">Licence Name</th>
-                            <th scope="col">Issuing Authority</th>
-                            <th scope="col">Issue Date</th>
-                            <th scope="col">Expiry Date</th>
-                            <th scope="col">validin NZ?</th>
-                            <th scope="col">Description</th>
+                          <tr className=' border-bottom'>
+                            <th className='px-3' >Licence Name</th>
+                            <th className='px-3' >Issuing Authority</th>
+                            <th className='px-3' >Issue Date</th>
+                            <th className='px-3' >Expiry Date</th>
+                            <th className='px-3' >Valid in NZ?</th>
+                            <th className='px-3' >Description</th>
 
 
 
@@ -308,13 +317,13 @@ function ViewProfile() {
                           {
                             user.license.map((x, index) => {
                               return (
-                                <tr key={index}>
-                                  <td scope="row">{x.name}</td>
-                                  <td>{x.authority}</td>
-                                  <td>{x.issueDate}</td>
-                                  <td>{x.expiryDate}</td>
-                                  <td>{x.validinNZ}</td>
-                                  <td>{x.licenseDes}</td>
+                                <tr  className='border-bottom' key={index}>
+                                  <td className='px-3' >{x.name}</td>
+                                   <td className='px-3' >{x.authority}</td>
+                                   <td className='px-3' >{x.issueDate}</td>
+                                   <td className='px-3' >{x.expiryDate}</td>
+                                   <td className='px-3' >{x.validinNZ}</td>
+                                   <td className='px-3' >{x.licenseDes}</td>
 
 
 
@@ -335,16 +344,16 @@ function ViewProfile() {
                   </div>
                   <p className="card-description mt-3 fw-bold"><strong>Certifications :</strong></p>
                   <div className="row">
-                    <div className="col-md-11 small">
-                      <table class="table-sm table-bordered  ">
+                    <div className="col-md-11 small card table-responsive-sm">
+                      <table class="table-sm">
                         <thead>
-                          <tr>
-                            <th scope="col">Certificate Name</th>
-                            <th scope="col">Issuing Authority</th>
-                            <th scope="col">Issue Date</th>
-                            <th scope="col">Expiry Date</th>
-                            <th scope="col">validin NZ?</th>
-                            <th scope="col">Description</th>
+                          <tr className=' border-bottom'>
+                            <th className='px-3' >Certificate Name</th>
+                            <th className='px-3' >Issuing Authority</th>
+                            <th className='px-3' >Issue Date</th>
+                            <th className='px-3' >Expiry Date</th>
+                            <th className='px-3' >Valid in NZ?</th>
+                            <th className='px-3' >Description</th>
 
 
 
@@ -355,13 +364,13 @@ function ViewProfile() {
                           {
                             user.certificate.map((x, index) => {
                               return (
-                                <tr key={index}>
-                                  <td scope="row">{x.name}</td>
-                                  <td>{x.authority}</td>
-                                  <td>{x.issueDate}</td>
-                                  <td>{x.expiryDate}</td>
-                                  <td>{x.validinNZ}</td>
-                                  <td>{x.certificateDes}</td>
+                                <tr  className='border-bottom' key={index}>
+                                  <td td className='px-3'  >{x.name}</td>
+                                   <td className='px-3' >{x.authority}</td>
+                                   <td className='px-3' >{x.issueDate}</td>
+                                   <td className='px-3' >{x.expiryDate}</td>
+                                   <td className='px-3' >{x.validinNZ}</td>
+                                   <td className='px-3' >{x.certificateDes}</td>
 
 
 
