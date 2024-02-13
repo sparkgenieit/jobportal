@@ -63,15 +63,15 @@ function Postajob() {
 
 
   const [showCheck, setShowCheck] = useState(false);
-  // const toggleCheck = () => {
-  //   setShowCheck(!showCheck);
-  // }
+  const toggleCheck = () => {
+    setShowCheck(!showCheck);
+  }
 
 
   const [showInput, setShowInput] = useState(false);
-  // const toggleInput = () => {
-  //   setShowInput(!showInput);
-  // }
+  const toggleInput = () => {
+    setShowInput(!showInput);
+  }
 
 
 
@@ -124,7 +124,6 @@ function Postajob() {
 
 
   const [error,setError]=useState('');
-  const [errort,setErrort]=useState('')
 
   const [errors, setErrors] = useState({
     descriptionErrors: false,
@@ -146,7 +145,7 @@ function Postajob() {
     if (name == "fullTime") {
       setJobType({ ...jobType, fullTime: !(jobType.fullTime) })
       const{name,checked}=event.target;
-      setJobType({...jobType,fullTime:checked})
+    setJobType({...jobType,fullTime:checked})
     }
     if (name == "partTime") {
       setJobType({ ...jobType, partTime: !(jobType.partTime) })
@@ -172,7 +171,6 @@ function Postajob() {
   const Benifits =(name,event) => {
     if(name == 'AccomAccomdation'){
       setBenifits({...benifits,Accomdation:!(benifits.Accomdation)})
-      
     }
     if(name == 'Food'){
       setBenifits({...benifits,Food:!(benifits.Food)})
@@ -183,7 +181,7 @@ function Postajob() {
     if(name == 'Others'){
       setBenifits({...benifits,Others:!(benifits.Others)})
     }
-    setShowInput(!showInput);
+   
     
   }
   
@@ -191,34 +189,24 @@ function Postajob() {
   const providetraining = (name,event) => {
     if(name == 'No'){
       setTraining({...training,No:!(training.No)})
-      const{name,checked}=event.target;
-      setTraining({...training,No:checked})
     }
     if(name == 'yes'){
       setTraining({...training,yes:!(Triangle.yes)})
     }
-    setShowCheck(!showCheck);
+   
   }
 
   
 
 
   const companyButton = (event) => {
-    // event.preventDefault();
+    //event.preventDefault();
     const checkedValues = Object.values(jobType)
     if(!checkedValues.includes(true)){
       setError("please select one")
     }
     else{
       setError('')
-    }
-
-    const checkeValues = Object.values(training)
-    if(!checkeValues.includes(true)){
-      setErrort("please select one")
-    }
-    else{
-      setErrort('')
     }
     let eObj = {};
 
@@ -918,7 +906,7 @@ return (
                           <div className="col-3">
                             <div className="form-check">
                               <input type="checkbox" className="form-check-input " name="workinghoursRadio"
-                                id="workinghoursRadio1" value='option3' onChange={(event) => Benifits('Accomdastion', event)} />Accomdation
+                                id="workinghoursRadio1" value='option3' onChange={(event) => ('Accomdastion', event)} />Accomdation
                             </div>
 
                           </div>
@@ -938,7 +926,7 @@ return (
                           <div className="col-4 ">
                             <div className="form-check">
                               <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                id="workinghoursRadio1" value="option3" onChange={(event) => Benifits('Others', event)} checked={showInput} />Others
+                                id="workinghoursRadio1" value="option3" onChange={(event) => toggleInput('Others', event)} checked={showInput} />Others
                               {showInput && <input type='text' className='form-control col-5' />}
 
                             </div>
@@ -960,13 +948,13 @@ return (
                             <div className=" col-2 form-check ">
 
                               <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                id="workinghoursRadio1" value="option4"onChange={(event)=>providetraining('No',event)} />No
+                                id="workinghoursRadio1" value="option4" onChange={(event)=>providetraining('No',event)} />No
 
                             </div>
                             <div className=" col-2 form-check ">
 
                               <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                id="workinghoursRadio1" value="option4" onChange={(event)=>providetraining('yes',event)} checked={showCheck} />Yes
+                                id="workinghoursRadio1" value="option4" onChange={(event)=>toggleCheck('yes',event)} checked={showCheck} />Yes
 
 
                             </div>
@@ -976,7 +964,7 @@ return (
 
                             </div>
                           </div>
-                          {/* {errors && errors.trainingErrors &&<div className='text-danger'>please selet one</div>} */}
+                          {/* {errors && errors.trainingErrors &&<div className='text-danger'>please select one</div>} */}
 
                         </div>
 
