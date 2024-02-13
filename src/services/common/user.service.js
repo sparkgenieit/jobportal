@@ -12,7 +12,7 @@ class UserService {
   }
 
   create(data) {
-    return http.post("/users/user", data);
+    return http.post("/users/register", data);
   }
 
   forgetpassword(data) {

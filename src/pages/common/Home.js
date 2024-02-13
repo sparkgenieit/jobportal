@@ -10,22 +10,22 @@ function Home() {
 
             <section class="inner-page" data-aos="fade-up">
                 <div class="container-fluid homeBg">
-                    <div class=" d-flex flex-column justify-content-center align-items-center" style={{ height: '500px', width: '100%' }}>
-                        <div class="text-center">
+                    <div>
+                        <div className="text-center banner">
                             <div class="mt-5">
                                 <h3>The <span class=" text-success">#1</span> Job Board for hiring or Find your next job</h3>
                                 <p>Each month, more than 3 million job seekers turn to website in their search for work, making over
                                     1,40,000 applications every single day </p>
                             </div>
-                            <div class="text-center btn ">
-                                <div class="p-1 row " style={{ backgroundColor: 'white' }}>
-                                    <input type="text" class="my-1 rounded  col-3 " placeholder="Industry" />
-                                    <input type="text" class="my-1  rounded  col-3" placeholder="Location" />
-                                    <input type="text" class="my-1 rounded  col-3" placeholder="Your Keyword" />
+                            <div class="text-center">
+                                <div class="p-1 d-flex" style={{gap:'10px',}}>
+                                    <input type="text" class="form-control col " placeholder="Industry" />
+                                    <input type="text" class="form-control col" placeholder="Location" />
+                                    <input type="text" class="form-control col" placeholder="Your Keyword" />
                                     <button type="button" class="btn btn-primary col-3">Search</button>
-                                    <br />
-                                    <p class="">Popular Searches: &nbsp;&nbsp;&nbsp; Designer,Web ,IOS, Developer, PHP, Senior, Engineer</p>
                                 </div>
+                                <div class="">Popular Searches: Designer,Web ,IOS, Developer, PHP, Senior, Engineer</div>
+
                             </div>
 
                             <div class="row mt-5">
@@ -47,7 +47,6 @@ function Home() {
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
 
@@ -60,11 +59,8 @@ function Home() {
                                     <button class="btn btn-outline-light btn-sm "> Admin - My Jobs</button>
                                 </div>
                             </div>
-                            <div class="border rounded bg-light px-5">
-
-
-
-                                <div class="row rounded ">
+                            <div class="border rounded bg-light px-5 mb-3">
+                                <div class="row rounded p-3">
                                     <div class=" col-6 px-3 ">
 
 
@@ -84,7 +80,7 @@ function Home() {
                                             </div>
 
                                             <div class="d-flex justify-content-between">
-                                                <div>
+                                                <div class="d-flex justify-content-between" style={{"gap":"10px"}}>
                                                     <button class="btn btn-secondary btn-sm" type="button">Content Writer</button>
                                                     <button class="btn btn-secondary btn-sm" type="button">Sketch</button>
                                                     <button class="btn btn-secondary btn-sm" type="button">PSD</button>
@@ -113,7 +109,7 @@ function Home() {
                                             </div>
 
                                             <div class="d-flex justify-content-between">
-                                                <div>
+                                                <div class="d-flex justify-content-between" style={{"gap":"10px"}}>
                                                     <button class="btn btn-secondary btn-sm" type="button">Content Writer</button>
                                                     <button class="btn btn-secondary btn-sm" type="button">Sketch</button>
                                                     <button class="btn btn-secondary btn-sm" type="button">PSD</button>
@@ -142,7 +138,7 @@ function Home() {
                                             </div>
 
                                             <div class="d-flex justify-content-between">
-                                                <div>
+                                                <div class="d-flex justify-content-between" style={{"gap":"10px"}}>
                                                     <button class="btn btn-secondary btn-sm" type="button">Content Writer</button>
                                                     <button class="btn btn-secondary btn-sm" type="button">Sketch</button>
                                                     <button class="btn btn-secondary btn-sm" type="button">PSD</button>
@@ -170,7 +166,7 @@ function Home() {
                                             </div>
 
                                             <div class="d-flex justify-content-between">
-                                                <div>
+                                                <div class="d-flex justify-content-between" style={{"gap":"10px"}}>
                                                     <button class="btn btn-secondary btn-sm" type="button">Content Writer</button>
                                                     <button class="btn btn-secondary btn-sm" type="button">Sketch</button>
                                                     <button class="btn btn-secondary btn-sm" type="button">PSD</button>
@@ -207,8 +203,8 @@ function Home() {
                                                 </div>
 
                                                 <div class="d-flex justify-content-between">
-                                                    <div>
-                                                        <button class="btn btn-secondary btn-sm" type="button">Content Writer</button>
+                                                    <div class="d-flex justify-content-between" style={{"gap":"10px"}}>
+                                                        <button class="btn btn-secondary btn-sm" type="button">Content Writerdd</button>
                                                         <button class="btn btn-secondary btn-sm" type="button">Sketch</button>
                                                         <button class="btn btn-secondary btn-sm" type="button">PSD</button>
 
@@ -236,7 +232,7 @@ function Home() {
                                                 </div>
 
                                                 <div class="d-flex justify-content-between">
-                                                    <div>
+                                                    <div class="d-flex justify-content-between" style={{"gap":"10px"}}>
                                                         <button class="btn btn-secondary btn-sm" type="button">Content Writer</button>
                                                         <button class="btn btn-secondary btn-sm" type="button">Sketch</button>
                                                         <button class="btn btn-secondary btn-sm" type="button">PSD</button>
@@ -266,7 +262,7 @@ function Home() {
                                             </div>
 
                                             <div class="d-flex justify-content-between">
-                                                <div>
+                                                <div class="d-flex justify-content-between" style={{"gap":"10px"}}>
                                                     <button class="btn btn-secondary btn-sm" type="button">Content Writer</button>
                                                     <button class="btn btn-secondary btn-sm" type="button">Sketch</button>
                                                     <button class="btn btn-secondary btn-sm" type="button">PSD</button>
@@ -294,7 +290,7 @@ function Home() {
                                             </div>
 
                                             <div class="d-flex justify-content-between">
-                                                <div>
+                                                <div class="d-flex justify-content-between" style={{"gap":"10px"}}>
                                                     <button class="btn btn-secondary btn-sm" type="button">Content Writer</button>
                                                     <button class="btn btn-secondary btn-sm" type="button">Sketch</button>
                                                     <button class="btn btn-secondary btn-sm" type="button">PSD</button>

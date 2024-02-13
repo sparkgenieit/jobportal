@@ -105,6 +105,8 @@ function CompanyRegistration() {
       userService.create({ firstName, lastName, email, password, role: 'user' })
         .then(response => {
           console.log(response.data);
+
+          
           localStorage.setItem('token', response.data.token);
           setIsRegister(true);
           localStorage.setItem('role', response.data.role)
