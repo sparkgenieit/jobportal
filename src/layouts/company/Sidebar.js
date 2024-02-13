@@ -40,7 +40,7 @@ function Sidebar() {
 
 
           <li>
-            <a href="#">Jobs</a>
+         
             <ul class="nav sub-nav">
               <li class="nav-item">
                 <a class="nav-link" href="/company/postajob">
