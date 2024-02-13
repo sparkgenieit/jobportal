@@ -8,11 +8,11 @@ class UserService {
   }
 
   get(id) {
-    return http.get(`/create-user/${id}`);
+    return http.get(`/users/profile/${id}`);
   }
 
   create(data) {
-    return http.post("/users/user", data);
+    return http.post("/users/register", data);
   }
 
   forgetpassword(data) {

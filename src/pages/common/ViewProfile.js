@@ -3,11 +3,12 @@
 import Header from '../../layouts/common/Header';
 import Footer from '../../layouts/common/Footer';
 import Sidebar from '../../layouts/common/Sidebar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import userService from '../../services/common/user.service';
 
 
 function ViewProfile() {
-
+  const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
 
   const [user, SetUserData] = useState({
     firstname: "Rohit",
@@ -114,6 +115,29 @@ function ViewProfile() {
     visaExpiryDate: "12-12-2022",
     uploadCV: "Resume.pdf",
     coverLetter: "Letter.pdf"
+  })
+
+  useEffect(() => {
+
+    userService.get(userId)
+    .then(response => {
+      console.log(response.data);
+      // localStorage.setItem('token', response.data.token);
+      // const token = response.data.token;
+
+      // // Store the token securely (e.g., in localStorage or HTTP-only cookies)
+      // localStorage.setItem('token', token);
+
+      // localStorage.setItem('role', response.data.role)
+      // setTimeout(() => {
+      //   // Inside the handleLogin function
+      //   navigate('/viewprofile'); // Redirect to the dashboard after login
+      // }, 1500);
+
+    })
+    .catch(e => {
+      console.log(e);
+    })
   })
 
   return <>
