@@ -8,7 +8,7 @@ class UserService {
   }
 
   get(id) {
-    return http.get(`/create-user/${id}`);
+    return http.get(`/users/profile/${id}`);
   }
 
   create(data) {

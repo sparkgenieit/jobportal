@@ -88,13 +88,14 @@ function UserLogin() {
           localStorage.setItem('token', response.data.token);
           const token = response.data.token;
 
+          localStorage.setItem('user_id',  response.data._id);
           // Store the token securely (e.g., in localStorage or HTTP-only cookies)
           localStorage.setItem('token', token);
 
           localStorage.setItem('role', response.data.role)
           setTimeout(() => {
             // Inside the handleLogin function
-            navigate('/profile'); // Redirect to the dashboard after login
+            navigate('/viewprofile'); // Redirect to the dashboard after login
           }, 1500);
 
         })

@@ -115,7 +115,7 @@ function CompanyRegistration() {
           localStorage.setItem('email', email);
           setTimeout(() => {
             // Inside the handleLogin function
-            navigate('/profile'); // Redirect to the dashboard after login
+            navigate('/viewprofile'); // Redirect to the dashboard after login
           }, 1500);
 
         })
