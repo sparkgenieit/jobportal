@@ -10,7 +10,7 @@ import userService from '../../services/common/user.service';
 
 import { Hourglass } from "react-loader-spinner";
 
-function CompanyRegistration() {
+function UserRegistration() {
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -218,4 +218,4 @@ function CompanyRegistration() {
   );
 }
 
-export default CompanyRegistration;
+export default UserRegistration;

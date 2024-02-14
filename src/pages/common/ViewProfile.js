@@ -138,7 +138,7 @@ function ViewProfile() {
     .catch(e => {
       console.log(e);
     })
-  })
+  }, [userId])
 
   return <>
     <Header />
