@@ -109,6 +109,7 @@ function UserRegistration() {
           
           localStorage.setItem('token', response.data.token);
           setIsRegister(true);
+          localStorage.setItem('user_id',  response.data._id);
           localStorage.setItem('role', response.data.role)
           // Store the token securely (e.g., in localStorage or HTTP-only cookies)
           localStorage.setItem('fullname', firstName+" "+lastName);
