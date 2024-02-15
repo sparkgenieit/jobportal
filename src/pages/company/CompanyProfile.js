@@ -1,10 +1,21 @@
 import Header from '../../layouts/company/Header';
 import Footer from '../../layouts/company/Footer';
 import Sidebar from '../../layouts/company/Sidebar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from '../../layouts/company/Head';
+import companyService from '../../services/common/company.service';
+import { useNavigate } from 'react-router-dom';
+
+
+import { Hourglass } from "react-loader-spinner";
+
+
 
 function CompanyProfile() {
+  const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
+  const [userData, setUserData] = useState(null);
+  const [isUpdated, setIsUpdated] = useState(false);
+
   const [companyName, setCompanyName] = useState("");
   const [webSite, setWebSite] = useState('');
   const [address, setAddress] = useState('');
@@ -15,6 +26,10 @@ function CompanyProfile() {
   const [Phone, setPhone] = useState("");
   const [person, setPerson] = useState("");
   const [email, setEmail] = useState("");
+  const [loader, setLoader] = useState(false);
+
+  const navigate = useNavigate();
+
  
   const [companyNamemsg, setCompanyNamemsg] = useState("Please Enter Company Name");
   const [webSitemsg, setWebSitemsg] = useState('Please Enter Website');
@@ -27,6 +42,27 @@ function CompanyProfile() {
   const [personmsg, setPersonmsg] = useState("Please Enter Contact Person");
   const [emailmsg, setEmailmsg] = useState("Please Enter Email");
  
+  useEffect(() => {
+
+    companyService.get(userId)
+      .then(response => {
+
+        setCompanyName(response.data.name);
+        setAddress(response.data.address1);
+        setAddress2(response.data.address2);
+        setAddress3(response.data.address3);
+        setPhone(response.data.phone);
+        setPerson(response.data.contact);
+        setCity(response.data.city);
+        setWebSite(response.data.website);
+        setEmail(response.data.email);
+        setUserData(response.data);
+
+      })
+      .catch(e => {
+        console.log(e);
+      })
+  }, [userId])
 
 
   const [errors, setErrors] = useState({
@@ -41,15 +77,14 @@ function CompanyProfile() {
     personErrors: false,
     emailErrors: false,
     workErrors: false,
-
-
   })
 
 
 
-  const companyButton = () => {
+  const submit = () => {
     let eObj = {};
     let valid=true
+
     if (companyName == '') {
       valid=false
       eObj = { ...eObj, CompanyErrors: true };
@@ -63,9 +98,8 @@ function CompanyProfile() {
     else {
       valid=true
       eObj = { ...eObj, CompanyErrors: false };
-
-
     }
+
     if (postcode == '') {
      valid=false
       eObj = { ...eObj, postcodeErrors: true };
@@ -75,13 +109,11 @@ function CompanyProfile() {
       eObj = { ...eObj, postCodeErrors: true };
       setPostcodemsg('Not A proper Name');
     }
-
     else {
       valid=true
       eObj = { ...eObj, postcodeErrors: false };
-
-
     }
+
     if (webSite == '') {
       valid=false
       eObj = { ...eObj, webSiteErrors: true };
@@ -94,9 +126,8 @@ function CompanyProfile() {
     else {
       valid=true
       eObj = { ...eObj, webSiteErrors: false };
-
-
     }
+
     if (address == '') {
       valid=false
       eObj = { ...eObj, addressErrors: true };
@@ -109,9 +140,8 @@ function CompanyProfile() {
     else {
       valid=true
       eObj = { ...eObj, addressErrors: false };
-
-
     }
+
     if (address2 == '') {
       valid=false
       eObj = { ...eObj, address2Errors: true };
@@ -124,8 +154,6 @@ function CompanyProfile() {
     else {
       valid=false
       eObj = { ...eObj, address2Errors: false };
-
-
     }
    
 
@@ -141,27 +169,20 @@ function CompanyProfile() {
     else {
       valid=true
       eObj = { ...eObj, address3Errors: false };
-
-
     }
 
     if (city == '') {
       valid=false
       eObj = { ...eObj, cityErrors: true };
-     
     }
     else if (/^[a-z]{2,}$/gi.test(city) == false) {
       valid=false
       eObj = { ...eObj, cityErrors: true };
      setCitymsg('Not A proper Name');
-
     }
-   
     else {
       valid=true
       eObj = { ...eObj, cityErrors: false };
-
-
     }
    
     if (Phone == '') {
@@ -173,14 +194,12 @@ function CompanyProfile() {
       valid=false
       eObj = { ...eObj, PhoneErrors: true };
       setPhonemsg('Not A proper Name');
-
     }
     else {
       valid=true
       eObj = { ...eObj, PhoneErrors: false };
-
-
     }
+
     if (email == '') {
       valid=false
       eObj = { ...eObj, emailErrors: true };
@@ -191,15 +210,12 @@ function CompanyProfile() {
       valid=false
       eObj = { ...eObj, emailErrors: true };
      setEmailmsg('Not A proper Name');
-
     }
-
     else {
       valid=true
       eObj = { ...eObj, emailErrors: false };
-
-
     }
+
     if (person == '') {
       valid=false
       eObj = { ...eObj, personErrors: true };
@@ -209,33 +225,61 @@ function CompanyProfile() {
       valid=false
       eObj = { ...eObj, personErrors: true };
      setPersonmsg('Not A proper Name');
-
     }
-   
     else {
       valid=true
       eObj = { ...eObj, personErrors: false };
-
-
     }
     
 
     setErrors(eObj);
     let obj1={}
-    if(!valid){
+    if(valid){
       
-			obj1={...obj1,Company : companyName}
-			obj1={...obj1,website : webSite}
-			obj1={...obj1,Address1 : address}	
-			obj1={...obj1,Address2 : address2}
-			obj1={...obj1,Address3 : address3}
-			obj1={...obj1,postcode : postcode}
-			obj1={...obj1,city : city}
-			obj1={...obj1,phone : Phone}
-			obj1={...obj1,person : person}
-			obj1={...obj1,Email : email}
-      console.log(obj1)
-			
+			obj1={...obj1, name : companyName}
+			obj1={...obj1, website : webSite}
+			obj1={...obj1, address1 : address}	
+			obj1={...obj1, address2 : address2}
+			obj1={...obj1, address3 : address3}
+			obj1={...obj1, postalCode : postcode}
+			obj1={...obj1, city : city}
+			obj1={...obj1, phone : Phone}
+			obj1={...obj1, contact : person}
+			obj1={...obj1, email : email}
+
+
+      companyService.update(userId, obj1)
+        .then(response => {
+          console.log(response.data);
+          window.scrollTo({ top: 10, behavior: "smooth" });
+          setIsUpdated(true);
+          setTimeout(() => {
+            // Inside the handleLogin function
+           // navigate('/viewprofile'); // Redirect to the dashboard after login
+          }, 1500);
+
+        })
+        .catch(e => {
+          console.log(e);
+
+          if (e && e.code) {
+            if (e.response && e.response.data) {
+              if (e.response.data.email) {
+                setErrors({ updateError: e.response.data.email });
+              }
+
+              if (e.response.data.message) {
+                setErrors({ updateError: e.response.data.message });
+              }
+            } else {
+              setErrors({ updateError: e.message });
+            }
+          }
+          setTimeout(() => { setLoader(false); window.scrollTo({ top: 10, behavior: "smooth" }); }, 1200)
+ 
+
+        });
+     	
 
     }else{
 
@@ -395,7 +439,13 @@ function CompanyProfile() {
         <div class="container-fluid page-body-wrapper">
           <Sidebar />
           <div class="main-panel">
-            <div className="content-wrapper">
+            {errors && errors.updateError && <div class="alert alert-danger" role="alert">
+          {errors && errors.updateError}</div>}
+        {isUpdated && <div class="alert alert-success" role="alert">
+          User Profile Updated successfully!
+        </div>}
+
+        {!isUpdated && <div className="content-wrapper">
               <div className="page-header">
                 <h3 className="page-title"> Employer Profile </h3>
                 <nav aria-label="breadcrumb">
@@ -631,7 +681,7 @@ function CompanyProfile() {
 
                     <div className="row">
                       <div className="col-md-12">
-                        <button type="button" onClick={() => companyButton()} className="btn btn-gradient-primary float-end">Save</button>
+                        <button type="button" onClick={() => submit()} className="btn btn-gradient-primary float-end">Save</button>
                       </div>
                     </div>
 
@@ -641,7 +691,7 @@ function CompanyProfile() {
               {/* </div> */}
 
 
-            </div>
+            </div>}
           </div>
 
         </div>
@@ -649,7 +699,15 @@ function CompanyProfile() {
 
 
       </div>
-
+      <Hourglass
+        visible={loader}
+        height="80"
+        width="80"
+        ariaLabel="hourglass-loading"
+        wrapperStyle={{position:'absolute',top:'80%',left:'50%'}}
+        wrapperClass=""
+        colors={['#0ea2bd', '#72a1ed']}
+      />
 
     </>
   )

@@ -51,6 +51,7 @@ function Header() {
 
         </a>
 
+      <div class="d-flex" style={{"width":"100%"}}>
         <nav id="navbar" style={{"width": "60%"}} class="navbar d-flex ">
           <ul>
 
@@ -89,26 +90,26 @@ function Header() {
           <i class="bi bi-list mobile-nav-toggle d-none"></i>
         </nav>
 
-              <div className='col-2'>
+              <div className='col-auto d-flex'>
                 {!token && <><button type="button" class="btn btn-primary" onClick={handleShow}>
                   Login / Register
                 </button>
             </>}
-            </div>
-            
-            
             {token && <>
             
-              <span className='header mx-5 '>Hi {fullname} {role}</span>
+              <span className='header mx-5'>Hi {fullname} {role}</span>
+              <a  className='header mx-5' href="/profile">My Profile</a>
               <button type='button' onClick={() => handleLogout()} className=" btn bg-primary text-light  btn-getstarted scrollto nav-link mx-5" >Logout</button>
-              {role == 'employer' && <button type="button" class="btn btn-secondary ml-2" onClick={() => goToDashoard()}>
+              {role == 'employer' && <a type="button" href="/company" class="btn btn-secondary ml-2" >
                 Employer Dashboard
-              </button>}
+              </a>}
               
             </>
             
             }
+            </div>
           
+          </div>
         </div>
       </div>
     </header>
