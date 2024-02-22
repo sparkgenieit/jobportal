@@ -1,13 +1,14 @@
-import Heder from '../../layouts/company/Header';
-import Footer from '../../layouts/company/Footer';
-import Sidebar from '../../layouts/company/Sidebar';
+import Header from '../../layouts/admin/Header';
+import Footer from '../../layouts/admin/Footer';
+import Sidebar from '../../layouts/admin/Sidebar';
+
 
 function Home() {
     return <>
         
         <div class="container-scroller">
   
-        <Heder />
+        <Header/>
       <div class="container-fluid page-body-wrapper">
        <Sidebar />
         <div class="main-panel">

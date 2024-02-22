@@ -1,6 +1,6 @@
-import Heder from '../../layouts/company/Header';
-import Footer from '../../layouts/company/Footer';
-import Sidebar from '../../layouts/company/Sidebar';
+import Heder from '../../layouts/superadmin/Header';
+import Footer from '../../layouts/superadmin/Footer';
+import Sidebar from '../../layouts/superadmin/Sidebar';
 
 function Home() {
     return <>

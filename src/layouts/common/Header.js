@@ -62,23 +62,23 @@ function Header() {
             <li class="dropdown">
               <a href="#" class="menu-item first-item expand-btn">Info</a>
               <ul class="dropdown-menu sample">
-                <li><a href="about-wfh-visa.html">About WH visa</a></li>
-                <li><a href="user-registration.html">Banking</a></li>
-                <li><a href="company/index.html">Tax</a></li>
-                <li><a href="company/index.html">Types of work</a></li>
-                <li><a href="company/index.html">Useful Links</a></li>
-                <li><a href="company/index.html">News</a></li>
+                <li><a href="/common/Aboutwhvisa">About WH visa</a></li>
+                <li><a href="/common/Banking">Banking</a></li>
+                <li><a href="/common/Tax">Tax</a></li>
+                <li><a href="/common/Typesofwork">Types of work</a></li>
+                <li><a href="/common/Usefullinks">Useful Links</a></li>
+                <li><a href="/common/News">News</a></li>
                 <li class="dropdown dropdown-right">
                   <a href="#" class="menu-item expand-btn">
                     Travel
                   </a>
                   <ul class="menu-right menu-left sample">
-                    <li><a href="#">Transport</a></li>
-                    <li><a href="#">Accommodation</a></li>
-                    <li><a href="places.html">Places</a></li>
-                    <li><a href="company/index.html">Holiday Parks</a></li>
-                    <li><a href="company/index.html">Freedom Camping</a></li>
-                    <li><a href="#">Activities</a></li>
+                    <li><a href="/common/Transport">Transport</a></li>
+                    <li><a href="/common/Accommodation">Accommodation</a></li>
+                    <li><a href="/common/Places">Places</a></li>
+                    <li><a href="common/HolidayParks">Holiday Parks</a></li>
+                    <li><a href="common/FreedomCampaining">Freedom Campaining</a></li>
+                    <li><a href="/common/Activities">Activities</a></li>
                   </ul>
                 </li>
               </ul>

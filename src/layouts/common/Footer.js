@@ -36,21 +36,21 @@ function Footer() {
                   <h4>Useful Links</h4>
                   <ul>
                     <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#">About us</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#">Services</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#">Terms of service</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                    <li><i class="bi bi-chevron-right"></i> <a href="/common/Aboutus">About us</a></li>
+                    <li><i class="bi bi-chevron-right"></i> <a href="/common/Services">Services</a></li>
+                    <li><i class="bi bi-chevron-right"></i> <a href="/common/Termsofservice">Terms of service</a></li>
+                    <li><i class="bi bi-chevron-right"></i> <a href="/common/Privacypolicy">Privacy policy</a></li>
                   </ul>
                 </div>
 
                 <div class="col-lg-3 col-md-6 footer-links">
                   <h4>Our Services</h4>
                   <ul>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#">Web Design</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#">Web Development</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#">Product Management</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#">Marketing</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#">Graphic Design</a></li>
+                    <li><i class="bi bi-chevron-right"></i> <a href="/common/WebDesign">Web Design</a></li>
+                    <li><i class="bi bi-chevron-right"></i> <a href="/common/WebDevelopment">Web Development</a></li>
+                    <li><i class="bi bi-chevron-right"></i> <a href="/common/ProductManagement">Product Management</a></li>
+                    <li><i class="bi bi-chevron-right"></i> <a href="/common/Marketing">Marketing</a></li>
+                    <li><i class="bi bi-chevron-right"></i> <a href="/common/GraphicDesign">Graphic Design</a></li>
                   </ul>
                 </div>
 
