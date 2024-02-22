@@ -55,6 +55,7 @@ import AddForms from "./pages/superadmin/AddForms";
 import Table from "./pages/superadmin/Table";
 import CreateUser from "./pages/superadmin/user/CreateUser";
 import UserList from "./pages/superadmin/user/UserList";
+import Skills from "./pages/superadmin/Skills";
 
 
 
@@ -127,6 +128,7 @@ function App() {
       <Route path="/superadmin/Table" element={(token && role == 'employer') ? <Table/>  : <Table/>} />
       <Route path="/superadmin/CreateUser" element={(token && role == 'employer') ? <CreateUser/>  : <CreateUser/>} />
       <Route path="/superadmin/UserList" element={(token && role == 'employer') ? <UserList/>  : <UserList/>} />
+      <Route path="/superadmin/Skills" element={(token && role == 'employer') ? <Skills/>  : <Skills/>} />
       
       
       
