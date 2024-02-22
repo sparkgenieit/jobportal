@@ -56,6 +56,8 @@ import Table from "./pages/superadmin/Table";
 import CreateUser from "./pages/superadmin/user/CreateUser";
 import UserList from "./pages/superadmin/user/UserList";
 import Skills from "./pages/superadmin/Skills";
+import Myappliedjobs from "./pages/common/Myappliedjobs";
+import Savedjobs from "./pages/common/Savedjobs";
 
 
 
@@ -96,7 +98,8 @@ function App() {
       <Route path="/common/HolidayParks" element={(token && role == 'employer') ? <HolidayParks/>  : <HolidayParks/>} /> 
       <Route path="/common/FreedomCampaining" element={(token && role == 'employer') ? <FreedomCampaining/>  : <FreedomCampaining/>} /> 
       <Route path="/common/Activities" element={(token && role == 'employer') ? <Activities/>  : <Activities/>} /> 
-      
+      <Route path="/common/Myappliedjobs" element={(token && role == 'employer') ? <Myappliedjobs/>  : <Myappliedjobs/>} />
+      <Route path="/common/Savedjobs" element={(token && role == 'employer') ? <Savedjobs/>  : <Savedjobs/>} />
       
       
       
