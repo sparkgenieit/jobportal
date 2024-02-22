@@ -1,3 +1,5 @@
+
+
 import Header from '../../layouts/common/Header';
 import Sidebar from '../../layouts/common/Sidebar';
 import Footer from '../../layouts/common/Footer';
@@ -5,8 +7,8 @@ import { useState } from "react"
 
 
 
- function Appliedjobs() {
-  const [Appliedjobs, setAppliedjobs] = useState([
+ function Savejob() {
+  const [savejob, setSavejob] = useState([
 
 
     {
@@ -37,6 +39,7 @@ import { useState } from "react"
 
 <div class="container-fluid px-3">
     <div class="d-flex justify-content-between my-3">
+
         <div class="mt-1">
             <button class="btn btn-outline-light btn-sm "> Admin - My Jobs</button>
         </div>
@@ -48,7 +51,7 @@ import { useState } from "react"
     <div className="row d-flex" style={{ display: "flex", flexDirection: "row", gap: "30px" }}>
         <div class=" col-6 px-3  border=200  ">
             {
-                Appliedjobs.map((Item) => {
+                savejob.map((Item) => {
                     return (
                         <div className='mt-3' style={{ display: 'flex'}}>
                             <div className="row">
@@ -133,4 +136,76 @@ import { useState } from "react"
   </>
 }
 
-export default Appliedjobs;
+export default Savejob;
+
+
+// function Savejob() {
+
+//   const [savejob, setSavejob] = useState([
+
+
+//     {
+//       Id: 1,
+//       jobtitle: "Angular",
+//       companyname: "Tataconsultancy",
+
+//     },
+//     {
+//       Id: 2,
+//       jobtitle: "React",
+//       companyname: "Mahindraconsultancy",
+//     }
+//   ])
+//   return (<>
+//     <div class="main-panel">
+//       <div class="content-wrapper">
+//         <div class="page-header">
+//           <h3 class="page-title"> Employee Profile </h3>
+
+//           <Header />
+// //     {/* <main id="main"> */}
+
+// //     {/* <section class="inner-page" data-aos="fade-up"> */}
+// //     {/* <div class="container-fluid homeBg"> */}
+// //     <div class="container-fluid page-body-wrapper">
+// //       <Sidebar />
+
+// //       <div class="main-panel bg-light">
+// //         <div className="content-wrapper">
+// //           <table border={"5"}>
+// //             <tr>
+// //               <th>Id</th>
+// //               <th>Jobtitle</th>
+// //               <th>Companyname</th>
+// //             </tr>
+
+// //             {savejob.map((res) => {
+//             return <tr>
+
+//               <td>{res.Id}</td>
+//               <td>{res.jobtitle}</td>
+//               <td>{res.companyname}</td>
+//             </tr>
+//           })}
+
+//                 </table>
+//               </div>
+//               {/* </div> */}
+//             </div>
+
+//           </div>
+//           {/* </div> */}
+//           {/* </section> */}
+
+//           {/* </main> */}
+//           <Footer />
+//         </div>
+//       </div>
+//     </div>
+
+//   </>)
+
+// }
+// export default Savejob;
+
+
