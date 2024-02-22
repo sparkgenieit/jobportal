@@ -1,6 +1,6 @@
-import Header from "../../layouts/company/Header";
-import Sidebar from "../../layouts/company/Sidebar";
-import Footer from "../../layouts/company/Footer";
+import Header from "../../layouts/common/Header";
+import Sidebar from "../../layouts/common/Sidebar";
+import Footer from "../../layouts/common/Footer";
 function Savedjobs() {
   return (
    <>
