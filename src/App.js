@@ -32,7 +32,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={!token ? <UserLogin /> : <Navigate to="/" />} />
       <Route path="/register" element={!token ? <UserRegistration /> : <Navigate to="/" />} />
-      <Route path="/profile" element={token ? <UserProfile /> : <Navigate to="/" />} />
+      <Route path="/profile" element={token ? <UserProfile /> : <UserProfile />} />
       <Route path="/viewprofile" element={token ? <ViewProfile /> : <Navigate to="/" />} />
 
       <Route path="/company" element={(token && role == 'employer') ? <CompanyHome/> : <Navigate to="/" />} />
@@ -47,3 +47,4 @@ function App() {
 }
 
 export default App;
+     
