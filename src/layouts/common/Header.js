@@ -37,6 +37,14 @@ function Header() {
     navigate('/company');
   }
 
+
+  // dropdown  list 
+
+  const [isDropdown, setIsDropdown] = useState(false);
+     const handleEnter = () => { setIsDropdown(true);
+     }; 
+     const handleMouse = () => { setIsDropdown(false); };
+
   return <>
     <Head />
   
@@ -83,27 +91,40 @@ function Header() {
                 </li>
               </ul>
             </li>
-
-
-
           </ul>
-          <i class="bi bi-list mobile-nav-toggle d-none"></i>
+         
+          {/* <i class="bi bi-list mobile-nav-toggle d-none"></i> */}
         </nav>
-
+            
               <div className='col-auto d-flex'>
-                {!token && <><button type="button" class="btn btn-primary" onClick={handleShow}>
+            
+                {!token && <><div className='btn  '><button type="button" class="btn btn-primary" onClick={handleShow}>
                   Login / Register
                 </button>
+                </div>
             </>}
             {token && <>
-            
-              <span className='header mx-5'>Hi {fullname} {role}</span>
-              <a  className='header mx-5' href="/profile">My Profile</a>
+              
+              {/* <span className='header1 mx-5 mt-3'> */}
+                <div className='dropdown mx-5 mt-2 ' >
+              <div onMouseEnter={handleEnter} onMouseLeave={handleMouse}> 
+              <button  className='btn '>Hi {fullname} {role} </button>{isDropdown && ( <div className="dropdown-content position-absolute"> 
+               
+                <ul className='box'>
+                      <a href='/profile'><li >My Profile</li></a>
+                      <a href=''><li className='mt-3'>My Saved Jobs</li></a>
+                      <a href='/company'><li className='mt-3'>Log out</li></a> 
+                </ul>
+          </div> )} 
+
+         </div> 
+       </div> 
+       {/* </span> */}
+              {/* <a  className='header mx-5' href="/profile">My Profile</a> */}
               <button type='button' onClick={() => handleLogout()} className=" btn bg-primary text-light  btn-getstarted scrollto nav-link mx-5" >Logout</button>
               {role == 'employer' && <a type="button" href="/company" class="btn btn-secondary ml-2" >
                 Employer Dashboard
               </a>}
-              
             </>
             
             }
