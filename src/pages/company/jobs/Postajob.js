@@ -2,11 +2,12 @@ import Header from '../../../layouts/company/Header';
 import Footer from '../../../layouts/company/Footer';
 import Sidebar from '../../../layouts/company/Sidebar';
 import { useState } from 'react';
+import axios from 'axios';
 
 
 function Postajob() {
   const [description, setDescription] = useState('');
-  const [closeDate,setCloseDate]=useState('')
+  const [closeDate, setCloseDate] = useState('')
   const [location, setLocation] = useState('');
   // const [jobCategory, setJobCategory] = useState('');
   // const [subCategory, setSubCategory] = useState('');
@@ -17,14 +18,16 @@ function Postajob() {
   const [training, setTraining] = useState('');
   const [company, setCompany] = useState('');
   const [duration, setDuration] = useState('');
-  const [empjobreference,setEmpJobReference]=useState('')
-  const [numberofvacancies,setNumberOfVacancies]=useState('')
-  const [rateperhour,setRatePerHour]=useState('')
-  const [weeklyperhour,setWeeklyPerHour]=useState('')
-  const [benifits,setBenifits]=useState('')
-  const [employerquestions,setEmployerQuestions]=useState('')
-  const [employer,setEmployer]=useState('')
-  
+  const [empjobreference, setEmpJobReference] = useState('')
+  const [numberofvacancies, setNumberOfVacancies] = useState('')
+  const [rateperhour, setRatePerHour] = useState('')
+  const [weeklyperhour, setWeeklyPerHour] = useState('')
+  const [benifits, setBenifits] = useState('')
+  const [employerquestions, setEmployerQuestions] = useState('')
+  const [employer, setEmployer] = useState('')
+
+
+  const [msg,setMsg]=useState('')
 
 
 
@@ -42,7 +45,7 @@ function Postajob() {
 
 
 
-  
+
 
 
 
@@ -57,7 +60,7 @@ function Postajob() {
     setShowInput(!showInput);
   }
 
-  
+
 
   // const [mainSelection, setMainSelection] = useState('');
   // const [subSelection, setSubSelection] = useState('')
@@ -74,7 +77,7 @@ function Postajob() {
   // const handleSubSelection = (event) => {
   //   const selectedOption = event.target.value;
   //   setSubSelection(selectedOption);
-    
+
   // }
 
 
@@ -127,182 +130,216 @@ function Postajob() {
 
   const companyButton = () => {
     let eObj = {};
-    let valid=true;
+    let valid = true;
     if (description == '') {
-      valid=false;
+      valid = false;
       eObj = { ...eObj, descriptionErrors: true };
       setDescriptionMsg('Please Enter Description');
 
     } else if (/^\w{2,}$/gi.test(description) == false) {
-      valid=false;
+      valid = false;
       eObj = { ...eObj, descriptionErrors: true };
       setDescriptionMsg('Not Proper Description');
 
     }
     else {
-      valid=true;
+      valid = true;
       eObj = { ...eObj, descriptionErrors: false };
 
 
     }
     if (location == '') {
-      valid=false;
+      valid = false;
       eObj = { ...eObj, locationErrors: true };
       setLocationMsg('Please Enter Location')
     }
     else if (/^[a-z]{3,}$/gi.test(location) == false) {
-      valid=false;
+      valid = false;
       eObj = { ...eObj, locationErrors: true };
       setLocationMsg('Not a Proper Location')
 
     }
     else {
-      valid=true;
+      valid = true;
       eObj = { ...eObj, locationErrors: false };
 
 
     }
     if (jobCategory == '') {
-      valid=false;
+      valid = false;
       eObj = { ...eObj, jobCategoryErrors: true };
     }
     else {
-      valid=true;
+      valid = true;
       eObj = { ...eObj, jobCategoryErrors: false };
 
 
     }
     if (subCategory == '') {
-      valid=false;
+      valid = false;
       eObj = { ...eObj, subCategoryErrors: true };
     }
     else {
-      valid=true;
+      valid = true;
       eObj = { ...eObj, subCategoryErrors: false };
 
 
     }
     if (jobTitle == '') {
-      valid=false;
+      valid = false;
       eObj = { ...eObj, jobTitleErrors: true };
       setJobTitleMsg('Please enter Job Title')
     } else if (/^[a-z]{3,}$/gi.test(jobTitle) == false) {
-      valid=false;
+      valid = false;
       eObj = { ...eObj, jobTitleErrors: true };
       setJobTitleMsg('Invalid Job Title')
     }
     else {
-      valid=true;
+      valid = true;
       eObj = { ...eObj, jobTitleErrors: false };
 
 
     }
 
     if (jobType == '') {
-      valid=false;
+      valid = false;
       eObj = { ...eObj, jobTypeErrors: true };
     }
     else {
-      valid=true;
+      valid = true;
       eObj = { ...eObj, jobTypeErrors: false };
 
 
     }
     if (vacancies == '') {
-      valid=false;
+      valid = false;
       eObj = { ...eObj, vacanciesErrors: true };
       setVacanciesMsg('Please Enter Number Of Vacancies');
     } else if (/^[0-9]{1,}$/gi.test(vacancies) == false) {
-      valid=false;
+      valid = false;
       eObj = { ...eObj, vacanciesErrors: true };
       setVacanciesMsg('Input is Not a Number')
 
     }
     else {
-      valid=true;
+      valid = true;
       eObj = { ...eObj, vacanciesErrors: false };
 
 
     }
     if (creationDate == '') {
-      valid=false;
+      valid = false;
       eObj = { ...eObj, creationDateErrors: true };
 
     }
     else {
-      valid=true;
+      valid = true;
       eObj = { ...eObj, creationDateErrors: false };
 
 
     }
 
     if (training == '') {
-      valid=false;
+      valid = false;
       eObj = { ...eObj, trainingErrors: true };
       setTrainingMsg('Please Specify Training')
     }
     else if (/^\w{3,}$/gi.test(training) == false) {
-      valid=false;
+      valid = false;
       eObj = { ...eObj, trainingErrors: true };
       setCompanyMsg('Not a Proper Input')
     }
     else {
-      valid=true;
+      valid = true;
       eObj = { ...eObj, trainingErrors: false };
 
 
     }
     if (company == '') {
-      valid=false;
+      valid = false;
       eObj = { ...eObj, companyErrors: true };
       setCompanyMsg('Please Enter Company Name')
     }
     else if (/^[a-z]{3,}$/gi.test(company) == false) {
-      valid=false;
+      valid = false;
       eObj = { ...eObj, companyErrors: true };
       setCompanyMsg('Not a Proper Company Name')
     }
     else {
-      valid=true;
+      valid = true;
       eObj = { ...eObj, companyErrors: false };
 
 
     }
     if (duration == '') {
-      valid=false;
+      valid = false;
       eObj = { ...eObj, duration: true };
     }
     else {
-      valid=true;
+      valid = true;
       eObj = { ...eObj, duration: false };
     }
 
 
     setErrors(eObj);
-    let obj1={}
-    if(!valid){
-      obj1={...obj1,company:company}
-      obj1={...obj1,closeDate:closeDate}
-      obj1={...obj1,creationDate:creationDate}
-      obj1={...obj1,jobType:jobType}
-      obj1={...obj1,location:location}
-      obj1={...obj1,Empjobreference:empjobreference}
-      obj1={...obj1,numberofvacancies:numberofvacancies}
-      obj1={...obj1,jobTitle:jobTitle}
-      obj1={...obj1,rateperhour:rateperhour}
-      obj1={...obj1,duration:duration}
-      obj1={...obj1,jobCategory:jobCategory}
-      obj1={...obj1,subCategory:subCategory}
-      obj1={...obj1,weeklyperhour:weeklyperhour}
-      obj1={...obj1,benifits:benifits}
-      obj1={...obj1,training:training}
-      obj1={...obj1,description:description}
-      obj1={...obj1,employerquestions:employerquestions}
-      obj1={...obj1,employer:employer}
+    let obj1 = {}
+    if (!valid) {
+      obj1 = { ...obj1, company: company }
+      obj1 = { ...obj1, closeDate: closeDate }
+      obj1 = { ...obj1, creationDate: creationDate }
+      obj1 = { ...obj1, jobType: jobType }
+      obj1 = { ...obj1, location: location }
+      obj1 = { ...obj1, Empjobreference: empjobreference }
+      obj1 = { ...obj1, numberofvacancies: numberofvacancies }
+      obj1 = { ...obj1, jobTitle: jobTitle }
+      obj1 = { ...obj1, rateperhour: rateperhour }
+      obj1 = { ...obj1, duration: duration }
+      obj1 = { ...obj1, jobCategory: jobCategory }
+      obj1 = { ...obj1, subCategory: subCategory }
+      obj1 = { ...obj1, weeklyperhour: weeklyperhour }
+      obj1 = { ...obj1, benifits: benifits }
+      obj1 = { ...obj1, training: training }
+      obj1 = { ...obj1, description: description }
+      obj1 = { ...obj1, employerquestions: employerquestions }
+      obj1 = { ...obj1, employer: employer }
       console.log(obj1)
-     }else{
-      
-     }
+    } else {
+
+      let data ={
+        company: company ,
+        closeDate: closeDate ,
+        creationDate: creationDate ,
+        jobType: jobType ,
+        location: location ,
+        Empjobreference: empjobreference,
+        numberofvacancies: numberofvacancies,
+        jobTitle: jobTitle,
+        rateperhour: rateperhour,
+        duration: duration,
+        jobCategory: jobCategory,
+        subCategory: subCategory,
+        weeklyperhour: weeklyperhour,
+        benifits: benifits,
+        training: training,
+        description: description,
+        employerquestions: employerquestions,
+        employer: employer
+
+      }
+      axios.post('http://localhost:8080/jobs/create',data)
+      .then(response => {
+        if(response && response.status){
+          setMsg('Jobs added successfully');
+
+          setTimeout(()=>{
+            window.reload();
+          },2000)
+
+        }
+      })
+     
+
+    }
   }
 
   const handleInput = (name, event) => {
@@ -438,25 +475,25 @@ function Postajob() {
       }
 
     }
-    if(name == 'closeDate'){
+    if (name == 'closeDate') {
       setCloseDate(event.target.value)
     }
-    if(name == 'empjobreference'){
+    if (name == 'empjobreference') {
       setEmpJobReference(event.target.value)
     }
-    if(name == "rateperhour"){
+    if (name == "rateperhour") {
       setRatePerHour(event.target.value)
     }
-    if(name == 'benifits'){
+    if (name == 'benifits') {
       setBenifits(event.target.value)
     }
-    if(name == 'weeklyperhour'){
+    if (name == 'weeklyperhour') {
       setWeeklyPerHour(event.target.value)
     }
-    if(name == 'employerquestions'){
+    if (name == 'employerquestions') {
       setEmployerQuestions(event.target.value)
     }
-    if(name == 'employer'){
+    if (name == 'employer') {
       setEmployer(event.target.value)
     }
 
@@ -484,6 +521,7 @@ function Postajob() {
                   </ol>
                 </nav>
               </div>
+              
 
               <div className="row">
                 <div className="col-12">
@@ -508,7 +546,7 @@ function Postajob() {
                           <div className="form-group row">
                             <label className="col-sm-3 col-form-label">CloseDate</label>
                             <div className="col-sm-8">
-                              <input type="date" className="form-control" value={closeDate} onChange={(event) => handleInput('closeDate', event)}/>
+                              <input type="date" className="form-control" value={closeDate} onChange={(event) => handleInput('closeDate', event)} />
 
                               <div className="bgcol" id="error1"></div>
                             </div>
@@ -604,7 +642,7 @@ function Postajob() {
                           <div className="form-group row">
                             <label className="col-sm-3 col-form-label">Emp job reference</label>
                             <div className="col-sm-8">
-                              <input type="text" className="form-control" id="press6"value={empjobreference} onChange={(event) => handleInput('empjobreference', event)} />
+                              <input type="text" className="form-control" id="press6" value={empjobreference} onChange={(event) => handleInput('empjobreference', event)} />
                               <div className="bgcol" id="error6"></div>
                             </div>
                           </div>
@@ -635,7 +673,7 @@ function Postajob() {
                           <div className="form-group row">
                             <label className="col-sm-3 col-form-label">RatePerHour</label>
                             <div className="col-sm-8">
-                              <input type="text" className="form-control"value={rateperhour} onChange={(event) => handleInput('rateperhour', event)} />
+                              <input type="text" className="form-control" value={rateperhour} onChange={(event) => handleInput('rateperhour', event)} />
 
                             </div>
                           </div>
@@ -703,238 +741,238 @@ function Postajob() {
                           <div className="form-group row">
                             <label className="col-sm-3 col-form-label">Sub-category<span className='text-danger'>*</span></label>
                             <div className="col-sm-8">
-                              
-                              
-                                <select className="form-select border"value={subCategory} onChange={(event) => handleInput('subcategory', event)}>
-                                  
-                                  {jobCategory === 'Agriculture' && (
-                                    <>
-                                      <option value="subOption1">Fruit picking</option>
-                                      <option value="subOpotion2">Crop harvesting</option>
-                                      <option value="subOpotion2">Dairy farming</option>
-                                      <option value="subOpotion2">Livestock handling</option>
-                                    </>
-                                  )}
-                                  {jobCategory === 'Hospitality' && (
-                                    <>
-                                      <option value="subOption3">Hotel work</option>
-                                      <option value="subOption4"> Restaurant and cafe jobs</option>
-                                      <option value="subOption4">Tourism-related positions</option>
-                                      <option value="subOption4"> Resort and ski resort jobs</option>
-                                    </>
-                                  )}
-                                  {jobCategory === 'Retail' && (
-                                    <>
-                                      <option value="subOption3">Retail assistant</option>
-                                      <option value="subOption4"> Sales positions</option>
-                                     
-                                    </>
-                                  )}
-                                  {jobCategory === 'Construction' && (
-                                    <>
-                                      <option value="subOption3">Construction work</option>
-                                      <option value="subOption4"> Painting</option>
-                                      <option value="subOption4">Landscaping</option>
-                                     
-                                    </>
-                                  )}
-                                  {jobCategory === 'Office' && (
-                                    <>
-                                      <option value="subOption3">Office support roles</option>
-                                      <option value="subOption4"> Administrative positions</option>
-                                     
-                                    </>
-                                  )}
-                                  {jobCategory === 'Healthcare' && (
-                                    <>
-                                      <option value="subOption3">Healthcare assistant</option>
-                                      <option value="subOption4"> Support roles in healthcare</option>
-                                     
-                                    </>
-                                  )}
-                                  {jobCategory === 'Technology' && (
-                                    <>
-                                      <option value="subOption3">IT support roles</option>
-                                      <option value="subOption4"> Software development internships</option>
-                                      
-                                    </>
-                                  )}
-                                   {jobCategory === 'Teaching' && (
-                                    <>
-                                      <option value="subOption3">Teaching assistant roles</option>
-                                      <option value="subOption4">Language teaching positions</option>
-                                     
-                                    </>
-                                  )}
-                                  {jobCategory === 'Creative' && (
-                                    <>
-                                      <option value="subOption3">Graphic design</option>
-                                      <option value="subOption4">Writing and content creation</option>
-                                     
-                                    </>
-                                  )}
-                                </select>
-                              
-                            
-                            {errors.subCategoryErrors && <span className='text-danger'>Please select Sub Category</span>}
-                            <div className="bgcol" id="subCategoryError"></div>
 
+
+                              <select className="form-select border" value={subCategory} onChange={(event) => handleInput('subcategory', event)}>
+
+                                {jobCategory === 'Agriculture' && (
+                                  <>
+                                    <option value="subOption1">Fruit picking</option>
+                                    <option value="subOpotion2">Crop harvesting</option>
+                                    <option value="subOpotion2">Dairy farming</option>
+                                    <option value="subOpotion2">Livestock handling</option>
+                                  </>
+                                )}
+                                {jobCategory === 'Hospitality' && (
+                                  <>
+                                    <option value="subOption3">Hotel work</option>
+                                    <option value="subOption4"> Restaurant and cafe jobs</option>
+                                    <option value="subOption4">Tourism-related positions</option>
+                                    <option value="subOption4"> Resort and ski resort jobs</option>
+                                  </>
+                                )}
+                                {jobCategory === 'Retail' && (
+                                  <>
+                                    <option value="subOption3">Retail assistant</option>
+                                    <option value="subOption4"> Sales positions</option>
+
+                                  </>
+                                )}
+                                {jobCategory === 'Construction' && (
+                                  <>
+                                    <option value="subOption3">Construction work</option>
+                                    <option value="subOption4"> Painting</option>
+                                    <option value="subOption4">Landscaping</option>
+
+                                  </>
+                                )}
+                                {jobCategory === 'Office' && (
+                                  <>
+                                    <option value="subOption3">Office support roles</option>
+                                    <option value="subOption4"> Administrative positions</option>
+
+                                  </>
+                                )}
+                                {jobCategory === 'Healthcare' && (
+                                  <>
+                                    <option value="subOption3">Healthcare assistant</option>
+                                    <option value="subOption4"> Support roles in healthcare</option>
+
+                                  </>
+                                )}
+                                {jobCategory === 'Technology' && (
+                                  <>
+                                    <option value="subOption3">IT support roles</option>
+                                    <option value="subOption4"> Software development internships</option>
+
+                                  </>
+                                )}
+                                {jobCategory === 'Teaching' && (
+                                  <>
+                                    <option value="subOption3">Teaching assistant roles</option>
+                                    <option value="subOption4">Language teaching positions</option>
+
+                                  </>
+                                )}
+                                {jobCategory === 'Creative' && (
+                                  <>
+                                    <option value="subOption3">Graphic design</option>
+                                    <option value="subOption4">Writing and content creation</option>
+
+                                  </>
+                                )}
+                              </select>
+
+
+                              {errors.subCategoryErrors && <span className='text-danger'>Please select Sub Category</span>}
+                              <div className="bgcol" id="subCategoryError"></div>
+
+                            </div>
                           </div>
                         </div>
+                        <div className="col-md-6">
+                          <div className="form-group row">
+                            <label className="col-sm-3 col-form-label">Weekly work hours</label>
+                            <div className="col-sm-8">
+                              <input type="number" className="form-control" id="press18" value={weeklyperhour} onChange={(event) => handleInput('weeklyperhour', event)} />
+                              <div className="bgcol" id="error18"></div>
+                            </div>
+                          </div>
+                        </div>
+
                       </div>
-                      <div className="col-md-6">
+
+                      <div className="col-md-9">
                         <div className="form-group row">
-                          <label className="col-sm-3 col-form-label">Weekly work hours</label>
-                          <div className="col-sm-8">
-                            <input type="number" className="form-control" id="press18" value={weeklyperhour} onChange={(event) => handleInput('weeklyperhour', event)}/>
-                            <div className="bgcol" id="error18"></div>
+                          <div>
+                            <label className="col-sm-1 col-form-label">Benifits</label>
                           </div>
+                          <div className=" row ">
+                            <div className="col-3">
+                              <div className="form-check">
+                                <input type="checkbox" className="form-check-input " name="workinghoursRadio"
+                                  id="workinghoursRadio1" value={benifits} onChange={(event) => handleInput('benifits', event)} />Accomdation
+                              </div>
+
+                            </div>
+                            <div className="col-2">
+                              <div className="form-check">
+                                <input type="checkbox" className="form-check-input" name="workinghoursRadio"
+                                  id="workinghoursRadio1" value="" />Food
+                              </div>
+
+                            </div>
+                            <div className="col-3">
+                              <div className="form-check">
+                                <input type="checkbox" className="form-check-input" name="workinghoursRadio"
+                                  id="workinghoursRadio1" value="" />Transport
+                              </div>
+                            </div>
+                            <div className="col-4 ">
+                              <div className="form-check">
+                                <input type="checkbox" className="form-check-input" name="workinghoursRadio"
+                                  id="workinghoursRadio1" value="" onChange={toggleInput} checked={showInput} />Others
+                                {showInput && <input type='text' className='form-control col-5' />}
+
+                              </div>
+
+                            </div>
+
+                          </div>
+
                         </div>
                       </div>
+                      <div className="row">
+                        <div className="col-md-9">
+                          <div className="form-group row">
+                            <div>
+                              <label className="col-sm-3 col-form-label">Provide Training<span className='text-danger'>*</span></label>
+                            </div>
 
-                  </div>
+                            <div className=" col-2 form-check mx-3">
 
-                  <div className="col-md-9">
-                    <div className="form-group row">
+                              <input type="checkbox" className="form-check-input" name="workinghoursRadio"
+                                id="workinghoursRadio1" value="" />No
+
+                            </div>
+                            <div className=" col-2 form-check mx-3">
+
+                              <input type="checkbox" className="form-check-input" name="workinghoursRadio"
+                                id="workinghoursRadio1" value="" onChange={toggleCheck} checked={showCheck} />Yes
+
+
+                            </div>
+                            <div className='col-6'>
+
+                              {showCheck && <input type='text' className='form-control col-5' />}
+
+                            </div>
+
+                          </div>
+
+                        </div>
+                      </div>
+                      <div className='row'>
+
+                        <div className="form-group row">
+                          <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">Description<span className='text-danger'>*</span></label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" value={description} onChange={(event) => handleInput('description', event)}></textarea>
+                            {errors.descriptionErrors && <span className='text-danger'>{descriptionMsg}</span>}
+                          </div>
+                        </div>
+
+                      </div>
+
+
+                      <div className="col-md-12">
+                        <div className="form-group row">
+
+                          <label className="col-sm-3 col-form-labe ">Employer questions</label>
+
+                          <div>
+                            <div className=" mt-3 row">
+
+                              <input className="form-control col" value={employerquestions} onChange={(event) => handleInput('employerquestions', event)} type="text" placeholder="Questions" />&nbsp;&nbsp;
+                              <button className='col-1 btn bg-secondary' type="button" onClick={addTextbox}>+</button>
+
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
                       <div>
-                        <label className="col-sm-1 col-form-label">Benifits</label>
+                        {arr.map((x, index) => {
+                          return (
+                            <div key={index} className=" mt-3 row">
+                              <input className="form-control col" value={employer} onChange={(event) => handleInput('employer', event)} type="text" placeholder="Questions" />&nbsp;&nbsp;
+                              <button className='col-1 btn bg-secondary' type="button" onClick={() => delTextBox()}>-</button>
+                            </div>
+                          )
+                        }
+                        )
+                        }
+
                       </div>
-                      <div className=" row ">
-                        <div className="col-3">
-                          <div className="form-check">
-                            <input type="checkbox" className="form-check-input " name="workinghoursRadio"
-                              id="workinghoursRadio1" value={benifits} onChange={(event) => handleInput('benifits', event)} />Accomdation
-                          </div>
 
-                        </div>
-                        <div className="col-2">
-                          <div className="form-check">
-                            <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                              id="workinghoursRadio1" value="" />Food
-                          </div>
-
-                        </div>
-                        <div className="col-3">
-                          <div className="form-check">
-                            <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                              id="workinghoursRadio1" value="" />Transport
-                          </div>
-                        </div>
-                        <div className="col-4 ">
-                          <div className="form-check">
-                            <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                              id="workinghoursRadio1" value="" onChange={toggleInput} checked={showInput} />Others
-                            {showInput && <input type='text' className='form-control col-5' />}
-
-                          </div>
-
+                      <div class="form-group">
+                        <div className='col-11 p-3'>
+                          <button className="btn btn-primary  float-end" type="button" onClick={() => companyButton()}>
+                            Save
+                          </button>
                         </div>
 
                       </div>
 
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-9">
-                      <div className="form-group row">
-                        <div>
-                          <label className="col-sm-3 col-form-label">Provide Training<span className='text-danger'>*</span></label>
-                        </div>
-
-                        <div className=" col-2 form-check mx-3">
-
-                          <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                            id="workinghoursRadio1" value="" />No
-
-                        </div>
-                        <div className=" col-2 form-check mx-3">
-
-                          <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                            id="workinghoursRadio1" value="" onChange={toggleCheck} checked={showCheck} />Yes
 
 
-                        </div>
-                        <div className='col-6'>
 
-                          {showCheck && <input type='text' className='form-control col-5' />}
-
-                        </div>
-
-                      </div>
-
-                    </div>
-                  </div>
-                  <div className='row'>
-
-                    <div className="form-group row">
-                      <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Description<span className='text-danger'>*</span></label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" value={description} onChange={(event) => handleInput('description', event)}></textarea>
-                        {errors.descriptionErrors && <span className='text-danger'>{descriptionMsg}</span>}
-                      </div>
-                    </div>
-
-                  </div>
-
-
-                  <div className="col-md-12">
-                    <div className="form-group row">
-
-                      <label className="col-sm-3 col-form-labe ">Employer questions</label>
-
-                      <div>
-                        <div className=" mt-3 row">
-
-                          <input className="form-control col" value={employerquestions} onChange={(event) => handleInput('employerquestions', event)} type="text" placeholder="Questions" />&nbsp;&nbsp;
-                          <button className='col-1 btn bg-secondary' type="button" onClick={addTextbox}>+</button>
-
-
-                        </div>
-
-                      </div>
-
-                    </div>
-
-                  </div>
-                  <div>
-                    {arr.map((x, index) => {
-                      return (
-                        <div key={index} className=" mt-3 row">
-                          <input className="form-control col"value={employer} onChange={(event) => handleInput('employer', event)} type="text" placeholder="Questions" />&nbsp;&nbsp;
-                          <button className='col-1 btn bg-secondary' type="button" onClick={() => delTextBox()}>-</button>
-                        </div>
-                      )
-                    }
-                    )
-                    }
-
-                  </div>
-
-                  <div class="form-group">
-                    <div className='col-11 p-3'>
-                      <button className="btn btn-primary  float-end" type="button" onClick={() => companyButton()}>
-                        Save
-                      </button>
-                    </div>
+                    </form>
 
                   </div>
 
 
 
+                  <Footer />
 
-                </form>
-
+                </div>
               </div>
-
-
-
-              <Footer />
-
             </div>
           </div>
-        </div>
-      </div>
-    </div >
+        </div >
       </div >
 
     </>
