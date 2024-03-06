@@ -1,5 +1,3 @@
-
-
 import Header from '../../layouts/common/Header';
 import Footer from '../../layouts/common/Footer';
 import Sidebar from '../../layouts/common/Sidebar';
@@ -10,118 +8,14 @@ import userService from '../../services/common/user.service';
 function ViewProfile() {
   const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
 
-  const [user, SetUserData] = useState({
-    firstname: "Rohit",
-    lastname: "Sharma",
-    email: "shRohit@gmail.com",
-    mobile: "7889855332",
-    personalSummary: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exerci culpa nesciunt nihil aut nostrum explicabo reprehenderit",
-    workhistory: [
-      {
-        jobTitle: "Trainee",
-        employer: "Google",
-        location: "India",
-        from: 2020,
-        to: 2021,
-        workDescription: " Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exerc culpa nesciunt nihil aut nostrum explicabo reprehenderit?",
-
-      },
-      {
-        jobTitle: "Trainee",
-        employer: "Google",
-        location: "India",
-        from: 2020,
-        to: 2021,
-        workDescription: " Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum explicabo reprehenderit?",
-
-      }
-    ],
-
-    education: [
-      {
-        educationProvider: "Harvard",
-        qualification: "Graduate",
-        yearCompleted: 2020,
-        validinNZ: "yes",
-        eduDescription: " Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum explicabo reprehenderit?",
-
-      },
-      {
-        educationProvider: "Harvard",
-        qualification: "Graduate",
-        yearCompleted: 2020,
-        validinNZ: "yes",
-        eduDescription: " Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum explicabo reprehenderit?",
-
-      }
-    ],
-    license: [
-      {
-        name: "Automation",
-        authority: "Google",
-        issueDate: "12-12-2021",
-        expiryDate: "18-4-2024",
-        validinNZ: "yes",
-        licenseDes: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum explicabo reprehenderit?",
-
-      },
-      {
-        name: "Automation",
-        authority: "Google",
-        issueDate: "12-12-2021",
-        expiryDate: "18-4-2024",
-        validinNZ: "yes",
-        licenseDes: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum explicabo reprehenderit?",
-
-      }
-    ],
-    certificate: [
-      {
-        name: "Java",
-        authority: "Harvard",
-        issueDate: "30-4-2022",
-        expiryDate: "30-4-2028",
-        validinNZ: "yes",
-        certificateDes: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exerc culpa nesciunt nihil aut nostrum explicabo reprehenderit?",
-
-      },
-      {
-        name: "Java",
-        authority: "Harvard",
-        issueDate: "30-4-2022",
-        expiryDate: "30-4-2028",
-        validinNZ: "yes",
-        certificateDes: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exerc culpa nesciunt nihil aut nostrum explicabo reprehenderit?",
-
-      },
-      {
-        name: "Java",
-        authority: "Harvard",
-        issueDate: "30-4-2022",
-        expiryDate: "30-4-2028",
-        validinNZ: "yes",
-        certificateDes: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitat culpa nesciunt nihil aut nostrum explicabo reprehenderit?",
-
-      }
-    ],
-    skills: ["HTML", "CSS"],
-    availability: "Immediately",
-    preferedJobtype: ["Full Time", "Part Time"],
-    preferedLocation: ["New Zealand", "Austrailia"],
-    preferedJobCategory: ["IT", "AI"],
-    rate: "10$",
-    showProfile: "Yes",
-    visaType: "Student Visa",
-    visaExpiryDate: "12-12-2022",
-    uploadCV: "Resume.pdf",
-    coverLetter: "Letter.pdf"
-  })
+  const [user, SetUserData] = useState({});
 
   useEffect(() => {
 
     userService.get(userId)
     .then(response => {
       console.log(response.data);
+      SetUserData(response.data)
       // localStorage.setItem('token', response.data.token);
       // const token = response.data.token;
 
@@ -174,7 +68,9 @@ function ViewProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">First Name :</label>
                         <div className="col-sm-9">
-                          <div className=' p-2'>{user.firstname}</div>
+                          <div className=' p-2'>
+                            {/* {user.firstname} */}
+                            </div>
                         </div>
                       </div>
                     </div>
@@ -184,7 +80,9 @@ function ViewProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Last Name :  </label>
                         <div className="col-sm-9">
-                          <div className='p-2'>{user.lastname}</div>
+                          <div className='p-2'>
+                            {/* {user.lastname} */}
+                            </div>
                         </div>
                       </div>
                     </div>
@@ -204,7 +102,9 @@ function ViewProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Mobile :</label>
                         <div className="col-sm-9">
-                          <div className='p-2'>{user.mobile}</div>
+                          <div className='p-2'>
+                            {/* {user.mobile} */}
+                            </div>
                         </div>
                       </div>
                     </div>
@@ -214,7 +114,8 @@ function ViewProfile() {
                       <div className="form-group row">
                         <label className="col-sm-6 col-form-label fw-bold">Personal Summary : </label>
                         <div className="col-sm-12">
-                          <div className=' p-2'>{user.personalSummary}
+                          <div className=' p-2'>
+                            {/* {user.personalSummary} */}
 
                           </div>
 
@@ -241,7 +142,7 @@ function ViewProfile() {
                         </thead>
                         <tbody>
                           {
-                            user.workhistory.map((x, index) => {
+                            user.work_history &&  user.work_history.length > 0 && user.work_history.map((x, index) => {
                               return (
                                 <>
                                   <tr className='border-bottom' key={index}>
@@ -289,7 +190,7 @@ function ViewProfile() {
                         <tbody>
 
                           {
-                            user.education.map((x, index) => {
+                            user.education && user.education.length > 0 && user.education.map((x, index) => {
                               return (
                                 <tr  className='border-bottom' key={index}>
                                   <td className='px-3' >{x.educationProvider}</td>
@@ -339,7 +240,7 @@ function ViewProfile() {
                         </thead>
                         <tbody>
                           {
-                            user.license.map((x, index) => {
+                            user.licences && user.licences.length > 0 && user.licences.map((x, index) => {
                               return (
                                 <tr  className='border-bottom' key={index}>
                                   <td className='px-3' >{x.name}</td>
@@ -386,7 +287,7 @@ function ViewProfile() {
                         </thead>
                         <tbody>
                           {
-                            user.certificate.map((x, index) => {
+                            user.certification && user.certification.length > 0 && user.certification.map((x, index) => {
                               return (
                                 <tr  className='border-bottom' key={index}>
                                   <td td className='px-3'  >{x.name}</td>
@@ -414,8 +315,8 @@ function ViewProfile() {
                         <label className="col-sm-3 col-form-label fw-bold h3 mt-3">Skills :</label>
                         <div className="col-sm-12">
                           <ul>
-                            {user.skills.map((x, index) => {
-                              return <li>{x}</li>
+                            {user.skills && user.skills.length > 0 && user.skills.map((x, index) => {
+                              return <li key={index}>{x}</li>
                             }
                             )
 
@@ -430,7 +331,7 @@ function ViewProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Availability:</label>
                         <div className="col-sm-9">
-                          {user.availability}
+                          {/* {user.availability} */}
                         </div>
                       </div>
                     </div>
@@ -444,7 +345,7 @@ function ViewProfile() {
                   <div className="row">
                     <div className="col-md-12">
                       <ul>
-                        {user.preferedJobtype.map((x, index) => {
+                        {user.preferredJobTypes && user.preferredJobTypes.length > 0 && user.preferredJobTypes.map((x, index) => {
                           return <li key={index}>{x}</li>
                         }
                         )
@@ -464,7 +365,8 @@ function ViewProfile() {
                         <label className="col-sm-6 col-form-label fw-bold">Preferred Locations :</label>
                         <div className="col-sm-12">
                           <ul>
-                            {user.preferedLocation.map((x, index) => {
+                          {user.preferredJobLocations && user.preferredJobLocations.length > 0 && 
+                          user.preferredJobLocations.map((x, index) => {
                               return <li key={index}>{x}</li>
                             }
                             )
@@ -482,7 +384,7 @@ function ViewProfile() {
                         <label className="col-sm-3 col-form-label fw-bold">Preferred Jobcategorys :</label>
                         <div className="col-sm-12">
                           <ul>
-                            {user.preferedJobCategory.map((x, index) => {
+                            {user.preferredJobCategories && user.preferredJobCategories.length > 0 && user.preferredJobCategories.map((x, index) => {
                               return <li key={index}>{x}</li>
                             }
                             )
@@ -499,7 +401,7 @@ function ViewProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Expected rate Per hour : </label>
                         <div className="col-sm-9">
-                          <div>{user.rate}</div>
+                          {/* <div>{user.rate}</div> */}
 
                         </div>
                       </div>
@@ -512,7 +414,7 @@ function ViewProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Profile is Visible to others:</label>
                         <div className="col-sm-9">
-                          {user.showProfile}
+                          {/* {user.showProfile} */}
                         </div>
                       </div>
                     </div>
@@ -525,7 +427,7 @@ function ViewProfile() {
                     <div class="form-group row">
                       <label className="col-form-label col-3 fw-bold">Visa Type :</label>
                       <div className='col-3'>
-                        {user.visaType}
+                        {/* {user.visaType} */}
                       </div>
                     </div>
                   </div>
@@ -534,7 +436,7 @@ function ViewProfile() {
                     <div className="form-group row">
                       <label className="col-form-label col-3 fw-bold ">Visa Expiry Date:</label>
                       <div className="col-3">
-                        {user.visaExpiryDate}
+                        {/* {user.visaExpiryDate} */}
 
 
                       </div>
@@ -547,7 +449,7 @@ function ViewProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Upload CV :  </label>
                         <div className="col-sm-9">
-                          {user.uploadCV}
+                          {/* {user.uploadCV} */}
                         </div>
                       </div>
                     </div>
@@ -558,7 +460,7 @@ function ViewProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Upload Cover Letter :  </label>
                         <div className="col-sm-9">
-                          {user.coverLetter}
+                          {/* {user.coverLetter} */}
                         </div>
                       </div>
                     </div>
