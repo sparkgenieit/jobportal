@@ -37,6 +37,14 @@ function Header() {
     navigate('/company');
   }
 
+
+  // dropdown  list 
+
+  const [isDropdown, setIsDropdown] = useState(false);
+     const handleEnter = () => { setIsDropdown(true);
+     }; 
+     const handleMouse = () => { setIsDropdown(false); };
+
   return <>
     <Head />
 

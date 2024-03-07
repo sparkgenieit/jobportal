@@ -22,6 +22,9 @@ import Postajob from "./pages/company/jobs/Postajob";
 
 import Jobqueuelist from "./pages/admin/joblist/Jobqueuelist";
 import ViewProfile from "./pages/common/ViewProfile";
+import Categories1 from "./pages/superadmin/categories/Categories1";
+import Categorieslist1 from"./pages/superadmin/categories/Categorieslist1"
+import List from "./pages/superadmin/adimin-management/List";
 
 
 
@@ -51,6 +54,16 @@ function App() {
       <Route path="/company" element={(token && role == 'employer') ? <CompanyHome /> : <Navigate to="/" />} />
       <Route path="/company/profile" element={(token && role == 'employer') ? <CompanyProfile /> : <Navigate to="/" />} />
       <Route path="/company/postajob" element={(token && role == 'employer') ? <Postajob /> : <Postajob />} />
+
+      <Route path="/admin/Jobqueuelist" element={(token && role == 'employer') ? <Jobqueuelist/>  : <Jobqueuelist/>} /> 
+      
+      
+      <Route path="/superadmin/Categories1" element={(token && role == 'employer') ? <Categories1/>  : <Categories1/>} />
+
+       <Route path="/superadmin/Categorieslist1" element={(token && role == 'employer') ? <Categorieslist1/>  : <Categorieslist1/>} />  
+
+
+      <Route path="/superadmin/list" element={(token && role == 'employer') ? <List/>  : <List/>} /> 
 
       <Route path="/admin/Jobqueuelist" element={(token && role == 'employer') ? <Jobqueuelist /> : <Jobqueuelist />} />
 
