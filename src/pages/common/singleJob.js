@@ -1,7 +1,7 @@
-import logo from './logo.svg';
+
 import './singleJob.css';
 
-function singleJob() {
+function SingleJob() {
   return (
    <>
   <main id="main">
@@ -9,7 +9,7 @@ function singleJob() {
 <section class="inner-page">
 <div class="container ">
 <div width="100%">
-    <img class="rounded" src="assets/images/job-bg.jpeg" width="100%" height="400px">
+    <img class="rounded" src="assets/images/job-bg.jpeg" width="100%" height="400px"/>
 
 </div>
 <div class=" row d-flex justify-content-between my-4">
@@ -22,31 +22,31 @@ function singleJob() {
         <button class="btn btn-primary" type="button">Apply Now</button>
     </div>
 </div>
-<hr>
+<hr/>
 <div class="row">
     <div class="col-sm-8">
         <div class="border p-3">
             <p class="fw-bold pt-3">Employment Information</p>
-            <hr>
+            <hr/>
             <div class="row-sm">
                 <div class="col-5">
                     <div class="d-flex justify-content-between">
-                        <p style="margin-right: 22px;">Industry</p>
+                        <p className='mx-3'>Industry</p>
                         <p class="fw-bold">Mechanical/Auto/Automotive, Civil/Construction</p>
 
                     </div>
                     <div class="d-flex justify-content-start">
-                        <p style="margin-right: 38px;">Salary</p>
+                        <p  className='mx-3'>Salary</p>
                         <p class="fw-bold">$800-$1000</p>
 
                     </div>
                     <div class="d-flex justify-content-start">
-                        <p style="margin-right: 20px;">Job Type</p>
+                        <p  className='mx-3'>Job Type</p>
                         <p class="fw-bold">Permanent</p>
 
                     </div>
                     <div class="d-flex justify-content-start">
-                        <p style="margin-right: 20px;">Updated</p>
+                        <p  className='mx-3'>Updated</p>
                         <p class="fw-bold">10/07/2022</p>
 
                     </div>
@@ -59,17 +59,17 @@ function singleJob() {
 
                     </div>
                     <div class="d-flex justify-content-start">
-                        <p style="margin-right: 13px;">Experience</p>
+                        <p className='mx-3'>Experience</p>
                         <p class="fw-bold">1-2 Years</p>
 
                     </div>
                     <div class="d-flex justify-content-start">
-                        <p style="margin-right: 20px;">Deadline</p>
+                        <p className='mx-3'>Deadline</p>
                         <p class="fw-bold">08/08/2022</p>
 
                     </div>
                     <div class="d-flex justify-content-start">
-                        <p style="margin-right: 25px;">Location</p>
+                        <p className='mx-3'>Location</p>
                         <p class="fw-bold">Dallas, Texas Remote Friendly</p>
 
 
@@ -142,7 +142,7 @@ function singleJob() {
                 department,cross functional partners within your product area,and other interested Superformula
                 members using clear language that simplifies completely.</p>
             <p class="fw-bold mt-4">----AliThemes----</p>
-            <hr>
+            <hr/>
             <div>
                 <button class="btn btn-primary" type="button">Apply Now</button>
                 <button class="btn btn-outline-light text-muted mx-4 border" type="button">Save Job</button>
@@ -155,7 +155,7 @@ function singleJob() {
         <div class="card p-3">
             <div class="card-top d-flex justify-content-evenly pt-3">
                 <div>
-                    <img class="rounded border" src="../Desktop/Traing/ali.png " width="100px" height="100px">
+                    <img class="rounded border" src="../Desktop/Traing/ali.png " width="100px" height="100px"/>
                 </div>
                 <div>
                     <p class="fw-bold h5">Ali Theames</p>
@@ -167,9 +167,9 @@ function singleJob() {
 
 
             </div>
-            <hr>
+            <hr/>
             <div class="card-body">
-                <img src="../Desktop/Traing/map.png" height="200px" width="230px" class="rounded">
+                <img src="../Desktop/Traing/map.png" height="200px" width="230px" class="rounded"/>
                 <ul class="mt-3">
                     <li>205 North Michigan Avenue, Suite 810 Chicago, 60601,USA</li>
                     <li>Phone: (123)456-7890</li>
@@ -187,11 +187,11 @@ function singleJob() {
 
 
 
-            <hr>
+            <hr/>
             <div class="d-flex border shadow rounded container p-3 mb-4 bg-light">
                 <div>
 
-                    <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt="">
+                    <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt=""/>
 
 
                 </div>
@@ -205,14 +205,14 @@ function singleJob() {
 
 
                 </div>
-                <hr>
+                <hr />
 
 
             </div>
             <div class="d-flex border shadow rounded container p-3 mb-4 bg-light">
                 <div>
 
-                    <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt="">
+                    <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt="" />
 
 
                 </div>
@@ -226,14 +226,14 @@ function singleJob() {
 
 
                 </div>
-                <hr>
+                <hr />
 
 
             </div>
             <div class="d-flex border shadow rounded container p-3 mb-4 bg-light">
                 <div>
 
-                    <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt="">
+                    <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt="" />
 
 
                 </div>
@@ -247,14 +247,14 @@ function singleJob() {
 
 
                 </div>
-                <hr>
+                <hr />
 
 
             </div>
             <div class="d-flex border shadow rounded container p-3 mb-4 bg-light">
                 <div>
 
-                    <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt="">
+                    <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt="" />
 
 
                 </div>
@@ -268,14 +268,14 @@ function singleJob() {
 
 
                 </div>
-                <hr>
+                <hr />
 
 
             </div>
             <div class="d-flex border shadow rounded container p-3 mb-4 bg-light">
                 <div>
 
-                    <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt="">
+                    <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt="" />
 
 
                 </div>
@@ -289,14 +289,14 @@ function singleJob() {
 
 
                 </div>
-                <hr>
+                <hr/>
 
 
             </div>
             <div class="d-flex border shadow rounded container p-3 mb-4 bg-light">
                 <div>
 
-                    <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt="">
+                    <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt="" />
 
 
                 </div>
@@ -310,7 +310,7 @@ function singleJob() {
 
 
                 </div>
-                <hr>
+                <hr/>
 
 
             </div>
@@ -329,4 +329,4 @@ function singleJob() {
   );
 }
 
-export default App;
+export default SingleJob;

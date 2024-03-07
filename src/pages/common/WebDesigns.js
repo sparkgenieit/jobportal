@@ -1,13 +1,14 @@
 import Header from "../../layouts/common/Header";
 import Footer from "../../layouts/common/Footer";
-function Services(){
-    return (
+function WebDesign(){
+
+    return(
         <>
         <Header/>
 
         <Footer/>
-        
         </>
     )
+
 }
-export default Services;
+export default WebDesign;

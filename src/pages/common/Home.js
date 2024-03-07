@@ -87,7 +87,7 @@ function Home() {
 
                                                 </div>
                                                 <div class="text-muted">
-                                                    <a class="btn primary" href="single-job.html">Apply</a>
+                                                    <a class="btn primary" href="/common/SingleJob">Apply</a>
                                                 </div>
 
                                             </div>
@@ -116,7 +116,7 @@ function Home() {
 
                                                 </div>
                                                 <div class="text-muted">
-                                                    <a class="btn primary" href="single-job.html">Apply</a>
+                                                    <a class="btn primary" href="/common/SingleJob">Apply</a>
                                                 </div>
 
                                             </div>
@@ -145,7 +145,7 @@ function Home() {
 
                                                 </div>
                                                 <div class="text-muted">
-                                                    <a class="btn primary" href="single-job.html">Apply</a>
+                                                    <a class="btn primary" href="/common/SingleJob">Apply</a>
                                                 </div>
 
                                             </div>
@@ -173,7 +173,7 @@ function Home() {
 
                                                 </div>
                                                 <div class="text-muted">
-                                                    <a class="btn primary" href="single-job.html">Apply</a>
+                                                    <a class="btn primary" href="/common/SingleJob">Apply</a>
                                                 </div>
 
                                             </div>
@@ -210,7 +210,7 @@ function Home() {
 
                                                     </div>
                                                     <div class="text-muted">
-                                                        <a class="btn primary" href="single-job.html">Apply</a>
+                                                        <a class="btn primary" href="/common/SingleJob">Apply</a>
                                                     </div>
 
                                                 </div>
@@ -239,7 +239,7 @@ function Home() {
 
                                                     </div>
                                                     <div class="text-muted">
-                                                        <a class="btn primary" href="single-job.html">Apply</a>
+                                                        <a class="btn primary" href="/common/SingleJob">Apply</a>
                                                     </div>
 
                                                 </div>
@@ -269,7 +269,7 @@ function Home() {
 
                                                 </div>
                                                 <div class="text-muted">
-                                                    <a class="btn primary" href="single-job.html">Apply</a>
+                                                    <a class="btn primary" href="/common/SingleJob">Apply</a>
                                                 </div>
 
                                             </div>
@@ -297,7 +297,7 @@ function Home() {
 
                                                 </div>
                                                 <div class="text-muted">
-                                                    <a class="btn primary" href="single-job.html">Apply</a>
+                                                    <a class="btn primary" href="/common/SingleJob">Apply</a>
                                                 </div>
 
                                             </div>
