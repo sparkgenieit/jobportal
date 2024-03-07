@@ -1,13 +1,15 @@
 import Header from "../../layouts/common/Header";
 import Footer from "../../layouts/common/Footer";
-function Services(){
-    return (
+function ProductManagement(){
+    return(
         <>
         <Header/>
 
+
+
         <Footer/>
-        
+
         </>
     )
 }
-export default Services;
+export default ProductManagement;
