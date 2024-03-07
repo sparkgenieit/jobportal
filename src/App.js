@@ -32,6 +32,8 @@ import HolidayParks from "./pages/common/HolidayParks";
 import FreedomCampaining from "./pages/common/FreedomCamping";
 import Activities from "./pages/common/Activities";
 import SingleJob from "./pages/common/SingleJob";
+import Terms from "./pages/common/Terms";
+import Privacy from "./pages/common/Privacy";
 
 //company
 import CompanyHome from "./pages/company/Home";
@@ -43,10 +45,8 @@ import JobList from "./pages/company/jobs/JobList";
 //Admin
 
 import Jobqueuelist from "./pages/admin/joblist/Jobqueuelist";
-import ViewProfile from "./pages/common/ViewProfile";
 import Categories1 from "./pages/superadmin/categories/Categories1";
 import Categorieslist1 from"./pages/superadmin/categories/Categorieslist1"
-import List from "./pages/superadmin/adimin-management/List";
 import AdminHome from "./pages/admin/Home";
 import Myasignjobs from "./pages/admin/joblist/Myasignjobs";
 
@@ -79,7 +79,7 @@ function App() {
   return <BrowserRouter>
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/aboutus" element={<Aboutus />} />
+      <Route path="/aboutus" element={<AboutUs />} />
       <Route path="/services" element={<Services />} />
       <Route path="/terms-conditions" element={<Terms />} />
       <Route path="/privacy-policy" element={<Privacy />} />

@@ -1,5 +1,5 @@
 
-import './singleJob.css';
+import './SingleJob.css';
 
 function SingleJob() {
   return (
