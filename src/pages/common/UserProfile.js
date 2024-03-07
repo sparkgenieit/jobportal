@@ -73,6 +73,12 @@ function UserProfile() {
 
   // let isValid = 0;
 
+  const [workDate, setWorkDate] = useState(true)
+  const [certificateDate, setCertificateDate] = useState(true)
+  const [licenceDate, setLicenceDate] = useState(true)
+
+
+
 
 
   const [works, setWorks] = useState([{ jobTitle: '', employer: '', location: '', fromDate: '', toDate: '', description: '' }]);
@@ -83,7 +89,7 @@ function UserProfile() {
 
 
   const [firstnameError, setFirstnameError] = useState("Please Enter First Name");
-  const [lastnameError, setLastnameError] = useState("please Enter Last Name");
+  const [lastnameError, setLastnameError] = useState("Please Enter Last Name");
   const [emailError, setEmailError] = useState("Please Enter Email");
   const [personalsummaryError, setPersonalsummaryError] = useState("Enter Personal Summary");
   const [showprofileError, setShowprofileError] = useState("Please Select Show Profile")
@@ -91,9 +97,8 @@ function UserProfile() {
   const [cvError, setCvError] = useState("Please Upload CV")
   const [coverLetterError, setCoverLetterError] = useState("Please Upload Cover Letter")
 
-
-
-
+  // const [fromDate, setFromDate] = useState("");
+  // const [toDate, setToDate] = useState("");
 
   const [errors, setErrors] = useState({
     firstname: false,
@@ -104,6 +109,8 @@ function UserProfile() {
     visa: false,
     cv: false,
     coverLetter: false,
+    fromDate: false,
+    toDate: false,
   })
 
 
@@ -213,6 +220,7 @@ function UserProfile() {
       setCv(event.target.value)
 
     }
+
     if (name == "coverLetter") {
       if (event.target.value == "") {
         setErrors({ ...errors, coverLetter: true })
@@ -223,8 +231,43 @@ function UserProfile() {
       }
       setCoverLetter(event.target.value)
 
-    }
 
+      // if (name == "works.fromDate") {
+      //   if (event.target.value == "") {
+      //     setErrors({ ...errors, fromDate: true })
+      //   }
+
+      //   else {
+      //     setErrors({ ...errors, fromDate: false })
+
+      //   }
+      //   setFromDate(event.target.value)
+      // }
+      // if (name == "works.toDate") {
+      //   if (event.target.value == "") {
+      //     setErrors({ ...errors, toDate: true })
+      //   }
+
+      //   else {
+      //     setErrors({ ...errors, toDate: false })
+
+      //   }
+      //   setToDate(event.target.value)
+      // }
+
+
+    }
+  }
+
+  const validatedate = (fromDate, toDate) => {
+
+    const fromDateTimestamp = new Date(fromDate).getTime();
+    const toDateTimestamp = new Date(toDate).getTime();
+    if (fromDateTimestamp > toDateTimestamp) {
+      return false
+    } else {
+      return true
+    }
   }
 
   const handleWorks = (key, value, work, index) => {
@@ -232,9 +275,9 @@ function UserProfile() {
     work[key] = value;
 
     wrks[index] = work;
-    console.log(wrks);
     setWorks([...wrks]);
-    console.log(wrks)
+    setWorkDate(validatedate(work.fromDate, work.toDate));
+
   }
 
   const handleEducation = (key, value, edu, index) => {
@@ -242,9 +285,9 @@ function UserProfile() {
     edu[key] = value;
 
     educa[index] = edu;
-    console.log(educa);
     setEducation([...educa]);
-    console.log(educa)
+
+
   }
 
   const handleLicenses = (key, value, licence, index) => {
@@ -252,9 +295,10 @@ function UserProfile() {
     licence[key] = value;
 
     lice[index] = licence;
-    console.log(lice);
+
     setLicences([...lice]);
-    console.log(lice)
+    setLicenceDate(validatedate(licence.issueDate, licence.expiryDate))
+
   }
 
   const handleCertificates = (key, value, certificate, index) => {
@@ -262,9 +306,10 @@ function UserProfile() {
     certificate[key] = value;
 
     certi[index] = certificate;
-    console.log(certi);
+
     setCertificates([...certi]);
-    console.log(certi)
+    setCertificateDate(validatedate(certificate.issueDate, certificate.expiryDate))
+
   }
 
 
@@ -317,7 +362,7 @@ function UserProfile() {
       setLastnameError("Please Enter Last Name");
       isValid = false;
     }
-    else if (/^[a-z A-Z \s]{3,}$/gi.test(lastname) == false) {
+    else if (/^[a-z]{3,}$/gi.test(lastname) == false) {
       obj = { ...obj, lastname: true }
       setLastnameError("Invalid Last Name");
       isValid = false;
@@ -332,7 +377,7 @@ function UserProfile() {
       setEmailError("Please Enter Email");
       isValid = false;
     }
-    else if (/^[a-z A-Z 0-9._-]+@[a-z A-Z 0-9.-]+\.[a-z A-Z]{2,4}$/.test(email) == false) {
+    else if (/^[a-z]{2,}@{1}[a-z]{2,}.com$/.test(email) == false) {
       obj = { ...obj, email: true }
       setEmailError("Invalid Email");
       isValid = false;
@@ -412,7 +457,7 @@ function UserProfile() {
 
     console.log(isValid);
 
-    if (isValid) {
+    if (isValid && workDate && licenceDate && certificateDate) {
       const userData = {
         first_name: firstname,
         last_name: lastname,
@@ -500,7 +545,7 @@ function UserProfile() {
             }
           }
           setTimeout(() => { setLoader(false); window.scrollTo({ top: 10, behavior: "smooth" }); }, 1200)
- 
+
 
         });
 
@@ -514,7 +559,7 @@ function UserProfile() {
   const deleteWork = (i) => {
     const wrks = works;
     wrks.splice(i, 1);
-    console.log(wrks);
+
     setWorks([...wrks])
   }
   const addEdu = () => { setEducation([...education, { educationProvider: '', qualification: '', yearCompleted: '', validInNZ: '', description: '' }]) }
@@ -522,7 +567,7 @@ function UserProfile() {
 
     const educa = education;
     educa.splice(i, 1);
-    console.log(educa);
+
     setEducation([...educa])
 
   }
@@ -530,7 +575,7 @@ function UserProfile() {
   const deleteLic = (i) => {
     const lice = licences;
     lice.splice(i, 1);
-    console.log(lice);
+
     setLicences([...lice])
 
   }
@@ -538,16 +583,9 @@ function UserProfile() {
   const deleteCer = (i) => {
     const certi = certificates;
     certi.splice(i, 1);
-    console.log(certi);
+
     setCertificates([...certi])
   }
-
-
-
-
-
-
-
 
 
 
@@ -614,7 +652,7 @@ function UserProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label">Email <span style={{ color: "red" }}>*</span></label>
                         <div className="col-sm-9">
-                          <input type="text" className="form-control" value={email} onChange={(event) => chnageOut("email", event)} />
+                          <input type="email" className="form-control" value={email} onChange={(event) => chnageOut("email", event)} />
 
                           {errors && errors.email && <div className="error text-danger"> {emailError}</div>}
                         </div>
@@ -679,14 +717,15 @@ function UserProfile() {
                                     <label className="col-sm-2 col-form-label">Location</label>
                                     <input type="text" class="form-control" value={work.location} onChange={(event) => handleWorks("location", event.target.value, work, index)} />
                                   </div>
-                                  <div className="col-md-2">
+                                  <div className="col-md-3">
                                     <label className="col-sm-3 col-form-label">From</label>
-                                    <input type="month" class="form-control" value={work.fromDate} onChange={(event) => handleWorks("fromDate", event.target.value, work, index)} />
+                                    <input type="date" class="form-control" value={work.fromDate} onChange={(event) => handleWorks("fromDate", event.target.value, work, index)} />
                                   </div>
-                                  <div className="col-md-2">
+                                  <div className="col-md-3">
                                     <label className="col-sm-3 col-form-label">To</label>
-                                    <input type="month" className="form-control" value={work.toDate} onChange={(event) => handleWorks("toDate", event.target.value, work, index)} />
+                                    <input type="date" className="form-control" value={work.toDate} onChange={(event) => handleWorks("toDate", event.target.value, work, index)} />
                                   </div>
+
 
                                   <div className="col-md-9">
                                     <div className="form-group row">
@@ -702,11 +741,14 @@ function UserProfile() {
                                     {index == 0 && <button type='button' className='btn btn-outline-primary my-4' onClick={() => addWork(index)} >+</button>}
                                     {index > 0 && <button type='button' className='btn btn-outline-primary my-4' onClick={() => deleteWork(index)} >-</button>}
                                   </div>
+
                                 </div>
                               </div>
                             </div>)
                         })
                       }
+                      {!workDate && <div className='text-danger px-4 pb-3'>From date cannot be after To date </div>}
+
 
 
                     </div>
@@ -768,6 +810,7 @@ function UserProfile() {
 
 
 
+
                     </div>
                   </div>
 
@@ -782,7 +825,7 @@ function UserProfile() {
                           return (
                             <div key={index} className="col-md-12">
                               <div className="form-group row">
-                                <div className="col-md-2">
+                                <div className="col-md-3">
                                   <label className="col-sm-12 col-form-label"><small>Licence Name</small></label>
 
                                   <input type="text" className="form-control" value={licence.licenseName} onChange={(event) => handleLicenses("licenseName", event.target.value, licence, index)} />
@@ -795,12 +838,12 @@ function UserProfile() {
 
                                 <div className="col-md-2">
                                   <label className="col-sm-12 col-form-label"><small>Issue Date</small></label>
-                                  <input type="text" className="form-control" value={licence.issueDate} onChange={(event) => handleLicenses("issueDate", event.target.value, licence, index)} />
+                                  <input type="date" className="form-control" value={licence.issueDate} onChange={(event) => handleLicenses("issueDate", event.target.value, licence, index)} />
                                 </div>
 
                                 <div className="col-md-2">
                                   <label className="col-sm-12 col-form-label"><small>Expiry Date</small></label>
-                                  <input type="text" className="form-control" value={licence.expiryDate} onChange={(event) => handleLicenses("expiryDate", event.target.value, licence, index)} />
+                                  <input type="date" className="form-control" value={licence.expiryDate} onChange={(event) => handleLicenses("expiryDate", event.target.value, licence, index)} />
                                 </div>
                                 <div className="col-md-2">
                                   <label className="col-sm-12 col-form-label"><small>Valid in NZ?</small></label>
@@ -830,6 +873,9 @@ function UserProfile() {
                         })
 
                       }
+                      {!licenceDate && <div className='text-danger px-4 pb-3'>From date cannot be after To date </div>}
+
+
 
 
 
@@ -898,6 +944,9 @@ function UserProfile() {
                           )
                         })
                       }
+
+                      {!certificateDate && <div className='text-danger px-4 pb-3'>From date cannot be after To date </div>}
+
 
 
 
@@ -1136,14 +1185,14 @@ function UserProfile() {
     {/* </main> */}
     <Footer />
     <Hourglass
-        visible={loader}
-        height="80"
-        width="80"
-        ariaLabel="hourglass-loading"
-        wrapperStyle={{position:'absolute',top:'80%',left:'50%'}}
-        wrapperClass=""
-        colors={['#0ea2bd', '#72a1ed']}
-      />
+      visible={loader}
+      height="80"
+      width="80"
+      ariaLabel="hourglass-loading"
+      wrapperStyle={{ position: 'absolute', top: '80%', left: '50%' }}
+      wrapperClass=""
+      colors={['#0ea2bd', '#72a1ed']}
+    />
   </>
 }
 

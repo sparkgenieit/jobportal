@@ -47,89 +47,75 @@ function Header() {
 
   return <>
     <Head />
-  
+
     <header id="header" class="header" data-scrollto-offset="0">
       <div className='row'>
-      <div class="container-fluid d-flex align-items-center justify-content-between">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
 
-        <a href="/" style={{ "width": "15%" }} class="logo d-flex align-items-center scrollto me-auto me-lg-0">
+          <a href="/" style={{ "width": "15%" }} class="logo d-flex align-items-center scrollto me-auto me-lg-0">
 
-          <img src="/assets/images/logo-black.png"
-            alt="logo" />
+            <img src="/assets/images/logo-black.png"
+              alt="logo" />
 
-        </a>
+          </a>
 
-      <div class="d-flex" style={{"width":"100%"}}>
-        <nav id="navbar" style={{"width": "60%"}} class="navbar d-flex ">
-          <ul>
+          <div class="d-flex" style={{ "width": "100%" }}>
+            <nav id="navbar" style={{ "width": "100%" }} class="navbar d-flex ">
+              <ul>
 
-            <li><a class="nav-link scrollto mx-3" href="/">Home</a></li>
+                <li><a class="nav-link scrollto mx-3" href="/">Home</a></li>
 
-            <li><a class="nav-link scrollto mx-3" href="/jobd">Jobs</a></li>
+                <li><a class="nav-link scrollto mx-3" href="/">Jobs</a></li>
 
-            <li class="dropdown">
-              <a href="#" class="menu-item first-item expand-btn">Info</a>
-              <ul class="dropdown-menu sample">
-                <li><a href="about-wfh-visa.html">About WH visa</a></li>
-                <li><a href="user-registration.html">Banking</a></li>
-                <li><a href="company/index.html">Tax</a></li>
-                <li><a href="company/index.html">Types of work</a></li>
-                <li><a href="company/index.html">Useful Links</a></li>
-                <li><a href="company/index.html">News</a></li>
-                <li class="dropdown dropdown-right">
-                  <a href="#" class="menu-item expand-btn">
-                    Travel
-                  </a>
-                  <ul class="menu-right menu-left sample">
-                    <li><a href="#">Transport</a></li>
-                    <li><a href="#">Accommodation</a></li>
-                    <li><a href="places.html">Places</a></li>
-                    <li><a href="company/index.html">Holiday Parks</a></li>
-                    <li><a href="company/index.html">Freedom Camping</a></li>
-                    <li><a href="#">Activities</a></li>
+                <li class="dropdown">
+                  <a href="#" class="menu-item  first-item expand-btn">Info</a>
+                  <ul class="dropdown-menu sample bg-white">
+                    <li><a href="about-wfh-visa.html">About WH visa</a></li>
+                    <li><a href="user-registration.html">Banking</a></li>
+                    <li><a href="company/index.html">Tax</a></li>
+                    <li><a href="company/index.html">Types of work</a></li>
+                    <li><a href="company/index.html">Useful Links</a></li>
+                    <li><a href="company/index.html">News</a></li>
+                    <li class="dropdown dropdown-right">
+                      <a href="#" class="menu-item expand-btn">
+                        Travel
+                      </a>
+                      <ul class="menu-right bg-white menu-left sample">
+                        <li><a href="#">Transport</a></li>
+                        <li><a href="#">Accommodation</a></li>
+                        <li><a href="places.html">Places</a></li>
+                        <li><a href="company/index.html">Holiday Parks</a></li>
+                        <li><a href="company/index.html">Freedom Camping</a></li>
+                        <li><a href="#">Activities</a></li>
+                      </ul>
+                    </li>
                   </ul>
                 </li>
-              </ul>
-            </li>
-          </ul>
-         
-          {/* <i class="bi bi-list mobile-nav-toggle d-none"></i> */}
-        </nav>
-            
-              <div className='col-auto d-flex'>
-            
-                {!token && <><div className='btn  '><button type="button" class="btn btn-primary" onClick={handleShow}>
-                  Login / Register
-                </button>
-                </div>
-            </>}
-            {token && <>
-              
-              {/* <span className='header1 mx-5 mt-3'> */}
-                <div className='dropdown mx-5 mt-2 ' >
-              <div onMouseEnter={handleEnter} onMouseLeave={handleMouse}> 
-              <button  className='btn '>Hi {fullname} {role} </button>{isDropdown && ( <div className="dropdown-content position-absolute"> 
-               
-                <ul className='box'>
-                      <a href='/profile'><li >My Profile</li></a>
-                      <a href=''><li className='mt-3'>My Saved Jobs</li></a>
-                      <a href='/company'><li className='mt-3'>Log out</li></a> 
-                </ul>
-          </div> )} 
 
-         </div> 
-       </div> 
-       {/* </span> */}
-              {/* <a  className='header mx-5' href="/profile">My Profile</a> */}
-              <button type='button' onClick={() => handleLogout()} className=" btn bg-primary text-light  btn-getstarted scrollto nav-link mx-5" >Logout</button>
-              {role == 'employer' && <a type="button" href="/company" class="btn btn-secondary ml-2" >
-                Employer Dashboard
-              </a>}
-            </>
-            
-            }
+
+
+              </ul>
+              <i class="bi bi-list mobile-nav-toggle d-none"></i>
+            </nav>
+
+            <div className='col-auto py-3 d-flex'>
+              {!token && <><button type="button" class="btn  btn-primary me-5" onClick={handleShow}>
+                Login / Register
+              </button>
+              </>}
+              {token && <>
+
+                <span className='header mx-5'>Hi {fullname} {role}</span>
+                <a className='header mx-5' href="/profile">My Profile</a>
+                <button type='button' onClick={() => handleLogout()} className=" btn btn-sm  bg-primary text-light  btn-getstarted scrollto nav-link mx-3" >Logout</button>
+                {role == 'employer' && <button className="btn btn-sm btn-secondary mx-2 "><a type="button" href="/company" >Employer Dashboard</a></button>}
+
+
+              </>
+
+              }
             </div>
-          
+
           </div>
         </div>
       </div>
