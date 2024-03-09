@@ -1,69 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../../../layouts/admin/Footer";
 import Header from "../../../layouts/admin/Header";
 import Sidebar from "../../../layouts/admin/Sidebar";
+import axios from "axios";
 
 function Myasignjobs() {
-    const [assignJobs, setAssignJobs] = useState([
-        {
-            _id: "65e9a0a4a91caf3b376107b9",
-            company: "TCS",
-            location: "Hyderabad",
-            numberofvacancies: null,
-            jobTitle: "Web Developer",
-            rateperhour: null,
-            duration: "Technology",
-            jobCategory: "Technology",
-            subCategory: "",
-            weeklyperhour: null,
-            benifits: "",
-            training: "",
-            description: "Testing",
-            employerquestions: "",
-            employer: "",
-            status: "review",
-            __v: 0,
-        },
-        {
-            _id: "65e9a0a4a91caf3b376107b9",
-            company: "TCS",
-            location: "Hyderabad",
-            numberofvacancies: null,
-            jobTitle: "Web Developer",
-            rateperhour: null,
-            duration: "Technology",
-            jobCategory: "Technology",
-            subCategory: "",
-            weeklyperhour: null,
-            benifits: "",
-            training: "",
-            description: "Testing",
-            employerquestions: "",
-            employer: "",
-            status: "review",
-            __v: 0,
-        },
-        {
-            _id: "65e9a0a4a91caf3b376107b9",
-            company: "TCS",
-            location: "Hyderabad",
-            numberofvacancies: null,
-            jobTitle: "Web Developer",
-            rateperhour: null,
-            duration: "Technology",
-            jobCategory: "Technology",
-            subCategory: "",
-            weeklyperhour: null,
-            benifits: "",
-            training: "",
-            description: "Testing",
-            employerquestions: "",
-            employer: "",
-            status: "review",
-            __v: 0,
-        },
+    const [assignJobs, setAssignJobs] = useState(null)
 
-    ])
+    useEffect(() => {
+        axios.get("http://localhost:8080/jobs/123")
+            .then((response) => setAssignJobs(response.data))
+    }, [])
+
+
     return (
         <>
             <div className="container-scrollar">
@@ -102,7 +51,7 @@ function Myasignjobs() {
 
                                                         </tr>
 
-                                                        {
+                                                        {assignJobs && assignJobs.length > 0 &&
                                                             assignJobs.map((job, index) => {
                                                                 return <tr key={index}>
                                                                     <td>{job._id}</td>
