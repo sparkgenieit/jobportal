@@ -1,74 +1,55 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import Footer from "../../../layouts/admin/Footer";
 import Header from "../../../layouts/admin/Header";
 import Sidebar from "../../../layouts/admin/Sidebar";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 
 
 const Jobqueuelist = () => {
 
-    const [table, setTable] = useState([
-        {
-            _id: "65e9a0a4a91caf3b376107b9",
-            company: "TCS",
-            location: "Hyderabad",
-            numberofvacancies: null,
-            jobTitle: "Web Developer",
-            rateperhour: null,
-            duration: "Technology",
-            jobCategory: "Technology",
-            subCategory: "",
-            weeklyperhour: null,
-            benifits: "",
-            training: "",
-            description: "Testing",
-            employerquestions: "",
-            employer: "",
-            status: "review",
-            __v: 0,
-        },
-        {
-            _id: "65e9a0a4a91caf3b376107b9",
-            company: "TCS",
-            location: "Hyderabad",
-            numberofvacancies: null,
-            jobTitle: "Web Developer",
-            rateperhour: null,
-            duration: "Technology",
-            jobCategory: "Technology",
-            subCategory: "",
-            weeklyperhour: null,
-            benifits: "",
-            training: "",
-            description: "Testing",
-            employerquestions: "",
-            employer: "",
-            status: "review",
-            __v: 0,
-        },
-        {
-            _id: "65e9a0a4a91caf3b376107b9",
-            company: "TCS",
-            location: "Hyderabad",
-            numberofvacancies: null,
-            jobTitle: "Web Developer",
-            rateperhour: null,
-            duration: "Technology",
-            jobCategory: "Technology",
-            subCategory: "",
-            weeklyperhour: null,
-            benifits: "",
-            training: "",
-            description: "Testing",
-            employerquestions: "",
-            employer: "",
-            status: "review",
-            __v: 0,
-        },
+    const navigate = useNavigate()
 
-    ])
+    const [table, setTable] = useState(null)
+    const [msg, setMsg] = useState(false)
+
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/jobs/queue")
+            .then((res) => setTable(res.data))
+    }, [table])
+
+    function handleAssign(job) {
+
+        const data = {
+
+            adminId: "123",
+            jobId: job._id,
+            jobsDto: job
+
+
+        }
+
+        axios.post("http://localhost:8080/jobs/assign", data)
+            .then(response => {
+                if (response && response.status) {
+                    setMsg(true)
+
+                    setTimeout(() => {
+                        navigate("/admin/myasignjobs")
+                    }, 2000)
+
+
+
+                }
+            })
+
+
+
+    }
     return (<>
 
 
@@ -94,6 +75,10 @@ const Jobqueuelist = () => {
 
                         <div class="row">
                             <div class="col-12">
+                                {msg && <div class="alert alert-success" role="alert">
+                                    Job Assigned SuccessFully
+
+                                </div>}
 
                                 <div class="card-body  bg-white ">
                                     <form class="form-sample">
@@ -112,7 +97,7 @@ const Jobqueuelist = () => {
 
                                                     </tr>
 
-                                                    {
+                                                    {table && table.length > 0 &&
                                                         table.map((job, index) => {
                                                             return <tr key={index}>
                                                                 <td>{job._id}</td>
@@ -131,7 +116,7 @@ const Jobqueuelist = () => {
                                                                 </a></td>
                                                                 <td>
 
-                                                                    <button type="button" class="btn  btn-xs btn-success  col-12">Assign To Me</button>
+                                                                    <button type="button" class="btn  btn-xs btn-success  col-12" onClick={() => handleAssign(job)}>Assign To Me</button>
                                                                 </td>
                                                             </tr>
                                                         })
