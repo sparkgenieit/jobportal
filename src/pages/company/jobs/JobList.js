@@ -4,7 +4,7 @@ import Header from "../../../layouts/company/Header";
 import Sidebar from "../../../layouts/company/Sidebar";
 import axios from "axios";
 
-function JobList() {
+function Joblist() {
     const [assignJobs, setAssignJobs] = useState(null)
     useEffect(()=>{
         axios.get("http://localhost:8080/jobs/companyId")
@@ -105,4 +105,4 @@ function JobList() {
         </>
     )
 }
-export default JobList;
+export default Joblist;
