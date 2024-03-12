@@ -81,7 +81,7 @@ function Myappliedjobs() {
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="#">User</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">SavedJobs</li>
+                                        <li class="breadcrumb-item active" aria-current="page">Myappliedjobs</li>
                                     </ol>
                                 </nav>
                             </div>
