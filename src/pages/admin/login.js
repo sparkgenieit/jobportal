@@ -1,9 +1,13 @@
+import axios from "axios";
 import { useState } from "react";
+
 
 function Login() {
 
-  const[email,setEmail]= useState("")
-  const[password,setPassword]=useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  let isValid = false
 
   const [errors, setErrors] = useState({
 
@@ -12,62 +16,79 @@ function Login() {
   });
 
 
-const[emailerror,setEmailError]=useState("plese enter email")
+  const [emailerror, setEmailError] = useState("Please enter email")
+
+
 
   const handleInput = (name, event) => {
 
-    if (name == "email")
-     {
+    if (name == "email") {
       setEmail(event.target.value)
-      if(event.target.value == "")
-      {
-        setErrors({...errors,email:true})
+      if (event.target.value == "") {
+        setErrors({ ...errors, email: true })
       }
-      else
-      {
-        setErrors({...errors,email:false})
+      else {
+        setErrors({ ...errors, email: false })
       }
-     
+
     }
-    if (name == "password")
-     {
+    if (name == "password") {
       setPassword(event.target.value)
-      if(event.target.value == "")
-      {
-        setErrors({...errors,password:true})
+      if (event.target.value == "") {
+        setErrors({ ...errors, password: true })
       }
-      else
-      {
-        setErrors({...errors,password:false})
+      else {
+        setErrors({ ...errors, password: false })
       }
     }
   }
 
   const submitData = () => {
     let Obj = {};
-    if (email == "") 
-    {
+    if (email == "") {
+      Obj = { ...Obj, email: true }
+      setEmailError("Please Enter Email")
+    }
+    else if (/^[a-z]{2,}@{1}[a-z]{2,}.com$/gi.test(email) == false) {
       Obj = { ...Obj, email: true }
       setEmailError("Invalid Email")
     }
-    else if (/^[a-z A-Z 0-9._-]+@[a-z A-Z 0-9.-]+\.[a-z A-Z]{2,4}$/.test(email) == false)
-    {
-      Obj = { ...Obj, email: true }
-      setEmailError("Invalid Email")
-    }
-    else
-     {
+    else {
       Obj = { ...Obj, email: false }
     }
-    if (password == "") 
-    {
+    if (password == "") {
       Obj = { ...Obj, password: true }
+
     }
-    else
-     {
+    else {
       Obj = { ...Obj, password: false }
     }
-    setErrors(Obj)
+
+
+
+
+    setErrors(Obj);
+
+    if (Obj.email == false && Obj.password == false) {
+      isValid = true;
+    }
+
+
+    if (isValid) {
+
+
+      const data = {
+        email: email,
+        password: password
+      }
+
+      axios.post("http://localhost:8080/users/login", data)
+        .then((response) => console.log(response))
+
+        .catch((e) => console.log(e))
+
+
+    }
   }
 
 
@@ -75,22 +96,22 @@ const[emailerror,setEmailError]=useState("plese enter email")
     <>
 
       <div className="container-scroller">
-        <div class="container-fluid page-body-wrapper">
-          <div class="main-panel">
+        <div class="container-fluid content-wrapper page-body-wrapper">
+          <div class="main-panel container">
             <div className="content-wrapper">
               <div className="row">
                 <div className="col-12 bg-white">
                   <div className="card-body">
-                    <h4 className="card-title"> Admin Login </h4>
+                    <h4 className="card-title my-4"> Admin Login </h4>
                     <form class="form-sample">
 
-                      <div className='row'>
+                      <div className='row mt-3'>
                         <div className="col-md-12">
                           <div className="form-group row">
                             <label className="col-sm-4 col-form-label">Email</label>
                             <div className="col-sm-8">
                               <input type="text" className="form-control" value={email} onChange={(event) => handleInput('email', event)} />
-                              {errors && errors.email && <div className="error text-danger">Please Enter Email </div>}
+                              {errors && errors.email && <div className="error text-danger mt-1">{emailerror} </div>}
                             </div>
                           </div>
                         </div>
@@ -101,9 +122,9 @@ const[emailerror,setEmailError]=useState("plese enter email")
                           <div className="form-group row">
                             <label className="col-sm-4 col-form-label">Password</label>
                             <div className="col-sm-8">
-                              <input type="text" className="form-control"  value={password} onChange={(event) => handleInput('password', event)}/>
-                              {errors && errors.password && <div className="error text-danger">Please Enter passworrd </div>}
-                            
+                              <input type="password" className="form-control" value={password} onChange={(event) => handleInput('password', event)} />
+                              {errors && errors.password && <div className="error text-danger">Please Enter password </div>}
+
                             </div>
                           </div>
                         </div>

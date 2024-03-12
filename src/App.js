@@ -49,6 +49,7 @@ import Categories1 from "./pages/superadmin/categories/Categories1";
 import Categorieslist1 from "./pages/superadmin/categories/Categorieslist1"
 import AdminHome from "./pages/admin/Home";
 import Myasignjobs from "./pages/admin/joblist/Myasignjobs";
+import Login from "./pages/admin/login";
 
 //superAdmin
 
@@ -63,6 +64,7 @@ import Skills from "./pages/superadmin/Skills";
 import Myappliedjobs from "./pages/common/Myappliedjobs";
 import Savedjobs from "./pages/common/Savedjobs";
 import SingleJobAdmin from "./pages/admin/joblist/SingleJobAdmin";
+
 
 
 
@@ -130,8 +132,9 @@ function App() {
       <Route path="/admin" element={(token && role == 'employer') ? <AdminHome /> : <AdminHome />} />
       <Route path="/admin/Jobqueuelist" element={(token && role == 'employer') ? <Jobqueuelist /> : <Jobqueuelist />} />
       <Route path="/admin/Myasignjobs" element={(token && role == 'employer') ? <Myasignjobs /> : <Myasignjobs />} />
-      <Route path="/admin/Jobqueuelist" element={(token && role == 'employer') ? <Jobqueuelist /> : <Jobqueuelist />} />
-      <Route path="/admin/SingleJob" element={(token && role == 'employer') ? <SingleJobAdmin /> : <SingleJobAdmin />} />
+      <Route path="/admin/login" element={(token && role == 'employer') ? <Login /> : <Login />} />
+
+
 
 
       <Route path="/superadmin/Categories1" element={(token && role == 'employer') ? <Categories1 /> : <Categories1 />} />

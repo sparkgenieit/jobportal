@@ -5,11 +5,15 @@ import Header from "../../../layouts/admin/Header";
 import Sidebar from "../../../layouts/admin/Sidebar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import SingleJobAdmin from "./SingleJobAdmin";
 
 
 
 
 const Jobqueuelist = () => {
+
+    const [joblist, setJoblist] = useState(true)
+    const [jobData, setJobData] = useState()
 
     const navigate = useNavigate()
 
@@ -23,34 +27,31 @@ const Jobqueuelist = () => {
     }, [table])
 
     function handleAssign(job) {
-
         const data = {
-
             adminId: "123",
             jobId: job._id,
             jobsDto: job
-
-
         }
 
         axios.post("http://localhost:8080/jobs/assign", data)
             .then(response => {
                 if (response && response.status) {
                     setMsg(true)
-
                     setTimeout(() => {
                         navigate("/admin/myasignjobs")
                     }, 2000)
-
-
-
                 }
             })
-
-
-
     }
-    return (<>
+
+    function handleJob(job) {
+        setJoblist(false)
+        setJobData(job)
+    }
+
+
+
+    if (joblist) return (<>
 
 
         <div className="container-scroller">
@@ -105,7 +106,7 @@ const Jobqueuelist = () => {
                                                                 <td>{job.company}</td>
                                                                 <td>{job.creationDate}</td>
 
-                                                                <td><a href="/admin/SingleJob" type="button" class="btn btn-info btn-xs col-12 ">
+                                                                <td><button onClick={() => handleJob(job)} type="button" class="btn btn-info btn-xs col-12 ">
 
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
                                                                         <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
@@ -113,7 +114,7 @@ const Jobqueuelist = () => {
                                                                     </svg>
 
 
-                                                                </a></td>
+                                                                </button></td>
                                                                 <td>
 
                                                                     <button type="button" class="btn  btn-xs btn-success  col-12" onClick={() => handleAssign(job)}>Assign To Me</button>
@@ -142,6 +143,8 @@ const Jobqueuelist = () => {
         </div>
 
     </>)
+
+    if (!joblist) return <SingleJobAdmin joblist={jobData} />
 
 }
 export default Jobqueuelist;
