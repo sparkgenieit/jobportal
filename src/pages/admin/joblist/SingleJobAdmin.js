@@ -3,30 +3,8 @@ import Footer from "../../../layouts/admin/Footer";
 import Header from "../../../layouts/admin/Header";
 import Sidebar from "../../../layouts/admin/Sidebar";
 
-function SingleJobAdmin() {
-    const [jobview, setJobview] = useState(
-        {
-            _id: "65e9a0a4a91caf3b376107b9",
-            company: "TCS",
-            location: "Hyderabad",
-            numberofvacancies: 12,
-            jobTitle: "Web Developer",
-            rateperhour: 30,
-            duration: "6 months",
-            jobCategory: "IT",
-            subCategory: "Web Development",
-            weeklyperhour: 48,
-            benifits: "Bonus every 6 months",
-            training: "Yes",
-            description: "Testing",
-            employerquestions: "",
-            employer: "James",
-            status: "review",
-            __v: 0,
-        }
-    )
-
-
+function SingleJobAdmin({ joblist }) {
+    const [jobview, setJobview] = useState(joblist)
     return (
         <>
             <div className="container-scrollar">
@@ -98,10 +76,7 @@ function SingleJobAdmin() {
                                             <p className="col-3">Weekly Hours:</p>
                                             <p className="col-6">{jobview.weeklyperhour}</p>
                                         </div>
-                                        <div className="row my-4">
-                                            <p className="col-3">Job Sub-Category:</p>
-                                            <p className="col-6">{jobview.subCategory}</p>
-                                        </div>
+
                                         <div className="row my-4">
                                             <p className="col-3">Job Benefits:</p>
                                             <p className="col-6">{jobview.benifits}</p>
@@ -110,10 +85,7 @@ function SingleJobAdmin() {
                                             <p className="col-3">Job Training:</p>
                                             <p className="col-6">{jobview.training}</p>
                                         </div>
-                                        <div className="row my-4">
-                                            <p className="col-3">Job Training:</p>
-                                            <p className="col-6">{jobview.training}</p>
-                                        </div>
+
                                         <div className="row my-4">
                                             <p className="col-3">Description:</p>
                                             <p className="col-6">{jobview.description}</p>
@@ -131,19 +103,6 @@ function SingleJobAdmin() {
                                             <p className="col-3">Status:</p>
                                             <p className="col-6">{jobview.status}</p>
                                         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                                     </div>
 

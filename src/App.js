@@ -134,7 +134,7 @@ function App() {
       <Route path="/admin/Myasignjobs" element={(token && role == 'employer') ? <Myasignjobs /> : <Myasignjobs />} />
       <Route path="/admin/login" element={(token && role == 'employer') ? <Login /> : <Login />} />
 
-      <Route path="/admin/SingleJob" element={(token && role == 'employer') ? <SingleJobAdmin /> : <SingleJobAdmin />} />
+
 
 
       <Route path="/superadmin/Categories1" element={(token && role == 'employer') ? <Categories1 /> : <Categories1 />} />
