@@ -3,6 +3,8 @@ import Header from '../../../layouts/superadmin/Header';
 import Sidebar from '../../../layouts/superadmin/Sidebar';
 import Footer from '../../../layouts/superadmin/Footer';
 import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 function Create() {
@@ -10,10 +12,15 @@ function Create() {
   const [lname, setLname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [firstnameError, setFirstnameError] = useState("please enter onlt letters")
-  const [lastnameError, setLastnameError] = useState("Please enter last name")
-  const [emailError, setEmailError] = useState("Please enter email name")
-  const [passwordError, setPasswordError] = useState("Please enter password name")
+  const [firstnameError, setFirstnameError] = useState("Please Enter First Name")
+  const [lastnameError, setLastnameError] = useState("Please Enter Last Name")
+  const [emailError, setEmailError] = useState("Please Enter Email ")
+  const [passwordError, setPasswordError] = useState("Please Enter Password")
+  const [msg, setMsg] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(false);
+  const [CreateError, setCreateError] = useState('');
+
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState({
     fname: false,
@@ -61,14 +68,17 @@ function Create() {
   }
   const submitData = () => {
     let Obj = {};
+    let isValid = true;
     if (fname == "") {
       Obj = { ...Obj, fname: true }
       setFirstnameError("Please Enter First Name")
+      isValid = false;
 
     }
     else if (/^[a-z]{3,}$/gi.test(fname) == false) {
       Obj = { ...Obj, fname: true }
       setFirstnameError("Invalid First Name")
+      isValid = false;
     }
     else {
       Obj = { ...Obj, fname: false }
@@ -78,11 +88,13 @@ function Create() {
 
     if (lname == "") {
       Obj = { ...Obj, lname: true }
-      setLastnameError("please enter last name")
+      setLastnameError("Please Enter Last Name")
+      isValid = false;
     }
     else if (/^[a-z]{3,}$/gi.test(lname) == false) {
       Obj = { ...Obj, lname: true }
       setLastnameError("Invalid Last Name")
+      isValid = false;
     }
     else {
       Obj = { ...Obj, lname: false }
@@ -91,37 +103,56 @@ function Create() {
 
     if (email == "") {
       Obj = { ...Obj, email: true }
-      setEmailError("please enter emali")
+      setEmailError("Please Enter Emali")
+      isValid = false;
     }
-    else if (/^[a-z A-Z 0-9._-]+@[a-z A-Z 0-9.-]+\.[a-z A-Z]{2,4}$/.test(email) == false) {
+    else if (/^[a-z]{2,}[0-9]{0,}@{1}[a-z]{2,}.com$/.test(email) == false) {
       Obj = { ...Obj, email: true }
       setEmailError("Invalid Email")
+      isValid = false;
     }
     else {
       Obj = { ...Obj, email: false }
     }
     if (password == '') {
       Obj = { ...Obj, password: true }
-      setEmailError("please enter password")
+      setPasswordError("Please Enter Password")
+      isValid = false
     }
     else {
       Obj = { ...Obj, password: false }
     }
     setErrors(Obj)
 
+    if (isValid) {
+      const data = {
+        firstName: fname,
+        lastName: lname,
+        email: email,
+        password: password,
+        role: 'admin'
+      }
 
-    //   if (!valid) {
-    //     setErrors(Obj)
-    //   } else {
-    //     let data = {
-    //       firstname: fname,
-    //       email: email,
-    //     }
-    //   }
+      axios.post("http://localhost:8080/users/register", data)
+        .then((response) => {
+          if (response && response.status) {
+            setMsg(true)
+            setTimeout(() => {
+              navigate("/superadmin/List")
+            }, 2000)
+
+          }
+        })
+        .catch((e) => {
+          setErrorMsg(true)
+          setCreateError(e.response.data.message)
+        }
+        )
+    }
   }
   return (
     <>
-   
+
       <div className="container-scroller">
 
         <Header />
@@ -138,7 +169,7 @@ function Create() {
                   </ol>
                 </nav>
               </div>
-              
+
 
               <div className="row ">
                 <div className="col-12 bg-white my-5 m-3">
@@ -148,13 +179,19 @@ function Create() {
                     <form class="form-sample">
                       <div className='row'>
                         <div className="col-md-12">
+                          {msg && <div class="alert alert-success" role="alert">
+                            Admin Created SuccessFully
+                          </div>}
+                          {errorMsg && <div class="alert alert-danger" role="alert">
+                            {CreateError}
+                          </div>}
                           <div className="form-group row">
                             <label className="col-sm-4 col-form-label">FirstName</label>
                             <div className="col-sm-8">
 
                               <input type="text" value={fname} onChange={(event) => handleInput('fname', event)} className="form-control" />
 
-                              {errors && errors.fname && <div className=' text-danger'>Please Enter First Name</div>}
+                              {errors && errors.fname && <div className=' text-danger'>{firstnameError}</div>}
                             </div>
                           </div>
                         </div>
@@ -166,7 +203,7 @@ function Create() {
                             <div class="col-sm-8">
                               <input type="text" value={lname} onChange={(event) => handleInput('lname', event)} className="form-control" />
 
-                              {errors && errors.lname && <div className="text-danger">Please Enter Last Name </div>}
+                              {errors && errors.lname && <div className="text-danger">{lastnameError} </div>}
                             </div>
                           </div>
                         </div>
@@ -177,7 +214,7 @@ function Create() {
                             <label className="col-sm-4 col-form-label">Email</label>
                             <div className="col-sm-8">
                               <input type="text" value={email} onChange={(event) => handleInput('email', event)} className="form-control" />
-                              {errors && errors.email && <div className="error text-danger">Please Enter EMAIL </div>}
+                              {errors && errors.email && <div className="error text-danger">{emailError}</div>}
                             </div>
                           </div>
                         </div>
@@ -186,17 +223,17 @@ function Create() {
                       <div className='row'>
                         <div className="col-md-12">
                           <div className="form-group row">
-                            <label className="col-sm-4 col-form-label">Passward</label>
+                            <label className="col-sm-4 col-form-label">Password</label>
                             <div className="col-sm-8">
                               <input type="password" value={password} onChange={(event) => handleInput('password', event)} className="form-control" />
-                              {errors && errors.password && <div className="error text-danger">Please Enter Password</div>}
+                              {errors && errors.password && <div className="error text-danger">{passwordError}</div>}
                             </div>
                           </div>
                         </div>
                       </div>
                       <div className="col-md-9 mt-3 row">
                         <div className="col-md-12  ">
-                        <button type="button" className="btn btn-gradient-primary me-2 float-end" onClick={() => submitData()} >Submit</button>
+                          <button type="button" className="btn btn-gradient-primary me-2 float-end" onClick={() => submitData()} >Submit</button>
                         </div>
                       </div>
 
