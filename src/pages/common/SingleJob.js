@@ -1,7 +1,20 @@
 
+import { useState } from 'react';
 import './SingleJob.css';
 
 function SingleJob() {
+    const[singlejob,setSinglJob]=useState([
+        {
+            developer:"Senior Full Stack Engineer",
+            place:"Madhapur,Hyderabad"
+        },
+        {
+            developer:"Senior Full Stack Engineer",
+            place:"Madhapur,Hyderabad"
+        },
+
+
+    ])
     return (
         <>
             <main id="main">
@@ -189,137 +202,38 @@ function SingleJob() {
 
                                     <hr />
                                     <div class="d-flex border shadow rounded container p-3 mb-4 bg-light">
-                                        <div>
+                                        {singlejob.map((job, index) => {
+                                            return <div key={index} class=" col-6 px-3 ">
 
-                                            <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt="" />
+                                                <div>
+
+                                                    <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt="" />
 
 
-                                        </div>
-                                        <div class="mx-2">
-                                            <p class="small fw-bold">Senior Full Stack Engineer</p>
-                                            <p class="text-muted small">Madhapur,Hyderabad</p>
-                                            <div class="text-muted">
-                                                <span class="text-primary fw-bold ">$500</span>/Hour
+                                                </div>
+                                                <div class="mx-2">
+                                                    <p class="small fw-bold">Senior Full Stack Engineer</p>
+                                                    <p class="text-muted small">Madhapur,Hyderabad</p>
+                                                    <div class="text-muted">
+                                                        <span class="text-primary fw-bold ">$500</span>/Hour
+                                                    </div>
+
+
+
+                                                </div>
+                                                <hr />
+
+
                                             </div>
-
-
-
-                                        </div>
-                                        <hr />
-
-
-                                    </div>
-                                    <div class="d-flex border shadow rounded container p-3 mb-4 bg-light">
-                                        <div>
-
-                                            <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt="" />
-
-
-                                        </div>
-                                        <div class="mx-2">
-                                            <p class="small fw-bold">Senior Full Stack Engineer</p>
-                                            <p class="text-muted small">Madhapur,Hyderabad</p>
-                                            <div class="text-muted">
-                                                <span class="text-primary fw-bold ">$500</span>/Hour
-                                            </div>
-
-
-
-                                        </div>
-                                        <hr />
-
-
-                                    </div>
-                                    <div class="d-flex border shadow rounded container p-3 mb-4 bg-light">
-                                        <div>
-
-                                            <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt="" />
-
-
-                                        </div>
-                                        <div class="mx-2">
-                                            <p class="small fw-bold">Senior Full Stack Engineer</p>
-                                            <p class="text-muted small">Madhapur,Hyderabad</p>
-                                            <div class="text-muted">
-                                                <span class="text-primary fw-bold ">$500</span>/Hour
-                                            </div>
-
-
-
-                                        </div>
-                                        <hr />
-
-
-                                    </div>
-                                    <div class="d-flex border shadow rounded container p-3 mb-4 bg-light">
-                                        <div>
-
-                                            <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt="" />
-
-
-                                        </div>
-                                        <div class="mx-2">
-                                            <p class="small fw-bold">Senior Full Stack Engineer</p>
-                                            <p class="text-muted small">Madhapur,Hyderabad</p>
-                                            <div class="text-muted">
-                                                <span class="text-primary fw-bold ">$500</span>/Hour
-                                            </div>
-
-
-
-                                        </div>
-                                        <hr />
-
-
-                                    </div>
-                                    <div class="d-flex border shadow rounded container p-3 mb-4 bg-light">
-                                        <div>
-
-                                            <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt="" />
-
-
-                                        </div>
-                                        <div class="mx-2">
-                                            <p class="small fw-bold">Senior Full Stack Engineer</p>
-                                            <p class="text-muted small">Madhapur,Hyderabad</p>
-                                            <div class="text-muted">
-                                                <span class="text-primary fw-bold ">$500</span>/Hour
-                                            </div>
-
-
-
-                                        </div>
-                                        <hr />
-
-
-                                    </div>
-                                    <div class="d-flex border shadow rounded container p-3 mb-4 bg-light">
-                                        <div>
-
-                                            <img class="rounded" src="Traing/ali.png" width="50px" height="80px" alt="" />
-
-
-                                        </div>
-                                        <div class="mx-2">
-                                            <p class="small fw-bold">Senior Full Stack Engineer</p>
-                                            <p class="text-muted small">Madhapur,Hyderabad</p>
-                                            <div class="text-muted">
-                                                <span class="text-primary fw-bold ">$500</span>/Hour
-                                            </div>
-
-
-
-                                        </div>
-                                        <hr />
-
+                                        })}
+                                        
 
                                     </div>
 
                                 </div>
-
                             </div>
                         </div>
-                    </div>
+                        </div>
                 </section>
 
             </main>
