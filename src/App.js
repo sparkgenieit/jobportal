@@ -64,6 +64,7 @@ import Skills from "./pages/superadmin/Skills";
 import Myappliedjobs from "./pages/common/Myappliedjobs";
 import Savedjobs from "./pages/common/Savedjobs";
 import SingleJobAdmin from "./pages/admin/joblist/SingleJobAdmin";
+import SuperAdminLogin from "./pages/superadmin/login";
 
 
 
@@ -156,6 +157,7 @@ function App() {
       <Route path="/superadmin/CreateUser" element={(token && role == 'employer') ? <CreateUser /> : <CreateUser />} />
       <Route path="/superadmin/UserList" element={(token && role == 'employer') ? <UserList /> : <UserList />} />
       <Route path="/superadmin/Skills" element={(token && role == 'employer') ? <Skills /> : <Skills />} />
+      <Route path="/superadmin/login" element={(token && role == 'employer') ? <SuperAdminLogin /> : <SuperAdminLogin />} />
 
 
 
