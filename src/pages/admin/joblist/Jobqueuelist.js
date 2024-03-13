@@ -5,15 +5,14 @@ import Header from "../../../layouts/admin/Header";
 import Sidebar from "../../../layouts/admin/Sidebar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import SingleJobAdmin from "./SingleJobAdmin";
 
 
 
 
 const Jobqueuelist = () => {
 
-    const [joblist, setJoblist] = useState(true)
-    const [jobData, setJobData] = useState()
+    const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
+
 
     const navigate = useNavigate()
 
@@ -24,11 +23,11 @@ const Jobqueuelist = () => {
     useEffect(() => {
         axios.get("http://localhost:8080/jobs/queue")
             .then((res) => setTable(res.data))
-    }, [table])
+    }, [])
 
     function handleAssign(job) {
         const data = {
-            adminId: "123",
+            adminId: userId,
             jobId: job._id,
             jobsDto: job
         }
@@ -44,14 +43,10 @@ const Jobqueuelist = () => {
             })
     }
 
-    function handleJob(job) {
-        setJoblist(false)
-        setJobData(job)
-    }
 
 
 
-    if (joblist) return (<>
+    return (<>
 
 
         <div className="container-scroller">
@@ -93,7 +88,7 @@ const Jobqueuelist = () => {
                                                         <th>Job Title</th>
                                                         <th>Company</th>
                                                         <th>Creation Date</th>
-                                                        <th>View</th>
+                                                        {/* <th>View</th> */}
                                                         <th>Assign</th>
 
                                                     </tr>
@@ -101,11 +96,11 @@ const Jobqueuelist = () => {
                                                     {table && table.length > 0 &&
                                                         table.map((job, index) => {
                                                             return <tr key={index}>
-                                                                <td>{job._id}</td>
+                                                                <td>{index + 1}</td>
                                                                 <td>{job.jobTitle}</td>
                                                                 <td>{job.company}</td>
                                                                 <td>{job.creationDate}</td>
-
+{/* 
                                                                 <td><button onClick={() => handleJob(job)} type="button" class="btn btn-info btn-xs col-12 ">
 
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -114,7 +109,7 @@ const Jobqueuelist = () => {
                                                                     </svg>
 
 
-                                                                </button></td>
+                                                                </button></td> */}
                                                                 <td>
 
                                                                     <button type="button" class="btn  btn-xs btn-success  col-12" onClick={() => handleAssign(job)}>Assign To Me</button>
@@ -143,8 +138,6 @@ const Jobqueuelist = () => {
         </div>
 
     </>)
-
-    if (!joblist) return <SingleJobAdmin joblist={jobData} />
 
 }
 export default Jobqueuelist;

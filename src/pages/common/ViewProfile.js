@@ -34,6 +34,27 @@ function ViewProfile() {
     })
   }, [userId])
 
+  const handleDownload = (event, url) => {
+    event.preventDefault();
+    fetch("http://localhost:8080/"+url)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(new Blob([blob]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = url;
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      })
+      .catch((error) => {
+        console.error("Error fetching the file:", error);
+      });
+  };
+
   return <>
     <Header />
     {/* <main id="main"> */}
@@ -69,7 +90,7 @@ function ViewProfile() {
                         <label className="col-sm-3 col-form-label fw-bold">First Name :</label>
                         <div className="col-sm-9">
                           <div className=' p-2'>
-                            {/* {user.firstname} */}
+                            {user.first_name}
                             </div>
                         </div>
                       </div>
@@ -81,7 +102,7 @@ function ViewProfile() {
                         <label className="col-sm-3 col-form-label fw-bold">Last Name :  </label>
                         <div className="col-sm-9">
                           <div className='p-2'>
-                            {/* {user.lastname} */}
+                            {user.last_name}
                             </div>
                         </div>
                       </div>
@@ -103,7 +124,7 @@ function ViewProfile() {
                         <label className="col-sm-3 col-form-label fw-bold">Mobile :</label>
                         <div className="col-sm-9">
                           <div className='p-2'>
-                            {/* {user.mobile} */}
+                            {user.phone}
                             </div>
                         </div>
                       </div>
@@ -115,7 +136,7 @@ function ViewProfile() {
                         <label className="col-sm-6 col-form-label fw-bold">Personal Summary : </label>
                         <div className="col-sm-12">
                           <div className=' p-2'>
-                            {/* {user.personalSummary} */}
+                            {user.profile_summary}
 
                           </div>
 
@@ -274,6 +295,7 @@ function ViewProfile() {
                         <thead>
                           <tr className=' border-bottom'>
                             <th className='px-3' >Certificate Name</th>
+                            <th className='px-3' >Description</th>
                             <th className='px-3' >Issuing Authority</th>
                             <th className='px-3' >Issue Date</th>
                             <th className='px-3' >Expiry Date</th>
@@ -290,7 +312,8 @@ function ViewProfile() {
                             user.certification && user.certification.length > 0 && user.certification.map((x, index) => {
                               return (
                                 <tr  className='border-bottom' key={index}>
-                                  <td td className='px-3'  >{x.name}</td>
+                                  <td td className='px-3'  >{x.certificateName}</td>
+                                  <td td className='px-3'  >{x.description}</td>
                                    <td className='px-3' >{x.authority}</td>
                                    <td className='px-3' >{x.issueDate}</td>
                                    <td className='px-3' >{x.expiryDate}</td>
@@ -331,7 +354,7 @@ function ViewProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Availability:</label>
                         <div className="col-sm-9">
-                          {/* {user.availability} */}
+                          {user.availability ?? 'Yes'}
                         </div>
                       </div>
                     </div>
@@ -346,7 +369,11 @@ function ViewProfile() {
                     <div className="col-md-12">
                       <ul>
                         {user.preferredJobTypes && user.preferredJobTypes.length > 0 && user.preferredJobTypes.map((x, index) => {
-                          return <li key={index}>{x}</li>
+                          return Object.keys(x).map((k, index) => {
+                            if(x[k]){
+                              return <li key={index}>{k}</li>
+                            }
+                          });
                         }
                         )
 
@@ -449,6 +476,7 @@ function ViewProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Upload CV :  </label>
                         <div className="col-sm-9">
+                         {user.cv && <a style={{"textDecoration": "underline"}} href="/" onClick={(event) => handleDownload(event, user.cv)}>{user.cv}</a>}
                           {/* {user.uploadCV} */}
                         </div>
                       </div>

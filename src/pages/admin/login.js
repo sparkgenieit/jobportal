@@ -1,18 +1,20 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 
 function Login() {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const navigate = useNavigate();
 
   let isValid = false
 
   const [errors, setErrors] = useState({
-
     email: false,
-    password: false
+    password: false,
+    loginError: false
   });
 
 
@@ -24,6 +26,7 @@ function Login() {
 
     if (name == "email") {
       setEmail(event.target.value)
+      
       if (event.target.value == "") {
         setErrors({ ...errors, email: true })
       }
@@ -43,19 +46,40 @@ function Login() {
     }
   }
 
+  const validateEmailAddress = (emailAddress) => {
+    var atSymbol = emailAddress.indexOf("@");
+    var dotSymbol = emailAddress.lastIndexOf(".");
+    var spaceSymbol = emailAddress.indexOf(" ");
+
+    if ((atSymbol != -1) &&
+      (atSymbol != 0) &&
+      (dotSymbol != -1) &&
+      (dotSymbol != 0) &&
+      (dotSymbol > atSymbol + 1) &&
+      (emailAddress.length > dotSymbol + 1) &&
+      (spaceSymbol == -1)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
   const submitData = () => {
     let Obj = {};
     if (email == "") {
       Obj = { ...Obj, email: true }
       setEmailError("Please Enter Email")
     }
-    else if (/^[a-z]{2,}@{1}[a-z]{2,}.com$/gi.test(email) == false) {
+    else if (!validateEmailAddress(email)) { 
       Obj = { ...Obj, email: true }
       setEmailError("Invalid Email")
     }
     else {
       Obj = { ...Obj, email: false }
     }
+
+
     if (password == "") {
       Obj = { ...Obj, password: true }
 
@@ -79,13 +103,42 @@ function Login() {
 
       const data = {
         email: email,
-        password: password
+        password: password,
+        role: 'admin'
       }
 
       axios.post("http://localhost:8080/users/login", data)
-        .then((response) => console.log(response))
+        .then((response) =>{
+          console.log(response.data);
+          localStorage.setItem('token', response.data.token);
+          const token = response.data.token;
 
-        .catch((e) => console.log(e))
+          localStorage.setItem('user_id',  response.data._id);
+          // Store the token securely (e.g., in localStorage or HTTP-only cookies)
+          localStorage.setItem('token', token);
+
+          localStorage.setItem('role', response.data.role)
+          setTimeout(() => {
+            // Inside the handleLogin function
+            navigate('/admin/jobqueuelist'); // Redirect to the dashboard after login
+          }, 1500);
+        }
+        )
+        .catch((e) => {
+          if (e && e.code) {
+            if (e.response && e.response.data) {
+              if (e.response.data.email) {
+                setErrors({ loginError: e.response.data.email });
+              }
+
+              if (e.response.data.message) {
+                setErrors({ loginError: e.response.data.message });
+              }
+            } else {
+              setErrors({ loginError: e.message });
+            }
+          }
+        })
 
 
     }
@@ -104,7 +157,8 @@ function Login() {
                   <div className="card-body">
                     <h4 className="card-title my-4"> Admin Login </h4>
                     <form class="form-sample">
-
+                    {errors && errors.loginError && <div class="alert alert-danger" role="alert">
+            {errors && errors.loginError}</div>}
                       <div className='row mt-3'>
                         <div className="col-md-12">
                           <div className="form-group row">

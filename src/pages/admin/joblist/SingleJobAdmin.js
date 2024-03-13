@@ -3,7 +3,7 @@ import Footer from "../../../layouts/admin/Footer";
 import Header from "../../../layouts/admin/Header";
 import Sidebar from "../../../layouts/admin/Sidebar";
 
-function SingleJobAdmin({ joblist }) {
+function SingleJobAdmin({ joblist, handleApprove, handleReject }) {
     const [jobview, setJobview] = useState(joblist)
     return (
         <>
@@ -30,8 +30,8 @@ function SingleJobAdmin({ joblist }) {
                                     <div class="card-body px-4  ">
                                         <div className="d-flex justify-content-end mt-4 gap-5">
 
-                                            <button className=" col-2 btn btn-info">Appprove</button>
-                                            <button className=" col-2 btn btn-danger">Reject</button>
+                                            <button onClick={() => handleApprove(joblist)} className=" col-2 btn btn-info">Appprove</button>
+                                            <button onClick={() => handleReject(joblist)} className=" col-2 btn btn-danger">Reject</button>
 
                                         </div>
 

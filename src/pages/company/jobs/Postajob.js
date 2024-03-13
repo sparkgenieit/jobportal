@@ -1,11 +1,17 @@
 import Header from '../../../layouts/company/Header';
 import Footer from '../../../layouts/company/Footer';
 import Sidebar from '../../../layouts/company/Sidebar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import axios from 'axios';
+import companyService from '../../../services/common/company.service';
 
 
 function Postajob() {
+  const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
+  const navigate = useNavigate();
+
   const [description, setDescription] = useState('');
   const [closeDate, setCloseDate] = useState('')
   const [location, setLocation] = useState('');
@@ -17,6 +23,8 @@ function Postajob() {
   const [creationDate, setCreationDate] = useState('');
   const [training, setTraining] = useState('');
   const [company, setCompany] = useState('');
+  const [companyLogo, setCompanyLogo] = useState('');
+
   const [duration, setDuration] = useState('');
   const [empjobreference, setEmpJobReference] = useState('')
   const [numberofvacancies, setNumberOfVacancies] = useState('')
@@ -27,12 +35,7 @@ function Postajob() {
   const [employer, setEmployer] = useState('')
 
 
-  const [msg,setMsg]=useState('')
-
-
-
-
-
+  const [msg, setMsg] = useState('')
 
 
   const [jobTitleMsg, setJobTitleMsg] = useState('Please enter Job Title');
@@ -68,28 +71,6 @@ function Postajob() {
   const [jobCategory, setJobCategory] = useState('');
   const [subCategory, setSubCategory] = useState('');
 
-  // const handleMainSelection = (event) => {
-  //   const selectedOption = event.target.value;
-  //   setMainSelection(selectedOption);
-  //   //Reset sub-selection when main selection chwanges
-  //   setSubSelection('');
-  // };
-  // const handleSubSelection = (event) => {
-  //   const selectedOption = event.target.value;
-  //   setSubSelection(selectedOption);
-
-  // }
-
-
-
-
-
-
-
-
-
-
-
   const [count, setCount] = useState(0);
 
   const addTextbox = () => {
@@ -109,9 +90,6 @@ function Postajob() {
   }
 
 
-
-
-
   const [errors, setErrors] = useState({
     descriptionErrors: false,
     locationErrors: false,
@@ -127,6 +105,20 @@ function Postajob() {
 
   })
 
+  useEffect(() => {
+    
+    companyService.get(userId)
+      .then(response => {
+        setCompany(response.data.name);
+        setCompanyLogo(response.data.logo);
+
+      })
+      .catch(e => {
+        console.log(e);
+      })
+  }, [userId])
+
+
 
   const companyButton = () => {
     let eObj = {};
@@ -135,19 +127,16 @@ function Postajob() {
       valid = false;
       eObj = { ...eObj, descriptionErrors: true };
       setDescriptionMsg('Please Enter Description');
-
     } else if (/^\w{2,}$/gi.test(description) == false) {
       valid = false;
       eObj = { ...eObj, descriptionErrors: true };
       setDescriptionMsg('Not Proper Description');
-
     }
     else {
       valid = true;
       eObj = { ...eObj, descriptionErrors: false };
-
-
     }
+
     if (location == '') {
       valid = false;
       eObj = { ...eObj, locationErrors: true };
@@ -157,14 +146,12 @@ function Postajob() {
       valid = false;
       eObj = { ...eObj, locationErrors: true };
       setLocationMsg('Not a Proper Location')
-
     }
     else {
       valid = true;
       eObj = { ...eObj, locationErrors: false };
-
-
     }
+
     if (jobCategory == '') {
       valid = false;
       eObj = { ...eObj, jobCategoryErrors: true };
@@ -172,9 +159,8 @@ function Postajob() {
     else {
       valid = true;
       eObj = { ...eObj, jobCategoryErrors: false };
-
-
     }
+
     if (subCategory == '') {
       valid = false;
       eObj = { ...eObj, subCategoryErrors: true };
@@ -182,23 +168,15 @@ function Postajob() {
     else {
       valid = true;
       eObj = { ...eObj, subCategoryErrors: false };
-
-
     }
+
     if (jobTitle == '') {
       valid = false;
       eObj = { ...eObj, jobTitleErrors: true };
       setJobTitleMsg('Please enter Job Title')
-    } else if (/^[a-z]{3,}$/gi.test(jobTitle) == false) {
-      valid = false;
-      eObj = { ...eObj, jobTitleErrors: true };
-      setJobTitleMsg('Invalid Job Title')
-    }
-    else {
+    } else {
       valid = true;
       eObj = { ...eObj, jobTitleErrors: false };
-
-
     }
 
     if (jobType == '') {
@@ -208,25 +186,17 @@ function Postajob() {
     else {
       valid = true;
       eObj = { ...eObj, jobTypeErrors: false };
-
-
     }
+
     if (vacancies == '') {
       valid = false;
       eObj = { ...eObj, vacanciesErrors: true };
       setVacanciesMsg('Please Enter Number Of Vacancies');
-    } else if (/^[0-9]{1,}$/gi.test(vacancies) == false) {
-      valid = false;
-      eObj = { ...eObj, vacanciesErrors: true };
-      setVacanciesMsg('Input is Not a Number')
-
-    }
-    else {
+    } else {
       valid = true;
       eObj = { ...eObj, vacanciesErrors: false };
-
-
     }
+
     if (creationDate == '') {
       valid = false;
       eObj = { ...eObj, creationDateErrors: true };
@@ -235,42 +205,26 @@ function Postajob() {
     else {
       valid = true;
       eObj = { ...eObj, creationDateErrors: false };
-
-
     }
 
     if (training == '') {
       valid = false;
       eObj = { ...eObj, trainingErrors: true };
       setTrainingMsg('Please Specify Training')
-    }
-    else if (/^\w{3,}$/gi.test(training) == false) {
-      valid = false;
-      eObj = { ...eObj, trainingErrors: true };
-      setCompanyMsg('Not a Proper Input')
-    }
-    else {
+    } else {
       valid = true;
       eObj = { ...eObj, trainingErrors: false };
-
-
     }
+
     if (company == '') {
       valid = false;
       eObj = { ...eObj, companyErrors: true };
       setCompanyMsg('Please Enter Company Name')
-    }
-    else if (/^[a-z]{3,}$/gi.test(company) == false) {
-      valid = false;
-      eObj = { ...eObj, companyErrors: true };
-      setCompanyMsg('Not a Proper Company Name')
-    }
-    else {
+    } else {
       valid = true;
       eObj = { ...eObj, companyErrors: false };
-
-
     }
+
     if (duration == '') {
       valid = false;
       eObj = { ...eObj, duration: true };
@@ -280,7 +234,7 @@ function Postajob() {
       eObj = { ...eObj, duration: false };
     }
 
-
+    console.log(valid);
     setErrors(eObj);
     let obj1 = {}
     if (!valid) {
@@ -305,12 +259,12 @@ function Postajob() {
       console.log(obj1)
     } else {
 
-      let data ={
-        company: company ,
-        closeDate: closeDate ,
-        creationDate: creationDate ,
-        jobType: jobType ,
-        location: location ,
+      let data = {
+        company: company,
+        closeDate: closeDate,
+        creationDate: creationDate,
+        jobType: jobType,
+        location: location,
         Empjobreference: empjobreference,
         numberofvacancies: numberofvacancies,
         jobTitle: jobTitle,
@@ -323,21 +277,22 @@ function Postajob() {
         training: training,
         description: description,
         employerquestions: employerquestions,
-        employer: employer
-
+        employer: employer,
+        companyId: userId,
+        companyLogo:companyLogo
       }
-      axios.post('http://localhost:8080/jobs/create',data)
-      .then(response => {
-        if(response && response.status){
-          setMsg('Jobs added successfully');
+      axios.post('http://localhost:8080/jobs/create', data)
+        .then(response => {
+          if (response && response.status) {
+            setMsg('Jobs added successfully');
 
-          setTimeout(()=>{
-            window.reload();
-          },2000)
+            setTimeout(() => {
+              navigate('/company/JobList', { replace: true }); 
+            }, 2000)
 
-        }
-      })
-     
+          }
+        })
+
 
     }
   }
@@ -521,7 +476,7 @@ function Postajob() {
                   </ol>
                 </nav>
               </div>
-              
+
 
               <div className="row">
                 <div className="col-12">

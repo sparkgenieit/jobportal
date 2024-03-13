@@ -123,7 +123,7 @@ function Header() {
                         alt="Avatar" /></a>
                       <ul class="dropdown-menu menu-left  sample bg-white">
                         <li className=' pb-2'><a href="#">{fullname}</a></li>
-                        <li><a href="/common/Viewprofile">My Profile</a></li>
+                        <li><a href="/Viewprofile">My Profile</a></li>
                         {role == 'employer' && <li className='px-3'> <button type='button' class="btn btn-secondary mt-2 px-1" ><a className='px-2' href="/company" >
                           <small>Employer Dashboard</small>
                         </a></button></li>}

@@ -6,12 +6,12 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function Home() {
-    const [table, setTable] = useState(null)
+    const [jobs, setJobs] = useState(null)
 
 
     useEffect(() => {
         axios.get("http://localhost:8080/jobs/approved")
-            .then((response) => setTable(response.data))
+            .then((response) => setJobs(response.data))
     },[])
 
 
@@ -74,21 +74,21 @@ function Home() {
                             <div class="border rounded bg-light px-5 mb-3">
                                 <div class="row rounded p-3">
 
-                                    {table && table.length > 0 &&
-                                    table.map((job, index) => {
+                                    {jobs && jobs.length > 0 &&
+                                    jobs.map((job, index) => {
                                         return <div key={index} class=" col-6 px-3 ">
 
 
                                                 <div class="row border shadow rounded container p-3 mb-4 bg-light">
                                                     <div class="col-2">
 
-                                                        <img class="rounded" src="assets/images/logo.png" width="70px" height="50px" alt="" />
+                                                        <img class="rounded" src={`http://localhost:8080/uploads/logos/${job.companyLogo}`} width="70px" height="50px" alt="" />
 
 
                                                     </div>
                                                     <div class="col-10 text-start px-4">
-                                                        <p class="h4">Senior Full Stack Engineer,Creator Sucess</p>
-                                                        <p class="text-success">Madhapur,Hyderabad</p>
+                                                        <p class="h4">{job.jobTitle}</p>
+                                                        <p class="text-success">{job.location}</p>
 
 
 
@@ -96,13 +96,14 @@ function Home() {
 
                                                     <div class="d-flex justify-content-between">
                                                         <div class="d-flex justify-content-between" style={{ "gap": "10px" }}>
+                                                           
                                                             <button class="btn btn-secondary btn-sm" type="button">Content Writer</button>
                                                             <button class="btn btn-secondary btn-sm" type="button">Sketch</button>
                                                             <button class="btn btn-secondary btn-sm" type="button">PSD</button>
 
                                                         </div>
                                                         <div class="text-muted">
-                                                            <a class="btn primary" href="/common/SingleJob">Apply</a>
+                                                            <a class="btn primary" href={`/common/SingleJob/${job._id}`}>Apply</a>
                                                         </div>
 
                                                     </div>

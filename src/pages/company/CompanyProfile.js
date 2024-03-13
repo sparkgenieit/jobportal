@@ -27,6 +27,8 @@ function CompanyProfile() {
   const [person, setPerson] = useState("");
   const [email, setEmail] = useState("");
   const [loader, setLoader] = useState(false);
+  const [logo, setLogo] = useState();
+
 
   const navigate = useNavigate();
 
@@ -51,11 +53,13 @@ function CompanyProfile() {
         setAddress(response.data.address1);
         setAddress2(response.data.address2);
         setAddress3(response.data.address3);
+        setPostcode(response.data.postalCode);
         setPhone(response.data.phone);
         setPerson(response.data.contact);
         setCity(response.data.city);
         setWebSite(response.data.website);
         setEmail(response.data.email);
+        setLogo(response.data.logo);
         setUserData(response.data);
 
       })
@@ -77,9 +81,17 @@ function CompanyProfile() {
     personErrors: false,
     emailErrors: false,
     workErrors: false,
+    logo: false
   })
 
 
+  const onFileChange = (event) => {
+    const name = event.target.id;
+    console.log(event.target.files[0])
+    if (name == 'logo') {
+      setLogo(event.target.files[0]);
+    }
+  };
 
   const submit = () => {
     let eObj = {};
@@ -248,38 +260,81 @@ function CompanyProfile() {
 			obj1={...obj1, email : email}
 
 
-      companyService.update(userId, obj1)
-        .then(response => {
-          console.log(response.data);
-          window.scrollTo({ top: 10, behavior: "smooth" });
-          setIsUpdated(true);
-          setTimeout(() => {
-            // Inside the handleLogin function
-           // navigate('/viewprofile'); // Redirect to the dashboard after login
-          }, 1500);
+      if(logo){
+        const fd = new FormData();
+      fd.append('file', logo);
 
-        })
-        .catch(e => {
-          console.log(e);
-
-          if (e && e.code) {
-            if (e.response && e.response.data) {
-              if (e.response.data.email) {
-                setErrors({ updateError: e.response.data.email });
+        companyService.uploadLogo(fd)
+          .then(response => {
+            console.log()
+            obj1={...obj1, logo : response.data.filename}
+            companyService.update(userId, obj1)
+            .then(response => {
+              console.log(response.data);
+              window.scrollTo({ top: 10, behavior: "smooth" });
+              setIsUpdated(true);
+              setTimeout(() => {
+                // Inside the handleLogin function
+              // navigate('/viewprofile'); // Redirect to the dashboard after login
+              }, 1500);
+  
+            })
+            .catch(e => {
+              console.log(e);
+  
+              if (e && e.code) {
+                if (e.response && e.response.data) {
+                  if (e.response.data.email) {
+                    setErrors({ updateError: e.response.data.email });
+                  }
+  
+                  if (e.response.data.message) {
+                    setErrors({ updateError: e.response.data.message });
+                  }
+                } else {
+                  setErrors({ updateError: e.message });
+                }
               }
+              setTimeout(() => { setLoader(false); window.scrollTo({ top: 10, behavior: "smooth" }); }, 1200)
+    
+  
+            });
+          });
 
-              if (e.response.data.message) {
-                setErrors({ updateError: e.response.data.message });
+      }else{
+
+        companyService.update(userId, obj1)
+          .then(response => {
+            console.log(response.data);
+            window.scrollTo({ top: 10, behavior: "smooth" });
+            setIsUpdated(true);
+            setTimeout(() => {
+              // Inside the handleLogin function
+            // navigate('/viewprofile'); // Redirect to the dashboard after login
+            }, 1500);
+
+          })
+          .catch(e => {
+            console.log(e);
+
+            if (e && e.code) {
+              if (e.response && e.response.data) {
+                if (e.response.data.email) {
+                  setErrors({ updateError: e.response.data.email });
+                }
+
+                if (e.response.data.message) {
+                  setErrors({ updateError: e.response.data.message });
+                }
+              } else {
+                setErrors({ updateError: e.message });
               }
-            } else {
-              setErrors({ updateError: e.message });
             }
-          }
-          setTimeout(() => { setLoader(false); window.scrollTo({ top: 10, behavior: "smooth" }); }, 1200)
- 
+            setTimeout(() => { setLoader(false); window.scrollTo({ top: 10, behavior: "smooth" }); }, 1200)
+  
 
-        });
-     	
+          });
+      }
 
     }else{
 
@@ -670,9 +725,13 @@ function CompanyProfile() {
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Logo</label>
                             <div class="col-sm-9">
-                              <input class="form-control" type="file" />
+                              <input type="file" id="logo" className="form-control" onChange={onFileChange} />
 
+{errors && errors.logo && <div className="error text-danger"> {errors.logo}</div>}
+
+                     
                               <div class="bgcol" id="error5"></div>
+                              {logo && <img width="200px" height="200px" src={`http://localhost:8080/uploads/logos/${logo}`} />}
                             </div>
                           </div>
                         </div>

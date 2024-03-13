@@ -18,29 +18,7 @@ function UserProfile() {
   const [userData, setUserData] = useState(null);
   const [isUpdated, setIsUpdated] = useState(false);
 
-
-  useEffect(() => {
-
-    userService.get(userId)
-      .then(response => {
-        console.log(response.data);
-        setFirstName(response.data.first_name);
-        setLastname(response.data.last_name);
-        setEmail(response.data.email);
-        setPersonal(response.data.profile_summary);
-        setUserData(response.data);
-        setLicences(response.data.licences);
-        setWorks(response.data.work_history);
-        setEducation(response.data.education)
-
-      })
-      .catch(e => {
-        console.log(e);
-      })
-  }, [userId])
-
-
-  const [firstname, setFirstName] = useState(userData && userData.first_name || "");
+  const [firstName, setfirstName] = useState((userData && userData.first_name) || "");
   const [mobile, setMobile] = useState(userData && userData.phone || "");
   const [skills, setSkills] = useState("");
   const [preferredLocations, setPreferredLocations] = useState("");
@@ -58,38 +36,24 @@ function UserProfile() {
     temporary: false
   });
 
-
-  const navigate = useNavigate();
-
-  const [lastname, setLastname] = useState(userData && userData.last_name || "");
+  const [lastName, setlastName] = useState(userData && userData.last_name || "");
   const [email, setEmail] = useState(userData && userData.email || "");
   const [personal, setPersonal] = useState(userData && userData.profile_summary || "");
   const [show, setShow] = useState("");
   const [visa, setVisa] = useState("");
-  const [cv, setCv] = useState("");
-  const [coverLetter, setCoverLetter] = useState("");
+  const [cv, setCv] = useState();
+  const [coverLetter, setCoverLetter] = useState();
   const [loader, setLoader] = useState(false);
-
-
-  // let isValid = 0;
-
   const [workDate, setWorkDate] = useState(true)
   const [certificateDate, setCertificateDate] = useState(true)
   const [licenceDate, setLicenceDate] = useState(true)
-
-
-
-
-
   const [works, setWorks] = useState([{ jobTitle: '', employer: '', location: '', fromDate: '', toDate: '', description: '' }]);
   const [education, setEducation] = useState([{ educationProvider: '', qualification: '', yearCompleted: '', validInNZ: '', description: '' }]);
   const [licences, setLicences] = useState([{ licenseName: '', issuingAuthority: '', issueDate: '', expiryDate: '', validInNZ: '', description: '' }]);
   const [certificates, setCertificates] = useState([{ certificateName: '', issuingAuthority: '', issueDate: '', expiryDate: '', validInNZ: '', description: '' }]);
 
-
-
-  const [firstnameError, setFirstnameError] = useState("Please Enter First Name");
-  const [lastnameError, setLastnameError] = useState("Please Enter Last Name");
+  const [firstNameError, setfirstNameError] = useState("Please Enter First Name");
+  const [lastNameError, setlastNameError] = useState("Please Enter Last Name");
   const [emailError, setEmailError] = useState("Please Enter Email");
   const [personalsummaryError, setPersonalsummaryError] = useState("Enter Personal Summary");
   const [showprofileError, setShowprofileError] = useState("Please Select Show Profile")
@@ -101,8 +65,8 @@ function UserProfile() {
   // const [toDate, setToDate] = useState("");
 
   const [errors, setErrors] = useState({
-    firstname: false,
-    lastname: false,
+    firstName: false,
+    lastName: false,
     email: false,
     personal: false,
     show: false,
@@ -114,27 +78,118 @@ function UserProfile() {
   })
 
 
+  const navigate = useNavigate();
+
+  const validateEmailAddress = (emailAddress) => {
+    var atSymbol = emailAddress.indexOf("@");
+    var dotSymbol = emailAddress.lastIndexOf(".");
+    var spaceSymbol = emailAddress.indexOf(" ");
+
+    if ((atSymbol != -1) &&
+      (atSymbol != 0) &&
+      (dotSymbol != -1) &&
+      (dotSymbol != 0) &&
+      (dotSymbol > atSymbol + 1) &&
+      (emailAddress.length > dotSymbol + 1) &&
+      (spaceSymbol == -1)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+
+  useEffect(() => {
+
+    userService.get(userId)
+      .then(response => {
+        console.log(response.data);
+        setfirstName(response.data.first_name);
+        setlastName(response.data.last_name);
+        setEmail(response.data.email);
+        setPersonal(response.data.profile_summary);
+        setUserData(response.data);
+        setLicences(response.data.licences);
+        if (response.data && response.data.work_history && response.data.work_history.length > 0) {
+          setWorks(response.data.work_history);
+        }
+
+        if (response.data && response.data.work_history && response.data.work_history.length > 0) {
+          setEducation(response.data.education)
+        }
+
+        if (response.data && response.data.certification && response.data.certification.length > 0) {
+          setCertificates(response.data.certification)
+        }
+
+        setSkills(response.data.skills);
+        setVisa(response.data.visaType);
+        setMobile(response.data.phone);
+
+      })
+      .catch(e => {
+        console.log(e);
+      })
+  }, [userId])
+
+
+
+  // On file select (from the pop up)
+  const onFileChange = (event) => {
+    const name = event.target.id;
+    console.log(event.target.files[0])
+    if (name == 'cv') {
+      setCv(event.target.files[0]);
+    }
+
+    if (name == 'cover') {
+      setCoverLetter(event.target.files[0]);
+    }
+  };
+
+  // On file upload (click the upload button)
+  const onFileUpload = () => {
+    // Create an object of formData
+    const formData = new FormData();
+
+    // Update the formData object
+    formData.append(
+      "myFile",
+      this.state.selectedFile,
+      this.state.selectedFile.name
+    );
+
+    // Details of the uploaded file
+    console.log(this.state.selectedFile);
+
+    // Request made to the backend api
+    // Send formData object
+    //axios.post("api/uploadfile", formData);
+  };
+
+
   const chnageOut = (name, event) => {
-    if (name == "firstname") {
+    if (name == "firstName") {
       if (event.target.value == "") {
-        setErrors({ ...errors, firstname: true })
+        setErrors({ ...errors, firstName: true })
       }
       else {
-        setErrors({ ...errors, firstname: false })
+        setErrors({ ...errors, firstName: false })
 
       }
-      setFirstName(event.target.value);
+      setfirstName(event.target.value);
 
     }
 
-    if (name == "lastname") {
+    if (name == "lastName") {
       if (event.target.value == "") {
-        setErrors({ ...errors, lastname: true })
+        setErrors({ ...errors, lastName: true })
       }
       else {
-        setErrors({ ...errors, lastname: false })
+        setErrors({ ...errors, lastName: false })
       }
-      setLastname(event.target.value)
+      setlastName(event.target.value)
 
     }
     if (name == 'email') {
@@ -207,54 +262,6 @@ function UserProfile() {
         setErrors({ ...errors, visa: false })
       }
       setVisa(event.target.value)
-
-    }
-    if (name == "cv") {
-      if (event.target.value == "") {
-        setErrors({ ...errors, cv: true })
-      }
-
-      else {
-        setErrors({ ...errors, cv: false })
-      }
-      setCv(event.target.value)
-
-    }
-
-    if (name == "coverLetter") {
-      if (event.target.value == "") {
-        setErrors({ ...errors, coverLetter: true })
-      }
-
-      else {
-        setErrors({ ...errors, coverLetter: false })
-      }
-      setCoverLetter(event.target.value)
-
-
-      // if (name == "works.fromDate") {
-      //   if (event.target.value == "") {
-      //     setErrors({ ...errors, fromDate: true })
-      //   }
-
-      //   else {
-      //     setErrors({ ...errors, fromDate: false })
-
-      //   }
-      //   setFromDate(event.target.value)
-      // }
-      // if (name == "works.toDate") {
-      //   if (event.target.value == "") {
-      //     setErrors({ ...errors, toDate: true })
-      //   }
-
-      //   else {
-      //     setErrors({ ...errors, toDate: false })
-
-      //   }
-      //   setToDate(event.target.value)
-      // }
-
 
     }
   }
@@ -336,50 +343,35 @@ function UserProfile() {
   }
 
   const SubmitData = () => {
+    console.log(cv)
     let obj = {};
 
     let isValid = true;
 
-    if (firstname == "") {
-      obj = { ...obj, firstname: true }
-      setFirstnameError("Please Enter First Name");
-      isValid = false;
+    console.log("firstName", firstName)
 
-    }
-    else if (/^[a-z A-Z \s]{3,}$/gi.test(firstname) == false) {
-      obj = { ...obj, firstname: true }
-      setFirstnameError("Invalid First Name");
+    if (!firstName || firstName == "") {
+      obj = { ...obj, firstName: true }
       isValid = false;
-
-    }
-    else {
-      obj = { ...obj, firstname: false }
+    } else {
+      obj = { ...obj, firstName: false }
       isValid = true;
     }
 
-    if (lastname == "") {
-      obj = { ...obj, lastname: true }
-      setLastnameError("Please Enter Last Name");
+    if (!firstName || lastName == "") {
+      obj = { ...obj, lastName: true }
       isValid = false;
-    }
-    else if (/^[a-z]{3,}$/gi.test(lastname) == false) {
-      obj = { ...obj, lastname: true }
-      setLastnameError("Invalid Last Name");
-      isValid = false;
-    }
-    else {
-      obj = { ...obj, lastname: false }
+    } else {
+      obj = { ...obj, lastName: false }
       isValid = true;
     }
 
     if (email == "") {
       obj = { ...obj, email: true }
-      setEmailError("Please Enter Email");
       isValid = false;
     }
-    else if (/^[a-z]{2,}@{1}[a-z]{2,}.com$/.test(email) == false) {
+    else if (!validateEmailAddress(email)) {
       obj = { ...obj, email: true }
-      setEmailError("Invalid Email");
       isValid = false;
     }
     else {
@@ -390,35 +382,20 @@ function UserProfile() {
 
     if (personal == "") {
       obj = { ...obj, personal: true }
-      setPersonalsummaryError("Please Enter Personal Data");
       isValid = false;
-
     }
-    // else if (/^[a-z A-Z \s]{3,}$/gi.test(personal) == false) {
-    //   obj = { ...obj, personal: true }
-    //   setPersonalsummaryError("Invalid Personal Data");
-    //   isPersonalValid = false;
-
-    // }
     else {
       obj = { ...obj, personal: false }
       isValid = true;
-
     }
 
 
 
     if (show == "") {
       obj = { ...obj, show: true }
-      setShowprofileError("Please Select Profile");
       isValid = false;
 
     }
-    // else if (/^[a-z]{3,}$/gi.test(show) == false) {
-    //   obj = { ...obj, show: true }
-    //   setShowprofileError("Invalid Profile");
-    //   isValid = false;
-    // }
     else {
       obj = { ...obj, show: false }
       isValid = true;
@@ -434,7 +411,7 @@ function UserProfile() {
     }
 
 
-    if (cv == "") {
+    if (cv == null) {
       obj = { ...obj, cv: true }
       isValid = false;
     }
@@ -443,7 +420,7 @@ function UserProfile() {
       isValid = true;
     }
 
-    if (coverLetter == "") {
+    if (coverLetter == null) {
       obj = { ...obj, coverLetter: true }
       isValid = false;
     }
@@ -457,10 +434,10 @@ function UserProfile() {
 
     console.log(isValid);
 
-    if (isValid && workDate && licenceDate && certificateDate) {
+    if (isValid) {
       const userData = {
-        first_name: firstname,
-        last_name: lastname,
+        first_name: firstName,
+        last_name: lastName,
         email: email,
         phone: mobile,
         profile_summary: personal,
@@ -509,46 +486,58 @@ function UserProfile() {
         expectedRatePerHour: expectedRate,
         showProfile: show,
         visaType: visa,
-        cv: cv,
-        coverLetter: coverLetter,
         visaExpiryDate: visaExpiry,
         availability: availability,
         noticePeriod: noticePeriod,
         preferredJobTypes: preferredJobTypes
       };
 
-      userService.update(userId, userData)
-        .then(response => {
-          console.log(response.data);
-          window.scrollTo({ top: 10, behavior: "smooth" });
-          setIsUpdated(true);
-          setTimeout(() => {
-            // Inside the handleLogin function
-            navigate('/viewprofile'); // Redirect to the dashboard after login
-          }, 1500);
 
-        })
-        .catch(e => {
-          console.log(e);
+      const fd = new FormData();
+      fd.append('file', cv);
 
-          if (e && e.code) {
-            if (e.response && e.response.data) {
-              if (e.response.data.email) {
-                setErrors({ updateError: e.response.data.email });
+      const fd1 = new FormData();
+      fd1.append('file', coverLetter)
+      userService.uploadCV(fd).then((res) => {
+        console.log(res);
+        userData.cv = res.data.filename;
+        userService.uploadCoverLetter(fd1).then((res) => {
+          console.log(res);
+          userData.coverLetter = res.data.filename;
+          userService.update(userId, userData)
+            .then(response => {
+              console.log(response.data);
+              window.scrollTo({ top: 10, behavior: "smooth" });
+              setIsUpdated(true);
+              setTimeout(() => {
+                // Inside the handleLogin function
+                navigate('/viewprofile', { replace: true }); // Redirect to the dashboard after login
+              }, 1500);
+
+            })
+            .catch(e => {
+              console.log(e);
+
+              if (e && e.code) {
+                if (e.response && e.response.data) {
+                  if (e.response.data.email) {
+                    setErrors({ updateError: e.response.data.email });
+                  }
+
+                  if (e.response.data.message) {
+                    setErrors({ updateError: e.response.data.message });
+                  }
+                } else {
+                  setErrors({ updateError: e.message });
+                }
               }
-
-              if (e.response.data.message) {
-                setErrors({ updateError: e.response.data.message });
-              }
-            } else {
-              setErrors({ updateError: e.message });
-            }
-          }
-          setTimeout(() => { setLoader(false); window.scrollTo({ top: 10, behavior: "smooth" }); }, 1200)
+              setTimeout(() => { setLoader(false); window.scrollTo({ top: 10, behavior: "smooth" }); }, 1200)
 
 
+            });
         });
-
+      })
+        .catch((e) => console.log(e))
     } else {
     }
 
@@ -627,9 +616,9 @@ function UserProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label">First Name <span style={{ color: "red" }}>*</span></label>
                         <div className="col-sm-9">
-                          <input type="text" className="form-control" value={firstname} onChange={(event) => chnageOut("firstname", event)} />
+                          <input type="text" className="form-control" value={firstName} onChange={(event) => chnageOut("firstName", event)} />
 
-                          {errors && errors.firstname && <div className="error text-danger"> {firstnameError}</div>}
+                          {errors && errors.firstName && <div className="error text-danger"> {firstNameError}</div>}
 
                         </div>
                       </div>
@@ -640,9 +629,9 @@ function UserProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label">Last Name <span style={{ color: "red" }}>*</span></label>
                         <div className="col-sm-9">
-                          <input type="text" className="form-control" value={lastname} onChange={(event) => chnageOut("lastname", event)} />
+                          <input type="text" className="form-control" value={lastName} onChange={(event) => chnageOut("lastName", event)} />
 
-                          {errors && errors.lastname && <div className="error text-danger"> {lastnameError}</div>}
+                          {errors && errors.lastName && <div className="error text-danger"> {lastNameError}</div>}
                         </div>
                       </div>
                     </div>
@@ -1133,7 +1122,7 @@ function UserProfile() {
 
                         <label className="col-sm-5 col-form-label">Upload CV  <span style={{ color: "red" }}>*</span></label>
                         <div className="col-sm-7">
-                          <input type="file" className="form-control" value={cv} onChange={(event) => chnageOut("cv", event)} />
+                          <input type="file" id="cv" className="form-control" onChange={onFileChange} />
 
                           {errors && errors.cv && <div className="error text-danger"> {cvError}</div>}
 
@@ -1151,7 +1140,7 @@ function UserProfile() {
                           <input type="file" className="form-control" /> */}
                         <label className="col-sm-5 col-form-label">Upload Cover Letter <span style={{ color: "red" }}>*</span></label>
                         <div className="col-sm-7">
-                          <input type="file" className="form-control" value={coverLetter} onChange={(event) => chnageOut("coverLetter", event)} />
+                          <input type="file" id="cover" className="form-control" onChange={onFileChange} />
 
                           {errors && errors.coverLetter && <div className="error text-danger"> {coverLetterError}</div>}
 

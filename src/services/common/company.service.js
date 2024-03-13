@@ -46,6 +46,11 @@ class CompanyService {
     return http.put(`/companies/profile/update/${id}`, data);
   }
 
+  
+  uploadLogo(data) {
+    return httpUpload.post(`/upload/logos?path=logos`, data);
+  }
+
   changePassword(id, data) {
     return http.put(`/changePassword/${id}`, data);
   }

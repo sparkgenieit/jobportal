@@ -36,14 +36,16 @@ class UserService {
   }
 
   update(id, userData) {
-  //  console.log(data.photo);
-  //   if(data.photo){
-  //     return http.put(`/update-user-wiht-photo/${id}`, data);
-  //   }else{
-  //     console.log(data);
-  //     return http.put(`/update-user/${id}`, data);
-  //   }
     return http.put(`/users/profile/update/${id}`, userData);
+  }
+
+
+  uploadCV(data) {
+    return httpUpload.post(`/upload/cvs?path=cvs`, data);
+  }
+
+  uploadCoverLetter(data) {
+    return httpUpload.post(`/upload/coverLetters?path=coverletters`, data);
   }
 
   changePassword(id, data) {

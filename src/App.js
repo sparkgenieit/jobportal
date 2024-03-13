@@ -66,16 +66,6 @@ import Savedjobs from "./pages/common/Savedjobs";
 import SingleJobAdmin from "./pages/admin/joblist/SingleJobAdmin";
 import SuperAdminLogin from "./pages/superadmin/login";
 
-
-
-
-
-
-
-
-
-
-
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [role, setRole] = useState(localStorage.getItem('role') || '');
@@ -94,73 +84,67 @@ function App() {
       <Route path="/viewprofile" element={token ? <ViewProfile /> : <Navigate to="/" />} />
 
       <Route path="/company" element={(token && role == 'employer') ? <CompanyHome /> : <Navigate to="/" />} />
-      <Route path="/company/CompanyProfile" element={(token && role == 'employer') ? <CompanyProfile /> : <CompanyProfile />} />
-      <Route path="/company/postajob" element={(token && role == 'employer') ? <Postajob /> : <Postajob />} />
-      <Route path="/company/JobList" element={(token && role == 'employer') ? <JobList /> : <JobList />} />
+      <Route path="/company/CompanyProfile" element={(token && role == 'employer') ? <CompanyProfile /> : <Navigate to="/" />} />
+      <Route path="/company/postajob" element={(token && role == 'employer') ? <Postajob /> :<Navigate to="/" />} />
+      <Route path="/company/JobList" element={(token && role == 'employer') ? <JobList /> : <Navigate to="/" />} />
 
 
-      <Route path="/common/Aboutwhvisa" element={(token && role == 'employer') ? <Aboutwhvisa /> : <Aboutwhvisa />} />
-      <Route path="/common/Banking" element={(token && role == 'employer') ? <Banking /> : <Banking />} />
-      <Route path="/common/Typesofwork" element={(token && role == 'employer') ? <Typesofwork /> : <Typesofwork />} />
-      <Route path="/common/Usefullinks" element={(token && role == 'employer') ? <Usefullinks /> : <Usefullinks />} />
-      <Route path="/common/Places" element={(token && role == 'employer') ? <Places /> : <Places />} />
-      <Route path="/common/Tax" element={(token && role == 'employer') ? <Tax /> : <Tax />} />
-      <Route path="/common/News" element={(token && role == 'employer') ? <News /> : <News />} />
-      <Route path="/common/Transport" element={(token && role == 'employer') ? <Transport /> : <Transport />} />
-      <Route path="/common/Accommodation" element={(token && role == 'employer') ? <Accommodation /> : <Accommodation />} />
-      <Route path="/common/HolidayParks" element={(token && role == 'employer') ? <HolidayParks /> : <HolidayParks />} />
-      <Route path="/common/FreedomCampaining" element={(token && role == 'employer') ? <FreedomCampaining /> : <FreedomCampaining />} />
-      <Route path="/common/Activities" element={(token && role == 'employer') ? <Activities /> : <Activities />} />
-      <Route path="/common/Myappliedjobs" element={(token && role == 'employer') ? <Myappliedjobs /> : <Myappliedjobs />} />
-      <Route path="/common/Savedjobs" element={(token && role == 'employer') ? <Savedjobs /> : <Savedjobs />} />
-
-
-
-
-      <Route path="/common/AboutUs" element={(token && role == 'employer') ? <AboutUs /> : <AboutUs />} />
-      <Route path="/common/Services" element={(token && role == 'employer') ? <Services /> : <Services />} />
-      <Route path="/common/Termsofservice" element={(token && role == 'employer') ? <Termsofservice /> : <Termsofservice />} />
-      <Route path="/common/Privacypolicy" element={(token && role == 'employer') ? <Privacypolicy /> : <Privacypolicy />} />
-      <Route path="/common/WebDesign" element={(token && role == 'employer') ? <WebDesign /> : <WebDesign />} />
-      <Route path="/common/WebDevelopment" element={(token && role == 'employer') ? <WebDevelopment /> : <WebDevelopment />} />
-      <Route path="/common/ProductManagement" element={(token && role == 'employer') ? <ProductManagement /> : <ProductManagement />} />
-      <Route path="/common/Marketing" element={(token && role == 'employer') ? <Marketing /> : <Marketing />} />
-      <Route path="/common/GraphicDesign" element={(token && role == 'employer') ? <GraphicDesign /> : <GraphicDesign />} />
-
-
-      <Route path="/common/SingleJob" element={(token && role == 'employer') ? <SingleJob /> : <SingleJob />} />
-
-      <Route path="/admin" element={(token && role == 'employer') ? <AdminHome /> : <AdminHome />} />
-      <Route path="/admin/Jobqueuelist" element={(token && role == 'employer') ? <Jobqueuelist /> : <Jobqueuelist />} />
-      <Route path="/admin/Myasignjobs" element={(token && role == 'employer') ? <Myasignjobs /> : <Myasignjobs />} />
-      <Route path="/admin/login" element={(token && role == 'employer') ? <Login /> : <Login />} />
+      <Route path="/common/Aboutwhvisa" element={(token && role == 'user') ? <Aboutwhvisa /> : <Aboutwhvisa />} />
+      <Route path="/common/Banking" element={(token && role == 'user') ? <Banking /> : <Banking />} />
+      <Route path="/common/Typesofwork" element={(token && role == 'user') ? <Typesofwork /> : <Typesofwork />} />
+      <Route path="/common/Usefullinks" element={(token && role == 'user') ? <Usefullinks /> : <Usefullinks />} />
+      <Route path="/common/Places" element={(token && role == 'user') ? <Places /> : <Places />} />
+      <Route path="/common/Tax" element={(token && role == 'user') ? <Tax /> : <Tax />} />
+      <Route path="/common/News" element={(token && role == 'user') ? <News /> : <News />} />
+      <Route path="/common/Transport" element={(token && role == 'user') ? <Transport /> : <Transport />} />
+      <Route path="/common/Accommodation" element={(token && role == 'user') ? <Accommodation /> : <Accommodation />} />
+      <Route path="/common/HolidayParks" element={(token && role == 'user') ? <HolidayParks /> : <HolidayParks />} />
+      <Route path="/common/FreedomCampaining" element={(token && role == 'user') ? <FreedomCampaining /> : <FreedomCampaining />} />
+      <Route path="/common/Activities" element={(token && role == 'user') ? <Activities /> : <Activities />} />
+      <Route path="/common/Myappliedjobs" element={(token && role == 'user') ? <Myappliedjobs /> : <Navigate to="/" />} />
+      <Route path="/common/Savedjobs" element={(token && role == 'user') ? <Savedjobs /> : <Navigate to="/" />} />
 
 
 
 
-      <Route path="/superadmin/Categories1" element={(token && role == 'employer') ? <Categories1 /> : <Categories1 />} />
+      <Route path="/common/AboutUs" element={(token && role == 'user') ? <AboutUs /> : <AboutUs />} />
+      <Route path="/common/Services" element={(token && role == 'user') ? <Services /> : <Services />} />
+      <Route path="/common/Termsofservice" element={(token && role == 'user') ? <Termsofservice /> : <Termsofservice />} />
+      <Route path="/common/Privacypolicy" element={(token && role == 'user') ? <Privacypolicy /> : <Privacypolicy />} />
+      <Route path="/common/WebDesign" element={(token && role == 'user') ? <WebDesign /> : <WebDesign />} />
+      <Route path="/common/WebDevelopment" element={(token && role == 'user') ? <WebDevelopment /> : <WebDevelopment />} />
+      <Route path="/common/ProductManagement" element={(token && role == 'user') ? <ProductManagement /> : <ProductManagement />} />
+      <Route path="/common/Marketing" element={(token && role == 'user') ? <Marketing /> : <Marketing />} />
+      <Route path="/common/GraphicDesign" element={(token && role == 'user') ? <GraphicDesign /> : <GraphicDesign />} />
 
-      <Route path="/superadmin/Categorieslist1" element={(token && role == 'employer') ? <Categorieslist1 /> : <Categorieslist1 />} />
 
+      <Route path="/common/SingleJob/:id" element={(token && role == 'user') ? <SingleJob /> : <SingleJob />} />
 
-      <Route path="/superadmin/list" element={(token && role == 'employer') ? <List /> : <List />} />
-
-      <Route path="/admin/Jobqueuelist" element={(token && role == 'employer') ? <Jobqueuelist /> : <Jobqueuelist />} />
-
-
-
-      <Route path="/superadmin" element={(token && role == 'employer') ? <SuperAdminHome /> : <SuperAdminHome />} />
-      <Route path="/superadmin/Create" element={(token && role == 'employer') ? <Create /> : <Create />} />
-      <Route path="/superadmin/List" element={(token && role == 'employer') ? <List /> : <List />} />
-      <Route path="/superadmin/AddForms" element={(token && role == 'employer') ? <AddForms /> : <AddForms />} />
-      <Route path="/superadmin/Table" element={(token && role == 'employer') ? <Table /> : <Table />} />
-      <Route path="/superadmin/CreateUser" element={(token && role == 'employer') ? <CreateUser /> : <CreateUser />} />
-      <Route path="/superadmin/UserList" element={(token && role == 'employer') ? <UserList /> : <UserList />} />
-      <Route path="/superadmin/Skills" element={(token && role == 'employer') ? <Skills /> : <Skills />} />
-      <Route path="/superadmin/login" element={(token && role == 'employer') ? <SuperAdminLogin /> : <SuperAdminLogin />} />
+      <Route path="/admin" element={(token && role == 'admin') ? <AdminHome /> : <Login />} />
+      <Route path="/admin/Jobqueuelist" element={(token && role == 'admin') ? <Jobqueuelist /> : <Login />} />
+      <Route path="/admin/Myasignjobs" element={(token && role == 'admin') ? <Myasignjobs /> : <Login />} />
+      <Route path="/admin/login" element={(token && role == 'admin') ? <Login /> : <AdminHome />} />
 
 
 
+
+      <Route path="/superadmin/Categories1" element={(token && role == 'superadmin') ? <Categories1 /> : <Categories1 />} />
+
+      <Route path="/superadmin/Categorieslist1" element={(token && role == 'superadmin') ? <Categorieslist1 /> : <Categorieslist1 />} />
+
+
+      <Route path="/superadmin/list" element={(token && role == 'superadmin') ? <List /> : <List />} />
+
+
+      <Route path="/superadmin" element={(token && role == 'superadmin') ? <SuperAdminHome /> : <SuperAdminLogin />} />
+      <Route path="/superadmin/admins/Create" element={(token && role == 'superadmin') ? <Create /> : <SuperAdminLogin />} />
+      <Route path="/superadmin/admins/List" element={(token && role == 'superadmin') ? <List /> : <SuperAdminLogin />} />
+      <Route path="/superadmin/AddForms" element={(token && role == 'superadmin') ? <AddForms /> : <SuperAdminLogin />} />
+      <Route path="/superadmin/Table" element={(token && role == 'superadmin') ? <Table /> : <SuperAdminLogin />} />
+      <Route path="/superadmin/CreateUser" element={(token && role == 'superadmin') ? <CreateUser /> : <SuperAdminLogin />} />
+      <Route path="/superadmin/UserList" element={(token && role == 'superadmin') ? <UserList /> : <SuperAdminLogin />} />
+      <Route path="/superadmin/Skills" element={(token && role == 'superadmin') ? <Skills /> : <SuperAdminLogin />} />
+      <Route path="/superadmin/login" element={(token && role == 'superadmin') ? <SuperAdminHome /> : <SuperAdminLogin />} />
 
 
     </Routes>
