@@ -26,7 +26,7 @@ function Login() {
 
     if (name == "email") {
       setEmail(event.target.value)
-      
+
       if (event.target.value == "") {
         setErrors({ ...errors, email: true })
       }
@@ -71,7 +71,7 @@ function Login() {
       Obj = { ...Obj, email: true }
       setEmailError("Please Enter Email")
     }
-    else if (!validateEmailAddress(email)) { 
+    else if (!validateEmailAddress(email)) {
       Obj = { ...Obj, email: true }
       setEmailError("Invalid Email")
     }
@@ -108,19 +108,19 @@ function Login() {
       }
 
       axios.post("http://localhost:8080/users/login", data)
-        .then((response) =>{
+        .then((response) => {
           console.log(response.data);
           localStorage.setItem('token', response.data.token);
           const token = response.data.token;
 
-          localStorage.setItem('user_id',  response.data._id);
+          localStorage.setItem('user_id', response.data._id);
           // Store the token securely (e.g., in localStorage or HTTP-only cookies)
           localStorage.setItem('token', token);
 
           localStorage.setItem('role', response.data.role)
           setTimeout(() => {
             // Inside the handleLogin function
-            navigate('/admin/jobqueuelist'); // Redirect to the dashboard after login
+            navigate('/admin/Jobqueuelist'); // Redirect to the dashboard after login
           }, 1500);
         }
         )
@@ -157,8 +157,8 @@ function Login() {
                   <div className="card-body">
                     <h4 className="card-title my-4"> Admin Login </h4>
                     <form class="form-sample">
-                    {errors && errors.loginError && <div class="alert alert-danger" role="alert">
-            {errors && errors.loginError}</div>}
+                      {errors && errors.loginError && <div class="alert alert-danger" role="alert">
+                        {errors && errors.loginError}</div>}
                       <div className='row mt-3'>
                         <div className="col-md-12">
                           <div className="form-group row">
