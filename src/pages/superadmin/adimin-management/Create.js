@@ -136,6 +136,7 @@ function Create() {
       axios.post("http://localhost:8080/users/register", data)
         .then((response) => {
           if (response && response.status) {
+            setErrorMsg(false)
             setMsg(true)
             setTimeout(() => {
               navigate("/superadmin/List")
