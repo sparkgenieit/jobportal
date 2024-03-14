@@ -796,27 +796,27 @@ function Postajob() {
                             <div className="col-3">
                               <div className="form-check">
                                 <input type="checkbox" className="form-check-input " name="workinghoursRadio"
-                                  id="workinghoursRadio1" value={benifits} onChange={(event) => handleInput('benifits', event)} />Accomdation
+                                  id="workinghoursRadio1" value="Accomdation"onChange={(event) => handleInput('benifits', event)} />Accomdation
                               </div>
 
                             </div>
                             <div className="col-2">
                               <div className="form-check">
                                 <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                  id="workinghoursRadio1" value="" />Food
+                                  id="workinghoursRadio1" value="Food"onChange={(event)=>handleInput('benifits',event)} />Food
                               </div>
 
                             </div>
                             <div className="col-3">
                               <div className="form-check">
                                 <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                  id="workinghoursRadio1" value="" />Transport
+                                  id="workinghoursRadio1" value="Transport"onChange={(event)=>handleInput('benifits',event)} />Transport
                               </div>
                             </div>
                             <div className="col-4 ">
                               <div className="form-check">
                                 <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                  id="workinghoursRadio1" value="" onChange={toggleInput} checked={showInput} />Others
+                                  id="workinghoursRadio1" value="Others" onChange={(event)=>{handleInput('benifits',event);toggleInput()}} checked={showInput} />Others
                                 {showInput && <input type='text' className='form-control col-5' />}
 
                               </div>
@@ -837,13 +837,13 @@ function Postajob() {
                             <div className=" col-2 form-check mx-3">
 
                               <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                id="workinghoursRadio1" value="" />No
+                                id="workinghoursRadio1" value="No" onChange={(event)=>handleInput('training',event)} />No
 
                             </div>
                             <div className=" col-2 form-check mx-3">
 
                               <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                id="workinghoursRadio1" value="" onChange={toggleCheck} checked={showCheck} />Yes
+                                id="workinghoursRadio1" value="Yes" onChange={(event)=>{handleInput('training',event); toggleCheck()} }checked={showCheck} />Yes
 
 
                             </div>
