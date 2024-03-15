@@ -30,7 +30,7 @@ function Sidebar() {
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="Create">
+            <a class="nav-link" href="List">
               <span class="menu-title">Admin Management</span>
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="95" height="25" fill="currentColor" class="bi bi-person-vcard-fill" viewBox="0 0 16 16">
@@ -56,9 +56,9 @@ function Sidebar() {
             <a class="nav-link" href="Category">
               <span class="menu-title">Category</span>
               <div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="235" height="20" fill="currentColor" class="bi bi-microsoft" viewBox="0 0 16 16">
-                <path d="M7.462 0H0v7.19h7.462zM16 0H8.538v7.19H16zM7.462 8.211H0V16h7.462zm8.538 0H8.538V16H16z" />
-              </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="235" height="20" fill="currentColor" class="bi bi-microsoft" viewBox="0 0 16 16">
+                  <path d="M7.462 0H0v7.19h7.462zM16 0H8.538v7.19H16zM7.462 8.211H0V16h7.462zm8.538 0H8.538V16H16z" />
+                </svg>
               </div>
             </a>
           </li>
@@ -66,10 +66,10 @@ function Sidebar() {
             <a class="nav-link" href="CreateUser">
               <span class="menu-title">User Management</span>
               <div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="116" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
-              </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="116" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                </svg>
               </div>
             </a>
           </li>

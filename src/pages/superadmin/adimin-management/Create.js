@@ -126,8 +126,8 @@ function Create() {
 
     if (isValid) {
       const data = {
-        firstName: fname,
-        lastName: lname,
+        first_name: fname,
+        last_name: lname,
         email: email,
         password: password,
         role: 'admin'
