@@ -6,38 +6,64 @@ import Footer from '../../layouts/common/Footer';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import {
-    useParams,
-} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Sidebar from '../../layouts/company/Sidebar';
 
 function SingleJob() {
-const [jobview, setJobview] = useState()
+    const [jobview, setJobview] = useState()
+    const userId = localStorage.getItem('user_id');
 
-const params = useParams();
 
-useEffect(() => {
-    axios.get(`http://localhost:8080/jobs/${params.id}`)
-        .then((response) => setJobview(response.data))
-}, [])
+    const params = useParams();
+
+    useEffect(() => {
+        axios.get(`http://localhost:8080/jobs/${params.id}`)
+            .then((response) => setJobview(response.data))
+    }, [])
+
+    function handleApply() {
+        const data = {
+            userId: userId,
+            jobId: jobview._id,
+            applied: true
+        }
+
+        axios.post("http://localhost:8080/jobs/apply", data)
+            .then((response) => console.log(response))
+            .catch((e) => console.log(e))
+
+
+    }
+    function handleSave() {
+        const data = {
+            userId: userId,
+            jobId: jobview._id,
+            saved: true
+        }
+
+        axios.post("http://localhost:8080/jobs/save", data)
+            .then((response) => console.log(response))
+            .catch((e) => console.log(e))
+
+    }
 
     return (
         <>
             <div className="container-scrollar">
                 <Header />
                 <div class="">
-            
+
                     <div lass="main-panel">
                         {jobview && <div class="content-wrapper">
-                            
+
 
                             <div class="row">
-                                <div class="col-12 bg-white">
+                                <div class="col-12 bg-white rounded">
 
                                     <div class="card-body px-4  ">
                                         <div className="d-flex justify-content-end mt-4 gap-5">
-
-                                            
+                                            <button type='button' onClick={handleSave} className='btn btn-outline-dark col-2 '>Save</button>
+                                            <button type='button' onClick={handleApply} className='btn btn-primary col-2'>Apply</button>
                                         </div>
 
 
@@ -48,7 +74,7 @@ useEffect(() => {
                                         <div className="row my-4">
                                             <p className="col-3">Company :</p>
                                             <p className="col-6">{jobview.company}</p>
-                                            
+
                                             <p><img class="rounded" src={`http://localhost:8080/uploads/logos/${jobview.companyLogo}`} width="70px" height="50px" alt="" /></p>
 
                                         </div>
@@ -57,8 +83,24 @@ useEffect(() => {
                                             <p className="col-6">{jobview.location}</p>
                                         </div>
                                         <div className="row my-4">
+                                            <p className="col-3">Creation Date :</p>
+                                            <p className="col-6">{jobview.creationdate}</p>
+                                        </div>
+                                        <div className="row my-4">
+                                            <p className="col-3">Closing Date :</p>
+                                            <p className="col-6">{jobview.closedate}</p>
+                                        </div>
+                                        <div className="row my-4">
+                                            <p className="col-3">Job Type :</p>
+                                            <p className="col-6">{jobview.jobtype}</p>
+                                        </div>
+                                        <div className="row my-4">
                                             <p className="col-3">Number of Vacancies :</p>
                                             <p className="col-6">{jobview.numberofvacancies}</p>
+                                        </div>
+                                        <div className="row my-4">
+                                            <p className="col-3">Employer Job Reference :</p>
+                                            <p className="col-6">{jobview.employjobreference}</p>
                                         </div>
                                         <div className="row my-4">
                                             <p className="col-3">Job Title :</p>
@@ -105,7 +147,7 @@ useEffect(() => {
 
                                         <div className="row my-4">
                                             <p className="col-3">Employer Name:</p>
-                                            <p className="col-6">{jobview.employer}</p>
+                                            <p className="col-6">{jobview.company}</p>
                                         </div>
                                         <div className="row my-4">
                                             <p className="col-3">Status:</p>
