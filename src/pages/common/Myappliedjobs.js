@@ -9,7 +9,7 @@ function Myappliedjobs() {
     const userId = localStorage.getItem('user_id')
 
     useEffect(()=>{
-        axios.get(`http://localhost:8080/jobs/savedJobs/${userId}`)
+        axios.get(`http://localhost:8080/jobs/appliedjobs/${userId}`)
              .then((Response)=> console.log(Response))
     })
 
