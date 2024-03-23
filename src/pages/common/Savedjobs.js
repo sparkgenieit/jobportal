@@ -5,66 +5,13 @@ import Footer from "../../layouts/common/Footer";
 import axios from "axios";
 
 function Savedjobs() {
-    const [assignJobs, setAssignJobs] = useState([
-        {
-            _id: "65e9a0a4a91caf3b376107b9",
-            company: "HCL",
-            location: "Vijayawada",
-            numberofvacancies: null,
-            jobTitle: "Developer",
-            rateperhour: null,
-            duration: "Technology",
-            jobCategory: "Technology",
-            subCategory: "",
-            weeklyperhour: null,
-            benifits: "",
-            training: "",
-            description: "Testing",
-            employerquestions: "",
-            employer: "",
-            status: "review",
-            __v: 0,
-        },
-        {
-            _id: "65e9a0a4a91caf3b376107b9",
-            company: "HCL",
-            location: "Vijayawada",
-            numberofvacancies: null,
-            jobTitle: " Developer",
-            rateperhour: null,
-            duration: "Technology",
-            jobCategory: "Technology",
-            subCategory: "",
-            weeklyperhour: null,
-            benifits: "",
-            training: "",
-            description: "Testing",
-            employerquestions: "",
-            employer: "",
-            status: "review",
-            __v: 0,
-        },
-        {
-            _id: "65e9a0a4a91caf3b376107b9",
-            company: "HCL",
-            location: "Vijayawada",
-            numberofvacancies: null,
-            jobTitle: "Developer",
-            rateperhour: null,
-            duration: "Technology",
-            jobCategory: "Technology",
-            subCategory: "",
-            weeklyperhour: null,
-            benifits: "",
-            training: "",
-            description: "Testing",
-            employerquestions: "",
-            employer: "",
-            status: "review",
-            __v: 0,
-        },
+    const [assignJobs, setAssignJobs] = useState(null)
+    const userId = localStorage.getItem('user_id')
 
-    ])
+    useEffect(()=>{
+        axios.get(`http://localhost:8080/jobs/savedJobs/${userId}`)
+             .then((Response)=> console.log(Response))
+    })
 
     
     return (
@@ -105,7 +52,7 @@ function Savedjobs() {
 
                                                         </tr>
 
-                                                        {
+                                                        {assignJobs && assignJobs > 0 &&
                                                             assignJobs.map((job, index) => {
                                                                 return <tr key={index}>
                                                                     <td>{job._id}</td>
