@@ -33,6 +33,8 @@ function Postajob() {
   const [benifits, setBenifits] = useState('')
   const [employerquestions, setEmployerQuestions] = useState('')
   const [employer, setEmployer] = useState('')
+  const [otherBenefits, setOtherBenefits] = useState('')
+  const [trainingCmt, setTrainingCmt] = useState('')
 
 
   const [msg, setMsg] = useState('')
@@ -106,7 +108,7 @@ function Postajob() {
   })
 
   useEffect(() => {
-    
+
     companyService.get(userId)
       .then(response => {
         setCompany(response.data.name);
@@ -133,7 +135,7 @@ function Postajob() {
       setDescriptionMsg('Not Proper Description');
     }
     else {
-      valid = true;
+
       eObj = { ...eObj, descriptionErrors: false };
     }
 
@@ -148,7 +150,7 @@ function Postajob() {
       setLocationMsg('Not a Proper Location')
     }
     else {
-      valid = true;
+
       eObj = { ...eObj, locationErrors: false };
     }
 
@@ -157,7 +159,6 @@ function Postajob() {
       eObj = { ...eObj, jobCategoryErrors: true };
     }
     else {
-      valid = true;
       eObj = { ...eObj, jobCategoryErrors: false };
     }
 
@@ -166,7 +167,6 @@ function Postajob() {
       eObj = { ...eObj, subCategoryErrors: true };
     }
     else {
-      valid = true;
       eObj = { ...eObj, subCategoryErrors: false };
     }
 
@@ -175,7 +175,6 @@ function Postajob() {
       eObj = { ...eObj, jobTitleErrors: true };
       setJobTitleMsg('Please enter Job Title')
     } else {
-      valid = true;
       eObj = { ...eObj, jobTitleErrors: false };
     }
 
@@ -184,7 +183,7 @@ function Postajob() {
       eObj = { ...eObj, jobTypeErrors: true };
     }
     else {
-      valid = true;
+
       eObj = { ...eObj, jobTypeErrors: false };
     }
 
@@ -193,7 +192,6 @@ function Postajob() {
       eObj = { ...eObj, vacanciesErrors: true };
       setVacanciesMsg('Please Enter Number Of Vacancies');
     } else {
-      valid = true;
       eObj = { ...eObj, vacanciesErrors: false };
     }
 
@@ -203,7 +201,7 @@ function Postajob() {
 
     }
     else {
-      valid = true;
+
       eObj = { ...eObj, creationDateErrors: false };
     }
 
@@ -212,7 +210,7 @@ function Postajob() {
       eObj = { ...eObj, trainingErrors: true };
       setTrainingMsg('Please Specify Training')
     } else {
-      valid = true;
+
       eObj = { ...eObj, trainingErrors: false };
     }
 
@@ -221,7 +219,7 @@ function Postajob() {
       eObj = { ...eObj, companyErrors: true };
       setCompanyMsg('Please Enter Company Name')
     } else {
-      valid = true;
+
       eObj = { ...eObj, companyErrors: false };
     }
 
@@ -230,7 +228,7 @@ function Postajob() {
       eObj = { ...eObj, duration: true };
     }
     else {
-      valid = true;
+
       eObj = { ...eObj, duration: false };
     }
 
@@ -244,7 +242,7 @@ function Postajob() {
       obj1 = { ...obj1, jobType: jobType }
       obj1 = { ...obj1, location: location }
       obj1 = { ...obj1, Empjobreference: empjobreference }
-      obj1 = { ...obj1, numberofvacancies: numberofvacancies }
+      obj1 = { ...obj1, numberofvacancies: vacancies }
       obj1 = { ...obj1, jobTitle: jobTitle }
       obj1 = { ...obj1, rateperhour: rateperhour }
       obj1 = { ...obj1, duration: duration }
@@ -261,25 +259,25 @@ function Postajob() {
 
       let data = {
         company: company,
-        closeDate: closeDate,
-        creationDate: creationDate,
-        jobType: jobType,
+        closedate: closeDate,
+        creationdate: creationDate,
+        jobtype: jobType,
         location: location,
-        Empjobreference: empjobreference,
-        numberofvacancies: numberofvacancies,
+        employjobreference: empjobreference,
+        numberofvacancies: vacancies,
         jobTitle: jobTitle,
         rateperhour: rateperhour,
         duration: duration,
         jobCategory: jobCategory,
         subCategory: subCategory,
         weeklyperhour: weeklyperhour,
-        benifits: benifits,
-        training: training,
+        benifits: benifits + " " + otherBenefits,
+        training: training + ' ' + trainingCmt,
         description: description,
         employerquestions: employerquestions,
         employer: employer,
         companyId: userId,
-        companyLogo:companyLogo
+        companyLogo: companyLogo
       }
       axios.post('http://localhost:8080/jobs/create', data)
         .then(response => {
@@ -287,7 +285,7 @@ function Postajob() {
             setMsg('Jobs added successfully');
 
             setTimeout(() => {
-              navigate('/company/JobList', { replace: true }); 
+              navigate('/company/JobList', { replace: true });
             }, 2000)
 
           }
@@ -457,6 +455,31 @@ function Postajob() {
 
 
   }
+
+  function handleCheckboxes(name, value) {
+    if (name === "jobtype") {
+      if (!jobType.includes(value)) {
+        setJobType((jobType) => jobType + " " + value)
+      } else {
+        setJobType((jobType) => jobType.replace(value, ""))
+      }
+    }
+    if (name === "benefits") {
+      if (!benifits.includes(value)) {
+        setBenifits((benefits) => benefits + " " + value)
+      } else {
+        setBenifits((benefits) => benefits.replace(value, ""))
+      }
+    }
+    if (name === "training") {
+      if (!training.includes(value)) {
+        setTraining((training) => training + " " + value)
+      } else {
+        setTraining((training) => training.replace(value, ""))
+      }
+    }
+
+  }
   return (
     <>
 
@@ -526,21 +549,21 @@ function Postajob() {
                               <div class="col-sm-5">
                                 <div class="form-check">
 
-                                  <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value={jobType} onChange={(event) => handleInput('jobtype', event)} /> FullTime
+                                  <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="FullTime" onChange={() => handleCheckboxes('jobtype', "FullTime")} /> FullTime
                                 </div>
                               </div>
 
                               <div class="col-sm-5">
                                 <div class="form-check">
 
-                                  <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value={jobType} onChange={(event) => handleInput('jobtype', event)} /> Casual
+                                  <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Casual" onChange={() => handleCheckboxes('jobtype', "Casual")} /> Casual
                                 </div>
                               </div>
 
                               <div class="col-sm-5">
                                 <div class="form-check">
 
-                                  <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value={jobType} onChange={(event) => handleInput('jobtype', event)} /> Freelance
+                                  <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Freelance" onChange={() => handleCheckboxes('jobtype', "Freelance")} /> Freelance
                                 </div>
                               </div>
 
@@ -551,21 +574,21 @@ function Postajob() {
                               <div class="col-sm-5 mx-3">
                                 <div class="form-check">
 
-                                  <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value={jobType} onChange={(event) => handleInput('jobtype', event)} /> PartTime
+                                  <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="PartTime" onChange={() => handleCheckboxes('jobtype', "PartTime")} /> PartTime
                                 </div>
                               </div>
 
                               <div class="col-sm-5 mx-3">
                                 <div class="form-check">
 
-                                  <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value={jobType} onChange={(event) => handleInput('jobtype', event)} /> Contract
+                                  <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Contract" onChange={() => handleCheckboxes('jobtype', "Contract")} /> Contract
                                 </div>
                               </div>
 
                               <div class="col-sm-5 mx-3">
                                 <div class="form-check">
 
-                                  <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value={jobType} onClick={(event) => handleInput('jobtype', event)} /> Temporary
+                                  <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Temporary" onClick={() => handleCheckboxes('jobtype', "Temporary")} /> Temporary
                                 </div>
                               </div>
 
@@ -669,14 +692,14 @@ function Postajob() {
                             <div className="col-sm-8">
                               <select className="form-select border col-6 " value={duration} onChange={(event) => handleInput('duration', event)} >
                                 <option></option>
-                                <option className="fw-bold" value="Agriculture"> Less than a month</option>
-                                <option className="fw-bold" value="Hospitality">1 Month</option>
-                                <option className="fw-bold" value="Retail">2 Month</option>
-                                <option className="fw-bold" value="Construction">3 Month</option>
-                                <option className="fw-bold" value="Office">4 Month</option>
-                                <option className="fw-bold" value="Healthcare">5 Month</option>
-                                <option className="fw-bold" value="Technology" >6 Month</option>
-                                <option className="fw-bold" value="Teaching">More than 6 months</option>
+                                <option className="fw-bold" value=" Less than a month"> Less than a month</option>
+                                <option className="fw-bold" value="1 Month">1 Month</option>
+                                <option className="fw-bold" value="2 Month">2 Month</option>
+                                <option className="fw-bold" value="3 Month">3 Month</option>
+                                <option className="fw-bold" value="4 Month">4 Month</option>
+                                <option className="fw-bold" value="5 Month">5 Month</option>
+                                <option className="fw-bold" value="6 Month" >6 Month</option>
+                                <option className="fw-bold" value="More than 6 months">More than 6 months</option>
 
 
                               </select>
@@ -702,67 +725,67 @@ function Postajob() {
 
                                 {jobCategory === 'Agriculture' && (
                                   <>
-                                    <option value="subOption1">Fruit picking</option>
-                                    <option value="subOpotion2">Crop harvesting</option>
-                                    <option value="subOpotion2">Dairy farming</option>
-                                    <option value="subOpotion2">Livestock handling</option>
+                                    <option value="Fruit picking">Fruit picking</option>
+                                    <option value="Crop harvesting">Crop harvesting</option>
+                                    <option value="Dairy farming">Dairy farming</option>
+                                    <option value="Livestock handling">Livestock handling</option>
                                   </>
                                 )}
                                 {jobCategory === 'Hospitality' && (
                                   <>
-                                    <option value="subOption3">Hotel work</option>
-                                    <option value="subOption4"> Restaurant and cafe jobs</option>
-                                    <option value="subOption4">Tourism-related positions</option>
-                                    <option value="subOption4"> Resort and ski resort jobs</option>
+                                    <option value="Hotel work">Hotel work</option>
+                                    <option value="Restaurant and cafe jobs"> Restaurant and cafe jobs</option>
+                                    <option value="Tourism-related positions">Tourism-related positions</option>
+                                    <option value="Resort and ski resort jobs"> Resort and ski resort jobs</option>
                                   </>
                                 )}
                                 {jobCategory === 'Retail' && (
                                   <>
-                                    <option value="subOption3">Retail assistant</option>
-                                    <option value="subOption4"> Sales positions</option>
+                                    <option value="Retail assistant">Retail assistant</option>
+                                    <option value="Sales positions"> Sales positions</option>
 
                                   </>
                                 )}
                                 {jobCategory === 'Construction' && (
                                   <>
-                                    <option value="subOption3">Construction work</option>
-                                    <option value="subOption4"> Painting</option>
-                                    <option value="subOption4">Landscaping</option>
+                                    <option value="Construction work">Construction work</option>
+                                    <option value="Painting"> Painting</option>
+                                    <option value="Landscaping">Landscaping</option>
 
                                   </>
                                 )}
                                 {jobCategory === 'Office' && (
                                   <>
-                                    <option value="subOption3">Office support roles</option>
-                                    <option value="subOption4"> Administrative positions</option>
+                                    <option value="Office support roles">Office support roles</option>
+                                    <option value="Administrative positions"> Administrative positions</option>
 
                                   </>
                                 )}
                                 {jobCategory === 'Healthcare' && (
                                   <>
-                                    <option value="subOption3">Healthcare assistant</option>
-                                    <option value="subOption4"> Support roles in healthcare</option>
+                                    <option value="Healthcare assistant">Healthcare assistant</option>
+                                    <option value="Support roles in healthcare"> Support roles in healthcare</option>
 
                                   </>
                                 )}
                                 {jobCategory === 'Technology' && (
                                   <>
-                                    <option value="subOption3">IT support roles</option>
-                                    <option value="subOption4"> Software development internships</option>
+                                    <option value="IT support roles">IT support roles</option>
+                                    <option value="Software development internships"> Software development internships</option>
 
                                   </>
                                 )}
                                 {jobCategory === 'Teaching' && (
                                   <>
-                                    <option value="subOption3">Teaching assistant roles</option>
-                                    <option value="subOption4">Language teaching positions</option>
+                                    <option value="Teaching assistant roles">Teaching assistant roles</option>
+                                    <option value="Language teaching positions">Language teaching positions</option>
 
                                   </>
                                 )}
                                 {jobCategory === 'Creative' && (
                                   <>
-                                    <option value="subOption3">Graphic design</option>
-                                    <option value="subOption4">Writing and content creation</option>
+                                    <option value="Graphic design">Graphic design</option>
+                                    <option value="Writing and content creation">Writing and content creation</option>
 
                                   </>
                                 )}
@@ -796,28 +819,28 @@ function Postajob() {
                             <div className="col-3">
                               <div className="form-check">
                                 <input type="checkbox" className="form-check-input " name="workinghoursRadio"
-                                  id="workinghoursRadio1" value="Accomdation"onChange={(event) => handleInput('benifits', event)} />Accomdation
+                                  id="workinghoursRadio1" value="Accomdation" onChange={() => handleCheckboxes('benefits', "Accomdation")} />Accomdation
                               </div>
 
                             </div>
                             <div className="col-2">
                               <div className="form-check">
                                 <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                  id="workinghoursRadio1" value="Food"onChange={(event)=>handleInput('benifits',event)} />Food
+                                  id="workinghoursRadio1" value="Food" onChange={() => handleCheckboxes('benefits', "Food")} />Food
                               </div>
 
                             </div>
                             <div className="col-3">
                               <div className="form-check">
                                 <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                  id="workinghoursRadio1" value="Transport"onChange={(event)=>handleInput('benifits',event)} />Transport
+                                  id="workinghoursRadio1" value="Transport" onChange={() => handleCheckboxes('benefits', "Transport")} />Transport
                               </div>
                             </div>
                             <div className="col-4 ">
                               <div className="form-check">
                                 <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                  id="workinghoursRadio1" value="Others" onChange={(event)=>{handleInput('benifits',event);toggleInput()}} checked={showInput} />Others
-                                {showInput && <input type='text' className='form-control col-5' />}
+                                  id="workinghoursRadio1" value="" onChange={toggleInput} checked={showInput} />Others
+                                {showInput && <input type='text' value={otherBenefits} onChange={(e) => setOtherBenefits(e.target.value)} className='form-control col-5' />}
 
                               </div>
 
@@ -837,19 +860,19 @@ function Postajob() {
                             <div className=" col-2 form-check mx-3">
 
                               <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                id="workinghoursRadio1" value="No" onChange={(event)=>handleInput('training',event)} />No
+                                id="workinghoursRadio1" value="No" onChange={() => handleCheckboxes('training', "No")} />No
 
                             </div>
                             <div className=" col-2 form-check mx-3">
 
                               <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                id="workinghoursRadio1" value="Yes" onChange={(event)=>{handleInput('training',event); toggleCheck()} }checked={showCheck} />Yes
+                                id="workinghoursRadio1" value="Yes" onChange={() => { handleCheckboxes('training', "Yes"); toggleCheck() }} checked={showCheck} />Yes
 
 
                             </div>
                             <div className='col-6'>
 
-                              {showCheck && <input type='text' className='form-control col-5' />}
+                              {showCheck && <input type='text' value={trainingCmt} onChange={(e) => setTrainingCmt(e.target.value)} className='form-control col-5' />}
 
                             </div>
 
