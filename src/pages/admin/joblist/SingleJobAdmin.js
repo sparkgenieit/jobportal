@@ -43,14 +43,33 @@ function SingleJobAdmin({ joblist, handleApprove, handleReject }) {
                                         <div className="row my-4">
                                             <p className="col-3">Company :</p>
                                             <p className="col-6">{jobview.company}</p>
+
+                                            <p><img class="rounded" src={`http://localhost:8080/uploads/logos/${jobview.companyLogo}`} width="70px" height="50px" alt="" /></p>
+
                                         </div>
                                         <div className="row my-4">
                                             <p className="col-3">Location :</p>
                                             <p className="col-6">{jobview.location}</p>
                                         </div>
                                         <div className="row my-4">
+                                            <p className="col-3">Creation Date :</p>
+                                            <p className="col-6">{jobview.creationdate}</p>
+                                        </div>
+                                        <div className="row my-4">
+                                            <p className="col-3">Closing Date :</p>
+                                            <p className="col-6">{jobview.closedate}</p>
+                                        </div>
+                                        <div className="row my-4">
+                                            <p className="col-3">Job Type :</p>
+                                            <p className="col-6">{jobview.jobtype}</p>
+                                        </div>
+                                        <div className="row my-4">
                                             <p className="col-3">Number of Vacancies :</p>
                                             <p className="col-6">{jobview.numberofvacancies}</p>
+                                        </div>
+                                        <div className="row my-4">
+                                            <p className="col-3">Employer Job Reference :</p>
+                                            <p className="col-6">{jobview.employjobreference}</p>
                                         </div>
                                         <div className="row my-4">
                                             <p className="col-3">Job Title :</p>
@@ -97,7 +116,7 @@ function SingleJobAdmin({ joblist, handleApprove, handleReject }) {
 
                                         <div className="row my-4">
                                             <p className="col-3">Employer Name:</p>
-                                            <p className="col-6">{jobview.employer}</p>
+                                            <p className="col-6">{jobview.company}</p>
                                         </div>
                                         <div className="row my-4">
                                             <p className="col-3">Status:</p>

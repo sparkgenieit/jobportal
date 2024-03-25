@@ -30,7 +30,7 @@ function Sidebar() {
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="List">
+            <a class="nav-link" href="/superadmin/admins/List">
               <span class="menu-title">Admin Management</span>
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="95" height="25" fill="currentColor" class="bi bi-person-vcard-fill" viewBox="0 0 16 16">
@@ -42,7 +42,7 @@ function Sidebar() {
 
 
           <li class="nav-item">
-            <a class="nav-link" href="Skills">
+            <a class="nav-link" href="/superadmin/Skills">
               <span class="menu-title">Skills </span>
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="290" height="20" fill="currentColor" class="bi bi-gear-wide-connected" viewBox="0 0 16 16">
@@ -53,7 +53,7 @@ function Sidebar() {
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="Category">
+            <a class="nav-link" href="/superadmin/Categorieslist1">
               <span class="menu-title">Category</span>
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="235" height="20" fill="currentColor" class="bi bi-microsoft" viewBox="0 0 16 16">
