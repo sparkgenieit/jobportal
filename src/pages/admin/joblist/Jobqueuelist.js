@@ -99,8 +99,8 @@ const Jobqueuelist = () => {
                                                                 <td>{index + 1}</td>
                                                                 <td>{job.jobTitle}</td>
                                                                 <td>{job.company}</td>
-                                                                <td>{job.creationDate}</td>
-{/* 
+                                                                <td>{job.creationdate}</td>
+                                                                {/* 
                                                                 <td><button onClick={() => handleJob(job)} type="button" class="btn btn-info btn-xs col-12 ">
 
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">

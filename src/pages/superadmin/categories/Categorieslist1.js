@@ -4,87 +4,108 @@
 import Header from "../../../layouts/superadmin/Header";
 import Sidebar from "../../../layouts/superadmin/Sidebar";
 import Footer from "../../../layouts/superadmin/Footer";
+import { useState } from "react";
 
-function Categorieslist1 (){
-  return(
+function Categorieslist1() {
+  const [categoriesList, setCategoriesList] = useState([
+    {
+      categoryName: "Education",
+      parentCategory: "Teaching",
+      photo: "https://images.hindustantimes.com/rf/image_size_640x362/HT/p2/2015/12/01/Pictures/_c34102da-9849-11e5-b4f4-1b7a09ed2cea.jpg"
+    },
+    {
+      categoryName: "Art",
+      parentCategory: "Entertainment",
+      photo: "https://cdn.pixabay.com/photo/2016/11/23/00/37/art-1851483_1280.jpg"
+    },
+    {
+      categoryName: "Software Development",
+      parentCategory: "IT",
+      photo: "https://cdn.pixabay.com/photo/2016/11/23/14/45/coding-1853305_1280.jpg"
+    },
+    {
+      categoryName: "Judicial",
+      parentCategory: "Welfare",
+      photo: "https://cdn.pixabay.com/photo/2019/11/11/10/05/law-4617873_1280.jpg"
+    },
+  ])
+
+  return (
     <>
-    <div className="container-scroller">
+      <div className="container-scroller">
 
-{/* <Header /> */}
-<Header />
-<div class="container-fluid page-body-wrapper">
-    {/* <Sidebar /> */}
-    <Sidebar />
+        {/* <Header /> */}
+        <Header />
+        <div class="container-fluid page-body-wrapper">
+          {/* <Sidebar /> */}
+          <Sidebar />
 
-    <div class="main-panel">
-        <div class="content-wrapper">
-            <div class="page-header">
-                <h3 class="page-title">Categorieslist</h3>
+          <div class="main-panel">
+            <div class="content-wrapper">
+              <div class="page-header">
+                <h3 class="page-title">Categories List</h3>
                 <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">superAdmin</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">CategoriesTable</li>
-                    </ol>
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Super Admin</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Categories Table</li>
+                  </ol>
                 </nav>
-            </div>
-                <div>
-                 <a href="Categori"><button type="button" className="btn   btn-primary float-end">Add</button></a> 
-                </div>
-            <div class="row my-5">
+              </div>
+
+              <div class="row my-5">
+
                 <div class="col-12">
 
-                    <div class="card-body bg-white  ">
-                      <div class="row align-items-start">
-                      <div class=" row cointainer p-5  justify-content-between">
-                        <h1 align="centre">Categories table</h1>
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th scope="row">Category Name</th>
-                              <th scope="row">Photo</th>
-                              <th scope="row">Delete</th>
-                            </tr>
-                            <tr>
-                              <td scope="row">Education </td>
-                              <td scope="row"> <img src="../Pictures/Sql.jpg.png" alt=""
-                                  style = {{height: '50px',width: '50px'}}/></td>
-                              <td scope="row"><button type="button" class="btn btn-primary">DELETE</button></td>
-                            </tr>
-                            <tr>
-                              <td scope="row">Transport</td>
-                              <td scope="row"><img src="../Pictures/javascript.jpg.png" alt=""
-                                 style = {{height: '50px',width: '50px'}}/></td>
-                              
-                              <td scope="row"><button type="button" class="btn btn-primary">DELETE</button></td>
-                            </tr>
-                            <tr>
-                              <td scope="row">Healthcare</td>
-                              <td scope="row"> <img src="../Pictures/Html.jpg.png" alt=""
-                                  style = {{height: '50px',width: '50px'}}/></td>
-                                  <td scope="row"><button type="button" class="btn btn-primary">DELETE</button></td>
-                            </tr>
-                            
-                          </thead>
-                        </table>
+
+                  <div class="card-body bg-white  ">
+
+                    <div class="row col-12 ">
+                      <div className="d-flex justify-content-between">
+                        <h4 className="card-title pt-2">Categories Table</h4>
+                        <a type="button" className="btn btn-gradient-primary" href="/superadmin/Categories1">Add</a>
                       </div>
+
+                      <table class="table mt-4  text-center">
+                        <thead>
+                          <tr>
+                            <th >Category Name</th>
+                            <th >Parent Category </th>
+                            <th >Photo</th>
+                            <th></th>
+                            <th></th>
+
+                          </tr>
+
+                          {categoriesList && categoriesList.map((category, index) => {
+                            return <tr key={index}>
+                              <td>{category.categoryName}</td>
+                              <td>{category.parentCategory}</td>
+                              <td><img src={category.photo} /></td>
+                              <td><a type="button" href="editCategory" class="btn btn-gradient-primary">Edit</a></td>
+                              <td><button type="button" class="btn btn-gradient-primary">Delete</button></td>
+                            </tr>
+                          })
+
+                          }
+
+
+                        </thead>
+                      </table>
+
                     </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
-                        <button class="btn btn-light">Cancel</button>
-                      </div>
-                      </div>
+
+
+                  </div>
                 </div>
-                </div>
-                </div>
-                </div>
-                <Footer/>
-                </div>
-                </div>
-                </div>
-               
-           
+              </div>
+            </div>
+            <Footer />
+          </div>
+        </div>
+      </div>
+
+
     </>
   )
 }
-export default Categorieslist1 ;
+export default Categorieslist1;

@@ -65,6 +65,7 @@ import Myappliedjobs from "./pages/common/Myappliedjobs";
 import Savedjobs from "./pages/common/Savedjobs";
 import SingleJobAdmin from "./pages/admin/joblist/SingleJobAdmin";
 import SuperAdminLogin from "./pages/superadmin/login";
+import Addskills from "./pages/superadmin/Addskills";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -85,7 +86,7 @@ function App() {
 
       <Route path="/company" element={(token && role == 'employer') ? <CompanyHome /> : <Navigate to="/" />} />
       <Route path="/company/CompanyProfile" element={(token && role == 'employer') ? <CompanyProfile /> : <Navigate to="/" />} />
-      <Route path="/company/postajob" element={(token && role == 'employer') ? <Postajob /> :<Navigate to="/" />} />
+      <Route path="/company/postajob" element={(token && role == 'employer') ? <Postajob /> : <Navigate to="/" />} />
       <Route path="/company/JobList" element={(token && role == 'employer') ? <JobList /> : <Navigate to="/" />} />
 
 
@@ -129,11 +130,11 @@ function App() {
 
 
       <Route path="/superadmin/Categories1" element={(token && role == 'superadmin') ? <Categories1 /> : <Categories1 />} />
-
+      <Route path="/superadmin/AddSkills" element={(token && role == 'superadmin') ? <Addskills /> : <SuperAdminLogin />} />
       <Route path="/superadmin/Categorieslist1" element={(token && role == 'superadmin') ? <Categorieslist1 /> : <Categorieslist1 />} />
 
 
-      <Route path="/superadmin/list" element={(token && role == 'superadmin') ? <List /> : <List />} />
+
 
 
       <Route path="/superadmin" element={(token && role == 'superadmin') ? <SuperAdminHome /> : <SuperAdminLogin />} />
