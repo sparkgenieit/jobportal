@@ -12,21 +12,21 @@ function AddForms() {
     const [position, setPosition] = useState('')
     const [size, setSize] = useState('')
     const [pagetoshow, setPageTOShow] = useState({
-        about:false,
-        home:false,
-        jobs:false
+        about: false,
+        home: false,
+        jobs: false
     })
     const [price, setPrice] = useState('')
     const [numberofclicks, setNumberOfClicks] = useState('')
 
 
-    const [addtitlemsg, setAddTitleMsg] = useState('Please enter add title');
-    const [positionmsg, setPositionMsg] = useState('Please enter position');
+    const [addtitlemsg, setAddTitleMsg] = useState('Please Enter Title');
+    const [positionmsg, setPositionMsg] = useState('Please Enter Position');
     const [descriptionmsg, setDescriptionMsg] = useState('Please Enter Description');
-    const [pricemsg,setPriceMsg] = useState("Please enter price")
+    const [pricemsg, setPriceMsg] = useState("Please Enter Price")
 
 
-    const [error,setError]= useState('')
+    const [error, setError] = useState('')
     const [errors, setErrors] = useState({
         addtitleError: false,
         descriptionError: false,
@@ -39,10 +39,10 @@ function AddForms() {
     })
 
 
-    const handleCheckboxChange = (event)=>{
-        const{name,checked}=event.target;
-        setPageTOShow({...pagetoshow,[name]:checked})
-      }
+    const handleCheckboxChange = (event) => {
+        const { name, checked } = event.target;
+        setPageTOShow({ ...pagetoshow, [name]: checked })
+    }
 
 
 
@@ -136,22 +136,22 @@ function AddForms() {
 
     const SubmitBtn = (event) => {
         const checkedValues = Object.values(pagetoshow)
-            if(!checkedValues.includes(true)){
-              setError("please select one")
-            }
-            else{
-              setError('')
-            }
+        if (!checkedValues.includes(true)) {
+            setError("Please Select One")
+        }
+        else {
+            setError('')
+        }
         let obj = {};
 
         if (addtitle == '') {
             obj = { ...obj, addtitleError: true };
-            setAddTitleMsg('Please Enter add title');
+            setAddTitleMsg('Please Enter Title');
 
         } else if (/^[a-z]{2,}$/gi.test(addtitle) == false) {
 
             obj = { ...obj, addtitleError: true };
-            setAddTitleMsg('Not Proper addtitle');
+            setAddTitleMsg('Not Proper Title');
 
         }
         else {
@@ -180,13 +180,13 @@ function AddForms() {
 
             obj = { ...obj, positionError: true };
             setPositionMsg('Please Enter position');
-      
-          } else if (/^[a-z]{2,}$/gi.test(position) == false) {
-      
+
+        } else if (/^[a-z]{2,}$/gi.test(position) == false) {
+
             obj = { ...obj, positionError: true };
             setPositionMsg('Not Proper position');
-      
-          }
+
+        }
         else {
 
             obj = { ...obj, positionError: false };
@@ -204,7 +204,7 @@ function AddForms() {
         }
 
         if (pagetoshow == '') {
-            
+
 
             obj = { ...obj, pageError: true };
         }
@@ -217,11 +217,11 @@ function AddForms() {
         if (price == '') {
 
             obj = { ...obj, priceError: true };
-            setPriceMsg("Please enter price")
+            setPriceMsg("Please Enter Price")
         }
-        else if(/^[0-9]{0,}$/gi.test(price) == false){
+        else if (/^[0-9]{0,}$/gi.test(price) == false) {
             obj = { ...obj, priceError: true };
-            setPriceMsg("Not a proper price")
+            setPriceMsg("Not a Proper Price")
 
         }
         else {
@@ -240,6 +240,7 @@ function AddForms() {
 
         }
         setErrors(obj)
+
     }
 
 
@@ -258,104 +259,113 @@ function AddForms() {
                                 <h3 class="page-title"> Post An Add</h3>
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="Table">Ads</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Category</li>
+                                        <li class="breadcrumb-item"><a href="Table">Super Admin</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Ads</li>
                                     </ol>
                                 </nav>
                             </div>
-
-                            <form>
-                                <div class="row">
-                                    <div class="col-md-7">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Add Title <span style={{ color: "red" }}>*</span></label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" value={addtitle} onChange={(event) => FormHandle('addtitle', event)} />
-                                                {errors.addtitleError && <div className='text-danger'>{addtitlemsg}</div>}
+                            <div class="card-body bg-white p-5 ">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Add Title <span style={{ color: "red" }}>*</span></label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" value={addtitle} onChange={(event) => FormHandle('addtitle', event)} />
+                                                    {errors.addtitleError && <div className='text-danger'>{addtitlemsg}</div>}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-7">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Description<span style={{ color: "red" }}>*</span></label>
-                                            <div class="col-sm-9">
-                                                <textarea class="form-control" value={description} onChange={(event) => FormHandle('description', event)}></textarea>
-                                                {errors.descriptionError && <div className='text-danger'>{descriptionmsg}</div>}
-                                            </div>
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Description<span style={{ color: "red" }}>*</span></label>
+                                                <div class="col-sm-9">
+                                                    <textarea class="form-control" value={description} onChange={(event) => FormHandle('description', event)}></textarea>
+                                                    {errors.descriptionError && <div className='text-danger'>{descriptionmsg}</div>}
+                                                </div>
 
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-7">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Position<span style={{ color: "red" }}>*</span></label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" value={position} onChange={(event) => FormHandle('position', event)} />
-                                                {errors.positionError && <div className='text-danger'>{positionmsg} </div>}
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className='row'>
-                                    <div class="col-md-7">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3  col-form-label">Size<span style={{ color: "red" }}>*</span></label>
-                                            <div class="col-sm-9">
-                                                <input type="number" class="form-control" value={size} onChange={(event) => FormHandle('size', event)} />
-                                                {errors.sizeError && <div className='text-danger'>Please enter size </div>}
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Position<span style={{ color: "red" }}>*</span></label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" value={position} onChange={(event) => FormHandle('position', event)} />
+                                                    {errors.positionError && <div className='text-danger'>{positionmsg} </div>}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="row">
-                                    <label class="col-sm-3 col-form-label">Page To Show</label>
-                                    <div class="col-md-2 form-check form-check-flat form-check-primary">
-
-                                        <input type="checkbox" class="form-check-input" name='about'checked={pagetoshow.about} onChange={handleCheckboxChange} />About
-                                    </div>
-                                    <div class="col-md-2 form-check form-check-flat form-check-primary">
-
-                                        <input type="checkbox" class="form-check-input" name='home'checked={pagetoshow.home} onChange={handleCheckboxChange} />Home
-                                    </div>
-                                    <div class="col-md-2 form-check form-check-flat form-check-primary">
-
-                                        <input type="checkbox" class="form-check-input" name="jobs"checked={pagetoshow.jobs} onChange={handleCheckboxChange} />jobs
-                                    </div>
-                                </div>
-                                {error && <div style={{color:"red",paddingLeft:"125px"}}>{error}</div>}
-
-                                <div class="col-md-7">
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Price<span style={{ color: "red" }}>*</span></label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" value={price} onChange={(event) => FormHandle('price', event)} />
-                                            {errors.priceError && <div className='text-danger'>{pricemsg}</div>}
+                                    <div className='row'>
+                                        <div class="col-md-7">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3  col-form-label">Size<span style={{ color: "red" }}>*</span></label>
+                                                <div class="col-sm-9">
+                                                    <input type="number" class="form-control" value={size} onChange={(event) => FormHandle('size', event)} />
+                                                    {errors.sizeError && <div className='text-danger'>Please enter size </div>}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <div className='row'>
+                                        <div class="col-md-7">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3  col-form-label pt-4">Page To Show</label>
+                                                <div class="col-sm-9 d-flex justify-content-between align-items-center">
 
-                                <div class="col-md-7">
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">NumberOfClicks<span style={{ color: "red" }}>*</span></label>
-                                        <div class="col-sm-9">
-                                            <input type="number" class="form-control" value={numberofclicks} onChange={(event) => FormHandle('numberofclicks', event)} />
-                                            {errors.numberError && <div className='text-danger'>Please enter number of clicks</div>}
+
+                                                    <span><input type="checkbox" class="form-check-input mx-2" name='about' checked={pagetoshow.about} onChange={handleCheckboxChange} />About</span>
+
+
+
+                                                    <span><input type="checkbox" class="form-check-input mx-2" name='home' checked={pagetoshow.home} onChange={handleCheckboxChange} />Home</span>
+
+
+
+                                                    <span><input type="checkbox" class="form-check-input mx-2" name="jobs" checked={pagetoshow.jobs} onChange={handleCheckboxChange} />Jobs</span>
+
+
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div className='form-group'>
-                                    <div className='col-11 p-3'>
-                                        <button type='button' className='btn btn-primary float-end' onClick={() => SubmitBtn()}>save</button>
 
+                                    {error && <div style={{ color: "red", paddingLeft: "125px" }}>{error}</div>}
+
+                                    <div class="col-md-7">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Price<span style={{ color: "red" }}>*</span></label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" value={price} onChange={(event) => FormHandle('price', event)} />
+                                                {errors.priceError && <div className='text-danger'>{pricemsg}</div>}
+                                            </div>
+                                        </div>
                                     </div>
 
-                                </div>
-                            </form>
+                                    <div class="col-md-7">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">NumberOfClicks<span style={{ color: "red" }}>*</span></label>
+                                            <div class="col-sm-9">
+                                                <input type="number" class="form-control" value={numberofclicks} onChange={(event) => FormHandle('numberofclicks', event)} />
+                                                {errors.numberError && <div className='text-danger'>Please enter number of clicks</div>}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className='form-group'>
+                                        <div className='col-11 p-3'>
+                                            <button type='button' className='btn btn-primary float-end' onClick={() => SubmitBtn()}>Save</button>
+
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
 
                         </div>
                     </div>
