@@ -21,6 +21,11 @@ function SingleJob() {
             .then((response) => setJobview(response.data))
     }, [])
 
+
+    const[apply,setApply]=useState('')
+    const[save,setSave]=useState('')
+
+
     function handleApply() {
         const data = {
             userId: userId,
@@ -30,6 +35,8 @@ function SingleJob() {
 
         axios.post("http://localhost:8080/jobs/apply", data)
             .then((response) => console.log(response))
+            .then(setApply('Applied Successfully'),setSave(''))
+
             .catch((e) => console.log(e))
 
 
@@ -43,6 +50,8 @@ function SingleJob() {
 
         axios.post("http://localhost:8080/jobs/save", data)
             .then((response) => console.log(response))
+            .then( setSave('Applied Successfully'), setApply(''))
+
             .catch((e) => console.log(e))
 
     }
@@ -59,6 +68,8 @@ function SingleJob() {
 
                             <div class="row">
                                 <div class="col-12 bg-white rounded">
+                                {apply && <div className='text-center text-success  '>{apply}</div>}
+                                {save && <div className='text-center text-success '>{save}</div>}
 
                                     <div class="card-body px-4  ">
                                         <div className="d-flex justify-content-end mt-4 gap-5">
