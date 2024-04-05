@@ -10,6 +10,7 @@ import { isValidDateValue } from '@testing-library/user-event/dist/utils';
 
 
 import { Hourglass } from "react-loader-spinner";
+import Ads from './Ads';
 
 
 
@@ -606,7 +607,7 @@ function UserProfile() {
             </nav>
           </div>
           <div className="row bg-white">
-            <div className="col-12">
+            <div className="col-8">
               {/* <div className="card"> */}
               <div className="card-body p-3" >
                 <h4 className="card-title py-3">User Profile </h4>
@@ -1160,7 +1161,12 @@ function UserProfile() {
                 </form>
               </div>
             </div>
+            <div className='col-4'>
+              <Ads/>
+            </div>
+            
           </div>
+          
           {/* </div> */}
         </div>}
         {/* </div> */}

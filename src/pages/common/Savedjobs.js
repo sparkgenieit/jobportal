@@ -3,6 +3,7 @@ import Header from "../../layouts/common/Header";
 import Sidebar from "../../layouts/common/Sidebar";
 import Footer from "../../layouts/common/Footer";
 import axios from "axios";
+import Ads from "./Ads";
 
 function Savedjobs() {
     const [assignJobs, setAssignJobs] = useState(null)
@@ -34,7 +35,7 @@ function Savedjobs() {
                             </div>
 
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-8">
 
                                     <div class="card-body  bg-white ">
                                         <form class="form-sample">
@@ -79,6 +80,9 @@ function Savedjobs() {
                                         </form>
                                     </div>
 
+                                </div>
+                                <div className="col-4">
+                                    <Ads/>
                                 </div>
 
 

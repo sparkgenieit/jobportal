@@ -68,6 +68,7 @@ import SuperAdminLogin from "./pages/superadmin/login";
 import Addskills from "./pages/superadmin/Addskills";
 import OrdersList from "./pages/superadmin/Order-Management/OrdersList";
 import Plans from "./pages/common/Plans";
+import Ads from "./pages/common/Ads";
 
 
 function App() {
@@ -121,6 +122,7 @@ function App() {
       <Route path="/common/Marketing" element={(token && role == 'user') ? <Marketing /> : <Marketing />} />
       <Route path="/common/GraphicDesign" element={(token && role == 'user') ? <GraphicDesign /> : <GraphicDesign />} />
       <Route path="/common/plans" element={(token && role == 'user') ? <Plans /> : <Plans />} />
+      <Route path="/common/Ads" element={(token && role == 'user') ? <Ads /> : <Ads />} />
 
 
       <Route path="/common/SingleJob/:id" element={(token && role == 'user') ? <SingleJob /> : <SingleJob />} />
