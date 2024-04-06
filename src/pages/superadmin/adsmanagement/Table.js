@@ -1,36 +1,31 @@
-import Header from "../../layouts/superadmin/Header";
-import Footer from "../../layouts/superadmin/Footer";
-import Sidebar from "../../layouts/superadmin/Sidebar";
-import { useState } from "react";
+import Header from "../../../layouts/superadmin/Header";
+import Footer from "../../../layouts/superadmin/Footer";
+import Sidebar from "../../../layouts/superadmin/Sidebar";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import EditAd from "./edit";
 
 
 function Table() {
+    const [adsList, setAdsList] = useState(null)
+    const [showEditAd, setShowEditAd] = useState(false)
+    const [adEdit, setAdEdit] = useState(null)
 
-    const [adsList, setAdsList] = useState([
-        {
-            adTitle: "Whirlpool Ac",
-            position: "Jobs",
-            size: "20",
-            price: "1000"
-        },
-        {
-            adTitle: "Samsung Fridge",
-            position: "Home",
-            size: "40",
-            price: "1800"
-        },
-        {
-            adTitle: "Apple Iphone",
-            position: "Home",
-            size: "20",
-            price: "2500"
-        }])
+    useEffect(() => {
+        axios.get("http://localhost:8080/ads/all")
+            .then((res) => setAdsList(res.data))
+    }, [])
 
+    const edit = (ad) => {
+        setAdEdit(ad)
+        setShowEditAd(true)
+
+    }
 
     return (
         <>
 
-            <div className="container-scroller">
+            {!showEditAd && <div className="container-scroller">
                 <Header />
 
                 <div className="container-fluid page-body-wrapper">
@@ -50,7 +45,7 @@ function Table() {
 
                                 <div className="row">
                                     <div className="pb-4">
-                                        <button type="button" className="btn btn-primary float-end "><a href="AddForms" style={{ textDecoration: "none", color: "white" }}>Add</a></button>
+                                        <a type="button" className="btn btn-primary float-end" href="/superadmin/AddForms" style={{ textDecoration: "none", color: "white" }}>Add</a>
                                     </div>
                                     <div className="col-12">
 
@@ -61,9 +56,12 @@ function Table() {
                                                 <tr>
 
                                                     <th>Ad Title</th>
+
+                                                    <th>Pages</th>
                                                     <th>Position</th>
                                                     <th>Size</th>
                                                     <th>Price</th>
+                                                    <th>Number of Clicks</th>
                                                     <th colSpan="2"></th>
 
                                                 </tr>
@@ -72,11 +70,15 @@ function Table() {
                                                 {adsList && adsList.map((ads, index) => {
                                                     return (
                                                         <tr>
-                                                            <td>{ads.adTitle}</td>
+                                                            <td>{ads.title}</td>
+
+                                                            <td>{ads.pages}</td>
                                                             <td>{ads.position}</td>
                                                             <td>{ads.size}</td>
                                                             <td>{ads.price}</td>
-                                                            <td className="text-center"><a type="button" href="#" class="btn btn-gradient-primary">Edit</a></td>
+                                                            <td>{ads.noOfClicks}</td>
+
+                                                            <td className="text-center"><a type="button" href="#" class="btn btn-gradient-primary" onClick={() => edit(ads)}>Edit</a></td>
                                                             <td className="text-center"><button type="button" class="btn btn-gradient-primary">Delete</button></td>
 
 
@@ -102,7 +104,8 @@ function Table() {
                     </div>
                 </div>
                 <Footer />
-            </div >
+            </div >}
+            {showEditAd && <EditAd ad={adEdit} />}
         </>
     )
 

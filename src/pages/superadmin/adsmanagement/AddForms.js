@@ -1,8 +1,10 @@
-import Header from "../../layouts/superadmin/Header";
-import Footer from "../../layouts/superadmin/Footer";
-import Sidebar from "../../layouts/superadmin/Sidebar";
+import Header from "../../../layouts/superadmin/Header";
+import Footer from "../../../layouts/superadmin/Footer";
+import Sidebar from "../../../layouts/superadmin/Sidebar";
 import { useState } from "react";
 import { FallingLines } from "react-loader-spinner";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 function AddForms() {
@@ -12,12 +14,15 @@ function AddForms() {
     const [position, setPosition] = useState('')
     const [size, setSize] = useState('')
     const [pagetoshow, setPageTOShow] = useState({
-        about: false,
-        home: false,
-        jobs: false
+        "about": false,
+        "home": false,
+        "jobs": false
     })
     const [price, setPrice] = useState('')
     const [numberofclicks, setNumberOfClicks] = useState('')
+    const [Msg, setMsg] = useState(false)
+    const [ErrorMsg, setErrorMsg] = useState(false)
+    const [message, setMessage] = useState('')
 
 
     const [addtitlemsg, setAddTitleMsg] = useState('Please Enter Title');
@@ -37,6 +42,8 @@ function AddForms() {
         numberError: false
 
     })
+
+    const navigate = useNavigate()
 
 
     const handleCheckboxChange = (event) => {
@@ -135,6 +142,7 @@ function AddForms() {
 
 
     const SubmitBtn = (event) => {
+        let isValid = true;
         const checkedValues = Object.values(pagetoshow)
         if (!checkedValues.includes(true)) {
             setError("Please Select One")
@@ -144,14 +152,17 @@ function AddForms() {
         }
         let obj = {};
 
+
         if (addtitle == '') {
             obj = { ...obj, addtitleError: true };
             setAddTitleMsg('Please Enter Title');
+            isValid = false;
 
         } else if (/^[a-z]{2,}$/gi.test(addtitle) == false) {
 
             obj = { ...obj, addtitleError: true };
             setAddTitleMsg('Not Proper Title');
+            isValid = false;
 
         }
         else {
@@ -163,11 +174,7 @@ function AddForms() {
         if (description == '') {
             obj = { ...obj, descriptionError: true };
             setDescriptionMsg('Please Enter Description');
-
-        } else if (/^\w{2,}$/gi.test(description) == false) {
-
-            obj = { ...obj, descriptionError: true };
-            setDescriptionMsg('Not Proper Description');
+            isValid = false;
 
         }
         else {
@@ -180,11 +187,13 @@ function AddForms() {
 
             obj = { ...obj, positionError: true };
             setPositionMsg('Please Enter position');
+            isValid = false;
 
         } else if (/^[a-z]{2,}$/gi.test(position) == false) {
 
             obj = { ...obj, positionError: true };
             setPositionMsg('Not Proper position');
+            isValid = false;
 
         }
         else {
@@ -196,6 +205,7 @@ function AddForms() {
         if (size == '') {
 
             obj = { ...obj, sizeError: true };
+            isValid = false;
         }
         else {
 
@@ -207,6 +217,7 @@ function AddForms() {
 
 
             obj = { ...obj, pageError: true };
+            isValid = false;
         }
         else {
 
@@ -218,10 +229,12 @@ function AddForms() {
 
             obj = { ...obj, priceError: true };
             setPriceMsg("Please Enter Price")
+            isValid = false;
         }
         else if (/^[0-9]{0,}$/gi.test(price) == false) {
             obj = { ...obj, priceError: true };
             setPriceMsg("Not a Proper Price")
+            isValid = false;
 
         }
         else {
@@ -233,6 +246,7 @@ function AddForms() {
         if (numberofclicks == '') {
 
             obj = { ...obj, numberError: true };
+            isValid = false;
         }
         else {
 
@@ -241,10 +255,52 @@ function AddForms() {
         }
         setErrors(obj)
 
+        let pages = "";
+        for (const page in pagetoshow) {
+            if (pagetoshow[page] === true) {
+                pages += (page + " ")
+            }
+        }
+        if (pages === "") {
+            isValid = false
+        }
+        if (isValid) {
+
+            const data = {
+                title: addtitle,
+                description: description,
+                position: position,
+                pages: pages,
+                size: size,
+                price: price,
+                noOfClicks: numberofclicks
+
+            }
+
+            axios.post("http://localhost:8080/ads/create", data)
+                .then((res) => {
+                    setMsg(true)
+                    setMessage("Ad Posted Successfully")
+                    setTimeout(() => {
+                        navigate("/superadmin/Table")
+                    }, 2000)
+                }
+                )
+                .catch((err) => {
+
+                    setErrorMsg(true)
+                    setMessage(err.code)
+                    setTimeout(() => {
+                        setErrorMsg(false)
+                    }, 5000)
+
+                })
+
+
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' })
     }
-
-
-
     return (
         <>
 
@@ -256,7 +312,7 @@ function AddForms() {
                     <div class="main-panel">
                         <div class="content-wrapper">
                             <div class="page-header">
-                                <h3 class="page-title"> Post An Add</h3>
+                                <h3 class="page-title"> Post An Ad</h3>
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="Table">Super Admin</a></li>
@@ -264,12 +320,19 @@ function AddForms() {
                                     </ol>
                                 </nav>
                             </div>
+
                             <div class="card-body bg-white p-5 ">
+                                {ErrorMsg && <div className='alert alert-danger' role="alert">
+                                    {message}
+                                </div>}
+                                {Msg && <div className='alert alert-success' role="alert">
+                                    {message}
+                                </div>}
                                 <form>
                                     <div class="row">
                                         <div class="col-md-7">
                                             <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label">Add Title <span style={{ color: "red" }}>*</span></label>
+                                                <label class="col-sm-3 col-form-label">Ad Title <span style={{ color: "red" }}>*</span></label>
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control" value={addtitle} onChange={(event) => FormHandle('addtitle', event)} />
                                                     {errors.addtitleError && <div className='text-danger'>{addtitlemsg}</div>}
@@ -314,7 +377,7 @@ function AddForms() {
                                     <div className='row'>
                                         <div class="col-md-7">
                                             <div class="form-group row">
-                                                <label class="col-sm-3  col-form-label pt-4">Page To Show</label>
+                                                <label class="col-sm-3  col-form-label pt-4">Page To Show<span style={{ color: "red" }}>*</span></label>
                                                 <div class="col-sm-9 d-flex justify-content-between align-items-center">
 
 
@@ -349,7 +412,7 @@ function AddForms() {
 
                                     <div class="col-md-7">
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">NumberOfClicks<span style={{ color: "red" }}>*</span></label>
+                                            <label class="col-sm-3 col-form-label">Number of Clicks<span style={{ color: "red" }}>*</span></label>
                                             <div class="col-sm-9">
                                                 <input type="number" class="form-control" value={numberofclicks} onChange={(event) => FormHandle('numberofclicks', event)} />
                                                 {errors.numberError && <div className='text-danger'>Please enter number of clicks</div>}
@@ -359,7 +422,7 @@ function AddForms() {
 
                                     <div className='form-group'>
                                         <div className='col-11 p-3'>
-                                            <button type='button' className='btn btn-primary float-end' onClick={() => SubmitBtn()}>Save</button>
+                                            <button type='button' className='btn btn-primary float-end' onClick={() => SubmitBtn()}>Submit</button>
 
                                         </div>
 

@@ -19,7 +19,7 @@ function Sidebar() {
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="Table">
+            <a class="nav-link" href="/superadmin/Table">
               <span class="menu-title">Ads Management</span>
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="115" height="20" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
@@ -69,6 +69,16 @@ function Sidebar() {
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="235" height="20" fill="currentColor" class="bi bi-microsoft" viewBox="0 0 16 16">
                   <path d="M7.462 0H0v7.19h7.462zM16 0H8.538v7.19H16zM7.462 8.211H0V16h7.462zm8.538 0H8.538V16H16z" />
+                </svg>
+              </div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/superadmin/pages">
+              <span class="menu-title">Pages-Management</span>
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="20" fill="currentColor" class="bi bi-file-earmark-fill" viewBox="0 0 16 16">
+                  <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m5.5 1.5v2a1 1 0 0 0 1 1h2z" />
                 </svg>
               </div>
             </a>
