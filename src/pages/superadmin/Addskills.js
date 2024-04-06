@@ -1,12 +1,133 @@
-
-
-
+import { useState } from "react";
 import Footer from "../../layouts/superadmin/Footer";
 import Header from "../../layouts/superadmin/Header";
 import Sidebar from "../../layouts/superadmin/Sidebar";
-
+import axios from "axios";
+import { Editor, EditorProvider } from "react-simple-wysiwyg";
+import { useNavigate } from "react-router-dom";
 
 function Addskills() {
+    const [skillname, setSkillname] = useState("");
+    const [skillDomain, setSkillDomain] = useState("");
+    const [description, setDescription] = useState("");
+    const [image, setImage] = useState("");
+    const [error, setError] = useState({
+        skillname: false,
+        skillDomain: false,
+        description: false,
+        image: false
+    })
+    const [showMsg, setShowMsg] = useState(false)
+    const [msgClass, setMsgClass] = useState('alert alert-success')
+    const [message, setMessage] = useState("")
+    const navigate = useNavigate();
+
+
+    function handleInput(name, event) {
+        if (name === "name") {
+            setSkillname(event.target.value)
+            if (skillname === "") {
+                setError({ ...error, skillname: true })
+            }
+            else {
+                setError({ ...error, skillname: false })
+            }
+        }
+        if (name === "domain") {
+            setSkillDomain(event.target.value)
+            if (skillDomain === "") {
+                setError({ ...error, skillDomain: true });
+            }
+            else {
+                setError({ ...error, skillDomain: false })
+            }
+        }
+        if (name === "description") {
+            setDescription(event.target.value)
+            if (description === "") {
+                setError({ ...error, description: true })
+            }
+            else {
+                setError({ ...error, description: false })
+            }
+        }
+        if (name === "image") {
+            setImage(event.target.files[0]);
+        }
+    }
+
+    function handleSubmit() {
+
+        let obj = {}
+        let isValid = true
+
+        if (skillname === "") {
+            obj = { ...obj, skillname: true };
+            isValid = false;
+        }
+        else {
+            obj = { ...obj, skillname: false }
+        }
+
+        if (skillDomain === "") {
+            obj = { ...obj, skillDomain: true };
+            isValid = false;
+        }
+        else {
+            obj = { ...obj, skillDomain: false }
+        }
+
+        if (description === "") {
+            obj = { ...obj, description: true };
+            isValid = false;
+        }
+        else {
+            obj = { ...obj, description: false }
+        }
+
+        if (image === "") {
+            obj = { ...obj, image: true };
+            isValid = false;
+        }
+        else {
+            obj = { ...obj, image: false }
+        }
+
+        setError(obj)
+        if (isValid) {
+
+            const data = {
+                "skill_name": skillname,
+                "skill_dmain": skillDomain,
+                "description": description,
+                "photo": ""
+            }
+
+            axios.post('http://localhost:8080/skills/create', data)
+                .then((res) => {
+                    setShowMsg(true)
+                    setMessage("Skills Added SuccessFully")
+                    setMsgClass("alert alert-success")
+                    setTimeout(() => {
+                        navigate("/superadmin/Skills")
+
+                    }, 2000);
+
+                })
+                .catch((err) => {
+                    setShowMsg(true)
+                    setMessage(err.code)
+                    setMsgClass("alert alert-danger")
+                    setTimeout(() => {
+                        setShowMsg(false)
+                    }, 5000);
+                }
+                )
+            window.scrollTo({ top: 40, behavior: "smooth" })
+        }
+
+    }
+
 
     return (
         <>
@@ -38,44 +159,41 @@ function Addskills() {
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="card">
-                                                    <h4 class="card-title px-3 py-4" > Add Skill</h4>
+                                                    <h4 class="card-title px-3 py-4">Add Skill</h4>
                                                     <div class="card-body py-0">
+                                                        {showMsg && <div class={msgClass} role="alert">
+                                                            {message}
+                                                        </div>}
                                                         <form class="form-sample">
-
-
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
-                                                                    <label class="col-sm-3 col-form-label">Skill Name</label>
+                                                                    <label class="col-sm-3 col-form-label">Skill Name<span className="text-danger">*</span></label>
                                                                     <div class="col-sm-9">
-                                                                        <input type="text" class="form-control" />
+                                                                        <input type="text" value={skillname} onChange={(e) => handleInput("name", e)} class="form-control" />
+                                                                        {error.skillname && <div className="text-danger">Please type the Skill Name</div>}
                                                                     </div>
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
-                                                                    <label class="col-sm-3 col-form-label">Skill Domain</label>
+                                                                    <label class="col-sm-3 col-form-label">Skill Domain<span className="text-danger">*</span></label>
                                                                     <div class="col-sm-9">
-                                                                        <input type="text" class="form-control" />
+                                                                        <input type="text" value={skillDomain} onChange={(e) => handleInput("domain", e)} class="form-control" />
+                                                                        {error.skillDomain && <div className="text-danger">Please type the Skill Domain</div>}
                                                                     </div>
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
-                                                                    <label class="col-sm-3 col-form-label">Description</label>
+                                                                    <label class="col-sm-3 col-form-label">Description<span className="text-danger">*</span></label>
                                                                     <div class="col-sm-9">
-                                                                        <input type="text" class="form-control" />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                                        <EditorProvider>
+                                                                            <Editor value={description} onChange={(e) => handleInput("description", e)} />
 
-
-                                                            <div class="col-md-6">
-                                                                <div class="form-group row">
-                                                                    <label class="col-sm-3 col-form-label" for="photo "> Photo </label>
-                                                                    <div class="col-sm-9">
-                                                                        <input type="file" id="photo" class="form-control w-40" />
+                                                                        </EditorProvider>
+                                                                        {error.description && <div className="text-danger">Please type the Description</div>}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -83,21 +201,20 @@ function Addskills() {
 
                                                             <div class="col-md-6">
                                                                 <div class="form-group row">
-                                                                    <label class="col-sm-3 col-form-label">Status</label>
+                                                                    <label class="col-sm-3 col-form-label" for="photo "> Photo<span className="text-danger">*</span> </label>
                                                                     <div class="col-sm-9">
-                                                                        <select name="Active" id="Active" class="form-select  ">
-                                                                            <option value="Active"></option>
-                                                                            <option value="Active">Allow</option>
-                                                                            <option value="Active">NotAllow</option>
-                                                                        </select>
-
+                                                                        <input type="file" id="photo" onChange={(e) => handleInput("image", e)} class="form-control w-40" />
+                                                                        {error.image && <div className="text-danger">Please Upload the Image</div>}
                                                                     </div>
                                                                 </div>
                                                             </div>
+
+
+
 
                                                             <div class="row">
                                                                 <div class="col-md-6">
-                                                                    <button type="button" class="btn btn-gradient-primary ">Submit</button>
+                                                                    <button type="button" onClick={handleSubmit} class="btn btn-gradient-primary ">Submit</button>
                                                                     <button type="button" class="btn btn-light float-end">Cancel</button>
                                                                 </div>
                                                             </div>
