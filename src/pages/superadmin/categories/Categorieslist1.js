@@ -1,34 +1,25 @@
-
-
-
+import axios from 'axios';
 import Header from "../../../layouts/superadmin/Header";
 import Sidebar from "../../../layouts/superadmin/Sidebar";
 import Footer from "../../../layouts/superadmin/Footer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 function Categorieslist1() {
-  const [categoriesList, setCategoriesList] = useState([
-    {
-      categoryName: "Education",
-      parentCategory: "Teaching",
-      photo: "https://images.hindustantimes.com/rf/image_size_640x362/HT/p2/2015/12/01/Pictures/_c34102da-9849-11e5-b4f4-1b7a09ed2cea.jpg"
-    },
-    {
-      categoryName: "Art",
-      parentCategory: "Entertainment",
-      photo: "https://cdn.pixabay.com/photo/2016/11/23/00/37/art-1851483_1280.jpg"
-    },
-    {
-      categoryName: "Software Development",
-      parentCategory: "IT",
-      photo: "https://cdn.pixabay.com/photo/2016/11/23/14/45/coding-1853305_1280.jpg"
-    },
-    {
-      categoryName: "Judicial",
-      parentCategory: "Welfare",
-      photo: "https://cdn.pixabay.com/photo/2019/11/11/10/05/law-4617873_1280.jpg"
-    },
-  ])
+  const [categoriesList, setCategoriesList] = useState(null)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    axios.get("http://localhost:8080/categories/all")
+      .then((res) => {
+        setCategoriesList(res.data)
+      })
+  }, [])
+
+  const editButton = (id) => {
+    navigate(`/superadmin/Categories/${id}`)
+  }
 
   return (
     <>
@@ -78,10 +69,10 @@ function Categorieslist1() {
 
                           {categoriesList && categoriesList.map((category, index) => {
                             return <tr key={index}>
-                              <td>{category.categoryName}</td>
-                              <td>{category.parentCategory}</td>
+                              <td>{category.name}</td>
+                              <td>{category.parent_id}</td>
                               <td><img src={category.photo} /></td>
-                              <td><a type="button" href="editCategory" class="btn btn-gradient-primary">Edit</a></td>
+                              <td><a type="button" onClick={() => editButton(category._id)} class="btn btn-gradient-primary">Edit</a></td>
                               <td><button type="button" class="btn btn-gradient-primary">Delete</button></td>
                             </tr>
                           })
