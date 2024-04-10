@@ -1,7 +1,25 @@
 import Header from "../../layouts/common/Header";
 import Footer from "../../layouts/common/Footer";
+ import axios from "axios";
 
-function Plans() {
+
+function Plans({mydata}) {
+    const choocePlan = (plan) =>{
+    
+    
+        let data={
+            orderId: "123",
+            companyId: mydata.companyId,
+            companyName: mydata.company,
+            jobId:mydata._id,
+            jobTitle: mydata.jobTitle,
+            planName: plan
+        }
+        axios.post('http://localhost:8080/orders/create',data)
+            .then(response=>{
+            })
+
+    }
     return (
         <>
 
@@ -23,7 +41,7 @@ function Plans() {
                                     <li className="list-group-item"> &#10060; Description Space </li>
 
                                 </ul>
-                                <button type="button" className="btn btn-success  mt-5 p-3">SELECT PACKAGE</button>
+                                <button type="button" className="btn btn-success  mt-5 p-3" onClick={()=>choocePlan("Basic")}>SELECT PACKAGE</button>
                             </div>
                         </div>
                     </div>
@@ -40,7 +58,7 @@ function Plans() {
                                     <li className="list-group-item"> &#9989; Text Space Goes Here</li>
                                     <li className="list-group-item"> &#10060; Description Space </li>
                                 </ul>
-                                <button type="button" className="btn btn-primary mt-5 p-3">SELECT PACKAGE</button>
+                                <button type="button" className="btn btn-primary mt-5 p-3"onClick={()=>choocePlan("Standard")}>SELECT PACKAGE</button>
                             </div>
                         </div>
                     </div>
@@ -57,7 +75,7 @@ function Plans() {
                                     <li className="list-group-item"> &#9989; Text Space Goes Here   </li>
                                     <li className="list-group-item"> &#9989; Description Space </li>
                                 </ul>
-                                <button type="button" className="btn btn-warning mt-5 p-3">SELECT PACKAGE</button>
+                                <button type="button" className="btn btn-warning mt-5 p-3"onClick={()=>choocePlan("Premium")}>SELECT PACKAGE</button>
                             </div>
                         </div>
                     </div>

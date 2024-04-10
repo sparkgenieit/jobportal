@@ -6,11 +6,14 @@ import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 import companyService from '../../../services/common/company.service';
+import Plans from '../../common/Plans';
 
 
 function Postajob() {
   const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
   const navigate = useNavigate();
+  const [mydata,setMydata] =useState('')
+  const [showPlans,setShowPlans] = useState(false)
 
   const [description, setDescription] = useState('');
   const [closeDate, setCloseDate] = useState('')
@@ -49,7 +52,7 @@ function Postajob() {
   const [trainingMsg, setTrainingMsg] = useState('Please Specify Training');
 
 
-
+  const Navigate = useNavigate();
 
 
 
@@ -234,6 +237,7 @@ function Postajob() {
 
     console.log(valid);
     setErrors(eObj);
+   
     let obj1 = {}
     if (!valid) {
       obj1 = { ...obj1, company: company }
@@ -255,6 +259,7 @@ function Postajob() {
       obj1 = { ...obj1, employerquestions: employerquestions }
       obj1 = { ...obj1, employer: employer }
       console.log(obj1)
+      
     } else {
 
       let data = {
@@ -283,9 +288,9 @@ function Postajob() {
         .then(response => {
           if (response && response.status) {
             setMsg('Jobs added successfully');
-
+          setMydata(response.data)
             setTimeout(() => {
-              navigate('/company/JobList', { replace: true });
+              setShowPlans(true)
             }, 2000)
 
           }
@@ -293,6 +298,7 @@ function Postajob() {
 
 
     }
+    
   }
 
   const handleInput = (name, event) => {
@@ -482,7 +488,7 @@ function Postajob() {
   }
   return (
     <>
-
+{!showPlans &&
       <div className="container-scroller">
 
         <Header />
@@ -952,7 +958,8 @@ function Postajob() {
           </div>
         </div >
       </div >
-
+}
+{showPlans && <Plans mydata={mydata}/>}
     </>
   )
 
