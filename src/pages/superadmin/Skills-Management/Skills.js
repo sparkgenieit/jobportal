@@ -1,31 +1,23 @@
-import Header from "../../layouts/superadmin/Header";
-import Sidebar from "../../layouts/superadmin/Sidebar";
-import Footer from "../../layouts/superadmin/Footer";
-import { useState } from "react";
+import Header from "../../../layouts/superadmin/Header";
+import Sidebar from "../../../layouts/superadmin/Sidebar";
+import Footer from "../../../layouts/superadmin/Footer";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 function Skills() {
 
-    const [skillsList, setSkillsList] = useState([
-        {
-            skillName: "HTML",
-            skillDomain: "Web Development",
-            photo: "https://www.shutterstock.com/shutterstock/photos/1851522412/display_1500/stock-photo-html-inscription-against-laptop-and-code-background-learn-html-programming-language-computer-1851522412.jpg"
-        },
-        {
-            skillName: "Typing",
-            skillDomain: "Office",
-            photo: "https://cdn.pixabay.com/photo/2017/09/06/16/13/hand-2722108_1280.jpg"
-        },
-        {
-            skillName: "Drawing",
-            skillDomain: "Art",
-            photo: "https://cdn.pixabay.com/photo/2017/05/11/11/14/draw-2303845_1280.jpg"
-        },
-        {
-            skillName: "Acting",
-            skillDomain: "Entertainment",
-            photo: "https://cdn.pixabay.com/photo/2017/05/11/11/14/draw-2303845_1280.jpg"
-        },
-    ])
+    const [skillsList, setSkillsList] = useState(null)
+    const navigate = useNavigate()
+    useEffect(() => {
+        axios.get('http://localhost:8080/skills/all')
+            .then((res) => {
+                setSkillsList(res.data)
+            })
+    }, [])
+
+    const handleEdit = (skill) => {
+        navigate(`/superadmin/Skills/${skill._id}`)
+    }
     return (
         <>
 
@@ -75,10 +67,10 @@ function Skills() {
 
                                                     {skillsList && skillsList.map((skill, index) => {
                                                         return <tr key={index}>
-                                                            <td>{skill.skillName}</td>
-                                                            <td>{skill.skillDomain}</td>
+                                                            <td>{skill.skill_name}</td>
+                                                            <td>{skill.skill_dmain}</td>
                                                             <td><img src={skill.photo} /></td>
-                                                            <td><a type="button" href="editCategory" class="btn btn-gradient-primary">Edit</a></td>
+                                                            <td><button onClick={() => handleEdit(skill)} type="button" class="btn btn-gradient-primary">Edit</button></td>
                                                             <td><button type="button" class="btn btn-gradient-primary">Delete</button></td>
                                                         </tr>
                                                     })

@@ -6,13 +6,18 @@ import Footer from '../../layouts/common/Footer';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Sidebar from '../../layouts/company/Sidebar';
 
 function SingleJob() {
     const [jobview, setJobview] = useState()
     const userId = localStorage.getItem('user_id');
-
+    const [message, setMessage] = useState({
+        showMsg: false,
+        msgClass: "alert alert-success",
+        Msg: ""
+    })
+    const navigate = useNavigate()
 
     const params = useParams();
 
@@ -22,8 +27,6 @@ function SingleJob() {
     }, [])
 
 
-    const[apply,setApply]=useState('')
-    const[save,setSave]=useState('')
 
 
     function handleApply() {
@@ -34,10 +37,28 @@ function SingleJob() {
         }
 
         axios.post("http://localhost:8080/jobs/apply", data)
-            .then((response) => console.log(response))
-            .then(setApply('Applied Successfully'),setSave(''))
+            .then((response) => {
+                setMessage({
+                    showMsg: true,
+                    msgClass: "alert alert-success",
+                    Msg: "Applied Successfully"
+                })
+                setTimeout(() => {
+                    navigate('/common/Myappliedjobs')
+                }, 2000)
+            })
 
-            .catch((e) => console.log(e))
+
+            .catch((e) => {
+                setMessage({
+                    showMsg: true,
+                    msgClass: "alert alert-danger",
+                    Msg: e.response.data.message
+                })
+                setTimeout(() => {
+                    setMessage({ ...message, showMsg: false })
+                }, 3000)
+            })
 
 
     }
@@ -49,10 +70,28 @@ function SingleJob() {
         }
 
         axios.post("http://localhost:8080/jobs/save", data)
-            .then((response) => console.log(response))
-            .then( setSave('Applied Successfully'), setApply(''))
+            .then((response) => {
+                setMessage({
+                    showMsg: true,
+                    msgClass: "alert alert-success",
+                    Msg: "Job Saved Successfully "
+                })
+                setTimeout(() => {
+                    navigate('/common/Savedjobs')
+                }, 2000)
+            })
 
-            .catch((e) => console.log(e))
+
+            .catch((e) => {
+                setMessage({
+                    showMsg: true,
+                    msgClass: "alert alert-danger",
+                    Msg: e.response.data.message
+                })
+                setTimeout(() => {
+                    setMessage({ ...message, showMsg: false })
+                }, 3000)
+            })
 
     }
 
@@ -67,10 +106,12 @@ function SingleJob() {
 
 
                             <div class="row">
-                                <div class="col-12 bg-white rounded">
-                                {apply && <div className='text-center text-success  '>{apply}</div>}
-                                {save && <div className='text-center text-success '>{save}</div>}
 
+
+                                <div class="col-12 bg-white rounded pt-3">
+                                    {message.showMsg && <div class={message.msgClass} role="alert">
+                                        {message.Msg}
+                                    </div>}
                                     <div class="card-body px-4  ">
                                         <div className="d-flex justify-content-end mt-4 gap-5">
                                             <button type='button' onClick={handleSave} className='btn btn-outline-dark col-2 '>Save</button>

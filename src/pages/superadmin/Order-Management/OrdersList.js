@@ -1,47 +1,17 @@
 import Header from "../../../layouts/superadmin/Header";
 import Footer from "../../../layouts/superadmin/Footer";
 import Sidebar from "../../../layouts/superadmin/Sidebar";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import axios from 'axios';
 
 function OrdersList() {
 
-    const [orders, setOrders] = useState([
-        {
-            orderId: "456568",
-            companyName: "Samsung",
-            jobId: "85523",
-            jobTitle: "Brand Manager",
-            planName: "Premium",
-            price: 2000,
-            paymentStatus: "Paid"
-        },
-        {
-            orderId: "12345",
-            companyName: "Apple",
-            jobId: "9654",
-            jobTitle: "Team Leader",
-            planName: "Standard",
-            paymentStatus: "Paid",
-            price: 1500,
-        }, {
-            orderId: "456568",
-            companyName: "Microsoft",
-            jobId: "7412568",
-            jobTitle: "Software Developer",
-            planName: "Basic",
-            paymentStatus: "Pending",
-            price: 500,
-        }, {
-            orderId: "456568",
-            companyName: "Samsung",
-            jobId: "85523",
-            jobTitle: "Manager",
-            planName: "Premium",
-            paymentStatus: "Paid",
-            price: 2000,
-        },
-    ])
+    const [orders, setOrders] = useState(null)
+
+    useEffect(() => {
+        axios.get('http://localhost:8080/orders/all')
+            .then((res) => setOrders(res.data))
+    }, [])
 
 
     return (
@@ -82,7 +52,7 @@ function OrdersList() {
                                                         <td>{order.orderId}</td>
                                                         <td>{order.companyName}</td>
                                                         <td>{order.jobTitle} ({order.jobId})</td>
-                                                        <td>{order.planName} - {order.price}</td>
+                                                        <td>{order.planName}</td>
                                                         <td>{order.paymentStatus}</td>
                                                         <td><button type="button" className="btn btn-sm btn-gradient-primary">View Invoice</button></td>
                                                     </tr>)

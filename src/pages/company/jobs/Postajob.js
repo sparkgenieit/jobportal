@@ -31,7 +31,7 @@ function Postajob() {
   const [rateperhour, setRatePerHour] = useState('')
   const [weeklyperhour, setWeeklyPerHour] = useState('')
   const [benifits, setBenifits] = useState('')
-  const [employerquestions, setEmployerQuestions] = useState('')
+  const [employerquestions, setEmployerQuestions] = useState([{ value: "" }])
   const [employer, setEmployer] = useState('')
   const [otherBenefits, setOtherBenefits] = useState('')
   const [trainingCmt, setTrainingCmt] = useState('')
@@ -50,6 +50,21 @@ function Postajob() {
 
 
 
+  const handleQuestionsInput = (index, event) => {
+    const values = [...employerquestions];
+    values[index].value = event.target.value;
+    setEmployerQuestions(values);
+  };
+
+  const handleAddFields = () => {
+    setEmployerQuestions([...employerquestions, { value: '' }]);
+  };
+
+  const handleRemoveFields = (index) => {
+    const values = [...employerquestions];
+    values.splice(index, 1);
+    setEmployerQuestions(values);
+  };
 
 
 
@@ -72,25 +87,6 @@ function Postajob() {
 
   const [jobCategory, setJobCategory] = useState('');
   const [subCategory, setSubCategory] = useState('');
-
-  const [count, setCount] = useState(0);
-
-  const addTextbox = () => {
-    setCount(count + 1);
-  };
-
-  const delTextBox = () => {
-    setCount(count - 1);
-  };
-
-  let arr = [];
-  for (let i = 0; i < count; i++) {
-    arr.push(1);
-
-
-
-  }
-
 
   const [errors, setErrors] = useState({
     descriptionErrors: false,
@@ -205,7 +201,7 @@ function Postajob() {
       eObj = { ...eObj, creationDateErrors: false };
     }
 
-    if (training == '') {
+    if (training === "") {
       valid = false;
       eObj = { ...eObj, trainingErrors: true };
       setTrainingMsg('Please Specify Training')
@@ -232,6 +228,9 @@ function Postajob() {
       eObj = { ...eObj, duration: false };
     }
 
+
+
+
     console.log(valid);
     setErrors(eObj);
     let obj1 = {}
@@ -257,6 +256,11 @@ function Postajob() {
       console.log(obj1)
     } else {
 
+      let employerquestion = "";
+      for (const question of employerquestions) {
+        employerquestion += (question.value + " ")
+      }
+
       let data = {
         company: company,
         closedate: closeDate,
@@ -274,8 +278,8 @@ function Postajob() {
         benifits: benifits + " " + otherBenefits,
         training: training + ' ' + trainingCmt,
         description: description,
-        employerquestions: employerquestions,
-        employer: employer,
+        employerquestions: employerquestion,
+        employer: company,
         companyId: userId,
         companyLogo: companyLogo
       }
@@ -896,35 +900,27 @@ function Postajob() {
                       <div className="col-md-12">
                         <div className="form-group row">
 
-                          <label className="col-sm-3 col-form-labe ">Employer questions</label>
+                          <label className="col-sm-3 col-form-label ">Employer questions</label>
 
                           <div>
-                            <div className=" mt-3 row">
+                            {employerquestions.map((question, index) => (
+                              <div className=" mt-3 row" key={index}>
+                                <div className='col-10'>
+                                  <input className="form-control" value={question.value} onChange={(event) => handleQuestionsInput(index, event)} type="text" placeholder="Questions" />
+                                </div>
+                                {index === 0 && <button className=' btn bg-secondary col-1' type="button" onClick={handleAddFields}>+</button>}
+                                {index !== 0 && <button className=' btn bg-secondary col-1' type="button" onClick={() => handleRemoveFields(index)}>-</button>}
 
-                              <input className="form-control col" value={employerquestions} onChange={(event) => handleInput('employerquestions', event)} type="text" placeholder="Questions" />&nbsp;&nbsp;
-                              <button className='col-1 btn bg-secondary' type="button" onClick={addTextbox}>+</button>
-
-
-                            </div>
-
+                              </div>
+                            ))}
                           </div>
+
+
 
                         </div>
 
                       </div>
-                      <div>
-                        {arr.map((x, index) => {
-                          return (
-                            <div key={index} className=" mt-3 row">
-                              <input className="form-control col" value={employer} onChange={(event) => handleInput('employer', event)} type="text" placeholder="Questions" />&nbsp;&nbsp;
-                              <button className='col-1 btn bg-secondary' type="button" onClick={() => delTextBox()}>-</button>
-                            </div>
-                          )
-                        }
-                        )
-                        }
 
-                      </div>
 
                       <div class="form-group">
                         <div className='col-11 p-3'>

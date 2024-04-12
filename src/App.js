@@ -60,16 +60,20 @@ import AddForms from "./pages/superadmin/adsmanagement/AddForms";
 import Table from "./pages/superadmin/adsmanagement/Table";
 import CreateUser from "./pages/superadmin/user/CreateUser";
 import UserList from "./pages/superadmin/user/UserList";
-import Skills from "./pages/superadmin/Skills";
+
 import Myappliedjobs from "./pages/common/Myappliedjobs";
 import Savedjobs from "./pages/common/Savedjobs";
 import SingleJobAdmin from "./pages/admin/joblist/SingleJobAdmin";
 import SuperAdminLogin from "./pages/superadmin/login";
-import Addskills from "./pages/superadmin/Addskills";
+
 import OrdersList from "./pages/superadmin/Order-Management/OrdersList";
 import Plans from "./pages/common/Plans";
 import Addpage from "./pages/superadmin/Pages-Management/AddPages";
 import PagesList from "./pages/superadmin/Pages-Management/PagesList";
+import Skills from "./pages/superadmin/Skills-Management/Skills";
+import Addskills from "./pages/superadmin/Skills-Management/Addskills";
+import EditSkill from "./pages/superadmin/Skills-Management/EditSkill";
+import EditCategory from "./pages/superadmin/categories/EditCategory";
 
 
 function App() {
@@ -138,6 +142,7 @@ function App() {
       <Route path="/superadmin/Categories1" element={(token && role == 'superadmin') ? <Categories1 /> : <Categories1 />} />
       <Route path="/superadmin/AddSkills" element={(token && role == 'superadmin') ? <Addskills /> : <Addskills />} />
       <Route path="/superadmin/Categorieslist1" element={(token && role == 'superadmin') ? <Categorieslist1 /> : <Categorieslist1 />} />
+      <Route path="/superadmin/Categories/:id" element={(token && role == 'superadmin') ? <EditCategory /> : <EditCategory />} />
 
 
 
@@ -151,6 +156,8 @@ function App() {
       <Route path="/superadmin/CreateUser" element={(token && role == 'superadmin') ? <CreateUser /> : <SuperAdminLogin />} />
       <Route path="/superadmin/UserList" element={(token && role == 'superadmin') ? <UserList /> : <UserList />} />
       <Route path="/superadmin/Skills" element={(token && role == 'superadmin') ? <Skills /> : <Skills />} />
+      <Route path="/superadmin/Skills/:id" element={(token && role == 'superadmin') ? <EditSkill /> : <EditSkill />} />
+
       <Route path="/superadmin/login" element={(token && role == 'superadmin') ? <SuperAdminHome /> : <SuperAdminHome />} />
       <Route path="/superadmin/orders" element={(token && role == 'superadmin') ? <OrdersList /> : <OrdersList />} />
       <Route path="/superadmin/add-page" element={(token && role == 'superadmin') ? <Addpage /> : <Addpage />} />

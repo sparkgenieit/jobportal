@@ -1,12 +1,12 @@
-import { useState } from "react";
-import Footer from "../../layouts/superadmin/Footer";
-import Header from "../../layouts/superadmin/Header";
-import Sidebar from "../../layouts/superadmin/Sidebar";
+import { useEffect, useState } from "react";
+import Footer from "../../../layouts/superadmin/Footer";
+import Header from "../../../layouts/superadmin/Header";
+import Sidebar from "../../../layouts/superadmin/Sidebar";
 import axios from "axios";
 import { Editor, EditorProvider } from "react-simple-wysiwyg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-function Addskills() {
+function EditSkill() {
     const [skillname, setSkillname] = useState("");
     const [skillDomain, setSkillDomain] = useState("");
     const [description, setDescription] = useState("");
@@ -21,12 +21,25 @@ function Addskills() {
     const [msgClass, setMsgClass] = useState('alert alert-success')
     const [message, setMessage] = useState("")
     const navigate = useNavigate();
+    const params = useParams();
+    let id = params.id
+
+    useEffect(() => {
+        axios.get(`http://localhost:8080/skills/${id}`)
+            .then((res) => {
+                setSkillname(res.data.skill_name)
+                setSkillDomain(res.data.skill_dmain)
+                setDescription(res.data.description)
+                setImage(res.data.photo)
+            })
+
+    }, [])
 
 
     function handleInput(name, event) {
         if (name === "name") {
             setSkillname(event.target.value)
-            if (skillname === "") {
+            if (event.target.value === "") {
                 setError({ ...error, skillname: true })
             }
             else {
@@ -35,7 +48,7 @@ function Addskills() {
         }
         if (name === "domain") {
             setSkillDomain(event.target.value)
-            if (skillDomain === "") {
+            if (event.target.value === "") {
                 setError({ ...error, skillDomain: true });
             }
             else {
@@ -44,7 +57,7 @@ function Addskills() {
         }
         if (name === "description") {
             setDescription(event.target.value)
-            if (description === "") {
+            if (event.target.value === "") {
                 setError({ ...error, description: true })
             }
             else {
@@ -103,10 +116,10 @@ function Addskills() {
                 "photo": ""
             }
 
-            axios.post('http://localhost:8080/skills/create', data)
+            axios.put(`http://localhost:8080/skills/update/${id}`, data)
                 .then((res) => {
                     setShowMsg(true)
-                    setMessage("Skills Added SuccessFully")
+                    setMessage("Skills Updated SuccessFully")
                     setMsgClass("alert alert-success")
                     setTimeout(() => {
                         navigate("/superadmin/Skills")
@@ -159,7 +172,7 @@ function Addskills() {
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="card">
-                                                    <h4 class="card-title px-3 py-4">Add Skill</h4>
+                                                    <h4 class="card-title px-3 py-4">Edit Skill</h4>
                                                     <div class="card-body py-0">
                                                         {showMsg && <div class={msgClass} role="alert">
                                                             {message}
@@ -214,7 +227,7 @@ function Addskills() {
 
                                                             <div class="row">
                                                                 <div class="col-md-6">
-                                                                    <button type="button" onClick={handleSubmit} class="btn btn-gradient-primary ">Submit</button>
+                                                                    <button type="button" onClick={handleSubmit} class="btn btn-gradient-primary ">Save</button>
                                                                     <button type="button" class="btn btn-light float-end">Cancel</button>
                                                                 </div>
                                                             </div>
@@ -236,4 +249,4 @@ function Addskills() {
 
 }
 
-export default Addskills;
+export default EditSkill;
