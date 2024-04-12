@@ -139,7 +139,7 @@ function Create() {
             setErrorMsg(false)
             setMsg(true)
             setTimeout(() => {
-              navigate("/superadmin/List")
+              navigate("/superadmin/admins/List")
             }, 2000)
 
           }

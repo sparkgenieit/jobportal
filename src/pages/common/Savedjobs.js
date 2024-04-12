@@ -1,19 +1,41 @@
-import { useEffect, useState } from "react";
+import { useDebugValue, useEffect, useState } from "react";
 import Header from "../../layouts/common/Header";
 import Sidebar from "../../layouts/common/Sidebar";
 import Footer from "../../layouts/common/Footer";
 import axios from "axios";
 
 function Savedjobs() {
-    const [assignJobs, setAssignJobs] = useState(null)
+    const [savedJobs, setSavedJobs] = useState(null)
+    const [allJobs, setAllJobs] = useState(null)
+    const [filteredJobs, setFilteredJobs] = useState(null)
     const userId = localStorage.getItem('user_id')
 
-    useEffect(()=>{
+    useEffect(() => {
         axios.get(`http://localhost:8080/jobs/savedJobs/${userId}`)
-             .then((Response)=> console.log(Response))
-    })
+            .then((response) => {
+                setSavedJobs(response.data)
+            })
 
-    
+        axios.get("http://localhost:8080/jobs/approved")
+            .then((res) => {
+                setAllJobs(res.data)
+            })
+    }, [])
+
+    useEffect(() => {
+        let filtered = []
+        if (savedJobs && allJobs) {
+            savedJobs.map((savedjob) => {
+                for (const jobs of allJobs) {
+                    if (savedjob.saved === true && savedjob.jobId === jobs._id) {
+                        filtered.push(jobs)
+                    }
+                }
+            })
+        }
+        setFilteredJobs(filtered)
+    }, [savedJobs, allJobs])
+
     return (
         <>
             <div className="container-scrollar">
@@ -34,52 +56,47 @@ function Savedjobs() {
                             </div>
 
                             <div class="row">
-                                <div class="col-12">
+                                <div class="card-body pt-3 px-3 bg-white ">
+                                    <table class="table p-4" >
+                                        <thead>
+                                            <tr >
+                                                <th>Job id</th>
+                                                <th>Job Title</th>
+                                                <th>Company</th>
+                                                <th>Applied Date</th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredJobs && filteredJobs.length > 0 && filteredJobs.map((job, index) => {
+                                                return (
+                                                    <tr key={index}>
+                                                        <td>{job._id}</td>
+                                                        <td>{job.jobTitle}</td>
+                                                        <td>{job.company}</td>
+                                                        <td>{job.AppliedDate}</td>
 
-                                    <div class="card-body  bg-white ">
-                                        <form class="form-sample">
-                                            <div class="col">
-
-                                                <table class="table  " >
-
-                                                    <thead>
-                                                        <tr >
-                                                            <th>Job id</th>
-                                                            <th>Job Title</th>
-                                                            <th>Company</th>
-                                                            <th>Applied Date</th>
+                                                        <td>
+                                                            <button type="button" class="btn btn-info btn-xs col-9 ">Remove</button>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn  btn-xs btn-danger col-9">Reject</button>
+                                                        </td>
+                                                    </tr>)
+                                            })
+                                            }
+                                        </tbody>
 
 
-                                                        </tr>
 
-                                                        {assignJobs && assignJobs > 0 &&
-                                                            assignJobs.map((job, index) => {
-                                                                return <tr key={index}>
-                                                                    <td>{job._id}</td>
-                                                                    <td>{job.jobTitle}</td>
-                                                                    <td>{job.company}</td>
-                                                                    <td>{job.AppliedDate}</td>
+                                    </table>
 
-                                                                    <td><button type="button" class="btn btn-info btn-xs col-9 ">
-                                                                       Remove
-                                                                    </button></td>
-                                                                    <td>
 
-                                                                        <button type="button" class="btn  btn-xs btn-danger col-9">Reject</button>
-                                                                    </td>
-                                                                </tr>
-                                                            })
-                                                        }
-
-                                                    </thead>
-
-                                                </table>
-                                            </div>
-
-                                        </form>
-                                    </div>
 
                                 </div>
+
+
 
 
                             </div>

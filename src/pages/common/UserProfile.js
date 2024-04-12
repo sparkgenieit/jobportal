@@ -110,9 +110,11 @@ function UserProfile() {
         setEmail(response.data.email);
         setPersonal(response.data.profile_summary);
         setUserData(response.data);
-        setLicences(response.data.licences);
         if (response.data && response.data.work_history && response.data.work_history.length > 0) {
           setWorks(response.data.work_history);
+        }
+        if (response.data && response.data.licences && response.data.licences.length > 0) {
+          setLicences(response.data.licences);
         }
 
         if (response.data && response.data.work_history && response.data.work_history.length > 0) {

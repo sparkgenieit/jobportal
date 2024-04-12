@@ -13,30 +13,30 @@ function ViewProfile() {
   useEffect(() => {
 
     userService.get(userId)
-    .then(response => {
-      console.log(response.data);
-      SetUserData(response.data)
-      // localStorage.setItem('token', response.data.token);
-      // const token = response.data.token;
+      .then(response => {
+        console.log(response.data);
+        SetUserData(response.data)
+        // localStorage.setItem('token', response.data.token);
+        // const token = response.data.token;
 
-      // // Store the token securely (e.g., in localStorage or HTTP-only cookies)
-      // localStorage.setItem('token', token);
+        // // Store the token securely (e.g., in localStorage or HTTP-only cookies)
+        // localStorage.setItem('token', token);
 
-      // localStorage.setItem('role', response.data.role)
-      // setTimeout(() => {
-      //   // Inside the handleLogin function
-      //   navigate('/viewprofile'); // Redirect to the dashboard after login
-      // }, 1500);
+        // localStorage.setItem('role', response.data.role)
+        // setTimeout(() => {
+        //   // Inside the handleLogin function
+        //   navigate('/viewprofile'); // Redirect to the dashboard after login
+        // }, 1500);
 
-    })
-    .catch(e => {
-      console.log(e);
-    })
+      })
+      .catch(e => {
+        console.log(e);
+      })
   }, [userId])
 
   const handleDownload = (event, url) => {
     event.preventDefault();
-    fetch("http://localhost:8080/"+url)
+    fetch("http://localhost:8080/" + url)
       .then((response) => response.blob())
       .then((blob) => {
         const url = window.URL.createObjectURL(new Blob([blob]));
@@ -75,13 +75,13 @@ function ViewProfile() {
               <div className="card-body p-3" >
                 <div className='row my-4'>
                   <h4 className="card-title col-9 ">User Profile </h4>
-                
+
                   <div className='col-3 text-center'>
-                  <button type="button" className="btn btn-gradient-primary"><a href='/profile'>Edit</a></button>
+                    <button type="button" className="btn btn-gradient-primary"><a href='/profile'>Edit</a></button>
                   </div>
 
 
-                  
+
                 </div>
                 <form className="form-sample">
                   <div className="row">
@@ -91,7 +91,7 @@ function ViewProfile() {
                         <div className="col-sm-9">
                           <div className=' p-2'>
                             {user.first_name}
-                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -103,7 +103,7 @@ function ViewProfile() {
                         <div className="col-sm-9">
                           <div className='p-2'>
                             {user.last_name}
-                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -125,7 +125,7 @@ function ViewProfile() {
                         <div className="col-sm-9">
                           <div className='p-2'>
                             {user.phone}
-                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -163,16 +163,16 @@ function ViewProfile() {
                         </thead>
                         <tbody>
                           {
-                            user.work_history &&  user.work_history.length > 0 && user.work_history.map((x, index) => {
+                            user.work_history && user.work_history.length > 0 && user.work_history.map((x, index) => {
                               return (
                                 <>
                                   <tr className='border-bottom' key={index}>
                                     <td className='px-3'>{x.jobTitle}</td>
                                     <td className='px-3'>{x.employer}</td>
                                     <td className='px-3'>{x.location}</td>
-                                    <td className='px-3'>{x.from}</td>
-                                    <td className='px-3'>{x.to}</td>
-                                    <td className='px-3'>{x.workDescription}</td>
+                                    <td className='px-3'>{x.fromDate}</td>
+                                    <td className='px-3'>{x.toDate}</td>
+                                    <td className='px-3'>{x.description}</td>
                                   </tr>
 
                                 </>
@@ -213,12 +213,12 @@ function ViewProfile() {
                           {
                             user.education && user.education.length > 0 && user.education.map((x, index) => {
                               return (
-                                <tr  className='border-bottom' key={index}>
+                                <tr className='border-bottom' key={index}>
                                   <td className='px-3' >{x.educationProvider}</td>
-                                   <td className='px-3' >{x.qualification}</td>
-                                   <td className='px-3' >{x.yearCompleted}</td>
-                                   <td className='px-3' >{x.validinNZ}</td>
-                                   <td className='px-3' >{x.eduDescription}</td>
+                                  <td className='px-3' >{x.qualification}</td>
+                                  <td className='px-3' >{x.yearCompleted}</td>
+                                  <td className='px-3' >{x.validInNZ}</td>
+                                  <td className='px-3' >{x.description}</td>
 
 
                                 </tr>
@@ -263,13 +263,13 @@ function ViewProfile() {
                           {
                             user.licences && user.licences.length > 0 && user.licences.map((x, index) => {
                               return (
-                                <tr  className='border-bottom' key={index}>
-                                  <td className='px-3' >{x.name}</td>
-                                   <td className='px-3' >{x.authority}</td>
-                                   <td className='px-3' >{x.issueDate}</td>
-                                   <td className='px-3' >{x.expiryDate}</td>
-                                   <td className='px-3' >{x.validinNZ}</td>
-                                   <td className='px-3' >{x.licenseDes}</td>
+                                <tr className='border-bottom' key={index}>
+                                  <td className='px-3' >{x.licenseName}</td>
+                                  <td className='px-3' >{x.issuingAuthority}</td>
+                                  <td className='px-3' >{x.issueDate}</td>
+                                  <td className='px-3' >{x.expiryDate}</td>
+                                  <td className='px-3' >{x.validInNZ}</td>
+                                  <td className='px-3' >{x.description}</td>
 
 
 
@@ -295,7 +295,7 @@ function ViewProfile() {
                         <thead>
                           <tr className=' border-bottom'>
                             <th className='px-3' >Certificate Name</th>
-                            <th className='px-3' >Description</th>
+
                             <th className='px-3' >Issuing Authority</th>
                             <th className='px-3' >Issue Date</th>
                             <th className='px-3' >Expiry Date</th>
@@ -311,17 +311,13 @@ function ViewProfile() {
                           {
                             user.certification && user.certification.length > 0 && user.certification.map((x, index) => {
                               return (
-                                <tr  className='border-bottom' key={index}>
+                                <tr className='border-bottom' key={index}>
                                   <td td className='px-3'  >{x.certificateName}</td>
+                                  <td className='px-3' >{x.issuingAuthority}</td>
+                                  <td className='px-3' >{x.issueDate}</td>
+                                  <td className='px-3' >{x.expiryDate}</td>
+                                  <td className='px-3' >{x.validInNZ}</td>
                                   <td td className='px-3'  >{x.description}</td>
-                                   <td className='px-3' >{x.authority}</td>
-                                   <td className='px-3' >{x.issueDate}</td>
-                                   <td className='px-3' >{x.expiryDate}</td>
-                                   <td className='px-3' >{x.validinNZ}</td>
-                                   <td className='px-3' >{x.certificateDes}</td>
-
-
-
                                 </tr>
 
                               )
@@ -370,7 +366,7 @@ function ViewProfile() {
                       <ul>
                         {user.preferredJobTypes && user.preferredJobTypes.length > 0 && user.preferredJobTypes.map((x, index) => {
                           return Object.keys(x).map((k, index) => {
-                            if(x[k]){
+                            if (x[k]) {
                               return <li key={index}>{k}</li>
                             }
                           });
@@ -392,11 +388,11 @@ function ViewProfile() {
                         <label className="col-sm-6 col-form-label fw-bold">Preferred Locations :</label>
                         <div className="col-sm-12">
                           <ul>
-                          {user.preferredJobLocations && user.preferredJobLocations.length > 0 && 
-                          user.preferredJobLocations.map((x, index) => {
-                              return <li key={index}>{x}</li>
-                            }
-                            )
+                            {user.preferredJobLocations && user.preferredJobLocations.length > 0 &&
+                              user.preferredJobLocations.map((x, index) => {
+                                return <li key={index}>{x}</li>
+                              }
+                              )
 
                             }
                           </ul>
@@ -428,7 +424,7 @@ function ViewProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Expected rate Per hour : </label>
                         <div className="col-sm-9">
-                          {/* <div>{user.rate}</div> */}
+                          <div>{user.expectedRatePerHour}</div>
 
                         </div>
                       </div>
@@ -454,7 +450,7 @@ function ViewProfile() {
                     <div class="form-group row">
                       <label className="col-form-label col-3 fw-bold">Visa Type :</label>
                       <div className='col-3'>
-                        {/* {user.visaType} */}
+                        {user.visaType}
                       </div>
                     </div>
                   </div>
@@ -463,7 +459,7 @@ function ViewProfile() {
                     <div className="form-group row">
                       <label className="col-form-label col-3 fw-bold ">Visa Expiry Date:</label>
                       <div className="col-3">
-                        {/* {user.visaExpiryDate} */}
+                        {user.visaExpiryDate}
 
 
                       </div>
@@ -476,7 +472,7 @@ function ViewProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Upload CV :  </label>
                         <div className="col-sm-9">
-                         {user.cv && <a style={{"textDecoration": "underline"}} href="/" onClick={(event) => handleDownload(event, user.cv)}>{user.cv}</a>}
+                          {user.cv && <a style={{ "textDecoration": "underline" }} href="/" onClick={(event) => handleDownload(event, user.cv)}>{user.cv}</a>}
                           {/* {user.uploadCV} */}
                         </div>
                       </div>
@@ -488,7 +484,7 @@ function ViewProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Upload Cover Letter :  </label>
                         <div className="col-sm-9">
-                          {/* {user.coverLetter} */}
+                          {user.coverLetter}
                         </div>
                       </div>
                     </div>
@@ -499,7 +495,7 @@ function ViewProfile() {
 
 
 
-                 
+
                 </form>
               </div>
             </div>
