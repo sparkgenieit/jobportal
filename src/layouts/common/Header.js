@@ -27,6 +27,7 @@ function Header() {
 
   const handleLogout = () => {
     setToken('');
+    localStorage.removeItem('user_id');
     localStorage.removeItem('token'); // Remove token from localStorage
     localStorage.removeItem('role');
     navigate('/');

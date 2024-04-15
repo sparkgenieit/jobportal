@@ -103,7 +103,9 @@ function Home() {
 
                                                         </div>
                                                         <div class="text-muted">
-                                                            <a class="btn primary" href={`/common/SingleJob/${job._id}`}>Apply</a>
+                                                            <a class="btn primary" href={`/common/SingleJob/${job._id}`}>
+                                                            <button class="btn btn-primary" type="button">Apply</button>
+                                                            </a>
                                                         </div>
 
                                                     </div>

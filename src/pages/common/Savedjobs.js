@@ -77,12 +77,7 @@ function Savedjobs() {
                                                         <td>{job.company}</td>
                                                         <td>{job.AppliedDate}</td>
 
-                                                        <td>
-                                                            <button type="button" class="btn btn-info btn-xs col-9 ">Remove</button>
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" class="btn  btn-xs btn-danger col-9">Reject</button>
-                                                        </td>
+                                                      
                                                     </tr>)
                                             })
                                             }

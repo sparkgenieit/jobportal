@@ -10,6 +10,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import Sidebar from '../../layouts/company/Sidebar';
 
 function SingleJob() {
+    const [isJobApplied, setIsJobApplied] = useState(false)
+    const [isJobSaved, setIsJobSaved] = useState(false)
     const [jobview, setJobview] = useState()
     const userId = localStorage.getItem('user_id');
     const [message, setMessage] = useState({
@@ -22,6 +24,30 @@ function SingleJob() {
     const params = useParams();
 
     useEffect(() => {
+        if(userId){
+        axios.get(`http://localhost:8080/jobs/appliedjobs/${userId}`)
+            .then((response) => {
+                if(response.data){
+                    response.data.map((j) => {
+                        if(params.id == j.jobId){
+                            setIsJobApplied(true);
+                        }
+                    })
+                }
+            })
+
+            axios.get(`http://localhost:8080/jobs/savedJobs/${userId}`)
+            .then((response) => {
+                if(response.data){
+                    response.data.map((j) => {
+                        if(params.id == j.jobId){
+                            setIsJobSaved(true);
+                        }
+                    })
+                }
+            })
+        }
+
         axios.get(`http://localhost:8080/jobs/${params.id}`)
             .then((response) => setJobview(response.data))
     }, [])
@@ -30,39 +56,47 @@ function SingleJob() {
 
 
     function handleApply() {
-        const data = {
-            userId: userId,
-            jobId: jobview._id,
-            applied: true
+        if (userId) {
+            const data = {
+                userId: userId,
+                jobId: jobview._id,
+                applied: true
+            }
+
+            axios.post("http://localhost:8080/jobs/apply", data)
+                .then((response) => {
+                    setMessage({
+                        showMsg: true,
+                        msgClass: "alert alert-success",
+                        Msg: "Applied Successfully"
+                    })
+                    setTimeout(() => {
+                        navigate('/common/Myappliedjobs')
+                    }, 2000)
+                })
+
+
+                .catch((e) => {
+                    setMessage({
+                        showMsg: true,
+                        msgClass: "alert alert-danger",
+                        Msg: e.response.data.message
+                    })
+                    setTimeout(() => {
+                        setMessage({ ...message, showMsg: false })
+                    }, 3000)
+                })
+
+        }else{
+            setMessage({
+                showMsg: true,
+                msgClass: "alert alert-danger",
+                Msg: 'Please login to apply job'
+            })
         }
-
-        axios.post("http://localhost:8080/jobs/apply", data)
-            .then((response) => {
-                setMessage({
-                    showMsg: true,
-                    msgClass: "alert alert-success",
-                    Msg: "Applied Successfully"
-                })
-                setTimeout(() => {
-                    navigate('/common/Myappliedjobs')
-                }, 2000)
-            })
-
-
-            .catch((e) => {
-                setMessage({
-                    showMsg: true,
-                    msgClass: "alert alert-danger",
-                    Msg: e.response.data.message
-                })
-                setTimeout(() => {
-                    setMessage({ ...message, showMsg: false })
-                }, 3000)
-            })
-
-
     }
     function handleSave() {
+        if (userId) {
         const data = {
             userId: userId,
             jobId: jobview._id,
@@ -92,7 +126,13 @@ function SingleJob() {
                     setMessage({ ...message, showMsg: false })
                 }, 3000)
             })
-
+        }else{
+            setMessage({
+                showMsg: true,
+                msgClass: "alert alert-danger",
+                Msg: 'Please login to save job'
+            })
+        }
     }
 
     return (
@@ -114,8 +154,10 @@ function SingleJob() {
                                     </div>}
                                     <div class="card-body px-4  ">
                                         <div className="d-flex justify-content-end mt-4 gap-5">
-                                            <button type='button' onClick={handleSave} className='btn btn-outline-dark col-2 '>Save</button>
-                                            <button type='button' onClick={handleApply} className='btn btn-primary col-2'>Apply</button>
+                                            {!isJobApplied && <button type='button' onClick={handleApply} className='btn btn-primary col-2'>Apply</button>}
+                                            {isJobApplied && <span style={{color: 'green'}}>Job Applied</span>}
+                                            {!isJobSaved && <button type='button' onClick={handleSave} className='btn btn-outline-dark col-2 '>Save</button>}
+                                            {isJobSaved && <span style={{color: 'green'}}>Job Saved</span>}
                                         </div>
 
 
