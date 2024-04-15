@@ -50,6 +50,7 @@ function Postajob() {
   const [vacanciesMsg, setVacanciesMsg] = useState('Please Enter Number Of Vacancies');
   const [companyMsg, setCompanyMsg] = useState('Please Enter Company Name');
   const [trainingMsg, setTrainingMsg] = useState('Please Specify Training');
+  const [jobtypMsg, setJobtypeMsg]=useState('Please select one')
 
 
   const Navigate = useNavigate();
@@ -600,7 +601,7 @@ function Postajob() {
 
 
                             </div>
-                            {/* { errors&& errors.jobTypeErrors &&<div className='mx-auto col-6 text-danger'>please select one</div>} */}
+                            { errors.jobTypeErrors &&<div className='mx-auto col-6 text-danger'>please select one</div>}
                           </div>
                         </div>
 
@@ -883,6 +884,7 @@ function Postajob() {
                             </div>
 
                           </div>
+                          { errors.trainingErrors &&<div className='mb-4  text-danger'>please select one</div>}
 
                         </div>
                       </div>
