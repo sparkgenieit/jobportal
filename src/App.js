@@ -74,6 +74,7 @@ import Skills from "./pages/superadmin/Skills-Management/Skills";
 import Addskills from "./pages/superadmin/Skills-Management/Addskills";
 import EditSkill from "./pages/superadmin/Skills-Management/EditSkill";
 import EditCategory from "./pages/superadmin/categories/EditCategory";
+import EditJob from "./pages/company/jobs/EditJob";
 
 
 function App() {
@@ -95,6 +96,7 @@ function App() {
 
       <Route path="/company" element={(token && role == 'employer') ? <CompanyHome /> : <Navigate to="/" />} />
       <Route path="/company/CompanyProfile" element={(token && role == 'employer') ? <CompanyProfile /> : <Navigate to="/" />} />
+      <Route path="/company/editjob/:id" element={(token && role == 'employer') ? <EditJob /> : <Navigate to="/" />} />
       <Route path="/company/postajob" element={(token && role == 'employer') ? <Postajob /> : <Navigate to="/" />} />
       <Route path="/company/JobList" element={(token && role == 'employer') ? <JobList /> : <Navigate to="/" />} />
 
