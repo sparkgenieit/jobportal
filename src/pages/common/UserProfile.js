@@ -128,7 +128,10 @@ function UserProfile() {
         setSkills(response.data.skills);
         setVisa(response.data.visaType);
         setMobile(response.data.phone);
-
+        setVisaExpiry(response.data.visaExpiryDate.slice(0, 10))
+        setExpectedRate(response.data.expectedRatePerHour)
+        setPreferredLocations(response.data.preferredJobLocations[0])
+        setPreferredJobCategory(response.data.preferredJobCategories[0])
       })
       .catch(e => {
         console.log(e);
@@ -435,6 +438,7 @@ function UserProfile() {
     setErrors(obj);
 
     console.log(isValid);
+    console.log(visaExpiry)
 
     if (isValid) {
       const userData = {
@@ -1078,8 +1082,6 @@ function UserProfile() {
                   <div className="row">
                     <div className="col-md-6">
                       <div class="form-group row">
-
-
                         <label className="col-sm-6 col-form-label">Visa Type <span style={{ color: "red" }}>*</span></label>
                         <div className="col-sm-12">
                           <select type="dropdown" className="form-select form-control" value={visa} onChange={(event) => chnageOut("visa", event)}>
