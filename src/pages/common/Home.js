@@ -4,6 +4,7 @@ import Header from '../../layouts/common/Header';
 import Footer from '../../layouts/common/Footer';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Ads from './ads';
 
 function Home() {
     const [jobs, setJobs] = useState(null)
@@ -12,14 +13,15 @@ function Home() {
     useEffect(() => {
         axios.get("http://localhost:8080/jobs/approved")
             .then((response) => setJobs(response.data))
-    },[])
+    }, [])
 
 
-    
+
     return <>
         <Header />
-        <main id="main">
 
+        <main id="main">
+            <Ads />
             <section class="inner-page" data-aos="fade-up">
                 <div class="container-fluid homeBg">
                     <div>
@@ -75,8 +77,8 @@ function Home() {
                                 <div class="row rounded p-3">
 
                                     {jobs && jobs.length > 0 &&
-                                    jobs.map((job, index) => {
-                                        return <div key={index} class=" col-6 px-3 ">
+                                        jobs.map((job, index) => {
+                                            return <div key={index} class=" col-6 px-3 ">
 
 
                                                 <div class="row border shadow rounded container p-3 mb-4 bg-light">
@@ -96,7 +98,7 @@ function Home() {
 
                                                     <div class="d-flex justify-content-between">
                                                         <div class="d-flex justify-content-between" style={{ "gap": "10px" }}>
-                                                           
+
                                                             <button class="btn btn-secondary btn-sm" type="button">Content Writer</button>
                                                             <button class="btn btn-secondary btn-sm" type="button">Sketch</button>
                                                             <button class="btn btn-secondary btn-sm" type="button">PSD</button>
@@ -104,7 +106,7 @@ function Home() {
                                                         </div>
                                                         <div class="text-muted">
                                                             <a class="btn primary" href={`/common/SingleJob/${job._id}`}>
-                                                            <button class="btn btn-primary" type="button">Apply</button>
+                                                                <button class="btn btn-primary" type="button">Apply</button>
                                                             </a>
                                                         </div>
 
@@ -112,8 +114,8 @@ function Home() {
                                                 </div>
                                             </div>
 
-                                        
-                                    })}
+
+                                        })}
 
                                 </div>
 

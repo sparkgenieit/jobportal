@@ -24,28 +24,28 @@ function SingleJob() {
     const params = useParams();
 
     useEffect(() => {
-        if(userId){
-        axios.get(`http://localhost:8080/jobs/appliedjobs/${userId}`)
-            .then((response) => {
-                if(response.data){
-                    response.data.map((j) => {
-                        if(params.id == j.jobId){
-                            setIsJobApplied(true);
-                        }
-                    })
-                }
-            })
+        if (userId) {
+            axios.get(`http://localhost:8080/jobs/appliedjobs/${userId}`)
+                .then((response) => {
+                    if (response.data) {
+                        response.data.map((j) => {
+                            if (params.id == j.jobId && j.applied == true) {
+                                setIsJobApplied(true);
+                            }
+                        })
+                    }
+                })
 
             axios.get(`http://localhost:8080/jobs/savedJobs/${userId}`)
-            .then((response) => {
-                if(response.data){
-                    response.data.map((j) => {
-                        if(params.id == j.jobId){
-                            setIsJobSaved(true);
-                        }
-                    })
-                }
-            })
+                .then((response) => {
+                    if (response.data) {
+                        response.data.map((j) => {
+                            if (params.id == j.jobId && j.saved == true) {
+                                setIsJobSaved(true);
+                            }
+                        })
+                    }
+                })
         }
 
         axios.get(`http://localhost:8080/jobs/${params.id}`)
@@ -87,7 +87,7 @@ function SingleJob() {
                     }, 3000)
                 })
 
-        }else{
+        } else {
             setMessage({
                 showMsg: true,
                 msgClass: "alert alert-danger",
@@ -97,36 +97,36 @@ function SingleJob() {
     }
     function handleSave() {
         if (userId) {
-        const data = {
-            userId: userId,
-            jobId: jobview._id,
-            saved: true
-        }
+            const data = {
+                userId: userId,
+                jobId: jobview._id,
+                saved: true
+            }
 
-        axios.post("http://localhost:8080/jobs/save", data)
-            .then((response) => {
-                setMessage({
-                    showMsg: true,
-                    msgClass: "alert alert-success",
-                    Msg: "Job Saved Successfully "
+            axios.post("http://localhost:8080/jobs/save", data)
+                .then((response) => {
+                    setMessage({
+                        showMsg: true,
+                        msgClass: "alert alert-success",
+                        Msg: "Job Saved Successfully "
+                    })
+                    setTimeout(() => {
+                        navigate('/common/Savedjobs')
+                    }, 2000)
                 })
-                setTimeout(() => {
-                    navigate('/common/Savedjobs')
-                }, 2000)
-            })
 
 
-            .catch((e) => {
-                setMessage({
-                    showMsg: true,
-                    msgClass: "alert alert-danger",
-                    Msg: e.response.data.message
+                .catch((e) => {
+                    setMessage({
+                        showMsg: true,
+                        msgClass: "alert alert-danger",
+                        Msg: e.response.data.message
+                    })
+                    setTimeout(() => {
+                        setMessage({ ...message, showMsg: false })
+                    }, 3000)
                 })
-                setTimeout(() => {
-                    setMessage({ ...message, showMsg: false })
-                }, 3000)
-            })
-        }else{
+        } else {
             setMessage({
                 showMsg: true,
                 msgClass: "alert alert-danger",
@@ -155,9 +155,9 @@ function SingleJob() {
                                     <div class="card-body px-4  ">
                                         <div className="d-flex justify-content-end mt-4 gap-5">
                                             {!isJobApplied && <button type='button' onClick={handleApply} className='btn btn-primary col-2'>Apply</button>}
-                                            {isJobApplied && <span style={{color: 'green'}}>Job Applied</span>}
+                                            {isJobApplied && <span style={{ color: 'green' }}>Job Applied</span>}
                                             {!isJobSaved && <button type='button' onClick={handleSave} className='btn btn-outline-dark col-2 '>Save</button>}
-                                            {isJobSaved && <span style={{color: 'green'}}>Job Saved</span>}
+                                            {isJobSaved && <span style={{ color: 'green' }}>Job Saved</span>}
                                         </div>
 
 
