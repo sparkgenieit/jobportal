@@ -1,13 +1,22 @@
 import Header from "../../layouts/common/Header";
 import Footer from "../../layouts/common/Footer";
-function Termsofservice(){
+import Ads from "./Ads";
+function Termsofservice() {
     return (
         <>
-        <Header/>
+            <Header />
+            <div className="row">
+                <div className="col-9">
 
-        <Footer/>
-        
-        
+                </div>
+                <div className="col-3">
+                    <Ads/>
+                </div>
+            </div>
+
+            <Footer />
+
+
         </>
     )
 }

@@ -8,6 +8,7 @@ import axios from 'axios';
 
 import { useParams } from "react-router-dom";
 import Sidebar from '../../layouts/company/Sidebar';
+import Ads from './Ads';
 
 function SingleJob() {
     const [jobview, setJobview] = useState()
@@ -67,9 +68,9 @@ function SingleJob() {
 
 
                             <div class="row">
-                                <div class="col-12 bg-white rounded">
-                                {apply && <div className='text-center text-success  '>{apply}</div>}
-                                {save && <div className='text-center text-success '>{save}</div>}
+                                <div class="col-8 bg-white rounded">
+                                    {apply && <div className='text-center text-success  '>{apply}</div>}
+                                    {save && <div className='text-center text-success '>{save}</div>}
 
                                     <div class="card-body px-4  ">
                                         <div className="d-flex justify-content-end mt-4 gap-5">
@@ -167,6 +168,9 @@ function SingleJob() {
 
                                     </div>
 
+                                </div>
+                                <div className='col-4'>
+                                    <Ads/>
                                 </div>
 
 

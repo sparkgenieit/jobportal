@@ -1,5 +1,6 @@
 import Header from "../../layouts/common/Header";
 import Footer from "../../layouts/common/Footer";
+import Ads from "./Ads";
 
 function Places() {
     return (
@@ -13,7 +14,7 @@ function Places() {
 
 
                 <div class="row p-5">
-                    <div class="col-10">
+                    <div class="col-8">
 
 
                         <div class="mb-3">
@@ -298,25 +299,14 @@ function Places() {
 
                     </div>
 
-                    <div class="col-2">
+                    <div class="col-4">
                         <div class="mb-3">
-                            <img src="auckland.jpg" width="150px" height="100px" />
+                            <Ads/>
                         </div>
                         <div class="mb-3">
-                            <img src="auckland.jpg" width="150px" height="100px" />
+                            <Ads/>
                         </div>
-                        <div class="mb-3">
-                            <img src="auckland.jpg" width="150px" height="100px" />
-                        </div>
-                        <div class="mb-3">
-                            <img src="auckland.jpg" width="150px" height="100px" />
-                        </div>
-                        <div class="mb-3">
-                            <img src="auckland.jpg" width="150px" height="100px" />
-                        </div>
-                        <div class="mb-3">
-                            <img src="auckland.jpg" width="150px" height="100px" ait="" />
-                        </div>
+                        
                     </div>
 
                 </div>

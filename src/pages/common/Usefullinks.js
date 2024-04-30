@@ -1,5 +1,6 @@
 import Header from "../../layouts/common/Header";
 import Footer from "../../layouts/common/Footer";
+import Ads from "./Ads";
 
 function Typesofwork(){
     return (
@@ -7,7 +8,7 @@ function Typesofwork(){
         <Header/>
 
        <div class="row m-5 my-5">
-        <div class="col-8">
+        <div class="col-7">
           <p>For holidaymakers and those planning to visit New Zealand, there are several useful websites and online resources to help you with information, planning, and exploring the country. Here are some useful links:</p>
 
           <p class="h5  text-primary">Immigration New Zealand:</p>
@@ -57,22 +58,13 @@ function Typesofwork(){
 
         </div>
 
-        <div class="col-3">
+        <div class="col-4">
           <div class="mt-3">
-          <img src="auckland.jpg" width="150px" height="100px"/>
+          <Ads/>
         </div>
 
-        <div class="mt-3">
-          <img src="auckland.jpg" width="150px" height="100px"/>
-        </div>
 
-        <div class="mt-3">
-          <img src="auckland.jpg" width="150px" height="100px"/>
-        </div>
-
-        <div class="mt-3">
-          <img src="auckland.jpg" width="150px" height="100px"/>
-        </div>
+        
           
         </div>
 

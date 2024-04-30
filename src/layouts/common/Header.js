@@ -76,8 +76,8 @@ function Header() {
                         <li><a href="/common/Transport">Transport</a></li>
                         <li><a href="/common/Accommodation">Accommodation</a></li>
                         <li><a href="/common/Places">Places</a></li>
-                        <li><a href="common/HolidayParks">Holiday Parks</a></li>
-                        <li><a href="common/FreedomCampaining">Freedom Campaining</a></li>
+                        <li><a href="/common/HolidayParks">Holiday Parks</a></li>
+                        <li><a href="/common/FreedomCampaining">Freedom Campaining</a></li>
                         <li><a href="/common/Activities">Activities</a></li>
                       </ul>
                     </li>

@@ -1,6 +1,7 @@
 import Head from "../../layouts/common/Head";
 import Footer from "../../layouts/common/Footer";
 import Header from "../../layouts/common/Header";
+import Ads from "./Ads";
 
 function Typesofwork() {
     return (
@@ -64,6 +65,9 @@ function Typesofwork() {
                     <p>For the most accurate and up-to-date information, it's recommended to consult the official website of
                         Immigration New Zealand<span class="text-info">https://www.immigration.govt.nz</span></p>
 
+                </div>
+                <div className="col-4">
+                    <Ads/>
                 </div>
             </div>
             <Footer/>

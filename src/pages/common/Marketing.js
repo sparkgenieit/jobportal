@@ -1,11 +1,19 @@
 import Header from "../../layouts/common/Header";
 import Footer from "../../layouts/common/Footer";
-function Marketing(){
+import Ads from "./Ads";
+function Marketing() {
     return (
         <>
-        <Header/>
+            <Header />
+            <div className="row">
+                <div className="col-9">
 
-        <Footer/>
+                </div>
+                <div className="col-3">
+                    <Ads/>
+                </div>
+            </div>
+            <Footer />
         </>
     )
 }

@@ -1,5 +1,6 @@
 import Header from "../../layouts/common/Header";
 import Footer from "../../layouts/common/Footer";
+import Ads from "./Ads";
 
 
 function Aboutwhvisa() {
@@ -8,7 +9,7 @@ function Aboutwhvisa() {
     <Header/>
 
       <div class="row container m-5 my-3">
-        <div class="col-10">
+        <div class="col-8">
           <div className="text-primary">
             <h4>About Working Holiday Visa</h4>
           </div>
@@ -91,12 +92,14 @@ function Aboutwhvisa() {
             </div>
           </div>
 
-            <div class="col-2">
-            <div class="mt-5 mb-5 text-info"> <img src="assets/images/city.png" width="200px" height="200px" /></div>
+            <div class="col-4">
+            <div class="mt-5 mb-5 text-info"> 
+            <Ads/>
+            </div>
 
-            <div class="mt-5 mb-5 text-info"><img src="assets/images/city2.png" width="200px" height="200px" /></div>
-            <div class="mt-5 mb-5 text-info"><img src="assets/images/city3.png" width="200px" height="200px" /></div>
-
+            <div class="mt-5 mb-5 text-info">
+              <Ads/>
+            </div> 
 
 
             {/* <!-- <div ><img src = "../ "  width="200px", height="200px"></div> 

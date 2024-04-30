@@ -1,5 +1,6 @@
 import Header from "../../layouts/common/Header";
 import Footer from "../../layouts/common/Footer";
+import Ads from "./Ads";
 
 function Banking() {
     return (
@@ -7,7 +8,7 @@ function Banking() {
         <Header/>
 
             <div class="row m-5 my-3">
-                <div class="col-10">
+                <div class="col-8">
 
 
                     <p>
@@ -74,6 +75,9 @@ function Banking() {
                         that best meets your needs during your stay in New Zealand.
 
                     </p>
+                </div>
+                <div className="col-4">
+                    <Ads/>
                 </div>
             </div>
             <Footer/>
