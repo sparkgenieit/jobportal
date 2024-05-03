@@ -19,10 +19,20 @@ function Postajob() {
   // const [jobCategory, setJobCategory] = useState('');
   // const [subCategory, setSubCategory] = useState('');
   const [jobTitle, setJobTitle] = useState('');
-  const [jobType, setJobType] = useState('');
+  const [jobType, setJobType] = useState({
+    FullTime: false,
+    PartTime: false,
+    Contract: false,
+    Casual: false,
+    Freelance: false,
+    Temporary: false
+  });
   const [vacancies, setVacancies] = useState('');
   const [creationDate, setCreationDate] = useState('');
-  const [training, setTraining] = useState('');
+  const [training, setTraining] = useState({
+    status: false,
+    text: ""
+  });
   const [company, setCompany] = useState('');
   const [companyLogo, setCompanyLogo] = useState('');
 
@@ -31,11 +41,16 @@ function Postajob() {
   const [numberofvacancies, setNumberOfVacancies] = useState('')
   const [rateperhour, setRatePerHour] = useState('')
   const [weeklyperhour, setWeeklyPerHour] = useState('')
-  const [benifits, setBenifits] = useState('')
+  const [benifits, setBenifits] = useState({
+    Accommodation: false,
+    Food: false,
+    Transport: false,
+    Others: false,
+    OthersText: ""
+  })
   const [employerquestions, setEmployerQuestions] = useState([{ value: "" }])
   const [employer, setEmployer] = useState('')
-  const [otherBenefits, setOtherBenefits] = useState('')
-  const [trainingCmt, setTrainingCmt] = useState('')
+
 
 
   const [msg, setMsg] = useState('')
@@ -50,6 +65,15 @@ function Postajob() {
   const [vacanciesMsg, setVacanciesMsg] = useState('Please Enter Number Of Vacancies');
   const [companyMsg, setCompanyMsg] = useState('Please Enter Company Name');
   const [trainingMsg, setTrainingMsg] = useState('Please Specify Training');
+  const [categoriesList, setCategoriesList] = useState();
+  const [parent, setParent] = useState();
+  const [jobtypMsg, setJobtypeMsg] = useState('Please select one')
+
+  const [error, setError] = useState('');
+
+
+
+
 
 
 
@@ -108,6 +132,22 @@ function Postajob() {
 
   useEffect(() => {
 
+
+    axios.get("http://localhost:8080/categories/all")
+      .then((res) => {
+        setCategoriesList(res.data)
+        let p = [];
+        (res.data).map((x, i) => {
+          if (!p.includes(x.parent_id)) {
+            p.push(x.parent_id)
+          }
+        })
+
+        setParent(p)
+
+      })
+
+
     companyService.get(userId)
       .then(response => {
         setCompany(response.data.name);
@@ -122,6 +162,11 @@ function Postajob() {
 
 
   const companyButton = () => {
+    // if (!error) {
+    //   // Here you would save the form data
+    //   alert(`creationdate: ${creationDate}\nclosedate: ${closeDate}`);
+    // }
+
     let eObj = {};
     let valid = true;
     if (description == '') {
@@ -259,16 +304,13 @@ function Postajob() {
       console.log(obj1)
     } else {
 
-      let employerquestion = "";
-      for (const question of employerquestions) {
-        employerquestion += (question.value + " ")
-      }
+
 
       let data = {
         company: company,
         closedate: closeDate,
         creationdate: creationDate,
-        jobtype: jobType,
+        jobtype: JSON.stringify(jobType),
         location: location,
         employjobreference: empjobreference,
         numberofvacancies: vacancies,
@@ -278,27 +320,38 @@ function Postajob() {
         jobCategory: jobCategory,
         subCategory: subCategory,
         weeklyperhour: weeklyperhour,
-        benifits: benifits + " " + otherBenefits,
-        training: training + ' ' + trainingCmt,
+        benifits: JSON.stringify(benifits),
+        training: JSON.stringify(training),
         description: description,
-        employerquestions: employerquestion,
+        employerquestions: JSON.stringify(employerquestions),
         employer: company,
         companyId: userId,
         companyLogo: companyLogo
       }
-      axios.post('http://localhost:8080/jobs/create', data)
-        .then(response => {
-          if (response && response.status) {
-            setMsg('Jobs added successfully');
 
-            setTimeout(() => {
-              setMydata(response.data)
-              setPlan(true)
-            }, 2000)
+      setMydata(data)
 
-          }
-        })
-        .catch(err => { console.log(err) })
+
+      setTimeout(() => {
+        setPlan(true)
+      }, 1500)
+
+
+      // As the Job Should only be posted if the plans is selected
+
+      // axios.post('http://localhost:8080/jobs/create', data)
+      //   .then(response => {
+      //     if (response && response.status) {
+      //       setMsg('Jobs added successfully');
+
+      //       setTimeout(() => {
+      //         setMydata(response.data)
+      //         setPlan(true)
+      //       }, 2000)
+
+      //     }
+      //   })
+      //   .catch(err => { console.log(err) })
 
 
     }
@@ -394,6 +447,12 @@ function Postajob() {
     }
 
     if (name == 'creationdate') {
+      const selectedDate = event.target.value;
+      setCreationDate(selectedDate);
+      if (selectedDate && closeDate) {
+        validateDates(selectedDate, closeDate);
+      }
+
       setCreationDate(event.target.value);
       if (event.target.value == '') {
         setErrors({ ...errors, creationDateErrors: true })
@@ -437,9 +496,18 @@ function Postajob() {
       }
 
     }
+
     if (name == 'closeDate') {
+      const selectedDate = event.target.value;
+      setCloseDate(selectedDate);
+      if (selectedDate && creationDate) {
+        validateDates(creationDate, selectedDate);
+      }
       setCloseDate(event.target.value)
     }
+
+
+
     if (name == 'empjobreference') {
       setEmpJobReference(event.target.value)
     }
@@ -464,31 +532,67 @@ function Postajob() {
 
 
   }
+  const validateDates = (creationDate, closeDate) => {
+    if (new Date(creationDate) > new Date(closeDate)) {
+      setError('From date must be before the to date');
+    } else {
+      setError('');
+    }
+  };
+
+  const isFormValid = !error && creationDate && closeDate;
 
   function handleCheckboxes(name, value) {
     if (name === "jobtype") {
-      if (!jobType.includes(value)) {
-        setJobType((jobType) => jobType + " " + value)
-      } else {
-        setJobType((jobType) => jobType.replace(value, ""))
+      if (value === "FullTime") {
+        setJobType({ ...jobType, FullTime: !jobType.FullTime })
       }
+      if (value === "PartTime") {
+        setJobType({ ...jobType, PartTime: !jobType.PartTime })
+      }
+      if (value === "Contract") {
+        setJobType({ ...jobType, Contract: !jobType.Contract })
+      }
+      if (value === "Casual") {
+        setJobType({ ...jobType, Casual: !jobType.Casual })
+      }
+      if (value === "Freelance") {
+        setJobType({ ...jobType, Freelance: !jobType.Freelance })
+      }
+      if (value === "Temporary") {
+        setJobType({ ...jobType, Temporary: !jobType.Temporary })
+      }
+
+
+
     }
     if (name === "benefits") {
-      if (!benifits.includes(value)) {
-        setBenifits((benefits) => benefits + " " + value)
-      } else {
-        setBenifits((benefits) => benefits.replace(value, ""))
+      if (value === "Accommodation") {
+        setBenifits({ ...benifits, Accommodation: !benifits.Accommodation })
       }
+      if (value === "Food") {
+        setBenifits({ ...benifits, Food: !benifits.Food })
+      }
+      if (value === "Transport") {
+        setBenifits({ ...benifits, Transport: !benifits.Transport })
+      }
+      if (value === "Others") {
+        setBenifits({ ...benifits, Others: !benifits.Others })
+      }
+      console.log(benifits)
+
     }
     if (name === "training") {
-      if (!training.includes(value)) {
-        setTraining((training) => training + " " + value)
-      } else {
-        setTraining((training) => training.replace(value, ""))
+      if (value === "Yes") {
+        setTraining({ ...training, status: true })
+      }
+      if (value === "No") {
+        setTraining({ ...training, status: false })
       }
     }
 
   }
+
   return (
     <>
       {!plan &&
@@ -548,6 +652,7 @@ function Postajob() {
                                 <div className="bgcol" id="error1"></div>
                               </div>
                             </div>
+                            {error && <div style={{ color: 'red' }}>{error}</div>}
                           </div>
 
                           <div className="col-md-6">
@@ -558,21 +663,21 @@ function Postajob() {
                                 <div class="col-sm-5">
                                   <div class="form-check">
 
-                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="FullTime" onChange={() => handleCheckboxes('jobtype', "FullTime")} /> FullTime
+                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="FullTime" onChange={() => handleCheckboxes('jobtype', "FullTime")} checked={jobType.FullTime} /> FullTime
                                   </div>
                                 </div>
 
                                 <div class="col-sm-5">
                                   <div class="form-check">
 
-                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Casual" onChange={() => handleCheckboxes('jobtype', "Casual")} /> Casual
+                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Casual" onChange={() => handleCheckboxes('jobtype', "Casual")} checked={jobType.Casual} /> Casual
                                   </div>
                                 </div>
 
                                 <div class="col-sm-5">
                                   <div class="form-check">
 
-                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Freelance" onChange={() => handleCheckboxes('jobtype', "Freelance")} /> Freelance
+                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Freelance" onChange={() => handleCheckboxes('jobtype', "Freelance")} checked={jobType.Freelance} /> Freelance
                                   </div>
                                 </div>
 
@@ -583,30 +688,29 @@ function Postajob() {
                                 <div class="col-sm-5 mx-3">
                                   <div class="form-check">
 
-                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="PartTime" onChange={() => handleCheckboxes('jobtype', "PartTime")} /> PartTime
+                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="PartTime" onChange={() => handleCheckboxes('jobtype', "PartTime")} checked={jobType.PartTime} /> PartTime
                                   </div>
                                 </div>
 
                                 <div class="col-sm-5 mx-3">
                                   <div class="form-check">
 
-                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Contract" onChange={() => handleCheckboxes('jobtype', "Contract")} /> Contract
+                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Contract" onChange={() => handleCheckboxes('jobtype', "Contract")} checked={jobType.Contract} /> Contract
                                   </div>
                                 </div>
 
                                 <div class="col-sm-5 mx-3">
                                   <div class="form-check">
 
-                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Temporary" onClick={() => handleCheckboxes('jobtype', "Temporary")} /> Temporary
+                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Temporary" onClick={() => handleCheckboxes('jobtype', "Temporary")} checked={jobType.Temporary} /> Temporary
                                   </div>
                                 </div>
 
 
                               </div>
-                              {/* { errors&& errors.jobTypeErrors &&<div className='mx-auto col-6 text-danger'>please select one</div>} */}
+                              {errors && errors.jobTypeErrors && <div className='mx-auto col-6 text-danger'>please select one</div>}
                             </div>
                           </div>
-
 
                         </div>
                         <div className='row'>
@@ -677,7 +781,7 @@ function Postajob() {
                               <div className="col-sm-8">
                                 <select value={jobCategory} onChange={(event) => handleInput('jobcategory', event)} className="form-select border col-6 " >
                                   <option></option>
-                                  <option className="fw-bold" value="Agriculture" > Agriculture and Farming</option>
+                                  {/* <option className="fw-bold" value="Agriculture" > Agriculture and Farming</option>
                                   <option className="fw-bold" value="Hospitality">Hospitality and Tourism </option>
                                   <option className="fw-bold" value="Retail">Retail and Sales</option>
                                   <option className="fw-bold" value="Construction">Construction and Manual Labour</option>
@@ -686,6 +790,13 @@ function Postajob() {
                                   <option className="fw-bold" value="Technology" >Technology and IT</option>
                                   <option className="fw-bold" value="Teaching">Teaching and Education</option>
                                   <option className="fw-bold" value="Creative">Creative and Media</option>
+                                  <option className="fw-bold" value="Retail">Retail and Sales</option> */}
+
+
+                                  {parent && parent.map((p, index) => <option className="fw-bold" value={p} >{p}</option>)}
+
+
+
 
                                 </select>
                                 {errors.jobCategoryErrors && <span className='text-danger'>Please select Job Category</span>}
@@ -731,8 +842,8 @@ function Postajob() {
 
 
                                 <select className="form-select border" value={subCategory} onChange={(event) => handleInput('subcategory', event)}>
-
-                                  {jobCategory === 'Agriculture' && (
+                                  <option></option>
+                                  {/* {jobCategory === 'Agriculture' && (
                                     <>
                                       <option value="Fruit picking">Fruit picking</option>
                                       <option value="Crop harvesting">Crop harvesting</option>
@@ -797,7 +908,15 @@ function Postajob() {
                                       <option value="Writing and content creation">Writing and content creation</option>
 
                                     </>
-                                  )}
+                                  )} */}
+
+                                  {categoriesList && categoriesList.map((category, index) => {
+                                    if (category.parent_id === jobCategory) {
+                                      return <option key={index} value={category.name}>{category.name}</option>
+                                    }
+                                  })
+
+                                  }
                                 </select>
 
 
@@ -828,28 +947,28 @@ function Postajob() {
                               <div className="col-3">
                                 <div className="form-check">
                                   <input type="checkbox" className="form-check-input " name="workinghoursRadio"
-                                    id="workinghoursRadio1" value="Accomdation" onChange={() => handleCheckboxes('benefits', "Accomdation")} />Accomdation
+                                    id="workinghoursRadio1" value="Accomdation" checked={benifits.Accommodation} onChange={() => handleCheckboxes('benefits', "Accommodation")} />Accommodation
                                 </div>
 
                               </div>
                               <div className="col-2">
                                 <div className="form-check">
                                   <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                    id="workinghoursRadio1" value="Food" onChange={() => handleCheckboxes('benefits', "Food")} />Food
+                                    id="workinghoursRadio1" value="Food" checked={benifits.Food} onChange={() => handleCheckboxes('benefits', "Food")} />Food
                                 </div>
 
                               </div>
                               <div className="col-3">
                                 <div className="form-check">
                                   <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                    id="workinghoursRadio1" value="Transport" onChange={() => handleCheckboxes('benefits', "Transport")} />Transport
+                                    id="workinghoursRadio1" value="Transport" checked={benifits.Transport} onChange={() => handleCheckboxes('benefits', "Transport")} />Transport
                                 </div>
                               </div>
                               <div className="col-4 ">
                                 <div className="form-check">
                                   <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                    id="workinghoursRadio1" value="" onChange={toggleInput} checked={showInput} />Others
-                                  {showInput && <input type='text' value={otherBenefits} onChange={(e) => setOtherBenefits(e.target.value)} className='form-control col-5' />}
+                                    id="workinghoursRadio1" value="" checked={benifits.Others} onChange={() => handleCheckboxes('benefits', "Others")} />Others
+                                  {benifits.Others && <input type='text' value={benifits.OthersText} onChange={(e) => setBenifits({ ...benifits, OthersText: e.target.value })} className='form-control col-5' />}
 
                                 </div>
 
@@ -868,25 +987,24 @@ function Postajob() {
 
                               <div className=" col-2 form-check mx-3">
 
-                                <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                  id="workinghoursRadio1" value="No" onChange={() => handleCheckboxes('training', "No")} />No
+                                <input type="radio" className="form-check-input" name="workinghoursRadio"
+                                  id="workinghoursRadio1" value="No" onChange={() => handleCheckboxes('training', "No")} checked={!training.status} />No
 
                               </div>
                               <div className=" col-2 form-check mx-3">
 
-                                <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                  id="workinghoursRadio1" value="Yes" onChange={() => { handleCheckboxes('training', "Yes"); toggleCheck() }} checked={showCheck} />Yes
+                                <input type="radio" className="form-check-input" name="workinghoursRadio"
+                                  id="workinghoursRadio1" value="Yes" onChange={() => { handleCheckboxes('training', "Yes") }} checked={training.status} />Yes
 
 
                               </div>
                               <div className='col-6'>
 
-                                {showCheck && <input type='text' value={trainingCmt} onChange={(e) => setTrainingCmt(e.target.value)} className='form-control col-5' />}
+                                {training.status && <input type='text' value={training.text} onChange={(e) => setTraining({ ...training, text: e.target.value })} className='form-control col-5' />}
 
                               </div>
 
                             </div>
-
                           </div>
                         </div>
                         <div className='row'>

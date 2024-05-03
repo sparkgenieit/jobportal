@@ -4,7 +4,7 @@ import './ads.css';
 import { useEffect, useState } from 'react';
 
 function Ads() {
-  const [showAdvertisement, setShowAdvertisement] = useState(false);
+  const [showAdvertisement, setShowAdvertisement] = useState(true);
   const [ad, setAd] = useState(null)
 
   useEffect(() => {
@@ -17,9 +17,7 @@ function Ads() {
       )
       .catch(err => console.log(err))
 
-    setTimeout(() => {
-      setShowAdvertisement(true)
-    }, 2000)
+
   }, [])
 
 
@@ -30,6 +28,7 @@ function Ads() {
   return (
     <>
       {showAdvertisement && (
+
         <div className="advertisement ">
           <button className="close-btn" onClick={handleClose}>
             &times;
@@ -42,6 +41,7 @@ function Ads() {
             <button>Shop Now</button>
           </div>
         </div>
+
       )}
 
     </>

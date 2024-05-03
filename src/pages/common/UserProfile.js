@@ -61,6 +61,9 @@ function UserProfile() {
   const [cvError, setCvError] = useState("Please Upload CV")
   const [coverLetterError, setCoverLetterError] = useState("Please Upload Cover Letter")
 
+  const [isCvUploaded, setisCvUploaded] = useState(false)
+  const [isCoverUploaded, setisCoverUploaded] = useState(false)
+
   // const [fromDate, setFromDate] = useState("");
   // const [toDate, setToDate] = useState("");
 
@@ -105,6 +108,7 @@ function UserProfile() {
     userService.get(userId)
       .then(response => {
         console.log(response.data);
+
         setfirstName(response.data.first_name);
         setlastName(response.data.last_name);
         setEmail(response.data.email);
@@ -128,10 +132,22 @@ function UserProfile() {
         setSkills(response.data.skills);
         setVisa(response.data.visaType);
         setMobile(response.data.phone);
-        setVisaExpiry(response.data.visaExpiryDate.slice(0, 10))
+        if (response.data.visaExpiryDate) {
+          setVisaExpiry(response.data.visaExpiryDate.slice(0, 10))
+        }
         setExpectedRate(response.data.expectedRatePerHour)
         setPreferredLocations(response.data.preferredJobLocations[0])
         setPreferredJobCategory(response.data.preferredJobCategories[0])
+        setPreferredJobTypes(response.data.preferredJobTypes[0])
+        if ((response.data.cv).length > 0) {
+          setisCvUploaded(true)
+          setCv(response.data.cv)
+        }
+        if ((response.data.coverLetter).length > 0) {
+          setisCoverUploaded(true)
+          setCoverLetter(response.data.coverLetter)
+        }
+
       })
       .catch(e => {
         console.log(e);
@@ -438,7 +454,7 @@ function UserProfile() {
     setErrors(obj);
 
     console.log(isValid);
-    console.log(visaExpiry)
+
 
     if (isValid) {
       const userData = {
@@ -990,34 +1006,34 @@ function UserProfile() {
                   <p className="card-description mt-3">Preferred Job Types</p>
                   <div className="row">
                     <div className="col-md-12">
-                      <div className="form-group row">
+                      {preferredJobTypes && <div className="form-group row">
                         <div className="col-md-4">
-                          <input type="checkbox" class="col-sm-12 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" onChange={(event) => preferredjobstypes("fullTime", event)} /> Full Time
+                          <input type="checkbox" class="col-sm-12 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" checked={preferredJobTypes.fullTime} onChange={(event) => preferredjobstypes("fullTime", event)} /> Full Time
 
                         </div>
                         <div className="col-md-4">
-                          <input type="checkbox" class="col-sm-11 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" onChange={(event) => preferredjobstypes("partTime", event)} /> Part Time
+                          <input type="checkbox" class="col-sm-11 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" checked={preferredJobTypes.partTime} onChange={(event) => preferredjobstypes("partTime", event)} /> Part Time
 
                         </div>
                         <div className="col-md-4">
-                          <input type="checkbox" class="col-sm-11 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" onChange={(event) => preferredjobstypes("casual", event)} /> Casual
+                          <input type="checkbox" class="col-sm-11 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" checked={preferredJobTypes.casual} onChange={(event) => preferredjobstypes("casual", event)} /> Casual
 
                         </div>
                         <div className="col-md-4">
-                          <input type="checkbox" class="col-sm-11 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" onChange={(event) => preferredjobstypes("contract", event)} /> Contract
+                          <input type="checkbox" class="col-sm-11 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" checked={preferredJobTypes.contract} onChange={(event) => preferredjobstypes("contract", event)} /> Contract
 
                         </div>
                         <div className="col-md-4">
-                          <input type="checkbox" class="col-sm-11 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" onChange={(event) => preferredjobstypes("freelance", event)} /> Freelance
+                          <input type="checkbox" class="col-sm-11 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" checked={preferredJobTypes.freelance} onChange={(event) => preferredjobstypes("freelance", event)} /> Freelance
 
                         </div>
                         <div className="col-md-4">
-                          <input type="checkbox" class="col-sm-12 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" onChange={(event) => preferredjobstypes("temporary", event)} /> Temporary
+                          <input type="checkbox" class="col-sm-12 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" checked={preferredJobTypes.temporary} onChange={(event) => preferredjobstypes("temporary", event)} /> Temporary
 
                         </div>
 
 
-                      </div>
+                      </div>}
                     </div>
                   </div>
 
@@ -1066,8 +1082,8 @@ function UserProfile() {
                         <div className="col-sm-9">
                           <select type="dropdown" className=" form-select form-control" value={show} onChange={(event) => chnageOut("show", event)}>
                             <option>---Select---</option>
-                            <option>yes</option>
-                            <option>No</option>
+                            <option value="Yes"> yes</option>
+                            <option value="No">No</option>
                           </select>
 
                           {errors && errors.show && <div className="error text-danger"> {showprofileError}</div>}
@@ -1125,13 +1141,18 @@ function UserProfile() {
                       <div className="form-group row">
 
                         <label className="col-sm-5 col-form-label">Upload CV  <span style={{ color: "red" }}>*</span></label>
+
+
                         <div className="col-sm-7">
-                          <input type="file" id="cv" className="form-control" onChange={onFileChange} />
+                          {isCvUploaded === false ? <input type="file" id="cv" className="form-control" onChange={onFileChange} />
+                            : <p>{cv}</p>}
 
                           {errors && errors.cv && <div className="error text-danger"> {cvError}</div>}
 
 
                         </div>
+
+
                       </div>
                     </div>
                   </div>
@@ -1143,12 +1164,14 @@ function UserProfile() {
                         <div className="col-sm-9">
                           <input type="file" className="form-control" /> */}
                         <label className="col-sm-5 col-form-label">Upload Cover Letter <span style={{ color: "red" }}>*</span></label>
-                        <div className="col-sm-7">
-                          <input type="file" id="cover" className="form-control" onChange={onFileChange} />
 
+                        <div className="col-sm-7">
+                          {isCoverUploaded === false ? <input type="file" id="cover" className="form-control" onChange={onFileChange} />
+                            : <p>{coverLetter}</p>}
                           {errors && errors.coverLetter && <div className="error text-danger"> {coverLetterError}</div>}
 
                         </div>
+
                       </div>
                     </div>
                   </div>

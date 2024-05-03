@@ -1,13 +1,14 @@
 import Header from "../../layouts/common/Header";
 import Footer from "../../layouts/common/Footer";
+import Ads from "./ads";
 
 function Banking() {
     return (
         <>
-        <Header/>
+            <Header />
 
             <div class="row m-5 my-3">
-                <div class="col-10">
+                <div class="col-8">
 
 
                     <p>
@@ -75,8 +76,11 @@ function Banking() {
 
                     </p>
                 </div>
+                <div className="col-4">
+                    <Ads />
+                </div>
             </div>
-            <Footer/>
+            <Footer />
 
         </>
     )

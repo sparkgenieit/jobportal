@@ -9,13 +9,27 @@ function ViewProfile() {
   const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
 
   const [user, SetUserData] = useState({});
+  const [JobTypes, setJobtypes] = useState([])
 
+  // let JobTypes = []
   useEffect(() => {
 
     userService.get(userId)
       .then(response => {
-        console.log(response.data);
         SetUserData(response.data)
+
+        // To display the keys of jobtypes which is true
+        let jobtype = response.data.preferredJobTypes[0]
+        let jobs = []
+        for (const key in jobtype) {
+          const element = jobtype[key];
+          if (element === true) {
+            jobs.push(key)
+          }
+        }
+        setJobtypes(jobs)
+
+
         // localStorage.setItem('token', response.data.token);
         // const token = response.data.token;
 
@@ -170,8 +184,8 @@ function ViewProfile() {
                                     <td className='px-3'>{x.jobTitle}</td>
                                     <td className='px-3'>{x.employer}</td>
                                     <td className='px-3'>{x.location}</td>
-                                    <td className='px-3'>{x.fromDate}</td>
-                                    <td className='px-3'>{x.toDate}</td>
+                                    <td className='px-3'>{new Date(x.fromDate).toLocaleDateString('en-GB')}</td>
+                                    <td className='px-3'>{new Date(x.toDate).toLocaleDateString('en-GB')}</td>
                                     <td className='px-3'>{x.description}</td>
                                   </tr>
 
@@ -266,8 +280,8 @@ function ViewProfile() {
                                 <tr className='border-bottom' key={index}>
                                   <td className='px-3' >{x.licenseName}</td>
                                   <td className='px-3' >{x.issuingAuthority}</td>
-                                  <td className='px-3' >{x.issueDate}</td>
-                                  <td className='px-3' >{x.expiryDate}</td>
+                                  <td className='px-3' >{new Date(x.issueDate).toLocaleDateString('en-GB')}</td>
+                                  <td className='px-3' >{new Date(x.expiryDate).toLocaleDateString('en-GB')}</td>
                                   <td className='px-3' >{x.validInNZ}</td>
                                   <td className='px-3' >{x.description}</td>
 
@@ -314,8 +328,8 @@ function ViewProfile() {
                                 <tr className='border-bottom' key={index}>
                                   <td td className='px-3'  >{x.certificateName}</td>
                                   <td className='px-3' >{x.issuingAuthority}</td>
-                                  <td className='px-3' >{x.issueDate}</td>
-                                  <td className='px-3' >{x.expiryDate}</td>
+                                  <td className='px-3' >{new Date(x.issueDate).toLocaleDateString('en-GB')}</td>
+                                  <td className='px-3' >{new Date(x.expiryDate).toLocaleDateString('en-GB')}</td>
                                   <td className='px-3' >{x.validInNZ}</td>
                                   <td td className='px-3'  >{x.description}</td>
                                 </tr>
@@ -350,7 +364,7 @@ function ViewProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Availability:</label>
                         <div className="col-sm-9">
-                          {user.availability ?? 'Yes'}
+                          {user.availability === true ? 'Yes' : "No"}
                         </div>
                       </div>
                     </div>
@@ -364,14 +378,9 @@ function ViewProfile() {
                   <div className="row">
                     <div className="col-md-12">
                       <ul>
-                        {user.preferredJobTypes && user.preferredJobTypes.length > 0 && user.preferredJobTypes.map((x, index) => {
-                          return Object.keys(x).map((k, index) => {
-                            if (x[k]) {
-                              return <li key={index}>{k}</li>
-                            }
-                          });
-                        }
-                        )
+                        {user.preferredJobTypes && user.preferredJobTypes.length > 0 && JobTypes.map((job, index) => {
+                          return <li key={index}>{job}</li>
+                        })
 
                         }
                       </ul>
@@ -404,7 +413,7 @@ function ViewProfile() {
                   <div className="row">
                     <div className="col-md-9">
                       <div className="form-group row">
-                        <label className="col-sm-3 col-form-label fw-bold">Preferred Jobcategorys :</label>
+                        <label className="col-sm-6  col-form-label fw-bold">Preferred Jobcategorys :</label>
                         <div className="col-sm-12">
                           <ul>
                             {user.preferredJobCategories && user.preferredJobCategories.length > 0 && user.preferredJobCategories.map((x, index) => {
@@ -459,7 +468,7 @@ function ViewProfile() {
                     <div className="form-group row">
                       <label className="col-form-label col-3 fw-bold ">Visa Expiry Date:</label>
                       <div className="col-3">
-                        {user.visaExpiryDate}
+                        {user.visaExpiryDate && new Date(user.visaExpiryDate.slice(0, 10)).toLocaleDateString('en-GB')}
 
 
                       </div>

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+
 
 
 function Login() {
@@ -8,6 +9,7 @@ function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const navigate = useNavigate();
+
 
   let isValid = false
 
@@ -120,8 +122,9 @@ function Login() {
           localStorage.setItem('role', response.data.role)
           setTimeout(() => {
             // Inside the handleLogin function
-            navigate('/admin/Jobqueuelist'); // Redirect to the dashboard after login
-          }, 1500);
+            navigate('/admin/Jobqueuelist')// Redirect to the dashboard after login
+            window.location.reload();
+          }, 2000);
         }
         )
         .catch((e) => {

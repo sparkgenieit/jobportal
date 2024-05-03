@@ -1,57 +1,59 @@
 .advertisement {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background-color: #f7f7f7;
-    border: 1px solid #ccc;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .advertisement img {
-    width: 140px;
-    height: 140px;
-    margin-right: 10px;
-    border-radius: 8px;
-  }
-  
-  .advertisement-content {
-    flex-grow: 1;
-  }
-  
-  .advertisement h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-  
-  .advertisement p {
-    font-size: 16px;
-    margin-bottom: 20px;
-  }
-  
-  .advertisement button {
-    padding: 5px 10px;
-    font-size: 18px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .advertisement button:hover {
-    background-color: #0056b3;
-  }
-  
-  .close-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    font-size: 24px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: #999;
-  }
+  position: relative;
+  right: 10px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  background-color: #f7f7f7;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.advertisement img {
+  width: 140px;
+  height: 140px;
+  margin-right: 10px;
+  border-radius: 8px;
+}
+
+.advertisement-content {
+  flex-grow: 1;
+}
+
+.advertisement h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.advertisement p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.advertisement button {
+  padding: 5px 10px;
+  font-size: 18px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.advertisement button:hover {
+  background-color: #0056b3;
+}
+
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #999;
+}

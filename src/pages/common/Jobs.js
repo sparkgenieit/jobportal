@@ -4,27 +4,25 @@ import Header from '../../layouts/common/Header';
 import Footer from '../../layouts/common/Footer';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Ads from './ads';
 
-function Home() {
+function Jobs() {
     const [jobs, setJobs] = useState(null)
 
 
     useEffect(() => {
         axios.get("http://localhost:8080/jobs/approved")
             .then((response) => setJobs(response.data))
-    }, [])
+    },[])
 
 
-
+    
     return <>
         <Header />
-
         <main id="main">
 
             <section class="inner-page" data-aos="fade-up">
                 <div class="container-fluid homeBg">
-                    <div>
+                    {/* <div>
                         <div className="text-center banner">
                             <div class="mt-5">
                                 <h3>The <span class=" text-success">#1</span> Job Board for hiring or Find your next job</h3>
@@ -61,7 +59,7 @@ function Home() {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
 
                     <div class="container">
@@ -77,8 +75,8 @@ function Home() {
                                 <div class="row rounded p-3">
 
                                     {jobs && jobs.length > 0 &&
-                                        jobs.map((job, index) => {
-                                            return <div key={index} class=" col-6 px-3 ">
+                                    jobs.map((job, index) => {
+                                        return <div key={index} class=" col-6 px-3 ">
 
 
                                                 <div class="row border shadow rounded container p-3 mb-4 bg-light">
@@ -98,24 +96,22 @@ function Home() {
 
                                                     <div class="d-flex justify-content-between">
                                                         <div class="d-flex justify-content-between" style={{ "gap": "10px" }}>
-
+                                                           
                                                             <button class="btn btn-secondary btn-sm" type="button">Content Writer</button>
                                                             <button class="btn btn-secondary btn-sm" type="button">Sketch</button>
                                                             <button class="btn btn-secondary btn-sm" type="button">PSD</button>
 
                                                         </div>
                                                         <div class="text-muted">
-                                                            <a class="btn primary" href={`/common/SingleJob/${job._id}`}>
-                                                                <button class="btn btn-primary" type="button">Apply</button>
-                                                            </a>
+                                                            <a class="btn primary" href={`/common/SingleJob/${job._id}`}>Apply</a>
                                                         </div>
 
                                                     </div>
                                                 </div>
                                             </div>
 
-
-                                        })}
+                                        
+                                    })}
 
                                 </div>
 
@@ -131,4 +127,4 @@ function Home() {
     </>
 }
 
-export default Home;
+export default Jobs;
