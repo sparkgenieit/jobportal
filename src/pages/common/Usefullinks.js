@@ -1,18 +1,19 @@
 import Header from "../../layouts/common/Header";
 import Footer from "../../layouts/common/Footer";
+import Ads from "./ads";
 
-function Typesofwork(){
-    return (
-      <>
-        <Header/>
+function Typesofwork() {
+  return (
+    <>
+      <Header />
 
-       <div class="row m-5 my-5">
-        <div class="col-8">
+      <div class="row m-5 my-5">
+        <div class="col-7">
           <p>For holidaymakers and those planning to visit New Zealand, there are several useful websites and online resources to help you with information, planning, and exploring the country. Here are some useful links:</p>
 
           <p class="h5  text-primary">Immigration New Zealand:</p>
           <p><a href="https://www.immigration.govt.nz">Immigration New Zealand provides information on visas and immigration processes.</a></p>
-          
+
           <p class="h5  text-primary">Tourism New Zealand:</p>
           <p><a href="https://www.newzealand.com">Tourism New Zealand is the official tourism website with information on attractions, activities, and travel guides.</a></p>
 
@@ -57,31 +58,22 @@ function Typesofwork(){
 
         </div>
 
-        <div class="col-3">
+        <div class="col-4">
           <div class="mt-3">
-          <img src="auckland.jpg" width="150px" height="100px"/>
-        </div>
+            <Ads />
+          </div>
 
-        <div class="mt-3">
-          <img src="auckland.jpg" width="150px" height="100px"/>
-        </div>
 
-        <div class="mt-3">
-          <img src="auckland.jpg" width="150px" height="100px"/>
-        </div>
 
-        <div class="mt-3">
-          <img src="auckland.jpg" width="150px" height="100px"/>
-        </div>
-          
+
         </div>
 
       </div>
-      <Footer/>
+      <Footer />
 
 
-        
-        </>
-    )
+
+    </>
+  )
 }
 export default Typesofwork;

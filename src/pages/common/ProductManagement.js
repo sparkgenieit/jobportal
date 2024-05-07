@@ -1,13 +1,22 @@
 import Header from "../../layouts/common/Header";
 import Footer from "../../layouts/common/Footer";
-function ProductManagement(){
-    return(
+import Ads from "./ads";
+function ProductManagement() {
+    return (
         <>
-        <Header/>
+            <Header />
+            <div className="row">
+                <div className="col-9">
+
+                </div>
+                <div className="col-3">
+                    <Ads />
+                </div>
+            </div>
 
 
 
-        <Footer/>
+            <Footer />
 
         </>
     )

@@ -1,6 +1,24 @@
-.banner{
-    background-image:url('/public/assets/images/jb-bg.jpg');
-    background-size:cover;
-    padding:10px;
-    color:white
+.banner {
+    background-image: url('/public/assets/images/jb-bg.jpg');
+    background-size: cover;
+    padding: 10px;
+    color: white;
+}
+
+.parent {
+    position: relative;
+}
+
+.suggestions {
+    position: absolute;
+}
+
+.suggestions-items {
+    width: 235px;
+    padding: 2px;
+    border: 1px solid rgba(58, 55, 55, 0.63);
+    color: black;
+    background-color: white;
+    border-radius: 8px;
+    cursor: pointer;
 }

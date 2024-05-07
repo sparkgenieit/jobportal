@@ -5,6 +5,27 @@ import Sidebar from "../../../layouts/admin/Sidebar";
 
 function SingleJobAdmin({ joblist, handleApprove, handleReject }) {
     const [jobview, setJobview] = useState(joblist)
+    const [training, setTraining] = useState(JSON.parse(joblist.training))
+
+    function getTrueKeys(obj) {
+        // Use Object.keys() to get all keys as an array
+        const keys = Object.keys(obj);
+
+        // Filter the keys using Array.filter() and a condition
+        const truekeys = keys.filter(key => obj[key] === true);
+
+        // This is because in benefits there is an others option with a text box
+        if (truekeys.includes("Others")) {
+            truekeys.push(obj.OthersText)
+        }
+
+        return truekeys
+
+    }
+
+    const [benefits, setBenefits] = useState(getTrueKeys(JSON.parse(joblist.benifits)))
+    const [jobType, setJobType] = useState(getTrueKeys(JSON.parse(joblist.jobtype)))
+
     return (
         <>
             <div className="container-scrollar">
@@ -61,7 +82,7 @@ function SingleJobAdmin({ joblist, handleApprove, handleReject }) {
                                         </div>
                                         <div className="row my-4">
                                             <p className="col-3">Job Type :</p>
-                                            <p className="col-6">{jobview.jobtype}</p>
+                                            <p className="col-6">{jobType.map((j, index) => <span>{j}&nbsp;</span>)}</p>
                                         </div>
                                         <div className="row my-4">
                                             <p className="col-3">Number of Vacancies :</p>
@@ -98,11 +119,23 @@ function SingleJobAdmin({ joblist, handleApprove, handleReject }) {
 
                                         <div className="row my-4">
                                             <p className="col-3">Job Benefits:</p>
-                                            <p className="col-6">{jobview.benifits}</p>
+                                            <p className="col-6">{benefits.map((b, index) => {
+                                                if (b === "Others") {
+                                                    return
+                                                }
+                                                else {
+                                                    return <span>{b}&nbsp;</span>
+                                                }
+                                            }
+
+                                            )}</p>
                                         </div>
                                         <div className="row my-4">
                                             <p className="col-3">Job Training:</p>
-                                            <p className="col-6">{jobview.training}</p>
+                                            <div className="col-6">
+                                                <p >{training.status === true ? `Yes ${training.text}` : "No"}</p>
+                                            </div>
+
                                         </div>
 
                                         <div className="row my-4">
@@ -111,7 +144,10 @@ function SingleJobAdmin({ joblist, handleApprove, handleReject }) {
                                         </div>
                                         <div className="row my-4">
                                             <p className="col-3">Employer Questions:</p>
-                                            <p className="col-6">{jobview.employerquestions}</p>
+                                            <div className="col-6">{JSON.parse(jobview.employerquestions).map((question, index) => {
+                                                return <p>{question.value}</p>
+
+                                            })}</div>
                                         </div>
 
                                         <div className="row my-4">

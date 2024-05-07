@@ -13,6 +13,27 @@ function SingleJob() {
     const [isJobApplied, setIsJobApplied] = useState(false)
     const [isJobSaved, setIsJobSaved] = useState(false)
     const [jobview, setJobview] = useState()
+    const [training, setTraining] = useState()
+    const [benefits, setBenefits] = useState()
+    const [employerQuestions, setEmployerQuestions] = useState()
+    const [jobType, setJobType] = useState()
+
+    function getTrueKeys(obj) {
+        // Use Object.keys() to get all keys as an array
+        const keys = Object.keys(obj);
+
+        // Filter the keys using Array.filter() and a condition
+        const truekeys = keys.filter(key => obj[key] === true);
+
+        // This is because in benefits there is an others option with a text box
+        if (truekeys.includes("Others")) {
+            truekeys.push(obj.OthersText)
+        }
+
+        return truekeys
+
+    }
+
     const userId = localStorage.getItem('user_id');
     const [message, setMessage] = useState({
         showMsg: false,
@@ -49,7 +70,13 @@ function SingleJob() {
         }
 
         axios.get(`http://localhost:8080/jobs/${params.id}`)
-            .then((response) => setJobview(response.data))
+            .then((response) => {
+                setJobview(response.data)
+                setEmployerQuestions(JSON.parse(response.data.employerquestions))
+                setTraining(JSON.parse(response.data.training))
+                setBenefits(getTrueKeys(JSON.parse(response.data.benifits)))
+                setJobType(getTrueKeys(JSON.parse(response.data.jobtype)))
+            })
     }, [])
 
 
@@ -58,6 +85,7 @@ function SingleJob() {
     function handleApply() {
         if (userId) {
             const data = {
+                created_date: "02-05-2024",
                 userId: userId,
                 jobId: jobview._id,
                 applied: true
@@ -98,6 +126,7 @@ function SingleJob() {
     function handleSave() {
         if (userId) {
             const data = {
+                created_date: "02-05-2024",
                 userId: userId,
                 jobId: jobview._id,
                 saved: true
@@ -186,7 +215,8 @@ function SingleJob() {
                                         </div>
                                         <div className="row my-4">
                                             <p className="col-3">Job Type :</p>
-                                            <p className="col-6">{jobview.jobtype}</p>
+                                            <p className="col-6">{jobType && jobType.map((j, index) => <span>{j}&nbsp;</span>)}</p>
+
                                         </div>
                                         <div className="row my-4">
                                             <p className="col-3">Number of Vacancies :</p>
@@ -223,11 +253,23 @@ function SingleJob() {
 
                                         <div className="row my-4">
                                             <p className="col-3">Job Benefits:</p>
-                                            <p className="col-6">{jobview.benifits}</p>
+                                            <p className="col-6">{benefits && benefits.map((b, index) => {
+                                                if (b === "Others") {
+                                                    return
+                                                }
+                                                else {
+                                                    return <span>{b}&nbsp;</span>
+                                                }
+                                            }
+
+                                            )}</p>
                                         </div>
                                         <div className="row my-4">
                                             <p className="col-3">Job Training:</p>
-                                            <p className="col-6">{jobview.training}</p>
+                                            <div className="col-6">
+                                                <p >{training && training.status ? `Yes ${training.text}` : "No"}</p>
+                                            </div>
+
                                         </div>
 
                                         <div className="row my-4">
@@ -236,7 +278,10 @@ function SingleJob() {
                                         </div>
                                         <div className="row my-4">
                                             <p className="col-3">Employer Questions:</p>
-                                            <p className="col-6">{jobview.employerquestions}</p>
+
+                                            <div className="col-6">
+                                                {employerQuestions && employerQuestions.map((question, index) => <p>{question.value}</p>)}
+                                            </div>
                                         </div>
 
                                         <div className="row my-4">

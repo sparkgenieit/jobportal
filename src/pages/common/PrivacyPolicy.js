@@ -1,13 +1,22 @@
 import Header from "../../layouts/common/Header";
 import Footer from "../../layouts/common/Footer";
-function Privacypolicy(){
+import Ads from "./ads";
+function Privacypolicy() {
     return (
         <>
-        <Header/>
+            <Header />
+            <div className="row">
+                <div className="col-9">
 
-        <Footer/>
-        
-        
+                </div>
+                <div className="col-3">
+                    <Ads />
+                </div>
+            </div>
+
+            <Footer />
+
+
         </>
     )
 }

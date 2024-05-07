@@ -10,35 +10,45 @@ function Plans({ mydata }) {
         class: "alert alert-success",
         message: ""
     })
+
+
     const navigate = useNavigate();
     const choocePlan = (plan) => {
-        let data = {
-            orderId: "123",
-            companyId: mydata.companyId,
-            companyName: mydata.company,
-            jobId: mydata._id,
-            jobTitle: mydata.jobTitle,
-            planName: plan
-        }
-        axios.post('http://localhost:8080/orders/create', data)
-            .then(response => {
-                setMsg({
-                    view: true,
-                    message: "Order Placed Successfully",
-                    class: "alert alert-success"
+
+        if (mydata) {
+
+            // To post the job
+            axios.post('http://localhost:8080/jobs/create', mydata)
+                .then(response => {
+                    let data = {
+                        orderId: "123",
+                        companyId: response.data.companyId,
+                        companyName: response.data.company,
+                        jobId: response.data._id,
+                        jobTitle: response.data.jobTitle,
+                        planName: plan
+                    }
+                    // To place the order
+                    axios.post('http://localhost:8080/orders/create', data)
+                        .then(response => {
+                            setMsg({
+                                view: true,
+                                message: "Order Placed Successfully",
+                                class: "alert alert-success"
+                            })
+                            setTimeout(() => {
+                                navigate('/company/JobList')
+                            }, 2000);
+                        })
                 })
-                setTimeout(() => {
-                    navigate('/company/JobList')
-                }, 2000);
-            })
-            .catch(err => setMsg({
-                view: true,
-                message: "An Error occured while placing the order",
-                class: "alert alert-danger"
-            }))
+                .catch(err => setMsg({
+                    view: true,
+                    message: "An Error occured while placing the order",
+                    class: "alert alert-danger"
+                }))
 
-
-
+            window.scrollTo({ top: 10, behavior: "smooth" });
+        }
     }
     return (
         <>

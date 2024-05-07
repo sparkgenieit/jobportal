@@ -34,6 +34,7 @@ import Activities from "./pages/common/Activities";
 import SingleJob from "./pages/common/SingleJob";
 import Terms from "./pages/common/Terms";
 import Privacy from "./pages/common/Privacy";
+import Jobs from "./pages/common/Jobs";
 
 //company
 import CompanyHome from "./pages/company/Home";
@@ -77,6 +78,7 @@ import EditCategory from "./pages/superadmin/categories/EditCategory";
 import EditJob from "./pages/company/jobs/EditJob";
 
 
+
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [role, setRole] = useState(localStorage.getItem('role') || '');
@@ -115,6 +117,7 @@ function App() {
       <Route path="/common/Activities" element={(token && role == 'user') ? <Activities /> : <Activities />} />
       <Route path="/common/Myappliedjobs" element={(token && role == 'user') ? <Myappliedjobs /> : <Navigate to="/" />} />
       <Route path="/common/Savedjobs" element={(token && role == 'user') ? <Savedjobs /> : <Navigate to="/" />} />
+      <Route path="/common/Jobs" element={(token && role == 'user') ? <Jobs /> : <Jobs />} />
 
 
 

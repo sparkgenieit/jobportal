@@ -223,17 +223,10 @@ function Categories1() {
                                   <label class="col-sm-3 col-form-label pt-2">Parent Category<span className="text-danger">*</span></label>
                                   <div class="col-sm-9">
 
-                                    <select id="Active" value={parentCategory} onChange={(e) => handleInput("parent", e)} class="form-select">
-                                      <option value=""></option>
+                                    <input type="text" value={parentCategory} onChange={(e) => handleInput("parent", e)} class="form-control" />
 
-                                      {parentoption && parentoption.map((option, index) => {
-                                        return (
-                                          <option key={index} value={option.name}>{option.name}</option>
-                                        )
-                                      })}
 
-                                    </select>
-                                    {errors.parentCategory && <div className="text-danger">Please Select the Parent Category</div>}
+                                    {errors.parentCategory && <div className="text-danger">Please Specify a Parent Category</div>}
 
                                   </div>
                                 </div>
