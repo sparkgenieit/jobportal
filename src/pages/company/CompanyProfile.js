@@ -265,7 +265,6 @@ function CompanyProfile() {
 
         companyService.uploadLogo(fd)
           .then(response => {
-            console.log()
             obj1 = { ...obj1, logo: response.data.filename }
             companyService.update(userId, obj1)
               .then(response => {
@@ -273,8 +272,9 @@ function CompanyProfile() {
                 window.scrollTo({ top: 10, behavior: "smooth" });
                 setIsUpdated(true);
                 setTimeout(() => {
+
                   // Inside the handleLogin function
-                  // navigate('/viewprofile'); // Redirect to the dashboard after login
+                  navigate('/company'); // Redirect to the dashboard after login
                 }, 1500);
 
               })
@@ -309,7 +309,7 @@ function CompanyProfile() {
             setIsUpdated(true);
             setTimeout(() => {
               // Inside the handleLogin function
-              // navigate('/viewprofile'); // Redirect to the dashboard after login
+              navigate('/company') // Redirect to the dashboard after login
             }, 1500);
 
           })
@@ -669,6 +669,8 @@ function CompanyProfile() {
 
                             <div class="bgcol" id="error5"></div>
                             {logo && <img width="200px" height="200px" src={`http://localhost:8080/uploads/logos/${logo}`} />}
+
+
                           </div>
                         </div>
                       </div>

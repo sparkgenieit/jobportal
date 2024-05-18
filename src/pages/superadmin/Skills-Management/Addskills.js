@@ -5,6 +5,7 @@ import Sidebar from "../../../layouts/superadmin/Sidebar";
 import axios from "axios";
 import { Editor, EditorProvider } from "react-simple-wysiwyg";
 import { useNavigate } from "react-router-dom";
+import httpUpload from "../../../helpers/httpUpload";
 
 function Addskills() {
     const [skillname, setSkillname] = useState("");
@@ -95,6 +96,17 @@ function Addskills() {
 
         setError(obj)
         if (isValid) {
+
+            // const imageData = new FormData();
+            // imageData.append("image", image);
+
+
+            // httpUpload.post("/upload/skillPhoto?path=skillPhoto", imageData)
+            //     .then(res => { console.log(res) })
+            //     .catch(err => { console.log(err) })
+
+
+
 
             const data = {
                 "skill_name": skillname,

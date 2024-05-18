@@ -245,7 +245,7 @@ function EditJob() {
             eObj = { ...eObj, jobTitleErrors: false };
         }
 
-        if (jobType == '') {
+        if (!jobType.FullTime && !jobType.PartTime && !jobType.Casual && !jobType.Freelance && !jobType.Temporary && !jobType.Contract) {
             valid = false;
             eObj = { ...eObj, jobTypeErrors: true };
         }
@@ -371,7 +371,7 @@ function EditJob() {
                 .catch(err => setMessage({
                     show: true,
                     class: "alert alert-danger",
-                    Msg: err.code
+                    Msg: err.response.data.message || err.message
                 })
                 )
 

@@ -4,11 +4,17 @@ import Sidebar from "../../../layouts/superadmin/Sidebar";
 import Footer from "../../../layouts/superadmin/Footer";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import http from '../../../helpers/http';
 
 
 function Categorieslist1() {
   const [categoriesList, setCategoriesList] = useState(null)
   const navigate = useNavigate()
+  const [Msg, setMsg] = useState({
+    message: "",
+    class: "",
+    show: false
+  })
 
   useEffect(() => {
     axios.get("http://localhost:8080/categories/all")
@@ -16,6 +22,37 @@ function Categorieslist1() {
         setCategoriesList(res.data)
       })
   }, [])
+
+
+  const handleDelete = (category) => {
+    http.delete(`categories/delete/${category._id}`)
+      .then((res) => {
+        setMsg({
+          show: true,
+          class: "alert alert-success",
+          message: "Category Deleted"
+        })
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000);
+
+      })
+      .catch((err) => {
+        setMsg({
+          show: true,
+          class: "alert alert-danger",
+          message: err.response.data.message || err.message
+        })
+
+        setTimeout(() => {
+          setMsg({ ...Msg, show: false })
+        }, 1000);
+
+
+      })
+
+  }
+
 
   const editButton = (id) => {
     navigate(`/superadmin/Categories/${id}`)
@@ -49,8 +86,15 @@ function Categorieslist1() {
 
 
                   <div class="card-body bg-white  ">
+                    {Msg.show &&
+                      <div className={Msg.class}>
+                        {Msg.message}
+
+                      </div>}
+
 
                     <div class="row col-12 ">
+
                       <div className="d-flex justify-content-between">
                         <h4 className="card-title pt-2">Categories Table</h4>
                         <a type="button" className="btn btn-gradient-primary" href="/superadmin/Categories1">Add</a>
@@ -73,7 +117,7 @@ function Categorieslist1() {
                               <td>{category.parent_id}</td>
                               <td><img src={category.photo} /></td>
                               <td><a type="button" onClick={() => editButton(category._id)} class="btn btn-gradient-primary">Edit</a></td>
-                              <td><button type="button" class="btn btn-gradient-primary">Delete</button></td>
+                              <td><button type="button" onClick={() => handleDelete(category)} class="btn btn-gradient-primary">Delete</button></td>
                             </tr>
                           })
 

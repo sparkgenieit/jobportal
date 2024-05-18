@@ -222,7 +222,7 @@ function Postajob() {
       eObj = { ...eObj, jobTitleErrors: false };
     }
 
-    if (jobType == '') {
+    if (!jobType.FullTime && !jobType.PartTime && !jobType.Casual && !jobType.Freelance && !jobType.Temporary && !jobType.Contract) {
       valid = false;
       eObj = { ...eObj, jobTypeErrors: true };
     }

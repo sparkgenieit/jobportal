@@ -6,10 +6,10 @@ import Head from './Header.js';
 
 function Header() {
   return (
-   <>
+    <>
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <a lass="navbar-brand" href="../../index.html"><img height="100px" width="100px" src="assets/images/logo.png"
+          <a lass="navbar-brand" href="/"><img height="100px" width="100px" src="/assets/images/logo-black.png"
             alt="logo" /></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
@@ -30,7 +30,7 @@ function Header() {
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="nav-profile-img">
-                  <img src="assets/images/faces/face1.jpg" alt="image" />
+                  <img src="/assets/images/faces/face1.jpg" alt="image" />
                   <span class="availability-status online"></span>
                 </div>
                 <div class="nav-profile-text">
@@ -154,7 +154,7 @@ function Header() {
           </button>
         </div>
       </nav>
-   </>
+    </>
   );
 }
 

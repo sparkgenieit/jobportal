@@ -31,6 +31,9 @@ function Categories1() {
   useEffect(() => {
     axios.get("http://localhost:8080/categories/all")
       .then((res) => {
+        if (res.data.length === 0) {
+          setParentCategory("None")
+        }
         setParentoption(res.data)
       })
   }, [])
@@ -49,6 +52,7 @@ function Categories1() {
     }
 
     if (name === "parent") {
+
       setParentCategory(event.target.value)
       if (event.target.value === "") {
         setErrors({ ...errors, parentCategory: true })
@@ -128,6 +132,7 @@ function Categories1() {
     }
 
     setErrors(obj)
+
 
     if (isValid) {
 
@@ -222,8 +227,20 @@ function Categories1() {
                                 <div class="form-group row">
                                   <label class="col-sm-3 col-form-label pt-2">Parent Category<span className="text-danger">*</span></label>
                                   <div class="col-sm-9">
+                                    <select name="Active" id="Active" value={parentCategory} onChange={(event) => { handleInput("parent", event) }} class="form-select">
+                                      <option value=""></option>
+                                      {parentoption && parentoption.length == 0 && <option value="None">None</option>}
 
-                                    <input type="text" value={parentCategory} onChange={(e) => handleInput("parent", e)} class="form-control" />
+                                      {parentoption && parentoption.map((option, index) => {
+                                        return (
+
+                                          <option key={index} value={option.name}>{option.name}</option>
+                                        )
+                                      })}
+
+                                    </select>
+
+
 
 
                                     {errors.parentCategory && <div className="text-danger">Please Specify a Parent Category</div>}
@@ -289,8 +306,8 @@ function Categories1() {
             </div>
             <Footer />
           </div>
-        </div>
-      </div>
+        </div >
+      </div >
 
     </>)
 
