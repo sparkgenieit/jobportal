@@ -39,7 +39,7 @@ function UserProfile() {
   const [lastName, setlastName] = useState(userData && userData.last_name || "");
   const [email, setEmail] = useState(userData && userData.email || "");
   const [personal, setPersonal] = useState(userData && userData.profile_summary || "");
-  const [show, setShow] = useState("");
+  const [showProfile, setShowProfile] = useState("");
   const [visa, setVisa] = useState("");
   const [cv, setCv] = useState();
   const [coverLetter, setCoverLetter] = useState();
@@ -72,7 +72,7 @@ function UserProfile() {
     lastName: false,
     email: false,
     personal: false,
-    show: false,
+    showProfile: false,
     visa: false,
     cv: false,
     coverLetter: false,
@@ -107,7 +107,7 @@ function UserProfile() {
 
     userService.get(userId)
       .then(response => {
-        console.log(response.data);
+        
 
         setfirstName(response.data.first_name);
         setlastName(response.data.last_name);
@@ -130,6 +130,8 @@ function UserProfile() {
         }
 
         setSkills(response.data.skills);
+        setAvailability(response.data.availability);
+        setNoticePeriod(response.data.noticePeriod);
         setVisa(response.data.visaType);
         setMobile(response.data.phone);
         if (response.data.visaExpiryDate) {
@@ -139,11 +141,14 @@ function UserProfile() {
         setPreferredLocations(response.data.preferredJobLocations[0])
         setPreferredJobCategory(response.data.preferredJobCategories[0])
         setPreferredJobTypes(response.data.preferredJobTypes[0])
-        if ((response.data.cv).length > 0) {
+        setShowProfile(response.data.showProfile);
+        if (typeof response.data.cv != 'undefined' && response.data.cv.length > 0) {
           setisCvUploaded(true)
           setCv(response.data.cv)
         }
-        if ((response.data.coverLetter).length > 0) {
+        
+        if (response.data.coverLetter.length > 0) {
+          
           setisCoverUploaded(true)
           setCoverLetter(response.data.coverLetter)
         }
@@ -159,14 +164,17 @@ function UserProfile() {
   // On file select (from the pop up)
   const onFileChange = (event) => {
     const name = event.target.id;
-    console.log(event.target.files[0])
+    
     if (name == 'cv') {
       setCv(event.target.files[0]);
     }
 
-    if (name == 'cover') {
+
+
+    if (name == 'coverLetter') {
       setCoverLetter(event.target.files[0]);
     }
+    
   };
 
   // On file upload (click the upload button)
@@ -182,7 +190,7 @@ function UserProfile() {
     );
 
     // Details of the uploaded file
-    console.log(this.state.selectedFile);
+    
 
     // Request made to the backend api
     // Send formData object
@@ -264,14 +272,14 @@ function UserProfile() {
       setVisaExpiry(event.target.value)
     }
 
-    if (name == 'show') {
+    if (name == 'showProfile') {
       if (event.target.value == "") {
-        setErrors({ ...errors, show: true })
+        setErrors({ ...errors, showProfile: true })
       }
       else {
-        setErrors({ ...errors, show: false })
+        setErrors({ ...errors, showProfile: false })
       }
-      setShow(event.target.value)
+      setShowProfile(event.target.value)
 
     }
     if (name == "visa") {
@@ -364,12 +372,12 @@ function UserProfile() {
   }
 
   const SubmitData = () => {
-    console.log(cv)
+    
     let obj = {};
 
     let isValid = true;
 
-    console.log("firstName", firstName)
+    
 
     if (!firstName || firstName == "") {
       obj = { ...obj, firstName: true }
@@ -412,13 +420,13 @@ function UserProfile() {
 
 
 
-    if (show == "") {
-      obj = { ...obj, show: true }
+    if (showProfile == "") {
+      obj = { ...obj, showProfile: true }
       isValid = false;
 
     }
     else {
-      obj = { ...obj, show: false }
+      obj = { ...obj, showProfile: false }
       isValid = true;
     }
 
@@ -430,6 +438,7 @@ function UserProfile() {
       obj = { ...obj, visa: false }
       isValid = true;
     }
+
 
 
     if (cv == null) {
@@ -453,7 +462,7 @@ function UserProfile() {
 
     setErrors(obj);
 
-    console.log(isValid);
+    
 
 
     if (isValid) {
@@ -506,7 +515,7 @@ function UserProfile() {
         preferredJobCategories: preferredJobCategory,
         preferredJobLocations: preferredLocations,
         expectedRatePerHour: expectedRate,
-        showProfile: show,
+        showProfile: showProfile,
         visaType: visa,
         visaExpiryDate: visaExpiry,
         availability: availability,
@@ -521,14 +530,14 @@ function UserProfile() {
       const fd1 = new FormData();
       fd1.append('file', coverLetter)
       userService.uploadCV(fd).then((res) => {
-        console.log(res);
+        
         userData.cv = res.data.filename;
         userService.uploadCoverLetter(fd1).then((res) => {
-          console.log(res);
+          
           userData.coverLetter = res.data.filename;
           userService.update(userId, userData)
             .then(response => {
-              console.log(response.data);
+              
               window.scrollTo({ top: 10, behavior: "smooth" });
               setIsUpdated(true);
               setTimeout(() => {
@@ -984,7 +993,7 @@ function UserProfile() {
                     <div className="col-12">
                       <div className="form-group row">
                         <div className="col-6 px-2">
-                          <input type="radio" class="mx-2" value={availability} onChange={(event) => chnageOut("availability", event)} />
+                          <input type="radio" class="mx-2"   checked={availability == "true"} value={availability} onChange={(event) => chnageOut("availability", event)} />
                           Immediately
 
                         </div>
@@ -1080,13 +1089,13 @@ function UserProfile() {
 
                         <label className="col-sm-3 col-form-label">Show Profile <span style={{ color: "red" }}>*</span></label>
                         <div className="col-sm-9">
-                          <select type="dropdown" className=" form-select form-control" value={show} onChange={(event) => chnageOut("show", event)}>
+                          <select type="dropdown" className=" form-select form-control"   value={showProfile} onChange={(event) => chnageOut("showProfile", event)}>
                             <option>---Select---</option>
-                            <option value="Yes"> yes</option>
-                            <option value="No">No</option>
+                            <option selected={showProfile == "Yes"} value="Yes">Yes</option>
+                            <option selected={showProfile == "No"} value="No">No</option>
                           </select>
 
-                          {errors && errors.show && <div className="error text-danger"> {showprofileError}</div>}
+                          {errors && errors.showProfile && <div className="error text-danger"> {showprofileError}</div>}
 
                         </div>
                       </div>
@@ -1102,7 +1111,6 @@ function UserProfile() {
                         <div className="col-sm-12">
                           <select type="dropdown" className="form-select form-control" value={visa} onChange={(event) => chnageOut("visa", event)}>
                             <option>---Select---</option>
-                            <option>----Select----</option>
                             <option>Working holiday visa</option>
                             <option>Work visa</option>
                             <option>Student visa</option>
@@ -1144,17 +1152,17 @@ function UserProfile() {
 
 
                         <div className="col-sm-7">
-                          {isCvUploaded === false ? <input type="file" id="cv" className="form-control" onChange={onFileChange} />
-                            : <p>{cv}</p>}
-
-                          {errors && errors.cv && <div className="error text-danger"> {cvError}</div>}
-
-
+                         <input type="file" id="cv" className="form-control" onChange={onFileChange} />
+                           {errors && errors.cv && <div className="error text-danger"> {cvError}</div>}
+                         
+                           {isCvUploaded === true ?  <div className="col-sm-7"> Uploaded</div> : ''}
                         </div>
+                       
 
 
-                      </div>
+                      </div> 
                     </div>
+                   
                   </div>
 
                   <div className="row">
@@ -1166,10 +1174,9 @@ function UserProfile() {
                         <label className="col-sm-5 col-form-label">Upload Cover Letter <span style={{ color: "red" }}>*</span></label>
 
                         <div className="col-sm-7">
-                          {isCoverUploaded === false ? <input type="file" id="cover" className="form-control" onChange={onFileChange} />
-                            : <p>{coverLetter}</p>}
-                          {errors && errors.coverLetter && <div className="error text-danger"> {coverLetterError}</div>}
-
+                         <input type="file" id="coverLetter" className="form-control" onChange={onFileChange} />
+                           {errors && errors.coverLetter && <div className="error text-danger"> {coverLetterError}</div>}
+                           {isCoverUploaded === true ?  <div className="col-sm-7"> Uploaded</div> : ''}
                         </div>
 
                       </div>

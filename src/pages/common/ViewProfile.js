@@ -48,15 +48,18 @@ function ViewProfile() {
       })
   }, [userId])
 
-  const handleDownload = (event, url) => {
+  const handleDownload = (event,path, file) => {
     event.preventDefault();
-    fetch("http://localhost:8080/" + url)
+    fetch("http://localhost:8080/upload/file/?path="+path +"&file="+file,{
+      responseType: "blob",
+    })
       .then((response) => response.blob())
       .then((blob) => {
-        const url = window.URL.createObjectURL(new Blob([blob]));
+        const url = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = url;
+        //link.setAttribute("download", file);
+        link.download = file;
         document.body.appendChild(link);
 
         link.click();
@@ -364,14 +367,23 @@ function ViewProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Availability:</label>
                         <div className="col-sm-9">
-                          {user.availability === true ? 'Yes' : "No"}
+                          {user.availability == "true" ? 'Yes' : "No"}
                         </div>
                       </div>
                     </div>
                   </div>
 
 
-
+                  <div className="row">
+                    <div className="col-md-9">
+                      <div className="form-group row">
+                        <label className="col-sm-3 col-form-label fw-bold">Notice Period:</label>
+                        <div className="col-sm-9">
+                          {user.noticePeriod}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
 
                   <p className="card-description mt-3 fw-bold">Preferred Job Types : </p>
@@ -481,7 +493,7 @@ function ViewProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Upload CV :  </label>
                         <div className="col-sm-9">
-                          {user.cv && <a style={{ "textDecoration": "underline" }} href="/" onClick={(event) => handleDownload(event, user.cv)}>{user.cv}</a>}
+                          {user.cv && <a style={{ "textDecoration": "underline" }} href="/" onClick={(event) => handleDownload(event, 'cvs',user.cv)}>{user.cv}</a>}
                           {/* {user.uploadCV} */}
                         </div>
                       </div>
@@ -493,7 +505,7 @@ function ViewProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Upload Cover Letter :  </label>
                         <div className="col-sm-9">
-                          {user.coverLetter}
+                        {user.coverLetter && <a style={{ "textDecoration": "underline" }} href="/" onClick={(event) => handleDownload(event, 'coverletters',user.coverLetter)}>{user.coverLetter}</a>}
                         </div>
                       </div>
                     </div>
