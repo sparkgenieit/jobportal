@@ -20,7 +20,7 @@ const List = () => {
   useEffect(() => {
     axios.get("http://localhost:8080/users/admins/all")
       .then((res) => setAdminList(res.data))
-  }, [adminList])
+  }, [])
 
   function handleAdmin(admin) {
     setCurrentAdmin(admin);

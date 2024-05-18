@@ -166,9 +166,10 @@ function EditCategory() {
 
                 })
                 .catch((err) => {
+                    console.log(err)
                     setMessage({
                         showMsg: true,
-                        Msg: err.code,
+                        Msg: err.response.data.message || err.message,
                         msgClass: "alert alert-danger"
                     })
 
@@ -238,7 +239,7 @@ function EditCategory() {
 
                                                                         <select id="Active" value={parentCategory} onChange={(e) => handleInput("parent", e)} class="form-select">
                                                                             <option value=""></option>
-
+                                                                            {parentoption && parentoption.length === 0 && <option value="None">None</option>}
                                                                             {parentoption && parentoption.map((option, index) => {
                                                                                 return (
                                                                                     <option key={index} value={option.name}>{option.name}</option>

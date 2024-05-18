@@ -1,7 +1,7 @@
 import Header from "../../../layouts/superadmin/Header";
 import Footer from "../../../layouts/superadmin/Footer";
 import Sidebar from "../../../layouts/superadmin/Sidebar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FallingLines } from "react-loader-spinner";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -14,9 +14,9 @@ function EditAd({ ad }) {
     const [position, setPosition] = useState(ad.position)
     const [size, setSize] = useState(ad.size)
     const [pagetoshow, setPageTOShow] = useState({
-        "about": false,
-        "home": false,
-        "jobs": false
+        about: false,
+        home: false,
+        jobs: false
     })
     const [price, setPrice] = useState(ad.price)
     const [numberofclicks, setNumberOfClicks] = useState(ad.noOfClicks)
@@ -44,6 +44,23 @@ function EditAd({ ad }) {
     })
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        let pages = pagetoshow;
+        if (ad.pages.includes("about")) {
+            pages = { ...pages, about: true }
+        }
+
+        if (ad.pages.includes("home")) {
+            pages = { ...pages, home: true }
+        }
+
+        if (ad.pages.includes("jobs")) {
+            pages = { ...pages, jobs: true }
+        }
+        setPageTOShow(pages)
+
+    }, [])
 
 
     const handleCheckboxChange = (event) => {

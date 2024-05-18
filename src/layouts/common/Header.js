@@ -30,6 +30,7 @@ function Header() {
     localStorage.removeItem('user_id');
     localStorage.removeItem('token'); // Remove token from localStorage
     localStorage.removeItem('role');
+    localStorage.removeItem('fullname');
     navigate('/');
   };
 
