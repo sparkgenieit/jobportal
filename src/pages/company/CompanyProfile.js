@@ -43,6 +43,7 @@ function CompanyProfile() {
   const [Phonemsg, setPhonemsg] = useState("Please Enter Phone Number");
   const [personmsg, setPersonmsg] = useState("Please Enter Contact Person");
   const [emailmsg, setEmailmsg] = useState("Please Enter Email");
+  const [companyPhoto, setCompanyPhoto] = useState("")
 
   useEffect(() => {
 
@@ -61,6 +62,7 @@ function CompanyProfile() {
         setEmail(response.data.email);
         setLogo(response.data.logo);
         setUserData(response.data);
+        setCompanyPhoto(`http://localhost:8080/uploads/logos/${response.data.logo}`)
 
       })
       .catch(e => {
@@ -87,8 +89,9 @@ function CompanyProfile() {
 
   const onFileChange = (event) => {
     const name = event.target.id;
-    console.log(event.target.files[0])
+
     if (name == 'logo') {
+      setCompanyPhoto(URL.createObjectURL(event.target.files[0]))
       setLogo(event.target.files[0]);
     }
   };
@@ -101,7 +104,7 @@ function CompanyProfile() {
       valid = false
       eObj = { ...eObj, CompanyErrors: true };
       setCompanyNamemsg('Please Enter Company Name');
-    } else if (/^[a-z]{2,}$/gi.test(companyName) == false) {
+    } else if (/^[a-z ]{2,}$/gi.test(companyName.trim()) == false) {
       valid = false
       eObj = { ...eObj, CompanyErrors: true };
       setCompanyNamemsg('Not a Correct Company Name');
@@ -130,10 +133,6 @@ function CompanyProfile() {
       valid = false
       eObj = { ...eObj, webSiteErrors: true };
       setWebSitemsg('Please Enter Website');
-    } else if (/^[a-z]{2,}$/gi.test(webSite) == false) {
-      valid = false
-      eObj = { ...eObj, webSiteErrors: true };
-      setWebSitemsg('Not a website');
     }
     else {
       valid = true
@@ -187,7 +186,7 @@ function CompanyProfile() {
       valid = false
       eObj = { ...eObj, cityErrors: true };
     }
-    else if (/^[a-z]{2,}$/gi.test(city) == false) {
+    else if (/^\w{2,}$/gi.test(city) == false) {
       valid = false
       eObj = { ...eObj, cityErrors: true };
       setCitymsg('Not a City');
@@ -232,7 +231,7 @@ function CompanyProfile() {
       eObj = { ...eObj, personErrors: true };
       setPersonmsg('Please Enter Person');
     }
-    else if (/^[a-z]{2,}$/gi.test(person) == false) {
+    else if (/^[a-z ]{2,}$/gi.test(person.trim()) == false) {
       valid = false
       eObj = { ...eObj, personErrors: true };
       setPersonmsg('Not a proper Name');
@@ -247,7 +246,7 @@ function CompanyProfile() {
     let obj1 = {}
     if (valid) {
 
-      obj1 = { ...obj1, name: companyName }
+      obj1 = { ...obj1, name: companyName.trim() }
       obj1 = { ...obj1, website: webSite }
       obj1 = { ...obj1, address1: address }
       obj1 = { ...obj1, address2: address2 }
@@ -255,7 +254,7 @@ function CompanyProfile() {
       obj1 = { ...obj1, postalCode: postcode }
       obj1 = { ...obj1, city: city }
       obj1 = { ...obj1, phone: Phone }
-      obj1 = { ...obj1, contact: person }
+      obj1 = { ...obj1, contact: person.trim() }
       obj1 = { ...obj1, email: email }
 
 
@@ -668,7 +667,7 @@ function CompanyProfile() {
 
 
                             <div class="bgcol" id="error5"></div>
-                            {logo && <img width="200px" height="200px" src={`http://localhost:8080/uploads/logos/${logo}`} />}
+                            {logo && <img width="200px" height="200px" src={companyPhoto} />}
 
 
                           </div>

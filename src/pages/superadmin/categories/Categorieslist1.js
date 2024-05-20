@@ -17,7 +17,7 @@ function Categorieslist1() {
   })
 
   useEffect(() => {
-    axios.get("http://localhost:8080/categories/all")
+    http.get("/categories/all")
       .then((res) => {
         setCategoriesList(res.data)
       })
@@ -115,7 +115,7 @@ function Categorieslist1() {
                             return <tr key={index}>
                               <td>{category.name}</td>
                               <td>{category.parent_id}</td>
-                              <td><img src={category.photo} /></td>
+                              <td><img src={`http://localhost:8080/uploads/categoryPhoto/${category.photo}`} /></td>
                               <td><a type="button" onClick={() => editButton(category._id)} class="btn btn-gradient-primary">Edit</a></td>
                               <td><button type="button" onClick={() => handleDelete(category)} class="btn btn-gradient-primary">Delete</button></td>
                             </tr>

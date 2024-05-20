@@ -8,6 +8,7 @@ import axios from 'axios';
 
 import { useParams, useNavigate } from "react-router-dom";
 import Sidebar from '../../layouts/company/Sidebar';
+import http from '../../helpers/http';
 
 function SingleJob() {
     const [isJobApplied, setIsJobApplied] = useState(false)
@@ -17,6 +18,7 @@ function SingleJob() {
     const [benefits, setBenefits] = useState()
     const [employerQuestions, setEmployerQuestions] = useState()
     const [jobType, setJobType] = useState()
+    const role = localStorage.getItem('role');
 
     function getTrueKeys(obj) {
         // Use Object.keys() to get all keys as an array
@@ -68,7 +70,6 @@ function SingleJob() {
                     }
                 })
         }
-
         axios.get(`http://localhost:8080/jobs/${params.id}`)
             .then((response) => {
                 setJobview(response.data)
@@ -83,9 +84,10 @@ function SingleJob() {
 
 
     function handleApply() {
-        if (userId) {
+
+        if (userId && role === "user") {
             const data = {
-                created_date: "02-05-2024",
+                applied_date: new Date().toLocaleDateString('en-GB'),
                 userId: userId,
                 jobId: jobview._id,
                 applied: true
@@ -119,14 +121,14 @@ function SingleJob() {
             setMessage({
                 showMsg: true,
                 msgClass: "alert alert-danger",
-                Msg: 'Please login to apply job'
+                Msg: 'Please login as User to apply job'
             })
         }
     }
     function handleSave() {
-        if (userId) {
+        if (userId && role === "user") {
             const data = {
-                created_date: "02-05-2024",
+                saved_date: new Date().toLocaleDateString('en-GB'),
                 userId: userId,
                 jobId: jobview._id,
                 saved: true
@@ -159,7 +161,7 @@ function SingleJob() {
             setMessage({
                 showMsg: true,
                 msgClass: "alert alert-danger",
-                Msg: 'Please login to save job'
+                Msg: 'Please login as User to save job'
             })
         }
     }

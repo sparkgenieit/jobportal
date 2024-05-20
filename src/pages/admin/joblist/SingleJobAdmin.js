@@ -51,8 +51,10 @@ function SingleJobAdmin({ joblist, handleApprove, handleReject }) {
                                     <div class="card-body px-4  ">
                                         <div className="d-flex justify-content-end mt-4 gap-5">
 
-                                            <button onClick={() => handleApprove(joblist)} className=" col-2 btn btn-info">Appprove</button>
-                                            <button onClick={() => handleReject(joblist)} className=" col-2 btn btn-danger">Reject</button>
+                                            {joblist.status !== "approved" && <button onClick={() => handleApprove(joblist)} className=" col-2 btn btn-info">Appprove</button>}
+                                            {joblist.status === "approved" && <button disabled className=" col-2 btn btn-success">Appproved</button>}
+                                            {joblist.status !== "rejected" && < button onClick={() => handleReject(joblist)} className=" col-2 btn btn-outline-danger">Reject</button>}
+                                            {joblist.status === "rejected" && < button disabled className=" col-2 btn btn-danger">Rejected</button>}
 
                                         </div>
 
@@ -177,7 +179,7 @@ function SingleJobAdmin({ joblist, handleApprove, handleReject }) {
                 </div>
                 <Footer />
 
-            </div>
+            </div >
         </>
     );
 }

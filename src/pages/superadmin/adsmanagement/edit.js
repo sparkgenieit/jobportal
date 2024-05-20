@@ -175,7 +175,7 @@ function EditAd({ ad }) {
             setAddTitleMsg('Please Enter Title');
             isValid = false;
 
-        } else if (/^[a-z]{2,}$/gi.test(addtitle) == false) {
+        } else if (/^[a-z ]{2,}$/gi.test(addtitle.trim()) == false) {
 
             obj = { ...obj, addtitleError: true };
             setAddTitleMsg('Not Proper Title');
@@ -234,7 +234,7 @@ function EditAd({ ad }) {
 
 
             obj = { ...obj, pageError: true };
-
+            isValid = false;
         }
         else {
 
@@ -286,7 +286,7 @@ function EditAd({ ad }) {
         if (isValid) {
 
             const data = {
-                title: addtitle,
+                title: addtitle.trim(),
                 description: description,
                 position: position,
                 pages: pages,

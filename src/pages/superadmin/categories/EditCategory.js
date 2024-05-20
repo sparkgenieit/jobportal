@@ -4,6 +4,8 @@ import Header from "../../../layouts/superadmin/Header";
 import Sidebar from "../../../layouts/superadmin/Sidebar";
 import axios from 'axios';
 import { useNavigate, useParams } from "react-router-dom";
+import http from "../../../helpers/http";
+import httpUpload from "../../../helpers/httpUpload";
 
 function EditCategory() {
     const [categoryName, setCategoryName] = useState("")
@@ -26,27 +28,56 @@ function EditCategory() {
     })
     const params = useParams();
     let id = params.id
+    const [isImageUpdated, setIsImageUpdated] = useState(false)
 
+    const [imagePreview, setImagePreview] = useState({
+        show: false,
+        src: "",
+
+    })
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://localhost:8080/categories/all")
-            .then((res) => {
-                setParentoption(res.data)
-            })
-
-        axios.get(`http://localhost:8080/categories/${id}`)
+        http.get(`/categories/${id}`)
             .then((res) => {
                 setCategoryName(res.data.name)
                 setParentCategory(res.data.parent_id)
                 setDescription(res.data.description)
                 setPhoto(res.data.photo)
                 setStatus(res.data.status)
+                setImagePreview({
+                    show: true,
+                    src: `http://localhost:8080/uploads/categoryPhoto/${res.data.photo}`
+                })
+
+                if (res.data.parent_id !== "None") {  // Checking if parent id is none 
+                    return http.get("/categories/all")
+                        .then((res) => {
+                            setParentoption(res.data)
+                        })
+                        .catch(err => console.log(err))
+                } else {
+                    setParentoption([])
+                }
             })
+            .catch(err => console.log(err))
+
 
 
     }, [])
+
+
+    const PreviewImage = (e) => {
+
+        setPhoto(e.target.files[0])
+        setImagePreview({
+            show: true,
+            src: URL.createObjectURL(e.target.files[0]),
+        })
+
+
+    }
 
     const handleInput = (name, event) => {
 
@@ -104,7 +135,7 @@ function EditCategory() {
         if (categoryName === "") {
             obj = { ...obj, categoryName: true }
             isValid = false;
-        } else if (/^[a-z]{2,}$/gi.test(categoryName) == false) {
+        } else if (/^[a-z ]{2,}$/gi.test(categoryName.trim()) == false) {
             obj = { ...obj, categoryName: true }
             isValid = false;
         }
@@ -144,40 +175,91 @@ function EditCategory() {
 
         if (isValid) {
 
-            let data = {
-                "name": categoryName,
-                "parent_id": parentCategory,
-                "description": description,
-                "photo": photo,
-                "status": status
+            if (isImageUpdated === true) { // checking if the image is updated
+                const imageData = new FormData();
+                imageData.append("file", photo);
+
+                httpUpload.post("/upload/categoryPhoto?path=categoryPhoto", imageData)
+                    .then(res => {
+                        let data = {
+                            "name": categoryName.trim(),
+                            "parent_id": parentCategory,
+                            "description": description,
+                            "photo": res.data.filename,
+                            "status": status
+                        }
+                        return http.put(`categories/update/${id}`, data)
+
+                    })
+                    .then((res) => {
+                        setMessage({
+                            showMsg: true,
+                            Msg: "Category Updated Successfully",
+                            msgClass: "alert alert-success"
+                        })
+                        setTimeout(() => {
+                            navigate("/superadmin/Categorieslist1")
+                        }, 2000)
+
+
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        setMessage({
+                            showMsg: true,
+                            Msg: err.response.data.message || err.message,
+                            msgClass: "alert alert-danger"
+                        })
+
+                        setTimeout(() => {
+                            setMessage({ ...message, showMsg: false })
+                        }, 4000)
+
+                    })
+            }
+            else {  // if the image is not updated 
+                let data = {
+                    "name": categoryName,
+                    "parent_id": parentCategory,
+                    "description": description,
+                    "photo": photo,
+                    "status": status
+                }
+
+                http.put(`/categories/update/${id}`, data)
+                    .then((res) => {
+                        setMessage({
+                            showMsg: true,
+                            Msg: "Category Updated Successfully",
+                            msgClass: "alert alert-success"
+                        })
+                        setTimeout(() => {
+                            navigate("/superadmin/Categorieslist1")
+                        }, 2000)
+
+
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        setMessage({
+                            showMsg: true,
+                            Msg: err.response.data.message || err.message,
+                            msgClass: "alert alert-danger"
+                        })
+
+                        setTimeout(() => {
+                            setMessage({ ...message, showMsg: false })
+                        }, 4000)
+
+                    })
+
+
+
             }
 
-            axios.put(`http://localhost:8080/categories/update/${id}`, data)
-                .then((res) => {
-                    setMessage({
-                        showMsg: true,
-                        Msg: "Category Updated Successfully",
-                        msgClass: "alert alert-success"
-                    })
-                    setTimeout(() => {
-                        navigate("/superadmin/Categorieslist1")
-                    }, 2000)
 
 
-                })
-                .catch((err) => {
-                    console.log(err)
-                    setMessage({
-                        showMsg: true,
-                        Msg: err.response.data.message || err.message,
-                        msgClass: "alert alert-danger"
-                    })
 
-                    setTimeout(() => {
-                        setMessage({ ...message, showMsg: false })
-                    }, 4000)
-
-                })
 
             window.scrollTo({ top: 40, behavior: "smooth" })
 
@@ -269,8 +351,20 @@ function EditCategory() {
                                                                 <div class="form-group row">
                                                                     <label class="col-sm-3 col-form-label" for="photo "> Photo<span className="text-danger">*</span> </label>
                                                                     <div class="col-sm-9">
-                                                                        <input type="file" id="photo" onChange={(e) => handleInput("photo", e)} class="form-control w-40" />
+
+
+
+                                                                        {imagePreview.show && <div className="mb-2"><img src={imagePreview.src} height="150px" width="180px" />
+                                                                        </div>}
+                                                                        {
+                                                                            !isImageUpdated && <button type="button" onClick={() => { setIsImageUpdated(true) }} class="btn btn-gradient-primary ">Change Picture</button>
+
+                                                                        }
+                                                                        {isImageUpdated === true &&
+                                                                            <input type="file" id="photo" onChange={(e) => PreviewImage(e)} class="form-control w-40" />
+                                                                        }
                                                                         {errors.photo && <div className="text-danger">Please Upload the Photo</div>}
+
 
                                                                     </div>
                                                                 </div>

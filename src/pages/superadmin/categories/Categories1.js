@@ -4,6 +4,8 @@ import Header from "../../../layouts/superadmin/Header";
 import Sidebar from "../../../layouts/superadmin/Sidebar";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import http from "../../../helpers/http";
+import httpUpload from "../../../helpers/httpUpload";
 
 function Categories1() {
   const [categoryName, setCategoryName] = useState("")
@@ -17,6 +19,12 @@ function Categories1() {
     msgClass: "",
     showMsg: false
   })
+
+  const [imagePreview, setImagePreview] = useState({
+    show: false,
+    src: ""
+
+  })
   const [errors, setErrors] = useState({
     categoryName: false,
     parentCategory: false,
@@ -29,7 +37,7 @@ function Categories1() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:8080/categories/all")
+    http.get("/categories/all")
       .then((res) => {
         if (res.data.length === 0) {
           setParentCategory("None")
@@ -37,6 +45,16 @@ function Categories1() {
         setParentoption(res.data)
       })
   }, [])
+
+  const PreviewImage = (e) => {
+    setPhoto(e.target.files[0])
+    setImagePreview({
+      show: true,
+      src: URL.createObjectURL(e.target.files[0])
+    })
+
+
+  }
 
   const handleInput = (name, event) => {
 
@@ -72,9 +90,7 @@ function Categories1() {
       }
     }
 
-    if (name === "photo") {
-      setPhoto(event.target.value)
-    }
+
 
     if (name === "status") {
       setStatus(event.target.value)
@@ -95,7 +111,7 @@ function Categories1() {
     if (categoryName === "") {
       obj = { ...obj, categoryName: true }
       isValid = false;
-    } else if (/^[a-z]{2,}$/gi.test(categoryName) == false) {
+    } else if (/^[a-z ]{2,}$/gi.test(categoryName.trim()) == false) {
       obj = { ...obj, categoryName: true }
       isValid = false;
     }
@@ -136,15 +152,22 @@ function Categories1() {
 
     if (isValid) {
 
-      let data = {
-        "name": categoryName,
-        "parent_id": parentCategory,
-        "description": description,
-        "photo": photo,
-        "status": status
-      }
+      const imageData = new FormData();
+      imageData.append("file", photo);
 
-      axios.post("http://localhost:8080/categories/create", data)
+
+      httpUpload.post("/upload/categoryPhoto?path=categoryPhoto", imageData)
+        .then(res => {
+          let data = {
+            "name": categoryName.trim(),
+            "parent_id": parentCategory,
+            "description": description,
+            "photo": res.data.filename,
+            "status": status
+          }
+
+          return http.post("/categories/create", data)
+        })
         .then((res) => {
           setMessage({
             showMsg: true,
@@ -160,7 +183,7 @@ function Categories1() {
         .catch((err) => {
           setMessage({
             showMsg: true,
-            Msg: err.code,
+            Msg: err.response.statusText,
             msgClass: "alert alert-danger"
           })
 
@@ -265,8 +288,11 @@ function Categories1() {
                                 <div class="form-group row">
                                   <label class="col-sm-3 col-form-label" for="photo "> Photo<span className="text-danger">*</span> </label>
                                   <div class="col-sm-9">
-                                    <input type="file" id="photo" onChange={(e) => handleInput("photo", e)} class="form-control w-40" />
+                                    <input type="file" id="photo" onChange={(e) => PreviewImage(e)} class="form-control w-40" />
                                     {errors.photo && <div className="text-danger">Please Upload the Photo</div>}
+
+
+                                    {imagePreview.show && <img src={imagePreview.src} height="150px" width="180px" />}
 
                                   </div>
                                 </div>

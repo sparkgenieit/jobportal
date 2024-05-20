@@ -98,7 +98,8 @@ function UserLogin() {
           setTimeout(() => {
             // Inside the handleLogin function
 
-            navigate('/viewprofile'); // Redirect to the dashboard after login
+            window.location.reload()
+
           }, 1500);
 
         })

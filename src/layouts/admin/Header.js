@@ -1,8 +1,22 @@
 import './Header.css';
 import './assets/css/style.css';
 import Head from './Head';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+
 
 function Heder() {
+  const navigate = useNavigate()
+  const [fullname, setFullname] = useState(localStorage.getItem('fullname') || '');
+
+
+  const handleLogout = () => {
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('token'); // Remove token from localStorage
+    localStorage.removeItem('role');
+    localStorage.removeItem('fullname');
+    navigate('/');
+  };
   return (
     <>
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -32,7 +46,7 @@ function Heder() {
                   <span class="availability-status online"></span>
                 </div>
                 <div class="nav-profile-text">
-                  <p class="mb-1 text-black">David Greymaax</p>
+                  <p class="mb-1 text-black">{fullname}</p>
                 </div>
               </a>
               <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
@@ -137,7 +151,7 @@ function Heder() {
               </div>
             </li>
             <li class="nav-item nav-logout d-none d-lg-block">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="" onClick={handleLogout}>
                 <i class="mdi mdi-power"></i>
               </a>
             </li>
