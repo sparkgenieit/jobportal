@@ -96,7 +96,7 @@ const Jobqueuelist = () => {
                                                     {table && table.length > 0 &&
                                                         table.map((job, index) => {
                                                             return <tr key={index}>
-                                                                <td>{index + 1}</td>
+                                                                <td>{job._id}</td>
                                                                 <td>{job.jobTitle}</td>
                                                                 <td>{job.company}</td>
                                                                 <td>{job.creationdate}</td>

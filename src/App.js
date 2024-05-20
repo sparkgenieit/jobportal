@@ -76,6 +76,7 @@ import Addskills from "./pages/superadmin/Skills-Management/Addskills";
 import EditSkill from "./pages/superadmin/Skills-Management/EditSkill";
 import EditCategory from "./pages/superadmin/categories/EditCategory";
 import EditJob from "./pages/company/jobs/EditJob";
+import JobsListSuperAdmin from "./pages/superadmin/joblist/jobslist";
 
 
 
@@ -167,6 +168,7 @@ function App() {
       <Route path="/superadmin/orders" element={(token && role == 'superadmin') ? <OrdersList /> : <OrdersList />} />
       <Route path="/superadmin/add-page" element={(token && role == 'superadmin') ? <Addpage /> : <Addpage />} />
       <Route path="/superadmin/pages" element={(token && role == 'superadmin') ? <PagesList /> : <PagesList />} />
+      <Route path="/superadmin/jobs" element={(token && role == 'superadmin') ? <JobsListSuperAdmin /> : <JobsListSuperAdmin />} />
 
 
     </Routes>

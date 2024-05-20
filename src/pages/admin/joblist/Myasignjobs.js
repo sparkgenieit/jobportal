@@ -149,7 +149,7 @@ function Myasignjobs() {
                                                         {assignJobs && assignJobs.length > 0 &&
                                                             assignJobs.map((job, index) => {
                                                                 return (<tr key={index}>
-                                                                    <td>{index + 1}</td>
+                                                                    <td>{job._id}</td>
                                                                     <td>{job.jobTitle}</td>
                                                                     <td>{job.company}</td>
                                                                     <td>{job.creationdate}</td>
@@ -174,14 +174,20 @@ function Myasignjobs() {
 
 
                                                                     <td>
-                                                                        <button onClick={() => handleApprove(job)} type="button" class="btn btn-info btn-xs col-12  ">
+                                                                        {job.status !== "approved" && <button onClick={() => handleApprove(job)} type="button" class="btn btn-info btn-xs col-12  ">
                                                                             Approve
-                                                                        </button>
+                                                                        </button>}
+                                                                        {job.status === "approved" && <button disabled type="button" class="btn btn-success btn-xs col-12  ">
+                                                                            Approved
+                                                                        </button>}
                                                                     </td>
                                                                     <td>
-                                                                        <button onClick={() => handleReject(job)} type="button" class="btn  btn-xs btn-danger col-12">
+                                                                        {job.status !== "rejected" && < button onClick={() => handleReject(job)} type="button" class="btn  btn-xs btn-outline-danger col-12">
                                                                             Reject
-                                                                        </button>
+                                                                        </button>}
+                                                                        {job.status === "rejected" && < button disabled type="button" class="btn  btn-xs btn-danger col-12">
+                                                                            Rejected
+                                                                        </button>}
                                                                     </td>
 
 
@@ -208,10 +214,10 @@ function Myasignjobs() {
 
 
 
-                </div>
+                </div >
                 <Footer />
 
-            </div>}
+            </div >}
             {!joblist && <SingleJobAdmin handleReject={handleReject} handleApprove={handleApprove} joblist={jobData} />}
         </>
     )

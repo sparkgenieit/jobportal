@@ -140,7 +140,7 @@ function EditJob() {
                 setCategoriesList(res.data)
                 let p = [];
                 (res.data).map((x, i) => {
-                    if (!p.includes(x.parent_id)) {
+                    if (!p.includes(x.parent_id) && x.parent_id !== "None") {
                         p.push(x.parent_id)
                     }
                 })
@@ -211,7 +211,7 @@ function EditJob() {
             eObj = { ...eObj, locationErrors: true };
             setLocationMsg('Please Enter Location')
         }
-        else if (/^[a-z]{3,}$/gi.test(location) == false) {
+        else if (/^[a-z ]{3,}$/gi.test(location) == false) {
             valid = false;
             eObj = { ...eObj, locationErrors: true };
             setLocationMsg('Not a Proper Location')

@@ -4,7 +4,7 @@ import 'aos/dist/aos.css';
 import { Modal, Button, Tabs, Tab } from "react-bootstrap";
 
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Head from './Head';
 import UserLogin from '../../pages/common/UserLogin';
@@ -16,13 +16,24 @@ function Header() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [fullname, setFullname] = useState(localStorage.getItem('fullname') || '');
   const [role, setRole] = useState(localStorage.getItem('role') || '');
+  const [profileLink, setProfileLink] = useState("")
 
+  useEffect(() => {
+    if (role === "user") {
+      setProfileLink("/viewprofile")
+    }
+    if (role === "employer") {
+      setProfileLink("/company/CompanyProfile")
+    }
+
+  }, [])
 
   const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
 
 
   const handleLogout = () => {
@@ -125,9 +136,12 @@ function Header() {
                         alt="Avatar" /></a>
                       <ul class="dropdown-menu menu-left  sample bg-white">
                         <li className=' pb-2'><a href="#">{fullname}</a></li>
-                        <li><a href="/Viewprofile">My Profile</a></li>
-                        {role == 'employer' && <li className='px-3'> <button type='button' class="btn btn-secondary mt-2 px-1" ><a className='px-2' href="/company" >
+                        {role !== "admin" && <li><a href={profileLink}>My Profile</a></li>}
+                        {role === 'employer' && <li className='px-3'> <button type='button' class="btn btn-secondary mt-2 px-1" ><a className='px-2' href="/company" >
                           <small>Employer Dashboard</small>
+                        </a></button></li>}
+                        {role === 'admin' && <li className='px-3'> <button type='button' class="btn btn-secondary mt-2 px-1" ><a className='px-3' href="/admin" >
+                          <small>Admin Dashboard</small>
                         </a></button></li>}
 
                         <li> <button type='button' onClick={() => handleLogout()} class="btn btn-primary px-5 mx-3 mt-2" >

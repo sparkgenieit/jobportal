@@ -28,7 +28,7 @@ function Myappliedjobs() {
             appliedjobs.map((appliedjob) => {
                 for (const jobs of allJobs) {
                     if (appliedjob.applied === true && appliedjob.jobId === jobs._id) {
-                        filtered.push(jobs)
+                        filtered.push({ ...jobs, applied_date: appliedjob.applied_date })
                     }
                 }
             })
@@ -81,8 +81,8 @@ function Myappliedjobs() {
                                                             <td>{job._id}</td>
                                                             <td>{job.jobTitle}</td>
                                                             <td>{job.company}</td>
-                                                            <td>{job.AppliedDate}</td>
-                                                           
+                                                            <td>{job.applied_date}</td>
+
                                                         </tr>
                                                     })
                                                 }

@@ -75,7 +75,7 @@ function AdminEdit({ currentAdmin }) {
             isValid = false;
 
         }
-        else if (/^[a-z]{3,}$/gi.test(fname) == false) {
+        else if (/^[a-z ]{3,}$/gi.test(fname.trim()) == false) {
             Obj = { ...Obj, fname: true }
             setFirstnameError("Invalid First Name")
             isValid = false;
@@ -91,7 +91,7 @@ function AdminEdit({ currentAdmin }) {
             setLastnameError("Please Enter Last Name")
             isValid = false;
         }
-        else if (/^[a-z]{3,}$/gi.test(lname) == false) {
+        else if (/^[a-z ]{3,}$/gi.test(lname.trim()) == false) {
             Obj = { ...Obj, lname: true }
             setLastnameError("Invalid Last Name")
             isValid = false;
@@ -126,8 +126,8 @@ function AdminEdit({ currentAdmin }) {
 
         if (isValid) {
             const userDto = {
-                first_name: fname,
-                last_name: lname,
+                first_name: fname.trim(),
+                last_name: lname.trim(),
                 email: email,
                 password: password,
                 role: 'admin'

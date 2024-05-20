@@ -6,6 +6,7 @@ import axios from "axios";
 import { Editor, EditorProvider } from "react-simple-wysiwyg";
 import { useNavigate } from "react-router-dom";
 import httpUpload from "../../../helpers/httpUpload";
+import http from "../../../helpers/http";
 
 function Addskills() {
     const [skillname, setSkillname] = useState("");
@@ -17,6 +18,11 @@ function Addskills() {
         skillDomain: false,
         description: false,
         image: false
+    })
+    const [imagePreview, setImagePreview] = useState({
+        show: false,
+        src: ""
+
     })
     const [showMsg, setShowMsg] = useState(false)
     const [msgClass, setMsgClass] = useState('alert alert-success')
@@ -52,9 +58,17 @@ function Addskills() {
                 setError({ ...error, description: false })
             }
         }
-        if (name === "image") {
-            setImage(event.target.files[0]);
-        }
+
+    }
+
+    const PreviewImage = (e) => {
+        setImage(e.target.files[0])
+        setImagePreview({
+            show: true,
+            src: URL.createObjectURL(e.target.files[0])
+        })
+
+
     }
 
     function handleSubmit() {
@@ -97,25 +111,22 @@ function Addskills() {
         setError(obj)
         if (isValid) {
 
-            // const imageData = new FormData();
-            // imageData.append("image", image);
+            const imageData = new FormData();
+            imageData.append("file", image);
 
 
-            // httpUpload.post("/upload/skillPhoto?path=skillPhoto", imageData)
-            //     .then(res => { console.log(res) })
-            //     .catch(err => { console.log(err) })
+            httpUpload.post("/upload/skillPhoto?path=skillPhoto", imageData)
+                .then(res => {
 
+                    const data = {
+                        "skill_name": skillname,
+                        "skill_dmain": skillDomain,
+                        "description": description,
+                        "photo": res.data.filename
+                    }
 
-
-
-            const data = {
-                "skill_name": skillname,
-                "skill_dmain": skillDomain,
-                "description": description,
-                "photo": ""
-            }
-
-            axios.post('http://localhost:8080/skills/create', data)
+                    return http.post('/skills/create', data)
+                })
                 .then((res) => {
                     setShowMsg(true)
                     setMessage("Skills Added SuccessFully")
@@ -127,14 +138,20 @@ function Addskills() {
 
                 })
                 .catch((err) => {
+                    console.log(err)
                     setShowMsg(true)
-                    setMessage(err.code)
+                    setMessage(err.response.statusText)
                     setMsgClass("alert alert-danger")
                     setTimeout(() => {
                         setShowMsg(false)
                     }, 5000);
                 }
                 )
+
+
+
+
+
             window.scrollTo({ top: 40, behavior: "smooth" })
         }
 
@@ -215,8 +232,9 @@ function Addskills() {
                                                                 <div class="form-group row">
                                                                     <label class="col-sm-3 col-form-label" for="photo "> Photo<span className="text-danger">*</span> </label>
                                                                     <div class="col-sm-9">
-                                                                        <input type="file" id="photo" onChange={(e) => handleInput("image", e)} class="form-control w-40" />
+                                                                        <input type="file" id="photo" onChange={(e) => PreviewImage(e)} class="form-control w-40" />
                                                                         {error.image && <div className="text-danger">Please Upload the Image</div>}
+                                                                        {imagePreview.show && <img src={imagePreview.src} height="150px" width="180px" />}
                                                                     </div>
                                                                 </div>
                                                             </div>

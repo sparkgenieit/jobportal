@@ -28,11 +28,12 @@ function Savedjobs() {
             savedJobs.map((savedjob) => {
                 for (const jobs of allJobs) {
                     if (savedjob.saved === true && savedjob.jobId === jobs._id) {
-                        filtered.push(jobs)
+                        filtered.push({ ...jobs, saved_date: savedjob.saved_date })
                     }
                 }
             })
         }
+        console.log(filtered)
         setFilteredJobs(filtered)
     }, [savedJobs, allJobs])
 
@@ -75,9 +76,9 @@ function Savedjobs() {
                                                         <td>{job._id}</td>
                                                         <td>{job.jobTitle}</td>
                                                         <td>{job.company}</td>
-                                                        <td>{job.AppliedDate}</td>
+                                                        <td>{job.saved_date}</td>
 
-                                                      
+
                                                     </tr>)
                                             })
                                             }

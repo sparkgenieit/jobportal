@@ -5,6 +5,8 @@ import Sidebar from "../../../layouts/superadmin/Sidebar";
 import axios from "axios";
 import { Editor, EditorProvider } from "react-simple-wysiwyg";
 import { useNavigate, useParams } from "react-router-dom";
+import http from "../../../helpers/http";
+import httpUpload from "../../../helpers/httpUpload";
 
 function EditSkill() {
     const [skillname, setSkillname] = useState("");
@@ -20,6 +22,13 @@ function EditSkill() {
     const [showMsg, setShowMsg] = useState(false)
     const [msgClass, setMsgClass] = useState('alert alert-success')
     const [message, setMessage] = useState("")
+    const [imagePreview, setImagePreview] = useState({
+        show: false,
+        src: "",
+
+    })
+    const [isImageUpdated, setIsImageUpdated] = useState(false)
+
     const navigate = useNavigate();
     const params = useParams();
     let id = params.id
@@ -31,9 +40,26 @@ function EditSkill() {
                 setSkillDomain(res.data.skill_dmain)
                 setDescription(res.data.description)
                 setImage(res.data.photo)
+
+                setImagePreview({
+                    show: true,
+                    src: `http://localhost:8080/uploads/skillPhoto/${res.data.photo}`
+                })
             })
+            .catch(err => console.log(err))
 
     }, [])
+
+    const PreviewImage = (e) => {
+
+        setImage(e.target.files[0])
+        setImagePreview({
+            show: true,
+            src: URL.createObjectURL(e.target.files[0]),
+        })
+
+
+    }
 
 
     function handleInput(name, event) {
@@ -109,33 +135,78 @@ function EditSkill() {
         setError(obj)
         if (isValid) {
 
-            const data = {
-                "skill_name": skillname,
-                "skill_dmain": skillDomain,
-                "description": description,
-                "photo": ""
+            if (isImageUpdated === true) { // checking if the image is updated
+
+                const imageData = new FormData();
+                imageData.append("file", image);
+
+
+                httpUpload.post("/upload/skillPhoto?path=skillPhoto", imageData)
+                    .then(res => {
+
+                        const data = {
+                            "skill_name": skillname,
+                            "skill_dmain": skillDomain,
+                            "description": description,
+                            "photo": res.data.filename
+                        }
+
+                        return http.put(`/skills/update/${id}`, data)
+                    })
+                    .then((res) => {
+                        setShowMsg(true)
+                        setMessage("Skills Updated SuccessFully")
+                        setMsgClass("alert alert-success")
+                        setTimeout(() => {
+                            navigate("/superadmin/Skills")
+
+                        }, 2000);
+
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        setShowMsg(true)
+                        setMessage(err.response.statusText)
+                        setMsgClass("alert alert-danger")
+                        setTimeout(() => {
+                            setShowMsg(false)
+                        }, 5000);
+                    }
+                    )
+
+            } else {  // if the image is not updated
+                const data = {
+                    "skill_name": skillname,
+                    "skill_dmain": skillDomain,
+                    "description": description,
+                    "photo": image
+                }
+
+                http.put(`skills/update/${id}`, data)
+                    .then((res) => {
+                        setShowMsg(true)
+                        setMessage("Skills Updated SuccessFully")
+                        setMsgClass("alert alert-success")
+                        setTimeout(() => {
+                            navigate("/superadmin/Skills")
+
+                        }, 2000);
+
+                    })
+                    .catch((err) => {
+                        setShowMsg(true)
+                        setMessage(err.response.statusText)
+                        setMsgClass("alert alert-danger")
+                        setTimeout(() => {
+                            setShowMsg(false)
+                        }, 5000);
+                    }
+                    )
+
             }
 
-            axios.put(`http://localhost:8080/skills/update/${id}`, data)
-                .then((res) => {
-                    setShowMsg(true)
-                    setMessage("Skills Updated SuccessFully")
-                    setMsgClass("alert alert-success")
-                    setTimeout(() => {
-                        navigate("/superadmin/Skills")
 
-                    }, 2000);
 
-                })
-                .catch((err) => {
-                    setShowMsg(true)
-                    setMessage(err.code)
-                    setMsgClass("alert alert-danger")
-                    setTimeout(() => {
-                        setShowMsg(false)
-                    }, 5000);
-                }
-                )
             window.scrollTo({ top: 40, behavior: "smooth" })
         }
 
@@ -216,8 +287,18 @@ function EditSkill() {
                                                                 <div class="form-group row">
                                                                     <label class="col-sm-3 col-form-label" for="photo "> Photo<span className="text-danger">*</span> </label>
                                                                     <div class="col-sm-9">
-                                                                        <input type="file" id="photo" onChange={(e) => handleInput("image", e)} class="form-control w-40" />
+
+                                                                        {imagePreview.show && <div className="mb-2"><img src={imagePreview.src} height="150px" width="180px" />
+                                                                        </div>}
+                                                                        {
+                                                                            !isImageUpdated && <button type="button" onClick={() => { setIsImageUpdated(true) }} class="btn btn-gradient-primary ">Change Picture</button>
+
+                                                                        }
+                                                                        {isImageUpdated === true &&
+                                                                            <input type="file" id="photo" onChange={(e) => PreviewImage(e)} class="form-control w-40" />
+                                                                        }
                                                                         {error.image && <div className="text-danger">Please Upload the Image</div>}
+
                                                                     </div>
                                                                 </div>
                                                             </div>
