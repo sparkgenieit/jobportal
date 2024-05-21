@@ -1,185 +1,212 @@
-
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function SuperAdminLogin() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [msg, setMsg] = useState(false);
-  const navigate = useNavigate()
 
-  const [errormsg, setErrorMsg] = useState(false);
 
-  const [usernameError, setUsernameError] = useState("Please enter Username ");
-  const [passwordError, setPasswordError] = useState("Please enter password ");
+function Login() {
+
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const navigate = useNavigate();
+
+
+  let isValid = false
+
   const [errors, setErrors] = useState({
-
-    username: false,
+    email: false,
     password: false,
-  }
-  )
+    loginError: false
+  });
+
+
+  const [emailerror, setEmailError] = useState("Please enter email")
+
+
+
   const handleInput = (name, event) => {
 
-    if (name == "username") {
-      setUsername(event.target.value)
-      if (event.target.value == '') {
-        setErrors({ ...errors, username: true })
+    if (name == "email") {
+      setEmail(event.target.value)
+
+      if (event.target.value == "") {
+        setErrors({ ...errors, email: true })
       }
       else {
-        setErrors({ ...errors, username: false })
-
+        setErrors({ ...errors, email: false })
       }
+
     }
     if (name == "password") {
       setPassword(event.target.value)
-      if (event.target.value == '') {
+      if (event.target.value == "") {
         setErrors({ ...errors, password: true })
       }
       else {
         setErrors({ ...errors, password: false })
-
       }
     }
-
   }
-  const SubmitData = () => {
-    let eObj = {};
-    let valid = true;
 
+  const validateEmailAddress = (emailAddress) => {
+    var atSymbol = emailAddress.indexOf("@");
+    var dotSymbol = emailAddress.lastIndexOf(".");
+    var spaceSymbol = emailAddress.indexOf(" ");
 
-    if (username == '') {
-      eObj = { ...eObj, username: true }
-      setUsernameError("Please Enter Username")
-
-      valid = false;
+    if ((atSymbol != -1) &&
+      (atSymbol != 0) &&
+      (dotSymbol != -1) &&
+      (dotSymbol != 0) &&
+      (dotSymbol > atSymbol + 1) &&
+      (emailAddress.length > dotSymbol + 1) &&
+      (spaceSymbol == -1)) {
+      return true;
+    } else {
+      return false;
     }
-    else if (/^[a-z]{4,}$/gi.test(username) == false) {
-      eObj = { ...eObj, username: true }
-      setUsernameError("Invalid Username")
+  }
+
+
+  const submitData = () => {
+    let Obj = {};
+    if (email == "") {
+      Obj = { ...Obj, email: true }
+      setEmailError("Please Enter Email")
     }
-    else {
-      eObj = { ...eObj, username: false }
-      valid = true;
-    }
-
-
-
-    if (password == '') {
-      eObj = { ...eObj, password: true }
-      setPasswordError("Please Enter Password")
-
-      valid = false;
-    }
-    else if (/^\w{3,}@{1}\d{2,}$/gi.test(password) == false) {
-      eObj = { ...eObj, password: true }
-      setPasswordError("Invalid password")
+    else if (!validateEmailAddress(email)) {
+      Obj = { ...Obj, email: true }
+      setEmailError("Invalid Email")
     }
     else {
-      eObj = { ...eObj, password: false }
-      valid = true;
+      Obj = { ...Obj, email: false }
     }
-    setErrors(eObj)
 
-    if (valid) {
 
-      if (username === "admin" && password === "admin@123") {
-        setMsg(true)
-        setErrorMsg(false)
-        setTimeout(() => {
-          navigate("/superadmin");
-        }, 2000
+    if (password == "") {
+      Obj = { ...Obj, password: true }
+
+    }
+    else {
+      Obj = { ...Obj, password: false }
+    }
+
+
+
+
+    setErrors(Obj);
+
+    if (Obj.email == false && Obj.password == false) {
+      isValid = true;
+    }
+
+
+    if (isValid) {
+
+
+      const data = {
+        email: email,
+        password: password,
+        role: 'superadmin'
+      }
+
+      axios.post("http://localhost:8080/users/login", data)
+        .then((response) => {
+          console.log(response.data);
+          localStorage.setItem('token', response.data.token);
+          const token = response.data.token;
+
+          localStorage.setItem('user_id', response.data._id);
+          // Store the token securely (e.g., in localStorage or HTTP-only cookies)
+          localStorage.setItem('token', token);
+
+          localStorage.setItem('role', response.data.role)
+          setTimeout(() => {
+            // Inside the handleLogin function
+            navigate('/superadmin/')// Redirect to the dashboard after login
+            window.location.reload();
+          }, 2000);
+        }
         )
-      }
-      else {
-        setErrorMsg(true)
-        setMsg(false)
-      }
+        .catch((e) => {
+          if (e && e.code) {
+            if (e.response && e.response.data) {
+              if (e.response.data.email) {
+                setErrors({ loginError: e.response.data.email });
+              }
+
+              if (e.response.data.message) {
+                setErrors({ loginError: e.response.data.message });
+              }
+            } else {
+              setErrors({ loginError: e.message });
+            }
+          }
+        })
+
+
     }
   }
+
 
   return (
-    < >
+    <>
 
-
-
-
-
-      <div class="main-panel container-fluid">
-        <div class="content-wrapper">
-
-          <div class="row mt-5">
-            <div className='col-3'></div>
-            <div class="col-6">
-              <div class="card">
-                <div class="card-body">
-                  <h3 class="card-title pb-4 fw-bold">Login </h3>
-                  <form class="form-sample">
-
-
-                    <div className="col-md-12">
-                      {msg && <div class="alert alert-success" role="alert">
-                        Login Successfull
-                      </div>}
-                      {errormsg && <div class="alert alert-danger" role="alert">
-                        Invalid Credentials
-                      </div>}
-
-                      <div className="form-group row">
-                        <label className="col-sm-3 col-form-label"> Username</label>
-                        <div class="col-sm-9">
-                          <input type="text" value={username} onChange={(event) => handleInput('username', event)} className="form-control" />
-
-                          {errors && errors.username && <div className="text-danger">{usernameError}
-
-                          </div>}
+      <div className="container-scroller">
+        <div class="container-fluid content-wrapper page-body-wrapper">
+          <div class="main-panel container">
+            <div className="content-wrapper">
+              <div className="row">
+                <div className="col-12 bg-white">
+                  <div className="card-body">
+                    <h4 className="card-title my-4"> Admin Login </h4>
+                    <form class="form-sample">
+                      {errors && errors.loginError && <div class="alert alert-danger" role="alert">
+                        {errors && errors.loginError}</div>}
+                      <div className='row mt-3'>
+                        <div className="col-md-12">
+                          <div className="form-group row">
+                            <label className="col-sm-4 col-form-label">Email</label>
+                            <div className="col-sm-8">
+                              <input type="text" className="form-control" value={email} onChange={(event) => handleInput('email', event)} />
+                              {errors && errors.email && <div className="error text-danger mt-1">{emailerror} </div>}
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="col-md-12">
-                      <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">Password</label>
-                        <div className="col-sm-9">
-                          <input type="password" value={password} onChange={(event) => handleInput('password', event)} className="form-control" />
-                          {errors && errors.password && <div className="text-danger">{passwordError}
-                          </div>}
+                      <div className='row'>
+                        <div className="col-md-12">
+                          <div className="form-group row">
+                            <label className="col-sm-4 col-form-label">Password</label>
+                            <div className="col-sm-8">
+                              <input type="password" className="form-control" value={password} onChange={(event) => handleInput('password', event)} />
+                              {errors && errors.password && <div className="error text-danger">Please Enter password </div>}
+
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="col-md-12 ">
+                      <div className="col-md-9 mt-3 row">
+                        <div className="col-md-12  ">
+                          <button type="button" className="btn btn-gradient-primary me-2 float-end" onClick={() => submitData()} >Submit</button>
+                        </div>
+                      </div>
 
-                      <button type="button" className="btn btn-gradient-primary float-end " onClick={() => SubmitData()} >Submit</button>
-                    </div>
+                    </form>
+                  </div>
 
+                </div>
 
-
-
-
-                  </form></div>
 
               </div>
-
             </div>
-
-
-            <script src="assets/vendors/js/vendor.bundle.base.js"></script>
-
-            <script src="assets/js/off-canvas.js"></script>
-            <script src="assets/js/hoverable-collapse.js"></script>
-            <script src="assets/js/misc.js"></script>
-
-            <script src="assets/js/file-upload.js"></script>
-
 
 
           </div>
         </div>
       </div>
 
-
-
-    </>
-  )
+    </>)
 }
 
-export default SuperAdminLogin;
+export default Login;

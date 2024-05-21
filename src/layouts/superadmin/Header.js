@@ -2,9 +2,18 @@ import './Header.css';
 import './assets/vendors/mdi/css/materialdesignicons.min.css';
 import './assets/vendors/css/vendor.bundle.base.css';
 import './assets/css/style.css';
+import { useNavigate } from 'react-router-dom';
 import Head from './Header.js';
 
 function Header() {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('token'); // Remove token from localStorage
+    localStorage.removeItem('role');
+    localStorage.removeItem('fullname');
+    navigate('/superadmin/login');
+  };
   return (
     <>
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -139,7 +148,7 @@ function Header() {
               </div>
             </li>
             <li class="nav-item nav-logout d-none d-lg-block">
-              <a class="nav-link" href="#">
+            <a class="nav-link" href="" onClick={handleLogout}>
                 <i class="mdi mdi-power"></i>
               </a>
             </li>

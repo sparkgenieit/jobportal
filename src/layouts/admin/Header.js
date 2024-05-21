@@ -15,7 +15,7 @@ function Heder() {
     localStorage.removeItem('token'); // Remove token from localStorage
     localStorage.removeItem('role');
     localStorage.removeItem('fullname');
-    navigate('/');
+    navigate('/admin');
   };
   return (
     <>

@@ -6,6 +6,8 @@ import Sidebar from '../../layouts/common/Sidebar';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import userService from '../../services/common/user.service';
+import ValidInNZBox from '../../components/ValidInNZBox';
+import DescriptionBox from '../../components/DescriptionBox';
 import { isValidDateValue } from '@testing-library/user-event/dist/utils';
 
 
@@ -60,6 +62,11 @@ function UserProfile() {
   const [visaError, setVisaError] = useState("Please Select Visa")
   const [cvError, setCvError] = useState("Please Upload CV")
   const [coverLetterError, setCoverLetterError] = useState("Please Upload Cover Letter")
+  const [jobTitleError, setJobTitleError] = useState("Please Enter Job Title")
+  const [educationProviderError, setEducationProviderError] = useState("Please Enter Education Provider")
+  const [certificateNameError, setCertificateNameError] = useState("Please Enter Certificate Name")
+  const [licenseNameError, setLicenseNameError] = useState("Please Enter license Name")
+
 
   const [isCvUploaded, setisCvUploaded] = useState(false)
   const [isCoverUploaded, setisCoverUploaded] = useState(false)
@@ -78,6 +85,10 @@ function UserProfile() {
     coverLetter: false,
     fromDate: false,
     toDate: false,
+    jobTitle:false,
+    educationProvider:false,
+    licenseName:false,
+    certificateName:false,
   })
 
 
@@ -267,6 +278,7 @@ function UserProfile() {
     }
     if (name == "availability") {
       setAvailability(!availability)
+      
     }
     if (name == "visaExpiry") {
       setVisaExpiry(event.target.value)
@@ -392,10 +404,11 @@ function UserProfile() {
       isValid = false;
     } else {
       obj = { ...obj, lastName: false }
-      isValid = true;
+      if(isValid){isValid = true;}
     }
-
-    if (email == "") {
+console.log(email);
+    if (typeof email === 'undefined' || email == "") {
+      console.log('kkkkkk');
       obj = { ...obj, email: true }
       isValid = false;
     }
@@ -405,7 +418,7 @@ function UserProfile() {
     }
     else {
       obj = { ...obj, email: false }
-      isValid = true;
+      if(isValid){isValid = true;}
     }
 
 
@@ -415,7 +428,7 @@ function UserProfile() {
     }
     else {
       obj = { ...obj, personal: false }
-      isValid = true;
+      if(isValid){isValid = true;}
     }
 
 
@@ -427,7 +440,7 @@ function UserProfile() {
     }
     else {
       obj = { ...obj, showProfile: false }
-      isValid = true;
+      if(isValid){isValid = true;}
     }
 
     if (visa == "") {
@@ -436,7 +449,7 @@ function UserProfile() {
     }
     else {
       obj = { ...obj, visa: false }
-      isValid = true;
+      if(isValid){isValid = true;}
     }
 
 
@@ -447,7 +460,7 @@ function UserProfile() {
     }
     else {
       obj = { ...obj, cv: false }
-      isValid = true;
+      if(isValid){isValid = true;}
     }
 
     if (coverLetter == null) {
@@ -456,10 +469,53 @@ function UserProfile() {
     }
     else {
       obj = { ...obj, coverLetter: false }
-      isValid = true;
+      if(isValid){isValid = true;}
     }
+    if(works.length > 1){
+    works.map((x) => {
+     if(x.jobTitle == "")
+      {
+        obj = { ...obj, jobTitle: true }
+        isValid = false;
+      }
+    });
+    if(isValid){isValid = true;}
+  }
 
+  if(education.length > 1){
+    education.map((x) => {
+     if(x.educationProvider == "")
+      {
+        obj = { ...obj, educationProvider: true }
+        isValid = false;
+      }
+    });
+    if(isValid){isValid = true;}
+  }
 
+  
+  if(licences.length > 1){
+    licences.map((x) => {
+     if(x.licenseName == "")
+      {
+        obj = { ...obj, licenseName: true }
+        isValid = false;
+      }
+    });
+    if(isValid){isValid = true;}
+  }
+
+  
+  if(certificates.length > 1){
+    certificates.map((x) => {
+     if(x.certificateName == "")
+      {
+        obj = { ...obj, certificateName: true }
+        isValid = false;
+      }
+    });
+    if(isValid){isValid = true;}
+  }
     setErrors(obj);
 
     
@@ -535,6 +591,7 @@ function UserProfile() {
         userService.uploadCoverLetter(fd1).then((res) => {
           
           userData.coverLetter = res.data.filename;
+          console.log(userData);
           userService.update(userId, userData)
             .then(response => {
               
@@ -749,11 +806,10 @@ function UserProfile() {
 
                                   <div className="col-md-9">
                                     <div className="form-group row">
-                                      <label className="col-sm-3 col-form-label">Description</label>
-                                      <div className="col-sm-12">
-                                        <textarea type="text" className="form-control" value={work.description} onChange={(event) => handleWorks("description", event.target.value, work, index)} ></textarea>
-
-                                      </div>
+                                     
+                                        <DescriptionBox value={work.description} functionName={handleWorks} arrayName={work} index={index} />
+                                    
+                                     
                                     </div>
                                   </div>
                                   <div className="col-md-2">
@@ -767,6 +823,8 @@ function UserProfile() {
                             </div>)
                         })
                       }
+                      {errors && errors.jobTitle && <div className="error text-danger"> {jobTitleError}</div>}
+                   
                       {!workDate && <div className='text-danger px-4 pb-3'>From date cannot be after To date </div>}
 
 
@@ -799,17 +857,19 @@ function UserProfile() {
                                 </div>
 
                                 <div className="col-md-3">
+                                  <ValidInNZBox validInNZ= {edu.validInNZ} functionName = {handleEducation} arrayName={edu} index={index} />
+  {/* 
                                   <label className="col-sm-12 col-form-label"><small>Valid in NZ?</small></label>
                                   <input type="text" className="form-control" value={edu.validInNZ} onChange={(event) => handleEducation("validInNZ", event.target.value, edu, index)} />
-                                </div>
+                          */}
+                                  </div>
                                 <div className="row">
                                   <div className="col-md-9">
                                     <div className="form-group row">
-                                      <label className="col-sm-3 col-form-label">Description</label>
-                                      <div className="col-sm-12">
-                                        <textarea type="text" className="form-control" value={edu.description} onChange={(event) => handleEducation("description", event.target.value, edu, index)}  ></textarea>
-
-                                      </div>
+                                     
+                                            <DescriptionBox value={edu.description} functionName={handleEducation} arrayName={edu} index={index} />
+                                    
+                                    
                                     </div>
                                   </div>
 
@@ -825,7 +885,7 @@ function UserProfile() {
                           )
                         })
                       }
-
+ {errors && errors.educationProvider && <div className="error text-danger"> {educationProviderError}</div>}
 
 
 
@@ -866,18 +926,12 @@ function UserProfile() {
                                   <input type="date" className="form-control" value={licence.expiryDate} onChange={(event) => handleLicenses("expiryDate", event.target.value, licence, index)} />
                                 </div>
                                 <div className="col-md-2">
-                                  <label className="col-sm-12 col-form-label"><small>Valid in NZ?</small></label>
-
-                                  <input type="text" className="form-control" value={licence.validInNZ} onChange={(event) => handleLicenses("validInNZ", event.target.value, licence, index)} />
+                                <ValidInNZBox validInNZ= {licence.validInNZ} functionName = {handleLicenses} arrayName={licence} index={index} />
                                 </div>
                                 <div className="row">
                                   <div className="col-md-9">
                                     <div className="form-group row">
-                                      <label className="col-sm-3 col-form-label">Description</label>
-                                      <div className="col-sm-12">
-                                        <textarea type="text" className="form-control" value={licence.description} onChange={(event) => handleLicenses("description", event.target.value, licence, index)} ></textarea>
-
-                                      </div>
+                                    <DescriptionBox value={licence.description} functionName={handleLicenses} arrayName={licence} index={index} />
                                     </div>
                                   </div>
 
@@ -893,6 +947,7 @@ function UserProfile() {
                         })
 
                       }
+                      {errors && errors.licenseName && <div className="error text-danger"> {licenseNameError}</div>}
                       {!licenceDate && <div className='text-danger px-4 pb-3'>From date cannot be after To date </div>}
 
 
@@ -936,19 +991,14 @@ function UserProfile() {
                                   <input type="date" className="form-control" value={certificate.expiryDate} onChange={(event) => handleCertificates("expiryDate", event.target.value, certificate, index)} />
                                 </div>
                                 <div className="col-md-2">
-                                  <label className="col-sm-12 col-form-label"><small>Valid in NZ?</small></label>
-
-                                  <input type="text" className="form-control" value={certificate.validInNZ} onChange={(event) => handleCertificates("validInNZ", event.target.value, certificate, index)} />
+                                <ValidInNZBox validInNZ= {certificate.validInNZ} functionName = {handleCertificates} arrayName={certificate} index={index} />
+                                 
                                 </div>
                                 <div className="row">
                                   <div className="col-md-9">
                                     <div className="form-group row">
-                                      <label className="col-sm-3 col-form-label">Description</label>
-                                      <div className="col-sm-12">
-                                        <textarea type="text" className="form-control" value={certificate.description} onChange={(event) => handleCertificates("description", event.target.value, certificate, index)}  ></textarea>
-
-                                      </div>
-                                    </div>
+                                    <DescriptionBox value={certificate.description} functionName={handleCertificates} arrayName={certificate} index={index} />
+                               </div>
                                   </div>
 
                                   <div className="col-md-2">
@@ -964,7 +1014,7 @@ function UserProfile() {
                           )
                         })
                       }
-
+                      {errors && errors.certificateName && <div className="error text-danger"> {certificateNameError}</div>}
                       {!certificateDate && <div className='text-danger px-4 pb-3'>From date cannot be after To date </div>}
 
 
@@ -993,7 +1043,8 @@ function UserProfile() {
                     <div className="col-12">
                       <div className="form-group row">
                         <div className="col-6 px-2">
-                          <input type="radio" class="mx-2"   checked={availability == "true"} value={availability} onChange={(event) => chnageOut("availability", event)} />
+                        {console.log(availability)} 
+                          <input type="checkbox" class="mx-2" checked={availability} value={availability} onChange={(event) => chnageOut("availability", event)} />
                           Immediately
 
                         </div>
