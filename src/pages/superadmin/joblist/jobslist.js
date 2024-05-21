@@ -1,41 +1,58 @@
 import { useEffect, useState } from "react"
+import http from "../../../helpers/http";
 
 import Footer from "../../../layouts/superadmin/Footer";
 import Header from "../../../layouts/superadmin/Header";
 import Sidebar from "../../../layouts/superadmin/Sidebar";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 
 
 
 const JobsListSuperAdmin = () => {
-
     const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
 
+    const [adminList, setAdminList] = useState([])
 
+
+    const [allSelectBox, setAllSelectBox] = useState(false)
     const [selectedJobs, setSelectedJobs] = useState([])
+    const [searchValue, setSearchValue] = useState()
 
 
     const navigate = useNavigate()
 
     const [table, setTable] = useState(null)
-    const [msg, setMsg] = useState(false)
-
+    const [msg, setMsg] = useState({
+        show: false,
+        class: "",
+        message: ""
+    })
+    const [jobs, setJobs] = useState(null)
 
     useEffect(() => {
-        axios.get("http://localhost:8080/jobs/all")
-            .then((res) => setTable(res.data))
+        http.get("/jobs/all")
+            .then((res) => {
+                setJobs(res.data)
+                setTable(res.data)
+            })
+            .catch(err => console.log(err))
+
+        http.get("/users/admins/all")
+            .then((res) => setAdminList(res.data))
+            .catch(err => console.log(err))
     }, [])
 
     const handleAllSelect = (e) => {
         if (e.target.checked) {
+            setAllSelectBox(true)
             let alljobs = []
             table.map(job => {
                 alljobs.push(job._id)
             })
             setSelectedJobs(alljobs)
         } else {
+            setAllSelectBox(false)
             setSelectedJobs([])
         }
 
@@ -43,6 +60,7 @@ const JobsListSuperAdmin = () => {
     }
 
     const handleCheckbox = (id, e) => {
+        setAllSelectBox(false)
         if (selectedJobs.includes(id)) {
             let removedJob = selectedJobs.filter((job) => job !== id)
             setSelectedJobs(removedJob)
@@ -50,28 +68,72 @@ const JobsListSuperAdmin = () => {
         } else {
             setSelectedJobs([...selectedJobs, id])
         }
-        console.log(selectedJobs)
+
     }
 
 
-    function handleAssign(job) {
-        const data = {
-            adminId: userId,
-            jobId: job._id,
-            jobsDto: job
+
+    const handleSearch = (value) => {
+        if ((value).trim() === "") {
+            setTable(jobs)
+        } else {
+            let admins = adminList.filter(admin => (admin.first_name + " " + admin.last_name).toLowerCase().includes(value.toLowerCase()))
+            let filteredJobs = []
+            admins.map((admin) => {
+                jobs.map(job => {
+                    if (job.adminId === admin._id) {
+                        filteredJobs.push(job)
+                    }
+                })
+            })
+
+            setTable(filteredJobs)
+
         }
 
-        axios.post("http://localhost:8080/jobs/assign", data)
-            .then(response => {
-                if (response && response.status) {
-                    setMsg(true)
-                    setTimeout(() => {
-                        navigate("/admin/myasignjobs")
-                    }, 2000)
-                }
-            })
     }
 
+
+    function handleRelease() {
+        if (selectedJobs.length === 0) {
+            setMsg({
+                show: true,
+                class: "alert alert-danger",
+                message: "Please Select a Job"
+
+            })
+            setTimeout(() => {
+                setMsg({ ...msg, show: false })
+            }, 1200);
+        } else {
+            let jobsData = []
+
+
+            selectedJobs.forEach((Selectjob) => {
+                jobs.forEach((job) => {
+                    if (job._id === Selectjob) {
+                        const data = {
+                            adminId: userId,
+                            jobId: job._id,
+                            jobsDto: job
+                        }
+                        jobsData.push(data)
+                    }
+                })
+            })
+
+            http.post("/jobs/multi_release", jobsData)
+                .then(res => setTimeout(window.location.reload(), 2000))
+                .catch(err => {
+                    setMsg({
+                        show: true,
+                        class: "alert alert-danger",
+                        message: err.response.data.error
+                    })
+                })
+        }
+
+    }
 
 
 
@@ -100,27 +162,34 @@ const JobsListSuperAdmin = () => {
 
                         <div class="row">
                             <div class="col-12">
-                                {msg && <div class="alert alert-success" role="alert">
-                                    Job Assigned SuccessFully
 
-                                </div>}
+
+
 
                                 <div class="card-body  bg-white ">
+                                    {msg.show && <div class={msg.class} role="alert">
+                                        {msg.message}
+
+                                    </div>}
+                                    <div className="d-flex input-group p-3">
+                                        <input type="text" value={searchValue} onChange={(e) => handleSearch(e.target.value)} className="form-control " placeholder="Search By Admin Name" />
+                                        <button type="button" onClick={handleRelease} className="btn btn-outline-dark rounded mx-2">Release Jobs</button>
+                                    </div>
 
                                     <form class="form-sample">
                                         <div class="col">
 
-                                            <table class="table  " >
+                                            <table class="table" >
 
                                                 <thead>
                                                     <tr >
-                                                        <th><input type="checkbox" className="form-check-input" name="allSelect" onChange={(e) => { handleAllSelect(e) }} /><div className="mt-1">Select All</div></th>
+                                                        <th><input type="checkbox" className="form-check-input" name="allSelect" checked={allSelectBox} onChange={(e) => { handleAllSelect(e) }} /><div className="mt-1">Select All</div></th>
                                                         <th>Job id</th>
                                                         <th>Job Title</th>
                                                         <th>Company</th>
                                                         <th>Creation Date</th>
-                                                        {/* <th>View</th> */}
                                                         <th>Status</th>
+                                                        <th>By</th>
 
                                                     </tr>
 
@@ -143,10 +212,19 @@ const JobsListSuperAdmin = () => {
 
                                                                 </button></td> */}
                                                                 <td>
-                                                                    {job.status === "queue" && <button type="button" class="btn  btn-xs btn-outline-dark  col-12" >In Queue</button>}
-                                                                    {job.status === "review" && <button type="button" class="btn  btn-xs btn-outline-info  col-12" >Assigned</button>}
-                                                                    {job.status === "approved" && <button type="button" class="btn  btn-xs btn-outline-success  col-12" >Approved</button>}
-                                                                    {job.status === "rejected" && <button type="button" class="btn  btn-xs btn-outline-danger  col-12" >Rejected</button>}
+                                                                    {job.status === "queue" && <span class="badge badge-outline-dark col-12"> In Queue</span>}
+                                                                    {job.status === "review" && <span class="badge badge-outline-info col-12"> In Review</span>}
+                                                                    {job.status === "approved" && <span class="badge badge-success col-12"> Approved</span>}
+                                                                    {job.status === "rejected" && <span class="badge badge-danger col-12"> Rejected</span>}
+                                                                </td>
+                                                                <td>
+                                                                    {job.status === "queue" && <div>Not Assigned</div>}
+                                                                    {job.status !== "queue" && adminList.map(admin => {
+                                                                        if (job.adminId === admin._id) {
+                                                                            return <div>{admin.first_name + " " + admin.last_name}</div>
+                                                                        }
+                                                                    })}
+
                                                                 </td>
                                                             </tr>
                                                         })
