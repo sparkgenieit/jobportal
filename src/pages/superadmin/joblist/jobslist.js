@@ -122,15 +122,18 @@ const JobsListSuperAdmin = () => {
                 })
             })
 
-            http.post("/jobs/multi_release", jobsData)
-                .then(res => setTimeout(window.location.reload(), 2000))
-                .catch(err => {
-                    setMsg({
-                        show: true,
-                        class: "alert alert-danger",
-                        message: err.response.data.error
+            if (userId !== "") {
+                http.post("/jobs/multi_release", jobsData)
+                    .then(res => setTimeout(window.location.reload(), 2000))
+                    .catch(err => {
+                        setMsg({
+                            show: true,
+                            class: "alert alert-danger",
+                            message: err.response.data.error
+                        })
                     })
-                })
+            }
+
         }
 
     }

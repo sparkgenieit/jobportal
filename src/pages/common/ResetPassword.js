@@ -1,12 +1,9 @@
 
-import './forgetPassword.css';
-
-function ForgetPassword() {
-
+function ResetPassword() {
     return (
         <>
 
-            <div style={{ background: "#f2edf3", height: "80vh" }} class=" p-5 d-flex flex-column align-items-center justify-content-center">
+            <div class="content-wrapper d-flex flex-column align-items-center">
                 <div class="page-header">
                     <h3 class="page-title"> Forgot Password </h3>
                     {/* <nav aria-label="breadcrumb">
@@ -31,9 +28,8 @@ function ForgetPassword() {
                 </div>
             </div>
 
-
         </>
     );
 }
 
-export default ForgetPassword;
+export default ResetPassword;

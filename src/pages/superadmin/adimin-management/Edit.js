@@ -11,7 +11,7 @@ function AdminEdit({ currentAdmin }) {
     const [fname, setFname] = useState(currentAdmin.first_name);
     const [lname, setLname] = useState(currentAdmin.last_name);
     const [email, setEmail] = useState(currentAdmin.email);
-    const [password, setPassword] = useState(currentAdmin.password);
+    const [password, setPassword] = useState();
     const [firstnameError, setFirstnameError] = useState("Please Enter First Name")
     const [lastnameError, setLastnameError] = useState("Please Enter Last Name")
     const [emailError, setEmailError] = useState("Please Enter Email ")
@@ -226,7 +226,7 @@ function AdminEdit({ currentAdmin }) {
                                             <div className='row'>
                                                 <div className="col-md-12">
                                                     <div className="form-group row">
-                                                        <label className="col-sm-4 col-form-label">Password</label>
+                                                        <label className="col-sm-4 col-form-label"> Reset Password</label>
                                                         <div className="col-sm-8">
                                                             <input type="password" value={password} onChange={(event) => handleInput('password', event)} className="form-control" />
                                                             {errors && errors.password && <div className="error text-danger">{passwordError}</div>}

@@ -7,6 +7,7 @@ import Sidebar from '../../../layouts/superadmin/Sidebar';
 import Footer from '../../../layouts/superadmin/Footer';
 import axios from 'axios';
 import AdminEdit from './Edit';
+import http from '../../../helpers/http';
 
 
 const List = () => {
@@ -16,15 +17,41 @@ const List = () => {
   const [editAdmin, setEditAdmin] = useState(false)
   const [Msg, SetMsg] = useState(false)
   const [message, setMessage] = useState("")
+  const itemsPerPage = 1;
+  const [totalItems, setTotalItems] = useState([])
+  const [pgNumber, setPgNumber] = useState({ show: false })
 
   useEffect(() => {
-    axios.get("http://localhost:8080/users/admins/all")
-      .then((res) => setAdminList(res.data))
+    axios.get(`http://localhost:8080/users/admins/all?limit=${itemsPerPage}`)
+      .then((res) => {
+        setAdminList(res.data.jobs)
+        setTotalItems(new Array(Math.ceil(res.data.total / itemsPerPage)).fill(1))
+      })
   }, [])
 
   function handleAdmin(admin) {
     setCurrentAdmin(admin);
     setEditAdmin(true)
+  }
+
+  const itemsToShow = (pageNumber) => {
+    setPgNumber({
+      show: true,
+      count: pageNumber + 1
+    })
+    const skip = pageNumber * itemsPerPage
+
+    http.get(`/users/admins/all?limit=${itemsPerPage}&skip=${skip}`)
+      .then((res) => setAdminList(res.data.jobs))
+      .catch(err => {
+        SetMsg(true)
+        setMessage(err.message)
+
+        setTimeout(() => {
+          SetMsg(false)
+        }, 1200);
+      })
+
   }
 
   function deleteAdmin(admin) {
@@ -98,17 +125,17 @@ const List = () => {
                               <tr className='text-center'>
                                 <th>Id</th>
                                 <th>Email</th>
-                                <th>Password</th>
+
                                 <th>Action</th>
                               </tr>
                             </thead>
                             <tbody className='text-center'>
-                              {
+                              {adminList && adminList.length > 0 &&
                                 adminList.map((admin, index) => {
                                   return <tr key={index}>
                                     <td>{admin._id}</td>
                                     <td>{admin.email}</td>
-                                    <td>{admin.password}</td>
+
                                     <td>
                                       <a type="button" onClick={() => handleAdmin(admin)} class="btn btn-white btn-xs border m-1"><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="13" class="bi bi-pencil" viewBox="0 0 16 16">
                                         <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" /></svg></span></a>
@@ -125,7 +152,20 @@ const List = () => {
                           </table>
                         </div>
                       </form>
+                      {pgNumber.show && <div className='mt-3 text-center'>Page {pgNumber.count}</div>}
+                      <div className='d-flex mt-3  justify-content-center gap-3'>
+                        {totalItems && totalItems.length > 1 && totalItems.map((page, index) => {
+                          return <>
+                            <button type='button' onClick={() => { itemsToShow(index) }} className=' btn btn-xs btn-outline-primary'>{index + 1}</button>
+                          </>
+                        })
+
+                        }
+
+
+                      </div>
                     </div>
+
                   </div>
                 </div>
               </div>

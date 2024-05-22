@@ -161,7 +161,7 @@ function UserLogin() {
                 <button type="button" onClick={() => login()} class="btn btn-primary btn-lg"
                   style={{ "paddingLeft": "2.5rem", "paddingRight": "2.5rem" }}>Login</button>
               </div>
-              <a href="#!" class="text-body">Forgot password?</a>
+              <a href="/forgotPassword" class="text-body">Forgot password?</a>
             </div>
 
 
