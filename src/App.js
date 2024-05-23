@@ -78,6 +78,7 @@ import EditCategory from "./pages/superadmin/categories/EditCategory";
 import EditJob from "./pages/company/jobs/EditJob";
 import JobsListSuperAdmin from "./pages/superadmin/joblist/jobslist";
 import ForgetPassword from "./pages/common/forgetPassword";
+import ResetPassword from "./pages/common/ResetPassword";
 
 
 
@@ -133,8 +134,9 @@ function App() {
       <Route path="/common/Marketing" element={(token && role == 'user') ? <Marketing /> : <Marketing />} />
       <Route path="/common/GraphicDesign" element={(token && role == 'user') ? <GraphicDesign /> : <GraphicDesign />} />
       <Route path="/common/plans" element={(token && role == 'user') ? <Plans /> : <Plans />} />
-      <Route path="/forgotPassword" element={<ForgetPassword />} />
 
+      <Route path="/forgotPassword" element={<ForgetPassword />} />
+      <Route path="/resetPassword/:email" element={<ResetPassword />} />
 
       <Route path="/common/SingleJob/:id" element={(token && role == 'user') ? <SingleJob /> : <SingleJob />} />
 
