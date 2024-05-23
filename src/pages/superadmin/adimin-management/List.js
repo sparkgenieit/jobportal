@@ -8,6 +8,10 @@ import Footer from '../../../layouts/superadmin/Footer';
 import axios from 'axios';
 import AdminEdit from './Edit';
 import http from '../../../helpers/http';
+import Pagination from '../../../components/Pagination';
+import Loader from '../../../components/Loader';
+import { itemsPerPage } from '../../../helpers/constants';
+
 
 
 const List = () => {
@@ -17,15 +21,19 @@ const List = () => {
   const [editAdmin, setEditAdmin] = useState(false)
   const [Msg, SetMsg] = useState(false)
   const [message, setMessage] = useState("")
-  const itemsPerPage = 1;
+
   const [totalItems, setTotalItems] = useState([])
-  const [pgNumber, setPgNumber] = useState({ show: false })
+  const [pgNumber, setPgNumber] = useState(1)
+  const [IsLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/users/admins/all?limit=${itemsPerPage}`)
+    http.get(`/users/admins/all?limit=${itemsPerPage}&skip=0`)
       .then((res) => {
         setAdminList(res.data.jobs)
-        setTotalItems(new Array(Math.ceil(res.data.total / itemsPerPage)).fill(1))
+        let total = []
+        new Array(Math.ceil(res.data.total / itemsPerPage)).fill(1).forEach((arr, index) => total.push({ number: index + 1 }))
+        setTotalItems(total)
+
       })
   }, [])
 
@@ -35,14 +43,18 @@ const List = () => {
   }
 
   const itemsToShow = (pageNumber) => {
-    setPgNumber({
-      show: true,
-      count: pageNumber + 1
-    })
-    const skip = pageNumber * itemsPerPage
+    setIsLoading(true)
+    setPgNumber(pageNumber)
+    const skip = (pageNumber - 1) * itemsPerPage
+
 
     http.get(`/users/admins/all?limit=${itemsPerPage}&skip=${skip}`)
-      .then((res) => setAdminList(res.data.jobs))
+      .then((res) => {
+        setTimeout(() => {
+          setIsLoading(false)
+          setAdminList(res.data.jobs)
+        }, 500)
+      })
       .catch(err => {
         SetMsg(true)
         setMessage(err.message)
@@ -57,7 +69,7 @@ const List = () => {
   function deleteAdmin(admin) {
     const adminId = admin._id
 
-    axios.delete(`http://localhost:8080/users/admin/delete/${adminId}`)
+    http.delete(`/users/admin/delete/${adminId}`)
       .then((res) => {
         SetMsg(true);
         setMessage("Admin Deleted Successfully")
@@ -79,7 +91,7 @@ const List = () => {
   return (<>
     {!editAdmin &&
       <div className="container-scroller">
-
+        {IsLoading && <Loader />}
         {/* <Header /> */}
         {/* <Header /> */}
         <Header />
@@ -90,6 +102,7 @@ const List = () => {
 
 
           <div class="main-panel">
+
             <div class="content-wrapper">
               <div class="page-header">
                 <h3 class="page-title"> Admin-Management </h3>
@@ -114,6 +127,8 @@ const List = () => {
                       {Msg && <div class="alert alert-danger" role="alert">
                         {message}
                       </div>}
+
+
 
 
 
@@ -152,18 +167,8 @@ const List = () => {
                           </table>
                         </div>
                       </form>
-                      {pgNumber.show && <div className='mt-3 text-center'>Page {pgNumber.count}</div>}
-                      <div className='d-flex mt-3  justify-content-center gap-3'>
-                        {totalItems && totalItems.length > 1 && totalItems.map((page, index) => {
-                          return <>
-                            <button type='button' onClick={() => { itemsToShow(index) }} className=' btn btn-xs btn-outline-primary'>{index + 1}</button>
-                          </>
-                        })
 
-                        }
-
-
-                      </div>
+                      <Pagination totalPages={totalItems} onPageClick={itemsToShow} currentPage={pgNumber} pageNumberToShow={2} />
                     </div>
 
                   </div>

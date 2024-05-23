@@ -6,9 +6,6 @@ import Header from "../../../layouts/superadmin/Header";
 import Sidebar from "../../../layouts/superadmin/Sidebar";
 import { useNavigate } from "react-router-dom";
 
-
-
-
 const JobsListSuperAdmin = () => {
     const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
 
