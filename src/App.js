@@ -136,7 +136,7 @@ function App() {
       <Route path="/common/plans" element={(token && role == 'user') ? <Plans /> : <Plans />} />
 
       <Route path="/forgotPassword" element={<ForgetPassword />} />
-      <Route path="/resetPassword/:email" element={<ResetPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
 
       <Route path="/common/SingleJob/:id" element={(token && role == 'user') ? <SingleJob /> : <SingleJob />} />
 

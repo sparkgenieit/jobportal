@@ -2,10 +2,18 @@
 import { useState } from 'react';
 
 import http from '../../helpers/http';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 function ResetPassword() {
-    const params = useParams()
+    const [searchParams, setSearchParams] = useSearchParams()
+    const email = searchParams.get("email")
+    const token = searchParams.get("token")
+    const [message, setMessage] = useState({
+        show: false,
+        class: "",
+        text: ""
+    })
+    const navigate = useNavigate()
 
     const [PasswordError, setPasswordError] = useState("")
     const [password, setPassword] = useState("")
@@ -13,13 +21,37 @@ function ResetPassword() {
 
 
     const handleSubmit = () => {
-        if (password === "") {
-            setPasswordError("Please type your Email")
+        if (password === "" || confirmPassword === "") {
+            setPasswordError("Please type your Password")
+
+        } else if (password !== confirmPassword) {
+            setPasswordError("Password do not Match")
 
         } else {
-            http.post(`/users/reset-password/${params.email}`, { password: password })
-                .then((res) => console.log(res))
-                .catch(err => console.log(err))
+            const data = { password: password }
+            http.patch(`/users/reset-password?email=${email}&token=${token}`, data)
+                .then((res) => {
+                    setMessage({
+                        show: true,
+                        class: "alert alert-success",
+                        text: "Password Changed Successfully"
+                    })
+                    setTimeout(() => {
+                        navigate('/')
+                    }, 1200);
+
+                })
+                .catch(err => {
+                    console.log(err)
+                    setMessage({
+                        show: true,
+                        class: "alert alert-danger",
+                        text: err.response ? err.response.statusText : err.message
+                    })
+                    setTimeout(() => {
+                        setMessage({ ...message, show: false })
+                    }, 3000);
+                })
         }
     }
 
@@ -36,19 +68,22 @@ function ResetPassword() {
                             </ol>
                         </nav> */}
                 </div>
+                {message.show && <div className={message.class}>{message.text}</div>
+
+                }
 
                 <div class="input-group my-2 row">
-                    <label class="col-sm-4 text-center col-form-label">Type your Email Id</label>
+                    <label class="col-sm-4 text-center col-form-label">Password</label>
                     <div className='col-sm-8'>
-                        <input type="email" value={password} onChange={(e) => { setPassword(e.target.value); setPasswordError("") }} class="form-control" />
+                        <input type="password" value={password} onChange={(e) => { setPassword(e.target.value); setPasswordError("") }} class="form-control" />
 
                     </div>
 
                 </div>
                 <div class="input-group my-2 row">
-                    <label class="col-sm-4 text-center col-form-label">Type your Email Id</label>
+                    <label class="col-sm-4 text-center col-form-label">Confirm Password</label>
                     <div className='col-sm-8'>
-                        <input type="email" value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value); setPasswordError("") }} class="form-control" />
+                        <input type="text" value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value); setPasswordError("") }} class="form-control" />
                         <div className='text-danger'>{PasswordError}</div>
                     </div>
 

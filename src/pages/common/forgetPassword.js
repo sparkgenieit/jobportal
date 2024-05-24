@@ -32,10 +32,10 @@ function ForgetPassword() {
         } else if (!validateEmailAddress(email)) {
             setEmailError("Not an Email")
         } else {
-            http.post("/users/forgot-password", { email: email })
+            const data = { email: email }
+            http.post("/users/forgot-password", data)
                 .then((res) => {
-                    let link = `<a href="http://localhost:3000/resetPassword/${email}">Link</a>`
-                    console.log(link)
+                    console.log(res.data.url)
                 })
                 .catch(err => setEmailError(err.response.data.message))
         }
