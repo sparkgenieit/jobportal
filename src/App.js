@@ -144,6 +144,7 @@ function App() {
       <Route path="/admin/Jobqueuelist" element={(token && role == 'admin') ? <Jobqueuelist /> : <Login />} />
       <Route path="/admin/Myasignjobs" element={(token && role == 'admin') ? <Myasignjobs /> : <Login />} />
       <Route path="/admin/login" element={(token && role == 'admin') ? <Login /> : <AdminHome />} />
+      <Route path="/plans" element={(token && role == 'admin') ? <Plans /> : <Plans />} />
 
 
 

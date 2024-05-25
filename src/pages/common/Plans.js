@@ -3,6 +3,7 @@ import Footer from "../../layouts/common/Footer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import http from "../../helpers/http";
 
 function Plans({ mydata }) {
     const [msg, setMsg] = useState({
@@ -13,7 +14,15 @@ function Plans({ mydata }) {
 
 
     const navigate = useNavigate();
-    const choocePlan = (plan) => {
+    const choocePlan = (plan, price) => {
+        const data = {
+            plan: plan,
+            price: price
+        }
+
+        http.post('/stripe/create-checkout-session', data)
+            .then(res => window.location.href = res.data.url)
+            .catch(err => console.log(err.message))
 
         if (mydata) {
 
@@ -29,17 +38,17 @@ function Plans({ mydata }) {
                         planName: plan
                     }
                     // To place the order
-                    axios.post('http://localhost:8080/orders/create', data)
-                        .then(response => {
-                            setMsg({
-                                view: true,
-                                message: "Order Placed Successfully",
-                                class: "alert alert-success"
-                            })
-                            setTimeout(() => {
-                                navigate('/company/JobList')
-                            }, 2000);
-                        })
+                    return axios.post('http://localhost:8080/orders/create', data)
+                })
+                .then(response => {
+                    setMsg({
+                        view: true,
+                        message: "Order Placed Successfully",
+                        class: "alert alert-success"
+                    })
+                    setTimeout(() => {
+                        navigate('/company/JobList')
+                    }, 2000);
                 })
                 .catch(err => setMsg({
                     view: true,
@@ -74,7 +83,7 @@ function Plans({ mydata }) {
                                     <li className="list-group-item"> &#10060; Description Space </li>
 
                                 </ul>
-                                <button type="button" className="btn btn-success  mt-5 p-3" onClick={() => choocePlan("Basic")}>SELECT PACKAGE</button>
+                                <button type="button" className="btn btn-success  mt-5 p-3" onClick={() => choocePlan("Basic", 2.99)}>SELECT PACKAGE</button>
                             </div>
                         </div>
                     </div>
@@ -91,7 +100,7 @@ function Plans({ mydata }) {
                                     <li className="list-group-item"> &#9989; Text Space Goes Here</li>
                                     <li className="list-group-item"> &#10060; Description Space </li>
                                 </ul>
-                                <button type="button" className="btn btn-primary mt-5 p-3" onClick={() => choocePlan("Standard")}>SELECT PACKAGE</button>
+                                <button type="button" className="btn btn-primary mt-5 p-3" onClick={() => choocePlan("Standard", 5.99)}>SELECT PACKAGE</button>
                             </div>
                         </div>
                     </div>
@@ -108,7 +117,7 @@ function Plans({ mydata }) {
                                     <li className="list-group-item"> &#9989; Text Space Goes Here   </li>
                                     <li className="list-group-item"> &#9989; Description Space </li>
                                 </ul>
-                                <button type="button" className="btn btn-warning mt-5 p-3" onClick={() => choocePlan("Premium")}>SELECT PACKAGE</button>
+                                <button type="button" className="btn btn-warning mt-5 p-3" onClick={() => choocePlan("Premium", 10.99)}>SELECT PACKAGE</button>
                             </div>
                         </div>
                     </div>
