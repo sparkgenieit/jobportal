@@ -32,7 +32,7 @@ const List = () => {
         setAdminList(res.data.jobs)
         let total = []
         new Array(Math.ceil(res.data.total / itemsPerPage)).fill(1).forEach((arr, index) => total.push({ number: index + 1 }))
-        setTotalItems(total)
+        setTotalItems(res.data.total)
 
       })
   }, [])
@@ -168,7 +168,7 @@ const List = () => {
                         </div>
                       </form>
 
-                      <Pagination totalPages={totalItems} onPageClick={itemsToShow} currentPage={pgNumber} pageNumberToShow={2} />
+                      <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={pgNumber} pageNumberToShow={2} />
                     </div>
 
                   </div>

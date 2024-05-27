@@ -79,6 +79,8 @@ import EditJob from "./pages/company/jobs/EditJob";
 import JobsListSuperAdmin from "./pages/superadmin/joblist/jobslist";
 import ForgetPassword from "./pages/common/forgetPassword";
 import ResetPassword from "./pages/common/ResetPassword";
+import CheckoutForm from "./pages/billing/CheckoutForm";
+import PaymentStatus from "./pages/billing/PaymentStatus";
 
 
 
@@ -133,7 +135,8 @@ function App() {
       <Route path="/common/ProductManagement" element={(token && role == 'user') ? <ProductManagement /> : <ProductManagement />} />
       <Route path="/common/Marketing" element={(token && role == 'user') ? <Marketing /> : <Marketing />} />
       <Route path="/common/GraphicDesign" element={(token && role == 'user') ? <GraphicDesign /> : <GraphicDesign />} />
-      <Route path="/common/plans" element={(token && role == 'user') ? <Plans /> : <Plans />} />
+      <Route path="/checkout-page" element={(token && role == 'user') ? <CheckoutForm /> : <CheckoutForm />} />
+      <Route path="/payment-status" element={(token && role == 'user') ? <PaymentStatus /> : <PaymentStatus />} />
 
       <Route path="/forgotPassword" element={<ForgetPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
