@@ -6,6 +6,9 @@ import axios from "axios";
 import Joblist from "../../company/jobs/JobList";
 import SingleJobAdmin from "./SingleJobAdmin";
 import { useNavigate } from "react-router-dom";
+import { itemsPerPage } from "../../../helpers/constants";
+import http from "../../../helpers/http";
+import Pagination from "../../../components/Pagination";
 
 function Myasignjobs() {
     const [assignJobs, setAssignJobs] = useState(null)
@@ -16,13 +19,32 @@ function Myasignjobs() {
     const [releaseError, setReleaseError] = useState(false)
     const [jobData, setJobData] = useState()
     const navigate = useNavigate()
-
-
+    const [totalItems, setTotalItems] = useState("")
+    const [pgNumber, setPgNumber] = useState(1)
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/jobs/assignedJobs/${userId}`)
-            .then((response) => setAssignJobs(response.data))
+        http.get(`/jobs/assignedJobs/${userId}?limit=${itemsPerPage}&skip=0`)
+            .then((response) => {
+                setTotalItems(response.data.total)
+                setAssignJobs(response.data.jobs)
+            })
     }, [])
+
+    const itemsToShow = (pageNumber) => {
+        setPgNumber(pageNumber)
+        const skip = (pageNumber - 1) * itemsPerPage
+        http.get(`/jobs/assignedJobs/${userId}?limit=${itemsPerPage}&skip=${skip}`)
+            .then((res) => {
+                setTimeout(() => {
+                    setAssignJobs(res.data.jobs)
+                }, 500)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+    }
+
 
     function handleApprove(job) {
         const data = {
@@ -58,8 +80,6 @@ function Myasignjobs() {
                     setTimeout(() => {
                         window.location.reload();
                     }, 1000)
-
-
                 }
             })
 
@@ -201,6 +221,8 @@ function Myasignjobs() {
                                             </div>
 
                                         </form>
+                                        <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={pgNumber} pageNumberToShow={2} />
+
                                     </div>
 
                                 </div>

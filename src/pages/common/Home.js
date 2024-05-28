@@ -3,9 +3,9 @@ import './Home.css';
 import Header from '../../layouts/common/Header';
 import Footer from '../../layouts/common/Footer';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-
 import { useNavigate } from 'react-router-dom';
+import { itemsPerPage } from '../../helpers/constants';
+import http from '../../helpers/http';
 
 function Home() {
     const [jobs, setJobs] = useState(null)
@@ -21,8 +21,8 @@ function Home() {
 
 
     useEffect(() => {
-        axios.get("http://localhost:8080/jobs/approved")
-            .then((response) => { setJobs(response.data) })
+        http.get(`/jobs/approved?limit=${itemsPerPage}&skip=0`)
+            .then((response) => { setJobs(response.data.jobs) })
     }, [])
 
 
@@ -247,15 +247,20 @@ function Home() {
 
 
                                         })}
+                                    <div className='d-flex justify-content-end text-decoration-underline text-primary '>
+                                        <a href='/common/Jobs'>View All Jobs</a>
+                                    </div>
 
                                 </div>
 
                             </div>
                         </div>
 
+
                     </div>
                 </div>
             </section>
+
 
         </main>
         <Footer />

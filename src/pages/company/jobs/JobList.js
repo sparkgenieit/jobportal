@@ -2,18 +2,43 @@ import { useEffect, useState } from "react";
 import Footer from "../../../layouts/company/Footer";
 import Header from "../../../layouts/company/Header";
 import Sidebar from "../../../layouts/company/Sidebar";
-import axios from "axios";
+import http from "../../../helpers/http";
+import { itemsPerPage } from "../../../helpers/constants";
+import Pagination from '../../../components/Pagination';
 
 function Joblist() {
     const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
+    const [totalItems, setTotalItems] = useState("")
+    const [pgNumber, setPgNumber] = useState(1)
 
 
     const [assignJobs, setAssignJobs] = useState(null);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/jobs/postedJobs/" + userId)
-            .then((response) => setAssignJobs(response.data))
+        http.get(`/jobs/postedJobs/${userId}?limit=${itemsPerPage}&skip=0`)
+            .then((response) => {
+                setTotalItems(response.data.total)
+                setAssignJobs(response.data.jobs)
+            })
     }, [])
+
+
+    const itemsToShow = (pageNumber) => {
+        setPgNumber(pageNumber)
+        const skip = (pageNumber - 1) * itemsPerPage
+
+
+        http.get(`/jobs/postedJobs/${userId}?limit=${itemsPerPage}&skip=${skip}`)
+            .then((res) => {
+                setTimeout(() => {
+                    setAssignJobs(res.data.jobs)
+                }, 500)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+    }
 
 
     return (
@@ -88,6 +113,8 @@ function Joblist() {
                                             </div>
 
                                         </form>
+                                        <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={pgNumber} pageNumberToShow={2} />
+
                                     </div>
 
                                 </div>

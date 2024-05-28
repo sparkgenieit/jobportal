@@ -5,25 +5,43 @@ import Header from "../../../layouts/admin/Header";
 import Sidebar from "../../../layouts/admin/Sidebar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-
-
+import { itemsPerPage } from "../../../helpers/constants";
+import http from "../../../helpers/http";
+import Pagination from "../../../components/Pagination";
 
 const Jobqueuelist = () => {
-
     const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
-
-
     const navigate = useNavigate()
-
+    const [totalItems, setTotalItems] = useState("")
+    const [pgNumber, setPgNumber] = useState(1)
     const [table, setTable] = useState(null)
     const [msg, setMsg] = useState(false)
 
-
     useEffect(() => {
-        axios.get("http://localhost:8080/jobs/queue")
-            .then((res) => setTable(res.data))
+        http.get(`/jobs/queue?limit=${itemsPerPage}&skip=0`)
+            .then((res) => {
+                setTable(res.data.jobs)
+                setTotalItems(res.data.total)
+            })
     }, [])
+
+
+    const itemsToShow = (pageNumber) => {
+        setPgNumber(pageNumber)
+        const skip = (pageNumber - 1) * itemsPerPage
+        http.get(`/jobs/queue?limit=${itemsPerPage}&skip=${skip}`)
+            .then((res) => {
+                setTimeout(() => {
+                    setTable(res.data.jobs)
+                }, 500)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+    }
+
+
 
     function handleAssign(job) {
         const data = {
@@ -124,6 +142,8 @@ const Jobqueuelist = () => {
                                         </div>
 
                                     </form>
+                                    <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={pgNumber} pageNumberToShow={2} />
+
                                 </div>
 
                             </div>

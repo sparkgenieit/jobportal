@@ -29,7 +29,7 @@ const List = () => {
   useEffect(() => {
     http.get(`/users/admins/all?limit=${itemsPerPage}&skip=0`)
       .then((res) => {
-        setAdminList(res.data.jobs)
+        setAdminList(res.data.admins)
         let total = []
         new Array(Math.ceil(res.data.total / itemsPerPage)).fill(1).forEach((arr, index) => total.push({ number: index + 1 }))
         setTotalItems(res.data.total)

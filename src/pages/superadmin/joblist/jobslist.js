@@ -5,11 +5,15 @@ import Footer from "../../../layouts/superadmin/Footer";
 import Header from "../../../layouts/superadmin/Header";
 import Sidebar from "../../../layouts/superadmin/Sidebar";
 import { useNavigate } from "react-router-dom";
+import { itemsPerPage } from "../../../helpers/constants";
+import Pagination from "../../../components/Pagination";
 
 const JobsListSuperAdmin = () => {
     const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
 
     const [adminList, setAdminList] = useState([])
+    const [totalItems, setTotalItems] = useState("")
+    const [pgNumber, setPgNumber] = useState(1)
 
 
     const [allSelectBox, setAllSelectBox] = useState(false)
@@ -28,15 +32,16 @@ const JobsListSuperAdmin = () => {
     const [jobs, setJobs] = useState(null)
 
     useEffect(() => {
-        http.get("/jobs/all")
+        http.get(`/jobs/all?limit=${itemsPerPage}&skip=0`)
             .then((res) => {
-                setJobs(res.data)
-                setTable(res.data)
+                setJobs(res.data.jobs)
+                setTable(res.data.jobs)
+                setTotalItems(res.data.total)
             })
             .catch(err => console.log(err))
 
         http.get("/users/admins/all")
-            .then((res) => setAdminList(res.data))
+            .then((res) => setAdminList(res.data.admins))
             .catch(err => console.log(err))
     }, [])
 
@@ -90,6 +95,23 @@ const JobsListSuperAdmin = () => {
 
     }
 
+    const itemsToShow = (pageNumber) => {
+        setPgNumber(pageNumber)
+        const skip = (pageNumber - 1) * itemsPerPage
+
+
+        http.get(`/jobs/all?limit=${itemsPerPage}&skip=${skip}`)
+            .then((res) => {
+                setTimeout(() => {
+                    setTable(res.data.jobs)
+                }, 500)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+    }
+
 
     function handleRelease() {
         if (selectedJobs.length === 0) {
@@ -107,7 +129,7 @@ const JobsListSuperAdmin = () => {
 
 
             selectedJobs.forEach((Selectjob) => {
-                jobs.forEach((job) => {
+                table.forEach((job) => {
                     if (job._id === Selectjob) {
                         const data = {
                             adminId: userId,
@@ -118,6 +140,7 @@ const JobsListSuperAdmin = () => {
                     }
                 })
             })
+            console.log(jobsData)
 
             if (userId !== "") {
                 http.post("/jobs/multi_release", jobsData)
@@ -196,7 +219,7 @@ const JobsListSuperAdmin = () => {
                                                     {table && table.length > 0 &&
                                                         table.map((job, index) => {
                                                             return <tr key={index}>
-                                                                <td><input type="checkbox" checked={selectedJobs.includes(job._id)} onChange={(e) => handleCheckbox(job._id, e)} className="form-check-input" /></td>
+                                                                <td>{job.status !== "queue" && <input type="checkbox" checked={selectedJobs.includes(job._id)} onChange={(e) => handleCheckbox(job._id, e)} className="form-check-input" />}</td>
                                                                 <td>{job._id}</td>
                                                                 <td>{job.jobTitle}</td>
                                                                 <td>{job.company}</td>
@@ -236,6 +259,8 @@ const JobsListSuperAdmin = () => {
                                         </div>
 
                                     </form>
+                                    <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={pgNumber} pageNumberToShow={2} />
+
                                 </div>
 
                             </div>

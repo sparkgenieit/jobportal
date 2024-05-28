@@ -3,8 +3,10 @@ import './Home.css';
 import Header from '../../layouts/common/Header';
 import Footer from '../../layouts/common/Footer';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useSearchParams } from 'react-router-dom';
+import http from '../../helpers/http';
+import { itemsPerPage } from '../../helpers/constants';
+import Pagination from '../../components/Pagination';
 
 function Jobs() {
     const [jobs, setJobs] = useState(null)
@@ -12,18 +14,22 @@ function Jobs() {
     const company = searchParams.get("company")
     const location = searchParams.get("location")
     const searchJob = searchParams.get("job")
+    const [totalItems, setTotalItems] = useState("")
+    const [pgNumber, setPgNumber] = useState(1)
+
 
     useEffect(() => {
-        axios.get("http://localhost:8080/jobs/approved")
+        http.get(`/jobs/approved?limit=${itemsPerPage}&skip=0`)
             .then((response) => {
                 // Checking if it is a search query or a normal jobs page
                 if (!company && !location && !searchJob) {
+                    setTotalItems(response.data.total)
 
-                    setJobs(response.data) // Displaying all jobs as it is not a search query
+                    setJobs(response.data.jobs) // Displaying all jobs as it is not a search query
 
                 }
                 else {  // if its a search query
-                    let allJobs = response.data
+                    let allJobs = response.data.jobs
                     let locationFilter = []
                     let jobFilter = []
                     let companyFilter = []
@@ -67,6 +73,23 @@ function Jobs() {
                 }
             })
     }, [])
+
+    const itemsToShow = (pageNumber) => {
+        setPgNumber(pageNumber)
+        const skip = (pageNumber - 1) * itemsPerPage
+
+
+        http.get(`/jobs/approved?limit=${itemsPerPage}&skip=${skip}`)
+            .then((res) => {
+                setTimeout(() => {
+                    setJobs(res.data.jobs)
+                }, 500)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+    }
 
 
 
@@ -168,6 +191,8 @@ function Jobs() {
 
 
                                         })}
+                                    <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={pgNumber} pageNumberToShow={2} />
+
 
                                 </div>
 
