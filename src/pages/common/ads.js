@@ -2,13 +2,14 @@
 import axios from 'axios';
 import './ads.css';
 import { useEffect, useState } from 'react';
+import http from '../../helpers/http';
 
 function Ads() {
   const [showAdvertisement, setShowAdvertisement] = useState(true);
   const [ad, setAd] = useState(null)
 
   useEffect(() => {
-    axios.get("http://localhost:8080/ads/all")
+    http.get("/ads/all")
       .then((response) => {
         let allAds = response.data
         const randomAd = Math.floor(Math.random() * allAds.length)

@@ -2,14 +2,14 @@ import Header from "../../../layouts/superadmin/Header";
 import Footer from "../../../layouts/superadmin/Footer";
 import Sidebar from "../../../layouts/superadmin/Sidebar";
 import { useEffect, useState } from "react";
-import axios from 'axios';
+import http from '../../../helpers/http'
 
 function OrdersList() {
 
     const [orders, setOrders] = useState(null)
 
     useEffect(() => {
-        axios.get('http://localhost:8080/orders/all')
+        http.get('/orders/all')
             .then((res) => setOrders(res.data))
     }, [])
 

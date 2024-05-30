@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { FallingLines } from "react-loader-spinner";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import http from "../../../helpers/http";
 
 
 function EditAd({ ad }) {
@@ -296,7 +297,7 @@ function EditAd({ ad }) {
 
             }
 
-            axios.put(`http://localhost:8080/ads/update/${ad._id}`, data)
+            http.put(`/ads/update/${ad._id}`, data)
                 .then((res) => {
                     setMsg(true)
                     setMessage("Ad Updated")

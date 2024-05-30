@@ -52,7 +52,7 @@ function Myasignjobs() {
             jobId: job._id,
             jobsDto: job
         }
-        axios.post("http://localhost:8080/jobs/approve", data)
+        http.post("/jobs/approve", data)
             .then((response) => {
                 if (response && response.status) {
                     setMsg(true);
@@ -72,7 +72,7 @@ function Myasignjobs() {
             jobId: job._id,
             jobsDto: job
         }
-        axios.post("http://localhost:8080/jobs/reject", data)
+        http.post("/jobs/reject", data)
             .then((response) => {
                 if (response && response.status) {
                     setError(true);
@@ -96,7 +96,7 @@ function Myasignjobs() {
             jobId: job._id,
             jobsDto: job
         }
-        axios.post("http://localhost:8080/jobs/release", data)
+        http.post("/jobs/release", data)
             .then((response) => {
                 if (response && response.status) {
                     setTimeout(() => {

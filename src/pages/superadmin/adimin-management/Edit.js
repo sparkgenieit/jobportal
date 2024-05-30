@@ -3,8 +3,8 @@ import Header from '../../../layouts/superadmin/Header';
 import Sidebar from '../../../layouts/superadmin/Sidebar';
 import Footer from '../../../layouts/superadmin/Footer';
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import http from "../../../helpers/http";
 
 
 function AdminEdit({ currentAdmin }) {
@@ -134,7 +134,7 @@ function AdminEdit({ currentAdmin }) {
             }
 
 
-            axios.put(`http://localhost:8080/users/admin/update/${currentAdmin._id}`, userDto)
+            http.put(`/users/admin/update/${currentAdmin._id}`, userDto)
                 .then((response) => {
                     if (response && response.status) {
                         setErrorMsg(false)

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { FallingLines } from "react-loader-spinner";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import http from "../../../helpers/http";
 
 
 function AddForms() {
@@ -277,7 +278,7 @@ function AddForms() {
 
             }
 
-            axios.post("http://localhost:8080/ads/create", data)
+            http.post("/ads/create", data)
                 .then((res) => {
                     setMsg(true)
                     setMessage("Ad Posted Successfully")

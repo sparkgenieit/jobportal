@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import companyService from '../../../services/common/company.service';
 import Accommodation from '../../common/Accommodation';
+import http from '../../../helpers/http';
 
 
 function EditJob() {
@@ -135,7 +136,7 @@ function EditJob() {
 
     useEffect(() => {
 
-        axios.get("http://localhost:8080/categories/all")
+        http.get("/categories/all")
             .then((res) => {
                 setCategoriesList(res.data)
                 let p = [];
@@ -149,7 +150,7 @@ function EditJob() {
 
             })
 
-        axios.get(`http://localhost:8080/jobs/${jobId}`)
+        http.get(`/jobs/${jobId}`)
             .then((res) => {
                 setDescription(res.data.description)
                 setCloseDate(res.data.closedate)
@@ -351,7 +352,7 @@ function EditJob() {
                 companyId: userId,
                 companyLogo: companyLogo
             }
-            axios.put(`http://localhost:8080/jobs/update/${jobId}`, data)
+            http.put(`/jobs/update/${jobId}`, data)
                 .then(response => {
                     if (response && response.status) {
                         setMessage({

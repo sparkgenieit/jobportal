@@ -3,6 +3,7 @@ import Header from "../../layouts/common/Header";
 import Sidebar from "../../layouts/common/Sidebar";
 import Footer from "../../layouts/common/Footer";
 import axios from "axios";
+import http from "../../helpers/http";
 
 function Myappliedjobs() {
     const [appliedjobs, setAppliedJobs] = useState(null)
@@ -11,12 +12,12 @@ function Myappliedjobs() {
     const userId = localStorage.getItem('user_id')
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/jobs/appliedjobs/${userId}`)
+        http.get(`/jobs/appliedjobs/${userId}`)
             .then((response) => {
                 setAppliedJobs(response.data)
             })
 
-        axios.get("http://localhost:8080/jobs/approved")
+        http.get("/jobs/approved")
             .then((res) => {
                 setAllJobs(res.data)
             })

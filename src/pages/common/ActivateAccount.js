@@ -14,15 +14,12 @@ export default function ActivateAccount() {
     useEffect(() => {
         http.post(`/users/activate-account?email=${email}&token=${token}`)
             .then((res) => {
-                console.log(res)
                 setLoading(false)
                 setMessage("Your account have been activated")
             })
             .catch(err => {
-
                 setLoading(false);
                 setMessage(err.response ? err.response.data.message : err.message)
-
             })
     }, [])
 

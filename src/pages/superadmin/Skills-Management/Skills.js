@@ -14,7 +14,7 @@ function Skills() {
     const [skillsList, setSkillsList] = useState(null)
     const navigate = useNavigate()
     useEffect(() => {
-        axios.get('http://localhost:8080/skills/all')
+        http.get('/skills/all')
             .then((res) => {
                 setSkillsList(res.data)
             })

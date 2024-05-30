@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import http from "../../helpers/http";
 
 
 
@@ -109,7 +110,7 @@ function Login() {
         role: 'admin'
       }
 
-      axios.post("http://localhost:8080/users/login", data)
+      http.post("/users/login", data)
         .then((response) => {
           console.log(response.data);
           localStorage.setItem('token', response.data.token);

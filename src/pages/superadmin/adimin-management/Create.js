@@ -5,6 +5,7 @@ import Footer from '../../../layouts/superadmin/Footer';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import http from "../../../helpers/http";
 
 
 function Create() {
@@ -133,7 +134,7 @@ function Create() {
         role: 'admin'
       }
 
-      axios.post("http://localhost:8080/users/register", data)
+      http.post("/users/register", data)
         .then((response) => {
           if (response && response.status) {
             setErrorMsg(false)

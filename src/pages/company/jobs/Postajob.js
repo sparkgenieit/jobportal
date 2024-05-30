@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import companyService from '../../../services/common/company.service';
 import Plans from '../../common/Plans';
+import http from '../../../helpers/http';
 
 
 function Postajob() {
@@ -133,7 +134,7 @@ function Postajob() {
   useEffect(() => {
 
 
-    axios.get("http://localhost:8080/categories/all")
+    http.get("/categories/all")
       .then((res) => {
         setCategoriesList(res.data)
         let p = [];

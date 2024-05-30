@@ -19,7 +19,7 @@ function Table() {
     })
 
     useEffect(() => {
-        axios.get("http://localhost:8080/ads/all")
+        http.get("/ads/all")
             .then((res) => setAdsList(res.data))
     }, [])
 

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react"
 import Footer from "../../../layouts/admin/Footer";
 import Header from "../../../layouts/admin/Header";
 import Sidebar from "../../../layouts/admin/Sidebar";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { itemsPerPage } from "../../../helpers/constants";
 import http from "../../../helpers/http";
@@ -50,7 +49,7 @@ const Jobqueuelist = () => {
             jobsDto: job
         }
 
-        axios.post("http://localhost:8080/jobs/assign", data)
+        http.post("/jobs/assign", data)
             .then(response => {
                 if (response && response.status) {
                     setMsg(true)

@@ -34,7 +34,7 @@ function EditSkill() {
     let id = params.id
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/skills/${id}`)
+        http.get(`/skills/${id}`)
             .then((res) => {
                 setSkillname(res.data.skill_name)
                 setSkillDomain(res.data.skill_dmain)

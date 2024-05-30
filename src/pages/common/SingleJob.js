@@ -48,7 +48,7 @@ function SingleJob() {
 
     useEffect(() => {
         if (userId) {
-            axios.get(`http://localhost:8080/jobs/appliedjobs/${userId}`)
+            http.get(`/jobs/appliedjobs/${userId}`)
                 .then((response) => {
                     if (response.data) {
                         response.data.map((j) => {
@@ -59,7 +59,7 @@ function SingleJob() {
                     }
                 })
 
-            axios.get(`http://localhost:8080/jobs/savedJobs/${userId}`)
+            http.get(`/jobs/savedJobs/${userId}`)
                 .then((response) => {
                     if (response.data) {
                         response.data.map((j) => {
@@ -70,7 +70,7 @@ function SingleJob() {
                     }
                 })
         }
-        axios.get(`http://localhost:8080/jobs/${params.id}`)
+        http.get(`/jobs/${params.id}`)
             .then((response) => {
                 setJobview(response.data)
                 setEmployerQuestions(JSON.parse(response.data.employerquestions))
@@ -93,7 +93,7 @@ function SingleJob() {
                 applied: true
             }
 
-            axios.post("http://localhost:8080/jobs/apply", data)
+            http.post("/jobs/apply", data)
                 .then((response) => {
                     setMessage({
                         showMsg: true,
@@ -134,7 +134,7 @@ function SingleJob() {
                 saved: true
             }
 
-            axios.post("http://localhost:8080/jobs/save", data)
+            http.post("/jobs/save", data)
                 .then((response) => {
                     setMessage({
                         showMsg: true,
