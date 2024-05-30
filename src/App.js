@@ -81,6 +81,7 @@ import ForgetPassword from "./pages/common/forgetPassword";
 import ResetPassword from "./pages/common/ResetPassword";
 import CheckoutForm from "./pages/billing/CheckoutForm";
 import PaymentStatus from "./pages/billing/PaymentStatus";
+import ActivateAccount from "./pages/common/ActivateAccount";
 
 
 
@@ -140,6 +141,7 @@ function App() {
 
       <Route path="/forgotPassword" element={<ForgetPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/activate-account" element={<ActivateAccount />} />
 
       <Route path="/common/SingleJob/:id" element={(token && role == 'user') ? <SingleJob /> : <SingleJob />} />
 
@@ -147,8 +149,6 @@ function App() {
       <Route path="/admin/Jobqueuelist" element={(token && role == 'admin') ? <Jobqueuelist /> : <Login />} />
       <Route path="/admin/Myasignjobs" element={(token && role == 'admin') ? <Myasignjobs /> : <Login />} />
       <Route path="/admin/login" element={(token && role == 'admin') ? <Login /> : <AdminHome />} />
-      <Route path="/plans" element={(token && role == 'admin') ? <Plans /> : <Plans />} />
-
 
 
 

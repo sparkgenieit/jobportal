@@ -8,13 +8,17 @@ import { useNavigate } from 'react-router-dom';
 import userService from '../../services/common/user.service';
 
 import { Hourglass } from "react-loader-spinner";
+import http from '../../helpers/http';
 
 function UserLogin() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({ email: '', password: '' })
 
+
+  const [errors, setErrors] = useState({ email: '', password: '' })
+  const [verifyStatus, setVerifyStatus] = useState(false)
+  const [verifybutton, setVerifybutton] = useState(false)
   const [loader, setLoader] = useState(false);
 
   const navigate = useNavigate();
@@ -36,6 +40,13 @@ function UserLogin() {
     } else {
       return false;
     }
+  }
+
+  const verify = () => {
+    http.post(`/users/verify-email?email=${email}`)
+      .then(res => {
+        setVerifyStatus(true)
+      })
   }
 
   const validatePhoneNumber = (inputtxt) => {
@@ -113,6 +124,10 @@ function UserLogin() {
               }
 
               if (e.response.data.message) {
+                if (e.response.data.message === 'User Not Activated') {
+                  setEmail(email)
+                  setVerifyStatus(true)
+                }
                 setErrors({ loginError: e.response.data.message });
               }
             } else {
@@ -138,6 +153,10 @@ function UserLogin() {
         <div class="col-12">
           {errors && errors.loginError && <div class="alert alert-danger" role="alert">
             {errors && errors.loginError}</div>}
+
+          {verifybutton && <div class="alert alert-danger" role="alert">
+            Email sent to your Address</div>}
+
           <form>
 
             <div class="form-outline mb-4">
@@ -161,6 +180,10 @@ function UserLogin() {
                 <button type="button" onClick={() => login()} class="btn btn-primary btn-lg"
                   style={{ "paddingLeft": "2.5rem", "paddingRight": "2.5rem" }}>Login</button>
               </div>
+              {verifyStatus && <div class="form-check mb-0">
+                <button type="button" onClick={() => verify()} class="btn btn-primary btn-lg"
+                  style={{ "paddingLeft": "2.5rem", "paddingRight": "2.5rem" }}>Verify</button>
+              </div>}
               <a href="/forgotPassword" class="text-body">Forgot password?</a>
             </div>
 

@@ -117,10 +117,10 @@ function UserRegistration() {
           // Store the token securely (e.g., in localStorage or HTTP-only cookies)
           localStorage.setItem('fullname', firstName + " " + lastName);
           localStorage.setItem('email', email);
-          setTimeout(() => {
-            // Inside the handleLogin function
-            navigate('/viewprofile'); // Redirect to the dashboard after login
-          }, 1500);
+          // setTimeout(() => {
+          //   // Inside the handleLogin function
+          //   navigate('/viewprofile'); // Redirect to the dashboard after login
+          // }, 1500);
 
         })
         .catch(e => {
@@ -159,7 +159,7 @@ function UserRegistration() {
           {errors && errors.registerError && <div class="alert alert-danger" role="alert">
             {errors && errors.registerError}</div>}
           {isRegister && <div class="alert alert-success" role="alert">
-            User Registered successfully!
+            Please verify your Email Address to use our services
           </div>}
           {!isRegister && <div>
             <form>

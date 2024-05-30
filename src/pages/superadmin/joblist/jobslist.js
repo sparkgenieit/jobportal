@@ -50,7 +50,9 @@ const JobsListSuperAdmin = () => {
             setAllSelectBox(true)
             let alljobs = []
             table.map(job => {
-                alljobs.push(job._id)
+                if (job.status === "queue") {
+                    alljobs.push(job._id)
+                }
             })
             setSelectedJobs(alljobs)
         } else {
@@ -130,7 +132,7 @@ const JobsListSuperAdmin = () => {
 
             selectedJobs.forEach((Selectjob) => {
                 table.forEach((job) => {
-                    if (job._id === Selectjob) {
+                    if (job._id === Selectjob && job.status === "queue") {
                         const data = {
                             adminId: userId,
                             jobId: job._id,
@@ -219,7 +221,7 @@ const JobsListSuperAdmin = () => {
                                                     {table && table.length > 0 &&
                                                         table.map((job, index) => {
                                                             return <tr key={index}>
-                                                                <td>{job.status !== "queue" && <input type="checkbox" checked={selectedJobs.includes(job._id)} onChange={(e) => handleCheckbox(job._id, e)} className="form-check-input" />}</td>
+                                                                <td>{job.status === "queue" && <input type="checkbox" checked={selectedJobs.includes(job._id)} onChange={(e) => handleCheckbox(job._id, e)} className="form-check-input" />}</td>
                                                                 <td>{job._id}</td>
                                                                 <td>{job.jobTitle}</td>
                                                                 <td>{job.company}</td>

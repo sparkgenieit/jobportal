@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import http from "../../helpers/http";
 import Loader from "../../components/Loader";
 
 export default function PaymentStatus() {
     const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate()
     const [amount, setAmount] = useState();
     const [status, setStatus] = useState();
     const [loading, setLoading] = useState(true)
@@ -27,7 +28,7 @@ export default function PaymentStatus() {
         }
     }, [])
 
-    const PostJob = () => {
+    const PostJob = async () => {
         setLoading(true)
         const Jobdata = JSON.parse(localStorage.getItem("Jobdata"));
         return http.post('/jobs/create', Jobdata) // To Post the Job
@@ -46,6 +47,7 @@ export default function PaymentStatus() {
             .then(response => {
                 localStorage.removeItem("Plan")
                 localStorage.removeItem("Jobdata")
+                navigate('/company/JobList')
 
             })
             .catch(err => console.log(err))
