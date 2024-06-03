@@ -76,7 +76,7 @@ function SingleJob() {
                 setEmployerQuestions(JSON.parse(response.data.employerquestions))
                 setTraining(JSON.parse(response.data.training))
                 setBenefits(getTrueKeys(JSON.parse(response.data.benifits)))
-                setJobType(getTrueKeys(JSON.parse(response.data.jobtype)))
+                setJobType(response.data.jobtype)
             })
     }, [])
 
@@ -217,7 +217,7 @@ function SingleJob() {
                                         </div>
                                         <div className="row my-4">
                                             <p className="col-3">Job Type :</p>
-                                            <p className="col-6">{jobType && jobType.map((j, index) => <span>{j}&nbsp;</span>)}</p>
+                                            <p className="col-6">{jobType}</p>
 
                                         </div>
                                         <div className="row my-4">

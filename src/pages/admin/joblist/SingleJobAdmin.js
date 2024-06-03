@@ -24,7 +24,7 @@ function SingleJobAdmin({ joblist, handleApprove, handleReject }) {
     }
 
     const [benefits, setBenefits] = useState(getTrueKeys(JSON.parse(joblist.benifits)))
-    const [jobType, setJobType] = useState(getTrueKeys(JSON.parse(joblist.jobtype)))
+    const [jobType, setJobType] = useState(joblist.jobtype)
 
     return (
         <>

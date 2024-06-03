@@ -19,7 +19,7 @@ function Myappliedjobs() {
 
         http.get("/jobs/approved")
             .then((res) => {
-                setAllJobs(res.data)
+                setAllJobs(res.data.jobs)
             })
     }, [])
 

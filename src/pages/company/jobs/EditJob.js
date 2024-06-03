@@ -22,14 +22,7 @@ function EditJob() {
     // const [jobCategory, setJobCategory] = useState('');
     // const [subCategory, setSubCategory] = useState('');
     const [jobTitle, setJobTitle] = useState('');
-    const [jobType, setJobType] = useState({
-        FullTime: false,
-        PartTime: false,
-        Contract: false,
-        Casual: false,
-        Freelance: false,
-        Temporary: false
-    });
+    const [jobType, setJobType] = useState("");
     const [vacancies, setVacancies] = useState('');
     const [creationDate, setCreationDate] = useState('');
     const [training, setTraining] = useState({
@@ -165,7 +158,7 @@ function EditJob() {
                 setJobCategory(res.data.jobCategory)
                 setSubCategory(res.data.subCategory)
                 setEmployerQuestions(JSON.parse(res.data.employerquestions))
-                setJobType(JSON.parse(res.data.jobtype))
+                setJobType(res.data.jobtype)
                 setBenifits(JSON.parse(res.data.benifits))
                 setTraining(JSON.parse(res.data.training))
 
@@ -246,7 +239,7 @@ function EditJob() {
             eObj = { ...eObj, jobTitleErrors: false };
         }
 
-        if (!jobType.FullTime && !jobType.PartTime && !jobType.Casual && !jobType.Freelance && !jobType.Temporary && !jobType.Contract) {
+        if (jobType === "") {
             valid = false;
             eObj = { ...eObj, jobTypeErrors: true };
         }
@@ -334,7 +327,7 @@ function EditJob() {
                 company: company,
                 closedate: closeDate,
                 creationdate: creationDate,
-                jobtype: JSON.stringify(jobType),
+                jobtype: jobType,
                 location: location,
                 employjobreference: empjobreference,
                 numberofvacancies: vacancies,
@@ -540,15 +533,6 @@ function EditJob() {
             setWeeklyPerHour(event.target.value)
         }
 
-
-
-
-
-
-
-
-
-
     }
     const validateDates = (creationDate, closeDate) => {
         if (new Date(creationDate) > new Date(closeDate)) {
@@ -562,27 +546,14 @@ function EditJob() {
 
     function handleCheckboxes(name, value) {
         if (name === "jobtype") {
-            if (value === "FullTime") {
-                setJobType({ ...jobType, FullTime: !jobType.FullTime })
+            let current = jobType;
+            if (jobType.includes(value)) {
+                current = current.replace(value, "")
+            } else {
+                current += " " + value
             }
-            if (value === "PartTime") {
-                setJobType({ ...jobType, PartTime: !jobType.PartTime })
-            }
-            if (value === "Contract") {
-                setJobType({ ...jobType, Contract: !jobType.Contract })
-            }
-            if (value === "Casual") {
-                setJobType({ ...jobType, Casual: !jobType.Casual })
-            }
-            if (value === "Freelance") {
-                setJobType({ ...jobType, Freelance: !jobType.Freelance })
-            }
-            if (value === "Temporary") {
-                setJobType({ ...jobType, Temporary: !jobType.Temporary })
-            }
-
-
-
+            console.log(current)
+            setJobType(current.trim())
         }
         if (name === "benefits") {
             if (value === "Accommodation") {
@@ -598,7 +569,6 @@ function EditJob() {
                 setBenifits({ ...benifits, Others: !benifits.Others })
             }
             console.log(benifits)
-
         }
         if (name === "training") {
             if (value === "Yes") {
@@ -686,21 +656,21 @@ function EditJob() {
                                                             <div class="col-sm-5">
                                                                 <div class="form-check">
 
-                                                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="FullTime" onChange={() => handleCheckboxes('jobtype', "FullTime")} checked={jobType.FullTime} /> FullTime
+                                                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="FullTime" onChange={() => handleCheckboxes('jobtype', "FullTime")} checked={jobType.includes("FullTime")} /> FullTime
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-sm-5">
                                                                 <div class="form-check">
 
-                                                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Casual" onChange={() => handleCheckboxes('jobtype', "Casual")} checked={jobType.Casual} /> Casual
+                                                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Casual" onChange={() => handleCheckboxes('jobtype', "Casual")} checked={jobType.includes("Casual")} /> Casual
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-sm-5">
                                                                 <div class="form-check">
 
-                                                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Freelance" onChange={() => handleCheckboxes('jobtype', "Freelance")} checked={jobType.Freelance} /> Freelance
+                                                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Freelance" onChange={() => handleCheckboxes('jobtype', "Freelance")} checked={jobType.includes("Freelance")} /> Freelance
                                                                 </div>
                                                             </div>
 
@@ -711,21 +681,21 @@ function EditJob() {
                                                             <div class="col-sm-5 mx-3">
                                                                 <div class="form-check">
 
-                                                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="PartTime" onChange={() => handleCheckboxes('jobtype', "PartTime")} checked={jobType.PartTime} /> PartTime
+                                                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="PartTime" onChange={() => handleCheckboxes('jobtype', "PartTime")} checked={jobType.includes("PartTime")} /> PartTime
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-sm-5 mx-3">
                                                                 <div class="form-check">
 
-                                                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Contract" onChange={() => handleCheckboxes('jobtype', "Contract")} checked={jobType.Contract} /> Contract
+                                                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Contract" onChange={() => handleCheckboxes('jobtype', "Contract")} checked={jobType.includes("Contract")} /> Contract
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-sm-5 mx-3">
                                                                 <div class="form-check">
 
-                                                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Temporary" onClick={() => handleCheckboxes('jobtype', "Temporary")} checked={jobType.Temporary} /> Temporary
+                                                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Temporary" onClick={() => handleCheckboxes('jobtype', "Temporary")} checked={jobType.includes("Temporary")} /> Temporary
                                                                 </div>
                                                             </div>
 
