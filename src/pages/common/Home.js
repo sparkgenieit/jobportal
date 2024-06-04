@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { itemsPerPage } from '../../helpers/constants';
 import http from '../../helpers/http';
+import Card from '../../components/Card';
 
 function Home() {
     const [jobs, setJobs] = useState(null)
@@ -18,13 +19,10 @@ function Home() {
     const [locationSuggestions, setLocationSuggestions] = useState(null)
     const [jobSuggestions, setJobSuggestions] = useState(null)
 
-
-
     useEffect(() => {
         http.get(`/jobs/approved?limit=${itemsPerPage}&skip=0`)
             .then((response) => { setJobs(response.data.jobs) })
     }, [])
-
 
     const handleInput = (name, event) => {
 
@@ -39,11 +37,7 @@ function Home() {
                     }
                 }
             })
-
             setCompanySuggestions(cmpy.slice(0, 3))
-
-
-
             if (event.target.value !== "") {
                 setSearchButton("")
             }
@@ -103,23 +97,16 @@ function Home() {
         }
     }
 
-
-
-
-
-
     const handleSearch = () => {
         // checking if the user has enter any one of the fields and trim is used because the user can enter a space and the condition will satisfy
         if (company.trim() === "" && location.trim() === "" && searchJob.trim() === "") {
             setSearchButton("border border-2 border-danger")
         } else {
-            navigate(`/common/Jobs?company=${company}&location=${location}&job=${searchJob}`)
+            navigate(`/common/Jobs?company=${company}&location=${location}&keyword=${searchJob}`)
         }
 
 
     }
-
-
 
     return <>
         <Header />
@@ -204,48 +191,14 @@ function Home() {
                                     <button class="btn btn-outline-light btn-sm "> Admin - My Jobs</button>
                                 </div>
                             </div>
-                            <div class="border rounded bg-light px-5 mb-3">
+                            <div class="border rounded  px-5 mb-3">
                                 <div class="row rounded p-3">
 
                                     {jobs && jobs.length > 0 &&
                                         jobs.map((job, index) => {
-                                            return <div key={index} class=" col-6 px-3 ">
-
-
-                                                <div class="row border shadow rounded container p-3 mb-4 bg-light">
-                                                    <div class="col-2">
-
-                                                        <img class="rounded" src={`http://localhost:8080/uploads/logos/${job.companyLogo}`} width="70px" height="50px" alt="" />
-
-
-                                                    </div>
-                                                    <div class="col-10 text-start px-4">
-                                                        <p class="h4">{job.jobTitle}</p>
-                                                        <p class="text-success">{job.location}</p>
-
-
-
-                                                    </div>
-
-                                                    <div class="d-flex justify-content-between">
-                                                        <div class="d-flex justify-content-between" style={{ "gap": "10px" }}>
-
-                                                            <button class="btn btn-secondary btn-sm" type="button">Content Writer</button>
-                                                            <button class="btn btn-secondary btn-sm" type="button">Sketch</button>
-                                                            <button class="btn btn-secondary btn-sm" type="button">PSD</button>
-
-                                                        </div>
-                                                        <div class="text-muted">
-                                                            <a class="btn primary" href={`/common/SingleJob/${job._id}`}>
-                                                                <button class="btn btn-primary" type="button">Apply</button>
-                                                            </a>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
+                                            return (
+                                                <Card key={index} job={job} />
+                                            )
                                         })}
                                     <div className='d-flex justify-content-end text-decoration-underline text-primary '>
                                         <a href='/common/Jobs'>View All Jobs</a>

@@ -159,6 +159,7 @@ function Myasignjobs() {
                                                             <th>Job Title</th>
                                                             <th>Company</th>
                                                             <th>Creation Date</th>
+
                                                             <th>    </th>
                                                             <th>    </th>
 
@@ -173,6 +174,7 @@ function Myasignjobs() {
                                                                     <td>{job.jobTitle}</td>
                                                                     <td>{job.company}</td>
                                                                     <td>{job.creationdate}</td>
+
 
                                                                     <td>
                                                                         <button onClick={() => handleJob(job)} type="button" class="btn btn-info btn-xs col-12 ">
@@ -194,7 +196,7 @@ function Myasignjobs() {
 
 
                                                                     <td>
-                                                                        {job.status !== "approved" && <button onClick={() => handleApprove(job)} type="button" class="btn btn-info btn-xs col-12  ">
+                                                                        {job.status !== "approved" && <button onClick={() => handleApprove(job)} type="button" class="btn btn-outline-info btn-xs col-12  ">
                                                                             Approve
                                                                         </button>}
                                                                         {job.status === "approved" && <button disabled type="button" class="btn btn-success btn-xs col-12  ">

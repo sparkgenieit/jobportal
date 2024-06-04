@@ -9,6 +9,8 @@ import axios from 'axios';
 import { useParams, useNavigate } from "react-router-dom";
 import Sidebar from '../../layouts/company/Sidebar';
 import http from '../../helpers/http';
+import { BASE_API_URL } from '../../helpers/constants';
+import { getTrueKeys } from '../../helpers/functions';
 
 function SingleJob() {
     const [isJobApplied, setIsJobApplied] = useState(false)
@@ -20,26 +22,11 @@ function SingleJob() {
     const [jobType, setJobType] = useState()
     const role = localStorage.getItem('role');
 
-    function getTrueKeys(obj) {
-        // Use Object.keys() to get all keys as an array
-        const keys = Object.keys(obj);
-
-        // Filter the keys using Array.filter() and a condition
-        const truekeys = keys.filter(key => obj[key] === true);
-
-        // This is because in benefits there is an others option with a text box
-        if (truekeys.includes("Others")) {
-            truekeys.push(obj.OthersText)
-        }
-
-        return truekeys
-
-    }
 
     const userId = localStorage.getItem('user_id');
     const [message, setMessage] = useState({
         showMsg: false,
-        msgClass: "alert alert-success",
+        msgclassName: "alert alert-success",
         Msg: ""
     })
     const navigate = useNavigate()
@@ -73,15 +60,9 @@ function SingleJob() {
         http.get(`/jobs/${params.id}`)
             .then((response) => {
                 setJobview(response.data)
-                setEmployerQuestions(JSON.parse(response.data.employerquestions))
-                setTraining(JSON.parse(response.data.training))
-                setBenefits(getTrueKeys(JSON.parse(response.data.benifits)))
-                setJobType(response.data.jobtype)
             })
+            .catch(err => setJobview(null))
     }, [])
-
-
-
 
     function handleApply() {
 
@@ -97,7 +78,7 @@ function SingleJob() {
                 .then((response) => {
                     setMessage({
                         showMsg: true,
-                        msgClass: "alert alert-success",
+                        msgclassName: "alert alert-success",
                         Msg: "Applied Successfully"
                     })
                     setTimeout(() => {
@@ -109,7 +90,7 @@ function SingleJob() {
                 .catch((e) => {
                     setMessage({
                         showMsg: true,
-                        msgClass: "alert alert-danger",
+                        msgclassName: "alert alert-danger",
                         Msg: e.response.data.message
                     })
                     setTimeout(() => {
@@ -120,7 +101,7 @@ function SingleJob() {
         } else {
             setMessage({
                 showMsg: true,
-                msgClass: "alert alert-danger",
+                msgclassName: "alert alert-danger",
                 Msg: 'Please login as User to apply job'
             })
         }
@@ -138,7 +119,7 @@ function SingleJob() {
                 .then((response) => {
                     setMessage({
                         showMsg: true,
-                        msgClass: "alert alert-success",
+                        msgclassName: "alert alert-success",
                         Msg: "Job Saved Successfully "
                     })
                     setTimeout(() => {
@@ -150,7 +131,7 @@ function SingleJob() {
                 .catch((e) => {
                     setMessage({
                         showMsg: true,
-                        msgClass: "alert alert-danger",
+                        msgclassName: "alert alert-danger",
                         Msg: e.response.data.message
                     })
                     setTimeout(() => {
@@ -160,7 +141,7 @@ function SingleJob() {
         } else {
             setMessage({
                 showMsg: true,
-                msgClass: "alert alert-danger",
+                msgclassName: "alert alert-danger",
                 Msg: 'Please login as User to save job'
             })
         }
@@ -170,150 +151,94 @@ function SingleJob() {
         <>
             <div className="container-scrollar">
                 <Header />
-                <div class="">
-
-                    <div lass="main-panel">
-                        {jobview && <div class="content-wrapper">
-
-
-                            <div class="row">
-
-
-                                <div class="col-12 bg-white rounded pt-3">
-                                    {message.showMsg && <div class={message.msgClass} role="alert">
-                                        {message.Msg}
-                                    </div>}
-                                    <div class="card-body px-4  ">
-                                        <div className="d-flex justify-content-end mt-4 gap-5">
-                                            {!isJobApplied && <button type='button' onClick={handleApply} className='btn btn-primary col-2'>Apply</button>}
-                                            {isJobApplied && <span style={{ color: 'green' }}>Job Applied</span>}
-                                            {!isJobSaved && <button type='button' onClick={handleSave} className='btn btn-outline-dark col-2 '>Save</button>}
-                                            {isJobSaved && <span style={{ color: 'green' }}>Job Saved</span>}
-                                        </div>
-
-
-                                        <div className="row ">
-                                            <p className="col-3">Job id :</p>
-                                            <p className="col-6">{jobview._id}</p>
-                                        </div>
-                                        <div className="row my-4">
-                                            <p className="col-3">Company :</p>
-                                            <p className="col-6">{jobview.company}</p>
-
-                                            <p><img class="rounded" src={`http://localhost:8080/uploads/logos/${jobview.companyLogo}`} width="70px" height="50px" alt="" /></p>
-
-                                        </div>
-                                        <div className="row my-4">
-                                            <p className="col-3">Location :</p>
-                                            <p className="col-6">{jobview.location}</p>
-                                        </div>
-                                        <div className="row my-4">
-                                            <p className="col-3">Creation Date :</p>
-                                            <p className="col-6">{jobview.creationdate}</p>
-                                        </div>
-                                        <div className="row my-4">
-                                            <p className="col-3">Closing Date :</p>
-                                            <p className="col-6">{jobview.closedate}</p>
-                                        </div>
-                                        <div className="row my-4">
-                                            <p className="col-3">Job Type :</p>
-                                            <p className="col-6">{jobType}</p>
-
-                                        </div>
-                                        <div className="row my-4">
-                                            <p className="col-3">Number of Vacancies :</p>
-                                            <p className="col-6">{jobview.numberofvacancies}</p>
-                                        </div>
-                                        <div className="row my-4">
-                                            <p className="col-3">Employer Job Reference :</p>
-                                            <p className="col-6">{jobview.employjobreference}</p>
-                                        </div>
-                                        <div className="row my-4">
-                                            <p className="col-3">Job Title :</p>
-                                            <p className="col-6">{jobview.jobTitle}</p>
-                                        </div>
-                                        <div className="row my-4">
-                                            <p className="col-3">Rate per Hour:</p>
-                                            <p className="col-6">{jobview.rateperhour}</p>
-                                        </div>
-                                        <div className="row my-4">
-                                            <p className="col-3">Duration :</p>
-                                            <p className="col-6">{jobview.duration}</p>
-                                        </div>
-                                        <div className="row my-4">
-                                            <p className="col-3">Job Category :</p>
-                                            <p className="col-6">{jobview.jobCategory}</p>
-                                        </div>
-                                        <div className="row my-4">
-                                            <p className="col-3">Job Sub-Category:</p>
-                                            <p className="col-6">{jobview.subCategory}</p>
-                                        </div>
-                                        <div className="row my-4">
-                                            <p className="col-3">Weekly Hours:</p>
-                                            <p className="col-6">{jobview.weeklyperhour}</p>
-                                        </div>
-
-                                        <div className="row my-4">
-                                            <p className="col-3">Job Benefits:</p>
-                                            <p className="col-6">{benefits && benefits.map((b, index) => {
-                                                if (b === "Others") {
-                                                    return
-                                                }
-                                                else {
-                                                    return <span>{b}&nbsp;</span>
-                                                }
-                                            }
-
-                                            )}</p>
-                                        </div>
-                                        <div className="row my-4">
-                                            <p className="col-3">Job Training:</p>
-                                            <div className="col-6">
-                                                <p >{training && training.status ? `Yes ${training.text}` : "No"}</p>
-                                            </div>
-
-                                        </div>
-
-                                        <div className="row my-4">
-                                            <p className="col-3">Description:</p>
-                                            <p className="col-6">{jobview.description}</p>
-                                        </div>
-                                        <div className="row my-4">
-                                            <p className="col-3">Employer Questions:</p>
-
-                                            <div className="col-6">
-                                                {employerQuestions && employerQuestions.map((question, index) => <p>{question.value}</p>)}
-                                            </div>
-                                        </div>
-
-                                        <div className="row my-4">
-                                            <p className="col-3">Employer Name:</p>
-                                            <p className="col-6">{jobview.company}</p>
-                                        </div>
-                                        <div className="row my-4">
-                                            <p className="col-3">Status:</p>
-                                            <p className="col-6">{jobview.status}</p>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-
-                            </div>
-
-
-                        </div>}
-
-
+                {message.showMsg &&
+                    <div className={message.msgclassName}>
+                        {message.Msg}
                     </div>
-
-
-
-                </div>
+                }
+                {jobview && <div className='container-fluid'>
+                    <div className='mb-3 px-3 py-2 row'>
+                        <div className='col-6'>
+                            <div className='h2'>{jobview.jobTitle}</div>
+                            <div className='text-muted mb-4'>{jobview.company}</div>
+                        </div>
+                        <div className='col-6'>
+                            <img src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt='' className='rounded d-block float-end' height="100px" width="100px" />
+                        </div>
+                        <hr />
+                    </div>
+                    <div className='rounded border p-3'>
+                        <div className='h6 row'>
+                            <p className='col-6'>Employment Information</p>
+                            <div className='col-6 d-flex justify-content-around'>
+                                {!isJobApplied && <button type='button' onClick={handleApply} className='btn btn-outline-primary rounded px-5 '>Apply</button>}
+                                {isJobApplied && <button type='button' disabled className='btn btn-primary rounded px-5 '>Applied</button>}
+                                {!isJobSaved && <button type='button' onClick={handleSave} className='btn btn-outline-dark rounded px-5 '>Save</button>}
+                                {isJobSaved && <button type='button' disabled className='btn btn-dark rounded px-5 '>Saved</button>}
+                            </div>
+                        </div>
+                        <hr />
+                        <div className='row justify-content-center'>
+                            <div className='col-6 row p-3'>
+                                <span className='text-muted col-6 justify-content-start'>Industry</span>
+                                <span className='fw-bold col-6 justify-content-start'>{jobview.jobCategory}/{jobview.subCategory}</span>
+                            </div>
+                            <div className='col-6 row p-3'>
+                                <span className='text-muted col-6 justify-content-start'>Rate Per Hour</span>
+                                <span className='fw-bold col-6 justify-content-start'>{jobview.rateperhour == "" ? "Not Specified" : jobview.rateperhour}</span>
+                            </div>
+                            <div className='col-6 row p-3'>
+                                <span className='text-muted col-6 justify-content-start'>Job Type</span>
+                                <span className='fw-bold col-6 justify-content-start'>{jobview.jobtype}</span>
+                            </div>
+                            <div className='col-6 row p-3'>
+                                <span className='text-muted col-6 justify-content-start'>Duration</span>
+                                <span className='fw-bold col-6 justify-content-start'>{jobview.duration}</span>
+                            </div>
+                            <div className='col-6 row p-3'>
+                                <span className='text-muted col-6 justify-content-start'>Creation Date</span>
+                                <span className='fw-bold col-6 justify-content-start'>{jobview.creationdate}</span>
+                            </div>
+                            <div className='col-6 row p-3'>
+                                <span className='text-muted col-6 justify-content-start'>Close Date</span>
+                                <span className='fw-bold col-6 justify-content-start'>{jobview.closedate.trim() == "" ? "Not Specified" : jobview.closedate}</span>
+                            </div>
+                            <div className='col-6 row p-3'>
+                                <span className='text-muted col-6 justify-content-start'>Location</span>
+                                <span className='fw-bold col-6 justify-content-start'>{jobview.location}</span>
+                            </div>
+                            <div className='col-6 row p-3'>
+                                <span className='text-muted col-6 justify-content-start'>Number of Vacancies</span>
+                                <span className='fw-bold col-6 justify-content-start'>{jobview.numberofvacancies}</span>
+                            </div>
+                            <div className='col-6 row p-3'>
+                                <span className='text-muted col-6 justify-content-start'>Weekly Hours</span>
+                                <span className='fw-bold col-6 justify-content-start'> {jobview.weeklyperhour?.trim() == "" ? "Not Specified" : jobview.weeklyperhour}</span>
+                            </div>
+                            <div className='col-6 row p-3'>
+                                <span className='text-muted col-6 justify-content-start'>Benefits</span>
+                                <span className='fw-bold col-6 justify-content-start'> {getTrueKeys(JSON.parse(jobview.benifits)) == "" ? "Not Specified" : getTrueKeys(JSON.parse(jobview.benifits))}</span>
+                            </div>
+                            <div className='col-6 row p-3'>
+                                <span className='text-muted col-6 justify-content-start'>Training</span>
+                                <span className='fw-bold col-6 justify-content-start'> {jobview.training.includes("true") ? `Provided ${JSON.parse(jobview.training).text}` : "Not Provided"}</span>
+                            </div>
+                            <div className='col-6 row p-3'>
+                                <span className='text-muted col-6 justify-content-start'>Employer Job Reference</span>
+                                <span className='fw-bold col-6 justify-content-start'> {jobview.employjobreference.trim() == "" ? "Not Specifed" : jobview.employjobreference}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='mt-4'>
+                        <div className='h3'> Job Description</div>
+                        <p>
+                            {jobview.description}
+                        </p>
+                    </div>
+                </div>}
                 <Footer />
 
-            </div>
+            </div >
         </>
     );
 }
