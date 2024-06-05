@@ -1,161 +1,67 @@
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import http from "../../../helpers/http";
+import Header from "../../../layouts/superadmin/Header";
+import Sidebar from "../../../layouts/superadmin/Sidebar";
+import Footer from "../../../layouts/superadmin/Footer";
+import { BASE_API_URL } from "../../../helpers/constants";
+import { getTrueKeys } from "../../../helpers/functions";
 
-import './SingleJob.css';
-
-import Header from '../../layouts/common/Header';
-import Footer from '../../layouts/common/Footer';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-
-import { useParams, useNavigate } from "react-router-dom";
-import Sidebar from '../../layouts/company/Sidebar';
-import http from '../../helpers/http';
-import { BASE_API_URL } from '../../helpers/constants';
-import { getTrueKeys } from '../../helpers/functions';
-
-function SingleJob() {
-    const [isJobApplied, setIsJobApplied] = useState(false)
-    const [isJobSaved, setIsJobSaved] = useState(false)
-    const [jobview, setJobview] = useState()
-    const [training, setTraining] = useState()
-    const [benefits, setBenefits] = useState()
-    const [employerQuestions, setEmployerQuestions] = useState()
-    const [jobType, setJobType] = useState()
-    const role = localStorage.getItem('role');
-
-
-    const userId = localStorage.getItem('user_id');
-    const [message, setMessage] = useState({
-        showMsg: false,
-        msgclassName: "alert alert-success",
-        Msg: ""
-    })
-    const navigate = useNavigate()
-
+export default function JobSuperAdmin() {
     const params = useParams();
+    const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
+    const [jobview, setJobview] = useState(null)
 
     useEffect(() => {
-        if (userId) {
-            http.get(`/jobs/appliedjobs/${userId}`)
-                .then((response) => {
-                    if (response.data) {
-                        response.data.map((j) => {
-                            if (params.id == j.jobId && j.applied == true) {
-                                setIsJobApplied(true);
-                            }
-                        })
-                    }
-                })
-
-            http.get(`/jobs/savedJobs/${userId}`)
-                .then((response) => {
-                    if (response.data) {
-                        response.data.map((j) => {
-                            if (params.id == j.jobId && j.saved == true) {
-                                setIsJobSaved(true);
-                            }
-                        })
-                    }
-                })
-        }
         http.get(`/jobs/${params.id}`)
             .then((response) => {
+                console.log(response)
                 setJobview(response.data)
             })
             .catch(err => setJobview(null))
     }, [])
 
-    function handleApply() {
-
-        if (userId && role === "user") {
-            const data = {
-                applied_date: new Date().toLocaleDateString('en-GB'),
-                userId: userId,
-                jobId: jobview._id,
-                applied: true
-            }
-
-            http.post("/jobs/apply", data)
-                .then((response) => {
-                    setMessage({
-                        showMsg: true,
-                        msgclassName: "alert alert-success",
-                        Msg: "Applied Successfully"
-                    })
-                    setTimeout(() => {
-                        navigate('/common/Myappliedjobs')
-                    }, 2000)
-                })
-
-
-                .catch((e) => {
-                    setMessage({
-                        showMsg: true,
-                        msgclassName: "alert alert-danger",
-                        Msg: e.response.data.message
-                    })
-                    setTimeout(() => {
-                        setMessage({ ...message, showMsg: false })
-                    }, 3000)
-                })
-
-        } else {
-            setMessage({
-                showMsg: true,
-                msgclassName: "alert alert-danger",
-                Msg: 'Please login as User to apply job'
-            })
+    function handleApprove(job) {
+        const data = {
+            adminId: userId,
+            jobId: job._id,
+            jobsDto: job
         }
-    }
-    function handleSave() {
-        if (userId && role === "user") {
-            const data = {
-                saved_date: new Date().toLocaleDateString('en-GB'),
-                userId: userId,
-                jobId: jobview._id,
-                saved: true
-            }
-
-            http.post("/jobs/save", data)
-                .then((response) => {
-                    setMessage({
-                        showMsg: true,
-                        msgclassName: "alert alert-success",
-                        Msg: "Job Saved Successfully "
-                    })
+        http.post("/jobs/approve", data)
+            .then((response) => {
+                if (response && response.status) {
                     setTimeout(() => {
-                        navigate('/common/Savedjobs')
-                    }, 2000)
-                })
-
-
-                .catch((e) => {
-                    setMessage({
-                        showMsg: true,
-                        msgclassName: "alert alert-danger",
-                        Msg: e.response.data.message
-                    })
-                    setTimeout(() => {
-                        setMessage({ ...message, showMsg: false })
-                    }, 3000)
-                })
-        } else {
-            setMessage({
-                showMsg: true,
-                msgclassName: "alert alert-danger",
-                Msg: 'Please login as User to save job'
-            })
-        }
-    }
-
-    return (
-        <>
-            <div className="container-scrollar">
-                <Header />
-                {message.showMsg &&
-                    <div className={message.msgclassName}>
-                        {message.Msg}
-                    </div>
+                        window.location.reload();
+                    }, 1000)
                 }
+            })
+
+
+    }
+
+    function handleReject(job) {
+        const data = {
+            adminId: userId,
+            jobId: job._id,
+            jobsDto: job
+        }
+        http.post("/jobs/reject", data)
+            .then((response) => {
+                if (response && response.status) {
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000)
+                }
+            })
+
+    }
+
+    return <>
+        <div className="container-scrollar">
+            <Header />
+            <div class="container-fluid page-body-wrapper">
+
+                <Sidebar />
                 {jobview && <div className='container-fluid'>
                     <div className='mb-3 px-3 py-2 row'>
                         <div className='col-6'>
@@ -171,10 +77,10 @@ function SingleJob() {
                         <div className='h6 row'>
                             <p className='col-6'>Employment Information</p>
                             <div className='col-6 d-flex justify-content-around'>
-                                {!isJobApplied && <button type='button' onClick={handleApply} className='btn btn-outline-primary rounded px-5 '>Apply</button>}
-                                {isJobApplied && <button type='button' disabled className='btn btn-primary rounded px-5 '>Applied</button>}
-                                {!isJobSaved && <button type='button' onClick={handleSave} className='btn btn-outline-dark rounded px-5 '>Save</button>}
-                                {isJobSaved && <button type='button' disabled className='btn btn-dark rounded px-5 '>Saved</button>}
+                                {jobview.status !== "approved" && <button type='button' onClick={() => handleApprove(jobview)} className='btn btn-outline-success rounded px-5 '>Approve</button>}
+                                {jobview.status === "approved" && <button type='button' disabled className='btn btn-success rounded px-5 '>Approved</button>}
+                                {jobview.status !== "rejected" && <button type='button' onClick={() => handleReject(jobview)} className='btn btn-outline-danger rounded px-5 '>Reject</button>}
+                                {jobview.status === "rejected" && <button type='button' disabled className='btn btn-danger rounded px-5 '>Rejected</button>}
                             </div>
                         </div>
                         <hr />
@@ -236,11 +142,11 @@ function SingleJob() {
                         </p>
                     </div>
                 </div>}
-                <Footer />
 
-            </div >
-        </>
-    );
+
+            </div>
+            <Footer />
+
+        </div >
+    </>
 }
-
-export default SingleJob;

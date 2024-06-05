@@ -13,7 +13,6 @@ import Card from '../../components/Card';
 
 function Jobs() {
     const [jobs, setJobs] = useState(null)
-    const navigate = useNavigate()
     const [searchParams, setSearchParams] = useSearchParams()
     const company = searchParams.get("company")
     const [categoriesList, setCategoriesList] = useState("")
@@ -24,6 +23,7 @@ function Jobs() {
     const [pgNumber, setPgNumber] = useState(searchParams.get("page") || 1)
     const filter = JSON.parse(localStorage.getItem("filter"))
     const [filterFields, setFilterFields] = useState(filter ? filter : {
+        company: null,
         search: null,
         location: null,
         jobtype: null,
@@ -35,6 +35,11 @@ function Jobs() {
     })
 
     useEffect(() => {
+        let currentFilters = { ...filterFields }
+        currentFilters.location = location;
+        currentFilters.company = company;
+        currentFilters.search = keyword;
+        setFilterFields(currentFilters)
         // To Fetch all the categories from the database
         http.get("/categories/all")
             .then((res) => {
@@ -51,13 +56,15 @@ function Jobs() {
 
         // To load to appropriate page regarding the filters and page Number
         const skip = (pgNumber - 1) * itemsPerPage
-        http.post(`/jobs/filtered-jobs?limit=${itemsPerPage}&skip=${skip}`, filterFields)
+        http.post(`/jobs/filtered-jobs?limit=${itemsPerPage}&skip=${skip}`, currentFilters)
             .then((res) => {
                 setTotalItems(res.data.total);
                 setJobs(res.data.jobs)
             })
             .catch(err => setTotalItems([]))
     }, [])
+
+
 
     const ResetFilter = () => {
         localStorage.removeItem("filter");
@@ -112,7 +119,7 @@ function Jobs() {
     }
 
     const itemsToShow = (pageNumber) => {
-        window.location.href = `http://localhost:3000/common/jobs?page=${pageNumber}`
+        window.location.href = `/common/jobs?page=${pageNumber}`
     }
 
     return <>

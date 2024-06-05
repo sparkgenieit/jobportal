@@ -104,8 +104,6 @@ function Home() {
         } else {
             navigate(`/common/Jobs?company=${company}&location=${location}&keyword=${searchJob}`)
         }
-
-
     }
 
     return <>

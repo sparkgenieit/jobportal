@@ -82,7 +82,7 @@ function SingleJobAdmin({ joblist, handleApprove, handleReject }) {
                                 </div>
                                 <div className='col-6 row p-3'>
                                     <span className='text-muted col-6 justify-content-start'>Weekly Hours</span>
-                                    <span className='fw-bold col-6 justify-content-start'> {jobview.weeklyperhour?.trim() == "" ? "Not Specified" : jobview.weeklyperhour}</span>
+                                    <span className='fw-bold col-6 justify-content-start'> {jobview.weeklyperhour == "" ? "Not Specified" : jobview.weeklyperhour}</span>
                                 </div>
                                 <div className='col-6 row p-3'>
                                     <span className='text-muted col-6 justify-content-start'>Benefits</span>

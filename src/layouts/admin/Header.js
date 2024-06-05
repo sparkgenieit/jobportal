@@ -2,12 +2,14 @@ import './Header.css';
 import './assets/css/style.css';
 import Head from './Head';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { SidebarContext } from '../../helpers/Context';
 
 
 function Heder() {
   const navigate = useNavigate()
   const [fullname, setFullname] = useState(localStorage.getItem('fullname') || '');
+  const { showSidebar, setShowSidebar } = useContext(SidebarContext);
 
 
   const handleLogout = () => {
@@ -20,12 +22,12 @@ function Heder() {
   return (
     <>
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        {showSidebar && <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
           <a lass="navbar-brand" href="/"><img height="100px" width="100px" src="/assets/images/logo.png"
             alt="logo" /></a>
-        </div>
+        </div>}
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
-          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+          <button class="navbar-toggler navbar-toggler align-self-center" onClick={() => setShowSidebar(!showSidebar)} type="button" data-toggle="minimize">
             <span class="mdi mdi-menu"></span>
           </button>
           <div class="search-field d-none d-md-block">
