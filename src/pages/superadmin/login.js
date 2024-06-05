@@ -154,7 +154,7 @@ function Login() {
 
       <div className="container-scroller">
         <div class="container-fluid content-wrapper page-body-wrapper">
-          <div class="main-panel container">
+          <div class="container-fluid container">
             <div className="content-wrapper">
               <div className="row">
                 <div className="col-12 bg-white">

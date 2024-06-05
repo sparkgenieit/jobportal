@@ -581,7 +581,7 @@ function Postajob() {
           <Header />
           <div className="container-fluid page-body-wrapper">
             <Sidebar />
-            <div className="main-panel ">
+            <div className="container-fluid ">
               <div className="content-wrapper">
                 <div className="page-header">
                   <h3 className="page-title"> Post a Job </h3>

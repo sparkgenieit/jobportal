@@ -85,10 +85,10 @@ function UserProfile() {
     coverLetter: false,
     fromDate: false,
     toDate: false,
-    jobTitle:false,
-    educationProvider:false,
-    licenseName:false,
-    certificateName:false,
+    jobTitle: false,
+    educationProvider: false,
+    licenseName: false,
+    certificateName: false,
   })
 
 
@@ -118,7 +118,7 @@ function UserProfile() {
 
     userService.get(userId)
       .then(response => {
-        
+
 
         setfirstName(response.data.first_name);
         setlastName(response.data.last_name);
@@ -157,9 +157,9 @@ function UserProfile() {
           setisCvUploaded(true)
           setCv(response.data.cv)
         }
-        
+
         if (response.data.coverLetter.length > 0) {
-          
+
           setisCoverUploaded(true)
           setCoverLetter(response.data.coverLetter)
         }
@@ -175,7 +175,7 @@ function UserProfile() {
   // On file select (from the pop up)
   const onFileChange = (event) => {
     const name = event.target.id;
-    
+
     if (name == 'cv') {
       setCv(event.target.files[0]);
     }
@@ -185,7 +185,7 @@ function UserProfile() {
     if (name == 'coverLetter') {
       setCoverLetter(event.target.files[0]);
     }
-    
+
   };
 
   // On file upload (click the upload button)
@@ -201,7 +201,7 @@ function UserProfile() {
     );
 
     // Details of the uploaded file
-    
+
 
     // Request made to the backend api
     // Send formData object
@@ -278,7 +278,7 @@ function UserProfile() {
     }
     if (name == "availability") {
       setAvailability(!availability)
-      
+
     }
     if (name == "visaExpiry") {
       setVisaExpiry(event.target.value)
@@ -384,12 +384,12 @@ function UserProfile() {
   }
 
   const SubmitData = () => {
-    
+
     let obj = {};
 
     let isValid = true;
 
-    
+
 
     if (!firstName || firstName == "") {
       obj = { ...obj, firstName: true }
@@ -404,9 +404,9 @@ function UserProfile() {
       isValid = false;
     } else {
       obj = { ...obj, lastName: false }
-      if(isValid){isValid = true;}
+      if (isValid) { isValid = true; }
     }
-console.log(email);
+    console.log(email);
     if (typeof email === 'undefined' || email == "") {
       console.log('kkkkkk');
       obj = { ...obj, email: true }
@@ -418,7 +418,7 @@ console.log(email);
     }
     else {
       obj = { ...obj, email: false }
-      if(isValid){isValid = true;}
+      if (isValid) { isValid = true; }
     }
 
 
@@ -428,7 +428,7 @@ console.log(email);
     }
     else {
       obj = { ...obj, personal: false }
-      if(isValid){isValid = true;}
+      if (isValid) { isValid = true; }
     }
 
 
@@ -440,7 +440,7 @@ console.log(email);
     }
     else {
       obj = { ...obj, showProfile: false }
-      if(isValid){isValid = true;}
+      if (isValid) { isValid = true; }
     }
 
     if (visa == "") {
@@ -449,7 +449,7 @@ console.log(email);
     }
     else {
       obj = { ...obj, visa: false }
-      if(isValid){isValid = true;}
+      if (isValid) { isValid = true; }
     }
 
 
@@ -460,7 +460,7 @@ console.log(email);
     }
     else {
       obj = { ...obj, cv: false }
-      if(isValid){isValid = true;}
+      if (isValid) { isValid = true; }
     }
 
     if (coverLetter == null) {
@@ -469,56 +469,52 @@ console.log(email);
     }
     else {
       obj = { ...obj, coverLetter: false }
-      if(isValid){isValid = true;}
+      if (isValid) { isValid = true; }
     }
-    if(works.length > 1){
-    works.map((x) => {
-     if(x.jobTitle == "")
-      {
-        obj = { ...obj, jobTitle: true }
-        isValid = false;
-      }
-    });
-    if(isValid){isValid = true;}
-  }
+    if (works.length > 1) {
+      works.map((x) => {
+        if (x.jobTitle == "") {
+          obj = { ...obj, jobTitle: true }
+          isValid = false;
+        }
+      });
+      if (isValid) { isValid = true; }
+    }
 
-  if(education.length > 1){
-    education.map((x) => {
-     if(x.educationProvider == "")
-      {
-        obj = { ...obj, educationProvider: true }
-        isValid = false;
-      }
-    });
-    if(isValid){isValid = true;}
-  }
+    if (education.length > 1) {
+      education.map((x) => {
+        if (x.educationProvider == "") {
+          obj = { ...obj, educationProvider: true }
+          isValid = false;
+        }
+      });
+      if (isValid) { isValid = true; }
+    }
 
-  
-  if(licences.length > 1){
-    licences.map((x) => {
-     if(x.licenseName == "")
-      {
-        obj = { ...obj, licenseName: true }
-        isValid = false;
-      }
-    });
-    if(isValid){isValid = true;}
-  }
 
-  
-  if(certificates.length > 1){
-    certificates.map((x) => {
-     if(x.certificateName == "")
-      {
-        obj = { ...obj, certificateName: true }
-        isValid = false;
-      }
-    });
-    if(isValid){isValid = true;}
-  }
+    if (licences.length > 1) {
+      licences.map((x) => {
+        if (x.licenseName == "") {
+          obj = { ...obj, licenseName: true }
+          isValid = false;
+        }
+      });
+      if (isValid) { isValid = true; }
+    }
+
+
+    if (certificates.length > 1) {
+      certificates.map((x) => {
+        if (x.certificateName == "") {
+          obj = { ...obj, certificateName: true }
+          isValid = false;
+        }
+      });
+      if (isValid) { isValid = true; }
+    }
     setErrors(obj);
 
-    
+
 
 
     if (isValid) {
@@ -586,15 +582,15 @@ console.log(email);
       const fd1 = new FormData();
       fd1.append('file', coverLetter)
       userService.uploadCV(fd).then((res) => {
-        
+
         userData.cv = res.data.filename;
         userService.uploadCoverLetter(fd1).then((res) => {
-          
+
           userData.coverLetter = res.data.filename;
           console.log(userData);
           userService.update(userId, userData)
             .then(response => {
-              
+
               window.scrollTo({ top: 10, behavior: "smooth" });
               setIsUpdated(true);
               setTimeout(() => {
@@ -676,7 +672,7 @@ console.log(email);
     <div class="container-fluid page-body-wrapper">
       <Sidebar />
 
-      <div class="main-panel bg-light">
+      <div class="container-fluid bg-light">
         {errors && errors.updateError && <div class="alert alert-danger" role="alert">
           {errors && errors.updateError}</div>}
         {isUpdated && <div class="alert alert-success" role="alert">
@@ -806,10 +802,10 @@ console.log(email);
 
                                   <div className="col-md-9">
                                     <div className="form-group row">
-                                     
-                                        <DescriptionBox value={work.description} functionName={handleWorks} arrayName={work} index={index} />
-                                    
-                                     
+
+                                      <DescriptionBox value={work.description} functionName={handleWorks} arrayName={work} index={index} />
+
+
                                     </div>
                                   </div>
                                   <div className="col-md-2">
@@ -824,7 +820,7 @@ console.log(email);
                         })
                       }
                       {errors && errors.jobTitle && <div className="error text-danger"> {jobTitleError}</div>}
-                   
+
                       {!workDate && <div className='text-danger px-4 pb-3'>From date cannot be after To date </div>}
 
 
@@ -857,19 +853,19 @@ console.log(email);
                                 </div>
 
                                 <div className="col-md-3">
-                                  <ValidInNZBox validInNZ= {edu.validInNZ} functionName = {handleEducation} arrayName={edu} index={index} />
-  {/* 
+                                  <ValidInNZBox validInNZ={edu.validInNZ} functionName={handleEducation} arrayName={edu} index={index} />
+                                  {/* 
                                   <label className="col-sm-12 col-form-label"><small>Valid in NZ?</small></label>
                                   <input type="text" className="form-control" value={edu.validInNZ} onChange={(event) => handleEducation("validInNZ", event.target.value, edu, index)} />
                           */}
-                                  </div>
+                                </div>
                                 <div className="row">
                                   <div className="col-md-9">
                                     <div className="form-group row">
-                                     
-                                            <DescriptionBox value={edu.description} functionName={handleEducation} arrayName={edu} index={index} />
-                                    
-                                    
+
+                                      <DescriptionBox value={edu.description} functionName={handleEducation} arrayName={edu} index={index} />
+
+
                                     </div>
                                   </div>
 
@@ -885,7 +881,7 @@ console.log(email);
                           )
                         })
                       }
- {errors && errors.educationProvider && <div className="error text-danger"> {educationProviderError}</div>}
+                      {errors && errors.educationProvider && <div className="error text-danger"> {educationProviderError}</div>}
 
 
 
@@ -926,12 +922,12 @@ console.log(email);
                                   <input type="date" className="form-control" value={licence.expiryDate} onChange={(event) => handleLicenses("expiryDate", event.target.value, licence, index)} />
                                 </div>
                                 <div className="col-md-2">
-                                <ValidInNZBox validInNZ= {licence.validInNZ} functionName = {handleLicenses} arrayName={licence} index={index} />
+                                  <ValidInNZBox validInNZ={licence.validInNZ} functionName={handleLicenses} arrayName={licence} index={index} />
                                 </div>
                                 <div className="row">
                                   <div className="col-md-9">
                                     <div className="form-group row">
-                                    <DescriptionBox value={licence.description} functionName={handleLicenses} arrayName={licence} index={index} />
+                                      <DescriptionBox value={licence.description} functionName={handleLicenses} arrayName={licence} index={index} />
                                     </div>
                                   </div>
 
@@ -991,14 +987,14 @@ console.log(email);
                                   <input type="date" className="form-control" value={certificate.expiryDate} onChange={(event) => handleCertificates("expiryDate", event.target.value, certificate, index)} />
                                 </div>
                                 <div className="col-md-2">
-                                <ValidInNZBox validInNZ= {certificate.validInNZ} functionName = {handleCertificates} arrayName={certificate} index={index} />
-                                 
+                                  <ValidInNZBox validInNZ={certificate.validInNZ} functionName={handleCertificates} arrayName={certificate} index={index} />
+
                                 </div>
                                 <div className="row">
                                   <div className="col-md-9">
                                     <div className="form-group row">
-                                    <DescriptionBox value={certificate.description} functionName={handleCertificates} arrayName={certificate} index={index} />
-                               </div>
+                                      <DescriptionBox value={certificate.description} functionName={handleCertificates} arrayName={certificate} index={index} />
+                                    </div>
                                   </div>
 
                                   <div className="col-md-2">
@@ -1043,7 +1039,7 @@ console.log(email);
                     <div className="col-12">
                       <div className="form-group row">
                         <div className="col-6 px-2">
-                        {console.log(availability)} 
+                          {console.log(availability)}
                           <input type="checkbox" class="mx-2" checked={availability} value={availability} onChange={(event) => chnageOut("availability", event)} />
                           Immediately
 
@@ -1140,7 +1136,7 @@ console.log(email);
 
                         <label className="col-sm-3 col-form-label">Show Profile <span style={{ color: "red" }}>*</span></label>
                         <div className="col-sm-9">
-                          <select type="dropdown" className=" form-select form-control"   value={showProfile} onChange={(event) => chnageOut("showProfile", event)}>
+                          <select type="dropdown" className=" form-select form-control" value={showProfile} onChange={(event) => chnageOut("showProfile", event)}>
                             <option>---Select---</option>
                             <option selected={showProfile == "Yes"} value="Yes">Yes</option>
                             <option selected={showProfile == "No"} value="No">No</option>
@@ -1203,17 +1199,17 @@ console.log(email);
 
 
                         <div className="col-sm-7">
-                         <input type="file" id="cv" className="form-control" onChange={onFileChange} />
-                           {errors && errors.cv && <div className="error text-danger"> {cvError}</div>}
-                         
-                           {isCvUploaded === true ?  <div className="col-sm-7"> Uploaded</div> : ''}
+                          <input type="file" id="cv" className="form-control" onChange={onFileChange} />
+                          {errors && errors.cv && <div className="error text-danger"> {cvError}</div>}
+
+                          {isCvUploaded === true ? <div className="col-sm-7"> Uploaded</div> : ''}
                         </div>
-                       
 
 
-                      </div> 
+
+                      </div>
                     </div>
-                   
+
                   </div>
 
                   <div className="row">
@@ -1225,9 +1221,9 @@ console.log(email);
                         <label className="col-sm-5 col-form-label">Upload Cover Letter <span style={{ color: "red" }}>*</span></label>
 
                         <div className="col-sm-7">
-                         <input type="file" id="coverLetter" className="form-control" onChange={onFileChange} />
-                           {errors && errors.coverLetter && <div className="error text-danger"> {coverLetterError}</div>}
-                           {isCoverUploaded === true ?  <div className="col-sm-7"> Uploaded</div> : ''}
+                          <input type="file" id="coverLetter" className="form-control" onChange={onFileChange} />
+                          {errors && errors.coverLetter && <div className="error text-danger"> {coverLetterError}</div>}
+                          {isCoverUploaded === true ? <div className="col-sm-7"> Uploaded</div> : ''}
                         </div>
 
                       </div>

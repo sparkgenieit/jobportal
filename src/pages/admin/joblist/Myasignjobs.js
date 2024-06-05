@@ -121,7 +121,7 @@ function Myasignjobs() {
                 <div class="container-fluid page-body-wrapper">
 
                     <Sidebar />
-                    <div class="main-panel">
+                    <div class="container-fluid">
                         <div class="content-wrapper">
                             <div class="page-header">
                                 <h3 class="page-title">Assign Jobs</h3>

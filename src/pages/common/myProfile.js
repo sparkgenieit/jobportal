@@ -4,7 +4,7 @@ import './myProfile.css';
 function myProfile() {
   return (
    <>
-   <div class="main-panel">
+      <div class="container-fluid">
         <div class="content-wrapper">
           <div class="page-header">
             <h3 class="page-title"> Employee Profile </h3>
@@ -326,18 +326,18 @@ function myProfile() {
 
                     </div>
                   </form>
-                 
 
-                
+
+
                 </div>
-                
+
               </div>
 
-             
+
             </div>
 
-   </>
-  );
+          </>
+          );
 }
 
-export default App;
+          export default App;

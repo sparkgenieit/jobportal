@@ -310,7 +310,7 @@ function AddForms() {
 
                 <div className="container-fluid page-body-wrapper">
                     <Sidebar />
-                    <div class="main-panel">
+                    <div class="container-fluid">
                         <div class="content-wrapper">
                             <div class="page-header">
                                 <h3 class="page-title"> Post An Ad</h3>

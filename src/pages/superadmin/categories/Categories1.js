@@ -210,7 +210,7 @@ function Categories1() {
           {/* <Sidebar /> */}
           <Sidebar />
 
-          <div class="main-panel">
+          <div class="container-fluid">
             <div class="content-wrapper">
               <div class="page-header">
                 <h3 class="page-title"> Categories </h3>

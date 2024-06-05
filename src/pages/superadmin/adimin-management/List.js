@@ -101,7 +101,7 @@ const List = () => {
           <Sidebar />
 
 
-          <div class="main-panel">
+          <div class="container-fluid">
 
             <div class="content-wrapper">
               <div class="page-header">

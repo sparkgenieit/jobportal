@@ -4,14 +4,14 @@ import Sidebar from '../../layouts/admin/Sidebar';
 
 
 function Home() {
-    return <>
-        
-        <div class="container-scroller">
-  
-        <Header/>
+  return <>
+
+    <div class="container-scroller">
+
+      <Header />
       <div class="container-fluid page-body-wrapper">
-       <Sidebar />
-        <div class="main-panel">
+        <Sidebar />
+        <div class="container-fluid">
           <div class="content-wrapper">
             <div class="page-header">
               <h3 class="page-title">
@@ -170,7 +170,7 @@ function Home() {
                     <div class="row mt-3">
                       <div class="col-6 pe-1">
                         <img src="assets/images/dashboard/img_1.jpg" class="mb-2 mw-100 w-100 rounded" alt="image" />
-                        <img src="assets/images/dashboard/img_4.jpg" class="mw-100 w-100 rounded" alt="image"/>
+                        <img src="assets/images/dashboard/img_4.jpg" class="mw-100 w-100 rounded" alt="image" />
                       </div>
                       <div class="col-6 ps-1">
                         <img src="assets/images/dashboard/img_2.jpg" class="mb-2 mw-100 w-100 rounded" alt="image" />
@@ -213,7 +213,7 @@ function Home() {
                             <td> May 15, 2015 </td>
                             <td>
                               <div class="progress">
-                                <div class="progress-bar bg-gradient-success" role="progressbar" style={{width: '25%' }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-gradient-success" role="progressbar" style={{ width: '25%' }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                             </td>
                           </tr>
@@ -223,7 +223,7 @@ function Home() {
                             <td> Jul 01, 2015 </td>
                             <td>
                               <div class="progress">
-                                <div class="progress-bar bg-gradient-danger" role="progressbar" style={{width: '75%' }} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-gradient-danger" role="progressbar" style={{ width: '75%' }} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                             </td>
                           </tr>
@@ -233,7 +233,7 @@ function Home() {
                             <td> Apr 12, 2015 </td>
                             <td>
                               <div class="progress">
-                                <div class="progress-bar bg-gradient-warning" role="progressbar" style={{width: '90%' }} aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-gradient-warning" role="progressbar" style={{ width: '90%' }} aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                             </td>
                           </tr>
@@ -243,7 +243,7 @@ function Home() {
                             <td> May 15, 2015 </td>
                             <td>
                               <div class="progress">
-                                <div class="progress-bar bg-gradient-primary" role="progressbar" style={{width: '50%' }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-gradient-primary" role="progressbar" style={{ width: '50%' }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                             </td>
                           </tr>
@@ -253,7 +253,7 @@ function Home() {
                             <td> May 03, 2015 </td>
                             <td>
                               <div class="progress">
-                                <div class="progress-bar bg-gradient-danger" role="progressbar" style={{width: '35%' }} aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-gradient-danger" role="progressbar" style={{ width: '35%' }} aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                             </td>
                           </tr>
@@ -263,7 +263,7 @@ function Home() {
                             <td> Jun 05, 2015 </td>
                             <td>
                               <div class="progress">
-                                <div class="progress-bar bg-gradient-info" role="progressbar" style={{width: '65%' }} aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-gradient-info" role="progressbar" style={{ width: '65%' }} aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                             </td>
                           </tr>
@@ -286,7 +286,7 @@ function Home() {
                         <li>
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input class="checkbox" type="checkbox"/> Meeting with Alisa </label>
+                              <input class="checkbox" type="checkbox" /> Meeting with Alisa </label>
                           </div>
                           <i class="remove mdi mdi-close-circle-outline"></i>
                         </li>
@@ -332,14 +332,14 @@ function Home() {
               </div>
             </div>
           </div>
-          
+
           <Footer />
 
 
         </div>
       </div>
     </div>
-    </>
+  </>
 }
 
 export default Home;

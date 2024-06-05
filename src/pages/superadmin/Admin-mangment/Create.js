@@ -121,13 +121,13 @@ function Create() {
   }
   return (
     <>
-   
+
       <div className="container-scroller">
 
         <Header />
         <div class="container-fluid page-body-wrapper">
           <Sidebar />
-          <div class="main-panel">
+          <div class="container-fluid">
             <div className="content-wrapper">
               <div className="page-header">
                 <h3 className="page-title"> Create Admin </h3>
@@ -195,7 +195,7 @@ function Create() {
                       </div>
                       <div className="col-md-9 mt-3 row">
                         <div className="col-md-12  ">
-                        <button type="button" className="btn btn-gradient-primary me-2 float-end" onClick={() => submitData()} >Submit</button>
+                          <button type="button" className="btn btn-gradient-primary me-2 float-end" onClick={() => submitData()} >Submit</button>
                         </div>
                       </div>
 

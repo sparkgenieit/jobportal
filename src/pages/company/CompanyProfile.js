@@ -491,7 +491,7 @@ function CompanyProfile() {
         <Header />
         <div class="container-fluid page-body-wrapper">
           <Sidebar />
-          <div class="main-panel">
+          <div class="container-fluid">
             {errors && errors.updateError && <div class="alert alert-danger" role="alert">
               {errors && errors.updateError}</div>}
             {isUpdated && <div class="alert alert-success" role="alert">

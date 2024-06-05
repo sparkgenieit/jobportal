@@ -161,7 +161,7 @@ function AdminEdit({ currentAdmin }) {
                 <Header />
                 <div class="container-fluid page-body-wrapper">
                     <Sidebar />
-                    <div class="main-panel">
+                    <div class="container-fluid">
                         <div className="content-wrapper">
                             <div className="page-header">
                                 <h3 className="page-title"> Edit Admin </h3>
