@@ -3,3 +3,61 @@
     transform: scale(1.005);
     transition: all 0.2s;
 }
+
+.share-tooltip::before {
+    content: 'Share';
+    text-align: center;
+    font-size: small;
+    background-color: grey;
+    color: rgb(238, 237, 237);
+    width: fit-content;
+    padding: 6px;
+    border-radius: 5px;
+    position: absolute;
+    top: 140%;
+    margin-left: -10px;
+    visibility: hidden;
+}
+
+.share-tooltip:hover::before {
+    visibility: visible;
+}
+
+.share-tooltip::after {
+    content: "Link Copied";
+    text-align: center;
+    font-size: small;
+    background-color: grey;
+    color: rgb(238, 237, 237);
+    width: fit-content;
+    padding: 6px;
+    border-radius: 5px;
+    position: absolute;
+    top: -60px;
+    margin-left: -40px;
+    visibility: hidden;
+}
+
+.share-tooltip:active::after {
+    visibility: visible;
+}
+
+
+.save-tooltip::before {
+    content: 'Save';
+    text-align: center;
+    font-size: small;
+    background-color: grey;
+    color: rgb(238, 237, 237);
+    width: fit-content;
+    padding: 6px;
+    border-radius: 5px;
+    position: absolute;
+    top: 140%;
+    margin-left: -10px;
+    visibility: hidden;
+}
+
+.save-tooltip:hover::before {
+    visibility: visible;
+}

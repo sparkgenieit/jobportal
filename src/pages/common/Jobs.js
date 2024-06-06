@@ -69,6 +69,7 @@ function Jobs() {
     const ResetFilter = () => {
         localStorage.removeItem("filter");
         setFilterFields({
+            company: "",
             search: "",
             location: "",
             jobtype: "",
@@ -149,6 +150,11 @@ function Jobs() {
                 <div className='mb-4'>
                     <label className='fw-bold form-label '>Location</label>
                     <input type='text' className='form-input d-block w-100 rounded p-2 shadow-sm border-0' value={filterFields.location} onChange={(e) => { setFilterFields({ ...filterFields, location: e.target.value }) }} placeholder='Type your Location Here' />
+                </div>
+
+                <div className='mb-4'>
+                    <label className='fw-bold form-label '>Company</label>
+                    <input type='text' className='form-input d-block w-100 rounded p-2 shadow-sm border-0' value={filterFields.company} onChange={(e) => { setFilterFields({ ...filterFields, company: e.target.value }) }} placeholder='Type Company Name Here' />
                 </div>
 
                 <div className='mb-4'>

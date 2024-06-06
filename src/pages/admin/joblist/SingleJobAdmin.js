@@ -4,18 +4,23 @@ import Header from "../../../layouts/admin/Header";
 import Sidebar from "../../../layouts/admin/Sidebar";
 import { BASE_API_URL } from "../../../helpers/constants";
 import { getTrueKeys } from "../../../helpers/functions";
+import Modal from "../../../components/Modal";
 
 function SingleJobAdmin({ joblist, handleApprove, handleReject }) {
     const [jobview, setJobview] = useState(joblist)
+    const userId = localStorage.getItem('user_id')
+    const [show, setShow] = useState(false)
     const [message, setMessage] = useState({
         showMsg: false,
         msgclassName: "",
         Msg: ""
     })
-
+    const handleClose = () => {
+        setShow(false)
+    }
     return (
         <>
-            <div className="container-scrollar">
+            <div className={`container-scrollar ${show === true ? "blurred" : ""}`}>
                 <Header />
                 <div class="container-fluid page-body-wrapper">
 
@@ -42,7 +47,7 @@ function SingleJobAdmin({ joblist, handleApprove, handleReject }) {
                                 <div className='col-6 d-flex justify-content-around'>
                                     {jobview.status !== "approved" && <button type='button' onClick={() => handleApprove(joblist)} className='btn btn-outline-success rounded px-5 '>Approve</button>}
                                     {jobview.status === "approved" && <button type='button' disabled className='btn btn-success rounded px-5 '>Approved</button>}
-                                    {jobview.status !== "rejected" && <button type='button' onClick={() => handleReject(joblist)} className='btn btn-outline-danger rounded px-5 '>Reject</button>}
+                                    {jobview.status !== "rejected" && <button type='button' onClick={() => { setShow(true) }} className='btn btn-outline-danger rounded px-5 '>Reject</button>}
                                     {jobview.status === "rejected" && <button type='button' disabled className='btn btn-danger rounded px-5 '>Rejected</button>}
                                 </div>
                             </div>
@@ -111,6 +116,7 @@ function SingleJobAdmin({ joblist, handleApprove, handleReject }) {
                 <Footer />
 
             </div >
+            {show && <Modal handleClose={handleClose} job={jobview} userId={userId} />}
         </>
     );
 }

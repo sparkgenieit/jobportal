@@ -54,11 +54,12 @@ export default function Card({ job }) {
                     <img className="rounded" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} width="70px" height="50px" alt="" />
                 </div>
                 <div className='d-flex gap-2'>
-                    <a type='button' onClick={(e) => { handleShare(e) }}>
+                    <a className='share-tooltip' type='button' onClick={(e) => { handleShare(e) }}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21"><path d="M1.056 21.928c0-6.531 5.661-9.034 10.018-9.375V18.1L22.7 9.044 11.073 0v4.836a10.5 10.5 0 0 0-7.344 3.352C-.618 12.946-.008 21 .076 21.928z" /></svg>
 
                     </a>
-                    <a type='button'>
+
+                    <a className='save-tooltip' type='button'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
                             <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
                         </svg>

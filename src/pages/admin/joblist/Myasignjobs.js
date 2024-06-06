@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { itemsPerPage } from "../../../helpers/constants";
 import http from "../../../helpers/http";
 import Pagination from "../../../components/Pagination";
+import Modal from "../../../components/Modal";
 
 function Myasignjobs() {
     const [assignJobs, setAssignJobs] = useState(null)
@@ -21,6 +22,7 @@ function Myasignjobs() {
     const navigate = useNavigate()
     const [totalItems, setTotalItems] = useState("")
     const [pgNumber, setPgNumber] = useState(1)
+    const [show, setShow] = useState(false)
 
     useEffect(() => {
         http.get(`/jobs/assignedJobs/${userId}?limit=${itemsPerPage}&skip=0`)
@@ -29,6 +31,10 @@ function Myasignjobs() {
                 setAssignJobs(response.data.jobs)
             })
     }, [])
+
+    const handleClose = () => {
+        setShow(false)
+    }
 
     const itemsToShow = (pageNumber) => {
         setPgNumber(pageNumber)
@@ -45,7 +51,6 @@ function Myasignjobs() {
 
     }
 
-
     function handleApprove(job) {
         const data = {
             adminId: userId,
@@ -55,15 +60,23 @@ function Myasignjobs() {
         http.post("/jobs/approve", data)
             .then((response) => {
                 if (response && response.status) {
-                    setMsg(true);
-                    setReleaseError(false)
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1000)
+                    const notification = {
+                        userId: job.companyId,
+                        jobId: job._id,
+                        status: "Approved",
+                        isRead: false,
+                        message: "",
+                        createdAt: Date.now()
+                    }
+                    return http.post("/notifications/create", notification)
                 }
             })
-
-
+            .then(res => {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000)
+            })
+            .catch(err => console.log(err))
     }
 
     function handleReject(job) {
@@ -102,8 +115,6 @@ function Myasignjobs() {
                     setTimeout(() => {
                         navigate("/admin/Jobqueuelist");
                     }, 500)
-
-
                 }
             })
             .catch((e) => {
@@ -111,12 +122,9 @@ function Myasignjobs() {
             })
 
     }
-
-
-
     return (
         <>
-            {joblist && <div className="container-scrollar">
+            {joblist && <div className={`container-scrollar ${show === true ? "blurred" : ""}`}>
                 <Header />
                 <div class="container-fluid page-body-wrapper">
 
@@ -204,7 +212,7 @@ function Myasignjobs() {
                                                                         </button>}
                                                                     </td>
                                                                     <td>
-                                                                        {job.status !== "rejected" && < button onClick={() => handleReject(job)} type="button" class="btn  btn-xs btn-outline-danger col-12">
+                                                                        {job.status !== "rejected" && < button onClick={() => { setShow(true); setJobData(job) }} type="button" class="btn  btn-xs btn-outline-danger col-12">
                                                                             Reject
                                                                         </button>}
                                                                         {job.status === "rejected" && < button disabled type="button" class="btn  btn-xs btn-danger col-12">
@@ -243,6 +251,7 @@ function Myasignjobs() {
 
             </div >}
             {!joblist && <SingleJobAdmin handleReject={handleReject} handleApprove={handleApprove} joblist={jobData} />}
+            {show && <Modal handleClose={handleClose} job={jobData} userId={userId} />}
         </>
     )
 }

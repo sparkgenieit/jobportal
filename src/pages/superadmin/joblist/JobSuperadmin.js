@@ -6,11 +6,17 @@ import Sidebar from "../../../layouts/superadmin/Sidebar";
 import Footer from "../../../layouts/superadmin/Footer";
 import { BASE_API_URL } from "../../../helpers/constants";
 import { getTrueKeys } from "../../../helpers/functions";
+import Modal from "../../../components/Modal";
 
 export default function JobSuperAdmin() {
     const params = useParams();
     const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
     const [jobview, setJobview] = useState(null)
+    const [show, setShow] = useState(false)
+
+    function handleClose() {
+        setShow(false)
+    }
 
     useEffect(() => {
         http.get(`/jobs/${params.id}`)
@@ -30,34 +36,29 @@ export default function JobSuperAdmin() {
         http.post("/jobs/approve", data)
             .then((response) => {
                 if (response && response.status) {
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1000)
+                    const notification = {
+                        userId: job.companyId,
+                        jobId: job._id,
+                        status: "Approved",
+                        isRead: false,
+                        message: "",
+                        createdAt: Date.now()
+                    }
+                    return http.post("/notifications/create", notification)
                 }
             })
-
-
-    }
-
-    function handleReject(job) {
-        const data = {
-            adminId: userId,
-            jobId: job._id,
-            jobsDto: job
-        }
-        http.post("/jobs/reject", data)
-            .then((response) => {
-                if (response && response.status) {
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1000)
-                }
+            .then(res => {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000)
             })
-
+            .catch(err => console.log(err))
     }
+
+
 
     return <>
-        <div className="container-scrollar">
+        <div className={`container-scrollar ${show === true ? "blurred" : ""}`}>
             <Header />
             <div class="container-fluid page-body-wrapper">
 
@@ -79,7 +80,7 @@ export default function JobSuperAdmin() {
                             <div className='col-6 d-flex justify-content-around'>
                                 {jobview.status !== "approved" && <button type='button' onClick={() => handleApprove(jobview)} className='btn btn-outline-success rounded px-5 '>Approve</button>}
                                 {jobview.status === "approved" && <button type='button' disabled className='btn btn-success rounded px-5 '>Approved</button>}
-                                {jobview.status !== "rejected" && <button type='button' onClick={() => handleReject(jobview)} className='btn btn-outline-danger rounded px-5 '>Reject</button>}
+                                {jobview.status !== "rejected" && <button type='button' onClick={() => setShow(true)} className='btn btn-outline-danger rounded px-5 '>Reject</button>}
                                 {jobview.status === "rejected" && <button type='button' disabled className='btn btn-danger rounded px-5 '>Rejected</button>}
                             </div>
                         </div>
@@ -145,8 +146,11 @@ export default function JobSuperAdmin() {
 
 
             </div>
+
             <Footer />
 
         </div >
+        {show && <Modal handleClose={handleClose} job={jobview} userId={userId} />}
+
     </>
 }

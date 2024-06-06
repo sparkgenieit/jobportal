@@ -35,10 +35,10 @@ const JobsListSuperAdmin = () => {
             })
             .catch(err => console.log(err))
 
-        http.get("/users/admins/all")
-            .then((res) => setAdminList(res.data.admins))
-            .catch(err => console.log(err))
-    }, [])
+        // http.get("/users/admins/all")
+        //     .then((res) => setAdminList(res.data.admins))
+        //     .catch(err => console.log(err))
+    }, [pgNumber])
 
     const handleAllSelect = (e) => {
         if (e.target.checked) {
@@ -84,7 +84,8 @@ const JobsListSuperAdmin = () => {
     }
 
     const itemsToShow = (pageNumber) => {
-        window.location.href = `/superadmin/jobs?page=${pageNumber}`
+        setPgNumber(pageNumber)
+        navigate(`/superadmin/jobs?page=${pageNumber}`);
     }
 
     function goToJobPage(id) {
