@@ -1,22 +1,36 @@
 import './Header.css';
-import { useContext, useState } from 'react';
-import Head from './Head';
+import { useContext, useEffect, useState } from 'react';
 import { SidebarContext } from '../../helpers/Context';
+import http from '../../helpers/http';
+import { useNavigate } from 'react-router-dom';
+import { timeAgoMinutes } from '../../helpers/functions';
 
 function Header() {
   const { showSidebar, setShowSidebar } = useContext(SidebarContext);
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [fullname, setFullname] = useState(localStorage.getItem('fullname') || '');
   const [role, setRole] = useState(localStorage.getItem('role') || '');
+  const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [notificationList, setNotificationList] = useState(null)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    http.get(`/notifications/get/${userId}`)
+      .then((res) => setNotificationList(res.data))
+      .catch((err) => { console.log(err) })
+  }, [])
+
+  const handleNotification = (notification) => {
+
+    window.location.href = `/company/joblist`
+  }
 
   const handleLogout = () => {
     setToken('');
     localStorage.removeItem('token'); // Remove token from localStorage
     localStorage.removeItem('role');
-
   };
-
-
   return (
     <>
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -111,12 +125,44 @@ function Header() {
                 <h6 class="p-3 mb-0 text-center">4 new messages</h6>
               </div>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
+            <li class="nav-item dropdown" >
+              <a style={{ cursor: "pointer" }} class="nav-link count-indicator dropdown-toggle" onClick={() => setShowNotifications(!showNotifications)} id="notificationDropdown" data-bs-toggle="dropdown">
                 <i class="mdi mdi-bell-outline"></i>
                 <span class="count-symbol bg-danger"></span>
               </a>
-              <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+              {showNotifications && <div className="notification-menu">
+                <div className='d-flex justify-content-between'>
+                  <h4>Notifications</h4>
+                  <a type='button' onClick={() => setShowNotifications(false)}>&#10060;</a>
+                </div>
+                <ul className='list-unstyled'>
+                  {notificationList && notificationList.map((notification, index) => {
+                    if (notification.status == "Approved") {
+                      return (
+                        <li style={{ cursor: "pointer" }} onClick={() => handleNotification(notification)} className={`alert border d-flex justify-content-between ${notification.isRead ? "alert-light" : "alert-dark"}`}>
+                          <span className='text-success fw-bold'>Your Job for {notification.jobTitle} is now Live</span>
+                          <span className='small'>{timeAgoMinutes(notification.createdAt)}</span>
+                        </li>
+                      )
+                    } else {
+                      return (<>
+                        <li onClick={() => { }} className={`alert border rejected-notification d-flex justify-content-between ${notification.isRead ? "alert-light" : "alert-dark"}`}>
+                          <div>
+                            <div className='text-danger fw-bold'>Your Job for {notification.jobTitle} is Rejected</div>
+                            <div className='rejected-notification-message'>
+                              Reason for Rejection : <span className='fw-bold'>{notification.message}</span>&nbsp;
+                              <a href={`/company/editjob/${notification.jobId}`}>Click Here to go to Job</a>
+                            </div>
+                          </div>
+                          <span className='small'>{timeAgoMinutes(notification.createdAt)}</span>
+                        </li>
+                      </>
+                      )
+                    }
+                  })}
+                </ul>
+              </div>}
+              {/* <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
                 <h6 class="p-3 mb-0">Notifications</h6>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item preview-item">
@@ -156,7 +202,7 @@ function Header() {
                 </a>
                 <div class="dropdown-divider"></div>
                 <h6 class="p-3 mb-0 text-center">See all notifications</h6>
-              </div>
+              </div> */}
             </li>
 
             <li class="nav-item nav-logout d-none d-lg-block">
@@ -175,7 +221,7 @@ function Header() {
             <span class="mdi mdi-menu"></span>
           </button>
         </div>
-      </nav>
+      </nav >
     </>
   );
 }

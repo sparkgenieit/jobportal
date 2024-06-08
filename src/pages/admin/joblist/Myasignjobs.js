@@ -63,6 +63,7 @@ function Myasignjobs() {
                     const notification = {
                         userId: job.companyId,
                         jobId: job._id,
+                        jobTitle: job.jobTitle,
                         status: "Approved",
                         isRead: false,
                         message: "",

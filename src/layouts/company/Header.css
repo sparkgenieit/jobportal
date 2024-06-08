@@ -1,0 +1,27 @@
+.notification-menu {
+    width: 25vw;
+    color: black;
+    height: 50vh;
+    background-color: white;
+    display: block;
+    position: absolute;
+    top: 100%;
+    right: 30%;
+    padding: 8px 20px;
+    z-index: 1000;
+    border-radius: 0 0 14px 14px;
+    overflow-y: auto;
+}
+
+.rejected-notification-message {
+    height: 0;
+    opacity: 0;
+}
+
+
+
+.rejected-notification:hover .rejected-notification-message {
+    height: fit-content;
+    opacity: 1;
+    transition: all 1s ease;
+}

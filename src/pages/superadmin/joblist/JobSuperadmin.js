@@ -40,6 +40,7 @@ export default function JobSuperAdmin() {
                         userId: job.companyId,
                         jobId: job._id,
                         status: "Approved",
+                        jobTitle: job.jobTitle,
                         isRead: false,
                         message: "",
                         createdAt: Date.now()

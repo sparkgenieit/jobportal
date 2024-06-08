@@ -23,6 +23,35 @@ export function timeAgo(date) {
     return timeAgoString;
 }
 
+export function timeAgoMinutes(date) {
+    const now = Date.now();
+    const difference = now - new Date(date).getTime();  //to get accurate time in the date string should be in mm-dd-yyyy format & this will give the time in milliseconds
+
+    const seconds = Math.floor(difference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const months = Math.floor(days / 30);
+    const years = Math.floor(months / 12);
+
+    let timeAgoString;
+    if (seconds < 60) {
+        timeAgoString = seconds + "s" + " ago";
+    } else if (minutes < 60) {
+        timeAgoString = minutes + "m" + " ago";
+    } else if (hours < 24) {
+        timeAgoString = hours + "h" + " ago";
+    } else if (days < 30) {
+        timeAgoString = days + "d" + " ago";
+    } else if (months < 12) {
+        timeAgoString = months + "m" + " ago";
+    } else {
+        timeAgoString = years + "y" + " ago";
+    }
+
+    return timeAgoString;
+}
+
 export function getTrueKeys(obj) {
     // Use Object.keys() to get all keys as an array
     const keys = Object.keys(obj);

@@ -3,9 +3,11 @@ import { getTrueKeys, timeAgo } from "../helpers/functions";
 import { BASE_API_URL, BASE_APP_URL } from "../helpers/constants"
 
 export default function Card({ job }) {
+
     const handleShare = (event) => {
         navigator.clipboard.writeText(`${BASE_APP_URL}/common/SingleJob/${job._id}`)
         event.stopPropagation();
+
     }
     return <div className='my-job-card'>
         <div onClick={() => { window.location.href = `/common/SingleJob/${job._id}` }} className=" row border shadow-sm rounded p-3 mb-3 ">
@@ -26,7 +28,7 @@ export default function Card({ job }) {
                             <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
                             <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
                         </svg>
-                        <span className='ps-2'>{job.duration} </span>
+                        <span className='ps-2'>{job.duration}</span>
                     </span>
                     <span>
                         {job.numberofvacancies > 1 && <>
@@ -43,7 +45,7 @@ export default function Card({ job }) {
                     <div className='p-1'>{job.benifits && getTrueKeys(JSON.parse(job.benifits))}</div>
                 </div>
                 <p className='text-secondary'>
-                    {job.description}
+                    {job.description.length > 300 ? `${job.description.slice(0, 300)}...` : job.description}
                 </p>
                 <div className='h6'>
                     {new Date(job.creationdate).toLocaleDateString('en-GB')} ( {timeAgo(job.creationdate)} )

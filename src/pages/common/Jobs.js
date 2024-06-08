@@ -5,7 +5,7 @@ import Footer from '../../layouts/common/Footer';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import http from '../../helpers/http';
-import { itemsPerPage } from '../../helpers/constants';
+import { CitiesList, itemsPerPage } from '../../helpers/constants';
 import Pagination from '../../components/Pagination';
 import Ads from './ads';
 import Card from '../../components/Card';
@@ -149,7 +149,12 @@ function Jobs() {
 
                 <div className='mb-4'>
                     <label className='fw-bold form-label '>Location</label>
-                    <input type='text' className='form-input d-block w-100 rounded p-2 shadow-sm border-0' value={filterFields.location} onChange={(e) => { setFilterFields({ ...filterFields, location: e.target.value }) }} placeholder='Type your Location Here' />
+                    <select className='d-block w-100 p-2 rounded' value={filterFields.location} onChange={(e) => { setFilterFields({ ...filterFields, location: e.target.value }) }}>
+                        <option></option>
+                        {CitiesList.map((city, index) => {
+                            return <option key={index} value={city}>{city}</option>
+                        })}
+                    </select>
                 </div>
 
                 <div className='mb-4'>
