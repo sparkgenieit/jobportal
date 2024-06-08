@@ -18,9 +18,10 @@ function CheckoutForm() {
     useEffect(() => {
         if (selectedPlan) {
 
+            const plan = plans.find((plan) => plan.name === selectedPlan);
             const data = {
-                plan: selectedPlan,
-                price: plans[selectedPlan],
+                plan: plan.name,
+                price: plan.price,
                 user_id: user_id
             }
 
