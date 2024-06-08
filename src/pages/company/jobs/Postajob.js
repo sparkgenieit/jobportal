@@ -160,20 +160,19 @@ function Postajob() {
     //   // Here you would save the form data
     //   alert(`creationdate: ${creationDate}\nclosedate: ${closeDate}`);
     // }
-
     let eObj = {};
     let valid = true;
     if (description == '') {
       valid = false;
       eObj = { ...eObj, descriptionErrors: true };
       setDescriptionMsg('Please Enter Description');
-    } else if (/^\w{2,}$/gi.test(description) == false) {
-      valid = false;
-      eObj = { ...eObj, descriptionErrors: true };
-      setDescriptionMsg('Not Proper Description');
     }
+    // else if (/^\w{2,}$/gi.test(description) == false) {
+    //   valid = false;
+    //   eObj = { ...eObj, descriptionErrors: true };
+    //   setDescriptionMsg('Not Proper Description');
+    // }
     else {
-
       eObj = { ...eObj, descriptionErrors: false };
     }
 

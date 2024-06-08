@@ -87,6 +87,7 @@ import ActivateAccount from "./pages/common/ActivateAccount";
 import JobSuperAdmin from "./pages/superadmin/joblist/JobSuperadmin";
 import { SidebarContext } from "./helpers/Context";
 import BuyCredits from "./pages/company/jobs/BuyCredits";
+import ContactUs from "./pages/common/contactUs";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -102,6 +103,7 @@ function App() {
         <Route path="/services" element={<Services />} />
         <Route path="/terms-conditions" element={<Terms />} />
         <Route path="/privacy-policy" element={<Privacy />} />
+        <Route path="/contact-us" element={<ContactUs />} />
 
         <Route path="/login" element={!token ? <UserLogin /> : <Navigate to="/" />} />
         <Route path="/register" element={!token ? <UserRegistration /> : <Navigate to="/" />} />

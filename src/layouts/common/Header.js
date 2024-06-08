@@ -97,6 +97,8 @@ function Header() {
                   </ul>
                 </li>
 
+                <li><a class="nav-link scrollto mx-3" href="/contact-us">Contact Us</a></li>
+
 
 
               </ul>

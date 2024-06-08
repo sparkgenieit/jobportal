@@ -190,11 +190,12 @@ function EditJob() {
             valid = false;
             eObj = { ...eObj, descriptionErrors: true };
             setDescriptionMsg('Please Enter Description');
-        } else if (/^\w{2,}$/gi.test(description) == false) {
-            valid = false;
-            eObj = { ...eObj, descriptionErrors: true };
-            setDescriptionMsg('Not Proper Description');
         }
+        //else if (/^\w{2,}$/gi.test(description) == false) {
+        //     valid = false;
+        //     eObj = { ...eObj, descriptionErrors: true };
+        //     setDescriptionMsg('Not Proper Description');
+        // }
         else {
 
             eObj = { ...eObj, descriptionErrors: false };
