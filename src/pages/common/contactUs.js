@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Footer from '../../layouts/common/Footer';
 import Header from '../../layouts/common/Header';
 import './contactUs.css';
+import http from '../../helpers/http';
 
 function ContactUs() {
   const [subject, setSubject] = useState("");
@@ -37,6 +38,8 @@ function ContactUs() {
       show: false,
       text: ""
     },
+    sentMessage: false,
+    errorMessage: false
   })
 
   const handleInput = (name, e) => {
@@ -108,12 +111,19 @@ function ContactUs() {
       isValid = false
     }
     if (phone.trim() == "") {
-      obj = { ...obj, phone: { text: "Please Provide the Phone", show: true } }
+      obj = { ...obj, phone: { text: "Please Provide the Phone No.", show: true } }
       isValid = false
+    } else if (/^[0-9]{10}$/gi.test(phone) == false) {
+      obj = { ...obj, phone: { text: "Not a Phone Number", show: true } }
+      isValid = false;
     }
     if (email.trim() == "") {
       obj = { ...obj, email: { text: "Please Provide the Email", show: true } }
       isValid = false
+    }
+    else if (/^[a-z A-Z 0-9._-]+@[a-z A-Z 0-9.-]+\.[a-z A-Z]{2,4}$/.test(email) == false) {
+      isValid = false;
+      obj = { ...obj, email: { text: "Not an Email Address", show: true } }
     }
     if (organisation.trim() == "") {
       obj = { ...obj, organisation: { text: "Please Provide the Organisation Name", show: true } }
@@ -125,12 +135,23 @@ function ContactUs() {
     }
     setErrors(obj)
     if (isValid) {
-
-
+      const data = {
+        message: message,
+        subject: subject,
+        email: email,
+        name: name,
+        organisation: organisation,
+        phone: phone
+      }
+      http.post('/contact/contact-us', data)
+        .then((res) => {
+          setErrors({ ...errors, sentMessage: true, errorMessage: false })
+        })
+        .catch(err => {
+          setErrors({ ...errors, errorMessage: true, sentMessage: false })
+        })
     }
   }
-
-
   return (
     <>
       <div className="container-scroller ">
@@ -187,6 +208,8 @@ function ContactUs() {
                       </div>
                     </div>
                   </form>
+                  {errors.sentMessage && <div className='text-success text-center'><i>Thank you for your message, we will contact you shortly</i></div>}
+                  {errors.errorMessage && <div className='text-danger text-center'><i>An error occured while submitting the form, please try again later</i></div>}
                 </div>
               </div>
               {/* </div> */}

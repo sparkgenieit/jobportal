@@ -22,7 +22,7 @@ function Jobs() {
     const [totalItems, setTotalItems] = useState("")
     const [pgNumber, setPgNumber] = useState(searchParams.get("page") || 1)
     const filter = JSON.parse(localStorage.getItem("filter"))
-    const [filterFields, setFilterFields] = useState(filter ? filter : {
+    const [filterFields, setFilterFields] = useState({
         company: null,
         search: null,
         location: null,
@@ -35,10 +35,17 @@ function Jobs() {
     })
 
     useEffect(() => {
-        let currentFilters = { ...filterFields }
-        currentFilters.location = location;
-        currentFilters.company = company;
-        currentFilters.search = keyword;
+        let currentFilters = { ...filter }
+        console.log(location)
+        if (location && location.trim() != "") {
+            currentFilters.location = location;
+        }
+        if (company && company.trim() != "") {
+            currentFilters.company = company;
+        }
+        if (keyword && keyword.trim() != "") {
+            currentFilters.search = keyword;
+        }
         setFilterFields(currentFilters)
         // To Fetch all the categories from the database
         http.get("/categories/all")
@@ -63,8 +70,6 @@ function Jobs() {
             })
             .catch(err => setTotalItems([]))
     }, [])
-
-
 
     const ResetFilter = () => {
         localStorage.removeItem("filter");
