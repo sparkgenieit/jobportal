@@ -8,22 +8,46 @@ export default function PaymentStatus() {
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate()
     const [amount, setAmount] = useState();
-    const [credits,setCredits] = useState();
+    const [credits,setCredits] = useState(0);
     const [status, setStatus] = useState();
     const [loading, setLoading] = useState(true)
     const payment_intent_id = searchParams.get('payment_intent')
    
     useEffect(() => {
-        const selectedPlan = localStorage.getItem("Plan")
-        const plan = plans.find((plan) => plan.name === selectedPlan);
-        setCredits(plan.credits);
+   
         if (payment_intent_id) {
             http.get(`/payment/payment-intent/${payment_intent_id}`)
-                .then((res) => {
-
+                .then( (res) => {
+console.log(res);
                     if (res.data.status === "succeeded") {
                         setAmount(res.data.amount_received)
                         setStatus("Payment Succeeded")
+                        if(localStorage.getItem("Plan")){
+                            const selectedPlan = localStorage.getItem("Plan")
+                            const plan = plans.find((plan) => plan.name === selectedPlan);
+                            console.log('plan',plan);
+                            setCredits(plan.credits);
+                        let data = {
+                            orderId: payment_intent_id,
+                            companyId: localStorage.getItem('user_id'),
+                            credits:plan.credits,
+                            planName: localStorage.getItem("Plan")
+                        }
+                        console.log('Order',data);
+                        http.post('/orders/create', data) // To Post the Job
+                            .then(async (response) => {
+                                console.log(response);
+                                const companyProfile = await http.get(`/companies/profile/${localStorage.getItem('user_id')}`);
+                                console.log(companyProfile.data.credits);
+                                http.put(`/companies/profile/update/${localStorage.getItem('user_id')}`, {'credits':parseInt(companyProfile.data.credits+plan.credits)});
+                                localStorage.removeItem("Plan")
+                                localStorage.removeItem("Jobdata")
+                               
+                           //     navigate('/company/postajob')
+                
+                            })
+                            .catch(err => console.log(err))
+                        }
                         setLoading(false)
                     }
                 })
@@ -36,31 +60,25 @@ export default function PaymentStatus() {
 
     const PostJob = async () => {
         setLoading(true)
-        const Jobdata = JSON.parse(localStorage.getItem("Jobdata"));
-        let data = {
+        navigate('/company/postajob')
+        
+       /* let data = {
             orderId: "123",
             companyId: localStorage.getItem('user_id'),
             credits:credits,
             planName: localStorage.getItem("Plan")
         }
+        console.log('Order',data);
         return http.post('/orders/create', data) // To Post the Job
             .then(response => {
-                let data = {
-                    orderId: "123",
-                    companyId: localStorage.getItem('user_id'),
-                    credits:credits,
-                    planName: localStorage.getItem("Plan")
-                }
-                // To place the order
-                
-            })
-            .then(response => {
+                console.log(response);
                 localStorage.removeItem("Plan")
                 localStorage.removeItem("Jobdata")
+                http.put(`/companies/profile/update/${localStorage.getItem('user_id')}`, {'credits':credits});
                 navigate('/company/postajob')
 
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err)) */
     }
 
 
