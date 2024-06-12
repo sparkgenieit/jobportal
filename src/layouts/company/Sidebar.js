@@ -1,15 +1,49 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import './Sidebar.css';
 import { SidebarContext } from '../../helpers/Context';
-import { Modal } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-function Sidebar() {
-  const { showSidebar } = useContext(SidebarContext)
+import { Modal } from "react-bootstrap";
+import http from "../../helpers/http";
+
+ function Sidebar() {
+
+  const { showSidebar } = useContext(SidebarContext);
+  const navigate = useNavigate()
   let sidebarClass = showSidebar ? "sidebar-showing" : "sidebar-not-showing";
-  const [show, setShow] = useState(false)
+  
+  const [show, setShow] = useState(false);
+
+  const [showJob, setShowJob] = useState(false);
+  const [showBuy, setShowBuy] = useState(false);
+    //const [companyProfile,setCompanyProfile] = useState();
+   
+console.log(parseInt(localStorage.getItem('credits')));
+console.log(localStorage.getItem('usedFreeCredit'));
+    
+  const handleModal = () => {
+    
+    if(parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'false' ){
+      setShowJob(true);
+      setShow(true);
+      
+      console.log('showJob',showJob);
+    }
+    else  if(parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'true'){     
+      setShowBuy(true);
+      setShow(true);
+      console.log('showBuy',showBuy);
+    }
+    else{
+      navigate('/company/postajob')
+    }
+    setShowBuy(true);
+  }
   const handleClose = () => {
     setShow(false)
+    
   }
+  
   return (
     <>
       {<div className={`${sidebarClass}`}>
@@ -23,9 +57,9 @@ function Sidebar() {
                 </div>
                 <div class="nav-profile-text d-flex flex-column">
                   <span class="font-weight-bold mb-2">Employer</span>
-                  <span class="text-secondary text-small">Admin</span>
+                  <span class="text-secondary  mb-2">Available Credits: {localStorage.getItem('credits')}</span>
                 </div>
-                <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+                
               </a>
             </li>
             <li class="nav-item">
@@ -53,7 +87,7 @@ function Sidebar() {
 
               <ul class="nav sub-nav">
                 <li class="nav-item">
-                  <a class="nav-link" onClick={() => { setShow(true) }}>
+                  <a href='#' class="nav-link" onClick={() => { handleModal(true) }}>
                     <span class="menu-title">Post a Job</span>
                     <div className='mx-5 bg-lite'><svg xmlns="http://www.w3.org/2000/svg" width="100" height="20" fill="currentColor" class="bi bi-postcard" viewBox="0 0 16 16">
                       <path fill-rule="evenodd" d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM1 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm7.5.5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0zM2 5.5a.5.5 0 0 1 .5-.5H6a.5.5 0 0 1 0 1H2.5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5H6a.5.5 0 0 1 0 1H2.5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5H6a.5.5 0 0 1 0 1H2.5a.5.5 0 0 1-.5-.5M10.5 5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zM13 8h-2V6h2z" />
@@ -87,11 +121,63 @@ function Sidebar() {
       </div>}
       <Modal show={show} onHide={handleClose}>
         <Modal.Body>
+        {parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'false'  &&  <><div class="form-row ml-5">
+                <div class="form-group">
+                  <div class="form-group">
+                    <div class="form-check ml-2">
+                      <label class="form-check-label" for="invalidCheck2">
+                        <span>Hurray you can post your first job for free, for next job you need to buy credits.</span>
+                      </label>
+                    </div>
+                  </div>
 
-          <div>
-            You have no credits
-          </div>
-          <button type='button' onClick={() => { handleClose() }}>x</button>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <button type="button" onClick={()=> {handleClose(); navigate('/company/postajob')}} class="btn btn-danger">Post A job</button>
+              </div></>}
+
+              {parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'true'  &&  <><div class="form-row ml-5">
+                <div class="form-group">
+                  <div class="form-group">
+                    <div class="form-check ml-2">
+                      <label class="form-check-label" for="invalidCheck2">
+                      <span>Sorry you dont have credits please buy credits to post the job.</span>
+                      </label>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="form-row">
+                <button type="button" onClick={()=> { handleClose();navigate('/company/BuyCredits')}}  class="btn btn-danger">Buy Credits</button>
+              </div></>}
+        </Modal.Body>
+
+      </Modal>
+
+      <Modal showBuy={showBuy} onHide={handleClose}>
+        <Modal.Body>
+
+        <div class="form-row ml-5">
+                <div class="form-group">
+                  <div class="form-group">
+                    <div class="form-check ml-2">
+                      <label class="form-check-label" for="invalidCheck2">
+                        <small><span>By registering you agree to <a href="/privacy" target="_blank" >Privacy Policy</a></span></small>
+                      </label>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="form-row">
+                <button type="button"  class="btn btn-danger">Buy Credits</button>
+              </div>
+        
 
         </Modal.Body>
 

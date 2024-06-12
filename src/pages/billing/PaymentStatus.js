@@ -37,9 +37,9 @@ console.log(res);
                         http.post('/orders/create', data) // To Post the Job
                             .then(async (response) => {
                                 console.log(response);
-                                const companyProfile = await http.get(`/companies/profile/${localStorage.getItem('user_id')}`);
-                                console.log(companyProfile.data.credits);
-                                http.put(`/companies/profile/update/${localStorage.getItem('user_id')}`, {'credits':parseInt(companyProfile.data.credits+plan.credits)});
+                                const credits = parseInt(localStorage.getItem('credits'));
+                                http.put(`/users/update/${localStorage.getItem('user_id')}`, {'credits':parseInt(credits+plan.credits)});
+                                localStorage.setItem('credits', plan.credits);
                                 localStorage.removeItem("Plan")
                                 localStorage.removeItem("Jobdata")
                                

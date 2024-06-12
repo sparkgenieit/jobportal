@@ -106,6 +106,12 @@ function UserLogin() {
 
 
           localStorage.setItem('role', response.data.role)
+        if(response.data.role === 'employer'){
+            localStorage.setItem('credits', response.data.credits);
+            localStorage.setItem('usedFreeCredit', response.data.usedFreeCredit);
+            
+        }
+
           setTimeout(() => {
             // Inside the handleLogin function
 
