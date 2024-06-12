@@ -6,7 +6,7 @@ import { useState } from "react";
 import http from "../../helpers/http";
 import { plans } from "../../helpers/constants";
 
-function Plans({ mydata }) {
+function Plans() {
     const [msg, setMsg] = useState({
         view: false,
         class: "alert alert-success",
@@ -16,12 +16,10 @@ function Plans({ mydata }) {
 
     const navigate = useNavigate();
     const choocePlan = (plan) => {
-        if (mydata) {
 
-            navigate(`/checkout-page?plan=${plan}`)
-            localStorage.setItem("Jobdata", JSON.stringify(mydata));
-            localStorage.setItem("Plan", plan);
-        }
+
+        navigate(`/checkout-page?plan=${plan}`)
+        localStorage.setItem("Plan", plan);
 
         // const data = {
         //     plan: plan,

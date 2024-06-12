@@ -16,29 +16,24 @@ const JobsListSuperAdmin = () => {
     const [pgNumber, setPgNumber] = useState(searchParams.get("page") || 1)
     const [allSelectBox, setAllSelectBox] = useState(false)
     const [selectedJobs, setSelectedJobs] = useState([])
-    const [searchValue, setSearchValue] = useState()
+    const [searchValue, setSearchValue] = useState(searchParams.get("adminName") || "")
     const [table, setTable] = useState(null)
     const [msg, setMsg] = useState({
         show: false,
         class: "",
         message: ""
     })
-    const [jobs, setJobs] = useState(null)
 
     useEffect(() => {
         const skip = (pgNumber - 1) * itemsPerPage
-        http.get(`/jobs/all?limit=${itemsPerPage}&skip=${skip}`)
+        http.get(`/jobs/all?limit=${itemsPerPage}&skip=${skip}&adminName=${searchValue}`)
             .then((res) => {
-                setJobs(res.data.jobs)
                 setTable(res.data.jobs)
                 setTotalItems(res.data.total)
             })
             .catch(err => console.log(err))
 
-        // http.get("/users/admins/all")
-        //     .then((res) => setAdminList(res.data.admins))
-        //     .catch(err => console.log(err))
-    }, [pgNumber])
+    }, [pgNumber, searchValue])
 
     const handleAllSelect = (e) => {
         if (e.target.checked) {
@@ -66,26 +61,9 @@ const JobsListSuperAdmin = () => {
         }
     }
 
-    const handleSearch = (value) => {
-        if ((value).trim() === "") {
-            setTable(jobs)
-        } else {
-            let admins = adminList.filter(admin => (admin.first_name + " " + admin.last_name).toLowerCase().includes(value.toLowerCase()))
-            let filteredJobs = []
-            admins.map((admin) => {
-                jobs.map(job => {
-                    if (job.adminId === admin._id) {
-                        filteredJobs.push(job)
-                    }
-                })
-            })
-            setTable(filteredJobs)
-        }
-    }
-
     const itemsToShow = (pageNumber) => {
         setPgNumber(pageNumber)
-        navigate(`/superadmin/jobs?page=${pageNumber}`);
+        navigate(`/superadmin/jobs?page=${pageNumber}&adminName=${searchValue}`);
     }
 
     function goToJobPage(id) {
@@ -121,7 +99,7 @@ const JobsListSuperAdmin = () => {
 
             if (userId !== "") {
                 http.post("/jobs/multi_release", jobsData)
-                    .then(res => setTimeout(window.location.reload(), 2000))
+                    .then(res => window.location.href = '/superadmin/jobs')
                     .catch(err => {
                         setMsg({
                             show: true,
@@ -158,7 +136,7 @@ const JobsListSuperAdmin = () => {
 
                                     </div>}
                                     <div className="d-flex input-group p-3">
-                                        <input type="text" value={searchValue} onChange={(e) => handleSearch(e.target.value)} className="form-control " placeholder="Search By Admin Name" />
+                                        <input type="text" value={searchValue} onChange={(e) => { setSearchValue(e.target.value); setPgNumber(1) }} className="form-control " placeholder="Search By Admin Name" />
                                         <button type="button" onClick={handleRelease} className="btn btn-outline-dark rounded mx-2">Release Jobs</button>
                                     </div>
 
@@ -175,7 +153,7 @@ const JobsListSuperAdmin = () => {
                                                         <th>Company</th>
                                                         <th>Creation Date</th>
                                                         <th>Status</th>
-                                                        <th>By</th>
+                                                        <th className="text-center">By</th>
                                                         <th>View Job</th>
 
                                                     </tr>
@@ -196,11 +174,7 @@ const JobsListSuperAdmin = () => {
                                                                 </td>
                                                                 <td>
                                                                     {job.status === "queue" && <div>Not Assigned</div>}
-                                                                    {job.status !== "queue" && adminList.map(admin => {
-                                                                        if (job.adminId === admin._id) {
-                                                                            return <div>{admin.first_name + " " + admin.last_name}</div>
-                                                                        }
-                                                                    })}
+                                                                    {job.status !== "queue" && job.adminName}
 
                                                                 </td>
 

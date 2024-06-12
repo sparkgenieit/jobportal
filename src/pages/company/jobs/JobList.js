@@ -95,7 +95,7 @@ function Joblist() {
                                                             <th>Status</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
-                                                            <th>Applied List</th>
+                                                            <th>Applied Users</th>
                                                         </tr>
 
                                                         {assignJobs && assignJobs.length > 0 &&

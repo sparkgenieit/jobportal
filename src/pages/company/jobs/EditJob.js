@@ -3,11 +3,9 @@ import Footer from '../../../layouts/company/Footer';
 import Sidebar from '../../../layouts/company/Sidebar';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
-import axios from 'axios';
 import companyService from '../../../services/common/company.service';
-import Accommodation from '../../common/Accommodation';
 import http from '../../../helpers/http';
+import { CitiesList } from '../../../helpers/constants';
 
 
 function EditJob() {
@@ -15,7 +13,6 @@ function EditJob() {
     const navigate = useNavigate();
     const params = useParams()
     const jobId = params.id;
-
     const [description, setDescription] = useState('');
     const [closeDate, setCloseDate] = useState('')
     const [location, setLocation] = useState('');
@@ -709,18 +706,21 @@ function EditJob() {
 
                                             </div>
                                             <div className='row'>
-
                                                 <div className="col-md-6">
                                                     <div className="form-group row">
                                                         <label className="col-sm-3 col-form-label">Location<span className='text-danger'>*</span></label>
                                                         <div className="col-sm-8">
-                                                            <input type="text" className="form-control" value={location} onChange={(event) => handleInput('location', event)} />
+                                                            <select className="form-select border col-6 " value={location} onChange={(event) => handleInput('location', event)} >
+                                                                <option></option>
+                                                                {CitiesList.map((city, index) => {
+                                                                    return <option key={index} value={city}>{city}</option>
+                                                                })}
+                                                            </select>
                                                             {errors.locationErrors && <span className='text-danger'>{locationMsg}</span>}
                                                             <div className="bgcol" id="error1"></div>
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
 
                                             <div className="row">

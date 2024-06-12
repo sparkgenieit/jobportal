@@ -725,8 +725,7 @@ function UserProfile() {
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label">Email <span style={{ color: "red" }}>*</span></label>
                         <div className="col-sm-9">
-                          <input type="email" className="form-control" value={email} onChange={(event) => chnageOut("email", event)} />
-
+                          <input type="email" disabled className="form-control" value={email} onChange={(event) => chnageOut("email", event)} />
                           {errors && errors.email && <div className="error text-danger"> {emailError}</div>}
                         </div>
                       </div>

@@ -89,6 +89,7 @@ import { SidebarContext } from "./helpers/Context";
 import BuyCredits from "./pages/company/jobs/BuyCredits";
 import ContactUs from "./pages/common/contactUs";
 import AppliedUsers from "./pages/company/jobs/AppliedUsers";
+import AppliedUserProfile from "./pages/company/jobs/AppliedUserProfile";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -117,6 +118,7 @@ function App() {
         <Route path="/company/postajob" element={(token && role == 'employer') ? <Postajob /> : <Navigate to="/" />} />
         <Route path="/company/JobList" element={(token && role == 'employer') ? <JobList /> : <Navigate to="/" />} />
         <Route path="/company/applied-users/:id" element={(token && role == 'employer') ? <AppliedUsers /> : <Navigate to="/" />} />
+        <Route path="/company/applied-user-profile/:userId" element={(token && role == 'employer') ? <AppliedUserProfile /> : <Navigate to="/" />} />
 
 
         <Route path="/common/Aboutwhvisa" element={(token && role == 'user') ? <Aboutwhvisa /> : <Aboutwhvisa />} />
