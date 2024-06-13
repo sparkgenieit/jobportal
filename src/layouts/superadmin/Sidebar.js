@@ -102,7 +102,7 @@ function Sidebar() {
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="CreateUser">
+              <a class="nav-link" href="/superadmin/users">
                 <span class="menu-title">User Management</span>
                 <div>
                   <svg xmlns="http://www.w3.org/2000/svg" width="116" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">

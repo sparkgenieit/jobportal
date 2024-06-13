@@ -1,13 +1,8 @@
-
 import './SingleJob.css';
-
 import Header from '../../layouts/common/Header';
 import Footer from '../../layouts/common/Footer';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-
 import { useParams, useNavigate } from "react-router-dom";
-import Sidebar from '../../layouts/company/Sidebar';
 import http from '../../helpers/http';
 import { BASE_API_URL } from '../../helpers/constants';
 import { getTrueKeys } from '../../helpers/functions';
@@ -16,12 +11,9 @@ function SingleJob() {
     const [isJobApplied, setIsJobApplied] = useState(false)
     const [isJobSaved, setIsJobSaved] = useState(false)
     const [jobview, setJobview] = useState()
-    const [training, setTraining] = useState()
-    const [benefits, setBenefits] = useState()
-    const [employerQuestions, setEmployerQuestions] = useState()
-    const [jobType, setJobType] = useState()
     const role = localStorage.getItem('role');
-
+    const navigate = useNavigate()
+    const params = useParams();
 
     const userId = localStorage.getItem('user_id');
     const [message, setMessage] = useState({
@@ -29,39 +21,28 @@ function SingleJob() {
         msgclassName: "alert alert-success",
         Msg: ""
     })
-    const navigate = useNavigate()
-
-    const params = useParams();
 
     useEffect(() => {
-        if (userId) {
-            http.get(`/jobs/appliedjobs/${userId}`)
-                .then((response) => {
-                    if (response.data) {
-                        response.data.map((j) => {
-                            if (params.id == j.jobId && j.applied == true) {
-                                setIsJobApplied(true);
-                            }
-                        })
-                    }
-                })
-
-            http.get(`/jobs/savedJobs/${userId}`)
-                .then((response) => {
-                    if (response.data) {
-                        response.data.map((j) => {
-                            if (params.id == j.jobId && j.saved == true) {
-                                setIsJobSaved(true);
-                            }
-                        })
-                    }
-                })
-        }
         http.get(`/jobs/${params.id}`)
             .then((response) => {
                 setJobview(response.data)
             })
             .catch(err => setJobview(null))
+        if (userId && userId.trim() !== "") {
+            http.get(`/jobs/user-job-status/${userId}?jobId=${params.id}`)
+                .then(res => {
+                    if (res.data.saved) {
+                        setIsJobSaved(true)
+                    }
+                    if (res.data.applied) {
+                        setIsJobApplied(true)
+                    }
+                })
+                .catch(err => {
+                    setIsJobSaved(false);
+                    setIsJobApplied(false)
+                })
+        }
     }, [])
 
     function handleApply() {

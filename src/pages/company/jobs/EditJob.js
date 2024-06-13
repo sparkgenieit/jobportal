@@ -158,8 +158,6 @@ function EditJob() {
                 setJobType(res.data.jobtype)
                 setBenifits(JSON.parse(res.data.benifits))
                 setTraining(JSON.parse(res.data.training))
-
-
             })
 
         companyService.get(userId)
@@ -638,9 +636,8 @@ function EditJob() {
                                                     <div className="form-group row">
                                                         <label className="col-sm-4 col-form-label">CreationDate<span className='text-danger'>*</span></label>
                                                         <div className="col-sm-8">
-                                                            <input type="date" className="form-control" value={creationDate} onChange={(event) => handleInput('creationdate', event)} />
+                                                            <input type="text" className="form-control" value={creationDate} disabled />
                                                             {errors.creationDateErrors && <span className='text-danger'>Please select date</span>}
-                                                            <div className="bgcol" id="error1"></div>
                                                         </div>
                                                     </div>
                                                     {error && <div style={{ color: 'red' }}>{error}</div>}

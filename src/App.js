@@ -66,11 +66,9 @@ import UserList from "./pages/superadmin/user/UserList";
 
 import Myappliedjobs from "./pages/common/Myappliedjobs";
 import Savedjobs from "./pages/common/Savedjobs";
-import SingleJobAdmin from "./pages/admin/joblist/SingleJobAdmin";
 import SuperAdminLogin from "./pages/superadmin/login";
 
 import OrdersList from "./pages/superadmin/Order-Management/OrdersList";
-import Plans from "./pages/common/Plans";
 import Addpage from "./pages/superadmin/Pages-Management/AddPages";
 import PagesList from "./pages/superadmin/Pages-Management/PagesList";
 import Skills from "./pages/superadmin/Skills-Management/Skills";
@@ -183,6 +181,7 @@ function App() {
         <Route path="/superadmin/UserList" element={(token && role == 'superadmin') ? <UserList /> : <SuperAdminLogin />} />
         <Route path="/superadmin/Skills" element={(token && role == 'superadmin') ? <Skills /> : <SuperAdminLogin />} />
         <Route path="/superadmin/Skills/:id" element={(token && role == 'superadmin') ? <EditSkill /> : <SuperAdminLogin />} />
+        <Route path="/superadmin/users" element={(token && role == 'superadmin') ? <UserList /> : <SuperAdminLogin />} />
 
         <Route path="/superadmin/login" element={(token && role == 'superadmin') ? <SuperAdminHome /> : <SuperAdminLogin />} />
         <Route path="/superadmin/orders" element={(token && role == 'superadmin') ? <OrdersList /> : <SuperAdminLogin />} />

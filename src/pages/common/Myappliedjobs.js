@@ -2,113 +2,71 @@ import { useEffect, useState } from "react";
 import Header from "../../layouts/common/Header";
 import Sidebar from "../../layouts/common/Sidebar";
 import Footer from "../../layouts/common/Footer";
-import axios from "axios";
+import Card from "../../components/Card";
 import http from "../../helpers/http";
+import { useSearchParams } from "react-router-dom";
+import { itemsPerPage } from "../../helpers/constants";
+import Pagination from "../../components/Pagination";
 
 function Myappliedjobs() {
+    const [totalItems, setTotalItems] = useState("")
+    const [searchParams] = useSearchParams();
+    const [pgNumber, setPgNumber] = useState(searchParams.get("page") || 1)
     const [appliedjobs, setAppliedJobs] = useState(null)
-    const [allJobs, setAllJobs] = useState(null)
-    const [filteredJobs, setFilteredJobs] = useState(null)
-    const userId = localStorage.getItem('user_id')
+    const userId = localStorage.getItem('user_id');
 
     useEffect(() => {
-        http.get(`/jobs/appliedjobs/${userId}`)
+        const skip = (pgNumber - 1) * itemsPerPage
+        http.get(`/jobs/appliedjobs/${userId}?limit=${itemsPerPage}&skip=${skip}`)
             .then((response) => {
-                setAppliedJobs(response.data)
+                setTotalItems(response.data.total)
+                setAppliedJobs(response.data.jobs)
             })
+    }, [pgNumber])
 
-        http.get("/jobs/approved")
-            .then((res) => {
-                setAllJobs(res.data.jobs)
-            })
-    }, [])
-
-    useEffect(() => {
-        let filtered = []
-        if (appliedjobs && allJobs) {
-            appliedjobs.map((appliedjob) => {
-                for (const jobs of allJobs) {
-                    if (appliedjob.applied === true && appliedjob.jobId === jobs._id) {
-                        filtered.push({ ...jobs, applied_date: appliedjob.applied_date })
-                    }
-                }
-            })
-        }
-        setFilteredJobs(filtered)
-    }, [appliedjobs, allJobs])
-
-
+    const itemsToShow = (pageNumber) => {
+        setPgNumber(pageNumber)
+        window.location.href = `/common/Myappliedjobs?page=${pageNumber}`
+    }
     return (
         <>
             <div className="container-scrollar">
                 <Header />
                 <div class="container-fluid page-body-wrapper">
-
                     <Sidebar />
                     <div class="container-fluid">
-                        <div class="content-wrapper">
-                            <div class="page-header">
-                                <h3 class="page-title">My Applied Jobs</h3>
-                                <nav aria-label="breadcrumb">
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="#">User</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Appliedjobs</li>
-                                    </ol>
-                                </nav>
-                            </div>
-
-                            <div class="row">
-
-
-                                <div class="row">
-                                    <div class="card-body pt-3 px-3 bg-white ">
-                                        <table class="table p-4" >
-                                            <thead>
-                                                <tr >
-                                                    <th>Job id</th>
-                                                    <th>Job Title</th>
-                                                    <th>Company</th>
-                                                    <th>Applied Date</th>
-                                                    <th></th>
-                                                    <th></th>
-
-                                                </tr>
-
-                                            </thead>
-                                            <tbody>
-                                                {filteredJobs && filteredJobs.length > 0 &&
-                                                    filteredJobs.map((job, index) => {
-                                                        return <tr key={index}>
-                                                            <td>{job._id}</td>
-                                                            <td>{job.jobTitle}</td>
-                                                            <td>{job.company}</td>
-                                                            <td>{job.applied_date}</td>
-
-                                                        </tr>
-                                                    })
-                                                }
-                                            </tbody>
-
-                                        </table>
-                                    </div>
-
-
-                                </div>
-
-
-
-
-                            </div>
+                        <div class="page-header">
+                            <h3 class="page-title">My Applied Jobs</h3>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a>User</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Appliedjobs</li>
+                                </ol>
+                            </nav>
                         </div>
+                        <div class=" px-2 ">
+                            {
+                                appliedjobs && appliedjobs.length > 0 && appliedjobs.map((job, index) => {
+                                    return (
+                                        <div className="p-2">
+                                            <div>
+                                                <i className="fw-bold">Applied on {job.applied_date}</i> &nbsp;
+                                                {job.jobId.status !== "approved" && <i className="text-secondary small">This job was removed</i>}
+                                            </div>
+                                            {job.jobId.status && <Card job={job.jobId} />}
+                                        </div>
+                                    )
 
-
+                                })
+                            }
+                            {
+                                appliedjobs && appliedjobs.length == 0 && <div className="p-3">No Applied Jobs</div>
+                            }
+                        </div>
+                        <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={+pgNumber} pageNumberToShow={2} />
                     </div>
-
-
-
                 </div>
                 <Footer />
-
             </div>
         </>
     )

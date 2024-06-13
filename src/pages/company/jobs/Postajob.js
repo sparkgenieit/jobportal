@@ -14,7 +14,6 @@ import { CitiesList } from '../../../helpers/constants';
 function Postajob() {
   const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
   const navigate = useNavigate();
-
   const [description, setDescription] = useState('');
   const [closeDate, setCloseDate] = useState('')
   const [location, setLocation] = useState('');
@@ -23,7 +22,7 @@ function Postajob() {
   const [jobTitle, setJobTitle] = useState('');
   const [jobType, setJobType] = useState('');
   const [vacancies, setVacancies] = useState('');
-  const [creationDate, setCreationDate] = useState('');
+  const [creationDate, setCreationDate] = useState(new Date().toLocaleDateString('en-GB'));
   const [training, setTraining] = useState({
     status: false,
     text: ""
@@ -628,7 +627,7 @@ function Postajob() {
                           <div className="form-group row">
                             <label className="col-sm-4 col-form-label">CreationDate<span className='text-danger'>*</span></label>
                             <div className="col-sm-8">
-                              <input type="date" className="form-control" value={creationDate} onChange={(event) => handleInput('creationdate', event)} />
+                              <input type="text" className="form-control" value={creationDate} disabled />
                               {errors.creationDateErrors && <span className='text-danger'>Please select date</span>}
                               <div className="bgcol" id="error1"></div>
                             </div>

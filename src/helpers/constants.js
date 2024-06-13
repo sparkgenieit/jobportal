@@ -2,7 +2,7 @@ import { loadStripe } from "@stripe/stripe-js";
 
 export const itemsPerPage = 10;
 
-export  const plans = [ {name:'Basic',price:2.99,credits:5},{name:'Standard',price:4.99,credits:10},{name:'Premium',price:7.99,credits:15} ];
+export const plans = [{ name: 'Basic', price: 2.99, credits: 5 }, { name: 'Standard', price: 4.99, credits: 10 }, { name: 'Premium', price: 7.99, credits: 15 }];
 
 export const BASE_APP_URL = 'http://localhost:3000';
 
