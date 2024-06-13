@@ -109,13 +109,13 @@ function UserRegistration() {
           console.log(response.data);
 
 
-          localStorage.setItem('token', response.data.token);
+          //localStorage.setItem('token', response.data.token);
           setIsRegister(true);
-          localStorage.setItem('user_id', response.data._id);
-          localStorage.setItem('role', response.data.role)
+          //localStorage.setItem('user_id', response.data._id);
+          //localStorage.setItem('role', response.data.role)
           // Store the token securely (e.g., in localStorage or HTTP-only cookies)
-          localStorage.setItem('fullname', firstName + " " + lastName);
-          localStorage.setItem('email', email);
+          //localStorage.setItem('fullname', firstName + " " + lastName);
+          //localStorage.setItem('email', email);
           setTimeout(() => {
             // Inside the handleLogin function
             navigate('/company'); // Redirect to the dashboard after login
