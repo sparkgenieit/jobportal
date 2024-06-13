@@ -110,18 +110,18 @@ function UserRegistration() {
           console.log(response.data);
 
 
-          localStorage.setItem('token', response.data.token);
+//          localStorage.setItem('token', response.data.token);
           setIsRegister(true);
-          localStorage.setItem('user_id', response.data._id);
-          localStorage.setItem('role', response.data.role)
+  //        localStorage.setItem('user_id', response.data._id);
+    //      localStorage.setItem('role', response.data.role)
           // Store the token securely (e.g., in localStorage or HTTP-only cookies)
-          localStorage.setItem('fullname', firstName + " " + lastName);
-          localStorage.setItem('email', email);
+      //    localStorage.setItem('fullname', firstName + " " + lastName);
+        //  localStorage.setItem('email', email);
           // setTimeout(() => {
           //   // Inside the handleLogin function
           //   navigate('/viewprofile'); // Redirect to the dashboard after login
           // }, 1500);
-
+          setTimeout(() => { setLoader(false); window.scrollTo({ top: 10, behavior: "smooth" }); }, 1200)
         })
         .catch(e => {
           console.log(e);
