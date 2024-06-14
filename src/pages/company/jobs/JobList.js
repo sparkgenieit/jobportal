@@ -88,24 +88,24 @@ function Joblist() {
 
                                                     <thead>
                                                         <tr >
-                                                            <th>Job id</th>
+
                                                             <th>Job Title</th>
-                                                            <th>Company</th>
+
                                                             <th>Creation Date</th>
                                                             <th>Status</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
-                                                            <th>Applied Users</th>
+                                                            <th className="text-center">Applied Users</th>
                                                         </tr>
 
                                                         {assignJobs && assignJobs.length > 0 &&
                                                             assignJobs.map((job, index) => {
                                                                 return <tr key={index}>
-                                                                    <td>{job._id}</td>
+
                                                                     <td>{job.jobTitle}</td>
-                                                                    <td>{job.company}</td>
+
                                                                     <td>{job.creationdate}</td>
-                                                                    <th>{job.status}</th>
+                                                                    <td>{job.status}</td>
                                                                     <td>
                                                                         <a href={`/company/editjob/${job._id}`} type="button" disabled={isLoading} class="btn btn-info btn-xs ">
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
@@ -120,8 +120,12 @@ function Joblist() {
                                                                             </svg>
                                                                         </button>
                                                                     </td>
-                                                                    {job.status === "approved" &&
-                                                                        <td className="text-center">
+                                                                    <td className="text-center">
+                                                                        {
+                                                                            job.status !== "approved" && <span>This Job is not live yet</span>
+                                                                        }
+                                                                        {job.status === "approved" &&
+
                                                                             <button type="button" class="btn btn-xs btn-danger" disabled={isLoading} onClick={() => { getAppliedUsers(job) }}>
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                                                     <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
@@ -129,8 +133,8 @@ function Joblist() {
                                                                                 </svg>
                                                                             </button>
 
-                                                                        </td>
-                                                                    }
+                                                                        }
+                                                                    </td>
                                                                 </tr>
                                                             })
                                                         }

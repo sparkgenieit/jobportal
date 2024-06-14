@@ -155,7 +155,7 @@ function Jobs() {
                 <div className='mb-4'>
                     <label className='fw-bold form-label '>Location</label>
                     <select className='d-block w-100 p-2 rounded' value={filterFields.location} onChange={(e) => { setFilterFields({ ...filterFields, location: e.target.value }) }}>
-                        <option></option>
+                        <option value=""> -- Any --</option>
                         {CitiesList.map((city, index) => {
                             return <option key={index} value={city}>{city}</option>
                         })}
@@ -170,7 +170,7 @@ function Jobs() {
                 <div className='mb-4'>
                     <label className='fw-bold form-label '>Job Type</label>
                     <select className='form-select d-block' value={filterFields.jobtype} onChange={(e) => { setFilterFields({ ...filterFields, jobtype: e.target.value }) }}>
-                        <option value=""></option>
+                        <option value="">-- Any --</option>
                         <option value="FullTime">Full Time</option>
                         <option value="PartTime">Part Time</option>
                         <option value="Contract">Contract</option>
@@ -183,7 +183,7 @@ function Jobs() {
                 <div className='mb-4'>
                     <label className='fw-bold form-label' >Job Category</label>
                     <select className='form-select d-block' value={filterFields.jobCategory} onChange={(e) => { setFilterFields({ ...filterFields, jobCategory: e.target.value }) }}>
-                        <option value=""></option>
+                        <option value="">-- Any --</option>
                         {parent && parent.map((p, index) => <option key={index} className="fw-bold" value={p}>{p}</option>)}
                     </select>
                 </div>
@@ -191,7 +191,7 @@ function Jobs() {
                 <div className='mb-4'>
                     <label className='fw-bold form-label '>Sub Category</label>
                     <select className='form-select d-block ' value={filterFields.subCategory} onChange={(e) => { setFilterFields({ ...filterFields, subCategory: e.target.value }) }}>
-                        <option value=""></option>
+                        <option value="">-- Any --</option>
                         {!filterFields.jobCategory && <option disabled>Please Select Job Category</option>}
                         {categoriesList && categoriesList.map((category, index) => {
 

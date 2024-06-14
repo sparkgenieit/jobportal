@@ -197,9 +197,9 @@ function Myasignjobs() {
                                                                         </button>
                                                                     </td>
                                                                     <td>
-                                                                        <button onClick={() => handleRelease(job)} type="button" class="btn btn-outline-dark btn-xs col-12  ">
+                                                                        {job.status === "review" && <button onClick={() => handleRelease(job)} type="button" class="btn btn-outline-dark btn-xs col-12  ">
                                                                             Release
-                                                                        </button>
+                                                                        </button>}
                                                                     </td>
 
 

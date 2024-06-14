@@ -8,45 +8,45 @@ export default function PaymentStatus() {
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate()
     const [amount, setAmount] = useState();
-    const [credits,setCredits] = useState(0);
+    const [credits, setCredits] = useState(0);
     const [status, setStatus] = useState();
     const [loading, setLoading] = useState(true)
     const payment_intent_id = searchParams.get('payment_intent')
-   
+
     useEffect(() => {
-   
+
         if (payment_intent_id) {
             http.get(`/payment/payment-intent/${payment_intent_id}`)
-                .then( (res) => {
-console.log(res);
+                .then((res) => {
+                    console.log(res);
                     if (res.data.status === "succeeded") {
                         setAmount(res.data.amount_received)
                         setStatus("Payment Succeeded")
-                        if(localStorage.getItem("Plan")){
+                        if (localStorage.getItem("Plan")) {
                             const selectedPlan = localStorage.getItem("Plan")
                             const plan = plans.find((plan) => plan.name === selectedPlan);
-                            console.log('plan',plan);
+                            console.log('plan', plan);
                             setCredits(plan.credits);
-                        let data = {
-                            orderId: payment_intent_id,
-                            companyId: localStorage.getItem('user_id'),
-                            credits:plan.credits,
-                            planName: localStorage.getItem("Plan")
-                        }
-                        console.log('Order',data);
-                        http.post('/orders/create', data) // To Post the Job
-                            .then(async (response) => {
-                                console.log(response);
-                                const credits = parseInt(localStorage.getItem('credits'));
-                                http.put(`/users/update/${localStorage.getItem('user_id')}`, {'credits':parseInt(credits+plan.credits)});
-                                localStorage.setItem('credits', plan.credits);
-                                localStorage.removeItem("Plan")
-                                localStorage.removeItem("Jobdata")
-                               
-                           //     navigate('/company/postajob')
-                
-                            })
-                            .catch(err => console.log(err))
+                            let data = {
+                                orderId: payment_intent_id,
+                                companyId: localStorage.getItem('user_id'),
+                                credits: plan.credits,
+                                planName: localStorage.getItem("Plan")
+                            }
+                            console.log('Order', data);
+                            http.post('/orders/create', data) // To Post the Job
+                                .then(async (response) => {
+                                    console.log(response);
+                                    const credits = parseInt(localStorage.getItem('credits'));
+                                    http.put(`/users/update/${localStorage.getItem('user_id')}`, { 'credits': parseInt(credits + plan.credits) });
+                                    localStorage.setItem('credits', credits + plan.credits);
+                                    localStorage.removeItem("Plan")
+                                    localStorage.removeItem("Jobdata")
+
+                                    //     navigate('/company/postajob')
+
+                                })
+                                .catch(err => console.log(err))
                         }
                         setLoading(false)
                     }
@@ -61,24 +61,24 @@ console.log(res);
     const PostJob = async () => {
         setLoading(true)
         navigate('/company/postajob')
-        
-       /* let data = {
-            orderId: "123",
-            companyId: localStorage.getItem('user_id'),
-            credits:credits,
-            planName: localStorage.getItem("Plan")
-        }
-        console.log('Order',data);
-        return http.post('/orders/create', data) // To Post the Job
-            .then(response => {
-                console.log(response);
-                localStorage.removeItem("Plan")
-                localStorage.removeItem("Jobdata")
-                http.put(`/companies/profile/update/${localStorage.getItem('user_id')}`, {'credits':credits});
-                navigate('/company/postajob')
 
-            })
-            .catch(err => console.log(err)) */
+        /* let data = {
+             orderId: "123",
+             companyId: localStorage.getItem('user_id'),
+             credits:credits,
+             planName: localStorage.getItem("Plan")
+         }
+         console.log('Order',data);
+         return http.post('/orders/create', data) // To Post the Job
+             .then(response => {
+                 console.log(response);
+                 localStorage.removeItem("Plan")
+                 localStorage.removeItem("Jobdata")
+                 http.put(`/companies/profile/update/${localStorage.getItem('user_id')}`, {'credits':credits});
+                 navigate('/company/postajob')
+ 
+             })
+             .catch(err => console.log(err)) */
     }
 
 
