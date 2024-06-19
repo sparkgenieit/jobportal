@@ -69,7 +69,8 @@ function UserRegistration() {
     }
   }
 
-  const add = () => {
+  const add = (e) => {
+    e.preventDefault();
     setLoader(true);
     setErrors({ registerError: '' });
 
@@ -110,13 +111,13 @@ function UserRegistration() {
           console.log(response.data);
 
 
-//          localStorage.setItem('token', response.data.token);
+          //          localStorage.setItem('token', response.data.token);
           setIsRegister(true);
-  //        localStorage.setItem('user_id', response.data._id);
-    //      localStorage.setItem('role', response.data.role)
+          //        localStorage.setItem('user_id', response.data._id);
+          //      localStorage.setItem('role', response.data.role)
           // Store the token securely (e.g., in localStorage or HTTP-only cookies)
-      //    localStorage.setItem('fullname', firstName + " " + lastName);
-        //  localStorage.setItem('email', email);
+          //    localStorage.setItem('fullname', firstName + " " + lastName);
+          //  localStorage.setItem('email', email);
           // setTimeout(() => {
           //   // Inside the handleLogin function
           //   navigate('/viewprofile'); // Redirect to the dashboard after login
@@ -162,7 +163,7 @@ function UserRegistration() {
             Please verify your Email Address to use our services
           </div>}
           {!isRegister && <div>
-            <form>
+            <form onSubmit={(e) => { add(e) }}>
               <div class="form-row">
                 <div class="row">
                   <div class="form-group col-md-6">
@@ -203,7 +204,7 @@ function UserRegistration() {
               </div>
 
               <div class="form-row">
-                <button type="button" onClick={() => add()} class="btn btn-danger">Register</button>
+                <button type="submit" class="btn btn-danger">Register</button>
               </div>
             </form>
           </div>}

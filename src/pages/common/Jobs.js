@@ -14,7 +14,6 @@ import Card from '../../components/Card';
 function Jobs() {
     const [jobs, setJobs] = useState(null)
     const [searchParams, setSearchParams] = useSearchParams()
-    const company = searchParams.get("company")
     const [categoriesList, setCategoriesList] = useState("")
     const [parent, setParent] = useState("")
     const location = searchParams.get("location")
@@ -23,7 +22,6 @@ function Jobs() {
     const [pgNumber, setPgNumber] = useState(searchParams.get("page") || 1)
     const filter = JSON.parse(localStorage.getItem("filter"))
     const [filterFields, setFilterFields] = useState({
-        company: null,
         search: null,
         location: null,
         jobtype: null,
@@ -31,17 +29,14 @@ function Jobs() {
         subCategory: null,
         salary: null,
         duration: null,
-        weeklyperhour: null
+        weeklyperhour: null,
+        sort: "creationdate"
     })
 
     useEffect(() => {
         let currentFilters = { ...filter }
-        console.log(location)
         if (location && location.trim() != "") {
             currentFilters.location = location;
-        }
-        if (company && company.trim() != "") {
-            currentFilters.company = company;
         }
         if (keyword && keyword.trim() != "") {
             currentFilters.search = keyword;
@@ -74,7 +69,6 @@ function Jobs() {
     const ResetFilter = () => {
         localStorage.removeItem("filter");
         setFilterFields({
-            company: "",
             search: "",
             location: "",
             jobtype: "",
@@ -82,7 +76,8 @@ function Jobs() {
             subCategory: "",
             rateperhour: null,
             duration: null,
-            weeklyperhour: null
+            weeklyperhour: null,
+            sort: "creationdate"
         })
     }
 
@@ -134,7 +129,10 @@ function Jobs() {
             <section className='col-3  p-3 rounded'>
                 <div className=' mb-2'>Filters</div>
                 <div className='mb-4'>
-                    <input type='text' value={filterFields.search} onChange={(e) => { setFilterFields({ ...filterFields, search: e.target.value }) }} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Search by Keyword' />
+                    <input type='text' value={filterFields.search} onChange={(e) => { setFilterFields({ ...filterFields, search: e.target.value }) }} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Search by Job Title' />
+                </div>
+                <div className='mb-4'>
+                    <input type='text' className='form-input d-block w-100 rounded p-2 shadow-sm border-0' value={filterFields.location} onChange={(e) => { setFilterFields({ ...filterFields, location: e.target.value }) }} placeholder='Type Location Here' />
                 </div>
 
                 <div className='mb-2'>
@@ -147,24 +145,19 @@ function Jobs() {
                     <input type='range' className='form-range' min="0" max="8" onChange={(e) => { handleRanges("duration", e) }} />
                 </div>
 
+                {/* <div className='mb-2'>
+                    <div className='fw-bold'></div>
+                    <input type='range' className='form-range' min="0" max="8" />
+                </div>
+
+                <div className='mb-2'>
+                    <div className='fw-bold'></div>
+                    <input type='range' className='form-range' min="0" max="8" />
+                </div> */}
+
                 <div className='mb-2'>
                     <div className='fw-bold'>{filterFields.weeklyperhour ? `${filterFields.weeklyperhour} Hours` : "Any Hours"}</div>
                     <input type='range' className='form-range' value={filterFields.weeklyperhour} min="40" max="50" onChange={(e) => { handleRanges("weeklyperhour", e) }} />
-                </div>
-
-                <div className='mb-4'>
-                    <label className='fw-bold form-label '>Location</label>
-                    <select className='d-block w-100 p-2 rounded' value={filterFields.location} onChange={(e) => { setFilterFields({ ...filterFields, location: e.target.value }) }}>
-                        <option value=""> -- Any --</option>
-                        {CitiesList.map((city, index) => {
-                            return <option key={index} value={city}>{city}</option>
-                        })}
-                    </select>
-                </div>
-
-                <div className='mb-4'>
-                    <label className='fw-bold form-label '>Company</label>
-                    <input type='text' className='form-input d-block w-100 rounded p-2 shadow-sm border-0' value={filterFields.company} onChange={(e) => { setFilterFields({ ...filterFields, company: e.target.value }) }} placeholder='Type Company Name Here' />
                 </div>
 
                 <div className='mb-4'>
@@ -202,6 +195,15 @@ function Jobs() {
 
                         }
                     </select>
+
+                </div>
+                <div className='mb-4'>
+                    <label className='form-label small'>Sort By:</label>
+                    <select className='form-select' value={filterFields.sort} onChange={(e) => setFilterFields(prevState => ({ ...prevState, sort: e.target.value }))}>
+                        <option value="creationdate">Creation Date</option>
+                        <option value="rateperhour">Rate per Hour</option>
+                        <option value="weeklyperhour">Weekly Hours</option>
+                    </select>
                 </div>
                 <div className='d-flex justify-content-between'>
                     <button type='button' onClick={ResetFilter} className='btn btn-dark'>Reset</button>
@@ -212,8 +214,9 @@ function Jobs() {
 
             <section className="col-7">
                 <div className="container-fluid">
-                    <div className="d-flex justify-content-between">
+                    <div className="d-flex justify-content-between mb-3 ">
                         <div className="h2">Jobs</div>
+
                     </div>
                     <div className="container rounded px-5">
                         {jobs && jobs.length > 0 &&

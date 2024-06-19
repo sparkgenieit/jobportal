@@ -69,7 +69,8 @@ function UserLogin() {
     }
   }
 
-  const login = () => {
+  const login = (e) => {
+    e.preventDefault();
     setLoader(true);
     setErrors({ loginError: '' });
 
@@ -106,11 +107,11 @@ function UserLogin() {
 
 
           localStorage.setItem('role', response.data.role)
-        if(response.data.role === 'employer'){
+          if (response.data.role === 'employer') {
             localStorage.setItem('credits', response.data.credits);
             localStorage.setItem('usedFreeCredit', response.data.usedFreeCredit);
-            
-        }
+
+          }
 
           setTimeout(() => {
             // Inside the handleLogin function
@@ -163,7 +164,7 @@ function UserLogin() {
           {verifybutton && <div class="alert alert-danger" role="alert">
             Email sent to your Address</div>}
 
-          <form>
+          <form onSubmit={(e) => { login(e) }}>
 
             <div class="form-outline mb-4">
 
@@ -183,7 +184,7 @@ function UserLogin() {
 
             <div class="d-flex justify-content-between align-items-center">
               <div class="form-check mb-0">
-                <button type="button" onClick={() => login()} class="btn btn-primary btn-lg"
+                <button type="submit" class="btn btn-primary btn-lg"
                   style={{ "paddingLeft": "2.5rem", "paddingRight": "2.5rem" }}>Login</button>
               </div>
               {verifyStatus && <div class="form-check mb-0">

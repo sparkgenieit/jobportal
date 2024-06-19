@@ -105,7 +105,11 @@ function Joblist() {
                                                                     <td>{job.jobTitle}</td>
 
                                                                     <td>{job.creationdate}</td>
-                                                                    <td>{job.status}</td>
+                                                                    <td>
+                                                                        {job.status === "queue" && <span>Reviewing</span>}
+                                                                        {job.status === "approved" && <span>Live</span>}
+                                                                        {job.status === "rejected" && <span>Rejected</span>}
+                                                                    </td>
                                                                     <td>
                                                                         <a href={`/company/editjob/${job._id}`} type="button" disabled={isLoading} class="btn btn-info btn-xs ">
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">

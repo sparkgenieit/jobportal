@@ -69,7 +69,8 @@ function UserRegistration() {
     }
   }
 
-  const add = () => {
+  const add = (e) => {
+    e.preventDefault();
     setLoader(true);
     setErrors({ registerError: '' });
 
@@ -161,7 +162,7 @@ function UserRegistration() {
             User Registered successfully!
           </div>}
           {!isRegister && <div>
-            <form>
+            <form onSubmit={(e) => { add(e) }}>
               <div class="form-row">
                 <div class="row">
                   <div class="form-group col-md-6">
@@ -202,7 +203,7 @@ function UserRegistration() {
               </div>
 
               <div class="form-row">
-                <button type="button" onClick={() => add()} class="btn btn-danger">Register</button>
+                <button type="submit" class="btn btn-danger">Register</button>
               </div>
             </form>
           </div>}

@@ -48,7 +48,7 @@ export default function Card({ job }) {
                     {job.description.length > 300 ? `${job.description.slice(0, 300)}...` : job.description}
                 </p>
                 <div className='h6'>
-                    {new Date(job.creationdate).toLocaleDateString('en-GB')} ( {timeAgo(job.creationdate)} )
+                    {job.creationdate} ({timeAgo(job.creationdate)})
                 </div>
             </div>
             <div className='col-2 d-flex flex-column justify-content-between align-items-center '>

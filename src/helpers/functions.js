@@ -1,5 +1,7 @@
-export function timeAgo(date) {
+export function timeAgo(dateString) {
     const now = Date.now();
+    const parts = dateString.split("/");
+    const date = `${parts[1]}-${parts[0]}-${parts[2]}`;
     const difference = now - new Date(date).getTime();  //to get accurate time in the date string should be in mm-dd-yyyy format & this will give the time in milliseconds
 
     const seconds = Math.floor(difference / 1000);

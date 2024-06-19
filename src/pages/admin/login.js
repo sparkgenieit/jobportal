@@ -68,7 +68,8 @@ function Login() {
   }
 
 
-  const submitData = () => {
+  const submitData = (e) => {
+    e.preventDefault();
     let Obj = {};
     if (email == "") {
       Obj = { ...Obj, email: true }
@@ -90,10 +91,6 @@ function Login() {
     else {
       Obj = { ...Obj, password: false }
     }
-
-
-
-
     setErrors(Obj);
 
     if (Obj.email == false && Obj.password == false) {
@@ -119,13 +116,13 @@ function Login() {
           localStorage.setItem('user_id', response.data._id);
           // Store the token securely (e.g., in localStorage or HTTP-only cookies)
           localStorage.setItem('token', token);
-
+          localStorage.setItem('fullname', response.data.first_name + " " + response.data.last_name)
           localStorage.setItem('role', response.data.role)
           setTimeout(() => {
             // Inside the handleLogin function
             navigate('/admin/Jobqueuelist')// Redirect to the dashboard after login
             window.location.reload();
-          }, 2000);
+          }, 500);
         }
         )
         .catch((e) => {
@@ -160,7 +157,7 @@ function Login() {
                 <div className="col-12 bg-white">
                   <div className="card-body">
                     <h4 className="card-title my-4"> Admin Login </h4>
-                    <form class="form-sample">
+                    <form onSubmit={(e) => submitData(e)} class="form-sample">
                       {errors && errors.loginError && <div class="alert alert-danger" role="alert">
                         {errors && errors.loginError}</div>}
                       <div className='row mt-3'>
@@ -189,7 +186,7 @@ function Login() {
                       </div>
                       <div className="col-md-9 mt-3 row">
                         <div className="col-md-12  ">
-                          <button type="button" className="btn btn-gradient-primary me-2 float-end" onClick={() => submitData()} >Submit</button>
+                          <button type="submit" className="btn btn-gradient-primary me-2 float-end" >Submit</button>
                         </div>
                       </div>
 
