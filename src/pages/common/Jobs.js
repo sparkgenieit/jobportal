@@ -3,13 +3,12 @@ import './jobList.css';
 import Header from '../../layouts/common/Header';
 import Footer from '../../layouts/common/Footer';
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import http from '../../helpers/http';
-import { CitiesList, itemsPerPage } from '../../helpers/constants';
+import { itemsPerPage } from '../../helpers/constants';
 import Pagination from '../../components/Pagination';
 import Ads from './ads';
 import Card from '../../components/Card';
-
 
 function Jobs() {
     const [jobs, setJobs] = useState(null)
@@ -29,6 +28,7 @@ function Jobs() {
         subCategory: null,
         salary: null,
         duration: null,
+        date: null,
         weeklyperhour: null,
         sort: "creationdate"
     })
@@ -77,18 +77,13 @@ function Jobs() {
             rateperhour: null,
             duration: null,
             weeklyperhour: null,
+            date: null,
             sort: "creationdate"
         })
     }
-
     const handleFilter = () => {
         localStorage.setItem("filter", JSON.stringify(filterFields))
-        http.post(`/jobs/filtered-jobs?limit=${itemsPerPage}&skip=0`, filterFields)
-            .then((res) => {
-                setTotalItems(res.data.total);
-                setJobs(res.data.jobs)
-            })
-            .catch(err => console.log(err))
+        window.location.href = "/common/jobs";
     }
 
     const handleRanges = (name, e) => {
@@ -117,8 +112,15 @@ function Jobs() {
                 setFilterFields({ ...filterFields, weeklyperhour: e.target.value })
             }
         }
+        if (name === "date") {
+            if (e.target.value == 5) {
+                setFilterFields({ ...filterFields, date: null })
+            } else {
+                let value = [1, 2, 3, 7, 14]
+                setFilterFields({ ...filterFields, date: value[e.target.value] })
+            }
+        }
     }
-
     const itemsToShow = (pageNumber) => {
         window.location.href = `/common/jobs?page=${pageNumber}`
     }
@@ -136,28 +138,40 @@ function Jobs() {
                 </div>
 
                 <div className='mb-2'>
-                    <div className='fw-bold'> {filterFields.rateperhour ? `$ ${filterFields.rateperhour}` : "Any Rate Per Hour"}</div>
-                    <input type='range' name='rateperhour' value={filterFields.rateperhour} min="1" max="10" onChange={(e) => { handleRanges("rateperhour", e) }} className='form-range' />
+                    <div className='d-flex justify-content-between'>
+                        <span>Rate per hour : </span>
+                        <span className='fw-bold'>{filterFields.rateperhour ? `$ ${filterFields.rateperhour}` : "Any Rate Per Hour"}</span>
+                    </div>
+                    <input type='range' name='rateperhour' value={filterFields.rateperhour} min="1" max="10" defaultValue="10" onChange={(e) => { handleRanges("rateperhour", e) }} className='form-range' />
                 </div>
 
                 <div className='mb-2'>
-                    <div className='fw-bold'>{filterFields.duration ? filterFields.duration : "Any Duration"}</div>
-                    <input type='range' className='form-range' min="0" max="8" onChange={(e) => { handleRanges("duration", e) }} />
+                    <div className='d-flex justify-content-between'>
+                        <span>Duration : </span>
+                        <span className='fw-bold'>{filterFields.duration ? filterFields.duration : "Any Duration"}</span>
+                    </div>
+                    <input type='range' className='form-range' min="0" max="8" defaultValue="8" onChange={(e) => { handleRanges("duration", e) }} />
                 </div>
 
                 {/* <div className='mb-2'>
                     <div className='fw-bold'></div>
                     <input type='range' className='form-range' min="0" max="8" />
-                </div>
-
-                <div className='mb-2'>
-                    <div className='fw-bold'></div>
-                    <input type='range' className='form-range' min="0" max="8" />
                 </div> */}
 
                 <div className='mb-2'>
-                    <div className='fw-bold'>{filterFields.weeklyperhour ? `${filterFields.weeklyperhour} Hours` : "Any Hours"}</div>
-                    <input type='range' className='form-range' value={filterFields.weeklyperhour} min="40" max="50" onChange={(e) => { handleRanges("weeklyperhour", e) }} />
+                    <div className='d-flex justify-content-between'>
+                        <span>Date Posted : </span>
+                        <span className='fw-bold'>{filterFields.date ? `${filterFields.date}d ago` : "Any day"}</span>
+                    </div>
+                    <input type='range' className='form-range' min="0" max="5" defaultValue="5" onChange={(e) => { handleRanges("date", e) }} />
+                </div>
+
+                <div className='mb-2'>
+                    <div className='d-flex justify-content-between'>
+                        <span>Weekly Hours : </span>
+                        <span className='fw-bold'>{filterFields.weeklyperhour ? `${filterFields.weeklyperhour} Hours` : "Any Hours"}</span>
+                    </div>
+                    <input type='range' className='form-range' value={filterFields.weeklyperhour} min="40" max="50" defaultValue="50" onChange={(e) => { handleRanges("weeklyperhour", e) }} />
                 </div>
 
                 <div className='mb-4'>

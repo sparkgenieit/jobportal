@@ -1,7 +1,9 @@
+import { BASE_API_URL } from "../helpers/constants";
+
 export default function ViewProfileData({ user, JobTypes }) {
     const handleDownload = (event, path, file) => {
         event.preventDefault();
-        fetch("http://localhost:8080/upload/file/?path=" + path + "&file=" + file, {
+        fetch(`${BASE_API_URL}/upload/file/?path=` + path + "&file=" + file, {
             responseType: "blob",
         })
             .then((response) => response.blob())

@@ -53,7 +53,7 @@ export default function Card({ job }) {
             </div>
             <div className='col-2 d-flex flex-column justify-content-between align-items-center '>
                 <div>
-                    <img className="rounded" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} width="70px" height="50px" alt="" />
+                    {job.companyLogo.length > 0 && <img className="rounded" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} width="70px" height="50px" alt={job.company} />}
                 </div>
                 <div className='d-flex gap-2'>
                     <a className='share-tooltip' type='button' onClick={(e) => { handleShare(e) }}>

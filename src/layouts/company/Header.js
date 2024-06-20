@@ -150,8 +150,10 @@ function Header() {
                           <div>
                             <div className='text-danger fw-bold'>Your Job for {notification.jobTitle} is Rejected</div>
                             <div className='rejected-notification-message'>
-                              Reason for Rejection : <span className='fw-bold'>{notification.message}</span>&nbsp;
-                              <a href={`/company/editjob/${notification.jobId}`}>Click Here to go to Job</a>
+                              Reason for Rejection : <span className='fw-bold'>{notification.message}</span>
+                              <div>
+                                <a href={`/company/editjob/${notification.jobId}`}>Click Here to go to Job</a>
+                              </div>
                             </div>
                           </div>
                           <span className='small'>{timeAgoMinutes(notification.createdAt)}</span>

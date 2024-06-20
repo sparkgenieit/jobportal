@@ -2,48 +2,44 @@ import { useContext, useState, useEffect } from 'react';
 import './Sidebar.css';
 import { SidebarContext } from '../../helpers/Context';
 import { useNavigate } from "react-router-dom";
-
 import { Modal } from "react-bootstrap";
-import http from "../../helpers/http";
 
- function Sidebar() {
+function Sidebar() {
 
   const { showSidebar } = useContext(SidebarContext);
   const navigate = useNavigate()
   let sidebarClass = showSidebar ? "sidebar-showing" : "sidebar-not-showing";
-  
   const [show, setShow] = useState(false);
-
   const [showJob, setShowJob] = useState(false);
   const [showBuy, setShowBuy] = useState(false);
-    //const [companyProfile,setCompanyProfile] = useState();
-   
-console.log(parseInt(localStorage.getItem('credits')));
-console.log(localStorage.getItem('usedFreeCredit'));
-    
+  //const [companyProfile,setCompanyProfile] = useState();
+
+  console.log(parseInt(localStorage.getItem('credits')));
+  console.log(localStorage.getItem('usedFreeCredit'));
+
   const handleModal = () => {
-    
-    if(parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'false' ){
+
+    if (parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'false') {
       setShowJob(true);
       setShow(true);
-      
-      console.log('showJob',showJob);
+
+      console.log('showJob', showJob);
     }
-    else  if(parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'true'){     
+    else if (parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'true') {
       setShowBuy(true);
       setShow(true);
-      console.log('showBuy',showBuy);
+      console.log('showBuy', showBuy);
     }
-    else{
+    else {
       navigate('/company/postajob')
     }
     setShowBuy(true);
   }
   const handleClose = () => {
     setShow(false)
-    
+
   }
-  
+
   return (
     <>
       {<div className={`${sidebarClass}`}>
@@ -59,7 +55,7 @@ console.log(localStorage.getItem('usedFreeCredit'));
                   <span class="font-weight-bold mb-2">Employer</span>
                   <span class="text-secondary  mb-2">Available Credits: {localStorage.getItem('credits')}</span>
                 </div>
-                
+
               </a>
             </li>
             <li class="nav-item">
@@ -107,7 +103,7 @@ console.log(localStorage.getItem('usedFreeCredit'));
 
                 <li class="nav-item">
                   <a class="nav-link" href="/company/BuyCredits">
-                    <span class="menu-title">But Credits</span>
+                    <span class="menu-title">Buy Credits</span>
                     <div className='mx-5 bg-lite'><svg xmlns="http://www.w3.org/2000/svg" width="90" height="20" fill="currentColor" class="bi bi-view-list" viewBox="0 0 16 16">
                       <path d="M11 5.5a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v1a.5.5 0 01-.5.5h-2a.5.5 0 01-.5-.5v-1z" />
                       <path d="M2 2a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H2zm13 2v5H1V4a1 1 0 011-1h12a1 1 0 011 1zm-1 9H2a1 1 0 01-1-1v-1h14v1a1 1 0 01-1 1z" />
@@ -121,39 +117,39 @@ console.log(localStorage.getItem('usedFreeCredit'));
       </div>}
       <Modal show={show} onHide={handleClose}>
         <Modal.Body>
-        {parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'false'  &&  <><div class="form-row ml-5">
-                <div class="form-group">
-                  <div class="form-group">
-                    <div class="form-check ml-2">
-                      <label class="form-check-label" for="invalidCheck2">
-                        <span>Hurray you can post your first job for free, for next job you need to buy credits.</span>
-                      </label>
-                    </div>
-                  </div>
-
+          {parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'false' && <><div class="form-row ml-5">
+            <div class="form-group">
+              <div class="form-group">
+                <div class="form-check ml-2">
+                  <label class="form-check-label" for="invalidCheck2">
+                    <span>Hurray you can post your first job for free, for next job you need to buy credits.</span>
+                  </label>
                 </div>
               </div>
 
-              <div class="form-row">
-                <button type="button" onClick={()=> {handleClose(); navigate('/company/postajob')}} class="btn btn-danger">Post A job</button>
-              </div></>}
+            </div>
+          </div>
 
-              {parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'true'  &&  <><div class="form-row ml-5">
-                <div class="form-group">
-                  <div class="form-group">
-                    <div class="form-check ml-2">
-                      <label class="form-check-label" for="invalidCheck2">
-                      <span>Sorry you dont have credits please buy credits to post the job.</span>
-                      </label>
-                    </div>
-                  </div>
+            <div class="form-row">
+              <button type="button" onClick={() => { handleClose(); navigate('/company/postajob') }} class="btn btn-danger">Post A job</button>
+            </div></>}
 
+          {parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'true' && <><div class="form-row ml-5">
+            <div class="form-group">
+              <div class="form-group">
+                <div class="form-check ml-2">
+                  <label class="form-check-label" for="invalidCheck2">
+                    <span>Sorry you dont have credits please buy credits to post the job.</span>
+                  </label>
                 </div>
               </div>
 
-              <div class="form-row">
-                <button type="button" onClick={()=> { handleClose();navigate('/company/BuyCredits')}}  class="btn btn-danger">Buy Credits</button>
-              </div></>}
+            </div>
+          </div>
+
+            <div class="form-row">
+              <button type="button" onClick={() => { handleClose(); navigate('/company/BuyCredits') }} class="btn btn-danger">Buy Credits</button>
+            </div></>}
         </Modal.Body>
 
       </Modal>
@@ -161,23 +157,23 @@ console.log(localStorage.getItem('usedFreeCredit'));
       <Modal showBuy={showBuy} onHide={handleClose}>
         <Modal.Body>
 
-        <div class="form-row ml-5">
-                <div class="form-group">
-                  <div class="form-group">
-                    <div class="form-check ml-2">
-                      <label class="form-check-label" for="invalidCheck2">
-                        <small><span>By registering you agree to <a href="/privacy" target="_blank" >Privacy Policy</a></span></small>
-                      </label>
-                    </div>
-                  </div>
-
+          <div class="form-row ml-5">
+            <div class="form-group">
+              <div class="form-group">
+                <div class="form-check ml-2">
+                  <label class="form-check-label" for="invalidCheck2">
+                    <small><span>By registering you agree to <a href="/privacy" target="_blank" >Privacy Policy</a></span></small>
+                  </label>
                 </div>
               </div>
 
-              <div class="form-row">
-                <button type="button"  class="btn btn-danger">Buy Credits</button>
-              </div>
-        
+            </div>
+          </div>
+
+          <div class="form-row">
+            <button type="button" class="btn btn-danger">Buy Credits</button>
+          </div>
+
 
         </Modal.Body>
 
