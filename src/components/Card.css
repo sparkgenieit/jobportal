@@ -1,63 +1,20 @@
-.my-job-card :hover {
-    background-color: #f8f9fa;
-    transform: scale(1.005);
-    transition: all 0.2s;
+.job-card:hover {
+    /* background-color: rgb(231, 231, 231); */
+    cursor: pointer;
+    background-color: #f7f7f7;
+    transition: none;
+    transform: scale(1.01);
+    position: relative;
 }
 
-.share-tooltip::before {
-    content: 'Share';
-    text-align: center;
-    font-size: small;
-    background-color: grey;
-    color: rgb(238, 237, 237);
-    width: fit-content;
-    padding: 6px;
-    border-radius: 5px;
+.my-tooltip {
     position: absolute;
-    top: 140%;
-    margin-left: -10px;
-    visibility: hidden;
-}
-
-.share-tooltip:hover::before {
-    visibility: visible;
-}
-
-.share-tooltip::after {
-    content: "Link Copied";
-    text-align: center;
-    font-size: small;
     background-color: grey;
-    color: rgb(238, 237, 237);
-    width: fit-content;
-    padding: 6px;
-    border-radius: 5px;
-    position: absolute;
-    top: -60px;
-    margin-left: -40px;
-    visibility: hidden;
 }
 
-.share-tooltip:active::after {
-    visibility: visible;
-}
-
-
-.save-tooltip::before {
-    content: 'Save';
-    text-align: center;
-    font-size: small;
+.link-copied {
     background-color: grey;
-    color: rgb(238, 237, 237);
-    width: fit-content;
-    padding: 6px;
-    border-radius: 5px;
-    position: absolute;
-    top: 140%;
-    margin-left: -10px;
-    visibility: hidden;
-}
-
-.save-tooltip:hover::before {
-    visibility: visible;
+    position: fixed;
+    bottom: 5%;
+    right: 40%;
 }

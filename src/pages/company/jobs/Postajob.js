@@ -565,7 +565,7 @@ function Postajob() {
         setTraining({ ...training, status: true })
       }
       if (value === "No") {
-        setTraining({ ...training, status: false })
+        setTraining({ status: false, text: "" })
       }
     }
 

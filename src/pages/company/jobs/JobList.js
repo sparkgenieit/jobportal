@@ -10,6 +10,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 function Joblist() {
     const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
     const [totalItems, setTotalItems] = useState("")
+    const [name, setName] = useState("")
     const [searchParams] = useSearchParams();
     const [pgNumber, setPgNumber] = useState(searchParams.get("page") || 1)
     const [assignJobs, setAssignJobs] = useState(null);
@@ -23,12 +24,12 @@ function Joblist() {
 
     useEffect(() => {
         const skip = (pgNumber - 1) * itemsPerPage
-        http.get(`/jobs/postedJobs/${userId}?limit=${itemsPerPage}&skip=${skip}`)
+        http.get(`/jobs/postedJobs/${userId}?limit=${itemsPerPage}&skip=${skip}&name=${name}`)
             .then((response) => {
                 setTotalItems(response.data.total)
                 setAssignJobs(response.data.jobs)
             })
-    }, [pgNumber, message])
+    }, [pgNumber, name, message])
 
     const getAppliedUsers = (job) => {
         navigate(`/company/applied-users/${job._id}`)
@@ -81,7 +82,7 @@ function Joblist() {
                                     </div>}
 
                                     <div class="py-3 px-5 bg-white rounded ">
-                                        <input type="text" className="form-control my-3 shadow" placeholder="Search by Job Title" />
+                                        <input type="text" value={name} onChange={(e) => { setName(e.target.value) }} className="form-control my-3 shadow" placeholder="Search by Job Title" />
                                         <form class="form-sample">
                                             <div class="col">
                                                 <table class="table" >
@@ -122,9 +123,7 @@ function Joblist() {
                                                                         </button>
                                                                     </td>
                                                                     <td className="text-center">
-                                                                        {
-                                                                            job.status !== "approved" && <span>This Job is not live yet</span>
-                                                                        }
+                                                                        {job.status !== "approved" && <span>This Job is not live yet</span>}
                                                                         {job.status === "approved" &&
 
                                                                             <button type="button" class="btn btn-xs btn-danger" disabled={isLoading} onClick={() => { getAppliedUsers(job) }}>

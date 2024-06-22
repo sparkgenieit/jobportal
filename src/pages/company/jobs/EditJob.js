@@ -571,7 +571,7 @@ function EditJob() {
                 setTraining({ ...training, status: true })
             }
             if (value === "No") {
-                setTraining({ ...training, status: false })
+                setTraining({ text: "", status: false })
             }
         }
 

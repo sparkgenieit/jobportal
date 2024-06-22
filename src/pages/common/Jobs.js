@@ -17,10 +17,12 @@ function Jobs() {
     const [parent, setParent] = useState("")
     const location = searchParams.get("location")
     const keyword = searchParams.get("keyword")
+    const company = searchParams.get("company")
     const [totalItems, setTotalItems] = useState("")
     const [pgNumber, setPgNumber] = useState(searchParams.get("page") || 1)
     const filter = JSON.parse(localStorage.getItem("filter"))
     const [filterFields, setFilterFields] = useState({
+        company: null,
         search: null,
         location: null,
         jobtype: null,
@@ -37,6 +39,9 @@ function Jobs() {
         let currentFilters = { ...filter }
         if (location && location.trim() != "") {
             currentFilters.location = location;
+        }
+        if (company && company.trim() != "") {
+            currentFilters.company = company;
         }
         if (keyword && keyword.trim() != "") {
             currentFilters.search = keyword;
@@ -66,9 +71,11 @@ function Jobs() {
             .catch(err => setTotalItems([]))
     }, [])
 
+
     const ResetFilter = () => {
         localStorage.removeItem("filter");
         setFilterFields({
+            company: "",
             search: "",
             location: "",
             jobtype: "",
@@ -137,6 +144,10 @@ function Jobs() {
                     <input type='text' className='form-input d-block w-100 rounded p-2 shadow-sm border-0' value={filterFields.location} onChange={(e) => { setFilterFields({ ...filterFields, location: e.target.value }) }} placeholder='Type Location Here' />
                 </div>
 
+                <div className='mb-4'>
+                    <input type='text' value={filterFields.company} onChange={(e) => { setFilterFields({ ...filterFields, company: e.target.value }) }} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Search by Company' />
+                </div>
+
                 <div className='mb-2'>
                     <div className='d-flex justify-content-between'>
                         <span>Rate per hour : </span>
@@ -173,7 +184,6 @@ function Jobs() {
                     </div>
                     <input type='range' className='form-range' value={filterFields.weeklyperhour} min="40" max="50" defaultValue="50" onChange={(e) => { handleRanges("weeklyperhour", e) }} />
                 </div>
-
                 <div className='mb-4'>
                     <label className='fw-bold form-label '>Job Type</label>
                     <select className='form-select d-block' value={filterFields.jobtype} onChange={(e) => { setFilterFields({ ...filterFields, jobtype: e.target.value }) }}>
