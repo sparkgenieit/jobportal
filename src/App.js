@@ -89,6 +89,7 @@ import ContactUs from "./pages/common/contactUs";
 import AppliedUsers from "./pages/company/jobs/AppliedUsers";
 import AppliedUserProfile from "./pages/company/jobs/AppliedUserProfile";
 import Profile from "./pages/superadmin/user/Profile";
+import LocationList from "./pages/superadmin/locations-list/LocationList";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -169,6 +170,7 @@ function App() {
         <Route path="/superadmin/Categorieslist1" element={(token && role == 'superadmin') ? <Categorieslist1 /> : <Categorieslist1 />} />
         <Route path="/superadmin/Categories/:id" element={(token && role == 'superadmin') ? <EditCategory /> : <EditCategory />} />
         <Route path="/superadmin/view-profile/:user/:userId" element={(token && role == 'superadmin') ? <Profile /> : <Navigate to="/" />} />
+        <Route path="/superadmin/locations" element={(token && role == 'superadmin') ? <LocationList /> : <Navigate to="/" />} />
 
 
 

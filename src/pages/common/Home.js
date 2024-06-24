@@ -3,11 +3,11 @@ import './Home.css';
 import Header from '../../layouts/common/Header';
 import Footer from '../../layouts/common/Footer';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { itemsPerPage } from '../../helpers/constants';
 import http from '../../helpers/http';
-import Card from '../../components/Card';
 import Ads from './ads';
+import { IoSearch } from "react-icons/io5";
 
 function Home() {
     const [jobs, setJobs] = useState(null)
@@ -98,7 +98,8 @@ function Home() {
         }
     }
 
-    const handleSearch = () => {
+    const handleSearch = (e) => {
+        e.preventDefault();
         // checking if the user has enter any one of the fields and trim is used because the user can enter a space and the condition will satisfy
         if (company.trim() === "" && location.trim() === "" && searchJob.trim() === "") {
             setSearchButton("border border-2 border-danger")
@@ -109,21 +110,20 @@ function Home() {
 
     return <>
         <Header />
-
         <main id="main">
             <div className="container-fluid homeBg">
-                <div style={{ height: "50vh", width: "100%" }} className="banner d-flex justify-content-center align-items-center">
-                    <div style={{ width: "80%" }} className='input-group gap-2'>
-                        <input type="text" className={`rounded form-control opacity-75 ${searchButton}`} value={searchJob} placeholder="Job Title" onChange={(e) => handleInput("job", e)} />
-                        <input type="text" className={`rounded form-control opacity-75 ${searchButton}`} value={location} onChange={(e) => handleInput("location", e)} placeholder="Location" />
-                        <button type="button" className="btn btn-primary rounded " onClick={handleSearch} >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                            </svg>
-                        </button>
-                        <a type="button" href='/common/jobs' className="btn btn-outline-light rounded" >View All Jobs</a>
+                <form onSubmit={handleSearch}>
+                    <div style={{ height: "50vh", width: "100%" }} className="banner d-flex justify-content-center align-items-center">
+                        <div style={{ width: "80%" }} className=' input-group gap-2'>
+                            <input type="text" className={` rounded form-control opacity-75 ${searchButton}`} value={searchJob} placeholder="Job Title" onChange={(e) => handleInput("job", e)} />
+                            <input type="text" className={` rounded form-control opacity-75 ${searchButton}`} value={location} onChange={(e) => handleInput("location", e)} placeholder="Location" />
+                            <button type="submit" className="  btn btn-light rounded ">
+                                <IoSearch size="20px" />
+                            </button>
+                            <Link type="button" to="/common/jobs" className="btn btn-outline-light rounded" >View All Jobs</Link>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
             <div className="container-fluid text-center py-5">
                 {/* <div className="container-fluid px-3">

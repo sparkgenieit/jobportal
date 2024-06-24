@@ -23,7 +23,6 @@
 .rejected-notification:hover .rejected-notification-message {
     height: fit-content;
     opacity: 1;
-    transition: all 1s ease;
 }
 
 ::-webkit-scrollbar {

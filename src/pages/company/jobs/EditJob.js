@@ -615,7 +615,7 @@ function EditJob() {
                                                     <div className="form-group row">
                                                         <label className="col-sm-4 col-form-label" >Company <span className='text-danger'>*</span></label>
                                                         <div className="col-sm-8">
-                                                            <input type="text" className="form-control" value={company} onChange={(event) => handleInput('company', event)} />
+                                                            <input type="text" className="form-control" value={company} disabled />
                                                             {errors.companyErrors && <span className='text-danger'>{companyMsg}</span>}
                                                         </div>
                                                     </div>
