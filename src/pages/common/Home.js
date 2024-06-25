@@ -2,106 +2,40 @@ import './Home.css';
 
 import Header from '../../layouts/common/Header';
 import Footer from '../../layouts/common/Footer';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { itemsPerPage } from '../../helpers/constants';
 import http from '../../helpers/http';
 import Ads from './ads';
 import { IoSearch } from "react-icons/io5";
 
 function Home() {
-    const [jobs, setJobs] = useState(null)
-    const [company, setCompany] = useState("")
     const [location, setLocation] = useState("")
     const [searchJob, setSearchJob] = useState("")
-    const navigate = useNavigate()
     const [searchButton, setSearchButton] = useState("")
-    const [companySuggestions, setCompanySuggestions] = useState(null)
     const [locationSuggestions, setLocationSuggestions] = useState(null)
     const [jobSuggestions, setJobSuggestions] = useState(null)
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        http.get(`/jobs/approved?limit=${itemsPerPage}&skip=0`)
-            .then((response) => { setJobs(response.data.jobs) })
-    }, [])
-
-    const handleInput = (name, event) => {
-
-        if (name === "company") {
-            setCompany(event.target.value)
-            clearSuggestions("company")
-            let cmpy = []
-            jobs.map((job) => {
-                if (job.company.toLowerCase().includes(event.target.value.toLowerCase())) {
-                    if (!cmpy.includes(job.company)) {
-                        cmpy.push(job.company)
-                    }
-                }
-            })
-            setCompanySuggestions(cmpy.slice(0, 3))
-            if (event.target.value !== "") {
-                setSearchButton("")
-            }
-        }
+    const handleInput = async (name, event) => {
         if (name === "location") {
             setLocation(event.target.value)
-            clearSuggestions("location")
-            let locn = []
-            jobs.map((job) => {
-                if (job.location.toLowerCase().includes(event.target.value.toLowerCase())) {
-                    if (!locn.includes(job.location)) {
-                        locn.push(job.location)
-                    }
-                }
-            })
-
-            setLocationSuggestions(locn.slice(0, 3))
-
-            if (event.target.value !== "") {
-                setSearchButton("")
-            }
-
         }
-        if (name === "job") {
+        if (name === "jobTitle") {
             setSearchJob(event.target.value)
-            clearSuggestions("job")
-            let searchjob = []
-            jobs.map((job) => {
-                if (job.jobTitle.toLowerCase().includes(event.target.value.toLowerCase())) {
-                    if (!searchjob.includes(job.jobTitle)) {
-                        searchjob.push(job.jobTitle)
-                    }
-                }
-            })
-
-            setJobSuggestions(searchjob.slice(0, 3))
-
-            if (event.target.value !== "") {
-                setSearchButton("")
-            }
         }
-
+        let { data } = await http.get(`/jobs/suggestions?searchTerm=${name}&searchValue=${event.target.value}`)
+        name === "location" ? setLocationSuggestions(data) : setLocationSuggestions(null)
+        name === "jobTitle" ? setJobSuggestions(data) : setJobSuggestions(null)
     }
 
-    const clearSuggestions = (name) => {
-        if (name === "company") {
-            setLocationSuggestions(null);
-            setJobSuggestions(null);
-        }
-        if (name === "location") {
-            setCompanySuggestions(null);
-            setJobSuggestions(null);
-        }
-        if (name === "job") {
-            setCompanySuggestions(null);
-            setLocationSuggestions(null)
-        }
+    const clearSuggestions = () => {
+        setJobSuggestions(null);
+        setLocationSuggestions(null);
     }
 
-    const handleSearch = (e) => {
-        e.preventDefault();
+    const handleSearch = () => {
         // checking if the user has enter any one of the fields and trim is used because the user can enter a space and the condition will satisfy
-        if (company.trim() === "" && location.trim() === "" && searchJob.trim() === "") {
+        if (location.trim() === "" && searchJob.trim() === "") {
             setSearchButton("border border-2 border-danger")
         } else {
             navigate(`/common/Jobs?location=${location}&keyword=${searchJob}`)
@@ -112,15 +46,38 @@ function Home() {
         <Header />
         <main id="main">
             <div className="container-fluid homeBg">
-                <form onSubmit={handleSearch}>
-                    <div style={{ height: "50vh", width: "100%" }} className="banner d-flex justify-content-center align-items-center">
-                        <div style={{ width: "80%" }} className=' input-group gap-2'>
-                            <input type="text" className={` rounded form-control opacity-75 ${searchButton}`} value={searchJob} placeholder="Job Title" onChange={(e) => handleInput("job", e)} />
-                            <input type="text" className={` rounded form-control opacity-75 ${searchButton}`} value={location} onChange={(e) => handleInput("location", e)} placeholder="Location" />
-                            <button type="submit" className="  btn btn-light rounded ">
-                                <IoSearch size="20px" />
-                            </button>
-                            <Link type="button" to="/common/jobs" className="btn btn-outline-light rounded" >View All Jobs</Link>
+                <form>
+                    <div style={{ height: "50vh", width: "100%" }} className="banner">
+                        <div className='d-flex align-items-center justify-content-center h-100 gap-2'>
+                            <div className='position-relative'>
+                                <input type="text" className={` transparent border-white p-1 rounded text-white fw-bold ${searchButton}`} value={searchJob} placeholder="Job Title" onChange={(e) => handleInput("jobTitle", e)} />
+                                <ul className='list-unstyled w-100 position-absolute px-1 '>
+                                    {jobSuggestions && jobSuggestions.length > 0 && jobSuggestions.map((suggestion, i) => {
+                                        return <li role="button" onClick={() => { setSearchJob(suggestion.value); clearSuggestions() }} className=' rounded px-2 py-1 border bg-light text-dark'>{suggestion.value}</li>
+                                    })
+                                    }
+                                </ul>
+                            </div>
+
+
+                            <div className='position-relative'>
+                                <input type="text" className={`transparent border-white p-1 rounded text-white fw-bold ${searchButton}`} value={location} onChange={(e) => handleInput("location", e)} placeholder="Location" />
+                                <ul className='list-unstyled w-100  px-1 position-absolute'>
+                                    {locationSuggestions && locationSuggestions.length > 0 && locationSuggestions.map((suggestion, i) => {
+                                        return <li role="button" onClick={() => { setLocation(suggestion.value); clearSuggestions() }} className=' rounded px-2 py-1 border bg-light text-dark'>{suggestion.value}</li>
+                                    })
+                                    }
+                                </ul>
+                            </div>
+
+                            <div>
+                                <button type="button" onClick={handleSearch} className='transparent hover btn text-white'>
+                                    <IoSearch size="20px" />
+                                </button>
+                            </div>
+                            <div>
+                                <Link type="button" to="/common/jobs" className="transparent hover btn text-white" >View All Jobs</Link>
+                            </div>
                         </div>
                     </div>
                 </form>

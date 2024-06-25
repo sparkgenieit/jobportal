@@ -5,20 +5,15 @@
     color: white;
 }
 
-.parent {
-    position: relative;
+.transparent {
+    background-color: transparent;
 }
 
-.suggestions {
-    position: absolute;
+.hover:hover {
+    transform: scale(1.1);
 }
 
-.suggestions-items {
-    width: 235px;
-    padding: 2px;
-    border: 1px solid rgba(58, 55, 55, 0.63);
-    color: black;
-    background-color: white;
-    border-radius: 8px;
-    cursor: pointer;
+.transparent::placeholder {
+    color: white;
+    font-weight: normal;
 }
