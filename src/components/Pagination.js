@@ -1,4 +1,5 @@
 import { itemsPerPage } from "../helpers/constants"
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 function Pagination({ totalCount, onPageClick, currentPage, pageNumberToShow }) {
     let total = []
@@ -12,8 +13,6 @@ function Pagination({ totalCount, onPageClick, currentPage, pageNumberToShow }) 
 
     })
 
-
-
     const NextPreviousButton = (name) => {
         if (name === "next") {
             onPageClick(currentPage + 1)
@@ -23,20 +22,20 @@ function Pagination({ totalCount, onPageClick, currentPage, pageNumberToShow }) 
         }
     }
 
-    return <div className='d-flex mt-3  justify-content-center gap-3'>
-        {total && total.length > 1 && currentPage !== 1 && <button type="button" onClick={() => NextPreviousButton("previous")} className="btn btn-xs btn-outline-primary">Previous</button>}
-        {total && showingPages.length > 1 && showingPages.map((page, index) => {
-            return <div>
-
-                <button type='button' key={index} onClick={() => { onPageClick(page.number) }} className={`btn btn-xs ${currentPage === page.number ? "btn-primary" : "btn-outline-primary"} `}>{page.number}</button>
-
-            </div>
-        })
-
-        }
-        {total && total.length > 1 && currentPage !== total.length && <button type="button" onClick={() => NextPreviousButton("next")} className="btn btn-xs btn-outline-primary">Next</button>}
-
-
+    return <div className='row mt-3 '>
+        <div className="col-3 text-center">
+            {total && total.length > 1 && currentPage !== 1 && <button type="button" onClick={() => NextPreviousButton("previous")} className="btn btn-xs rounded-circle"><IoIosArrowBack size={"20px"} /> </button>}
+        </div>
+        <div className="col-6 d-flex justify-content-center gap-3">
+            {total && showingPages.length > 1 && showingPages.map((page, index) => {
+                return <div>
+                    <button type='button' key={index} onClick={() => { onPageClick(page.number) }} className={`btn btn-xs rounded-circle ${currentPage === page.number ? "btn-dark" : "btn-outline-dark"} `}>{page.number}</button>
+                </div>
+            })}
+        </div>
+        <div className="col-3 text-center">
+            {total && total.length > 1 && currentPage !== total.length && <button type="button" onClick={() => NextPreviousButton("next")} className="btn btn-xs rounded-circle"><IoIosArrowForward size={"20px"} /></button>}
+        </div>
     </div>
 
 }

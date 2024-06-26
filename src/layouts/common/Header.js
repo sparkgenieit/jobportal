@@ -2,8 +2,7 @@ import './Header.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { Modal, Button, Tabs, Tab } from "react-bootstrap";
-
-
+import { CgProfile } from "react-icons/cg";
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Head from './Head';
@@ -59,7 +58,7 @@ function Header() {
 
           <a href="/" style={{ "width": "15%" }} class="logo d-flex align-items-center scrollto me-auto me-lg-0">
 
-            <img src="/assets/images/logo-black.png"
+            <img src="/assets/images/logo-jp.png"
               alt="logo" />
 
           </a>
@@ -112,7 +111,7 @@ function Header() {
                 </>}
                 {token && <>
 
-                  <span className='header mx-5 mt-4'>Hi {fullname} {role}</span>
+                  <span className=' d-flex align-items-center fw-bold'> {fullname}</span>
 
 
                   {/* <a className='header mx-5 mt-2' href="/profile">My Profile</a> */}
@@ -134,8 +133,7 @@ function Header() {
 
                   <ul className='list-unstyled'>
                     <li class="dropdown dropdown-right">
-                      <a href="#" class="menu-item first-item expand-btn"><img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" className="rounded-circle" style={{ height: "50px", width: "50px" }}
-                        alt="Avatar" /></a>
+                      <a href="#" class="menu-item first-item expand-btn"><CgProfile size={"40px"}/></a>
                       <ul class="dropdown-menu menu-left  sample bg-white">
                         <li className=' pb-2'><a href="#">{fullname}</a></li>
                         {role !== "admin" && <li><a href={profileLink}>My Profile</a></li>}

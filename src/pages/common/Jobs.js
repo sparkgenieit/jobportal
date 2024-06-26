@@ -3,7 +3,7 @@ import './jobList.css';
 import Header from '../../layouts/common/Header';
 import Footer from '../../layouts/common/Footer';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import http from '../../helpers/http';
 import { itemsPerPage } from '../../helpers/constants';
 import Pagination from '../../components/Pagination';
@@ -20,6 +20,7 @@ function Jobs() {
     const company = searchParams.get("company")
     const [totalItems, setTotalItems] = useState("")
     const [pgNumber, setPgNumber] = useState(searchParams.get("page") || 1)
+    const [refresh, setRefresh] = useState(true)
     const filter = JSON.parse(localStorage.getItem("filter"))
     const [filterFields, setFilterFields] = useState({
         company: null,
@@ -34,19 +35,9 @@ function Jobs() {
         weeklyperhour: null,
         sort: "creationdate"
     })
+    const navigate = useNavigate();
 
     useEffect(() => {
-        let currentFilters = { ...filter }
-        if (location && location.trim() != "") {
-            currentFilters.location = location;
-        }
-        if (company && company.trim() != "") {
-            currentFilters.company = company;
-        }
-        if (keyword && keyword.trim() != "") {
-            currentFilters.search = keyword;
-        }
-        setFilterFields(currentFilters)
         // To Fetch all the categories from the database
         http.get("/categories/all")
             .then((res) => {
@@ -61,6 +52,21 @@ function Jobs() {
             })
             .catch(err => setParent([]))
 
+
+    }, [])
+
+    useEffect(() => {
+        let currentFilters = { ...filter }
+        if (location && location.trim() != "") {
+            currentFilters.location = location;
+        }
+        if (company && company.trim() != "") {
+            currentFilters.company = company;
+        }
+        if (keyword && keyword.trim() != "") {
+            currentFilters.search = keyword;
+        }
+        setFilterFields(currentFilters)
         // To load to appropriate page regarding the filters and page Number
         const skip = (pgNumber - 1) * itemsPerPage
         http.post(`/jobs/filtered-jobs?limit=${itemsPerPage}&skip=${skip}`, currentFilters)
@@ -69,8 +75,7 @@ function Jobs() {
                 setJobs(res.data.jobs)
             })
             .catch(err => setTotalItems([]))
-    }, [])
-
+    }, [refresh])
 
     const ResetFilter = () => {
         localStorage.removeItem("filter");
@@ -87,10 +92,12 @@ function Jobs() {
             date: null,
             sort: "creationdate"
         })
+        setRefresh(!refresh)
     }
+
     const handleFilter = () => {
         localStorage.setItem("filter", JSON.stringify(filterFields))
-        window.location.href = "/common/jobs";
+        setRefresh(!refresh)
     }
 
     const handleRanges = (name, e) => {
@@ -128,24 +135,38 @@ function Jobs() {
             }
         }
     }
+
+    const handleInput = (e) => {
+        setFilterFields({ ...filterFields, [e.target.name]: e.target.value })
+    }
+
+    const handleSort = (e) => {
+        let filters = { ...filterFields }
+        filters.sort = e.target.value;
+        setFilterFields(filters);
+        localStorage.setItem("filter", JSON.stringify(filters))
+        setRefresh(!refresh)
+    }
     const itemsToShow = (pageNumber) => {
-        window.location.href = `/common/jobs?page=${pageNumber}`
+        setPgNumber(pageNumber)
+        navigate(`/common/jobs?page=${pageNumber}`)
+        setRefresh(!refresh)
     }
 
     return <>
         <Header />
-        <main id="main" style={{ display: "flex" }}>
-            <section className='col-3  p-3 rounded'>
+        <main id="main" className='d-flex'>
+            <section style={{ height: "fit-content" }} className='col-3  p-3 rounded border shadow'>
                 <div className=' mb-2'>Filters</div>
                 <div className='mb-4'>
-                    <input type='text' value={filterFields.search} onChange={(e) => { setFilterFields({ ...filterFields, search: e.target.value }) }} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Search by Job Title' />
+                    <input type='text' value={filterFields.search} name='search' onChange={(e) => handleInput(e)} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Search by Job Title' />
                 </div>
                 <div className='mb-4'>
-                    <input type='text' className='form-input d-block w-100 rounded p-2 shadow-sm border-0' value={filterFields.location} onChange={(e) => { setFilterFields({ ...filterFields, location: e.target.value }) }} placeholder='Type Location Here' />
+                    <input type='text' name='location' className='form-input d-block w-100 rounded p-2 shadow-sm border-0' value={filterFields.location} onChange={(e) => handleInput(e)} placeholder='Type Location Here' />
                 </div>
 
                 <div className='mb-4'>
-                    <input type='text' value={filterFields.company} onChange={(e) => { setFilterFields({ ...filterFields, company: e.target.value }) }} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Search by Company' />
+                    <input type='text' name='company' value={filterFields.company} onChange={(e) => handleInput(e)} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Search by Company' />
                 </div>
 
                 <div className='mb-2'>
@@ -211,38 +232,34 @@ function Jobs() {
                         <option value="">-- Any --</option>
                         {!filterFields.jobCategory && <option disabled>Please Select Job Category</option>}
                         {categoriesList && categoriesList.map((category, index) => {
-
                             if (category.parent_id === filterFields.jobCategory) {
                                 return <option key={index} value={category.name}>{category.name}</option>
                             }
                         })
-
                         }
                     </select>
 
                 </div>
-                <div className='mb-4'>
-                    <label className='form-label small'>Sort By:</label>
-                    <select className='form-select' value={filterFields.sort} onChange={(e) => setFilterFields(prevState => ({ ...prevState, sort: e.target.value }))}>
-                        <option value="creationdate">Creation Date</option>
-                        <option value="rateperhour">Rate per Hour</option>
-                        <option value="weeklyperhour">Weekly Hours</option>
-                    </select>
-                </div>
-                <div className='d-flex justify-content-between'>
-                    <button type='button' onClick={ResetFilter} className='btn btn-dark'>Reset</button>
-                    <button type='button' onClick={handleFilter} className='btn btn-primary'>Apply</button>
+
+                <div className='d-flex justify-content-end gap-2'>
+                    <button type='button' onClick={handleFilter} className='btn border-dark btn-primary'>Apply</button>
+                    <button type='button' onClick={ResetFilter} className='btn btn-outline-light text-dark border-success'>Clear</button>
                 </div>
 
             </section>
 
-            <section className="col-7">
+            <section className="col-6">
                 <div className="container-fluid">
-                    <div className="d-flex justify-content-between mb-3 ">
-                        <div className="h2">Jobs</div>
-
+                    <div className='d-flex justify-content-end mb-1'>
+                        <label className='small px-2'>Sort By:</label>
+                        <select className='rounded px-1' value={filterFields.sort} onChange={(e) => { handleSort(e) }}>
+                            <option value="creationdate">Creation Date</option>
+                            <option value="rateperhour">Rate per Hour</option>
+                            <option value="weeklyperhour">Weekly Hours</option>
+                        </select>
                     </div>
-                    <div className="container rounded px-5">
+                    <div className="container rounded px-3 mb-3">
+                        {jobs && jobs.length == 0 && <h2 className='m-2 text-center'>No Jobs Found</h2>}
                         {jobs && jobs.length > 0 &&
                             jobs.map((job, index) => {
                                 return (
@@ -253,11 +270,9 @@ function Jobs() {
                     </div>
                 </div >
             </section >
-            <section className='col-2'>
+            <section className='col-3'>
                 <Ads />
             </section>
-
-
         </main >
         <Footer />
     </>
