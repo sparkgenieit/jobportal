@@ -7,26 +7,22 @@ import { Link, useNavigate } from 'react-router-dom';
 import http from '../../helpers/http';
 import Ads from './ads';
 import { IoSearch } from "react-icons/io5";
+import Suggestions from '../../components/Suggestions';
 
 function Home() {
-    const [location, setLocation] = useState("")
-    const [searchJob, setSearchJob] = useState("")
+    const [searchBox, setSearchBox] = useState({
+        jobTitle: "",
+        location: ""
+    })
     const [searchButton, setSearchButton] = useState("")
     const [locationSuggestions, setLocationSuggestions] = useState(null)
     const [jobSuggestions, setJobSuggestions] = useState(null)
     const navigate = useNavigate();
     const [focus, setFocus] = useState(-1)
 
-    const handleClickOutside = () => clearSuggestions();
-
     const handleInput = async (name, event) => {
         setFocus(-1)
-        if (name === "location") {
-            setLocation(event.target.value)
-        }
-        if (name === "jobTitle") {
-            setSearchJob(event.target.value)
-        }
+        setSearchBox({ ...searchBox, [name]: event.target.value })
         try {
             let { data } = await http.get(`/jobs/suggestions?searchTerm=${name}&searchValue=${event.target.value}`)
             name === "location" ? setLocationSuggestions(data) : setLocationSuggestions(null)
@@ -37,30 +33,24 @@ function Home() {
         }
     }
 
-    const handleKeyDown = (e) => {
-        let name = e.target.name
-        let assign;
-        let sug;
-        name == "jobTitle" ? assign = setSearchJob : assign = setLocation
-        name == "jobTitle" ? sug = jobSuggestions : sug = locationSuggestions
-
+    const handleKeyDown = (Suggestions, e) => {
         if (e.keyCode == 40) {
             let current = focus + 1
-            if (sug && current > -1 && sug.length > current) {
+            if (Suggestions && current > -1 && Suggestions.length > current) {
                 setFocus(current);
             }
             /*If the arrow DOWN key is pressed,
             increase the currentFocus variable:*/
         } else if (e.keyCode == 38) { //ups
             let current = focus - 1
-            if (sug && current > -1 && sug.length > current) {
+            if (Suggestions && current > -1 && Suggestions.length > current) {
                 setFocus(current)
             }
             /*If the arrow UP key is pressed,
             decrease the currentFocus variable:*/
         } else if (e.keyCode == 13) {
-            if (sug && focus > -1 && sug.length > focus) {
-                assign(sug[focus]?.value)
+            if (Suggestions && focus > -1 && Suggestions.length > focus) {
+                setSearchBox({ ...searchBox, [e.target.name]: Suggestions[focus]?.value })
                 clearSuggestions()
             }
         }
@@ -74,40 +64,30 @@ function Home() {
 
     const handleSearch = () => {
         // checking if the user has enter any one of the fields and trim is used because the user can enter a space and the condition will satisfy
-        if (location.trim() === "" && searchJob.trim() === "") {
+        if (searchBox.location.trim() === "" && searchBox.jobTitle.trim() === "") {
             setSearchButton("border border-2 border-danger")
         } else {
-            navigate(`/common/Jobs?location=${location}&keyword=${searchJob}`)
+            navigate(`/common/Jobs?location=${searchBox.location}&keyword=${searchBox.jobTitle}`)
         }
     }
 
     return <>
-        <div onClick={handleClickOutside}>
+        <div onClick={clearSuggestions}>
             <Header />
             <main id="main">
                 <div className="container-fluid homeBg">
-                    <form>
+                    <form autoComplete='off'>
                         <div style={{ height: "50vh", width: "100%" }} className="banner">
                             <div className='d-flex align-items-center justify-content-center h-100 gap-2'>
                                 <div className='position-relative'>
-                                    <input type="text" className={` transparent border-white p-1 rounded text-white fw-bold ${searchButton}`} value={searchJob} placeholder="Job Title" name='jobTitle' onKeyDown={(e) => { handleKeyDown(e) }} onChange={(e) => handleInput("jobTitle", e)} />
-                                    <ul className='list-unstyled w-100 position-absolute px-1 '>
-                                        {jobSuggestions && jobSuggestions.length > 0 && jobSuggestions.map((suggestion, i) => {
-                                            return <li key={i} role="button" onClick={() => { setSearchJob(suggestion.value); clearSuggestions() }} className={` rounded px-2 py-1  bg-light text-dark  ${focus === i ? "active-suggestion" : ""}`}>{suggestion.value}</li>
-                                        })
-                                        }
-                                    </ul>
+                                    <input type="text" className={` transparent border-white p-1 rounded text-white fw-bold ${searchButton}`} value={searchBox.jobTitle} placeholder="Job Title" name='jobTitle' onKeyDown={(e) => { handleKeyDown(jobSuggestions, e) }} onChange={(e) => handleInput("jobTitle", e)} />
+                                    <Suggestions SuggestionsList={jobSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="jobTitle" setValue={setSearchBox} value={searchBox} />
                                 </div>
 
 
                                 <div className='position-relative'>
-                                    <input type="text" className={`transparent border-white p-1 rounded text-white fw-bold ${searchButton}`} value={location} name='location' onChange={(e) => handleInput("location", e)} onKeyDown={(e) => { handleKeyDown(e) }} placeholder="Location" />
-                                    <ul className='list-unstyled w-100 px-1 position-absolute'>
-                                        {locationSuggestions && locationSuggestions.length > 0 && locationSuggestions.map((suggestion, i) => {
-                                            return <li key={i} role="button" onClick={() => { setLocation(suggestion.value); clearSuggestions() }} className={`rounded px-2 py-1  bg-light text-dark  ${focus === i ? "active-suggestion" : ""}`}>{suggestion.value}</li>
-                                        })
-                                        }
-                                    </ul>
+                                    <input type="text" className={`transparent border-white p-1 rounded text-white fw-bold ${searchButton}`} value={searchBox.location} name='location' onChange={(e) => handleInput("location", e)} onKeyDown={(e) => { handleKeyDown(locationSuggestions, e) }} placeholder="Location" />
+                                    <Suggestions SuggestionsList={locationSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="location" setValue={setSearchBox} value={searchBox} />
                                 </div>
 
                                 <div>
@@ -147,6 +127,9 @@ function Home() {
 
                             </div>
                         </div> */}
+                    <div>
+                        <iframe title="NZmap" width="100%" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiNDU4ZGUyYTUtOGE3Mi00N2Q4LTgxZWUtMjhjNmRjOGFlMmQ4IiwidCI6Ijg5NDhlY2JhLTJlMDItNDUwOS04OTJjLTVkMDYyZjVlN2IzOCJ9&pageName=0af786abcc8256aee8fe" frameborder="0" allowFullScreen="false"></iframe>
+                    </div>
                     <div className='row'>
                         <section className='col-3'>
                             <Ads />

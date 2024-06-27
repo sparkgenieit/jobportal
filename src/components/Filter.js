@@ -1,0 +1,226 @@
+import { useEffect, useState } from "react";
+import http from "../helpers/http";
+import Suggestions from './Suggestions';
+
+export default function Filter({ filterFields, setFilterFields, setRefresh }) {
+    const [categoriesList, setCategoriesList] = useState(null)
+    const [parent, setParent] = useState(null)
+    const [focus, setFocus] = useState(-1)
+    const [locationSuggestions, setLocationSuggestions] = useState(null)
+    const [jobSuggestions, setJobSuggestions] = useState(null)
+    const [companySuggestions, setCompanySuggestions] = useState(null)
+
+    useEffect(() => {
+        // To Fetch all the categories from the database
+        http.get("/categories/all")
+            .then((res) => {
+                setCategoriesList(res.data)
+                let p = [];
+                (res.data).map((x, i) => {
+                    if (!p.includes(x.parent_id) && x.parent_id !== "None") {
+                        p.push(x.parent_id)
+                    }
+                })
+                setParent(p)
+            })
+            .catch(err => setParent([]))
+
+    }, [])
+
+    const handleKeyDown = (Suggestions, e) => {
+        if (e.keyCode == 40) {
+            let current = focus + 1
+            if (Suggestions && current > -1 && Suggestions.length > current) {
+                setFocus(current);
+            }
+            /*If the arrow DOWN key is pressed,
+            increase the currentFocus variable:*/
+        } else if (e.keyCode == 38) { //ups
+            let current = focus - 1
+            if (Suggestions && current > -1 && Suggestions.length > current) {
+                setFocus(current)
+            }
+            /*If the arrow UP key is pressed,
+            decrease the currentFocus variable:*/
+        } else if (e.keyCode == 13) {
+            if (Suggestions && focus > -1 && Suggestions.length > focus) {
+                let filter = { ...filterFields, [e.target.name]: Suggestions[focus].value };
+                setFilterFields(filter)
+                clearSuggestions()
+            }
+        }
+    }
+
+
+    const handleInput = async (e) => {
+        let filter = { ...filterFields, [e.target.name]: e.target.value };
+        setFilterFields(filter)
+        try {
+            let { data } = await http.get(`/jobs/suggestions?searchTerm=${e.target.name}&searchValue=${e.target.value}`)
+            e.target.name === "location" ? setLocationSuggestions(data) : setLocationSuggestions(null)
+            e.target.name === "jobTitle" ? setJobSuggestions(data) : setJobSuggestions(null)
+            e.target.name === "company" ? setCompanySuggestions(data) : setCompanySuggestions(null)
+        }
+        catch {
+            clearSuggestions()
+        }
+    }
+
+    const clearSuggestions = () => {
+        setJobSuggestions(null);
+        setCompanySuggestions(null);
+        setLocationSuggestions(null);
+        setFocus(-1)
+    }
+
+    const handleRanges = (name, e) => {
+        if (name === "duration") {
+            if (e.target.value == 0) {
+                setFilterFields({ ...filterFields, duration: `Less than a month` })
+            } else if (e.target.value == 7) {
+                setFilterFields({ ...filterFields, duration: `More than 6 months` })
+            } else if (e.target.value == 8) {
+                setFilterFields({ ...filterFields, duration: null })
+            } else {
+                setFilterFields({ ...filterFields, duration: `${e.target.value} Month` })
+            }
+        }
+        if (name === "rateperhour") {
+            if (e.target.value == 10) {
+                setFilterFields({ ...filterFields, rateperhour: null })
+            } else {
+                setFilterFields({ ...filterFields, rateperhour: e.target.value })
+            }
+        }
+        if (name === "weeklyperhour") {
+            if (e.target.value == 50) {
+                setFilterFields({ ...filterFields, weeklyperhour: null })
+            } else {
+                setFilterFields({ ...filterFields, weeklyperhour: e.target.value })
+            }
+        }
+        if (name === "date") {
+            if (e.target.value == 5) {
+                setFilterFields({ ...filterFields, date: null })
+            } else {
+                let value = [1, 2, 3, 7, 14]
+                setFilterFields({ ...filterFields, date: value[e.target.value] })
+            }
+        }
+    }
+
+    const handleFilter = () => {
+        localStorage.setItem("filter", JSON.stringify(filterFields))
+        setRefresh(prev => !prev)
+    }
+
+    const ResetFilter = () => {
+        localStorage.removeItem("filter");
+        setFilterFields({
+            company: "",
+            jobTitle: "",
+            location: "",
+            jobtype: "",
+            jobCategory: "",
+            subCategory: "",
+            rateperhour: null,
+            duration: null,
+            weeklyperhour: null,
+            date: null,
+            sort: "creationdate"
+        })
+        setRefresh(prev => !prev)
+    }
+
+    return <section className='p-3 no-scrollbar rounded border shadow scrollbar'>
+        <div className=' mb-2'>Filters</div>
+        <form autoComplete="off">
+            <div className='mb-4 position-relative'>
+                <input type='text' value={filterFields.jobTitle} name='jobTitle' onKeyDown={(e) => { handleKeyDown(jobSuggestions, e) }} onChange={(e) => handleInput(e)} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Search by Job Title' />
+                <Suggestions SuggestionsList={jobSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="jobTitle" setValue={setFilterFields} value={filterFields} />
+            </div>
+            <div className='mb-4 position-relative'>
+                <input type='text' name='location' className='form-input d-block w-100 rounded p-2 shadow-sm border-0' value={filterFields.location} onKeyDown={(e) => { handleKeyDown(locationSuggestions, e) }} onChange={(e) => handleInput(e)} placeholder='Type Location Here' />
+                <Suggestions SuggestionsList={locationSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="location" setValue={setFilterFields} value={filterFields} />
+            </div>
+
+            <div className='mb-4 position-relative'>
+                <input type='text' name='company' value={filterFields.company} onChange={(e) => handleInput(e)} onKeyDown={(e) => { handleKeyDown(companySuggestions, e) }} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Search by Company' />
+                <Suggestions SuggestionsList={companySuggestions} focus={focus} clearSuggestions={clearSuggestions} name="company" setValue={setFilterFields} value={filterFields} />
+            </div>
+
+            <div className='mb-2'>
+                <div className='d-flex justify-content-between'>
+                    <span>Rate per hour : </span>
+                    <span className='fw-bold'>{filterFields.rateperhour ? `$ ${filterFields.rateperhour}` : "Any Rate Per Hour"}</span>
+                </div>
+                <input type='range' name='rateperhour' value={filterFields.rateperhour} min="1" max="10" defaultValue="10" onChange={(e) => { handleRanges("rateperhour", e) }} className='form-range' />
+            </div>
+
+            <div className='mb-2'>
+                <div className='d-flex justify-content-between'>
+                    <span>Duration : </span>
+                    <span className='fw-bold'>{filterFields.duration ? filterFields.duration : "Any Duration"}</span>
+                </div>
+                <input type='range' className='form-range' min="0" max="8" defaultValue="8" onChange={(e) => { handleRanges("duration", e) }} />
+            </div>
+
+            <div className='mb-2'>
+                <div className='d-flex justify-content-between'>
+                    <span>Date Posted : </span>
+                    <span className='fw-bold'>{filterFields.date ? `${filterFields.date}d ago` : "Any day"}</span>
+                </div>
+                <input type='range' className='form-range' min="0" max="5" defaultValue="5" onChange={(e) => { handleRanges("date", e) }} />
+            </div>
+
+            <div className='mb-2'>
+                <div className='d-flex justify-content-between'>
+                    <span>Weekly Hours : </span>
+                    <span className='fw-bold'>{filterFields.weeklyperhour ? `${filterFields.weeklyperhour} Hours` : "Any Hours"}</span>
+                </div>
+                <input type='range' className='form-range' value={filterFields.weeklyperhour} min="40" max="50" defaultValue="50" onChange={(e) => { handleRanges("weeklyperhour", e) }} />
+            </div>
+            <div className='mb-4'>
+                <label className='fw-bold form-label '>Job Type</label>
+                <select className='form-select d-block' value={filterFields.jobtype} onChange={(e) => { setFilterFields({ ...filterFields, jobtype: e.target.value }) }}>
+                    <option value="">-- Any --</option>
+                    <option value="FullTime">Full Time</option>
+                    <option value="PartTime">Part Time</option>
+                    <option value="Contract">Contract</option>
+                    <option value="Freelance">FreeLance</option>
+                    <option value="Temporary">Temporary</option>
+                    <option value="Casual">Casual</option>
+                </select>
+            </div>
+
+            <div className='mb-4'>
+                <label className='fw-bold form-label' >Job Category</label>
+                <select className='form-select d-block' value={filterFields.jobCategory} onChange={(e) => { setFilterFields({ ...filterFields, jobCategory: e.target.value }) }}>
+                    <option value="">-- Any --</option>
+                    {parent && parent.map((p, index) => <option key={index} className="fw-bold" value={p}>{p}</option>)}
+                </select>
+            </div>
+
+            <div className='mb-4'>
+                <label className='fw-bold form-label '>Sub Category</label>
+                <select className='form-select d-block ' value={filterFields.subCategory} onChange={(e) => { setFilterFields({ ...filterFields, subCategory: e.target.value }) }}>
+                    <option value="">-- Any --</option>
+                    {!filterFields.jobCategory && <option disabled>Please Select Job Category</option>}
+                    {categoriesList && categoriesList.map((category, index) => {
+                        if (category.parent_id === filterFields.jobCategory) {
+                            return <option key={index} value={category.name}>{category.name}</option>
+                        }
+                    })
+                    }
+                </select>
+
+            </div>
+
+            <div className='d-flex justify-content-end gap-2'>
+                <button type='button' onClick={handleFilter} className='btn border-dark btn-primary'>Apply</button>
+                <button type='button' onClick={ResetFilter} className='btn btn-outline-light text-dark border-success'>Clear</button>
+            </div>
+        </form>
+
+    </section>
+}

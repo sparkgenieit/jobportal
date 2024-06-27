@@ -1,0 +1,9 @@
+.no-scrollbar::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+.scrollbar {
+    height: 80vh;
+    overflow-y: auto;
+}

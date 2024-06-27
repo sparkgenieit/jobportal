@@ -4,8 +4,12 @@ import Footer from '../../layouts/common/Footer';
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import http from '../../helpers/http';
-import { BASE_API_URL } from '../../helpers/constants';
-import { getTrueKeys } from '../../helpers/functions';
+import { BASE_API_URL, BASE_APP_URL } from '../../helpers/constants';
+import { getTrueKeys, timeAgo } from '../../helpers/functions';
+import { FaBowlFood, FaDollarSign, FaRegClock, FaShare } from 'react-icons/fa6';
+import { PiBookmarkSimpleBold, PiBookmarkSimpleFill, PiTrainFill } from "react-icons/pi";
+import { BsFillPersonFill } from 'react-icons/bs';
+import { FaCheckSquare, FaHome } from 'react-icons/fa';
 
 function SingleJob() {
     const [isJobApplied, setIsJobApplied] = useState(false)
@@ -13,8 +17,8 @@ function SingleJob() {
     const [jobview, setJobview] = useState()
     const role = localStorage.getItem('role');
     const navigate = useNavigate()
+    const [tooltip, setTooltip] = useState({})
     const params = useParams();
-
     const userId = localStorage.getItem('user_id');
     const [message, setMessage] = useState({
         showMsg: false,
@@ -45,8 +49,16 @@ function SingleJob() {
         }
     }, [])
 
-    function handleApply() {
+    const handleShare = (event) => {
+        navigator.clipboard.writeText(`${BASE_APP_URL}/common/SingleJob/${jobview._id}`)
+        // setShareClicked(true)
+        // setTimeout(() => {
+        //     setShareClicked(false)
+        // }, 1000);
+        // event.stopPropagation();
+    }
 
+    function handleApply() {
         if (userId && role === "user") {
             const data = {
                 applied_date: new Date().toLocaleDateString('en-GB'),
@@ -54,7 +66,6 @@ function SingleJob() {
                 jobId: jobview._id,
                 applied: true
             }
-
             http.post("/jobs/apply", data)
                 .then((response) => {
                     setMessage({
@@ -66,8 +77,6 @@ function SingleJob() {
                         navigate('/common/Myappliedjobs')
                     }, 2000)
                 })
-
-
                 .catch((e) => {
                     setMessage({
                         showMsg: true,
@@ -128,6 +137,10 @@ function SingleJob() {
         }
     }
 
+    const handleTooltip = (value, name) => {
+        setTooltip({ [name]: value })
+    }
+
     return (
         <>
             <div className="container-scrollar">
@@ -137,86 +150,127 @@ function SingleJob() {
                         {message.Msg}
                     </div>
                 }
-                {jobview && <div className='container-fluid'>
-                    <div className='mb-3 px-3 py-2 row'>
-                        <div className='col-6'>
-                            <div className='h2'>{jobview.jobTitle}</div>
-                            <div className='text-muted mb-4'>{jobview.company}</div>
+                {jobview &&
+                    <div>
+                        <div style={{ height: "15vh" }} className='d-flex justify-content-around'>
+                            <img className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />
+                            <div className='fw-bold h3'>{jobview.company}</div>
                         </div>
-                        <div className='col-6'>
-                            <img src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt='' className='rounded d-block float-end' height="100px" width="100px" />
+                        <div className='row'>
+                            <div className='col-9 row border rounded'>
+                                <div className='col-9 d-flex  flex-column '>
+                                    <div className='h4'>
+                                        {jobview.jobTitle}
+                                    </div>
+                                    <div>
+                                        {jobview.jobCategory}/{jobview.subCategory}
+                                    </div>
+                                    <div>
+                                        {jobview.location}
+                                    </div>
+                                    <div>
+                                        {jobview.creationdate} ({timeAgo(jobview.creationdate)})
+                                    </div>
+                                    <div>
+                                        <button type='button' className='btn btn-primary text-white'>Apply</button>
+                                        <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share")} onMouseLeave={(e) => handleTooltip(false, "rateperhour")} onClick={(e) => { handleShare(e) }}>
+                                            <span><FaShare size="20px" /></span>
+                                            {tooltip.share && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Share</div>}
+                                        </a>
+
+                                        {!isJobSaved && <a onMouseOver={() => handleTooltip(true, "save")} onMouseLeave={(e) => handleTooltip(false, "save")} onClick={handleSave} type='button'>
+                                            <span><PiBookmarkSimpleBold size="22px" /></span>
+                                            {tooltip.save && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Save</div>}
+                                        </a>}
+                                        {isJobSaved && <a type='button'>
+                                            <span><PiBookmarkSimpleFill size="22px" /></span>
+                                            {tooltip.save && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Saved</div>}
+                                        </a>}
+                                    </div>
+                                </div>
+                                <div className='col-3'>
+                                    <div>
+                                        <span><FaDollarSign size="16px" /></span>
+                                        <span className='ps-2'>
+                                            {jobview.rateperhour} ph
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <span><FaRegClock size="16px" /></span>
+                                            <span className='ps-2'>
+                                                {jobview.duration}
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <span>Type:</span>
+                                            <span className='ps-1'>
+                                                {jobview.jobtype}
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <span>Weekly Hours:</span>
+                                            <span className='ps-1'>
+                                                {jobview.weeklyperhour}
+                                            </span>
+                                        </span>
+                                    </div>
+
+                                    <div>
+                                        {jobview.numberofvacancies > 1 && <>
+                                            <span onMouseOver={() => handleTooltip(true, "vacancies")} onMouseLeave={(e) => handleTooltip(false, "vacancies")} >
+                                                <span><BsFillPersonFill size="16px" /></span>
+                                                <span className='ps-2'>{jobview.numberofvacancies} Vacancies </span>
+                                            </span>
+
+                                            {tooltip.vacancies && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Vacancies</div>}
+
+                                        </>}
+                                    </div>
+                                    <div className=''>
+                                        {jobview.training.includes("true") && <span>
+                                            Training Provided
+                                            <span className='ps-1'>
+                                                <FaCheckSquare size="16px" />
+                                            </span>
+                                        </span>
+                                        }
+                                    </div>
+                                    <div>
+                                        {jobview.benifits && getTrueKeys(JSON.parse(jobview.benifits)).length > 0 &&
+                                            <div>
+                                                <div className='d-flex'>Benefits :
+                                                    {getTrueKeys(JSON.parse(jobview.benifits)).includes("Accommodation") &&
+                                                        <span onMouseOver={() => handleTooltip(true, "Accommodation")} onMouseLeave={(e) => handleTooltip(false, "Accommodation")} className='px-1'>
+                                                            <FaHome size="18px" />
+                                                            {tooltip.Accommodation && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Accommodation</div>}
+                                                        </span>
+                                                    }
+                                                    {getTrueKeys(JSON.parse(jobview.benifits)).includes("Transport") &&
+                                                        <span onMouseOver={() => handleTooltip(true, "transport")} onMouseLeave={(e) => handleTooltip(false, "transport")} className='px-1'>
+                                                            <PiTrainFill size="18px" />
+                                                            {tooltip.transport && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Transport</div>}
+                                                        </span>}
+                                                    {getTrueKeys(JSON.parse(jobview.benifits)).includes("Food") &&
+                                                        <span onMouseOver={() => handleTooltip(true, "food")} onMouseLeave={(e) => handleTooltip(false, "food")} className='px-1'>
+                                                            <FaBowlFood size="18px" />
+                                                            {tooltip.food && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Food</div>}
+                                                        </span>}
+                                                </div>
+                                                {(JSON.parse(jobview.benifits)).Others && <div>{(JSON.parse(jobview.benifits)).OthersText}</div>}
+                                            </div>}
+                                    </div>
+
+
+                                </div>
+                            </div>
                         </div>
-                        <hr />
                     </div>
-                    <div className='rounded border p-3'>
-                        <div className='h6 row'>
-                            <p className='col-6'>Employment Information</p>
-                            <div className='col-6 d-flex justify-content-around'>
-                                {!isJobApplied && <button type='button' onClick={handleApply} className='btn btn-outline-primary rounded px-5 '>Apply</button>}
-                                {isJobApplied && <button type='button' disabled className='btn btn-primary rounded px-5 '>Applied</button>}
-                                {!isJobSaved && <button type='button' onClick={handleSave} className='btn btn-outline-dark rounded px-5 '>Save</button>}
-                                {isJobSaved && <button type='button' disabled className='btn btn-dark rounded px-5 '>Saved</button>}
-                            </div>
-                        </div>
-                        <hr />
-                        <div className='row justify-content-center'>
-                            <div className='col-6 row p-3'>
-                                <span className='text-muted col-6 justify-content-start'>Industry</span>
-                                <span className='fw-bold col-6 justify-content-start'>{jobview.jobCategory}/{jobview.subCategory}</span>
-                            </div>
-                            <div className='col-6 row p-3'>
-                                <span className='text-muted col-6 justify-content-start'>Rate Per Hour</span>
-                                <span className='fw-bold col-6 justify-content-start'>{jobview.rateperhour == "" ? "Not Specified" : jobview.rateperhour}</span>
-                            </div>
-                            <div className='col-6 row p-3'>
-                                <span className='text-muted col-6 justify-content-start'>Job Type</span>
-                                <span className='fw-bold col-6 justify-content-start'>{jobview.jobtype}</span>
-                            </div>
-                            <div className='col-6 row p-3'>
-                                <span className='text-muted col-6 justify-content-start'>Duration</span>
-                                <span className='fw-bold col-6 justify-content-start'>{jobview.duration}</span>
-                            </div>
-                            <div className='col-6 row p-3'>
-                                <span className='text-muted col-6 justify-content-start'>Creation Date</span>
-                                <span className='fw-bold col-6 justify-content-start'>{jobview.creationdate}</span>
-                            </div>
-                            <div className='col-6 row p-3'>
-                                <span className='text-muted col-6 justify-content-start'>Close Date</span>
-                                <span className='fw-bold col-6 justify-content-start'>{jobview.closedate.trim() == "" ? "Not Specified" : jobview.closedate}</span>
-                            </div>
-                            <div className='col-6 row p-3'>
-                                <span className='text-muted col-6 justify-content-start'>Location</span>
-                                <span className='fw-bold col-6 justify-content-start'>{jobview.location}</span>
-                            </div>
-                            <div className='col-6 row p-3'>
-                                <span className='text-muted col-6 justify-content-start'>Number of Vacancies</span>
-                                <span className='fw-bold col-6 justify-content-start'>{jobview.numberofvacancies}</span>
-                            </div>
-                            <div className='col-6 row p-3'>
-                                <span className='text-muted col-6 justify-content-start'>Weekly Hours</span>
-                                <span className='fw-bold col-6 justify-content-start'> {jobview.weeklyperhour == "" ? "Not Specified" : jobview.weeklyperhour}</span>
-                            </div>
-                            <div className='col-6 row p-3'>
-                                <span className='text-muted col-6 justify-content-start'>Benefits</span>
-                                <span className='fw-bold col-6 justify-content-start'> {getTrueKeys(JSON.parse(jobview.benifits)) == "" ? "Not Specified" : getTrueKeys(JSON.parse(jobview.benifits))}</span>
-                            </div>
-                            <div className='col-6 row p-3'>
-                                <span className='text-muted col-6 justify-content-start'>Training</span>
-                                <span className='fw-bold col-6 justify-content-start'> {jobview.training.includes("true") ? `Provided ${JSON.parse(jobview.training).text}` : "Not Provided"}</span>
-                            </div>
-                            <div className='col-6 row p-3'>
-                                <span className='text-muted col-6 justify-content-start'>Employer Job Reference</span>
-                                <span className='fw-bold col-6 justify-content-start'> {jobview.employjobreference.trim() == "" ? "Not Specifed" : jobview.employjobreference}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='mt-4'>
-                        <div className='h3'> Job Description</div>
-                        <p>
-                            {jobview.description}
-                        </p>
-                    </div>
-                </div>}
+                }
                 <Footer />
 
             </div >

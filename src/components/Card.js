@@ -36,7 +36,7 @@ export default function Card({ job }) {
     const benefits = getTrueKeys(JSON.parse(job.benifits))
     const bn = (JSON.parse(job.benifits))
     return <>
-        <div onClick={() => { window.location.href = `/common/SingleJob/${job._id}` }} className='job-card mb-4 row border rounded shadow p-4'>
+        <div style={{ height: "fit-content" }} onClick={() => { window.location.href = `/common/SingleJob/${job._id}` }} className='job-card mb-4 row border rounded shadow p-3'>
             <div className='col-9 d-flex flex-column justify-content-between'>
                 <h4 className='fw-bold'>{job.jobTitle}</h4>
                 <p>
@@ -63,10 +63,10 @@ export default function Card({ job }) {
                 </div>
             </div>
 
-            <div className='col-3 pl-3 small'>
-                <span className='h-100'>
-                    {job.companyLogo.length > 0 && <img className="rounded border w-100 h-50 " src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
-                </span>
+            <div className='col-3  d-flex  flex-column pl-3 small'>
+                <div className='h-50'>
+                    {job.companyLogo.length > 0 && <img className="rounded border w-100 h-100 " src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
+                </div>
                 <div className='mt-3'>
                     <div >
                         <span onMouseOver={() => handleTooltip(true, "rateperhour")} onMouseLeave={(e) => handleTooltip(false, "rateperhour")}>
@@ -112,7 +112,7 @@ export default function Card({ job }) {
                     <div>
                         {job.benifits && benefits.length > 0 &&
                             <div>
-                                <div className='d-flex'>Benefits :
+                                <div className='d-flex'>Benefits:
                                     {benefits.includes("Accommodation") &&
                                         <span onMouseOver={() => handleTooltip(true, "Accommodation")} onMouseLeave={(e) => handleTooltip(false, "Accommodation")} className='px-1'>
                                             <FaHome size="18px" />
