@@ -36,8 +36,8 @@ export default function Card({ job }) {
     const benefits = getTrueKeys(JSON.parse(job.benifits))
     const bn = (JSON.parse(job.benifits))
     return <>
-        <div onClick={() => { window.location.href = `/common/SingleJob/${job._id}` }} className='job-card mb-5 row border rounded shadow p-2'>
-            <div className='col-8 d-flex flex-column justify-content-between'>
+        <div onClick={() => { window.location.href = `/common/SingleJob/${job._id}` }} className='job-card mb-4 row border rounded shadow p-4'>
+            <div className='col-9 d-flex flex-column justify-content-between'>
                 <h4 className='fw-bold'>{job.jobTitle}</h4>
                 <p>
                     <span onMouseOver={() => handleTooltip(true, "company")} onMouseLeave={(e) => handleTooltip(false, "company")} onClick={(e) => { getJobsbyCompany(e) }}>{job.company}</span>
@@ -63,7 +63,7 @@ export default function Card({ job }) {
                 </div>
             </div>
 
-            <div className='col-4 p-1 small'>
+            <div className='col-3 pl-3 small'>
                 <span className='h-100'>
                     {job.companyLogo.length > 0 && <img className="rounded border w-100 h-50 " src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                 </span>
