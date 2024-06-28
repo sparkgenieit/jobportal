@@ -1,12 +1,13 @@
+import '@mdxeditor/editor/style.css';
 import Header from '../../../layouts/company/Header';
 import Footer from '../../../layouts/company/Footer';
 import Sidebar from '../../../layouts/company/Sidebar';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import companyService from '../../../services/common/company.service';
 import http from '../../../helpers/http';
 import { CitiesList } from '../../../helpers/constants';
-
+import { BoldItalicUnderlineToggles, InsertTable, headingsPlugin, ListsToggle, MDXEditor, UndoRedo, listsPlugin, quotePlugin, tablePlugin, toolbarPlugin } from '@mdxeditor/editor';
 
 function EditJob() {
     const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
@@ -44,6 +45,7 @@ function EditJob() {
     const [employerquestions, setEmployerQuestions] = useState([{ value: "" }])
     const [employer, setEmployer] = useState('')
 
+    const ref = useRef < HTMLDivElement | null > (null)
 
     const [message, setMessage] = useState({
         show: false,
@@ -158,6 +160,7 @@ function EditJob() {
                 setJobType(res.data.jobtype)
                 setBenifits(JSON.parse(res.data.benifits))
                 setTraining(JSON.parse(res.data.training))
+                ref.current?.setMarkdown(res.data.description)
             })
 
         companyService.get(userId)
@@ -922,8 +925,28 @@ function EditJob() {
 
                                                 <div className="form-group row">
                                                     <div class="mb-3">
-                                                        <label for="exampleFormControlTextarea1" class="form-label">Description<span className='text-danger'>*</span></label>
-                                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" value={description} onChange={(event) => handleInput('description', event)}></textarea>
+                                                        <label for="description" class="form-label">Description<span className='text-danger'>*</span></label>
+                                                        <MDXEditor
+                                                            ref={ref}
+                                                            markdown=""
+                                                            plugins={[
+                                                                tablePlugin(),
+                                                                headingsPlugin(),
+                                                                listsPlugin(),
+                                                                quotePlugin(),
+                                                                toolbarPlugin({
+                                                                    toolbarContents: () => (
+                                                                        <>
+                                                                            {' '}
+                                                                            <UndoRedo />
+                                                                            <BoldItalicUnderlineToggles />
+                                                                            <InsertTable />
+                                                                            <ListsToggle />
+                                                                        </>
+                                                                    )
+                                                                })
+                                                            ]}
+                                                        />
                                                         {errors.descriptionErrors && <span className='text-danger'>{descriptionMsg}</span>}
                                                     </div>
                                                 </div>
