@@ -80,7 +80,7 @@ function Jobs() {
         <div>
             <Header />
             <main id="main" className='d-flex'>
-                <div className='col-3'>
+                <div className='col-3 px-2 mt-4'>
                     <Filter filterFields={filterFields} setFilterFields={setFilterFields} setRefresh={setRefresh} />
                 </div>
 
@@ -106,7 +106,7 @@ function Jobs() {
                         </div>
                     </div >
                 </section >
-                <section className='col-3'>
+                <section className='col-3 mt-5'>
                     <Ads />
                 </section>
             </main >

@@ -1,0 +1,11 @@
+.toaster {
+    position: fixed;
+    bottom: 5px;
+    right: -50px;
+}
+
+.toaster-show {
+    position: fixed;
+    bottom: 5px;
+    right: 50px;
+}

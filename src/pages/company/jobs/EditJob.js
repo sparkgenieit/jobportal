@@ -923,7 +923,7 @@ function EditJob() {
                                                 <div className="form-group row">
                                                     <div class="mb-3">
                                                         <label for="description" class="form-label">Description<span className='text-danger'>*</span></label>
-                                                        <MdxEditor value={description} setValue={setDescription} />
+                                                        <div className='border rounded'><MdxEditor value={description} setValue={setDescription} /></div>
 
                                                         {errors.descriptionErrors && <span className='text-danger'>{descriptionMsg}</span>}
                                                     </div>

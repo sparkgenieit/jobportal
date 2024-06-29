@@ -7,12 +7,13 @@ import http from '../../helpers/http';
 import Ads from './ads';
 import { BASE_API_URL, BASE_APP_URL } from '../../helpers/constants';
 import { getTrueKeys, timeAgo } from '../../helpers/functions';
-import { FaBowlFood, FaDollarSign, FaRegClock, FaShare } from 'react-icons/fa6';
+import { FaBowlFood, FaDollarSign, FaLocationDot, FaRegClock, FaShare } from 'react-icons/fa6';
 import { PiBookmarkSimpleBold, PiBookmarkSimpleFill, PiTrainFill } from "react-icons/pi";
 import { BsFillPersonFill } from 'react-icons/bs';
 import { FaCheckSquare, FaHome } from 'react-icons/fa';
 import { marked } from 'marked';
 import parse from 'html-react-parser';
+import Toaster from '../../components/Toaster';
 
 function SingleJob() {
     const [isJobApplied, setIsJobApplied] = useState(false)
@@ -148,11 +149,12 @@ function SingleJob() {
         <>
             <div className="container-scrollar">
                 <Header />
-                {message.showMsg &&
+                <Toaster show={message.showMsg} />
+                {/* {message.showMsg &&
                     <div className={message.msgclassName}>
                         {message.Msg}
                     </div>
-                }
+                } */}
                 {jobview &&
                     <div>
                         <div className='row'>
@@ -171,13 +173,14 @@ function SingleJob() {
                                             <div>
                                                 {jobview.jobCategory}/{jobview.subCategory}
                                             </div>
-                                            <div>
+                                            <div className=''>
+                                                <span className='pe-1'><FaLocationDot size="20px" /></span>
                                                 {jobview.location}
                                             </div>
                                             <div>
                                                 {jobview.creationdate} ({timeAgo(jobview.creationdate)})
                                             </div>
-                                            <div className='d-flex gap-2 mt-2 align-items-center'>
+                                            <div className='d-flex gap-2 mt-4 align-items-center'>
                                                 {!isJobApplied && <button type='button' onClick={handleApply} className='btn btn-primary text-white'>Apply</button>}
                                                 {isJobApplied && <button type='button' disabled className='btn btn-primary text-white'>Applied</button>}
                                                 <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share")} onMouseLeave={(e) => handleTooltip(false, "rateperhour")} onClick={(e) => { handleShare(e) }}>
@@ -307,6 +310,8 @@ function SingleJob() {
                                     </div>
 
                                 </div>
+
+
 
 
                             </div>

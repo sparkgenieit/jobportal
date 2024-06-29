@@ -36,18 +36,18 @@ export default function Card({ job }) {
     const bn = (JSON.parse(job.benifits))
     return <>
         <div style={{ height: "45vh" }} onClick={() => { window.location.href = `/common/SingleJob/${job._id}` }} className='job-card mb-4 row border rounded shadow p-3'>
-            <div className='col-9 d-flex flex-column justify-content-between'>
-                <h4 className='fw-bold'>{job.jobTitle}</h4>
-                <p>
+            <div className='col-9 h-100  position-relative px-1 '>
+                <div className='fw-bold h4'>{job.jobTitle}</div>
+                <div>
                     <span onMouseOver={() => handleTooltip(true, "company")} onMouseLeave={(e) => handleTooltip(false, "company")} onClick={(e) => { getJobsbyCompany(e) }}>{job.company}</span>
                     {tooltip.company && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Click to search by company</div>}
-                </p>
-                <p>
+                </div>
+                <div className=''>
                     <span className='pe-1'><FaLocationDot size="20px" /></span>
                     {job.location}
-                </p>
-                <p className='text-secondary small mb-4'> {job.description.length > 150 ? `${job.description.slice(0, 150)}...` : job.description}</p>
-                <div className='small'>
+                </div>
+                <div className='text-secondary my-3 small'> {job.description.length > 250 ? `${job.description.slice(0, 250)}...` : job.description}</div>
+                <div className='small position-absolute bottom-0 start-0'>
                     <span className='pe-3'>{job.creationdate} ({timeAgo(job.creationdate)})</span>
 
                     <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share")} onMouseLeave={(e) => handleTooltip(false, "rateperhour")} onClick={(e) => { handleShare(e) }}>

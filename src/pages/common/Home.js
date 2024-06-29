@@ -80,23 +80,23 @@ function Home() {
                         <div style={{ height: "50vh", width: "100%" }} className="banner">
                             <div className='d-flex align-items-center justify-content-center h-100 gap-2'>
                                 <div className='position-relative'>
-                                    <input type="text" className={` transparent border-white p-1 rounded text-white fw-bold ${searchButton}`} value={searchBox.jobTitle} placeholder="Job Title" name='jobTitle' onKeyDown={(e) => { handleKeyDown(jobSuggestions, e) }} onChange={(e) => handleInput("jobTitle", e)} />
+                                    <input type="text" style={{ width: "25vw" }} className={`transparent border-white p-1 rounded text-white ${searchButton}`} value={searchBox.jobTitle} placeholder="Job Title" name='jobTitle' onKeyDown={(e) => { handleKeyDown(jobSuggestions, e) }} onChange={(e) => handleInput("jobTitle", e)} />
                                     <Suggestions SuggestionsList={jobSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="jobTitle" setValue={setSearchBox} value={searchBox} />
                                 </div>
 
 
                                 <div className='position-relative'>
-                                    <input type="text" className={`transparent border-white p-1 rounded text-white fw-bold ${searchButton}`} value={searchBox.location} name='location' onChange={(e) => handleInput("location", e)} onKeyDown={(e) => { handleKeyDown(locationSuggestions, e) }} placeholder="Location" />
+                                    <input type="text" style={{ width: "25vw" }} className={`transparent border-white p-1 rounded text-white  ${searchButton}`} value={searchBox.location} name='location' onChange={(e) => handleInput("location", e)} onKeyDown={(e) => { handleKeyDown(locationSuggestions, e) }} placeholder="Location" />
                                     <Suggestions SuggestionsList={locationSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="location" setValue={setSearchBox} value={searchBox} />
                                 </div>
 
                                 <div>
                                     <button type="button" onClick={handleSearch} className='transparent hover btn text-white'>
-                                        <IoSearch size="20px" />
+                                        <IoSearch size="24px" />
                                     </button>
                                 </div>
                                 <div>
-                                    <Link type="button" to="/common/jobs" className="transparent hover btn text-white" >View All Jobs</Link>
+                                    <Link type="button" to="/common/jobs" className="transparent hover btn border border-white text-white" >View All Jobs</Link>
                                 </div>
                             </div>
                         </div>
@@ -127,25 +127,25 @@ function Home() {
 
                             </div>
                         </div> */}
-                    <div>
-                        <iframe title="NZmap" width="100%" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiNDU4ZGUyYTUtOGE3Mi00N2Q4LTgxZWUtMjhjNmRjOGFlMmQ4IiwidCI6Ijg5NDhlY2JhLTJlMDItNDUwOS04OTJjLTVkMDYyZjVlN2IzOCJ9&pageName=0af786abcc8256aee8fe" frameborder="0" allowFullScreen="false"></iframe>
+                    <div style={{ height: "710px", overflow: "hidden" }} className='mb-2'>
+                        <iframe title="NZmap" width="100%" style={{ zoom: "2" }} height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiNDU4ZGUyYTUtOGE3Mi00N2Q4LTgxZWUtMjhjNmRjOGFlMmQ4IiwidCI6Ijg5NDhlY2JhLTJlMDItNDUwOS04OTJjLTVkMDYyZjVlN2IzOCJ9&pageName=0af786abcc8256aee8fe" frameborder="0" allowFullScreen="false"></iframe>
                     </div>
                     <div className='row'>
-                        <section className='col-3'>
+                        <section className='col-2'>
                             <Ads />
                         </section>
-                        <section className='col-6'>
+                        <section className='col-8'>
                             <div>
-                                <iframe className='rounded' width="560" height="315" src="https://www.youtube.com/embed/7r-If5smQ_s?si=zd0NUcT7rsEV7a4k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+                                <iframe className='rounded' width="800" height="400" src="https://www.youtube.com/embed/7r-If5smQ_s?si=zd0NUcT7rsEV7a4k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
                                 </iframe>
                                 <div className='fw-bold'>Experience New Zealand with a Working Holiday Visa</div>
                             </div>
                             <div className='mt-5'>
-                                <iframe className='rounded' width="560" height="315" src="https://www.youtube.com/embed/P98SjgerM8g?si=x36wJ4kJRg86288m" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                <iframe className='rounded' width="800" height="400" src="https://www.youtube.com/embed/P98SjgerM8g?si=x36wJ4kJRg86288m" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                                 <div className='fw-bold'>Life in New Zealand on a Working Holiday Visa</div>
                             </div>
                         </section>
-                        <section className='col-3'>
+                        <section className='col-2'>
                             <Ads />
                         </section>
                     </div>
