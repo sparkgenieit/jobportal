@@ -3,12 +3,10 @@ import Footer from '../../../layouts/company/Footer';
 import Sidebar from '../../../layouts/company/Sidebar';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import axios from 'axios';
 import companyService from '../../../services/common/company.service';
-import Plans from '../../common/Plans';
 import http from '../../../helpers/http';
 import { CitiesList } from '../../../helpers/constants';
+import MdxEditor from '../../../components/MdxEditor';
 
 
 function Postajob() {
@@ -994,8 +992,9 @@ function Postajob() {
 
                         <div className="form-group row">
                           <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">Description<span className='text-danger'>*</span></label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" value={description} onChange={(event) => handleInput('description', event)}></textarea>
+                            <label for="description" class="form-label">Description<span className='text-danger'>*</span></label>
+                            <MdxEditor value={description} setValue={setDescription} />
+
                             {errors.descriptionErrors && <span className='text-danger'>{descriptionMsg}</span>}
                           </div>
                         </div>

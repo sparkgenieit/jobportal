@@ -2,7 +2,7 @@ import './jobList.css';
 
 import Header from '../../layouts/common/Header';
 import Footer from '../../layouts/common/Footer';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import http from '../../helpers/http';
 import { itemsPerPage } from '../../helpers/constants';
@@ -35,6 +35,7 @@ function Jobs() {
         sort: "creationdate"
     })
     const navigate = useNavigate();
+    const ref = useRef(null)
 
     useEffect(() => {
         let currentFilters = { ...filter }
@@ -54,11 +55,11 @@ function Jobs() {
             .then((res) => {
                 setTotalItems(res.data.total);
                 setJobs(res.data.jobs)
-                window.scrollTo({ top: "0px", behavior: "smooth" })
+                ref.current.scrollTo({ top: "0px", behavior: "smooth" })
             })
             .catch(err => {
                 setTotalItems([])
-                window.scrollTo({ top: "0px", behavior: "smooth" })
+                ref.current.scrollTo({ top: "0px", behavior: "smooth" })
             })
     }, [refresh])
 
@@ -83,7 +84,7 @@ function Jobs() {
                     <Filter filterFields={filterFields} setFilterFields={setFilterFields} setRefresh={setRefresh} />
                 </div>
 
-                <section className="col-6 scrollbar no-scrollbar">
+                <section ref={ref} className="col-6 scrollbar no-scrollbar">
                     <div className="container-fluid">
                         <div className='d-flex justify-content-end mb-1'>
                             <label className='small px-2'>Sort By:</label>

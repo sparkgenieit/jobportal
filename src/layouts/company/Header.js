@@ -33,9 +33,9 @@ function Header() {
   };
   return (
     <>
-      <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <nav class="navbar default-layout-navbar col-lg-12 col-12 pt-2 fixed-top d-flex flex-row">
         {showSidebar && <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <a lass="navbar-brand" href="/"><img height="100px" width="100px" src="/assets/images/logo.png"
+          <a lass="navbar-brand" href="/"><img src="/assets/images/logo-jp.png"
             alt="logo" /></a>
         </div>}
         <div class="navbar-menu-wrapper d-flex align-items-stretch">

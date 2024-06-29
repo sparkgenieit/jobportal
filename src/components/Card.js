@@ -7,8 +7,8 @@ import { PiTrainFill } from "react-icons/pi";
 import { FaHome, FaCheckSquare, FaDollarSign, FaRegClock, FaShare } from "react-icons/fa";
 import { BsFillPersonFill } from "react-icons/bs";
 import { CiBookmark } from "react-icons/ci";
-
-
+import { marked } from 'marked';
+import parse from 'html-react-parser';
 
 export default function Card({ job }) {
     const [tooltip, setTooltip] = useState({})
@@ -32,11 +32,10 @@ export default function Card({ job }) {
         setTooltip({ [name]: value })
     }
 
-
     const benefits = getTrueKeys(JSON.parse(job.benifits))
     const bn = (JSON.parse(job.benifits))
     return <>
-        <div style={{ height: "fit-content" }} onClick={() => { window.location.href = `/common/SingleJob/${job._id}` }} className='job-card mb-4 row border rounded shadow p-3'>
+        <div style={{ height: "45vh" }} onClick={() => { window.location.href = `/common/SingleJob/${job._id}` }} className='job-card mb-4 row border rounded shadow p-3'>
             <div className='col-9 d-flex flex-column justify-content-between'>
                 <h4 className='fw-bold'>{job.jobTitle}</h4>
                 <p>
@@ -63,9 +62,9 @@ export default function Card({ job }) {
                 </div>
             </div>
 
-            <div className='col-3  d-flex  flex-column pl-3 small'>
+            <div className='col-3 d-flex  flex-column  small'>
                 <div className='h-50'>
-                    {job.companyLogo.length > 0 && <img className="rounded border w-100 h-100 " src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
+                    {job.companyLogo.length > 0 && <img style={{ height: "15vh" }} className="rounded border w-100" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                 </div>
                 <div className='mt-3'>
                     <div >

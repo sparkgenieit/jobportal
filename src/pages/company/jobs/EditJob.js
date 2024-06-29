@@ -8,6 +8,7 @@ import companyService from '../../../services/common/company.service';
 import http from '../../../helpers/http';
 import { CitiesList } from '../../../helpers/constants';
 import { BoldItalicUnderlineToggles, InsertTable, headingsPlugin, ListsToggle, MDXEditor, UndoRedo, listsPlugin, quotePlugin, tablePlugin, toolbarPlugin } from '@mdxeditor/editor';
+import MdxEditor from '../../../components/MdxEditor';
 
 function EditJob() {
     const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
@@ -45,7 +46,7 @@ function EditJob() {
     const [employerquestions, setEmployerQuestions] = useState([{ value: "" }])
     const [employer, setEmployer] = useState('')
 
-    const ref = useRef < HTMLDivElement | null > (null)
+
 
     const [message, setMessage] = useState({
         show: false,
@@ -160,7 +161,6 @@ function EditJob() {
                 setJobType(res.data.jobtype)
                 setBenifits(JSON.parse(res.data.benifits))
                 setTraining(JSON.parse(res.data.training))
-                ref.current?.setMarkdown(res.data.description)
             })
 
         companyService.get(userId)
@@ -291,9 +291,6 @@ function EditJob() {
 
             eObj = { ...eObj, duration: false };
         }
-
-
-
 
         console.log(valid);
         setErrors(eObj);
@@ -551,7 +548,7 @@ function EditJob() {
             } else {
                 current += " " + value
             }
-            console.log(current)
+
             setJobType(current.trim())
         }
         if (name === "benefits") {
@@ -926,27 +923,8 @@ function EditJob() {
                                                 <div className="form-group row">
                                                     <div class="mb-3">
                                                         <label for="description" class="form-label">Description<span className='text-danger'>*</span></label>
-                                                        <MDXEditor
-                                                            ref={ref}
-                                                            markdown=""
-                                                            plugins={[
-                                                                tablePlugin(),
-                                                                headingsPlugin(),
-                                                                listsPlugin(),
-                                                                quotePlugin(),
-                                                                toolbarPlugin({
-                                                                    toolbarContents: () => (
-                                                                        <>
-                                                                            {' '}
-                                                                            <UndoRedo />
-                                                                            <BoldItalicUnderlineToggles />
-                                                                            <InsertTable />
-                                                                            <ListsToggle />
-                                                                        </>
-                                                                    )
-                                                                })
-                                                            ]}
-                                                        />
+                                                        <MdxEditor value={description} setValue={setDescription} />
+
                                                         {errors.descriptionErrors && <span className='text-danger'>{descriptionMsg}</span>}
                                                     </div>
                                                 </div>
