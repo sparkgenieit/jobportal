@@ -3,11 +3,12 @@ import './CheckoutForm.css';
 import { useEffect, useState } from "react";
 import http from "../../helpers/http";
 import { useSearchParams } from "react-router-dom";
-import { plans, stripePromise } from "../../helpers/constants";
+import { plans } from "../../helpers/constants";
 import PaymentForm from "./PaymentForm";
 import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from '@stripe/stripe-js';
 
-
+const stripePromise = loadStripe("pk_test_51PKHdMSIkLQ1QpWMWtk1C0swqVaqjKD661Tk5XyEaEoPDIolQZ3e2Dymp7x0iTvyZrjfQDQSZRB1ju6sUTpyr24d00kzeTZNNY");
 
 
 function CheckoutForm() {

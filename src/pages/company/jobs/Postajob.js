@@ -330,6 +330,7 @@ function Postajob() {
             text: "Jobs Posted Successfully"
           });
           localStorage.setItem('credits', response.data.credits || 0);
+          localStorage.setItem('usedFreeCredit', "true");
           setTimeout(() => {
             navigate(`/company/JobList`)
           }, 1500);

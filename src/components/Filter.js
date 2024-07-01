@@ -135,16 +135,16 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
     return <section className='p-3 no-scrollbar rounded border shadow scrollbar'>
         <div className=' mb-2'>Filters</div>
         <form autoComplete="off">
-            <div className='mb-4 position-relative'>
+            <div onBlur={clearSuggestions} className='mb-4 position-relative'>
                 <input type='text' value={filterFields.jobTitle} name='jobTitle' onKeyDown={(e) => { handleKeyDown(jobSuggestions, e) }} onChange={(e) => handleInput(e)} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Search by Job Title' />
                 <Suggestions SuggestionsList={jobSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="jobTitle" setValue={setFilterFields} value={filterFields} />
             </div>
-            <div className='mb-4 position-relative'>
+            <div onBlur={clearSuggestions} className='mb-4 position-relative'>
                 <input type='text' name='location' className='form-input d-block w-100 rounded p-2 shadow-sm border-0' value={filterFields.location} onKeyDown={(e) => { handleKeyDown(locationSuggestions, e) }} onChange={(e) => handleInput(e)} placeholder='Type Location Here' />
                 <Suggestions SuggestionsList={locationSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="location" setValue={setFilterFields} value={filterFields} />
             </div>
 
-            <div className='mb-4 position-relative'>
+            <div onBlur={clearSuggestions} className='mb-4 position-relative'>
                 <input type='text' name='company' value={filterFields.company} onChange={(e) => handleInput(e)} onKeyDown={(e) => { handleKeyDown(companySuggestions, e) }} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Search by Company' />
                 <Suggestions SuggestionsList={companySuggestions} focus={focus} clearSuggestions={clearSuggestions} name="company" setValue={setFilterFields} value={filterFields} />
             </div>
@@ -152,7 +152,7 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
             <div className='mb-2'>
                 <div className='d-flex justify-content-between'>
                     <span>Rate per hour : </span>
-                    <span className='fw-bold'>{filterFields.rateperhour ? `$ ${filterFields.rateperhour}` : "Any Rate Per Hour"}</span>
+                    <span className='fw-bold'>{filterFields.rateperhour ? `$ ${filterFields.rateperhour}` : "Any"}</span>
                 </div>
                 <input type='range' name='rateperhour' value={filterFields.rateperhour} min="1" max="10" defaultValue="10" onChange={(e) => { handleRanges("rateperhour", e) }} className='form-range' />
             </div>
@@ -160,7 +160,7 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
             <div className='mb-2'>
                 <div className='d-flex justify-content-between'>
                     <span>Duration : </span>
-                    <span className='fw-bold'>{filterFields.duration ? filterFields.duration : "Any Duration"}</span>
+                    <span className='fw-bold'>{filterFields.duration ? filterFields.duration : "Any"}</span>
                 </div>
                 <input type='range' className='form-range' min="0" max="8" defaultValue="8" onChange={(e) => { handleRanges("duration", e) }} />
             </div>
@@ -168,7 +168,7 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
             <div className='mb-2'>
                 <div className='d-flex justify-content-between'>
                     <span>Date Posted : </span>
-                    <span className='fw-bold'>{filterFields.date ? `${filterFields.date}d ago` : "Any day"}</span>
+                    <span className='fw-bold'>{filterFields.date ? `${filterFields.date}d ago` : "Any "}</span>
                 </div>
                 <input type='range' className='form-range' min="0" max="5" defaultValue="5" onChange={(e) => { handleRanges("date", e) }} />
             </div>
@@ -176,7 +176,7 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
             <div className='mb-2'>
                 <div className='d-flex justify-content-between'>
                     <span>Weekly Hours : </span>
-                    <span className='fw-bold'>{filterFields.weeklyperhour ? `${filterFields.weeklyperhour} Hours` : "Any Hours"}</span>
+                    <span className='fw-bold'>{filterFields.weeklyperhour ? `${filterFields.weeklyperhour} Hours` : "Any "}</span>
                 </div>
                 <input type='range' className='form-range' value={filterFields.weeklyperhour} min="40" max="50" defaultValue="50" onChange={(e) => { handleRanges("weeklyperhour", e) }} />
             </div>

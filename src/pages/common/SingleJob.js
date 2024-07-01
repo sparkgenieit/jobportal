@@ -149,7 +149,7 @@ function SingleJob() {
         <>
             <div className="container-scrollar">
                 <Header />
-                <Toaster show={message.showMsg} />
+                {message.showMsg && <Toaster />}
                 {/* {message.showMsg &&
                     <div className={message.msgclassName}>
                         {message.Msg}
