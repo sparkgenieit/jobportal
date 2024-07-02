@@ -106,7 +106,7 @@ function Header() {
 
               <div className=' col-auto d-flex me-4'>
                 {!token && <> <button type='button' onClick={() => handleShow()} class="btn btn-primary me-3 py-0" ><a href="#" >
-                  Login / Register
+                  Login
                 </a></button>
                 </>}
                 {token && <>
@@ -133,7 +133,7 @@ function Header() {
 
                   <ul className='list-unstyled'>
                     <li class="dropdown dropdown-right">
-                      <a href="#" class="menu-item first-item expand-btn"><CgProfile size={"40px"}/></a>
+                      <a href="#" class="menu-item first-item expand-btn"><CgProfile size={"40px"} /></a>
                       <ul class="dropdown-menu menu-left  sample bg-white">
                         <li className=' pb-2'><a href="#">{fullname}</a></li>
                         {role !== "admin" && <li><a href={profileLink}>My Profile</a></li>}

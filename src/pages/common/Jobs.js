@@ -79,21 +79,27 @@ function Jobs() {
     return <>
         <div>
             <Header />
-            <main id="main" className='d-flex'>
-                <div className='col-3 px-2 mt-4'>
-                    <Filter filterFields={filterFields} setFilterFields={setFilterFields} setRefresh={setRefresh} />
+            <div className='row'>
+                <div className='col-3'></div>
+                <div className='col-6 mb-2 d-flex justify-content-end'>
+                    <label className='small px-2'>Sort By:</label>
+                    <select className='rounded px-1' value={filterFields.sort} onChange={(e) => { handleSort(e) }}>
+                        <option value="creationdate">Creation Date</option>
+                        <option value="rateperhour">Rate per Hour</option>
+                        <option value="weeklyperhour">Weekly Hours</option>
+                    </select>
                 </div>
+                <div className='col-3'></div>
+            </div>
 
-                <section ref={ref} className="col-6 scrollbar no-scrollbar">
-                    <div className="container-fluid">
-                        <div className='d-flex justify-content-end mb-1'>
-                            <label className='small px-2'>Sort By:</label>
-                            <select className='rounded px-1' value={filterFields.sort} onChange={(e) => { handleSort(e) }}>
-                                <option value="creationdate">Creation Date</option>
-                                <option value="rateperhour">Rate per Hour</option>
-                                <option value="weeklyperhour">Weekly Hours</option>
-                            </select>
-                        </div>
+            <main id="main" className='row mx-auto px-2'>
+                <section className='col-3'>
+                    <Filter filterFields={filterFields} setFilterFields={setFilterFields} setRefresh={setRefresh} />
+                </section>
+
+                <section ref={ref} className="col-9 row d-flex scrollbar hide-scrollbar">
+                    <div className="col-9 container-fluid">
+
                         <div className="container rounded px-3 mb-3">
                             {jobs && jobs.length == 0 && <h2 className='m-2 text-center'>No Jobs Found</h2>}
                             {jobs && jobs.length > 0 &&
@@ -104,11 +110,12 @@ function Jobs() {
                                 })}
                             <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={+pgNumber} pageNumberToShow={2} />
                         </div>
-                    </div >
+                    </div>
+                    <div className='col-3'>
+                        <Ads />
+                    </div>
                 </section >
-                <section className='col-3 mt-5'>
-                    <Ads />
-                </section>
+
             </main >
             <Footer />
         </div>

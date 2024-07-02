@@ -132,7 +132,7 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
         setRefresh(prev => !prev)
     }
 
-    return <section className='p-3 no-scrollbar rounded border shadow scrollbar'>
+    return <section className='p-3 hide-scrollbar rounded border shadow scrollbar'>
         <div className=' mb-2'>Filters</div>
         <form autoComplete="off">
             <div onBlur={clearSuggestions} className='mb-4 position-relative'>
@@ -140,7 +140,7 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
                 <Suggestions SuggestionsList={jobSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="jobTitle" setValue={setFilterFields} value={filterFields} />
             </div>
             <div onBlur={clearSuggestions} className='mb-4 position-relative'>
-                <input type='text' name='location' className='form-input d-block w-100 rounded p-2 shadow-sm border-0' value={filterFields.location} onKeyDown={(e) => { handleKeyDown(locationSuggestions, e) }} onChange={(e) => handleInput(e)} placeholder='Type Location Here' />
+                <input type='text' name='location' className='form-input d-block w-100 rounded p-2 shadow-sm border-0' value={filterFields.location} onKeyDown={(e) => { handleKeyDown(locationSuggestions, e) }} onChange={(e) => handleInput(e)} placeholder='Location' />
                 <Suggestions SuggestionsList={locationSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="location" setValue={setFilterFields} value={filterFields} />
             </div>
 
@@ -151,32 +151,32 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
 
             <div className='mb-2'>
                 <div className='d-flex justify-content-between'>
-                    <span>Rate per hour : </span>
-                    <span className='fw-bold'>{filterFields.rateperhour ? `$ ${filterFields.rateperhour}` : "Any"}</span>
+                    <span className='fw-bold'>Rate per hour  </span>
+                    <span >{filterFields.rateperhour ? `$ ${filterFields.rateperhour}` : "Any"}</span>
                 </div>
                 <input type='range' name='rateperhour' value={filterFields.rateperhour} min="1" max="10" defaultValue="10" onChange={(e) => { handleRanges("rateperhour", e) }} className='form-range' />
             </div>
 
             <div className='mb-2'>
                 <div className='d-flex justify-content-between'>
-                    <span>Duration : </span>
-                    <span className='fw-bold'>{filterFields.duration ? filterFields.duration : "Any"}</span>
+                    <span className='fw-bold'>Duration  </span>
+                    <span >{filterFields.duration ? filterFields.duration : "Any"}</span>
                 </div>
                 <input type='range' className='form-range' min="0" max="8" defaultValue="8" onChange={(e) => { handleRanges("duration", e) }} />
             </div>
 
             <div className='mb-2'>
                 <div className='d-flex justify-content-between'>
-                    <span>Date Posted : </span>
-                    <span className='fw-bold'>{filterFields.date ? `${filterFields.date}d ago` : "Any "}</span>
+                    <span className='fw-bold'>Date Posted  </span>
+                    <span>{filterFields.date ? `${filterFields.date}d ago` : "Any "}</span>
                 </div>
                 <input type='range' className='form-range' min="0" max="5" defaultValue="5" onChange={(e) => { handleRanges("date", e) }} />
             </div>
 
             <div className='mb-2'>
                 <div className='d-flex justify-content-between'>
-                    <span>Weekly Hours : </span>
-                    <span className='fw-bold'>{filterFields.weeklyperhour ? `${filterFields.weeklyperhour} Hours` : "Any "}</span>
+                    <span className='fw-bold'>Weekly Hours  </span>
+                    <span>{filterFields.weeklyperhour ? `${filterFields.weeklyperhour} Hours` : "Any "}</span>
                 </div>
                 <input type='range' className='form-range' value={filterFields.weeklyperhour} min="40" max="50" defaultValue="50" onChange={(e) => { handleRanges("weeklyperhour", e) }} />
             </div>

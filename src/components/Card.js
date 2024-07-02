@@ -32,21 +32,26 @@ export default function Card({ job }) {
         setTooltip({ [name]: value })
     }
 
+    const plainTextRenderer = new marked.Renderer();
+    plainTextRenderer.strong = plainTextRenderer.em = plainTextRenderer.link = (text, _, self) => text;
+
+    const plainText = marked(job.description, { sanitize: true, renderer: plainTextRenderer });
+
     const benefits = getTrueKeys(JSON.parse(job.benifits))
     const bn = (JSON.parse(job.benifits))
     return <>
-        <div style={{ height: "45vh" }} onClick={() => { window.location.href = `/common/SingleJob/${job._id}` }} className='job-card mb-4 row border rounded shadow p-3'>
+        <div style={{ height: "37vh" }} onClick={() => { window.location.href = `/common/SingleJob/${job._id}` }} className='job-card mb-4 row border rounded shadow p-3'>
             <div className='col-9 h-100  position-relative px-1 '>
-                <div className='fw-bold h4'>{job.jobTitle}</div>
+                <div className='fw-bold h4' >{job.jobTitle}</div>
                 <div>
-                    <span onMouseOver={() => handleTooltip(true, "company")} onMouseLeave={(e) => handleTooltip(false, "company")} onClick={(e) => { getJobsbyCompany(e) }}>{job.company}</span>
+                    <span className='text-decoration-underline text-primary' onMouseOver={() => handleTooltip(true, "company")} onMouseLeave={(e) => handleTooltip(false, "company")} onClick={(e) => { getJobsbyCompany(e) }}>{job.company}</span>
                     {tooltip.company && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Click to search by company</div>}
                 </div>
-                <div className=''>
+                <div className='mt-2'>
                     <span className='pe-1'><FaLocationDot size="20px" /></span>
                     {job.location}
                 </div>
-                <div className='text-secondary my-3 small'> {job.description.length > 250 ? `${job.description.slice(0, 250)}...` : job.description}</div>
+                <p style={{ lineHeight: "1.2" }} className='text-secondary mt-2  small'> {plainText.length > 225 ? `${plainText.slice(0, 225)}...` : plainText}</p>
                 <div className='small position-absolute bottom-0 start-0'>
                     <span className='pe-3'>{job.creationdate} ({timeAgo(job.creationdate)})</span>
 
@@ -64,7 +69,7 @@ export default function Card({ job }) {
 
             <div className='col-3 d-flex  flex-column  small'>
                 <div className='h-50'>
-                    {job.companyLogo.length > 0 && <img style={{ height: "15vh" }} className="rounded border w-100" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
+                    {job.companyLogo.length > 0 && <img style={{ height: "12vh" }} className="rounded border w-100" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                 </div>
                 <div className='mt-3'>
                     <div >

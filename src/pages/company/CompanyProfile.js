@@ -5,11 +5,8 @@ import { useState, useEffect } from 'react';
 import Head from '../../layouts/company/Head';
 import companyService from '../../services/common/company.service';
 import { useNavigate } from 'react-router-dom';
-
-
 import { Hourglass } from "react-loader-spinner";
-
-
+import { BASE_API_URL } from '../../helpers/constants';
 
 function CompanyProfile() {
   const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
@@ -28,6 +25,8 @@ function CompanyProfile() {
   const [email, setEmail] = useState("");
   const [loader, setLoader] = useState(false);
   const [logo, setLogo] = useState();
+  const [banner, setBanner] = useState();
+  const [youtubeUrl, setYoutubeUrl] = useState();
 
 
   const navigate = useNavigate();
@@ -44,6 +43,7 @@ function CompanyProfile() {
   const [personmsg, setPersonmsg] = useState("Please Enter Contact Person");
   const [emailmsg, setEmailmsg] = useState("Please Enter Email");
   const [companyPhoto, setCompanyPhoto] = useState("")
+  const [bannerPhoto, setBannerPhoto] = useState("")
 
   useEffect(() => {
 
@@ -62,7 +62,8 @@ function CompanyProfile() {
         setEmail(response.data.email);
         setLogo(response.data.logo);
         setUserData(response.data);
-        setCompanyPhoto(`http://localhost:8080/uploads/logos/${response.data.logo}`)
+        setCompanyPhoto(`${BASE_API_URL}/uploads/logos/${response.data.logo}`)
+        setBannerPhoto(`${BASE_API_URL}/uploads/logos/${response.data.banner}`)
 
       })
       .catch(e => {
@@ -86,13 +87,15 @@ function CompanyProfile() {
     logo: false
   })
 
-
   const onFileChange = (event) => {
     const name = event.target.id;
-
     if (name == 'logo') {
       setCompanyPhoto(URL.createObjectURL(event.target.files[0]))
       setLogo(event.target.files[0]);
+    }
+    if (name == "banner") {
+      setBannerPhoto(URL.createObjectURL(event.target.files[0]))
+      setBanner(event.target.files[0]);
     }
   };
 
@@ -271,7 +274,6 @@ function CompanyProfile() {
                 window.scrollTo({ top: 10, behavior: "smooth" });
                 setIsUpdated(true);
                 setTimeout(() => {
-
                   // Inside the handleLogin function
                   navigate('/company'); // Redirect to the dashboard after login
                 }, 1500);
@@ -294,8 +296,6 @@ function CompanyProfile() {
                   }
                 }
                 setTimeout(() => { setLoader(false); window.scrollTo({ top: 10, behavior: "smooth" }); }, 1200)
-
-
               });
           });
 
@@ -314,7 +314,6 @@ function CompanyProfile() {
           })
           .catch(e => {
             console.log(e);
-
             if (e && e.code) {
               if (e.response && e.response.data) {
                 if (e.response.data.email) {
@@ -329,8 +328,6 @@ function CompanyProfile() {
               }
             }
             setTimeout(() => { setLoader(false); window.scrollTo({ top: 10, behavior: "smooth" }); }, 1200)
-
-
           });
       }
 
@@ -345,12 +342,10 @@ function CompanyProfile() {
       if (event.target.value == '') {
         setErrors({ ...errors, CompanyErrors: true })
         setCompanyNamemsg('Please Enter Company Name');
-
       }
       else {
         setErrors({ ...errors, CompanyErrors: false })
       }
-
     }
     if (name == 'postcode') {
       setPostcode(event.target.value);
@@ -478,11 +473,7 @@ function CompanyProfile() {
       else {
         setErrors({ ...errors, personErrors: false })
       }
-
     }
-
-
-
   }
   return (
     <>
@@ -515,8 +506,6 @@ function CompanyProfile() {
                 <div className="card-body p-3">
                   <h4 className="card-title">Employer Profile </h4>
                   <form className="form-sample p-4 ">
-
-
                     <div className="row">
                       <div className="row">
                         <div className="form-group row">
@@ -538,11 +527,8 @@ function CompanyProfile() {
                           <div className="col-sm-6">
                             <input type="text" className="form-control" value={address} onChange={(event) => handleInput('address', event)} />
                             {errors.addressErrors && <span className='text-danger'>{addressmsg}</span>}
-
-
                           </div>
                         </div>
-
                       </div>
                       <div className="row">
 
@@ -583,14 +569,8 @@ function CompanyProfile() {
                           </div>
 
                         </div>
-
-
                       </div>
-
-
                       <div className="row">
-
-
                         <div className="form-group row">
                           <label className="col-sm-3 col-form-label">PostCode<span className='text-danger'>*</span></label>
                           <div className="col-sm-6">
@@ -599,25 +579,17 @@ function CompanyProfile() {
                             <div className="bgcol" id="error1"></div>
                           </div>
                         </div>
-
-
                       </div>
-
                       <div className="row">
                         <div className="form-group row">
                           <label className="col-sm-3 col-form-label">Phone<span className='text-danger'>*&nbsp; &nbsp; &nbsp;</span></label>
                           <div className="col-sm-6">
                             <input type="text" className="form-control" value={Phone} onChange={(event) => handleInput('phone', event)} />
                             {errors.PhoneErrors && <span className='text-danger'>{Phonemsg}</span>}
-
                           </div>
                         </div>
-
                       </div>
-
-
                       <div className="row">
-
                         <div className="form-group row">
                           <label className="col-sm-3 col-form-label">Email  <span className='text-danger'>*&nbsp; &nbsp; &nbsp;</span></label>
                           <div className="col-sm-6">
@@ -625,54 +597,65 @@ function CompanyProfile() {
                             {errors.emailErrors && <span className='text-danger'>{emailmsg}</span>}
                             <div className="bgcol" id="error1"></div>
                           </div>
-
                         </div>
-
                       </div>
-
                       <div className="row">
                         <div className="form-group row">
                           <label className="col-sm-3 col-form-label">Contact Person<span className='text-danger'>*&nbsp; &nbsp;</span></label>
                           <div className="col-sm-6">
                             <input type="text" className="form-control" value={person} onChange={(event) => handleInput('person', event)} />
                             {errors.personErrors && <span className='text-danger'>{personmsg}</span>}
-
                           </div>
-
                         </div>
-
                       </div>
                       <div className="row">
-
-
                         <div className="form-group row">
                           <label className="col-sm-3 col-form-label">WebSite<span className='text-danger'>*&nbsp; &nbsp; </span></label>
                           <div className="col-sm-6">
                             <input type="text" className="form-control" value={webSite} onChange={(event) => handleInput('webSite', event)} />
                             {errors.webSiteErrors && <span className='text-danger'>{webSitemsg}</span>}
-
                           </div>
-
                         </div>
-
+                      </div>
+                      <div className="row">
+                        <div className="form-group row">
+                          <label className="col-sm-3 col-form-label">Youtube URL<span className='text-danger'>*&nbsp; &nbsp; </span></label>
+                          <div className="col-sm-6">
+                            <input type="text" className="form-control" value={webSite} onChange={(event) => handleInput('webSite', event)} />
+                            {errors.webSiteErrors && <span className='text-danger'>{webSitemsg}</span>}
+                          </div>
+                        </div>
                       </div>
                       <div class="row">
-
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Logo</label>
                           <div class="col-sm-6">
                             <input type="file" id="logo" className="form-control" onChange={onFileChange} />
-
                             {errors && errors.logo && <div className="error text-danger"> {errors.logo}</div>}
+                            <div class="bgcol" id="error5"></div>
+                            {logo && <img width="200px" height="200px" src={companyPhoto} />}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Banner</label>
+                          <div class="col-sm-6">
+                            <input type="file" id="banner" className="form-control" onChange={onFileChange} />
+
+                            {errors && errors.logo && <div className="error text-danger"> {errors.banner}</div>}
 
 
                             <div class="bgcol" id="error5"></div>
-                            {logo && <img width="200px" height="200px" src={companyPhoto} />}
+                            {logo && <img width="200px" height="200px" src={bannerPhoto} />}
 
 
                           </div>
                         </div>
                       </div>
+
+
 
                     </div>
 
