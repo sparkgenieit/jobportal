@@ -32,10 +32,6 @@ export default function Card({ job }) {
         setTooltip({ [name]: value })
     }
 
-    const plainTextRenderer = new marked.Renderer();
-    plainTextRenderer.strong = plainTextRenderer.em = plainTextRenderer.link = (text, _, self) => text;
-
-    const plainText = marked(job.description, { sanitize: true, renderer: plainTextRenderer });
 
     const benefits = getTrueKeys(JSON.parse(job.benifits))
     const bn = (JSON.parse(job.benifits))
@@ -51,7 +47,7 @@ export default function Card({ job }) {
                     <span className='pe-1'><FaLocationDot size="20px" /></span>
                     {job.location}
                 </div>
-                <p style={{ lineHeight: "1.2" }} className='text-secondary mt-2  small'> {plainText.length > 225 ? `${plainText.slice(0, 225)}...` : plainText}</p>
+                <p style={{ lineHeight: "1.2" }} className='text-secondary mt-2  small'> {job.description.length > 225 ? `${job.description.slice(0, 225)}...` : job.description}</p>
                 <div className='small position-absolute bottom-0 start-0'>
                     <span className='pe-3'>{job.creationdate} ({timeAgo(job.creationdate)})</span>
 

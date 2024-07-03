@@ -1,480 +1,245 @@
-import Header from '../../layouts/company/Header';
-import Footer from '../../layouts/company/Footer';
-import Sidebar from '../../layouts/company/Sidebar';
 import { useState, useEffect } from 'react';
-import Head from '../../layouts/company/Head';
-import companyService from '../../services/common/company.service';
 import { useNavigate } from 'react-router-dom';
 import { Hourglass } from "react-loader-spinner";
 import { BASE_API_URL } from '../../helpers/constants';
+import Header from '../../layouts/company/Header';
+import Footer from '../../layouts/company/Footer';
+import Sidebar from '../../layouts/company/Sidebar';
+import companyService from '../../services/common/company.service';
+import httpUpload from '../../helpers/httpUpload';
 
 function CompanyProfile() {
   const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState({});
   const [isUpdated, setIsUpdated] = useState(false);
-
-  const [companyName, setCompanyName] = useState("");
-  const [webSite, setWebSite] = useState('');
-  const [address, setAddress] = useState('');
-  const [address2, setAddress2] = useState('');
-  const [postcode, setPostcode] = useState('');
-  const [address3, setAddress3] = useState("");
-  const [city, setCity] = useState("");
-  const [Phone, setPhone] = useState("");
-  const [person, setPerson] = useState("");
-  const [email, setEmail] = useState("");
   const [loader, setLoader] = useState(false);
-  const [logo, setLogo] = useState();
-  const [banner, setBanner] = useState();
-  const [youtubeUrl, setYoutubeUrl] = useState();
-
+  const [logo, setLogo] = useState(null);
+  const [banner, setBanner] = useState(null);
+  const [companyLogo, setCompanyLogo] = useState()
+  const [companyBanner, setCompanyBanner] = useState()
+  const [errors, setErrors] = useState({})
+  const [update, setUpdate] = useState({})
 
   const navigate = useNavigate();
 
-
-  const [companyNamemsg, setCompanyNamemsg] = useState("Please Enter Company Name");
-  const [webSitemsg, setWebSitemsg] = useState('Please Enter Website');
-  const [addressmsg, setAddressmsg] = useState('Please Enter Address 1');
-  const [address2msg, setAddress2msg] = useState('Please Enter Address 2');
-  const [postcodemsg, setPostcodemsg] = useState('Please Enter Post Code');
-  const [address3msg, setAddress3msg] = useState("Please Enter Address 3");
-  const [citymsg, setCitymsg] = useState("Please Enter City");
-  const [Phonemsg, setPhonemsg] = useState("Please Enter Phone Number");
-  const [personmsg, setPersonmsg] = useState("Please Enter Contact Person");
-  const [emailmsg, setEmailmsg] = useState("Please Enter Email");
-  const [companyPhoto, setCompanyPhoto] = useState("")
-  const [bannerPhoto, setBannerPhoto] = useState("")
-
   useEffect(() => {
-
     companyService.get(userId)
       .then(response => {
-
-        setCompanyName(response.data.name);
-        setAddress(response.data.address1);
-        setAddress2(response.data.address2);
-        setAddress3(response.data.address3);
-        setPostcode(response.data.postalCode);
-        setPhone(response.data.phone);
-        setPerson(response.data.contact);
-        setCity(response.data.city);
-        setWebSite(response.data.website);
-        setEmail(response.data.email);
-        setLogo(response.data.logo);
+        console.log(response)
         setUserData(response.data);
-        setCompanyPhoto(`${BASE_API_URL}/uploads/logos/${response.data.logo}`)
-        setBannerPhoto(`${BASE_API_URL}/uploads/logos/${response.data.banner}`)
-
+        let up = { logo: true, banner: true }
+        if (response.data.logo.length > 0) {
+          setCompanyLogo(`${BASE_API_URL}/uploads/logos/${response.data.logo}`)
+          up.logo = false;
+        }
+        if (response.data.banner.length > 0) {
+          setCompanyBanner(`${BASE_API_URL}/uploads/banners/${response.data.banner}`)
+          up.banner = false;
+        }
+        setUpdate(up)
       })
       .catch(e => {
         console.log(e);
       })
   }, [userId])
 
-
-  const [errors, setErrors] = useState({
-    CompanyErrors: false,
-    webSiteErrors: false,
-    addressErrors: false,
-    address2Errors: false,
-    postcodeErrors: false,
-    address3Errors: false,
-    cityErrors: false,
-    PhoneErrors: false,
-    personErrors: false,
-    emailErrors: false,
-    workErrors: false,
-    logo: false
-  })
-
   const onFileChange = (event) => {
     const name = event.target.id;
     if (name == 'logo') {
-      setCompanyPhoto(URL.createObjectURL(event.target.files[0]))
+      setCompanyLogo(URL.createObjectURL(event.target.files[0]))
       setLogo(event.target.files[0]);
     }
     if (name == "banner") {
-      setBannerPhoto(URL.createObjectURL(event.target.files[0]))
+      setCompanyBanner(URL.createObjectURL(event.target.files[0]))
       setBanner(event.target.files[0]);
     }
   };
 
-  const submit = () => {
+  const submit = async () => {
     let eObj = {};
     let valid = true
 
-    if (companyName == '') {
+    if (userData.name == '') {
       valid = false
-      eObj = { ...eObj, CompanyErrors: true };
-      setCompanyNamemsg('Please Enter Company Name');
-    } else if (/^[a-z ]{2,}$/gi.test(companyName.trim()) == false) {
+      eObj = { ...eObj, name: "Please Enter Company Name" };
+    } else if (/^[a-z ]{2,}$/gi.test(userData.name.trim()) == false) {
       valid = false
-      eObj = { ...eObj, CompanyErrors: true };
-      setCompanyNamemsg('Not a Correct Company Name');
-
+      eObj = { ...eObj, name: 'Not a Correct Company Name' };
     }
     else {
-      valid = true
-      eObj = { ...eObj, CompanyErrors: false };
+      eObj = { ...eObj, name: null };
     }
 
-    if (postcode == '') {
+    if (userData.postalCode == '') {
       valid = false
-      eObj = { ...eObj, postcodeErrors: true };
-      setPostcodemsg('Please Enter Post Code');
-    } else if (/^[0-9]{2,}$/gi.test(postcode) == false) {
+      eObj = { ...eObj, postalCode: "Please Enter Post Code" };
+    } else if (/^[0-9]{2,}$/gi.test(userData.postalCode) == false) {
       valid = false
-      eObj = { ...eObj, postCodeErrors: true };
-      setPostcodemsg('Not a Post Code');
+      eObj = { ...eObj, postalCode: 'Not a Postal Code' };
     }
     else {
-      valid = true
-      eObj = { ...eObj, postcodeErrors: false };
+      eObj = { ...eObj, postalCode: null };
     }
 
-    if (webSite == '') {
+    if (userData.website == '') {
       valid = false
-      eObj = { ...eObj, webSiteErrors: true };
-      setWebSitemsg('Please Enter Website');
+      eObj = { ...eObj, website: 'Please Enter Website' };
     }
     else {
-      valid = true
-      eObj = { ...eObj, webSiteErrors: false };
+      eObj = { ...eObj, website: null };
     }
 
-    if (address == '') {
+    if (userData.address1 == '') {
       valid = false
-      eObj = { ...eObj, addressErrors: true };
-      setAddressmsg('Please Enter Address 1');
-    } else if (/^\w{2,} $/gi.test(address) == false) {
+      eObj = { ...eObj, address1: 'Please Enter Address 1' };
+    } else if (/^\w{2,}$/gi.test(userData.address1) == false) {
       valid = false
-      eObj = { ...eObj, CompanyErrors: true };
-      setAddressmsg('Not proper Address');
+      eObj = { ...eObj, address1: 'Not proper Address' };
     }
     else {
-      valid = true
-      eObj = { ...eObj, addressErrors: false };
+      eObj = { ...eObj, address1: null };
     }
 
-    if (address2 == '') {
+    if (userData.address2 == '') {
       valid = false
-      eObj = { ...eObj, address2Errors: true };
-      setAddress2msg('Please Enter Address 2');
-    } else if (/^\w{2,} $/gi.test(address2) == false) {
+      eObj = { ...eObj, address2: 'Please Enter Address 2' };
+    } else if (/^\w{2,}$/gi.test(userData.address2) == false) {
       valid = false
-      eObj = { ...eObj, CompanyErrors: true };
-      setAddress2msg('Not proper Address');
+      eObj = { ...eObj, address2: 'Not proper Address' };
     }
     else {
-      valid = false
-      eObj = { ...eObj, address2Errors: false };
+      eObj = { ...eObj, address2: null };
     }
 
 
-    if (address3 == '') {
+    if (userData.address3 == '') {
       valid = false
-      eObj = { ...eObj, address3Errors: true };
-      setAddress3msg('Please Enter Address 3');
-    } else if (/^\w{2,}$/gi.test(address3) == false) {
+      eObj = { ...eObj, address3: 'Please Enter Address 3' };
+    } else if (/^\w{2,}$/gi.test(userData.address3) == false) {
       valid = false
-      eObj = { ...eObj, address3Errors: true };
-      setAddress3msg('Not proper Address');
+      eObj = { ...eObj, address3: 'Not proper Address' };
     }
     else {
-      valid = true
-      eObj = { ...eObj, address3Errors: false };
+      eObj = { ...eObj, address3: null };
     }
 
-    if (city == '') {
+    if (userData.city == '') {
       valid = false
-      eObj = { ...eObj, cityErrors: true };
+      eObj = { ...eObj, city: "Please Enter City" };
     }
-    else if (/^\w{2,}$/gi.test(city) == false) {
+    else if (/^\w{2,}$/gi.test(userData.city) == false) {
       valid = false
-      eObj = { ...eObj, cityErrors: true };
-      setCitymsg('Not a City');
+      eObj = { ...eObj, city: 'Not a City' };
     }
     else {
-      valid = true
-      eObj = { ...eObj, cityErrors: false };
+      eObj = { ...eObj, city: null };
     }
 
-    if (Phone == '') {
+    if (userData.phone == '') {
       valid = false
-      eObj = { ...eObj, PhoneErrors: true };
-      setPhonemsg('Please Enter Phone');
+      eObj = { ...eObj, phone: 'Please Enter Phone' };
     }
-    else if (/^[0-9]{2,}$/gi.test(Phone) == false) {
+    else if (/^[0-9]{2,}$/gi.test(userData.phone) == false) {
       valid = false
-      eObj = { ...eObj, PhoneErrors: true };
-      setPhonemsg('Not a Number');
+      eObj = { ...eObj, phone: 'Not a  Phone Number' };
     }
     else {
-      valid = true
-      eObj = { ...eObj, PhoneErrors: false };
+      eObj = { ...eObj, phone: null };
     }
 
-    if (email == '') {
+    if (userData.email == '') {
       valid = false
-      eObj = { ...eObj, emailErrors: true };
-      setEmailmsg('Please Enter Email');
+      eObj = { ...eObj, email: 'Please Enter Email' };
     }
-    else if (/^[a-z A-Z 0-9._-]+@[a-z A-Z 0-9.-]+\.[a-z A-Z]{2,4}$/.test(email) == false) {
+    else if (/^[a-z A-Z 0-9._-]+@[a-z A-Z 0-9.-]+\.[a-z A-Z]{2,4}$/.test(userData.email) == false) {
       valid = false
-      eObj = { ...eObj, emailErrors: true };
-      setEmailmsg('Not an Email');
+      eObj = { ...eObj, email: 'Not an Email' };
     }
     else {
-      valid = true
-      eObj = { ...eObj, emailErrors: false };
+      eObj = { ...eObj, email: null };
     }
 
-    if (person == '') {
+    if (userData.contact == '') {
       valid = false
-      eObj = { ...eObj, personErrors: true };
-      setPersonmsg('Please Enter Person');
+      eObj = { ...eObj, contact: 'Please Enter Contact' };
     }
-    else if (/^[a-z ]{2,}$/gi.test(person.trim()) == false) {
+    else if (/^[a-z ]{2,}$/gi.test(userData.contact.trim()) == false) {
       valid = false
-      eObj = { ...eObj, personErrors: true };
-      setPersonmsg('Not a proper Name');
+      eObj = { ...eObj, contact: 'Not a proper Name' };
     }
     else {
-      valid = true
-      eObj = { ...eObj, personErrors: false };
+      eObj = { ...eObj, contact: null };
     }
-
 
     setErrors(eObj);
-    let obj1 = {}
+
     if (valid) {
+      let obj1 = {}
+      obj1 = { ...obj1, name: userData.name.trim() }
+      obj1 = { ...obj1, website: userData.website }
+      obj1 = { ...obj1, address1: userData.address1 }
+      obj1 = { ...obj1, address2: userData.address2 }
+      obj1 = { ...obj1, address3: userData.address3 }
+      obj1 = { ...obj1, postalCode: userData.postalCode }
+      obj1 = { ...obj1, city: userData.city }
+      obj1 = { ...obj1, phone: userData.phone }
+      obj1 = { ...obj1, contact: userData.contact.trim() }
+      obj1 = { ...obj1, email: userData.email }
+      obj1 = { ...obj1, youtubeUrl: userData.youtubeUrl }
 
-      obj1 = { ...obj1, name: companyName.trim() }
-      obj1 = { ...obj1, website: webSite }
-      obj1 = { ...obj1, address1: address }
-      obj1 = { ...obj1, address2: address2 }
-      obj1 = { ...obj1, address3: address3 }
-      obj1 = { ...obj1, postalCode: postcode }
-      obj1 = { ...obj1, city: city }
-      obj1 = { ...obj1, phone: Phone }
-      obj1 = { ...obj1, contact: person.trim() }
-      obj1 = { ...obj1, email: email }
+      try {
+        if (logo) {
+          const fd = new FormData();
+          fd.append('file', logo);
+          const { data } = await companyService.uploadLogo(fd)
+          obj1 = { ...obj1, logo: data.filename }
+        }
+        if (banner) {
+          const fd = new FormData();
+          fd.append('file', banner);
+          const { data } = await httpUpload.post("/upload/banners?path=banners", fd)
+          obj1 = { ...obj1, banner: data.filename }
+        }
+        const response = await companyService.update(userId, obj1)
+        window.scrollTo({ top: 10, behavior: "smooth" });
+        setIsUpdated(true);
+        setTimeout(() => {
+          // Inside the handleLogin function
+          navigate('/company'); // Redirect to the dashboard after login
+        }, 1500);
 
-
-      if (logo) {
-        const fd = new FormData();
-        fd.append('file', logo);
-
-        companyService.uploadLogo(fd)
-          .then(response => {
-            obj1 = { ...obj1, logo: response.data.filename }
-            companyService.update(userId, obj1)
-              .then(response => {
-                console.log(response.data);
-                window.scrollTo({ top: 10, behavior: "smooth" });
-                setIsUpdated(true);
-                setTimeout(() => {
-                  // Inside the handleLogin function
-                  navigate('/company'); // Redirect to the dashboard after login
-                }, 1500);
-
-              })
-              .catch(e => {
-                console.log(e);
-
-                if (e && e.code) {
-                  if (e.response && e.response.data) {
-                    if (e.response.data.email) {
-                      setErrors({ updateError: e.response.data.email });
-                    }
-
-                    if (e.response.data.message) {
-                      setErrors({ updateError: e.response.data.message });
-                    }
-                  } else {
-                    setErrors({ updateError: e.message });
-                  }
-                }
-                setTimeout(() => { setLoader(false); window.scrollTo({ top: 10, behavior: "smooth" }); }, 1200)
-              });
-          });
-
-      } else {
-
-        companyService.update(userId, obj1)
-          .then(response => {
-            console.log(response.data);
-            window.scrollTo({ top: 10, behavior: "smooth" });
-            setIsUpdated(true);
-            setTimeout(() => {
-              // Inside the handleLogin function
-              navigate('/company') // Redirect to the dashboard after login
-            }, 1500);
-
-          })
-          .catch(e => {
-            console.log(e);
-            if (e && e.code) {
-              if (e.response && e.response.data) {
-                if (e.response.data.email) {
-                  setErrors({ updateError: e.response.data.email });
-                }
-
-                if (e.response.data.message) {
-                  setErrors({ updateError: e.response.data.message });
-                }
-              } else {
-                setErrors({ updateError: e.message });
-              }
+      } catch (e) {
+        console.log(e)
+        if (e && e.code) {
+          if (e.response && e.response.data) {
+            if (e.response.data.email) {
+              setErrors({ updateError: e.response.data.email });
             }
-            setTimeout(() => { setLoader(false); window.scrollTo({ top: 10, behavior: "smooth" }); }, 1200)
-          });
-      }
 
-    } else {
+            if (e.response.data.message) {
+              setErrors({ updateError: e.response.data.message });
+            }
+          } else {
+            setErrors({ updateError: e.message });
+          }
+        }
+        setTimeout(() => { setLoader(false); window.scrollTo({ top: 10, behavior: "smooth" }); }, 1200)
 
-    }
-
-  }
-  const handleInput = (name, event) => {
-    if (name == 'companyName') {
-      setCompanyName(event.target.value);
-      if (event.target.value == '') {
-        setErrors({ ...errors, CompanyErrors: true })
-        setCompanyNamemsg('Please Enter Company Name');
-      }
-      else {
-        setErrors({ ...errors, CompanyErrors: false })
-      }
-    }
-    if (name == 'postcode') {
-      setPostcode(event.target.value);
-      if (event.target.value == '') {
-        setErrors({ ...errors, postcodeErrors: true })
-        setPostcodemsg('Please Enter Post Code');
-
-
-      }
-      else {
-        setErrors({ ...errors, postcodeErrors: false })
-      }
-
-    }
-    if (name == 'webSite') {
-      setWebSite(event.target.value);
-      if (event.target.value == '') {
-        setErrors({ ...errors, webSiteErrors: true })
-        setWebSitemsg('Please Enter Website');
-
-
-      }
-
-      else {
-        setErrors({ ...errors, webSiteErrors: false })
-      }
-
-    }
-    if (name == 'address') {
-      setAddress(event.target.value);
-      if (event.target.value == '') {
-        setErrors({ ...errors, addressErrors: true })
-        setAddressmsg('Please Enter Address 1');
-
-
-      }
-      else {
-        setErrors({ ...errors, addressErrors: false })
-      }
-
-    }
-    if (name == 'address2') {
-      setAddress2(event.target.value);
-      if (event.target.value == '') {
-        setErrors({ ...errors, address2Errors: true })
-        setAddress2msg('Please Enter Address 2');
-
-
-      }
-      else {
-        setErrors({ ...errors, address2Errors: false })
-      }
-
-    }
-    if (name == 'address3') {
-      setAddress3(event.target.value);
-      if (event.target.value == '') {
-        setErrors({ ...errors, address3Errors: true })
-        setAddress3msg('Please Enter Address 3');
-
-      }
-      else {
-        setErrors({ ...errors, address3Errors: false })
-      }
-
-    }
-    if (name == 'postCode') {
-      setPostcode(event.target.value);
-      if (event.target.value == '') {
-        setErrors({ ...errors, postCodeErrors: true })
-
-      }
-      else {
-        setErrors({ ...errors, postCodeErrors: false })
-      }
-
-    }
-
-    if (name == 'city') {
-      setCity(event.target.value);
-
-      if (event.target.value == '') {
-        setErrors({ ...errors, cityErrors: true })
-        setCitymsg('Please Enter City');
-
-      }
-      else {
-        setErrors({ ...errors, cityErrors: false })
-      }
-
-    }
-    if (name == 'phone') {
-      setPhone(event.target.value);
-      if (event.target.value == '') {
-        setErrors({ ...errors, PhoneErrors: true })
-        setPhonemsg('Please Enter Phone');
-      }
-
-      else {
-        setErrors({ ...errors, PhoneErrors: false })
-      }
-
-    }
-
-    if (name == 'email') {
-      setEmail(event.target.value);
-      if (event.target.value == '') {
-        setErrors({ ...errors, emailErrors: true })
-        setEmailmsg('Please Enter Email');
-
-      }
-      else {
-        setErrors({ ...errors, emailErrors: false })
-      }
-
-    }
-
-    if (name == 'person') {
-      setPerson(event.target.value);
-      if (event.target.value == '') {
-        setErrors({ ...errors, personErrors: true })
-        setPersonmsg('Please Enter Person');
-
-      }
-      else {
-        setErrors({ ...errors, personErrors: false })
       }
     }
   }
+
+  const handleInput = (e) => {
+    let name = e.target.name;
+    setUserData({ ...userData, [name]: e.target.value });
+    if (e.target.value == '') {
+      setErrors({ ...errors, [name]: `Please Enter ${name}` })
+    }
+    else {
+      setErrors({ ...errors, [name]: null })
+    }
+  }
+
   return (
     <>
       <div className="container-scroller">
@@ -483,13 +248,14 @@ function CompanyProfile() {
         <div class="container-fluid page-body-wrapper">
           <Sidebar />
           <div class="container-fluid">
-            {errors && errors.updateError && <div class="alert alert-danger" role="alert">
-              {errors && errors.updateError}</div>}
-            {isUpdated && <div class="alert alert-success" role="alert">
-              User Profile Updated successfully!
-            </div>}
+
 
             {!isUpdated && <div className="content-wrapper">
+              {errors && errors.updateError && <div class="alert alert-danger" role="alert">
+                {errors && errors.updateError}</div>}
+              {isUpdated && <div class="alert alert-success" role="alert">
+                User Profile Updated successfully!
+              </div>}
               <div className="page-header">
                 <h3 className="page-title"> Employer Profile </h3>
                 <nav aria-label="breadcrumb">
@@ -511,12 +277,10 @@ function CompanyProfile() {
                         <div className="form-group row">
                           <label className="col-sm-3 col-form-label">Company<span className='text-danger'>*</span></label>
                           <div className="col-sm-6">
-                            <input type="text" className="form-control" value={companyName} onChange={(event) => handleInput('companyName', event)} />
-                            {errors.CompanyErrors && <span className='text-danger'>{companyNamemsg}</span>}
-                            <div className="bgcol" id="error1"></div>
+                            <input type="text" name='name' className="form-control" value={userData.name} onChange={handleInput} />
+                            {errors.name && <span className='text-danger'>{errors.name}</span>}
                           </div>
                         </div>
-
 
                       </div>
 
@@ -525,8 +289,8 @@ function CompanyProfile() {
                         <div className="form-group row">
                           <label className="col-sm-3 col-form-label">Address1<span className='text-danger'>*</span></label>
                           <div className="col-sm-6">
-                            <input type="text" className="form-control" value={address} onChange={(event) => handleInput('address', event)} />
-                            {errors.addressErrors && <span className='text-danger'>{addressmsg}</span>}
+                            <input type="text" name='address1' className="form-control" value={userData.address1} onChange={handleInput} />
+                            {errors.address1 && <span className='text-danger'>{errors.address1}</span>}
                           </div>
                         </div>
                       </div>
@@ -535,23 +299,20 @@ function CompanyProfile() {
                         <div className="form-group row">
                           <label className="col-sm-3 col-form-label">Address2<span className='text-danger'>*</span></label>
                           <div className="col-sm-6">
-                            <input type="text" className="form-control" value={address2} onChange={(event) => handleInput('address2', event)} />
-                            {errors.address2Errors && <span className='text-danger'>{address2msg}</span>}
-                            <div className="bgcol" id="error1"></div>
+                            <input type="text" className="form-control" name='address2' value={userData.address2} onChange={handleInput} />
+                            {errors.address2 && <span className='text-danger'>{errors.address2}</span>}
                           </div>
 
                         </div>
 
                       </div>
                       <div className="row">
-
-
                         <div className="form-group row">
                           <label className="col-sm-3 col-form-label">Address3<span className='text-danger'>*</span></label>
                           <div className="col-sm-6">
-                            <input type="text" className="form-control" value={address3} onChange={(event) => handleInput('address3', event)} />
-                            {errors.address3Errors && <span className='text-danger'>{address3msg}</span>}
-                            <div className="bgcol" id="error1"></div>
+                            <input type="text" name='address3' className="form-control" value={userData.address3} onChange={handleInput} />
+                            {errors.address3 && <span className='text-danger'>{errors.address3}</span>}
+
                           </div>
                         </div>
 
@@ -563,9 +324,8 @@ function CompanyProfile() {
                         <div className="form-group row">
                           <label className="col-sm-3 col-form-label">City<span className='text-danger'>*&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span></label>
                           <div className="col-sm-6">
-                            <input type="text" className="form-control" value={city} onChange={(event) => handleInput('city', event)} />
-                            {errors.cityErrors && <span className='text-danger'>{citymsg}</span>}
-                            <div className="bgcol" id="error1"></div>
+                            <input type="text" name='city' className="form-control" value={userData.city} onChange={handleInput} />
+                            {errors.city && <span className='text-danger'>{errors.city}</span>}
                           </div>
 
                         </div>
@@ -574,9 +334,9 @@ function CompanyProfile() {
                         <div className="form-group row">
                           <label className="col-sm-3 col-form-label">PostCode<span className='text-danger'>*</span></label>
                           <div className="col-sm-6">
-                            <input type="text" className="form-control" value={postcode} onChange={(event) => handleInput('postcode', event)} />
-                            {errors.postcodeErrors && <span className='text-danger'>{postcodemsg}</span>}
-                            <div className="bgcol" id="error1"></div>
+                            <input type="text" className="form-control" name='postalCode' value={userData.postalCode} onChange={handleInput} />
+                            {errors.postalCode && <span className='text-danger'>{errors.postalCode}</span>}
+
                           </div>
                         </div>
                       </div>
@@ -584,18 +344,17 @@ function CompanyProfile() {
                         <div className="form-group row">
                           <label className="col-sm-3 col-form-label">Phone<span className='text-danger'>*&nbsp; &nbsp; &nbsp;</span></label>
                           <div className="col-sm-6">
-                            <input type="text" className="form-control" value={Phone} onChange={(event) => handleInput('phone', event)} />
-                            {errors.PhoneErrors && <span className='text-danger'>{Phonemsg}</span>}
+                            <input type="text" name='phone' className="form-control" value={userData.phone} onChange={handleInput} />
+                            {errors.phone && <span className='text-danger'>{errors.phone}</span>}
                           </div>
                         </div>
                       </div>
                       <div className="row">
                         <div className="form-group row">
-                          <label className="col-sm-3 col-form-label">Email  <span className='text-danger'>*&nbsp; &nbsp; &nbsp;</span></label>
+                          <label className="col-sm-3 col-form-label">Email<span className='text-danger'>*&nbsp; &nbsp; &nbsp;</span></label>
                           <div className="col-sm-6">
-                            <input type="text" className="form-control" value={email} onChange={(event) => handleInput('email', event)} />
-                            {errors.emailErrors && <span className='text-danger'>{emailmsg}</span>}
-                            <div className="bgcol" id="error1"></div>
+                            <input type="text" className="form-control" name='email' disabled value={userData.email} onChange={handleInput} />
+
                           </div>
                         </div>
                       </div>
@@ -603,8 +362,8 @@ function CompanyProfile() {
                         <div className="form-group row">
                           <label className="col-sm-3 col-form-label">Contact Person<span className='text-danger'>*&nbsp; &nbsp;</span></label>
                           <div className="col-sm-6">
-                            <input type="text" className="form-control" value={person} onChange={(event) => handleInput('person', event)} />
-                            {errors.personErrors && <span className='text-danger'>{personmsg}</span>}
+                            <input type="text" className="form-control" name='contact' value={userData.contact} onChange={handleInput} />
+                            {errors.contact && <span className='text-danger'>{errors.contact}</span>}
                           </div>
                         </div>
                       </div>
@@ -612,51 +371,41 @@ function CompanyProfile() {
                         <div className="form-group row">
                           <label className="col-sm-3 col-form-label">WebSite<span className='text-danger'>*&nbsp; &nbsp; </span></label>
                           <div className="col-sm-6">
-                            <input type="text" className="form-control" value={webSite} onChange={(event) => handleInput('webSite', event)} />
-                            {errors.webSiteErrors && <span className='text-danger'>{webSitemsg}</span>}
+                            <input type="text" name='website' className="form-control" value={userData.website} onChange={handleInput} />
+                            {errors.website && <span className='text-danger'>{errors.website}</span>}
                           </div>
                         </div>
                       </div>
                       <div className="row">
                         <div className="form-group row">
-                          <label className="col-sm-3 col-form-label">Youtube URL<span className='text-danger'>*&nbsp; &nbsp; </span></label>
+                          <label className="col-sm-3 col-form-label">Youtube URL</label>
                           <div className="col-sm-6">
-                            <input type="text" className="form-control" value={webSite} onChange={(event) => handleInput('webSite', event)} />
-                            {errors.webSiteErrors && <span className='text-danger'>{webSitemsg}</span>}
+                            <input type="text" className="form-control" name='youtubeUrl' value={userData.youtubeUrl} onChange={handleInput} />
                           </div>
                         </div>
                       </div>
+
                       <div class="row">
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Logo</label>
                           <div class="col-sm-6">
-                            <input type="file" id="logo" className="form-control" onChange={onFileChange} />
-                            {errors && errors.logo && <div className="error text-danger"> {errors.logo}</div>}
-                            <div class="bgcol" id="error5"></div>
-                            {logo && <img width="200px" height="200px" src={companyPhoto} />}
+                            {update.logo && <input type="file" id="logo" className="form-control" onChange={onFileChange} />}
+                            {companyLogo && companyLogo.length > 0 && <img className='rounded' width="200px" height="200px" src={companyLogo} />}
+                            {!update.logo && <div><button type='button' onClick={() => { setUpdate({ ...update, logo: true }) }} className='btn btn-gradient-primary mt-2'>Change Logo</button></div>}
                           </div>
                         </div>
                       </div>
-                      <div class="row">
 
+                      <div class="row">
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Banner</label>
                           <div class="col-sm-6">
-                            <input type="file" id="banner" className="form-control" onChange={onFileChange} />
-
-                            {errors && errors.logo && <div className="error text-danger"> {errors.banner}</div>}
-
-
-                            <div class="bgcol" id="error5"></div>
-                            {logo && <img width="200px" height="200px" src={bannerPhoto} />}
-
-
+                            {update.banner && <input type="file" id="banner" className="form-control" onChange={onFileChange} />}
+                            {companyBanner && companyBanner.length > 0 && <img className='rounded' width="200px" height="200px" src={companyBanner} />}
+                            {!update.banner && <div><button type='button' onClick={() => { setUpdate({ ...update, banner: true }) }} className='btn btn-gradient-primary mt-2'>Change Banner</button></div>}
                           </div>
                         </div>
                       </div>
-
-
-
                     </div>
 
                     <div className="row">

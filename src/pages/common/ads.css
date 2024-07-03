@@ -1,6 +1,6 @@
 .advertisement {
   position: relative;
-  width: fit-content;
+  width: 100%;
   right: 10px;
   z-index: 1;
   display: flex;

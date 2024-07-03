@@ -1,9 +1,13 @@
+import { useEffect, useState } from 'react';
 import './Loader.css';
-function Loader() {
+function Loader({ children, loading }) {
 
-    return <div class="main">
-        <div class="loader"></div>
+
+    return <div className={loadingClass} >
+        {loading === true && <div className='loader'></div>}
+        {children}
     </div>
+
 }
 
 export default Loader;

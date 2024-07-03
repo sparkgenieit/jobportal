@@ -14,6 +14,7 @@ import { FaCheckSquare, FaHome } from 'react-icons/fa';
 import { marked } from 'marked';
 import parse from 'html-react-parser';
 import Toaster from '../../components/Toaster';
+import Loader from '../../components/Loader';
 
 function SingleJob() {
     const [isJobApplied, setIsJobApplied] = useState(false)
@@ -29,16 +30,18 @@ function SingleJob() {
         msgclassName: "alert alert-success",
         Msg: ""
     })
+    const [loading, setLoading] = useState(true)
 
-    const getYoutubeId = (url) => {
-        // Function to extract video ID from URL
-        const youtubeMatch = url.match(/^.*v=([^&]*)|^.*youtu.be\/([^&]*)/);
-        return youtubeMatch && youtubeMatch[1];
-    };
+    function getYoutubeVideoId(url) {
+        const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?v=))([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[7].length === 11) ? match[7] : '';
+    }
 
     useEffect(() => {
         http.get(`/jobs/${params.id}`)
             .then((response) => {
+                setLoading(false)
                 setJobview(response.data)
             })
             .catch(err => setJobview(null))
@@ -153,187 +156,189 @@ function SingleJob() {
 
     return (
         <>
-            <div className="container-scrollar">
-                <Header />
-                {message.showMsg && <Toaster />}
-                {/* {message.showMsg &&
+            <Loader loading={loading}>
+                <div className="container-scrollar">
+                    <Header />
+                    {message.showMsg && <Toaster />}
+                    {/* {message.showMsg &&
                     <div className={message.msgclassName}>
                         {message.Msg}
                     </div>
                 } */}
-                {jobview &&
-                    <div className='row mt-3 '>
-                        <div className='col-md-9'>
-                            <div className='mb-3'>
-                                <img style={{ width: "100%", height: "40vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />
-                            </div>
-                            <div className='row mb-3 mx-4 align-items-center'>
-                                <div style={{ padding: "0" }} className='col-4'>
-                                    {jobview.companyLogo.length > 0 && <img style={{ width: "100px", height: "100px" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
+                    {jobview &&
+                        <div className='row mt-3 '>
+                            <div className='col-md-9'>
+                                <div className='mb-3'>
+                                    <img style={{ width: "100%", height: "40vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/banners/${jobview.banner}`} alt={jobview.company} />
                                 </div>
-                                <div className='col fw-bold h3'>{jobview.company}</div>
-                            </div>
-
-                            <div className='row border border-success rounded mx-4 p-3'>
-                                <div className='col-8 '>
-                                    <div className='h4'>
-                                        {jobview.jobTitle}
+                                <div className='row mb-3 mx-4 align-items-center'>
+                                    <div style={{ padding: "0" }} className='col-4'>
+                                        {jobview.companyLogo.length > 0 && <img style={{ width: "100px", height: "100px" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
                                     </div>
-                                    <div>
-                                        {jobview.jobCategory}/{jobview.subCategory}
-                                    </div>
-                                    <div className=''>
-                                        <span className='pe-1'><FaLocationDot size="20px" /></span>
-                                        {jobview.location}
-                                    </div>
-                                    <div>
-                                        {jobview.creationdate} ({timeAgo(jobview.creationdate)})
-                                    </div>
-                                    <div className='d-flex gap-4  mt-3 align-items-center'>
-                                        {!isJobApplied && <button type='button' onClick={handleApply} className='btn btn-primary text-white'>Apply</button>}
-                                        {isJobApplied && <button type='button' disabled className='btn btn-primary text-white'>Applied</button>}
-
-                                        {!isJobSaved && <a onMouseOver={() => handleTooltip(true, "save")} onMouseLeave={(e) => handleTooltip(false, "save")} onClick={handleSave} type='button'>
-                                            <span><PiBookmarkSimpleBold size="25px" /></span>
-                                            {tooltip.save && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Save</div>}
-                                        </a>}
-                                        {isJobSaved && <a type='button'>
-                                            <span><PiBookmarkSimpleFill size="25px" /></span>
-                                        </a>}
-                                        <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share")} onMouseLeave={(e) => handleTooltip(false, "rateperhour")} onClick={(e) => { handleShare(e) }}>
-                                            <span><FaShare size="25px" /></span>
-                                            {tooltip.share && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Share</div>}
-                                        </a>
-                                    </div>
+                                    <div className='col fw-bold h3'>{jobview.company}</div>
                                 </div>
 
-                                <div className='col-4'>
-                                    <div>
-                                        <span><FaDollarSign size="16px" /></span>
-                                        <span className='ps-2'>
-                                            {jobview.rateperhour} ph
-                                        </span>
+                                <div className='row border border-success rounded mx-4 p-3'>
+                                    <div className='col-8 '>
+                                        <div className='h4'>
+                                            {jobview.jobTitle}
+                                        </div>
+                                        <div>
+                                            {jobview.jobCategory}/{jobview.subCategory}
+                                        </div>
+                                        <div className=''>
+                                            <span className='pe-1'><FaLocationDot size="20px" /></span>
+                                            {jobview.location}
+                                        </div>
+                                        <div>
+                                            {jobview.creationdate} ({timeAgo(jobview.creationdate)})
+                                        </div>
+                                        <div className='d-flex gap-4  mt-3 align-items-center'>
+                                            {!isJobApplied && <button type='button' onClick={handleApply} className='btn btn-primary text-white'>Apply</button>}
+                                            {isJobApplied && <button type='button' disabled className='btn btn-primary text-white'>Applied</button>}
+
+                                            {!isJobSaved && <a onMouseOver={() => handleTooltip(true, "save")} onMouseLeave={(e) => handleTooltip(false, "save")} onClick={handleSave} type='button'>
+                                                <span><PiBookmarkSimpleBold size="25px" /></span>
+                                                {tooltip.save && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Save</div>}
+                                            </a>}
+                                            {isJobSaved && <a type='button'>
+                                                <span><PiBookmarkSimpleFill size="25px" /></span>
+                                            </a>}
+                                            <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share")} onMouseLeave={(e) => handleTooltip(false, "rateperhour")} onClick={(e) => { handleShare(e) }}>
+                                                <span><FaShare size="25px" /></span>
+                                                {tooltip.share && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Share</div>}
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <span>
-                                            <span><FaRegClock size="16px" /></span>
+
+                                    <div className='col-4'>
+                                        <div>
+                                            <span><FaDollarSign size="16px" /></span>
                                             <span className='ps-2'>
-                                                {jobview.duration}
+                                                {jobview.rateperhour} ph
                                             </span>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <span>
-                                            <span>Type:</span>
-                                            <span className='ps-1'>
-                                                {jobview.jobtype}
+                                        </div>
+                                        <div>
+                                            <span>
+                                                <span><FaRegClock size="16px" /></span>
+                                                <span className='ps-2'>
+                                                    {jobview.duration}
+                                                </span>
                                             </span>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <span>
-                                            <span>Weekly Hours:</span>
-                                            <span className='ps-1'>
-                                                {jobview.weeklyperhour}
+                                        </div>
+                                        <div>
+                                            <span>
+                                                <span>Type:</span>
+                                                <span className='ps-1'>
+                                                    {jobview.jobtype}
+                                                </span>
                                             </span>
-                                        </span>
-                                    </div>
-
-                                    <div>
-                                        {jobview.numberofvacancies > 1 && <>
-                                            <span onMouseOver={() => handleTooltip(true, "vacancies")} onMouseLeave={(e) => handleTooltip(false, "vacancies")} >
-                                                <span><BsFillPersonFill size="16px" /></span>
-                                                <span className='ps-2'>{jobview.numberofvacancies} Vacancies </span>
+                                        </div>
+                                        <div>
+                                            <span>
+                                                <span>Weekly Hours:</span>
+                                                <span className='ps-1'>
+                                                    {jobview.weeklyperhour}
+                                                </span>
                                             </span>
+                                        </div>
 
-                                            {tooltip.vacancies && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Vacancies</div>}
+                                        <div>
+                                            {jobview.numberofvacancies > 1 && <>
+                                                <span onMouseOver={() => handleTooltip(true, "vacancies")} onMouseLeave={(e) => handleTooltip(false, "vacancies")} >
+                                                    <span><BsFillPersonFill size="16px" /></span>
+                                                    <span className='ps-2'>{jobview.numberofvacancies} Vacancies </span>
+                                                </span>
 
-                                        </>}
-                                    </div>
-                                    <div className=''>
-                                        {jobview.training.includes("true") && <span>
-                                            Training Provided
-                                            <span className='ps-1'>
-                                                <FaCheckSquare size="16px" />
+                                                {tooltip.vacancies && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Vacancies</div>}
+
+                                            </>}
+                                        </div>
+                                        <div className=''>
+                                            {jobview.training.includes("true") && <span>
+                                                Training Provided
+                                                <span className='ps-1'>
+                                                    <FaCheckSquare size="16px" />
+                                                </span>
                                             </span>
-                                        </span>
-                                        }
-                                    </div>
-                                    <div>
-                                        {jobview.benifits && getTrueKeys(JSON.parse(jobview.benifits)).length > 0 &&
-                                            <div>
-                                                <div className='d-flex'>Benefits :
-                                                    {getTrueKeys(JSON.parse(jobview.benifits)).includes("Accommodation") &&
-                                                        <span onMouseOver={() => handleTooltip(true, "Accommodation")} onMouseLeave={(e) => handleTooltip(false, "Accommodation")} className='px-1'>
-                                                            <FaHome size="18px" />
-                                                            {tooltip.Accommodation && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Accommodation</div>}
-                                                        </span>
-                                                    }
-                                                    {getTrueKeys(JSON.parse(jobview.benifits)).includes("Transport") &&
-                                                        <span onMouseOver={() => handleTooltip(true, "transport")} onMouseLeave={(e) => handleTooltip(false, "transport")} className='px-1'>
-                                                            <PiTrainFill size="18px" />
-                                                            {tooltip.transport && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Transport</div>}
-                                                        </span>}
-                                                    {getTrueKeys(JSON.parse(jobview.benifits)).includes("Food") &&
-                                                        <span onMouseOver={() => handleTooltip(true, "food")} onMouseLeave={(e) => handleTooltip(false, "food")} className='px-1'>
-                                                            <FaBowlFood size="18px" />
-                                                            {tooltip.food && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Food</div>}
-                                                        </span>}
-                                                </div>
-                                                {(JSON.parse(jobview.benifits)).Others && <div>{(JSON.parse(jobview.benifits)).OthersText}</div>}
-                                            </div>}
-                                    </div>
+                                            }
+                                        </div>
+                                        <div>
+                                            {jobview.benifits && getTrueKeys(JSON.parse(jobview.benifits)).length > 0 &&
+                                                <div>
+                                                    <div className='d-flex'>Benefits :
+                                                        {getTrueKeys(JSON.parse(jobview.benifits)).includes("Accommodation") &&
+                                                            <span onMouseOver={() => handleTooltip(true, "Accommodation")} onMouseLeave={(e) => handleTooltip(false, "Accommodation")} className='px-1'>
+                                                                <FaHome size="18px" />
+                                                                {tooltip.Accommodation && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Accommodation</div>}
+                                                            </span>
+                                                        }
+                                                        {getTrueKeys(JSON.parse(jobview.benifits)).includes("Transport") &&
+                                                            <span onMouseOver={() => handleTooltip(true, "transport")} onMouseLeave={(e) => handleTooltip(false, "transport")} className='px-1'>
+                                                                <PiTrainFill size="18px" />
+                                                                {tooltip.transport && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Transport</div>}
+                                                            </span>}
+                                                        {getTrueKeys(JSON.parse(jobview.benifits)).includes("Food") &&
+                                                            <span onMouseOver={() => handleTooltip(true, "food")} onMouseLeave={(e) => handleTooltip(false, "food")} className='px-1'>
+                                                                <FaBowlFood size="18px" />
+                                                                {tooltip.food && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Food</div>}
+                                                            </span>}
+                                                    </div>
+                                                    {(JSON.parse(jobview.benifits)).Others && <div>{(JSON.parse(jobview.benifits)).OthersText}</div>}
+                                                </div>}
+                                        </div>
 
-                                </div>
-                            </div>
-
-                            <div className='row border border-success rounded  m-4 p-3'>
-                                <h3>Job Summary :</h3>
-                                <p>{parse(marked(jobview.description))}</p>
-                                <div className='d-flex justify-content-between'>
-                                    <div className='d-flex gap-4  mt-2 align-items-center'>
-                                        {!isJobApplied && <button type='button' onClick={handleApply} className='btn btn-primary text-white'>Apply</button>}
-                                        {isJobApplied && <button type='button' disabled className='btn btn-primary text-white'>Applied</button>}
-
-                                        {!isJobSaved && <a onMouseOver={() => handleTooltip(true, "save2")} onMouseLeave={(e) => handleTooltip(false, "save2")} onClick={handleSave} type='button'>
-                                            <span><PiBookmarkSimpleBold size="25px" /></span>
-                                            {tooltip.save2 && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Save</div>}
-                                        </a>}
-                                        {isJobSaved && <a type='button'>
-                                            <span><PiBookmarkSimpleFill size="25px" /></span>
-                                        </a>}
-                                        <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share2")} onMouseLeave={(e) => handleTooltip(false, "share2")} onClick={(e) => { handleShare(e) }}>
-                                            <span><FaShare size="25px" /></span>
-                                            {tooltip.share2 && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Share</div>}
-                                        </a>
-                                    </div>
-                                    <div>
-                                        <button type='button' className='btn btn-danger'>Report</button>
                                     </div>
                                 </div>
+
+                                <div className='row border border-success rounded  m-4 p-3'>
+                                    <h3>Job Summary :</h3>
+                                    <p>{parse(marked(jobview.description))}</p>
+                                    <div className='d-flex justify-content-between'>
+                                        <div className='d-flex gap-4  mt-2 align-items-center'>
+                                            {!isJobApplied && <button type='button' onClick={handleApply} className='btn btn-primary text-white'>Apply</button>}
+                                            {isJobApplied && <button type='button' disabled className='btn btn-primary text-white'>Applied</button>}
+
+                                            {!isJobSaved && <a onMouseOver={() => handleTooltip(true, "save2")} onMouseLeave={(e) => handleTooltip(false, "save2")} onClick={handleSave} type='button'>
+                                                <span><PiBookmarkSimpleBold size="25px" /></span>
+                                                {tooltip.save2 && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Save</div>}
+                                            </a>}
+                                            {isJobSaved && <a type='button'>
+                                                <span><PiBookmarkSimpleFill size="25px" /></span>
+                                            </a>}
+                                            <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share2")} onMouseLeave={(e) => handleTooltip(false, "share2")} onClick={(e) => { handleShare(e) }}>
+                                                <span><FaShare size="25px" /></span>
+                                                {tooltip.share2 && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Share</div>}
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <button type='button' className='btn btn-danger'>Report</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {<div className='m-4'>
+                                    <iframe
+                                        className='rounded'
+                                        width="100%"
+                                        height="400px"
+                                        src={`https://www.youtube.com/embed/${getYoutubeVideoId(jobview.youtubeUrl)}`}
+                                        allowFullScreen
+                                    />
+                                </div>}
+
+
                             </div>
 
-                            {<div className='m-4'>
-                                <iframe
-                                    className='rounded'
-                                    width="100%"
-                                    height="400px"
-                                    src={`https://www.youtube.com/embed/${getYoutubeId("https://www.youtube.com/watch?v=72iEz5iopqQ&t=992s")}`}
-                                    allowFullScreen
-                                />
-                            </div>}
-
-
+                            <div className='col-md-3'>
+                                <Ads />
+                            </div>
                         </div>
 
-                        <div className='col-md-3'>
-                            <Ads />
-                        </div>
-                    </div>
-
-                }
-                <Footer />
-            </div >
+                    }
+                    <Footer />
+                </div >
+            </Loader>
         </>
     );
 }

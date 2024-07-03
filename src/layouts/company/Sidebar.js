@@ -17,8 +17,6 @@ function Sidebar() {
   const [showBuy, setShowBuy] = useState(false);
   //const [companyProfile,setCompanyProfile] = useState();
 
-  console.log(parseInt(localStorage.getItem('credits')));
-  console.log(localStorage.getItem('usedFreeCredit'));
 
   const handleModal = () => {
 
@@ -26,12 +24,12 @@ function Sidebar() {
       setShowJob(true);
       setShow(true);
 
-      console.log('showJob', showJob);
+
     }
     else if (parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'true') {
       setShowBuy(true);
       setShow(true);
-      console.log('showBuy', showBuy);
+
     }
     else {
       navigate('/company/postajob')

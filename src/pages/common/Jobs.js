@@ -89,16 +89,16 @@ function Jobs() {
                         <option value="weeklyperhour">Weekly Hours</option>
                     </select>
                 </div>
-                <div className='col-3'></div>
+
             </div>
 
-            <main id="main" className='row mx-auto px-2'>
+            <main className='row px-3'>
                 <section className='col-3'>
                     <Filter filterFields={filterFields} setFilterFields={setFilterFields} setRefresh={setRefresh} />
                 </section>
 
-                <section ref={ref} className="col-9 row d-flex scrollbar hide-scrollbar">
-                    <div className="col-9 container-fluid">
+                <section ref={ref} className="col-9 row d-flex scrollbar hide-scrollbar pe-0">
+                    <div className="col-9 container-fluid ">
 
                         <div className="container rounded px-3 mb-3">
                             {jobs && jobs.length == 0 && <h2 className='m-2 text-center'>No Jobs Found</h2>}
@@ -111,7 +111,7 @@ function Jobs() {
                             <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={+pgNumber} pageNumberToShow={2} />
                         </div>
                     </div>
-                    <div className='col-3'>
+                    <div className='col-3 pe-0'>
                         <Ads />
                     </div>
                 </section >
