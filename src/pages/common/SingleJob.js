@@ -6,7 +6,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import http from '../../helpers/http';
 import Ads from './ads';
 import { BASE_API_URL, BASE_APP_URL } from '../../helpers/constants';
-import { getTrueKeys, timeAgo } from '../../helpers/functions';
+import { getTrueKeys, getYoutubeVideoId, timeAgo } from '../../helpers/functions';
 import { FaBowlFood, FaDollarSign, FaLocationDot, FaRegClock, FaShare } from 'react-icons/fa6';
 import { PiBookmarkSimpleBold, PiBookmarkSimpleFill, PiTrainFill } from "react-icons/pi";
 import { BsFillPersonFill } from 'react-icons/bs';
@@ -26,17 +26,13 @@ function SingleJob() {
     const params = useParams();
     const userId = localStorage.getItem('user_id');
     const [message, setMessage] = useState({
-        showMsg: false,
-        msgclassName: "alert alert-success",
-        Msg: ""
+        show: false,
+        type: "alert alert-success",
+        text: ""
     })
     const [loading, setLoading] = useState(true)
 
-    function getYoutubeVideoId(url) {
-        const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?v=))([^#\&\?]*).*/;
-        const match = url.match(regExp);
-        return (match && match[7].length === 11) ? match[7] : '';
-    }
+
 
     useEffect(() => {
         http.get(`/jobs/${params.id}`)
@@ -82,9 +78,9 @@ function SingleJob() {
             http.post("/jobs/apply", data)
                 .then((response) => {
                     setMessage({
-                        showMsg: true,
-                        msgclassName: "alert alert-success",
-                        Msg: "Applied Successfully"
+                        show: true,
+                        type: "success",
+                        text: "Applied Successfully"
                     })
                     setTimeout(() => {
                         navigate('/common/Myappliedjobs')
@@ -92,20 +88,20 @@ function SingleJob() {
                 })
                 .catch((e) => {
                     setMessage({
-                        showMsg: true,
-                        msgclassName: "alert alert-danger",
-                        Msg: e.response.data.message
+                        show: true,
+                        type: "alert alert-danger",
+                        text: e.response.data.message
                     })
                     setTimeout(() => {
-                        setMessage({ ...message, showMsg: false })
+                        setMessage({ ...message, show: false })
                     }, 3000)
                 })
 
         } else {
             setMessage({
-                showMsg: true,
-                msgclassName: "alert alert-danger",
-                Msg: 'Please login as User to apply job'
+                show: true,
+                type: "alert alert-danger",
+                text: 'Please login as User to apply job'
             })
         }
     }
@@ -121,9 +117,9 @@ function SingleJob() {
             http.post("/jobs/save", data)
                 .then((response) => {
                     setMessage({
-                        showMsg: true,
-                        msgclassName: "alert alert-success",
-                        Msg: "Job Saved Successfully "
+                        show: true,
+                        type: "success",
+                        text: "Job Saved Successfully "
                     })
                     setTimeout(() => {
                         navigate('/common/Savedjobs')
@@ -133,19 +129,19 @@ function SingleJob() {
 
                 .catch((e) => {
                     setMessage({
-                        showMsg: true,
-                        msgclassName: "alert alert-danger",
-                        Msg: e.response.data.message
+                        show: true,
+                        type: "alert alert-danger",
+                        text: e.response.data.message
                     })
                     setTimeout(() => {
-                        setMessage({ ...message, showMsg: false })
+                        setMessage({ ...message, show: false })
                     }, 3000)
                 })
         } else {
             setMessage({
-                showMsg: true,
-                msgclassName: "alert alert-danger",
-                Msg: 'Please login as User to save job'
+                show: true,
+                type: "alert alert-danger",
+                text: 'Please login as User to save job'
             })
         }
     }
@@ -159,21 +155,20 @@ function SingleJob() {
             <Loader loading={loading}>
                 <div className="container-scrollar">
                     <Header />
-                    {message.showMsg && <Toaster />}
-                    {/* {message.showMsg &&
-                    <div className={message.msgclassName}>
-                        {message.Msg}
-                    </div>
-                } */}
+                    {/* {message.show &&
+                        <div className={message.type}>
+                            {message.text}
+                        </div>} */}
                     {jobview &&
                         <div className='row mt-3 '>
+                            <Toaster message={message} setMessage={setMessage} />
                             <div className='col-md-9'>
                                 <div className='mb-3'>
-                                    <img style={{ width: "100%", height: "40vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/banners/${jobview.banner}`} alt={jobview.company} />
+                                    {jobview.banner && <img style={{ width: "100%", height: "40vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/banners/${jobview.banner}`} alt={jobview.company} />}
                                 </div>
                                 <div className='row mb-3 mx-4 align-items-center'>
                                     <div style={{ padding: "0" }} className='col-4'>
-                                        {jobview.companyLogo.length > 0 && <img style={{ width: "100px", height: "100px" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
+                                        {jobview.companyLogo && jobview.companyLogo.length > 0 && <img style={{ width: "100px", height: "100px" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
                                     </div>
                                     <div className='col fw-bold h3'>{jobview.company}</div>
                                 </div>

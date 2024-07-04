@@ -2,14 +2,12 @@ import { useEffect, useState } from "react";
 import Footer from "../../../layouts/admin/Footer";
 import Header from "../../../layouts/admin/Header";
 import Sidebar from "../../../layouts/admin/Sidebar";
-import axios from "axios";
-import Joblist from "../../company/jobs/JobList";
 import SingleJobAdmin from "./SingleJobAdmin";
 import { useNavigate } from "react-router-dom";
 import { itemsPerPage } from "../../../helpers/constants";
 import http from "../../../helpers/http";
 import Pagination from "../../../components/Pagination";
-import Modal from "../../../components/Modal";
+import RejectJobMessage from "../../../components/RejectJobMessage";
 
 function Myasignjobs() {
     const [assignJobs, setAssignJobs] = useState(null)
@@ -80,24 +78,7 @@ function Myasignjobs() {
             .catch(err => console.log(err))
     }
 
-    function handleReject(job) {
-        const data = {
-            adminId: userId,
-            jobId: job._id,
-            jobsDto: job
-        }
-        http.post("/jobs/reject", data)
-            .then((response) => {
-                if (response && response.status) {
-                    setError(true);
-                    setReleaseError(false)
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1000)
-                }
-            })
-
-    }
+   
 
     function handleJob(job) {
         setJoblist(false)
@@ -125,7 +106,7 @@ function Myasignjobs() {
     }
     return (
         <>
-            {joblist && <div className={`container-scrollar ${show === true ? "blurred" : ""}`}>
+            {joblist && <div className="container-scrollar">
                 <Header />
                 <div class="container-fluid page-body-wrapper">
 
@@ -251,8 +232,8 @@ function Myasignjobs() {
                 <Footer />
 
             </div >}
-            {!joblist && <SingleJobAdmin handleReject={handleReject} handleApprove={handleApprove} joblist={jobData} />}
-            {show && <Modal handleClose={handleClose} job={jobData} userId={userId} />}
+            {!joblist && <SingleJobAdmin handleApprove={handleApprove} joblist={jobData} />}
+            {show && <RejectJobMessage handleClose={handleClose} job={jobData} userId={userId} />}
         </>
     )
 }

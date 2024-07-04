@@ -171,7 +171,7 @@ function UserLogin() {
               <label class="form-label" for="form3Example3">Email address</label>
               <input type="email" class="form-control form-control-lg"
                 value={email} onChange={(event) => { validate('email', event.target.value, 'Email'); setEmail(event.target.value) }} required id="email" placeholder="Email" />
-              <span class="error col-12">{errors && errors.email}</span>
+              <span class="">{errors && errors.email}</span>
             </div>
 
             <div class="form-outline mb-3">
@@ -179,7 +179,7 @@ function UserLogin() {
               <label class="form-label" for="form3Example4">Password</label>
               <input type="password" id="password" name="password" value={password} onChange={(event) => { validate('password', event.target.value, 'Password'); setPassword(event.target.value) }} required placeholder="Password" class="form-control form-control-lg"
               />
-              <span class="error col-12">{errors && errors.password}</span>
+              <span class="">{errors && errors.password}</span>
             </div>
 
             <div class="d-flex justify-content-between align-items-center">
