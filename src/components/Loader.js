@@ -3,7 +3,7 @@ import './Loader.css';
 function Loader({ children, loading }) {
 
 
-    return <div className={loadingClass} >
+    return <div>
         {loading === true && <div className='loader'></div>}
         {children}
     </div>
