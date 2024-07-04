@@ -317,7 +317,7 @@ function SingleJob() {
                                     </div>
                                 </div>
 
-                                {<div className='m-4'>
+                                {jobview.youtubeUrl && <div className='m-4'>
                                     <iframe
                                         className='rounded'
                                         width="100%"
