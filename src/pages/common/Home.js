@@ -127,7 +127,7 @@ function Home() {
 
                             </div>
                         </div> */}
-                    <div style={{ height: "710px", overflow: "hidden" }} className='mb-2'>
+                    <div style={{ height: "685px", overflow: "hidden", marginBottom: "100px" }} className=''>
                         <iframe title="NZmap" width="100%" style={{ zoom: "2" }} height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiNDU4ZGUyYTUtOGE3Mi00N2Q4LTgxZWUtMjhjNmRjOGFlMmQ4IiwidCI6Ijg5NDhlY2JhLTJlMDItNDUwOS04OTJjLTVkMDYyZjVlN2IzOCJ9&pageName=0af786abcc8256aee8fe" frameborder="0" allowFullScreen="false"></iframe>
                     </div>
                     <div className='row'>

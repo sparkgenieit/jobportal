@@ -22,19 +22,19 @@ function Pagination({ totalCount, onPageClick, currentPage, pageNumberToShow }) 
         }
     }
 
-    return <div className='row mt-3 '>
-        <div className="col-3 text-center">
-            {total && total.length > 1 && currentPage !== 1 && <button type="button" onClick={() => NextPreviousButton("previous")} className="btn btn-xs rounded-circle"><IoIosArrowBack size={"20px"} /> </button>}
+    return <div className='d-flex justify-content-center align-items-center mt-3 gap-3 '>
+        <div className="text-center">
+            {total && total.length > 1 && currentPage !== 1 && <button type="button" onClick={() => NextPreviousButton("previous")} className="btn btn-xs rounded"><IoIosArrowBack size={"20px"} /> </button>}
         </div>
-        <div className="col-6 d-flex  justify-content-center gap-3">
+        <div className="d-flex rounded bg-light p-2 justify-content-center gap-3">
             {total && showingPages.length > 1 && showingPages.map((page, index) => {
                 return <div>
                     <button type='button' key={index} onClick={() => { onPageClick(page.number) }} className={`btn btn-xs rounded-circle ${currentPage === page.number ? "btn-dark" : "btn-outline-dark"} `}>{page.number}</button>
                 </div>
             })}
         </div>
-        <div className="col-3 text-center">
-            {total && total.length > 1 && currentPage !== total.length && <button type="button" onClick={() => NextPreviousButton("next")} className="btn btn-xs rounded-circle"><IoIosArrowForward size={"20px"} /></button>}
+        <div className=" text-center">
+            {total && total.length > 1 && currentPage !== total.length && <button type="button" onClick={() => NextPreviousButton("next")} className="btn btn-xs rounded"><IoIosArrowForward size={"20px"} /></button>}
         </div>
     </div>
 

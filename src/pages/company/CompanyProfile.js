@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Hourglass } from "react-loader-spinner";
 import { BASE_API_URL } from '../../helpers/constants';
+import Toaster from '../../components/Toaster';
 import Header from '../../layouts/company/Header';
 import Footer from '../../layouts/company/Footer';
 import Sidebar from '../../layouts/company/Sidebar';
@@ -11,7 +12,7 @@ import httpUpload from '../../helpers/httpUpload';
 function CompanyProfile() {
   const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
   const [userData, setUserData] = useState({});
-  const [isUpdated, setIsUpdated] = useState(false);
+  const [message, setMessage] = useState({});
   const [loader, setLoader] = useState(false);
   const [logo, setLogo] = useState(null);
   const [banner, setBanner] = useState(null);
@@ -62,7 +63,7 @@ function CompanyProfile() {
     if (userData.name == '') {
       valid = false
       eObj = { ...eObj, name: "Please Enter Company Name" };
-    } else if (/^[a-z ]{2,}$/gi.test(userData.name.trim()) == false) {
+    } else if (/^[\w ]{2,}$/gi.test(userData.name.trim()) == false) {
       valid = false
       eObj = { ...eObj, name: 'Not a Correct Company Name' };
     }
@@ -92,7 +93,7 @@ function CompanyProfile() {
     if (userData.address1 == '') {
       valid = false
       eObj = { ...eObj, address1: 'Please Enter Address 1' };
-    } else if (/^\w{2,}$/gi.test(userData.address1) == false) {
+    } else if (/^[\w ]{2,}$/gi.test(userData.address1) == false) {
       valid = false
       eObj = { ...eObj, address1: 'Not proper Address' };
     }
@@ -103,7 +104,7 @@ function CompanyProfile() {
     if (userData.address2 == '') {
       valid = false
       eObj = { ...eObj, address2: 'Please Enter Address 2' };
-    } else if (/^\w{2,}$/gi.test(userData.address2) == false) {
+    } else if (/^[\w ]{2,}$/gi.test(userData.address2) == false) {
       valid = false
       eObj = { ...eObj, address2: 'Not proper Address' };
     }
@@ -115,7 +116,7 @@ function CompanyProfile() {
     if (userData.address3 == '') {
       valid = false
       eObj = { ...eObj, address3: 'Please Enter Address 3' };
-    } else if (/^\w{2,}$/gi.test(userData.address3) == false) {
+    } else if (/^[\w ]{2,}$/gi.test(userData.address3) == false) {
       valid = false
       eObj = { ...eObj, address3: 'Not proper Address' };
     }
@@ -127,7 +128,7 @@ function CompanyProfile() {
       valid = false
       eObj = { ...eObj, city: "Please Enter City" };
     }
-    else if (/^\w{2,}$/gi.test(userData.city) == false) {
+    else if (/^[\w ]{2,}$/gi.test(userData.city) == false) {
       valid = false
       eObj = { ...eObj, city: 'Not a City' };
     }
@@ -201,30 +202,25 @@ function CompanyProfile() {
           obj1 = { ...obj1, banner: data.filename }
         }
         const response = await companyService.update(userId, obj1)
-        window.scrollTo({ top: 10, behavior: "smooth" });
-        setIsUpdated(true);
+        setMessage({
+          show: true,
+          type: "success",
+          text: "Updated Successfully"
+        })
         setTimeout(() => {
           // Inside the handleLogin function
+          window.scrollTo({ top: 10, behavior: "smooth" });
           navigate('/company'); // Redirect to the dashboard after login
         }, 1500);
 
       } catch (e) {
         console.log(e)
-        if (e && e.code) {
-          if (e.response && e.response.data) {
-            if (e.response.data.email) {
-              setErrors({ updateError: e.response.data.email });
-            }
-
-            if (e.response.data.message) {
-              setErrors({ updateError: e.response.data.message });
-            }
-          } else {
-            setErrors({ updateError: e.message });
-          }
-        }
+        setMessage({
+          show: true,
+          type: "error",
+          text: e.response.data.email || e.response.data.message || e.message
+        })
         setTimeout(() => { setLoader(false); window.scrollTo({ top: 10, behavior: "smooth" }); }, 1200)
-
       }
     }
   }
@@ -248,14 +244,7 @@ function CompanyProfile() {
         <div class="container-fluid page-body-wrapper">
           <Sidebar />
           <div class="container-fluid">
-
-
-            {!isUpdated && <div className="content-wrapper">
-              {errors && errors.updateError && <div class="alert alert-danger" role="alert">
-                {errors && errors.updateError}</div>}
-              {isUpdated && <div class="alert alert-success" role="alert">
-                User Profile Updated successfully!
-              </div>}
+            <div className="content-wrapper">
               <div className="page-header">
                 <h3 className="page-title"> Employer Profile </h3>
                 <nav aria-label="breadcrumb">
@@ -265,6 +254,7 @@ function CompanyProfile() {
                   </ol>
                 </nav>
               </div>
+              <Toaster message={message} setMessage={setMessage} />
 
 
               <div className="col-12 bg-white">
@@ -420,7 +410,7 @@ function CompanyProfile() {
               {/* </div> */}
 
 
-            </div>}
+            </div>
           </div>
 
         </div>

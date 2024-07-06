@@ -7,19 +7,29 @@ import { PiTrainFill } from "react-icons/pi";
 import { FaHome, FaCheckSquare, FaDollarSign, FaRegClock, FaShare } from "react-icons/fa";
 import { BsFillPersonFill } from "react-icons/bs";
 import { CiBookmark } from "react-icons/ci";
+import Toaster from "./Toaster"
 import { marked } from 'marked';
 import parse from 'html-react-parser';
+import LocationPopup from './LocationPopup';
+import { useNavigate } from 'react-router-dom';
 
 export default function Card({ job }) {
     const [tooltip, setTooltip] = useState({})
-    const [shareClicked, setShareClicked] = useState(false)
+    const [message, setMessage] = useState({})
+    const [showLocation, setShowLocation] = useState(false)
+    const navigate = useNavigate()
+
 
     const handleShare = (event) => {
         navigator.clipboard.writeText(`${BASE_APP_URL}/common/SingleJob/${job._id}`)
-        setShareClicked(true)
+        setMessage({
+            show: true,
+            type: "success",
+            text: "Link Copied"
+        })
         setTimeout(() => {
-            setShareClicked(false)
-        }, 1000);
+            setMessage({ ...message, show: false })
+        }, 3000);
         event.stopPropagation();
     }
 
@@ -36,14 +46,14 @@ export default function Card({ job }) {
     const benefits = getTrueKeys(JSON.parse(job.benifits))
     const bn = (JSON.parse(job.benifits))
     return <>
-        <div style={{ height: "37vh" }} onClick={() => { window.location.href = `/common/SingleJob/${job._id}` }} className='job-card mb-4 row border rounded shadow p-3'>
+        <div style={{ height: "37vh" }} onClick={() => { navigate(`/common/SingleJob/${job._id}`) }} className='job-card mb-4 row border rounded shadow p-3'>
             <div className='col-9 h-100  position-relative px-1 '>
                 <div className='fw-bold h4' >{job.jobTitle}</div>
                 <div>
                     <span className='text-decoration-underline text-primary' onMouseOver={() => handleTooltip(true, "company")} onMouseLeave={(e) => handleTooltip(false, "company")} onClick={(e) => { getJobsbyCompany(e) }}>{job.company}</span>
                     {tooltip.company && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Click to search by company</div>}
                 </div>
-                <div className='mt-2'>
+                <div className='mt-2' onClick={(e) => { setShowLocation(true); e.stopPropagation(); }}>
                     <span className='pe-1'><FaLocationDot size="20px" /></span>
                     {job.location}
                 </div>
@@ -136,6 +146,9 @@ export default function Card({ job }) {
                 </div >
             </div >
         </div >
-        {shareClicked && <div className='link-copied  py-1 px-2 rounded text-white'>Link Copied</div>}
+        <Toaster message={message} setMessage={setMessage} />
+
+        <LocationPopup show={showLocation} handleClose={() => { setShowLocation(false) }} />
+
     </>
 }

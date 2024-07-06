@@ -1,0 +1,7 @@
+.modal-div {
+    position: fixed;
+    overflow: auto;
+    backdrop-filter: blur(2px);
+    height: 100%;
+    width: 80vw;
+}
