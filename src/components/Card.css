@@ -1,7 +1,6 @@
 .job-card:hover {
     /* background-color: rgb(231, 231, 231); */
     cursor: pointer;
-    background-color: #f7f7f7;
     transition: none;
     transform: scale(1.01);
     position: relative;

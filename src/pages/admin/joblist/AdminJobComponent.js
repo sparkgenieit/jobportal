@@ -15,25 +15,18 @@ export default function AdminJob({ jobview, handleApprove, setShow }) {
         setTooltip({ [name]: value })
     }
 
-    const handleShare = (event) => {
-        navigator.clipboard.writeText(`${BASE_APP_URL}/common/SingleJob/${jobview._id}`)
-        // setShareClicked(true)
-        // setTimeout(() => {
-        //     setShareClicked(false)
-        // }, 1000);
-        // event.stopPropagation();
-    }
+
 
     const benefits = getTrueKeys(JSON.parse(jobview.benifits))
     const bn = (JSON.parse(jobview.benifits))
 
     return <>
         {jobview &&
-            <div className=' mt-3 '>
+            <div className='container mt-3 '>
                 {/* {message.showMsg && <Toaster />} */}
                 <div>
                     <div className='mb-3'>
-                        {jobview.banner && <img style={{ width: "100%", height: "40vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/banners/${jobview.banner}`} alt={jobview.company} />}
+                        {jobview.banner && <img style={{ height: "40vh" }} className="rounded w-100 border border-secondary" src={`${BASE_API_URL}/uploads/banners/${jobview.banner}`} alt={jobview.company} />}
                     </div>
                     <div className='row mb-3 mx-4 align-items-center'>
                         <div style={{ padding: "0" }} className='col-4'>
@@ -50,19 +43,14 @@ export default function AdminJob({ jobview, handleApprove, setShow }) {
                             <div>
                                 {jobview.jobCategory}/{jobview.subCategory}
                             </div>
-                            <div className=''>
+                            <div className='mb-4'>
                                 <span className='pe-1'><FaLocationDot size="20px" /></span>
                                 {jobview.location}
                             </div>
                             <div>
                                 {jobview.creationdate} ({timeAgo(jobview.creationdate)})
                             </div>
-                            <div className='d-flex gap-4  mt-3 align-items-center'>
-                                <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share")} onMouseLeave={(e) => handleTooltip(false, "rateperhour")} onClick={(e) => { handleShare(e) }}>
-                                    <span><FaShare size="25px" /></span>
-                                    {tooltip.share && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Share</div>}
-                                </a>
-                            </div>
+
                         </div>
 
                         <div className='col-4 d-flex flex-column gap-1'>
@@ -146,15 +134,8 @@ export default function AdminJob({ jobview, handleApprove, setShow }) {
                     </div>
 
                     <div className='row border border-success rounded  m-4 p-3'>
-                        <h3>Job Summary :</h3>
                         <p>{parse(marked(jobview.description))}</p>
                         <div className='d-flex justify-content-between'>
-                            <div className='d-flex gap-4  mt-2 align-items-center'>
-                                <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share2")} onMouseLeave={(e) => handleTooltip(false, "share2")} onClick={(e) => { handleShare(e) }}>
-                                    <span><FaShare size="25px" /></span>
-                                    {tooltip.share2 && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Share</div>}
-                                </a>
-                            </div>
                             <div className="gap-2">
                                 {jobview.status !== "approved" && <button type='button' onClick={() => { handleApprove(jobview) }} className='btn btn-success mx-2'>Approve</button>}
                                 {jobview.status === "approved" && <button type='button' disabled className='btn btn-success mx-2'>Approved</button>}

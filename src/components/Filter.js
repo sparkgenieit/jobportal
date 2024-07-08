@@ -111,11 +111,13 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
 
     const handleFilter = () => {
         localStorage.setItem("filter", JSON.stringify(filterFields))
+        window.history.replaceState(null, null, '/common/jobs')
         setRefresh(prev => !prev)
     }
 
     const ResetFilter = () => {
         localStorage.removeItem("filter");
+        window.history.replaceState(null, null, '/common/jobs')
         setFilterFields({
             company: "",
             jobTitle: "",
@@ -132,21 +134,24 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
         setRefresh(prev => !prev)
     }
 
-    return <section className='p-3 hide-scrollbar rounded border shadow scrollbar'>
-        <div className=' mb-2'>Filters</div>
+    return <section style={{ width: "300px" }} className='p-3 hide-scrollbar rounded border shadow scrollbar'>
         <form autoComplete="off">
-            <div onBlur={clearSuggestions} className='mb-4 position-relative'>
-                <input type='text' value={filterFields.jobTitle} name='jobTitle' onKeyDown={(e) => { handleKeyDown(jobSuggestions, e) }} onChange={(e) => handleInput(e)} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Search by Job Title' />
-                <Suggestions SuggestionsList={jobSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="jobTitle" setValue={setFilterFields} value={filterFields} />
-            </div>
-            <div onBlur={clearSuggestions} className='mb-4 position-relative'>
-                <input type='text' name='location' className='form-input d-block w-100 rounded p-2 shadow-sm border-0' value={filterFields.location} onKeyDown={(e) => { handleKeyDown(locationSuggestions, e) }} onChange={(e) => handleInput(e)} placeholder='Location' />
-                <Suggestions SuggestionsList={locationSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="location" setValue={setFilterFields} value={filterFields} />
-            </div>
+            <div className="fw-bold mb-2">Search By</div>
+            <div className="border rounded px-2 py-3 mb-4">
 
-            <div onBlur={clearSuggestions} className='mb-4 position-relative'>
-                <input type='text' name='company' value={filterFields.company} onChange={(e) => handleInput(e)} onKeyDown={(e) => { handleKeyDown(companySuggestions, e) }} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Search by Company' />
-                <Suggestions SuggestionsList={companySuggestions} focus={focus} clearSuggestions={clearSuggestions} name="company" setValue={setFilterFields} value={filterFields} />
+                <div onBlur={clearSuggestions} className='mb-4 position-relative'>
+                    <input type='text' value={filterFields.jobTitle} name='jobTitle' onKeyDown={(e) => { handleKeyDown(jobSuggestions, e) }} onChange={(e) => handleInput(e)} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Job Title' />
+                    <Suggestions SuggestionsList={jobSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="jobTitle" setValue={setFilterFields} value={filterFields} />
+                </div>
+                <div onBlur={clearSuggestions} className='mb-4 position-relative'>
+                    <input type='text' name='location' className='form-input d-block w-100 rounded p-2 shadow-sm border-0' value={filterFields.location} onKeyDown={(e) => { handleKeyDown(locationSuggestions, e) }} onChange={(e) => handleInput(e)} placeholder='Location' />
+                    <Suggestions SuggestionsList={locationSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="location" setValue={setFilterFields} value={filterFields} />
+                </div>
+
+                <div onBlur={clearSuggestions} className=' position-relative'>
+                    <input type='text' name='company' value={filterFields.company} onChange={(e) => handleInput(e)} onKeyDown={(e) => { handleKeyDown(companySuggestions, e) }} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Company' />
+                    <Suggestions SuggestionsList={companySuggestions} focus={focus} clearSuggestions={clearSuggestions} name="company" setValue={setFilterFields} value={filterFields} />
+                </div>
             </div>
 
             <div className='mb-2'>
@@ -183,7 +188,7 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
             <div className='mb-4'>
                 <label className='fw-bold form-label '>Job Type</label>
                 <select className='form-select d-block' value={filterFields.jobtype} onChange={(e) => { setFilterFields({ ...filterFields, jobtype: e.target.value }) }}>
-                    <option value="">-- Any --</option>
+                    <option value="">Any</option>
                     <option value="FullTime">Full Time</option>
                     <option value="PartTime">Part Time</option>
                     <option value="Contract">Contract</option>
@@ -196,12 +201,12 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
             <div className='mb-4'>
                 <label className='fw-bold form-label' >Job Category</label>
                 <select className='form-select d-block' value={filterFields.jobCategory} onChange={(e) => { setFilterFields({ ...filterFields, jobCategory: e.target.value }) }}>
-                    <option value="">-- Any --</option>
+                    <option value="">Any</option>
                     {parent && parent.map((p, index) => <option key={index} className="fw-bold" value={p}>{p}</option>)}
                 </select>
             </div>
 
-            <div className='mb-4'>
+            {/* <div className='mb-4'>
                 <label className='fw-bold form-label '>Sub Category</label>
                 <select className='form-select d-block ' value={filterFields.subCategory} onChange={(e) => { setFilterFields({ ...filterFields, subCategory: e.target.value }) }}>
                     <option value="">-- Any --</option>
@@ -214,13 +219,13 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
                     }
                 </select>
 
-            </div>
+            </div> */}
 
             <div className='d-flex justify-content-end gap-2'>
                 <button type='button' onClick={handleFilter} className='btn border-dark btn-primary'>Apply</button>
                 <button type='button' onClick={ResetFilter} className='btn btn-outline-light text-dark border-success'>Clear</button>
             </div>
-        </form>
+        </form >
 
-    </section>
+    </section >
 }

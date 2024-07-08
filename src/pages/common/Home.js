@@ -78,7 +78,11 @@ function Home() {
                 <div className="container-fluid homeBg">
                     <form autoComplete='off'>
                         <div style={{ height: "50vh", width: "100%" }} className="banner">
-                            <div className='d-flex align-items-center justify-content-center h-100 gap-2'>
+                            <div className='d-flex flex-column align-items-center my-3'>
+                                <h2>Kia ora!</h2>
+                                <h2>Welcome to New Zealand</h2>
+                            </div>
+                            <div className='d-flex align-items-center justify-content-center gap-2'>
                                 <div onBlur={clearSuggestions} className='position-relative'>
                                     <input type="text" style={{ width: "25vw" }} className={`transparent border-white p-1 rounded text-white ${searchButton}`} value={searchBox.jobTitle} placeholder="Job Title" name='jobTitle' onKeyDown={(e) => { handleKeyDown(jobSuggestions, e) }} onChange={(e) => handleInput("jobTitle", e)} />
                                     <Suggestions SuggestionsList={jobSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="jobTitle" setValue={setSearchBox} value={searchBox} />

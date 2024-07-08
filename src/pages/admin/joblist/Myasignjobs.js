@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Footer from "../../../layouts/admin/Footer";
 import Header from "../../../layouts/admin/Header";
 import Sidebar from "../../../layouts/admin/Sidebar";
-import SingleJobAdmin from "./SingleJobAdmin";
 import { useNavigate } from "react-router-dom";
 import { itemsPerPage } from "../../../helpers/constants";
 import http from "../../../helpers/http";
@@ -78,11 +77,10 @@ function Myasignjobs() {
             .catch(err => console.log(err))
     }
 
-   
+
 
     function handleJob(job) {
-        setJoblist(false)
-        setJobData(job)
+        navigate(`/admin/view-job/${job._id}`)
     }
 
     function handleRelease(job) {
@@ -106,7 +104,7 @@ function Myasignjobs() {
     }
     return (
         <>
-            {joblist && <div className="container-scrollar">
+            <div className="container-scrollar">
                 <Header />
                 <div class="container-fluid page-body-wrapper">
 
@@ -231,8 +229,7 @@ function Myasignjobs() {
                 </div >
                 <Footer />
 
-            </div >}
-            {!joblist && <SingleJobAdmin handleApprove={handleApprove} joblist={jobData} />}
+            </div >
             {show && <RejectJobMessage handleClose={handleClose} job={jobData} userId={userId} />}
         </>
     )

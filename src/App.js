@@ -90,6 +90,7 @@ import AppliedUsers from "./pages/company/jobs/AppliedUsers";
 import AppliedUserProfile from "./pages/company/jobs/AppliedUserProfile";
 import Profile from "./pages/superadmin/user/Profile";
 import LocationList from "./pages/superadmin/locations-list/LocationList";
+import SingleJobAdmin from "./pages/admin/joblist/SingleJobAdmin";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -161,6 +162,7 @@ function App() {
         <Route path="/admin" element={(token && role == 'admin') ? <AdminHome /> : <Login />} />
         <Route path="/admin/Jobqueuelist" element={(token && role == 'admin') ? <Jobqueuelist /> : <Login />} />
         <Route path="/admin/Myasignjobs" element={(token && role == 'admin') ? <Myasignjobs /> : <Login />} />
+        <Route path="/admin/view-job/:id" element={(token && role == 'admin') ? <SingleJobAdmin /> : <Login />} />
         <Route path="/admin/login" element={(token && role == 'admin') ? <Login /> : <AdminHome />} />
 
 
