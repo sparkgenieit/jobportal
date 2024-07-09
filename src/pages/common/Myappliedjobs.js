@@ -4,6 +4,7 @@ import Sidebar from "../../layouts/common/Sidebar";
 import Footer from "../../layouts/common/Footer";
 import Card from "../../components/Card";
 import http from "../../helpers/http";
+import Ads from './ads';
 import { useSearchParams } from "react-router-dom";
 import { itemsPerPage } from "../../helpers/constants";
 import Pagination from "../../components/Pagination";
@@ -44,24 +45,31 @@ function Myappliedjobs() {
                                 </ol>
                             </nav>
                         </div>
-                        <div class=" px-2 ">
-                            {
-                                appliedjobs && appliedjobs.length > 0 && appliedjobs.map((job, index) => {
-                                    return (
-                                        <div className="p-2">
-                                            <div>
-                                                <i className="fw-bold">Applied on {job.applied_date}</i> &nbsp;
-                                                {job.jobId.status !== "approved" && <i className="text-secondary small">This job was removed</i>}
-                                            </div>
-                                            {job.jobId.status && <Card job={job.jobId} />}
-                                        </div>
-                                    )
+                        <div class=" row ">
+                            <div className="col-9">
+                                {
+                                    appliedjobs && appliedjobs.length > 0 && appliedjobs.map((job, index) => {
+                                        return (
 
-                                })
-                            }
-                            {
-                                appliedjobs && appliedjobs.length == 0 && <div className="p-3">No Applied Jobs</div>
-                            }
+                                            <div className="p-2 d-flex flex-column align-items-center">
+                                                <div style={{ width: "45vw" }}>
+                                                    <i className="fw-bold">Applied on {job.applied_date}</i> &nbsp;
+                                                    {job.jobId.status !== "approved" && <i className="text-secondary small">This job was removed</i>}
+                                                </div>
+                                                {job.jobId && <Card job={job.jobId} />}
+                                            </div>
+                                        )
+
+                                    })
+                                }
+                                {
+                                    appliedjobs && appliedjobs.length == 0 && <div className="p-3">No Applied Jobs</div>
+                                }
+                            </div>
+
+                            <section className="col-3">
+                                <Ads />
+                            </section>
                         </div>
                         <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={+pgNumber} pageNumberToShow={2} />
                     </div>

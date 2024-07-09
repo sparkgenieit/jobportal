@@ -124,42 +124,48 @@ function Sidebar() {
           </ul>
         </nav>
       </div>}
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Body>
-          {parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'false' && <><div class="form-row ml-5">
-            <div class="form-group">
-              <div class="form-group">
-                <div class="form-check ml-2">
-                  <label class="form-check-label" for="invalidCheck2">
-                    <span>Hurray you can post your first job for free, for next job you need to buy credits.</span>
-                  </label>
+      <Modal show={show} onHide={handleClose} centered>
+        <div className='bg-light'>
+          <Modal.Body>
+            {parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'false' &&
+              <>
+                <div className='d-flex flex-column align-items-center gap-2 p-2'>
+                  <h3>POST A JOB FOR FREE</h3>
+                  <div>
+                    <iframe style={{ width: "200px" }} src="https://lottie.host/embed/7e57bc16-9962-42d7-a47c-95c5493b7e18/ugELYiVQBH.json"></iframe>
+                  </div>
+
+                  <div className='d-flex flex-column align-items-center   '>
+                    <p> You can post the first job for free</p>
+
+                    <p> For your next job you need to buy credits</p>
+                  </div>
+
+
+                  <div class="d-flex justify-content-end">
+                    <button type="button" onClick={() => { handleClose(); navigate('/company/postajob') }} class="btn btn-info">Post a Job</button>
+                  </div>
                 </div>
-              </div>
+              </>}
 
-            </div>
-          </div>
-
-            <div class="form-row">
-              <button type="button" onClick={() => { handleClose(); navigate('/company/postajob') }} class="btn btn-danger">Post A job</button>
-            </div></>}
-
-          {parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'true' && <><div class="form-row ml-5">
-            <div class="form-group">
+            {parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'true' && <><div class="form-row ml-5">
               <div class="form-group">
-                <div class="form-check ml-2">
-                  <label class="form-check-label" for="invalidCheck2">
-                    <span>Sorry you dont have credits please buy credits to post the job.</span>
-                  </label>
+                <div class="form-group">
+                  <div class="form-check ml-2">
+                    <label class="form-check-label" for="invalidCheck2">
+                      <span>Sorry you dont have credits please buy credits to post the job.</span>
+                    </label>
+                  </div>
                 </div>
+
               </div>
-
             </div>
-          </div>
 
-            <div class="form-row">
-              <button type="button" onClick={() => { handleClose(); navigate('/company/BuyCredits') }} class="btn btn-danger">Buy Credits</button>
-            </div></>}
-        </Modal.Body>
+              <div class="form-row">
+                <button type="button" onClick={() => { handleClose(); navigate('/company/BuyCredits') }} class="btn btn-danger">Buy Credits</button>
+              </div></>}
+          </Modal.Body>
+        </div>
 
       </Modal>
 
@@ -179,13 +185,10 @@ function Sidebar() {
             </div>
           </div>
 
-          <div class="form-row">
+          <div class="d-flex justify-content-end">
             <button type="button" class="btn btn-danger">Buy Credits</button>
           </div>
-
-
         </Modal.Body>
-
       </Modal>
     </>
   );

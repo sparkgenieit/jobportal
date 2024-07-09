@@ -21,7 +21,7 @@ function Jobs() {
     const [pgNumber, setPgNumber] = useState(searchParams.get("page") || 1)
     const [refresh, setRefresh] = useState(true)
     const filter = JSON.parse(localStorage.getItem("filter"))
-    const [filterFields, setFilterFields] = useState({
+    const [filterFields, setFilterFields] = useState(filter || {
         company: null,
         jobTitle: null,
         location: null,
@@ -81,12 +81,12 @@ function Jobs() {
             <Header />
             <div className='row'>
                 <div className='col-3'></div>
-                <div className='col-6 mb-2 px-5 d-flex justify-content-end'>
-                    <label className='small px-2'>Sort By:</label>
-                    <select className='rounded px-1' value={filterFields.sort} onChange={(e) => { handleSort(e) }}>
-                        <option value="creationdate">Creation Date</option>
-                        <option value="rateperhour">Rate per Hour</option>
-                        <option value="weeklyperhour">Weekly Hours</option>
+                <div className='col-6 mb-2 px-5 d-flex justify-content-end align-items-end'>
+                    <label style={{ paddingBottom: "1px" }} className='small px-2'>Sort by:</label>
+                    <select className='rounded border-0 px-2' value={filterFields.sort} onChange={(e) => { handleSort(e) }}>
+                        <option value="creationdate">Date posted</option>
+                        <option value="rateperhour">Rate per hour</option>
+                        <option value="weeklyperhour">Weekly hours</option>
                     </select>
                 </div>
 
@@ -99,7 +99,6 @@ function Jobs() {
 
                 <section ref={ref} className="col-9 row d-flex scrollbar hide-scrollbar px-0">
                     <div className="col-8 px-0 container-fluid ">
-
                         <div className="container px-3 rounded mb-3">
                             {jobs && jobs.length == 0 && <h2 className='m-2 text-center'>No Jobs Found</h2>}
                             {jobs && jobs.length > 0 &&

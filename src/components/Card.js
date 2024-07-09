@@ -45,7 +45,7 @@ export default function Card({ job }) {
     const benefits = getTrueKeys(JSON.parse(job.benifits))
     const bn = (JSON.parse(job.benifits))
     return <>
-        <div style={{ height: "37vh", width: "95%" }} onClick={() => { navigate(`/common/SingleJob/${job._id}`) }} className='job-card mb-4 row border rounded shadow py-2 px-3 mx-auto'>
+        <div style={{ height: "37vh", width: "45vw" }} onClick={() => { navigate(`/common/SingleJob/${job._id}`) }} className='job-card mb-4 row border rounded shadow py-2 px-3 mx-auto'>
             <div className='col-9 h-100  position-relative px-1 '>
                 <div className='fw-bold h4' >{job.jobTitle}</div>
                 <div>
@@ -56,9 +56,9 @@ export default function Card({ job }) {
                 </div>
 
                 <div className='mt-2'>
-                    <span onClick={(e) => { setShowLocation(true); e.stopPropagation(); }} onMouseOver={() => handleTooltip(true, "location")} onMouseLeave={() => handleTooltip(false, "location")} className='d-flex'>
+                    <span onClick={(e) => { setShowLocation(true); e.stopPropagation(); }} className='d-flex'>
                         <FaLocationDot size="20px" />
-                        <span className='text-decoration-underline text-primary'>{job.location}</span>
+                        <span onMouseOver={() => handleTooltip(true, "location")} onMouseLeave={() => handleTooltip(false, "location")} className='text-decoration-underline text-primary'>{job.location}</span>
                     </span>
                     {tooltip.location && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Click to View Activities</div>}
                 </div>

@@ -52,39 +52,39 @@ function Header() {
   return <>
     <Head />
 
-    <header id="header" class="header" data-scrollto-offset="0">
+    <header id="header" className="header" data-scrollto-offset="0">
       <div className='row'>
-        <div class="container-fluid d-flex align-items-center justify-content-between">
+        <div className="container-fluid d-flex align-items-center justify-content-between">
 
-          <a href="/" style={{ "width": "15%" }} class="logo d-flex align-items-center scrollto me-auto me-lg-0">
+          <a href="/" style={{ "width": "15%" }} className="logo d-flex align-items-center scrollto me-auto me-lg-0">
 
             <img src="/assets/images/logo-jp.png"
               alt="logo" />
 
           </a>
 
-          <div class="d-flex" style={{ "width": "100%" }}>
-            <nav id="navbar" style={{ "width": "100%" }} class="navbar d-flex ">
+          <div className="d-flex" style={{ "width": "100%" }}>
+            <nav id="navbar" style={{ "width": "100%" }} className="navbar d-flex ">
               <ul>
 
-                <li><a class="nav-link scrollto mx-3" href="/">Home</a></li>
+                <li><a className="nav-link scrollto mx-3" href="/">Home</a></li>
 
-                <li><a class="nav-link scrollto mx-3" href="/common/Jobs">Jobs</a></li>
+                <li><a className="nav-link scrollto mx-3" href="/common/Jobs">Jobs</a></li>
 
-                <li class="dropdown">
-                  <a href="#" class="menu-item first-item expand-btn">Info</a>
-                  <ul class="dropdown-menu sample bg-white">
+                <li className="dropdown">
+                  <a href="#" className="menu-item first-item expand-btn">Info</a>
+                  <ul className="dropdown-menu sample bg-white">
                     <li><a href="/common/Aboutwhvisa">About WH visa</a></li>
                     <li><a href="/common/Banking">Banking</a></li>
                     <li><a href="/common/Tax">Tax</a></li>
                     <li><a href="/common/Typesofwork">Types of work</a></li>
                     <li><a href="/common/Usefullinks">Useful Links</a></li>
                     <li><a href="/common/News">News</a></li>
-                    <li class="dropdown dropdown-right">
-                      <a href="#" class="menu-item expand-btn">
+                    <li className="dropdown dropdown-right">
+                      <a href="#" className="menu-item expand-btn">
                         Travel
                       </a>
-                      <ul class="menu-right  menu-left sample bg-white">
+                      <ul className="menu-right  menu-left sample bg-white">
                         <li><a href="/common/Transport">Transport</a></li>
                         <li><a href="/common/Accommodation">Accommodation</a></li>
                         <li><a href="/common/Places">Places</a></li>
@@ -96,16 +96,16 @@ function Header() {
                   </ul>
                 </li>
 
-                <li><a class="nav-link scrollto mx-3" href="/contact-us">Contact Us</a></li>
+                <li><a className="nav-link scrollto mx-3" href="/contact-us">Contact Us</a></li>
 
 
 
               </ul>
-              <i class="bi bi-list mobile-nav-toggle d-none"></i>
+              <i className="bi bi-list mobile-nav-toggle d-none"></i>
 
 
               <div className=' col-auto d-flex me-4'>
-                {!token && <> <button type='button' onClick={() => handleShow()} class="btn btn-primary me-3 py-0" ><a href="#" >
+                {!token && <> <button type='button' onClick={() => handleShow()} className="btn btn-primary me-3 py-0" ><a href="#" >
                   Login
                 </a></button>
                 </>}
@@ -120,33 +120,41 @@ function Header() {
 
 
                   {/* <div className='mt-3'>
-                    <button type='button' onClick={() => handleLogout()} class="btn btn-primary me-3 py-0" ><a href="#" >
+                    <button type='button' onClick={() => handleLogout()} className="btn btn-primary me-3 py-0" ><a href="#" >
                       Logout
                     </a></button>
                   </div> */}
                   {/* {role == 'employer' &&
                     <div className='mt-3'>
-                      <button type='button' class="btn btn-secondary me-2 py-0 my-1" ><a href="/company" >
+                      <button type='button' className="btn btn-secondary me-2 py-0 my-1" ><a href="/company" >
                         Employer Dashboard
                       </a></button>
                     </div>} */}
 
                   <ul className='list-unstyled'>
-                    <li class="dropdown dropdown-right">
-                      <a href="#" class="menu-item first-item expand-btn"><CgProfile size={"40px"} /></a>
-                      <ul class="dropdown-menu menu-left  sample bg-white">
-                        <li className=' pb-2'><a href="#">{fullname}</a></li>
-                        {role !== "admin" && <li><a href={profileLink}>My Profile</a></li>}
-                        {role === 'employer' && <li className='px-3'> <button type='button' class="btn btn-secondary mt-2 px-1" ><a className='px-2' href="/company" >
-                          <small>Employer Dashboard</small>
-                        </a></button></li>}
-                        {role === 'admin' && <li className='px-3'> <button type='button' class="btn btn-secondary mt-2 px-1" ><a className='px-3' href="/admin" >
-                          <small>Admin Dashboard</small>
-                        </a></button></li>}
+                    <li className="dropdown dropdown-right">
+                      <a href="#" className="menu-item first-item expand-btn"><CgProfile size={"40px"} /></a>
+                      <ul className="dropdown-menu menu-left  sample bg-white">
+                        {role === "user" && <li><a href={profileLink}>My Profile</a></li>}
+                        {role === 'employer' &&
+                          <li className='px-4 pb-2'>
+                            <button type='button' onClick={() => { navigate("/company") }} className="btn btn-secondary w-100" >
+                              Dashboard
+                            </button>
+                          </li>}
+                        {role === 'admin' &&
+                          <li className='px-4 pb-2'>
+                            <button type='button' onClick={() => { navigate("/admin") }} className="btn btn-secondary w-100" >
+                              Dashboard
+                            </button>
+                          </li>
+                        }
 
-                        <li> <button type='button' onClick={() => handleLogout()} class="btn btn-primary px-5 mx-3 mt-2" >
-                          Logout
-                        </button></li>
+                        <li className='px-4 pb-1'>
+                          <button type='button' onClick={() => handleLogout()} className="btn btn-primary w-100" >
+                            Logout
+                          </button>
+                        </li>
 
                       </ul>
                     </li>

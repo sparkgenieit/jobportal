@@ -2,12 +2,12 @@ import { useDebugValue, useEffect, useState } from "react";
 import Header from "../../layouts/common/Header";
 import Sidebar from "../../layouts/common/Sidebar";
 import Footer from "../../layouts/common/Footer";
-import axios from "axios";
 import http from "../../helpers/http";
 import Card from "../../components/Card";
 import Pagination from "../../components/Pagination";
 import { useSearchParams } from "react-router-dom";
 import { itemsPerPage } from "../../helpers/constants";
+import Ads from "./ads";
 
 function Savedjobs() {
     const [totalItems, setTotalItems] = useState("")
@@ -46,20 +46,25 @@ function Savedjobs() {
                                 </ol>
                             </nav>
                         </div>
-                        <div class="px-2">
-                            {savedJobs && savedJobs.length > 0 && savedJobs.map((job, index) => {
-                                return (
-                                    <div key={index} className="p-2">
-                                        <div>
-                                            <i className="fw-bold">Saved on {job.saved_date}</i> &nbsp;
-                                            {job.jobId.status !== "approved" && <i className="text-secondary small">This job was removed</i>}
+                        <div class=" row ">
+                            <div className="col-9">
+                                {savedJobs && savedJobs.length > 0 && savedJobs.map((job, index) => {
+                                    return (
+                                        <div key={index} className="p-2 d-flex flex-column align-items-center">
+                                            <div style={{ width: "45vw" }}>
+                                                <i className="fw-bold">Saved on {job.saved_date}</i> &nbsp;
+                                                {job.jobId.status !== "approved" && <i className="text-secondary small">This job was removed</i>}
+                                            </div>
+                                            {job.jobId.status && <Card job={job.jobId} />}
                                         </div>
-                                        {job.jobId.status && <Card job={job.jobId} />}
-                                    </div>
-                                )
-                            })
-                            }
-                            {savedJobs && savedJobs.length == 0 && <div className="p-3">No Saved Jobs</div>}
+                                    )
+                                })
+                                }
+                                {savedJobs && savedJobs.length == 0 && <div className="p-3">No Saved Jobs</div>}
+                            </div>
+                            <section className="col-3">
+                                <Ads />
+                            </section>
                         </div>
                         <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={+pgNumber} pageNumberToShow={2} />
                     </div>

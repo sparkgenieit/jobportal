@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import http from "../helpers/http";
 import Suggestions from './Suggestions';
 
@@ -9,6 +9,8 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
     const [locationSuggestions, setLocationSuggestions] = useState(null)
     const [jobSuggestions, setJobSuggestions] = useState(null)
     const [companySuggestions, setCompanySuggestions] = useState(null)
+    const inputRef = useRef(null)
+
 
     useEffect(() => {
         // To Fetch all the categories from the database
@@ -25,7 +27,21 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
             })
             .catch(err => setParent([]))
 
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+
     }, [])
+
+
+    const handleClickOutside = (event) => {
+        if (inputRef.current && !inputRef.current.contains(event.target)) {
+            clearSuggestions()
+        }
+    };
 
     const handleKeyDown = (Suggestions, e) => {
         if (e.keyCode == 40) {
@@ -50,7 +66,6 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
             }
         }
     }
-
 
     const handleInput = async (e) => {
         let filter = { ...filterFields, [e.target.name]: e.target.value };
@@ -137,18 +152,17 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
     return <section style={{ width: "300px" }} className='p-3 hide-scrollbar rounded border shadow scrollbar'>
         <form autoComplete="off">
             <div className="fw-bold mb-2">Search By</div>
-            <div className="border rounded px-2 py-3 mb-4">
-
-                <div onBlur={clearSuggestions} className='mb-4 position-relative'>
+            <div ref={inputRef} className="border rounded px-2 py-3 mb-4">
+                <div className='mb-4 position-relative'>
                     <input type='text' value={filterFields.jobTitle} name='jobTitle' onKeyDown={(e) => { handleKeyDown(jobSuggestions, e) }} onChange={(e) => handleInput(e)} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Job Title' />
                     <Suggestions SuggestionsList={jobSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="jobTitle" setValue={setFilterFields} value={filterFields} />
                 </div>
-                <div onBlur={clearSuggestions} className='mb-4 position-relative'>
+                <div className='mb-4 position-relative'>
                     <input type='text' name='location' className='form-input d-block w-100 rounded p-2 shadow-sm border-0' value={filterFields.location} onKeyDown={(e) => { handleKeyDown(locationSuggestions, e) }} onChange={(e) => handleInput(e)} placeholder='Location' />
                     <Suggestions SuggestionsList={locationSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="location" setValue={setFilterFields} value={filterFields} />
                 </div>
 
-                <div onBlur={clearSuggestions} className=' position-relative'>
+                <div className=' position-relative'>
                     <input type='text' name='company' value={filterFields.company} onChange={(e) => handleInput(e)} onKeyDown={(e) => { handleKeyDown(companySuggestions, e) }} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Company' />
                     <Suggestions SuggestionsList={companySuggestions} focus={focus} clearSuggestions={clearSuggestions} name="company" setValue={setFilterFields} value={filterFields} />
                 </div>

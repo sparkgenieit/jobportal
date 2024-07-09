@@ -2,7 +2,7 @@ import './Home.css';
 
 import Header from '../../layouts/common/Header';
 import Footer from '../../layouts/common/Footer';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import http from '../../helpers/http';
 import Ads from './ads';
@@ -19,6 +19,22 @@ function Home() {
     const [jobSuggestions, setJobSuggestions] = useState(null)
     const navigate = useNavigate();
     const [focus, setFocus] = useState(-1)
+    const inputRef = useRef(null)
+
+    useEffect(() => {
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [])
+
+    const handleClickOutside = (event) => {
+        if (inputRef.current && !inputRef.current.contains(event.target)) {
+            clearSuggestions()
+        }
+    };
 
     const handleInput = async (name, event) => {
         setFocus(-1)
@@ -82,14 +98,14 @@ function Home() {
                                 <h2>Kia ora!</h2>
                                 <h2>Welcome to New Zealand</h2>
                             </div>
-                            <div className='d-flex align-items-center justify-content-center gap-2'>
-                                <div onBlur={clearSuggestions} className='position-relative'>
+                            <div ref={inputRef} className='d-flex align-items-center justify-content-center gap-2'>
+                                <div className='position-relative'>
                                     <input type="text" style={{ width: "25vw" }} className={`transparent border-white p-1 rounded text-white ${searchButton}`} value={searchBox.jobTitle} placeholder="Job Title" name='jobTitle' onKeyDown={(e) => { handleKeyDown(jobSuggestions, e) }} onChange={(e) => handleInput("jobTitle", e)} />
                                     <Suggestions SuggestionsList={jobSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="jobTitle" setValue={setSearchBox} value={searchBox} />
                                 </div>
 
 
-                                <div onBlur={clearSuggestions} className='position-relative'>
+                                <div className='position-relative'>
                                     <input type="text" style={{ width: "25vw" }} className={`transparent border-white p-1 rounded text-white  ${searchButton}`} value={searchBox.location} name='location' onChange={(e) => handleInput("location", e)} onKeyDown={(e) => { handleKeyDown(locationSuggestions, e) }} placeholder="Location" />
                                     <Suggestions SuggestionsList={locationSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="location" setValue={setSearchBox} value={searchBox} />
                                 </div>

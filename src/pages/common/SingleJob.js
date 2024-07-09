@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import http from '../../helpers/http';
 import Ads from './ads';
+import { Modal } from "react-bootstrap";
 import { BASE_API_URL, BASE_APP_URL } from '../../helpers/constants';
 import { getTrueKeys, getYoutubeVideoId, timeAgo } from '../../helpers/functions';
 import { FaBowlFood, FaDollarSign, FaLocationDot, FaRegClock, FaShare } from 'react-icons/fa6';
@@ -31,8 +32,9 @@ function SingleJob() {
         text: ""
     })
     const [loading, setLoading] = useState(true)
-
-
+    const [showReport, setShowReport] = useState(false)
+    const [reportReason, setReportReason] = useState("")
+    const [reportError, setReportError] = useState(false)
 
     useEffect(() => {
         http.get(`/jobs/${params.id}`)
@@ -58,13 +60,44 @@ function SingleJob() {
         }
     }, [])
 
-    const handleShare = (event) => {
+    const handleReportReason = (e) => {
+        setReportReason(e.target.value)
+    }
+
+    const handleClose = () => {
+        setShowReport(false)
+        setReportReason("")
+        setReportError(false)
+    }
+
+    const ReportJob = () => {
+        if (userId) {
+            const data = {
+                userId,
+                jobId: jobview._id,
+                reportReason
+            }
+            http.post("jobs/report", data)
+                .then(res => {
+                    handleClose();
+                })
+                .catch(err => {
+                    setReportError(true)
+                })
+        }
+    }
+
+    const handleShare = () => {
         navigator.clipboard.writeText(`${BASE_APP_URL}/common/SingleJob/${jobview._id}`)
-        // setShareClicked(true)
-        // setTimeout(() => {
-        //     setShareClicked(false)
-        // }, 1000);
-        // event.stopPropagation();
+        setMessage({
+            show: true,
+            type: "success",
+            text: "Link Copied"
+        })
+
+        setTimeout(() => {
+            setMessage({ ...message, show: false })
+        }, 3000);
     }
 
     function handleApply() {
@@ -152,16 +185,12 @@ function SingleJob() {
 
     return (
         <>
+            <Toaster message={message} setMessage={setMessage} />
             <Loader loading={loading}>
                 <div className="container-scrollar">
                     <Header />
-                    {/* {message.show &&
-                        <div className={message.type}>
-                            {message.text}
-                        </div>} */}
                     {jobview &&
                         <div className='row mt-3 '>
-                            <Toaster message={message} setMessage={setMessage} />
                             <div className='col-md-9'>
                                 <div className='mb-3'>
                                     {jobview.banner && <img style={{ width: "100%", height: "40vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/banners/${jobview.banner}`} alt={jobview.company} />}
@@ -199,7 +228,7 @@ function SingleJob() {
                                             {isJobSaved && <a type='button'>
                                                 <span><PiBookmarkSimpleFill size="25px" /></span>
                                             </a>}
-                                            <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share")} onMouseLeave={(e) => handleTooltip(false, "rateperhour")} onClick={(e) => { handleShare(e) }}>
+                                            <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share")} onMouseLeave={(e) => handleTooltip(false, "rateperhour")} onClick={() => { handleShare() }}>
                                                 <span><FaShare size="25px" /></span>
                                                 {tooltip.share && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Share</div>}
                                             </a>
@@ -301,13 +330,13 @@ function SingleJob() {
                                             {isJobSaved && <a type='button'>
                                                 <span><PiBookmarkSimpleFill size="25px" /></span>
                                             </a>}
-                                            <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share2")} onMouseLeave={(e) => handleTooltip(false, "share2")} onClick={(e) => { handleShare(e) }}>
+                                            <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share2")} onMouseLeave={(e) => handleTooltip(false, "share2")} onClick={() => { handleShare() }}>
                                                 <span><FaShare size="25px" /></span>
                                                 {tooltip.share2 && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Share</div>}
                                             </a>
                                         </div>
                                         <div>
-                                            <button type='button' className='btn btn-danger'>Report</button>
+                                            <button type='button' className='btn btn-danger' onClick={() => setShowReport(true)}>Report</button>
                                         </div>
                                     </div>
                                 </div>
@@ -333,6 +362,35 @@ function SingleJob() {
                     }
                     <Footer />
                 </div >
+                <Modal size="md" show={showReport} onHide={handleClose} centered>
+                    <Modal.Body>
+                        <div>
+                            <h5>Report Job</h5>
+                        </div>
+                        <form className=' d-flex flex-column gap-3 p-2'>
+                            <div className='d-flex align-items-center'>
+                                <input type='radio' id="discriminatory-content" name='report-job' value="Contains Discriminatory Content" className='form-check-input' onChange={handleReportReason} />
+                                <label for='discriminatory-content' className='form-check-label ps-3' >Contains Discriminatory Content</label>
+                            </div>
+                            <div className='d-flex align-items-center'>
+                                <input type='radio' id="fake-job" name='report-job' value="Fake Job/Scam" className='form-check-input' onChange={handleReportReason} />
+                                <label for='fake-job' className='form-check-label ps-3' >Fake Job/Scam</label>
+                            </div>
+                            <div className='d-flex align-items-center'>
+                                <input type='radio' id="inaccurate-information" name='report-job' value="Inaccurate Information" className='form-check-input' onChange={handleReportReason} />
+                                <label for='inaccurate-information' className='form-check-label ps-3' >Inaccurate Information</label>
+                            </div>
+                            <div className='d-flex align-items-center'>
+                                <input type='radio' id="offensive-language" name='report-job' value="Offensive Language" className='form-check-input' onChange={handleReportReason} />
+                                <label for='offensive-language' className='form-check-label ps-3' >Offensive Language</label>
+                            </div>
+                            <div className='d-flex justify-content-end'>
+                                <button type='button' disabled={reportReason === "" ? true : false} onClick={ReportJob} className='btn btn-danger'>Report this job</button>
+                            </div>
+                            {reportError && <div className='text-danger text-center'><em>There has been an error reporting this job, Please try again</em></div>}
+                        </form>
+                    </Modal.Body>
+                </Modal>
             </Loader>
         </>
     );
