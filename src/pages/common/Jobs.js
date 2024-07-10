@@ -93,31 +93,33 @@ function Jobs() {
             </div>
 
             <main className='row'>
-                <section style={{ paddingLeft: "45px" }} className='col-3'>
+                <section style={{ paddingLeft: "70px" }} className=' col-3 d-flex justify-content-end '>
                     <Filter filterFields={filterFields} setFilterFields={setFilterFields} setRefresh={setRefresh} />
                 </section>
 
-                <section ref={ref} className="col-9 row d-flex scrollbar hide-scrollbar px-0">
-                    <div className="col-8 px-0 container-fluid ">
-                        <div className="container px-3 rounded mb-3">
+                <section ref={ref} className="col-9 row scrollbar  hide-scrollbar ">
+                    <div className="col-9 ps-5">
+                        <div className=" mb-3">
                             {jobs && jobs.length == 0 && <h2 className='m-2 text-center'>No Jobs Found</h2>}
                             {jobs && jobs.length > 0 &&
                                 jobs.map((job, index) => {
                                     return (
-                                        <Card key={index} job={job} />
+                                        <div style={{ marginBottom: "40px" }}>
+                                            <Card key={index} job={job} />
+                                        </div>
                                     )
                                 })}
                             <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={+pgNumber} pageNumberToShow={2} />
                         </div>
                     </div>
-                    <div className='col-4 pe-0'>
+                    <div className='col-3 px-0'>
                         <Ads />
                     </div>
                 </section >
 
             </main >
             <Footer />
-        </div>
+        </div >
     </>
 }
 

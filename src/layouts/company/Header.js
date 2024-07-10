@@ -22,8 +22,7 @@ function Header() {
   }, [])
 
   const handleNotification = (notification) => {
-
-    window.location.href = `/company/joblist`
+    navigate(`/company/joblist`);
   }
 
   const handleLogout = () => {
@@ -148,9 +147,9 @@ function Header() {
                       return (<>
                         <li onClick={() => { }} className={`alert border rejected-notification d-flex justify-content-between ${notification.isRead ? "alert-light" : "alert-dark"}`}>
                           <div>
-                            <div className='text-danger fw-bold'>Your Job for {notification.jobTitle} is Rejected</div>
+                            <div className='text-danger fw-bold'>Your Job for {notification.jobTitle} is {notification.status}</div>
                             <div className='rejected-notification-message'>
-                              Reason for Rejection : <span className='fw-bold'>{notification.message}</span>
+                              Reason : <span className='fw-bold'>{notification.message}</span>
                               <div>
                                 <a href={`/company/editjob/${notification.jobId}`}>Click Here to go to Job</a>
                               </div>

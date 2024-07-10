@@ -49,17 +49,17 @@ function Myappliedjobs() {
                             <div className="col-9">
                                 {
                                     appliedjobs && appliedjobs.length > 0 && appliedjobs.map((job, index) => {
-                                        return (
-
-                                            <div className="p-2 d-flex flex-column align-items-center">
-                                                <div style={{ width: "45vw" }}>
-                                                    <i className="fw-bold">Applied on {job.applied_date}</i> &nbsp;
-                                                    {job.jobId.status !== "approved" && <i className="text-secondary small">This job was removed</i>}
+                                        return <>
+                                            {job.jobId &&
+                                                <div key={index} className="p-2 d-flex flex-column align-items-center">
+                                                    <div style={{ width: "45vw" }}>
+                                                        <i className="fw-bold">Applied on {job.applied_date}</i> &nbsp;
+                                                        {job.jobId && job.jobId.status !== "approved" && <i className="text-secondary small">This job was removed</i>}
+                                                    </div>
+                                                    {job.jobId && <Card job={job.jobId} />}
                                                 </div>
-                                                {job.jobId && <Card job={job.jobId} />}
-                                            </div>
-                                        )
-
+                                            }
+                                        </>
                                     })
                                 }
                                 {

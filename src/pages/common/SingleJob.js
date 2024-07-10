@@ -70,20 +70,23 @@ function SingleJob() {
         setReportError(false)
     }
 
-    const ReportJob = () => {
-        if (userId) {
-            const data = {
-                userId,
-                jobId: jobview._id,
-                reportReason
+    const ReportJob = async () => {
+        try {
+            if (userId) {
+                const data = {
+                    userId,
+                    jobId: jobview._id,
+                    reportReason
+                }
+                await http.post("jobs/report", data)
+                handleClose();
+                setMessage({ show: true, type: "success", text: "Reported Successfully" })
+                setTimeout(() => {
+                    navigate('/common/jobs')
+                }, 2000);
             }
-            http.post("jobs/report", data)
-                .then(res => {
-                    handleClose();
-                })
-                .catch(err => {
-                    setReportError(true)
-                })
+        } catch (error) {
+            setReportError(true)
         }
     }
 
@@ -189,8 +192,8 @@ function SingleJob() {
             <Loader loading={loading}>
                 <div className="container-scrollar">
                     <Header />
-                    {jobview &&
-                        <div className='row mt-3 '>
+                    {jobview && jobview.status === "approved" &&
+                        < div className='row mt-3 '>
                             <div className='col-md-9'>
                                 <div className='mb-3'>
                                     {jobview.banner && <img style={{ width: "100%", height: "40vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/banners/${jobview.banner}`} alt={jobview.company} />}
@@ -360,38 +363,48 @@ function SingleJob() {
                         </div>
 
                     }
+                    {!jobview || jobview.status !== "approved" && <h3>Job Not Found</h3>}
                     <Footer />
                 </div >
                 <Modal size="md" show={showReport} onHide={handleClose} centered>
                     <Modal.Body>
-                        <div>
-                            <h5>Report Job</h5>
-                        </div>
-                        <form className=' d-flex flex-column gap-3 p-2'>
-                            <div className='d-flex align-items-center'>
-                                <input type='radio' id="discriminatory-content" name='report-job' value="Contains Discriminatory Content" className='form-check-input' onChange={handleReportReason} />
-                                <label for='discriminatory-content' className='form-check-label ps-3' >Contains Discriminatory Content</label>
-                            </div>
-                            <div className='d-flex align-items-center'>
-                                <input type='radio' id="fake-job" name='report-job' value="Fake Job/Scam" className='form-check-input' onChange={handleReportReason} />
-                                <label for='fake-job' className='form-check-label ps-3' >Fake Job/Scam</label>
-                            </div>
-                            <div className='d-flex align-items-center'>
-                                <input type='radio' id="inaccurate-information" name='report-job' value="Inaccurate Information" className='form-check-input' onChange={handleReportReason} />
-                                <label for='inaccurate-information' className='form-check-label ps-3' >Inaccurate Information</label>
-                            </div>
-                            <div className='d-flex align-items-center'>
-                                <input type='radio' id="offensive-language" name='report-job' value="Offensive Language" className='form-check-input' onChange={handleReportReason} />
-                                <label for='offensive-language' className='form-check-label ps-3' >Offensive Language</label>
-                            </div>
-                            <div className='d-flex justify-content-end'>
-                                <button type='button' disabled={reportReason === "" ? true : false} onClick={ReportJob} className='btn btn-danger'>Report this job</button>
-                            </div>
-                            {reportError && <div className='text-danger text-center'><em>There has been an error reporting this job, Please try again</em></div>}
-                        </form>
+                        {userId &&
+                            <>
+                                <div>
+                                    <h5>Report Job</h5>
+                                </div>
+                                <form className=' d-flex flex-column gap-3 p-2'>
+                                    <div className='d-flex align-items-center'>
+                                        <input type='radio' id="discriminatory-content" name='report-job' value="Contains Discriminatory Content" className='form-check-input' onChange={handleReportReason} />
+                                        <label for='discriminatory-content' className='form-check-label ps-3' >Contains Discriminatory Content</label>
+                                    </div>
+                                    <div className='d-flex align-items-center'>
+                                        <input type='radio' id="fake-job" name='report-job' value="Fake Job/Scam" className='form-check-input' onChange={handleReportReason} />
+                                        <label for='fake-job' className='form-check-label ps-3' >Fake Job/Scam</label>
+                                    </div>
+                                    <div className='d-flex align-items-center'>
+                                        <input type='radio' id="inaccurate-information" name='report-job' value="Inaccurate Information" className='form-check-input' onChange={handleReportReason} />
+                                        <label for='inaccurate-information' className='form-check-label ps-3' >Inaccurate Information</label>
+                                    </div>
+                                    <div className='d-flex align-items-center'>
+                                        <input type='radio' id="offensive-language" name='report-job' value="Offensive Language" className='form-check-input' onChange={handleReportReason} />
+                                        <label for='offensive-language' className='form-check-label ps-3' >Offensive Language</label>
+                                    </div>
+                                    <div className='d-flex justify-content-end'>
+                                        <button type='button' disabled={reportReason === "" ? true : false} onClick={ReportJob} className='btn btn-danger'>Report this job</button>
+                                    </div>
+                                    {reportError && <div className='text-danger text-center'><em>There has been an error reporting this job, Please try again</em></div>}
+                                </form>
+                            </>
+                        }
+                        {
+                            !userId && <>
+                                <h3 className='text-center p-5'>Please Login to report the job</h3>
+                            </>
+                        }
                     </Modal.Body>
                 </Modal>
-            </Loader>
+            </Loader >
         </>
     );
 }

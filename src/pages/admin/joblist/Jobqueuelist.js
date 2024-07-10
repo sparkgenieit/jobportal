@@ -112,12 +112,13 @@ const Jobqueuelist = () => {
 
                                                     {table && table.length > 0 &&
                                                         table.map((job, index) => {
-                                                            return <tr key={index}>
-                                                                <td>{job._id}</td>
-                                                                <td>{job.jobTitle}</td>
-                                                                <td>{job.company}</td>
-                                                                <td>{job.creationdate}</td>
-                                                                {/* 
+                                                            return (
+                                                                <tr key={index} className={job.reportReason ? "bg-gradient-danger" : ""}>
+                                                                    <td>{job._id}</td>
+                                                                    <td>{job.jobTitle}</td>
+                                                                    <td>{job.company}</td>
+                                                                    <td>{job.creationdate}</td>
+                                                                    {/* 
                                                                 <td><button onClick={() => handleJob(job)} type="button" class="btn btn-info btn-xs col-12 ">
 
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -127,11 +128,12 @@ const Jobqueuelist = () => {
 
 
                                                                 </button></td> */}
-                                                                <td>
+                                                                    <td>
 
-                                                                    <button type="button" class="btn  btn-xs btn-success  col-12" onClick={() => handleAssign(job)}>Assign To Me</button>
-                                                                </td>
-                                                            </tr>
+                                                                        <button type="button" class="btn  btn-xs btn-success  col-12" onClick={() => handleAssign(job)}>Assign To Me</button>
+                                                                    </td>
+                                                                </tr>
+                                                            )
                                                         })
                                                     }
 

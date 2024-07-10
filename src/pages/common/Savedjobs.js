@@ -49,15 +49,19 @@ function Savedjobs() {
                         <div class=" row ">
                             <div className="col-9">
                                 {savedJobs && savedJobs.length > 0 && savedJobs.map((job, index) => {
-                                    return (
-                                        <div key={index} className="p-2 d-flex flex-column align-items-center">
-                                            <div style={{ width: "45vw" }}>
-                                                <i className="fw-bold">Saved on {job.saved_date}</i> &nbsp;
-                                                {job.jobId.status !== "approved" && <i className="text-secondary small">This job was removed</i>}
+                                    return <>
+                                        {job.jobId &&
+
+                                            <div key={index} className="p-2 d-flex flex-column align-items-center">
+                                                <div style={{ width: "45vw" }}>
+                                                    <i className="fw-bold">Saved on {job.saved_date}</i> &nbsp;
+                                                    {job.jobId.status !== "approved" && <i className="text-secondary small">This job was removed</i>}
+                                                </div>
+                                                {job.jobId.status && <Card job={job.jobId} />}
                                             </div>
-                                            {job.jobId.status && <Card job={job.jobId} />}
-                                        </div>
-                                    )
+                                        }
+                                    </>
+
                                 })
                                 }
                                 {savedJobs && savedJobs.length == 0 && <div className="p-3">No Saved Jobs</div>}

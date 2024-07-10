@@ -141,6 +141,7 @@ export default function AdminJob({ jobview, handleApprove, setShow }) {
                                 {jobview.status === "approved" && <button type='button' disabled className='btn btn-success mx-2'>Approved</button>}
                                 {jobview.status === "rejected" && <button type='button' disabled className='btn btn-danger mx-2'>Rejected</button>}
                                 {jobview.status !== "rejected" && <button type='button' onClick={() => { setShow(true) }} className='btn btn-outline-danger mx-2'>Reject</button>}
+                                {jobview.reportReason && <span className="fw-bold mx-3 text-danger">This job is reported due to  {jobview.reportReason}</span>}
                             </div>
                         </div>
                     </div>
