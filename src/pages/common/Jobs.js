@@ -80,8 +80,8 @@ function Jobs() {
         <div>
             <Header />
             <div className='row'>
-                <div className='col-3'></div>
-                <div className='col-6 mb-2 px-5 d-flex justify-content-end align-items-end'>
+                <div className='col-5'></div>
+                <div className='col-5 mb-2 ps-5 d-flex justify-content-center align-items-end'>
                     <label style={{ paddingBottom: "1px" }} className='small px-2'>Sort by:</label>
                     <select className='rounded border-0 px-2' value={filterFields.sort} onChange={(e) => { handleSort(e) }}>
                         <option value="creationdate">Date posted</option>
@@ -89,37 +89,40 @@ function Jobs() {
                         <option value="weeklyperhour">Weekly hours</option>
                     </select>
                 </div>
-
             </div>
-
-            <main className='row'>
-                <section style={{ paddingLeft: "70px" }} className=' col-3 d-flex justify-content-end '>
-                    <Filter filterFields={filterFields} setFilterFields={setFilterFields} setRefresh={setRefresh} />
-                </section>
-
-                <section ref={ref} className="col-9 row scrollbar  hide-scrollbar ">
-                    <div className="col-9 ps-5">
-                        <div className=" mb-3">
-                            {jobs && jobs.length == 0 && <h2 className='m-2 text-center'>No Jobs Found</h2>}
-                            {jobs && jobs.length > 0 &&
-                                jobs.map((job, index) => {
-                                    return (
-                                        <div style={{ marginBottom: "40px" }}>
-                                            <Card key={index} job={job} />
-                                        </div>
-                                    )
-                                })}
-                            <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={+pgNumber} pageNumberToShow={2} />
+            <div className='d-flex justify-content-end'>
+                <div style={{ width: "97vw" }}>
+                    <div className='row'>
+                        <div className='col-3 w-full d-flex justify-content-end '>
+                            <Filter filterFields={filterFields} setFilterFields={setFilterFields} setRefresh={setRefresh} />
                         </div>
-                    </div>
-                    <div className='col-3 px-0'>
-                        <Ads />
-                    </div>
-                </section >
+                        <div style={{ paddingLeft: "15px" }} ref={ref} className="col-9  row container-fluid scrollbar  hide-scrollbar ">
+                            <div className="col-8 w-full d-flex">
+                                <div className="mb-3">
+                                    {jobs && jobs.length == 0 && <h2 className='m-2 text-center'>No Jobs Found</h2>}
+                                    {jobs && jobs.length > 0 &&
+                                        jobs.map((job, index) => {
+                                            return (
+                                                <div style={{ marginBottom: "15px" }}>
+                                                    <Card key={index} job={job} />
+                                                </div>
+                                            )
+                                        })}
+                                    <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={+pgNumber} pageNumberToShow={2} />
+                                </div>
+                            </div>
+                            <div className='col-4 px-0 ps-2'>
+                                <Ads />
+                            </div>
+                        </div >
 
-            </main >
+                    </div>
+
+
+                </div >
+            </div>
             <Footer />
-        </div >
+        </div>
     </>
 }
 

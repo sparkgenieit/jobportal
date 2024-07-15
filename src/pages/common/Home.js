@@ -8,6 +8,7 @@ import http from '../../helpers/http';
 import Ads from './ads';
 import { IoSearch } from "react-icons/io5";
 import Suggestions from '../../components/Suggestions';
+import NZMap from '../../components/NZMap';
 
 function Home() {
     const [searchBox, setSearchBox] = useState({
@@ -147,8 +148,18 @@ function Home() {
 
                             </div>
                         </div> */}
-                    <div style={{ height: "685px", overflow: "hidden", marginBottom: "100px" }} className=''>
+                    {/* <div style={{ height: "685px", overflow: "hidden", marginBottom: "100px" }} className=''>
                         <iframe title="NZmap" width="100%" style={{ zoom: "2" }} height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiNDU4ZGUyYTUtOGE3Mi00N2Q4LTgxZWUtMjhjNmRjOGFlMmQ4IiwidCI6Ijg5NDhlY2JhLTJlMDItNDUwOS04OTJjLTVkMDYyZjVlN2IzOCJ9&pageName=0af786abcc8256aee8fe" frameborder="0" allowFullScreen="false"></iframe>
+                    </div> */}
+
+                    {/* <div style={{ height: "685px" }}>
+                        <iframe title="NZmap2" width="100%" height="100%" src='/Nz-map/NZRegionsMapFinalVersion.htm' frameborder="0" allowFullScreen="false"></iframe>
+                    </div> */}
+
+                    {/* <img src="/NzMapSvg.svg" /> */}
+                    <div>
+
+                        <NZMap />
                     </div>
                     <div className='row'>
                         <section className='col-2'>

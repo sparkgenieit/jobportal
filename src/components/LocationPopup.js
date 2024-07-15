@@ -3,13 +3,13 @@ import './location-popup.css'
 import { Modal } from "react-bootstrap";
 
 
-export default function LocationPopup({ show, handleClose }) {
+export default function LocationPopup({ show, handleClose, city }) {
     return <>
         <Modal size="xl" show={show} onHide={handleClose} centered>
             <Modal.Body>
                 <div>
                     <div className='d-flex justify-content-between my-3'>
-                        <h2>Auckland Region</h2>
+                        <h2>{city}</h2>
                         <a type="button" onClick={handleClose}>
                             <span className='border border-dark rounded p-2'><RxCross1 size={"18px"} /></span>
                         </a>

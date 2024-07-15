@@ -110,8 +110,8 @@ function App() {
 
         <Route path="/login" element={!token ? <UserLogin /> : <Navigate to="/" />} />
         <Route path="/register" element={!token ? <UserRegistration /> : <Navigate to="/" />} />
-        <Route path="/profile" element={token ? <UserProfile /> : <Navigate to="/" />} />
-        <Route path="/viewprofile" element={token ? <ViewProfile /> : <Navigate to="/" />} />
+        <Route path="/profile" element={(token && role == 'user') ? <UserProfile /> : <Navigate to="/" />} />
+        <Route path="/viewprofile" element={(token && role == 'user') ? <ViewProfile /> : <Navigate to="/" />} />
 
         <Route path="/company" element={(token && role == 'employer') ? <CompanyHome /> : <Navigate to="/" />} />
         <Route path="/company/CompanyProfile" element={(token && role == 'employer') ? <CompanyProfile /> : <Navigate to="/" />} />

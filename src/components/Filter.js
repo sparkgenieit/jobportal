@@ -149,7 +149,7 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
         setRefresh(prev => !prev)
     }
 
-    return <section style={{ width: "300px" }} className='p-3 hide-scrollbar rounded border shadow scrollbar'>
+    return <div style={{ width: "300px" }} className='p-3 hide-scrollbar rounded border shadow scrollbar'>
         <form autoComplete="off">
             <div className="fw-bold mb-2">Search By</div>
             <div ref={inputRef} className="border rounded px-2 py-3 mb-4">
@@ -241,5 +241,5 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
             </div>
         </form >
 
-    </section >
+    </div >
 }

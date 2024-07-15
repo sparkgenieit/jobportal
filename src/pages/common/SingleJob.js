@@ -72,7 +72,7 @@ function SingleJob() {
 
     const ReportJob = async () => {
         try {
-            if (userId) {
+            if (userId && role == "user") {
                 const data = {
                     userId,
                     jobId: jobview._id,
@@ -84,6 +84,9 @@ function SingleJob() {
                 setTimeout(() => {
                     navigate('/common/jobs')
                 }, 2000);
+            }
+            else {
+                throw new Error
             }
         } catch (error) {
             setReportError(true)
@@ -200,7 +203,7 @@ function SingleJob() {
                                 </div>
                                 <div className='row mb-3 mx-4 align-items-center'>
                                     <div style={{ padding: "0" }} className='col-4'>
-                                        {jobview.companyLogo && jobview.companyLogo.length > 0 && <img style={{ width: "100px", height: "100px" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
+                                        {jobview.companyLogo && jobview.companyLogo.length > 0 && <img style={{ width: "9vw", height: "12vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
                                     </div>
                                     <div className='col fw-bold h3'>{jobview.company}</div>
                                 </div>
@@ -319,7 +322,6 @@ function SingleJob() {
                                 </div>
 
                                 <div className='row border border-success rounded  m-4 p-3'>
-                                    <h3>Job Summary :</h3>
                                     <p>{parse(marked(jobview.description))}</p>
                                     <div className='d-flex justify-content-between'>
                                         <div className='d-flex gap-4  mt-2 align-items-center'>

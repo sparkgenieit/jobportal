@@ -81,7 +81,7 @@ export default function Card({ job }) {
 
             <div className='col-3 d-flex  flex-column  small'>
                 <div className='h-50'>
-                    {job.companyLogo.length > 0 && <img style={{ height: "12vh" }} className="rounded border w-100" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
+                    {job.companyLogo.length > 0 && <img style={{ width: "9vw", height: "12vh" }} className="rounded border" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                 </div>
                 <div className='mt-3'>
                     <div >
