@@ -12,7 +12,7 @@ export default function NZMap() {
     }
     const areas = [
         // These are the co-ordinates of the Labels on the map
-        { id: "Tarnaki", shape: "rect", coords: [269, 235, 386, 274] },
+        { id: "Taranaki", shape: "rect", coords: [269, 235, 386, 274] },
         { shape: "rect", id: "Nelson", coords: [260, 335, 360, 370], },
         { shape: "rect", id: "Manawatu-Whanganaui", coords: [658, 277, 948, 315] },
         { shape: "rect", id: "Auckland", coords: [230, 96, 355, 133] },
@@ -26,13 +26,13 @@ export default function NZMap() {
         { shape: "rect", id: "Southland", coords: [0, 607, 142, 645] },
         { shape: "rect", id: "Bay of Plenty", coords: [653, 93, 826, 132] },
         { shape: "rect", id: "Tasman", coords: [150, 370, 250, 410] },
-        { shape: "rect", id: "NorthLand", coords: [586, 24, 720, 62] },
+        { shape: "rect", id: "Northland", coords: [586, 24, 720, 62] },
         { shape: "rect", id: "Waikato", coords: [290, 150, 400, 200] },
 
 
         // These are the co-ordinates of the regions in the map
         { shape: "rect", id: "Auckland", coords: [468, 101, 527, 138] },
-        { shape: "rect", id: "NorthLand", coords: [410, 3, 498, 90] },
+        { shape: "rect", id: "Northland", coords: [410, 3, 498, 90] },
         { shape: "poly", id: "Gisborne", coords: [600, 215, 629, 160, 660, 170, 621, 238] },
         { shape: "poly", id: "Bay of Plenty", coords: [540, 161, 555, 250, 627, 170] },
         { shape: "poly", id: "Canterbury", coords: [300, 520, 350, 560, 445, 437, 416, 414] },
@@ -46,7 +46,7 @@ export default function NZMap() {
         { shape: "poly", id: "Southland", coords: [238, 532, 287, 706, 197, 706, 168, 599] },
         { shape: "poly", id: "Hawke's Bay", coords: [570, 316, 553, 270, 596, 220, 623, 245] },
         { shape: "poly", id: "Waikato", coords: [490, 225, 530, 222, 531, 251, 553, 242, 548, 188, 533, 117, 496, 157] },
-        { shape: "poly", id: "Tarnaki", coords: [502, 228, 500, 282, 457, 252] },
+        { shape: "poly", id: "Taranaki", coords: [502, 228, 500, 282, 457, 252] },
     ]
 
     return (
@@ -56,7 +56,7 @@ export default function NZMap() {
                 <ImageMapper
                     src="/Nz-map/NZRegionsMapFinalVersion_files/image051.gif"
                     map={{ name: "Nz-Map", areas }}
-                    width={500}
+                    width={750}
                     imgWidth={948}
                     active={false}
                     onClick={(e) => { mapClick(e) }}
