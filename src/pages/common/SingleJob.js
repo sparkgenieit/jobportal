@@ -37,12 +37,20 @@ function SingleJob() {
     const [reportError, setReportError] = useState(false)
 
     useEffect(() => {
+        getJob();
+        getUserJobStatus();
+    }, [])
+
+    const getJob = () => {
         http.get(`/jobs/${params.id}`)
             .then((response) => {
                 setLoading(false)
                 setJobview(response.data)
             })
             .catch(err => setJobview(null))
+    }
+
+    const getUserJobStatus = () => {
         if (userId && userId.trim() !== "") {
             http.get(`/jobs/user-job-status/${userId}?jobId=${params.id}`)
                 .then(res => {
@@ -58,7 +66,7 @@ function SingleJob() {
                     setIsJobApplied(false)
                 })
         }
-    }, [])
+    }
 
     const handleReportReason = (e) => {
         setReportReason(e.target.value)
@@ -121,9 +129,7 @@ function SingleJob() {
                         type: "success",
                         text: "Applied Successfully"
                     })
-                    setTimeout(() => {
-                        navigate('/common/Myappliedjobs')
-                    }, 2000)
+                    setIsJobApplied(true)
                 })
                 .catch((e) => {
                     setMessage({
@@ -160,12 +166,8 @@ function SingleJob() {
                         type: "success",
                         text: "Job Saved Successfully "
                     })
-                    setTimeout(() => {
-                        navigate('/common/Savedjobs')
-                    }, 2000)
+                    setIsJobSaved(true)
                 })
-
-
                 .catch((e) => {
                     setMessage({
                         show: true,
