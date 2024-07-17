@@ -1,39 +1,59 @@
-import { useEffect, useState } from "react";
+import './buy-credit.css';
+import { useState } from "react";
 import Footer from "../../../layouts/company/Footer";
 import Header from "../../../layouts/company/Header";
 import Sidebar from "../../../layouts/company/Sidebar";
 import http from "../../../helpers/http";
 import { plans } from "../../../helpers/constants";
-import Pagination from '../../../components/Pagination';
-import { useNavigate } from "react-router-dom";
+import Toaster from "../../../components/Toaster";
+import { Modal } from "react-bootstrap";
+import { RotatingLines } from "react-loader-spinner";
 
 function BuyCredits() {
-    const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
-    const [totalItems, setTotalItems] = useState("")
-    const [pgNumber, setPgNumber] = useState(1)
+    const [user_id, setUser_id] = useState(localStorage.getItem('user_id'));
+    const [message, setMessage] = useState({})
+    const [show, setShow] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [paymentDetails, setPaymentDetails] = useState({})
 
-
-    const [assignJobs, setAssignJobs] = useState(null);
-    console.log(plans);
-    const [msg, setMsg] = useState({
-        view: false,
-        class: "alert alert-success",
-        message: ""
-    })
-
-
-    const navigate = useNavigate();
     const choocePlan = (plan) => {
-        localStorage.setItem("Plan", plan);
-
-        navigate(`/checkout-page?plan=${plan}`)
-
-
-
-
-
-
-
+        if (user_id) {
+            setShow(true)
+            setLoading(true)
+            const data = {
+                plan: plan.name,
+                credits: plan.credits,
+                price: plan.price,
+                user_id
+            }
+            http.post('/payment/make-payment', data)
+                .then(res => {
+                    localStorage.setItem("placedOrder", "false")
+                    setPaymentDetails({
+                        url: res.data.url,
+                        plan: res.data.metadata.plan,
+                        price: +res.data.metadata.price / 100,
+                        gst: +res.data.metadata.gst / 100,
+                        total: +res.data.metadata.total / 100
+                    })
+                    setLoading(false)
+                })
+                .catch(err => {
+                    setMessage({
+                        show: true,
+                        type: "error",
+                        text: "An Error occured, Please try again"
+                    })
+                })
+        }
+        else {
+            setMessage({
+                show: true,
+                type: "error",
+                text: "Please login to buy credits"
+            }
+            )
+        }
     }
     return (
         <>
@@ -56,9 +76,8 @@ function BuyCredits() {
 
                             <div className="row">
                                 {
-
                                     plans.map((plan, index) => {
-                                        return <div className="col-md-4">
+                                        return <div key={index} className="col-md-4">
                                             <div className="card shadow">
                                                 <div className="card-header text-center text-white display-6 bg-success p-5">
                                                     {plan.name}
@@ -72,25 +91,88 @@ function BuyCredits() {
                                                         <li className="list-group-item"> &#10060; Description Space </li>
 
                                                     </ul>
-                                                    <button type="button" className="btn btn-success  mt-5 p-3" onClick={() => choocePlan(plan.name)}>SELECT PACKAGE</button>
+                                                    <button type="button" className="btn btn-success  mt-5 p-3" onClick={() => choocePlan(plan)}>SELECT PACKAGE</button>
                                                 </div>
                                             </div>
                                         </div>
                                     })
                                 }
-
                             </div>
                         </div>
-
-
                     </div>
-
-
-
                 </div>
                 <Footer />
-
             </div>
+
+            <Toaster
+                setMessage={setMessage}
+                message={message}
+            />
+
+            <Modal
+                size='sm'
+                show={show}
+                onHide={() => setShow(false)}
+                centered
+            >
+                <Modal.Header>
+                    <Modal.Title>
+                        <div className='d-flex justify-content-center'>
+                            <h2>Payment Details</h2>
+                        </div>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div style={{ height: "250px", }} >
+                        {
+                            loading ?
+                                <div className="d-flex justify-content-center align-items-center h-100">
+                                    <RotatingLines
+                                        visible={loading}
+                                        height="96"
+                                        width="96"
+                                        color="grey"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        ariaLabel="rotating-lines-loading"
+                                        wrapperStyle={{}}
+                                        wrapperClass=""
+                                    />
+                                </div> :
+                                <div className="d-flex h-100 flex-column justify-content-between px-3">
+
+                                    <div className='d-flex justify-content-between'>
+                                        <span>Plan</span>
+                                        <span className='fw-bold'>{paymentDetails.plan}</span>
+                                    </div>
+                                    <div className='d-flex justify-content-between'>
+                                        <span>Price</span>
+                                        <span>$ {paymentDetails.price}</span>
+                                    </div>
+                                    <div className='d-flex justify-content-between'>
+                                        <span>Gst @15%
+                                        </span>
+                                        <span>$ {paymentDetails.gst}</span>
+                                    </div>
+
+                                    <div style={{ height: "2px" }} className='bg-secondary rounded'></div>
+                                    <div className='d-flex justify-content-between'>
+                                        <span>Total</span>
+                                        <span className='fw-bold'>$ {paymentDetails.total}</span>
+                                    </div>
+
+
+                                    <div className="d-flex justify-content-between">
+                                        <a type="button" onClick={() => { setShow(false) }} className="btn btn-sm py-3 px-4 btn-outline-dark rounded-pill">Cancel</a>
+                                        <a type="button" href={paymentDetails.url} className="btn btn-sm py-3 px-4 btn-info rounded-pill">Proceed</a>
+                                    </div>
+
+                                </div>
+                        }
+                    </div>
+
+                </Modal.Body>
+            </Modal>
         </>
     )
 }

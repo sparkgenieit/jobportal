@@ -1,67 +1,61 @@
 import { useEffect, useState } from "react";
+import { RotatingLines } from 'react-loader-spinner'
 import { useNavigate, useSearchParams } from "react-router-dom";
 import http from "../../helpers/http";
-import { plans } from "../../helpers/constants";
-import Loader from "../../components/Loader";
+
 
 export default function PaymentStatus() {
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate()
-    const [amount, setAmount] = useState();
+    const [amount, setAmount] = useState(0);
     const [credits, setCredits] = useState(0);
-    const [status, setStatus] = useState();
+    const [status, setStatus] = useState("");
     const [loading, setLoading] = useState(true)
-    const payment_intent_id = searchParams.get('payment_intent')
+    const session_id = searchParams.get('session_id')
+    const success = searchParams.get('success')
 
     useEffect(() => {
-
-        if (payment_intent_id) {
-            http.get(`/payment/payment-intent/${payment_intent_id}`)
+        if (session_id && success === "true") {
+            http.get(`/payment/session-complete/${session_id}`)
                 .then((res) => {
-                    console.log(res);
-                    if (res.data.status === "succeeded") {
-                        setAmount(res.data.amount_received)
-                        setStatus("Payment Succeeded")
-                        if (localStorage.getItem("Plan")) {
-                            const selectedPlan = localStorage.getItem("Plan")
-                            const plan = plans.find((plan) => plan.name === selectedPlan);
-                            console.log('plan', plan);
-                            setCredits(plan.credits);
+                    if (res.data.status === "complete") {
+                        setAmount(res.data.metadata.total)
+                        setStatus("Payment Completed")
+                        setCredits(res.data.metadata.credits);
+                        if (localStorage.getItem("placedOrder") === "false") {
                             let data = {
-                                orderId: payment_intent_id,
+                                orderId: session_id,
                                 companyId: localStorage.getItem('user_id'),
-                                credits: plan.credits,
-                                planName: localStorage.getItem("Plan")
+                                credits: res.data.metadata.credits,
+                                planName: res.data.metadata.plan
                             }
                             console.log('Order', data);
                             http.post('/orders/create', data) // To Post the Job
-                                .then(async (response) => {
+                                .then((response) => {
                                     console.log(response);
                                     const credits = parseInt(localStorage.getItem('credits'));
-                                    http.put(`/users/update/${localStorage.getItem('user_id')}`, { 'credits': parseInt(credits + plan.credits) });
-                                    localStorage.setItem('credits', credits + plan.credits);
-                                    localStorage.removeItem("Plan")
-                                    localStorage.removeItem("Jobdata")
-
-                                    //     navigate('/company/postajob')
-
+                                    localStorage.setItem('credits', credits + +res.data.metadata.credits);
+                                    localStorage.removeItem('placedOrder');
+                                    setLoading(false)
                                 })
-                                .catch(err => console.log(err))
+                                .catch(err => setLoading(false))
                         }
-                        setLoading(false)
                     }
                 })
-
                 .catch((err) => {
-                    setStatus(err.response ? err.response.data.message : err.message)
+                    setLoading(false)
+                    setStatus("Unable to verify the payment status")
                 })
         }
+        if (success === "false") {
+            setLoading(false)
+            setStatus("Payment was Interrupted")
+        }
+
     }, [])
 
     const PostJob = async () => {
-        setLoading(true)
-        navigate('/company/postajob')
-
+        navigate('/company')
         /* let data = {
              orderId: "123",
              companyId: localStorage.getItem('user_id'),
@@ -90,15 +84,42 @@ export default function PaymentStatus() {
     }
 
     return <>
-        {loading && <Loader />}
-        {!loading && <div style={myStyles} className='d-flex justify-content-center align-items-center flex-column gap-4 border rounded p-4 shadow-lg bg-light  '>
-            <h2>{status}</h2>
-            <h3>Amount Paid : <span className='text-success'>{amount}</span></h3>
-            <h3>Credits Purchased : <span className='text-success'>{credits}</span></h3>
-            <div><a type='button' className='btn btn-info' onClick={PostJob}>Post the Job</a></div>
+        {!loading &&
+            <div style={myStyles} className='d-flex justify-content-center align-items-center flex-column gap-4 border rounded p-4 shadow-lg bg-light  '>
+                {success === "true" ?
+                    <>
+                        <h2 className="text-success">{status}</h2>
+                        <h3>Amount Paid : <span className='text-success'>${amount / 100}</span></h3>
+                        <h3>Credits Purchased : <span className='text-success'>{credits}</span></h3>
+                        <div><a type='button' className='btn btn-info' onClick={PostJob}>Go Back</a></div>
+                    </> :
+                    <>
+                        <h2 className="text-danger">{status}</h2>
+                        <div><a type='button' className='btn btn-info' onClick={PostJob}>Go Back</a></div>
+                    </>
+                }
 
-        </div>}
+            </div>}
 
+
+
+        {loading && <div style={{ height: "90vh" }} className=" d-flex justify-content-center align-items-center gap-3">
+
+            <RotatingLines
+                visible={loading}
+                height="96"
+                width="96"
+                color="grey"
+                strokeWidth="5"
+                animationDuration="0.75"
+                ariaLabel="rotating-lines-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+            />
+            <div>Please wait, do not refresh the page...</div>
+
+        </div>
+        }
     </>
 
 }
