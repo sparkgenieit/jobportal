@@ -92,7 +92,7 @@ export default function AdminJob({ jobview, handleApprove, setShow }) {
                                         <span className='ps-2'>{jobview.numberofvacancies} Vacancies </span>
                                     </span>
 
-                                    {tooltip.vacancies && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Vacancies</div>}
+                                    {tooltip.vacancies && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Vacancies</div>}
 
                                 </>}
                             </div>
@@ -112,18 +112,18 @@ export default function AdminJob({ jobview, handleApprove, setShow }) {
                                             {benefits.includes("Accommodation") &&
                                                 <span onMouseOver={() => handleTooltip(true, "Accommodation")} onMouseLeave={(e) => handleTooltip(false, "Accommodation")} className='px-1'>
                                                     <FaHome size="18px" />
-                                                    {tooltip.Accommodation && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Accommodation</div>}
+                                                    {tooltip.Accommodation && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Accommodation</div>}
                                                 </span>
                                             }
                                             {benefits.includes("Transport") &&
                                                 <span onMouseOver={() => handleTooltip(true, "transport")} onMouseLeave={(e) => handleTooltip(false, "transport")} className='px-1'>
                                                     <PiTrainFill size="18px" />
-                                                    {tooltip.transport && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Transport</div>}
+                                                    {tooltip.transport && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Transport</div>}
                                                 </span>}
                                             {benefits.includes("Food") &&
                                                 <span onMouseOver={() => handleTooltip(true, "food")} onMouseLeave={(e) => handleTooltip(false, "food")} className='px-1'>
                                                     <FaBowlFood size="18px" />
-                                                    {tooltip.food && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Food</div>}
+                                                    {tooltip.food && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Food</div>}
                                                 </span>}
                                         </div>
                                         {bn.Others && <div>{bn.OthersText}</div>}

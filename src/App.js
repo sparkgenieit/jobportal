@@ -91,6 +91,7 @@ import AppliedUserProfile from "./pages/company/jobs/AppliedUserProfile";
 import Profile from "./pages/superadmin/user/Profile";
 import LocationList from "./pages/superadmin/locations-list/LocationList";
 import SingleJobAdmin from "./pages/admin/joblist/SingleJobAdmin";
+import City from "./pages/common/city";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -150,8 +151,9 @@ function App() {
         <Route path="/common/ProductManagement" element={(token && role == 'user') ? <ProductManagement /> : <ProductManagement />} />
         <Route path="/common/Marketing" element={(token && role == 'user') ? <Marketing /> : <Marketing />} />
         <Route path="/common/GraphicDesign" element={(token && role == 'user') ? <GraphicDesign /> : <GraphicDesign />} />
-        <Route path="/checkout-page" element={(token && role == 'user') ? <CheckoutForm /> : <CheckoutForm />} />
-        <Route path="/payment-status" element={(token && role == 'user') ? <PaymentStatus /> : <PaymentStatus />} />
+        <Route path="/checkout-page" element={token ? <CheckoutForm /> : <Navigate to="/" />} />
+        <Route path="/payment-status" element={token ? <PaymentStatus /> : <Navigate to="/" />} />
+        <Route path="/cities/:city" element={<City />} />
 
         <Route path="/forgotPassword" element={<ForgetPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />

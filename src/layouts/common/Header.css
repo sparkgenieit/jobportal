@@ -1,16 +1,35 @@
+.box {
 
-.box{
- 
     border: 2px solid gray;
     width: 150px;
     height: 160px;
     padding-top: 20px;
     list-style: none;
 }
+
 /* ul{
     list-style: none;
     
 } */
 
+.search-city-input {
+    border-radius: 5px;
+    border: none;
+    transition: width;
+    transition-duration: 300ms;
+}
 
 
+.hidden-searchbar {
+    visibility: hidden;
+    width: 0px;
+}
+
+.expanded-searchbar {
+    visibility: visible;
+    width: 250px;
+}
+
+.my-tooltip {
+    right: 15%;
+}

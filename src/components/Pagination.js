@@ -26,7 +26,7 @@ function Pagination({ totalCount, onPageClick, currentPage, pageNumberToShow }) 
         <div className="text-center">
             {total && total.length > 1 && currentPage !== 1 && <button type="button" onClick={() => NextPreviousButton("previous")} className="btn btn-xs rounded"><IoIosArrowBack size={"20px"} /> </button>}
         </div>
-        <div className="d-flex rounded bg-light p-2 justify-content-center gap-3">
+        <div className="d-flex rounded  justify-content-center gap-3">
             {total && showingPages.length > 1 && showingPages.map((page, index) => {
                 return <div>
                     <button type='button' key={index} onClick={() => { onPageClick(page.number) }} className={`btn btn-xs rounded-circle ${currentPage === page.number ? "btn-dark" : "btn-outline-dark"} `}>{page.number}</button>

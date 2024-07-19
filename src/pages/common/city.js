@@ -1,68 +1,40 @@
+import { useParams } from "react-router-dom";
+
 function City() {
+    const params = useParams()
+
+    const city = params.city
 
 
     return (
         <>
-            <div className="p-5 row">
-                <h2>Auckland</h2>
-                <img src="assets/images/beach.png" alt="image" width="200px" height="200px " />
-                <div className="p-5 row aos-init aos-animate" data-aos="fade-up">
-                    <div className="col-9">
-                        <div>
-                            <p> Auckland, New Zealand's largest and most populous city, is a vibrant metropolis nestled between the
-                                Tasman Sea and the Pacific Ocean. Known as the "City
-                                of Sails," Auckland boasts a stunning harbor dotted with numerous sailboats and yachts. The skyline is
-                                dominated by the iconic Sky Tower, offering
-                                panoramic views of the city and its surroundings. Auckland is a melting pot of cultures, reflected in its
-                                diverse neighborhoods, culinary scene, and vibrant arts
-                                community. The city is surrounded by natural wonders, from the black sand beaches of the west coast to the
-                                lush landscapes of regional parks.
-                                Visitors can explore museums, such as the Auckland War Memorial Museum, showcasing the country's rich
-                                history and indigenous Maori culture.
-                                With a thriving urban atmosphere and easy access to outdoor adventures, Auckland is a dynamic destination
-                                that seamlessly blends modernity
-                                with the natural beauty that defines New Zealand.
-                            </p>
-                        </div>
-                        <h5><b>Site seeing and activities</b></h5>
-                        <div style="list-style: none; margin-right: 50px;">
-                            <li>Sky Tower: Auckland's iconic landmark, offering panoramic views and even bungee jumping for the
-                                adventurous.</li><br />
-                            <li>Auckland War Memorial Museum:A cultural treasure trove, showcasing New Zealand's history, Maori culture,
-                                and natural history.</li><br />
-                            <li>Waiheke Island: A ferry ride away, known for its vineyards, stunning beaches, and vibrant arts scene.
-                            </li><br />
-                            <li>Auckland Art Gallery Toi o Tamaki: Home to an extensive collection of New Zealand and international art.
-                            </li><br />
-                            <li>Viaduct Harbour: A lively waterfront area with restaurants, bars, and the New Zealand Maritime Museum.
-                            </li><br />
-                            <li>Devonport: Quaint seaside village with Victorian architecture and views of the city skyline.</li><br />
-                            <li>Rangitoto Island: A volcanic island with hiking trails and panoramic views of Auckland.</li><br />
-                            <li>Auckland Zoo: A family-friendly attraction, home to a diverse range of animals.</li><br />
-                            <li>Albert Park: A peaceful oasis in the heart of the city, featuring Victorian-styled gardens and
-                                sculptures.</li><br />
-                            <li>Parnell Village: Charming historic suburb with boutique shops, galleries, and cafes.</li><b />
-                            <li>One Tree Hill: A volcanic peak with a Maori memorial and stunning views of the city.</li><br />
-                            <li>Mission Bay: A popular beach destination with a seaside promenade, cafes, and restaurants. </li><br />
-                            <li>Auckland Domain: A large public park with sports fields, walking trails, and the Wintergardens.</li><br />
-                            <li>Western Springs Park: Home to the Auckland Zoo and Western Springs Stadium, known for concerts and
-                                events.</li><br />
-                            <li>Kelly Tarlton's Sea Life Aquarium: An underwater experience featuring a unique walk-through tunnel</li>
-                            <br />
-                            <li> Auckland Botanic Gardens: A vast collection of plants and themed gardens for nature enthusiasts</li>
-                            <br />
-                            <li> Stardome Observatory &amp; Planetarium: Explore the wonders of the universe and stargaze in this
-                                educational facility.</li><br />
-                            <li>Cornwall Park: A spacious park with grazing sheep, gardens, and the iconic One Tree Hill.</li><br />
-                            <li> Auckland Harbour Bridge: Climb the bridge for panoramic views or bungee jump for an adrenaline rush.
-                            </li><br />
-                            <li>Ambury Regional Park: A working farm park with opportunities for birdwatching and coastal walks.</li>
-                        </div>
-                    </div>
-                    <div className="col-2">
-                        <img src="assets/bg.webp" alt="image" width="200px" height="200px " style="margin-left: 50px;" />
+            <div className="px-3 py-2">
+                <div className='d-flex justify-content-between my-3'>
+                    <h2>{city}</h2>
+                    {/* <a type="button" onClick={handleClose}>
+                        <span className='border border-dark rounded p-2'><RxCross1 size={"18px"} /></span>
+                    </a> */}
+                </div>
+                <div className='d-flex gap-2 justify-content-between my-3'>
+                    <img style={{ height: "20vh", width: "17%" }} className="rounded" src="https://content.r9cdn.net/rimg/dimg/09/c2/d0aa16e0-city-2575-166c0a657e0.jpg?width=1366&height=768&xhint=1673&yhint=1229&crop=true" />
+                    <img style={{ height: "20vh", width: "17%" }} className="rounded" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQptUYv5XAlbkhMn5MjKP2ZaYdJ-XadHrkEENVzISWgyX1cNMs1lmCbsCpny0uo" />
+                    <img style={{ height: "20vh", width: "17%" }} className="rounded" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRqDexPvTsSD7a1UZ3TxHRw9bE5nD_ZlZZlZAWAQbfGaE-GEszVIkIvsSE-tx6o" />
+                    <img style={{ height: "20vh", width: "17%" }} className="rounded" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRqDexPvTsSD7a1UZ3TxHRw9bE5nD_ZlZZlZAWAQbfGaE-GEszVIkIvsSE-tx6o" />
+                    <img style={{ height: "20vh", width: "17%" }} className="rounded" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRqDexPvTsSD7a1UZ3TxHRw9bE5nD_ZlZZlZAWAQbfGaE-GEszVIkIvsSE-tx6o" />
+                </div>
+                <div>
+                    <p><strong>Activities in this region</strong></p>
 
-                    </div>
+                    <ul>
+                        <li>Sky Tower: Auckland's iconic landmark, offering breathtaking 360-degree views of the city and beyond. You can even do a Sky Walk or a Sky Jump for an adrenaline rush!</li>
+                        <li>Auckland Harbour Bridge: Another iconic structure, this bridge is a great spot to walk or cycle for scenic views of the harbor. You can also climb the bridge with AJ Hackett Bungy for a truly unique experience.</li>
+                        <li>Waitemata Harbour: The heart of Auckland, this beautiful harbor is home to the Port of Auckland, beaches, and islands. Explore it by ferry, kayak, or yacht. Take a cruise to get a different perspective of the city skyline or head to one of the many islands in the Hauraki Gulf Marine Park for swimming, hiking, and exploring.</li>
+                        <li>Museum hopping: Auckland has a number of excellent museums, including the Auckland Museum, which tells the story of Auckland and New Zealand, the Auckland War Memorial Museum, which focuses on military history, and the Kelly Tarlton's Sea Life Aquarium, which is home to a variety of marine life.</li>
+                        <li>Exploring nature: Auckland is a great place to get outdoors. Hike or bike ride in the Waitakere Ranges, visit the Auckland Botanic Gardens, or relax on one of the many beaches in the region, like Piha Beach, known for its black sand and great surfing, or Mission Bay, a popular spot for swimming and sunbathing.</li>
+                        <li>Wine tasting: Waiheke Island is a short ferry ride from Auckland and is known for its wineries. Spend a day exploring the island, visiting wineries, and sampling some of the best wines in New Zealand.</li>
+                    </ul>
+
+
                 </div>
             </div>
         </>)

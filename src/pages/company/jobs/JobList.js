@@ -8,6 +8,7 @@ import Pagination from '../../../components/Pagination';
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Toaster from "../../../components/Toaster";
+import { MdRemoveRedEye } from "react-icons/md";
 
 function Joblist() {
     const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
@@ -29,14 +30,24 @@ function Joblist() {
         showJobsList()
     }, [pgNumber, name])
 
-    const showJobsList = () => {
+    const showJobsList = async () => {
         const skip = (pgNumber - 1) * itemsPerPage
-        http.get(`/jobs/postedJobs/${userId}?limit=${itemsPerPage}&skip=${skip}&name=${name}`)
-            .then((response) => {
-                setTotalItems(response.data.total)
-                setAssignJobs(response.data.jobs)
-            })
-            .catch(err => setAssignJobs([]))
+        try {
+            const { data } = await http.get(`/jobs/postedJobs/${userId}?limit=${itemsPerPage}&skip=${skip}&name=${name}`)
+            setTotalItems(data.total)
+            const jobs = data.jobs;
+            await Promise.all(
+                jobs.map(async (job) => {
+                    if (job.status === "approved") {
+                        let { data } = await http.get(`/companies/applied-users-count/${job._id}`)
+                        job.count = data
+                    }
+                })
+            )
+            setAssignJobs(jobs)
+        } catch (error) {
+            setAssignJobs([])
+        }
     }
 
     const getAppliedUsers = (job) => {
@@ -102,19 +113,20 @@ function Joblist() {
                                                     <thead>
                                                         <tr >
                                                             <th>Job Title</th>
-                                                            <th>Employer Reference</th>
-                                                            <th>Creation Date</th>
+                                                            <th>Job Reference</th>
+                                                            <th>Posted Date</th>
                                                             <th>Status</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
-                                                            <th className="text-center">Applied Users</th>
+                                                            <th className="text-center">Applications</th>
+
                                                         </tr>
                                                         {assignJobs && assignJobs.length > 0 &&
                                                             assignJobs.map((job, index) => {
                                                                 return <tr key={index}>
 
                                                                     <td>{job.jobTitle}</td>
-                                                                    <td>{job.employjobreference}</td>
+                                                                    <td>{job.users}</td>
                                                                     <td>{job.creationdate}</td>
                                                                     <td>
                                                                         {job.status === "queue" && <span>Reviewing</span>}
@@ -136,18 +148,25 @@ function Joblist() {
                                                                         </button>
                                                                     </td>
                                                                     <td className="text-center">
-                                                                        {job.status !== "approved" && <span>This Job is not live yet</span>}
+                                                                        {job.status === "review" || job.status === "queue" && <span>This Job is not live yet</span>}
+
                                                                         {job.status === "approved" &&
+                                                                            <>
+                                                                                {job.count === 0 ?
+                                                                                    <span>No Applicants</span> :
+                                                                                    <>
+                                                                                        <button type="button" class="btn btn-xs btn-outline-dark" disabled={isLoading} onClick={() => { getAppliedUsers(job) }}>
+                                                                                            <MdRemoveRedEye size={"18px"} />
+                                                                                        </button>
+                                                                                        <span className="px-2">({job.count})</span>
 
-                                                                            <button type="button" class="btn btn-xs btn-danger" disabled={isLoading} onClick={() => { getAppliedUsers(job) }}>
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
-                                                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
-                                                                                </svg>
-                                                                            </button>
-
+                                                                                    </>}
+                                                                            </>
                                                                         }
+
+
                                                                     </td>
+
                                                                 </tr>
                                                             })
                                                         }

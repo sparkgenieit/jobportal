@@ -52,7 +52,7 @@ export default function Card({ job }) {
                     <span className='text-decoration-underline text-primary' onMouseOver={() => handleTooltip(true, "company")} onMouseLeave={() => handleTooltip(false, "company")} onClick={(e) => { getJobsbyCompany(e) }}>
                         {job.company}
                     </span>
-                    {tooltip.company && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Click to View All Jobs</div>}
+                    {tooltip.company && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Click to View All Jobs</div>}
                 </div>
 
                 <div className='mt-2'>
@@ -60,21 +60,21 @@ export default function Card({ job }) {
                         <FaLocationDot size="20px" />
                         <span onMouseOver={() => handleTooltip(true, "location")} onMouseLeave={() => handleTooltip(false, "location")} className='text-decoration-underline text-primary'>{job.location}</span>
                     </span>
-                    {tooltip.location && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Click to View Activities</div>}
+                    {tooltip.location && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Click to View Activities</div>}
                 </div>
 
-                <p style={{ lineHeight: "1.2" }} className='text-secondary mt-2 mb-2  small'> {job.description.length > 225 ? `${job.description.slice(0, 225)}...` : job.description}</p>
+                <p style={{ lineHeight: "1.2" }} className='text-secondary mt-3 mb-2  small'> {job.description.length > 225 ? `${job.description.slice(0, 225)}...` : job.description}</p>
                 <div className='small position-absolute bottom-0 start-0'>
                     <span className='pe-3'>{job.creationdate} ({timeAgo(job.creationdate)})</span>
 
                     <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share")} onMouseLeave={() => handleTooltip(false, "rateperhour")} onClick={(e) => { handleShare(e) }}>
                         <span><FaShare size="20px" /></span>
-                        {tooltip.share && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Share</div>}
+                        {tooltip.share && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Share</div>}
                     </a>
 
                     <a onMouseOver={() => handleTooltip(true, "save")} onMouseLeave={() => handleTooltip(false, "save")} type='button'>
                         <span><CiBookmark size="22px" /></span>
-                        {tooltip.save && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Save</div>}
+                        {tooltip.save && <div className='mt-2 py-1 px-2 position-absolute bg-secondary rounded text-white'>Save</div>}
                     </a>
                 </div>
             </div>
@@ -83,7 +83,7 @@ export default function Card({ job }) {
                 <div className='h-50'>
                     {job.companyLogo.length > 0 && <img style={{ width: "9vw", height: "12vh" }} className="rounded border" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                 </div>
-                <div className='mt-3'>
+                <div className=''>
                     <div >
                         <span onMouseOver={() => handleTooltip(true, "rateperhour")} onMouseLeave={() => handleTooltip(false, "rateperhour")}>
                             <span><FaDollarSign size="16px" /></span>
@@ -92,7 +92,7 @@ export default function Card({ job }) {
                             </span>
                         </span>
 
-                        {tooltip.rateperhour && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Rate per Hour</div>}
+                        {tooltip.rateperhour && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Rate per Hour</div>}
 
                     </div>
                     <div>
@@ -103,7 +103,7 @@ export default function Card({ job }) {
                             </span>
                         </span>
 
-                        {tooltip.duration && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Duration</div>}
+                        {tooltip.duration && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Duration</div>}
                     </div>
                     <div>
                         {job.numberofvacancies > 1 && <>
@@ -112,7 +112,7 @@ export default function Card({ job }) {
                                 <span className='ps-2'>{job.numberofvacancies} </span>
                             </span>
 
-                            {tooltip.vacancies && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Vacancies</div>}
+                            {tooltip.vacancies && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Vacancies</div>}
 
                         </>}
                     </div>
@@ -132,18 +132,18 @@ export default function Card({ job }) {
                                     {benefits.includes("Accommodation") &&
                                         <span onMouseOver={() => handleTooltip(true, "Accommodation")} onMouseLeave={() => handleTooltip(false, "Accommodation")} className='px-1'>
                                             <FaHome size="18px" />
-                                            {tooltip.Accommodation && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Accommodation</div>}
+                                            {tooltip.Accommodation && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Accommodation</div>}
                                         </span>
                                     }
                                     {benefits.includes("Transport") &&
                                         <span onMouseOver={() => handleTooltip(true, "transport")} onMouseLeave={() => handleTooltip(false, "transport")} className='px-1'>
                                             <PiTrainFill size="18px" />
-                                            {tooltip.transport && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Transport</div>}
+                                            {tooltip.transport && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Transport</div>}
                                         </span>}
                                     {benefits.includes("Food") &&
                                         <span onMouseOver={() => handleTooltip(true, "food")} onMouseLeave={() => handleTooltip(false, "food")} className='px-1'>
                                             <FaBowlFood size="18px" />
-                                            {tooltip.food && <div className='my-tooltip mt-2 py-1 px-2 rounded text-white'>Food</div>}
+                                            {tooltip.food && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Food</div>}
                                         </span>}
                                 </div>
                                 {bn.Others && <div>{bn.OthersText}</div>}

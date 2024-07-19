@@ -9,6 +9,7 @@ import Head from './Head';
 import UserLogin from '../../pages/common/UserLogin';
 import UserRegistration from '../../pages/common/UserRegistration';
 import CompanyRegistration from '../../pages/common/CompanyRegistration';
+import { FaMagnifyingGlass } from "react-icons/fa6";
 
 
 function Header() {
@@ -16,6 +17,9 @@ function Header() {
   const [fullname, setFullname] = useState(localStorage.getItem('fullname') || '');
   const [role, setRole] = useState(localStorage.getItem('role') || '');
   const [profileLink, setProfileLink] = useState("")
+  const [isExpanded, setIsExpanded] = useState(false)
+  const [searchCity, setSearchCity] = useState("")
+  const [tooltip, setTooltip] = useState({})
 
   useEffect(() => {
     if (role === "user") {
@@ -32,6 +36,15 @@ function Header() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleSearchButton = (e) => {
+    e.preventDefault();
+    if (!isExpanded) {
+      setIsExpanded(true)
+    } else {
+      navigate(`/cities/${searchCity}`)
+    }
+  }
 
 
 
@@ -102,6 +115,28 @@ function Header() {
 
               </ul>
               <i className="bi bi-list mobile-nav-toggle d-none"></i>
+
+
+              <div style={{ width: "300px" }} className='d-flex justify-content-end' >
+                <input
+                  type='text'
+                  value={searchCity}
+                  onChange={(e) => { setSearchCity(e.target.value) }}
+                  className={`shadow px-2 search-city-input ${isExpanded ? "expanded-searchbar" : "hidden-searchbar"}`}
+                  required />
+
+                <button
+                  type='button'
+                  onMouseEnter={() => { setTooltip({ search: true }) }}
+                  onMouseLeave={() => { setTooltip({ search: false }) }}
+                  onClick={handleSearchButton}
+                  className='btn btn-light '> <FaMagnifyingGlass />
+                </button>
+                {tooltip.search &&
+                  <div className='my-tooltip absolute mt-5 py-1 px-2 rounded text-white'>Search cities to view there activities</div>
+                }
+              </div>
+
 
 
               <div className=' col-auto d-flex me-4'>
