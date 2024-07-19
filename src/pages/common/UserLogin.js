@@ -110,15 +110,10 @@ function UserLogin() {
           if (response.data.role === 'employer') {
             localStorage.setItem('credits', response.data.credits);
             localStorage.setItem('usedFreeCredit', response.data.usedFreeCredit);
-
+            navigate('/company')
+          } else {
+            window.location.reload();
           }
-
-          setTimeout(() => {
-            // Inside the handleLogin function
-
-            window.location.reload()
-
-          }, 1500);
 
         })
         .catch(e => {
