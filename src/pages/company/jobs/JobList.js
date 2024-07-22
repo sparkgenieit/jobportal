@@ -9,7 +9,10 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Toaster from "../../../components/Toaster";
 import { MdRemoveRedEye } from "react-icons/md";
+import { IoMdMail } from "react-icons/io";
+import { CiBellOn } from "react-icons/ci";
 import { RotatingLines } from "react-loader-spinner";
+import MessagePopup from "./MessagePopup";
 
 function Joblist() {
     const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
@@ -27,6 +30,7 @@ function Joblist() {
         type: ""
     })
     const navigate = useNavigate();
+
 
     useEffect(() => {
         showJobsList()
@@ -142,10 +146,11 @@ function Joblist() {
                                                                 <th>Job Title</th>
                                                                 <th>Job Reference</th>
                                                                 <th>Posted Date</th>
-                                                                <th>Status</th>
+                                                                <th className="text-center">Status</th>
                                                                 <th>Edit</th>
                                                                 <th>Delete</th>
                                                                 <th className="text-center">Applications</th>
+                                                                <th>{assignJobs && assignJobs.length > 0 && assignJobs.some((job) => job.status === "expired") && <span>Repost</span>}</th>
 
                                                             </tr>
                                                             {assignJobs && assignJobs.length > 0 &&
@@ -154,11 +159,20 @@ function Joblist() {
 
                                                                         <td>{job.jobTitle}</td>
                                                                         <td>{job.employjobreference}</td>
-                                                                        <td>{job.creationdate}</td>
-                                                                        <td>
+                                                                        <td>{new Date(job.creationdate).toLocaleDateString('en-GB')}</td>
+                                                                        <td className="text-center">
                                                                             {job.status === "queue" && <span>Reviewing</span>}
                                                                             {job.status === "approved" && <span>Live</span>}
-                                                                            {job.status === "rejected" && <span>Rejected</span>}
+                                                                            {job.status === "rejected" &&
+                                                                                <span
+                                                                                    role="button"
+                                                                                    onClick={() => { setModal({ show: true, type: "rejectedMessage", clickedJob: job }) }}
+                                                                                    className="text-danger d-flex align-items-center text-decoration-underline"
+                                                                                >
+                                                                                    <CiBellOn />
+                                                                                    Revise
+                                                                                </span>}
+                                                                            {job.status === "expired" && <span>Expired</span>}
                                                                         </td>
                                                                         <td>
                                                                             <Link to={`/company/editjob/${job._id}`} type="button" disabled={isLoading} class="btn btn-outline-info btn-xs ">
@@ -180,7 +194,7 @@ function Joblist() {
                                                                             {job.status === "approved" &&
                                                                                 <>
                                                                                     {job.count === 0 ?
-                                                                                        <span>No Applicants</span> :
+                                                                                        <span>None</span> :
                                                                                         <>
                                                                                             <button type="button" class="btn btn-xs btn-outline-dark" disabled={isLoading} onClick={() => { getAppliedUsers(job) }}>
                                                                                                 <MdRemoveRedEye size={"20px"} />
@@ -192,6 +206,12 @@ function Joblist() {
                                                                             }
 
 
+                                                                        </td>
+
+                                                                        <td className="text-center">
+                                                                            {job.status === "expired" &&
+                                                                                <IoMdMail role="button" onClick={() => setModal({ show: true, type: "repost", clickedJob: job })} size={"20px"} />
+                                                                            }
                                                                         </td>
 
                                                                     </tr>
@@ -225,24 +245,7 @@ function Joblist() {
 
             </div>
 
-            <Modal size="md" show={modal.show} onHide={() => setModal({ show: false })} centered>
-                <Modal.Body>
-                    {modal.type === "delete" &&
-                        <>
-                            <div className="d-flex flex-column align-items-center">
-                                <div>Are you sure you want to delete this job? This </div>
-                                <div>action cannot be undone.</div>
-                            </div>
-                            <div className="d-flex justify-content-between px-5 pt-4">
-                                <button type="button" onClick={() => handleDelete(modal.clickedJob)} disabled={isLoading} className="btn btn-danger rounded-pill">Yes, Delete</button>
-                                <button type="button" onClick={() => setModal({ show: false })} className="btn btn-info rounded-pill">Cancel</button>
-                            </div>
-
-                        </>
-                    }
-
-                </Modal.Body>
-            </Modal >
+            <MessagePopup modal={modal} setModal={setModal} handleDelete={handleDelete} />
         </>
     )
 }

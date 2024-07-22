@@ -165,7 +165,7 @@ const JobsListSuperAdmin = () => {
                                                                 <td>{job._id}</td>
                                                                 <td>{job.jobTitle}</td>
                                                                 <td>{job.company}</td>
-                                                                <td>{job.creationdate}</td>
+                                                                <td>{new Date(job.creationdate).toLocaleDateString('en-GB')}</td>
                                                                 <td>
                                                                     {job.status === "queue" && <span class="badge badge-outline-dark col-12"> In Queue</span>}
                                                                     {job.status === "review" && <span class="badge badge-outline-info col-12"> In Review</span>}

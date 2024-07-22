@@ -42,6 +42,8 @@ export default function Card({ job }) {
         setTooltip({ [name]: value })
     }
 
+
+    const date = new Date(job.creationdate).toLocaleDateString('en-GB')
     const benefits = getTrueKeys(JSON.parse(job.benifits))
     const bn = (JSON.parse(job.benifits))
     return <>
@@ -65,7 +67,7 @@ export default function Card({ job }) {
 
                 <p style={{ lineHeight: "1.2" }} className='text-secondary mt-3 mb-2  small'> {job.description.length > 225 ? `${job.description.slice(0, 225)}...` : job.description}</p>
                 <div className='small position-absolute bottom-0 start-0'>
-                    <span className='pe-3'>{job.creationdate} ({timeAgo(job.creationdate)})</span>
+                    <span className='pe-3'>{date} ({timeAgo(date)})</span>
 
                     <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share")} onMouseLeave={() => handleTooltip(false, "rateperhour")} onClick={(e) => { handleShare(e) }}>
                         <span><FaShare size="20px" /></span>
@@ -154,7 +156,7 @@ export default function Card({ job }) {
         </div >
         <Toaster message={message} setMessage={setMessage} />
 
-        <LocationPopup show={showLocation} handleClose={() => { setShowLocation(false) }} />
+        <LocationPopup show={showLocation} handleClose={() => { setShowLocation(false) }} city={job.location} />
 
     </>
 }

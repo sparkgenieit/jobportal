@@ -90,14 +90,17 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
 
     const handleRanges = (name, e) => {
         if (name === "duration") {
-            if (e.target.value == 0) {
-                setFilterFields({ ...filterFields, duration: `Less than a month` })
+            if (e.target.value == 1) {
+                setFilterFields({ ...filterFields, duration: `1 month` })
             } else if (e.target.value == 7) {
-                setFilterFields({ ...filterFields, duration: `More than 6 months` })
+                setFilterFields({ ...filterFields, duration: `+6 months` })
             } else if (e.target.value == 8) {
+                setFilterFields({ ...filterFields, duration: `Permanent` })
+            }
+            else if (e.target.value == 9) {
                 setFilterFields({ ...filterFields, duration: null })
             } else {
-                setFilterFields({ ...filterFields, duration: `${e.target.value} Month` })
+                setFilterFields({ ...filterFields, duration: `${e.target.value} Months` })
             }
         }
         if (name === "rateperhour") {
@@ -181,7 +184,7 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
                     <span className='fw-bold'>Duration  </span>
                     <span >{filterFields.duration ? filterFields.duration : "Any"}</span>
                 </div>
-                <input type='range' className='form-range' min="0" max="8" defaultValue="8" onChange={(e) => { handleRanges("duration", e) }} />
+                <input type='range' className='form-range' min="1" max="9" defaultValue="9" onChange={(e) => { handleRanges("duration", e) }} />
             </div>
 
             <div className='mb-2'>

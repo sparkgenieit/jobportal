@@ -20,7 +20,7 @@ function Postajob() {
   const [jobTitle, setJobTitle] = useState('');
   const [jobType, setJobType] = useState('');
   const [vacancies, setVacancies] = useState('');
-  const [creationDate, setCreationDate] = useState(new Date().toLocaleDateString('en-GB'));
+  const [creationDate, setCreationDate] = useState(new Date());
   const [training, setTraining] = useState({
     status: false,
     text: ""
@@ -624,7 +624,7 @@ function Postajob() {
                           <div className="form-group row">
                             <label className="col-sm-4 col-form-label">CreationDate<span className='text-danger'>*</span></label>
                             <div className="col-sm-8">
-                              <input type="text" className="form-control" value={creationDate} disabled />
+                              <input type="text" className="form-control" value={creationDate.toLocaleDateString('en-GB')} disabled />
                               {errors.creationDateErrors && <span className='text-danger'>Please select date</span>}
                               <div className="bgcol" id="error1"></div>
                             </div>
@@ -794,16 +794,14 @@ function Postajob() {
                             <div className="col-sm-8">
                               <select className="form-select border col-6 " value={duration} onChange={(event) => handleInput('duration', event)} >
                                 <option></option>
-                                <option className="fw-bold" value=" Less than a month"> Less than a month</option>
                                 <option className="fw-bold" value="1 Month">1 Month</option>
-                                <option className="fw-bold" value="2 Month">2 Month</option>
-                                <option className="fw-bold" value="3 Month">3 Month</option>
-                                <option className="fw-bold" value="4 Month">4 Month</option>
-                                <option className="fw-bold" value="5 Month">5 Month</option>
-                                <option className="fw-bold" value="6 Month" >6 Month</option>
-                                <option className="fw-bold" value="More than 6 months">More than 6 months</option>
-
-
+                                <option className="fw-bold" value="2 Months">2 Months</option>
+                                <option className="fw-bold" value="3 Months">3 Months</option>
+                                <option className="fw-bold" value="4 Months">4 Months</option>
+                                <option className="fw-bold" value="5 Months">5 Months</option>
+                                <option className="fw-bold" value="6 Months" >6 Months</option>
+                                <option className="fw-bold" value="+6 Months">+6 Months</option>
+                                <option className="fw-bold" value="Permanent">Permanent</option>
                               </select>
                               {errors && errors.duration && <div className='text-danger'>Please select one</div>}
 

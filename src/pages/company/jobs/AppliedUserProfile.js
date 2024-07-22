@@ -1,36 +1,61 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 import Footer from "../../../layouts/company/Footer";
 import Header from "../../../layouts/company/Header";
 import Sidebar from "../../../layouts/company/Sidebar";
 import http from "../../../helpers/http"
 import ViewProfileData from "../../../components/ViewProfileData"
 
-
 export default function AppliedUserProfile() {
     const params = useParams()
+    const [searchParams] = useSearchParams()
+    const jobId = searchParams.get("j")
     const [user, setUser] = useState(null)
     const [jobTypes, setJobTypes] = useState(null)
+    const [isShorlisted, setIsShorlisted] = useState(false)
     const navigate = useNavigate();
 
     useEffect(() => {
-        http.get(`/users/profile/${params.userId}`)
-            .then((res) => {
-                setUser(res.data)
-                let jobtype = res.data.preferredJobTypes[0]
-                let jobs = []
-                for (const key in jobtype) {
-                    const element = jobtype[key];
-                    if (element === true) {
-                        jobs.push(key)
-                    }
-                }
-                setJobTypes(jobs)
-            })
-            .catch(err => {
-                setUser({})
-            })
+        fetchData()
     }, [])
+
+    const fetchData = async () => {
+        try {
+            const res = await http.get(`/users/profile/${params.userId}`)
+            setUser(res.data)
+            let jobtype = res.data.preferredJobTypes[0]
+            let jobs = []
+            for (const key in jobtype) {
+                const element = jobtype[key];
+                if (element === true) {
+                    jobs.push(key)
+                }
+            }
+            setJobTypes(jobs)
+            const { data } = await http.get(`/jobs/user-job-status/${res.data.user_id}?jobId=${jobId}`)
+            setIsShorlisted(data.shortlisted)
+        }
+
+        catch (err) {
+            setIsShorlisted(false)
+            setUser({})
+        }
+    }
+
+    const handleShortListButton = async () => {
+        const data = {
+            userId: user.user_id,
+            jobId
+        }
+        try {
+            const res = await http.put("/companies/shortlist-candidate", data)
+            setIsShorlisted(true)
+        }
+        catch (err) {
+            setIsShorlisted(false)
+
+        }
+    }
 
     const goBack = () => {
         navigate(-1)
@@ -63,6 +88,13 @@ export default function AppliedUserProfile() {
                         <div class="row">
                             <div class="card-body  bg-white ">
                                 <div className="p-2">
+                                    <div className="d-flex justify-content-end">
+
+                                        <button onClick={handleShortListButton} disabled={isShorlisted} className="btn btn-success rounded">
+                                            {isShorlisted ? "   Candidate Shortlisted" : "Shortlist Candidate"}
+                                        </button>
+
+                                    </div>
                                     {user && <ViewProfileData user={user} JobTypes={jobTypes} />}
                                 </div>
                             </div>

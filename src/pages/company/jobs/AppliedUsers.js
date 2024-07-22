@@ -6,6 +6,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import http from "../../../helpers/http";
 import Pagination from '../../../components/Pagination';
 import { itemsPerPage } from "../../../helpers/constants";
+import { FaRegCircleCheck } from "react-icons/fa6";
 
 export default function AppliedUsers() {
   const params = useParams()
@@ -34,8 +35,8 @@ export default function AppliedUsers() {
     navigate(`/company/applied-users/${params.id}?page=${pageNumber}`)
   }
 
-  const goToUserProfile = (userId) => {
-    navigate(`/company/applied-user-profile/${userId}`)
+  const goToUserProfile = (userId, jobId) => {
+    navigate(`/company/applied-user-profile/${userId}?j=${jobId}`)
   }
 
   const goBack = () => {
@@ -73,13 +74,14 @@ export default function AppliedUsers() {
               <div class="card-body  bg-white ">
                 <div class="col">
 
-                  <table class="table">
+                  <table class="table text-center">
                     <thead>
                       <tr >
                         <th>Applicant Name</th>
                         <th>Applicant Email</th>
                         <th>Applied Date</th>
                         <th className="text-center">View User's Profile</th>
+                        {appliedUsers && appliedUsers.some((user) => user.shortlisted === true) && <th>Shortlisted</th>}
                       </tr>
                     </thead>
                     <tbody>
@@ -91,13 +93,16 @@ export default function AppliedUsers() {
                             <td>{user.userId.email}</td>
                             <td>{user.applied_date}</td>
                             <td className="text-center">
-                              <a type="button" onClick={() => goToUserProfile(user.userId._id)} >
+                              <a type="button" onClick={() => goToUserProfile(user.userId._id, user.jobId._id)} >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
                                   <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
                                   <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
                                 </svg>
 
                               </a>
+                            </td>
+                            <td >
+                              {user.shortlisted ? <FaRegCircleCheck fill="green" fontSize={20} /> : ""}
                             </td>
                           </tr>
                         })

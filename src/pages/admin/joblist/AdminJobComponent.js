@@ -17,6 +17,7 @@ export default function AdminJob({ jobview, handleApprove, setShow }) {
 
 
 
+    const date = new Date(jobview.creationdate).toLocaleDateString('en-GB')
     const benefits = getTrueKeys(JSON.parse(jobview.benifits))
     const bn = (JSON.parse(jobview.benifits))
 
@@ -48,7 +49,7 @@ export default function AdminJob({ jobview, handleApprove, setShow }) {
                                 {jobview.location}
                             </div>
                             <div>
-                                {jobview.creationdate} ({timeAgo(jobview.creationdate)})
+                                {date} ({timeAgo(date)})
                             </div>
 
                         </div>

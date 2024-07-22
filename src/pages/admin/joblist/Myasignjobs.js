@@ -161,7 +161,7 @@ function Myasignjobs() {
                                                                     <td>{job._id}</td>
                                                                     <td>{job.jobTitle}</td>
                                                                     <td>{job.company}</td>
-                                                                    <td>{job.creationdate}</td>
+                                                                    <td>{new Date(job.creationdate).toLocaleDateString('en-GB')}</td>
 
 
                                                                     <td>

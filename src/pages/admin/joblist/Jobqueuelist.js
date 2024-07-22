@@ -117,7 +117,7 @@ const Jobqueuelist = () => {
                                                                     <td>{job._id}</td>
                                                                     <td>{job.jobTitle}</td>
                                                                     <td>{job.company}</td>
-                                                                    <td>{job.creationdate}</td>
+                                                                    <td>{new Date(job.creationdate).toLocaleDateString('en-GB')}</td>
                                                                     {/* 
                                                                 <td><button onClick={() => handleJob(job)} type="button" class="btn btn-info btn-xs col-12 ">
 

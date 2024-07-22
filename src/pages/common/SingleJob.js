@@ -1,7 +1,7 @@
 import './SingleJob.css';
 import Header from '../../layouts/common/Header';
 import Footer from '../../layouts/common/Footer';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import http from '../../helpers/http';
 import Ads from './ads';
@@ -12,10 +12,12 @@ import { FaBowlFood, FaDollarSign, FaLocationDot, FaRegClock, FaShare } from 're
 import { PiBookmarkSimpleBold, PiBookmarkSimpleFill, PiTrainFill } from "react-icons/pi";
 import { BsFillPersonFill } from 'react-icons/bs';
 import { FaCheckSquare, FaHome } from 'react-icons/fa';
+import { FaYoutube } from "react-icons/fa6";
 import { marked } from 'marked';
 import parse from 'html-react-parser';
 import Toaster from '../../components/Toaster';
 import Loader from '../../components/Loader';
+import LocationPopup from '../../components/LocationPopup';
 
 function SingleJob() {
     const [isJobApplied, setIsJobApplied] = useState(false)
@@ -35,6 +37,8 @@ function SingleJob() {
     const [showReport, setShowReport] = useState(false)
     const [reportReason, setReportReason] = useState("")
     const [reportError, setReportError] = useState(false)
+    const youtubeRef = useRef(null)
+    const [showLocation, setShowLocation] = useState(false)
 
     useEffect(() => {
         getJob();
@@ -199,15 +203,32 @@ function SingleJob() {
                     <Header />
                     {jobview && jobview.status === "approved" &&
                         < div className='row mt-3 '>
-                            <div className='col-md-9'>
-                                <div className='mb-3'>
+                            <div style={{ paddingLeft: "100px" }} className='col-md-9 container-fluid'>
+                                <div className='mb-3 mx-4'>
                                     {jobview.banner && <img style={{ width: "100%", height: "40vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/banners/${jobview.banner}`} alt={jobview.company} />}
                                 </div>
-                                <div className='row mb-3 mx-4 align-items-center'>
-                                    <div style={{ padding: "0" }} className='col-4'>
+                                <div className=' mb-3 mx-4 d-flex justify-content-between '>
+                                    <div style={{ padding: "0" }} className='d-flex align-items-center'>
                                         {jobview.companyLogo && jobview.companyLogo.length > 0 && <img style={{ width: "9vw", height: "12vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
+                                        <div className='col fw-bold h3'>{jobview.company}</div>
                                     </div>
-                                    <div className='col fw-bold h3'>{jobview.company}</div>
+                                    <div>
+
+                                        {jobview.youtubeUrl && <div className='position-relative'  >
+                                            <iframe
+                                                ref={youtubeRef}
+                                                className='rounded no-scrollbar'
+                                                width="150px"
+                                                height="80px"
+                                                src={`https://www.youtube.com/embed/${getYoutubeVideoId(jobview.youtubeUrl)}`}
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            />
+                                            <span role='button' onClick={() => { youtubeRef.current.requestFullscreen() }} style={{ right: "40px", top: "5px" }} className='position-absolute'>
+                                                <FaYoutube fontSize={70} fill="#FF3D00" />
+                                            </span>
+                                        </div>}
+
+                                    </div>
                                 </div>
 
                                 <div className='row border border-success rounded mx-4 p-3'>
@@ -218,28 +239,38 @@ function SingleJob() {
                                         <div>
                                             {jobview.jobCategory}/{jobview.subCategory}
                                         </div>
-                                        <div className=''>
-                                            <span className='pe-1'><FaLocationDot size="20px" /></span>
-                                            {jobview.location}
+                                        <div role='button' onClick={() => { setShowLocation(true) }}>
+                                            <span className='pe-1 '><FaLocationDot size="20px" /></span>
+                                            <span className='text-decoration-underline text-primary'>
+                                                {jobview.location}
+                                            </span>
                                         </div>
                                         <div>
-                                            {jobview.creationdate} ({timeAgo(jobview.creationdate)})
+                                            {new Date(jobview.creationdate).toLocaleDateString('en-GB')} ({timeAgo(new Date(jobview.creationdate).toLocaleDateString('en-GB'))})
                                         </div>
                                         <div className='d-flex gap-4  mt-3 align-items-center'>
-                                            {!isJobApplied && <button type='button' onClick={handleApply} className='btn btn-primary text-white'>Apply</button>}
-                                            {isJobApplied && <button type='button' disabled className='btn btn-primary text-white'>Applied</button>}
+                                            {isJobApplied ?
+                                                <button type='button' disabled className='btn btn-primary text-white'>Applied</button>
+                                                :
+                                                <button type='button' onClick={handleApply} className='btn btn-primary text-white'>Apply</button>
+                                            }
 
-                                            {!isJobSaved && <a onMouseOver={() => handleTooltip(true, "save")} onMouseLeave={(e) => handleTooltip(false, "save")} onClick={handleSave} type='button'>
-                                                <span><PiBookmarkSimpleBold size="25px" /></span>
-                                                {tooltip.save && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Save</div>}
-                                            </a>}
-                                            {isJobSaved && <a type='button'>
-                                                <span><PiBookmarkSimpleFill size="25px" /></span>
-                                            </a>}
-                                            <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share")} onMouseLeave={(e) => handleTooltip(false, "rateperhour")} onClick={() => { handleShare() }}>
+                                            <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share1")} onMouseLeave={(e) => handleTooltip(false, "share1")} onClick={() => { handleShare() }}>
                                                 <span><FaShare size="25px" /></span>
-                                                {tooltip.share && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Share</div>}
+                                                {tooltip.share1 && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Share</div>}
                                             </a>
+
+                                            {isJobSaved ?
+                                                <a type='button'>
+                                                    <span><PiBookmarkSimpleFill size="25px" /></span>
+                                                </a>
+                                                :
+                                                <a onMouseOver={() => handleTooltip(true, "save1")} onMouseLeave={(e) => handleTooltip(false, "save1")} onClick={handleSave} type='button'>
+                                                    <span><PiBookmarkSimpleBold size="25px" /></span>
+                                                    {tooltip.save1 && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Save</div>}
+                                                </a>
+
+                                            }
                                         </div>
                                     </div>
 
@@ -327,38 +358,34 @@ function SingleJob() {
                                     <p>{parse(marked(jobview.description))}</p>
                                     <div className='d-flex justify-content-between'>
                                         <div className='d-flex gap-4  mt-2 align-items-center'>
-                                            {!isJobApplied && <button type='button' onClick={handleApply} className='btn btn-primary text-white'>Apply</button>}
-                                            {isJobApplied && <button type='button' disabled className='btn btn-primary text-white'>Applied</button>}
+                                            {isJobApplied ?
+                                                <button type='button' disabled className='btn btn-primary text-white'>Applied</button>
+                                                :
+                                                <button type='button' onClick={handleApply} className='btn btn-primary text-white'>Apply</button>
+                                            }
 
-                                            {!isJobSaved && <a onMouseOver={() => handleTooltip(true, "save2")} onMouseLeave={(e) => handleTooltip(false, "save2")} onClick={handleSave} type='button'>
-                                                <span><PiBookmarkSimpleBold size="25px" /></span>
-                                                {tooltip.save2 && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Save</div>}
-                                            </a>}
-                                            {isJobSaved && <a type='button'>
-                                                <span><PiBookmarkSimpleFill size="25px" /></span>
-                                            </a>}
                                             <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share2")} onMouseLeave={(e) => handleTooltip(false, "share2")} onClick={() => { handleShare() }}>
                                                 <span><FaShare size="25px" /></span>
                                                 {tooltip.share2 && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Share</div>}
                                             </a>
+
+                                            {isJobSaved ?
+                                                <a type='button'>
+                                                    <span><PiBookmarkSimpleFill size="25px" /></span>
+                                                </a>
+                                                :
+                                                <a onMouseOver={() => handleTooltip(true, "save2")} onMouseLeave={(e) => handleTooltip(false, "save2")} onClick={handleSave} type='button'>
+                                                    <span><PiBookmarkSimpleBold size="25px" /></span>
+                                                    {tooltip.save2 && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Save</div>}
+                                                </a>
+
+                                            }
                                         </div>
                                         <div>
                                             <button type='button' className='btn btn-danger' onClick={() => setShowReport(true)}>Report</button>
                                         </div>
                                     </div>
                                 </div>
-
-                                {jobview.youtubeUrl && <div className='m-4'>
-                                    <iframe
-                                        className='rounded'
-                                        width="100%"
-                                        height="400px"
-                                        src={`https://www.youtube.com/embed/${getYoutubeVideoId(jobview.youtubeUrl)}`}
-                                        allowFullScreen
-                                    />
-                                </div>}
-
-
                             </div>
 
                             <div className='col-md-3'>
@@ -370,6 +397,9 @@ function SingleJob() {
                     {!jobview || jobview.status !== "approved" && <h3>Job Not Found</h3>}
                     <Footer />
                 </div >
+
+                <LocationPopup show={showLocation} handleClose={() => { setShowLocation(false) }} city={jobview?.location} />
+
                 <Modal size="md" show={showReport} onHide={handleClose} centered>
                     <Modal.Body>
                         {userId &&
