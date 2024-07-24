@@ -93,7 +93,7 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
             if (e.target.value == 1) {
                 setFilterFields({ ...filterFields, duration: `1 month` })
             } else if (e.target.value == 7) {
-                setFilterFields({ ...filterFields, duration: `+6 months` })
+                setFilterFields({ ...filterFields, duration: `6+ months` })
             } else if (e.target.value == 8) {
                 setFilterFields({ ...filterFields, duration: `Permanent` })
             }

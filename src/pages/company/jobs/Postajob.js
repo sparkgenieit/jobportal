@@ -800,7 +800,7 @@ function Postajob() {
                                 <option className="fw-bold" value="4 Months">4 Months</option>
                                 <option className="fw-bold" value="5 Months">5 Months</option>
                                 <option className="fw-bold" value="6 Months" >6 Months</option>
-                                <option className="fw-bold" value="+6 Months">+6 Months</option>
+                                <option className="fw-bold" value="6+ Months">6+ Months</option>
                                 <option className="fw-bold" value="Permanent">Permanent</option>
                               </select>
                               {errors && errors.duration && <div className='text-danger'>Please select one</div>}
