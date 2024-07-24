@@ -42,18 +42,17 @@ export default function AppliedUserProfile() {
         }
     }
 
-    const handleShortListButton = async () => {
+    const handleShortListButton = async (value) => {
         const data = {
             userId: user.user_id,
-            jobId
+            jobId,
+            value
         }
         try {
-            const res = await http.put("/companies/shortlist-candidate", data)
-            setIsShorlisted(true)
+            const res = await http.patch("/companies/shortlist-candidate", data)
+            fetchData()
         }
         catch (err) {
-            setIsShorlisted(false)
-
         }
     }
 
@@ -76,12 +75,12 @@ export default function AppliedUserProfile() {
                             </a>
                             <h3 class="page-title">
 
-                                User's Profile
+                                Resume
                             </h3>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#">Employer</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">User's Profile</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Resume</li>
                                 </ol>
                             </nav>
                         </div>
@@ -90,8 +89,8 @@ export default function AppliedUserProfile() {
                                 <div className="p-2">
                                     <div className="d-flex justify-content-end">
 
-                                        <button onClick={handleShortListButton} disabled={isShorlisted} className="btn btn-success rounded">
-                                            {isShorlisted ? "   Candidate Shortlisted" : "Shortlist Candidate"}
+                                        <button onClick={() => { handleShortListButton(isShorlisted ? false : true) }} className="btn btn-success rounded">
+                                            {isShorlisted ? "Unshortlist" : "Shortlist Candidate"}
                                         </button>
 
                                     </div>

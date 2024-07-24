@@ -7,8 +7,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import companyService from '../../../services/common/company.service';
 import http from '../../../helpers/http';
 import { CitiesList } from '../../../helpers/constants';
-import { BoldItalicUnderlineToggles, InsertTable, headingsPlugin, ListsToggle, MDXEditor, UndoRedo, listsPlugin, quotePlugin, tablePlugin, toolbarPlugin } from '@mdxeditor/editor';
 import MdxEditor from '../../../components/MdxEditor';
+import { getCredits } from '../../../helpers/functions';
 
 function EditJob() {
     const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
@@ -70,9 +70,6 @@ function EditJob() {
     const [jobtypMsg, setJobtypeMsg] = useState('Please select one')
 
     const [error, setError] = useState('');
-
-
-
 
     const handleQuestionsInput = (index, event) => {
         const values = [...employerquestions];
@@ -342,15 +339,14 @@ function EditJob() {
                 companyLogo: companyLogo
             }
             http.put(`/jobs/update/${jobId}`, data)
-                .then(response => {
+                .then(async (response) => {
                     if (response && response.status) {
                         setMessage({
                             show: true,
                             class: "alert alert-success",
                             Msg: "Updated Successfully"
                         })
-
-
+                        await getCredits(userId)
 
                         setTimeout(() => {
                             navigate('/company/JobList', { replace: true });

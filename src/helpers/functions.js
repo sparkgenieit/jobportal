@@ -1,3 +1,5 @@
+import http from "./http";
+
 export function timeAgo(dateString) {
     const now = Date.now();
     const parts = dateString.split("/");
@@ -68,6 +70,12 @@ export function getTrueKeys(obj) {
     }
     return truekeys.join(" ")
 }
+
+export async function getCredits(userId) {
+    const { data } = await http.get(`/users/get-credits/${userId}`)
+    localStorage.setItem("credits", data.credits)
+}
+
 
 export function getYoutubeVideoId(url) {
     const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?v=))([^#\&\?]*).*/;

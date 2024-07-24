@@ -38,7 +38,7 @@ export default function MessagePopup({ modal, setModal, handleDelete }) {
                     {+localStorage.getItem("credits") > 0 ?
                         <>
                             <div className="d-flex flex-column align-items-center">
-                                <div className="text-center fw-bold p-3">Please review all details before the reposting this job</div>
+                                <div className="text-center fw-bold p-3">Please review all details before reposting this job.</div>
 
                             </div>
                             <div className="d-flex justify-content-center px-5">

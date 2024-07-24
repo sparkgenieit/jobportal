@@ -47,10 +47,14 @@ function Joblist() {
                 jobs.map(async (job) => {
                     if (job.status === "approved") {
                         let { data } = await http.get(`/companies/applied-users-count/${job._id}`)
-                        job.count = data
+                        job.count = data.applied
+                        job.shortlisted = data.shortlisted
+
+
                     }
                 })
             )
+            console.log(jobs)
             setAssignJobs(jobs)
             setLoading(false)
         } catch (error) {
@@ -140,7 +144,7 @@ function Joblist() {
                                             }
                                             {!loading &&
                                                 <div class="col">
-                                                    <table class="table" >
+                                                    <table class="table text-center" >
                                                         <thead>
                                                             <tr >
                                                                 <th>Job Title</th>
@@ -150,7 +154,8 @@ function Joblist() {
                                                                 <th>Edit</th>
                                                                 <th>Delete</th>
                                                                 <th className="text-center">Applications</th>
-                                                                <th>{assignJobs && assignJobs.length > 0 && assignJobs.some((job) => job.status === "expired") && <span>Repost</span>}</th>
+                                                                <th>{assignJobs?.some((job) => job.shortlisted > 0) && <span>Shortlisted</span>}</th>
+                                                                <th>{assignJobs?.some((job) => job.status === "expired") && <span>Repost</span>}</th>
 
                                                             </tr>
                                                             {assignJobs && assignJobs.length > 0 &&
@@ -161,7 +166,7 @@ function Joblist() {
                                                                         <td>{job.employjobreference}</td>
                                                                         <td>{new Date(job.creationdate).toLocaleDateString('en-GB')}</td>
                                                                         <td className="text-center">
-                                                                            {job.status === "queue" && <span>Reviewing</span>}
+                                                                            {job.status === "queue" || job.status === "review" ? <span>In Review</span> : null}
                                                                             {job.status === "approved" && <span>Live</span>}
                                                                             {job.status === "rejected" &&
                                                                                 <span
@@ -189,7 +194,8 @@ function Joblist() {
                                                                             </button>
                                                                         </td>
                                                                         <td className="text-center">
-                                                                            {job.status === "review" || job.status === "queue" && <span>This Job is not live yet</span>}
+                                                                            {job.status === "queue" || job.status === "review" ? <span>This Job is not live yet</span> : null}
+
 
                                                                             {job.status === "approved" &&
                                                                                 <>
@@ -206,6 +212,18 @@ function Joblist() {
                                                                             }
 
 
+                                                                        </td>
+                                                                        <td>
+                                                                            {job.shortlisted > 0 &&
+                                                                                <button
+                                                                                    type="button"
+                                                                                    className="btn btn-outline-success btn-xs"
+                                                                                    onClick={() => { navigate(`/company/applied-users/${job._id}?s=true`) }}
+                                                                                >
+                                                                                    <MdRemoveRedEye fill="green" size={"20px"} />
+                                                                                    <span className="ps-1">{job.shortlisted}</span>
+                                                                                </button>
+                                                                            }
                                                                         </td>
 
                                                                         <td className="text-center">

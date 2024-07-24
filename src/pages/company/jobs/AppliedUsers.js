@@ -6,7 +6,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import http from "../../../helpers/http";
 import Pagination from '../../../components/Pagination';
 import { itemsPerPage } from "../../../helpers/constants";
-import { FaRegCircleCheck } from "react-icons/fa6";
+import { FaEye, FaRegCircleCheck } from "react-icons/fa6";
 
 export default function AppliedUsers() {
   const params = useParams()
@@ -15,11 +15,13 @@ export default function AppliedUsers() {
   const [totalItems, setTotalItems] = useState("")
   const [appliedUsers, setAppliedUsers] = useState(null)
   const [jobName, setJobName] = useState("")
+
+  const isShortListedOnly = searchParams.get("s")
   const navigate = useNavigate()
 
   useEffect(() => {
     const skip = (pgNumber - 1) * itemsPerPage
-    http.get(`/companies/applied-users/${params.id}?limit=${itemsPerPage}&skip=${skip}`)
+    http.get(`/companies/applied-users/${params.id}?shortlisted=${isShortListedOnly}&limit=${itemsPerPage}&skip=${skip}`)
       .then(res => {
         setJobName(res.data.users[0].jobId.jobTitle)
         setAppliedUsers(res.data.users)
@@ -56,11 +58,11 @@ export default function AppliedUsers() {
                   <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
                 </svg>
               </a>
-              <h3 class="page-title">Users Applied for {jobName}</h3>
+              <h3 class="page-title">List of Applicants for {jobName}</h3>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="#">Employer</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Applied Users</li>
+                  <li class="breadcrumb-item active" aria-current="page">Applicants</li>
                 </ol>
               </nav>
             </div>
@@ -80,7 +82,7 @@ export default function AppliedUsers() {
                         <th>Applicant Name</th>
                         <th>Applicant Email</th>
                         <th>Applied Date</th>
-                        <th className="text-center">View User's Profile</th>
+                        <th className="text-center">View Resume</th>
                         {appliedUsers && appliedUsers.some((user) => user.shortlisted === true) && <th>Shortlisted</th>}
                       </tr>
                     </thead>
@@ -93,13 +95,13 @@ export default function AppliedUsers() {
                             <td>{user.userId.email}</td>
                             <td>{user.applied_date}</td>
                             <td className="text-center">
-                              <a type="button" onClick={() => goToUserProfile(user.userId._id, user.jobId._id)} >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
-                                  <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
-                                  <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
-                                </svg>
-
-                              </a>
+                              <button
+                                type="button"
+                                className="btn btn-outline-dark btn-xs"
+                                onClick={() => goToUserProfile(user.userId._id, user.jobId._id)}
+                              >
+                                <FaEye fontSize={18} />
+                              </button>
                             </td>
                             <td >
                               {user.shortlisted ? <FaRegCircleCheck fill="green" fontSize={20} /> : ""}
