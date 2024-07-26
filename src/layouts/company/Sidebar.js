@@ -89,7 +89,7 @@ function Sidebar() {
                 <li class="nav-item">
                   <a href='#' class="nav-link" onClick={() => { handleModal(true) }}>
                     <div className='d-flex justify-content-between w-100'>
-                      <span>Post Job</span>
+                      <span>Post a Job</span>
                       <span>
                         <BsPostcard size={"20"} />
                       </span>

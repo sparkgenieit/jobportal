@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { MdRemoveRedEye } from "react-icons/md";
+import { IoMdMail } from "react-icons/io";
+import { RxCross2 } from "react-icons/rx";
+import { CiBellOn } from "react-icons/ci";
+import { RotatingLines } from "react-loader-spinner";
+
 import Footer from "../../../layouts/company/Footer";
 import Header from "../../../layouts/company/Header";
 import Sidebar from "../../../layouts/company/Sidebar";
 import http from "../../../helpers/http";
 import { itemsPerPage } from "../../../helpers/constants";
 import Pagination from '../../../components/Pagination';
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Modal } from "react-bootstrap";
 import Toaster from "../../../components/Toaster";
-import { MdRemoveRedEye } from "react-icons/md";
-import { IoMdMail } from "react-icons/io";
-import { CiBellOn } from "react-icons/ci";
-import { RotatingLines } from "react-loader-spinner";
 import MessagePopup from "./MessagePopup";
 
 function Joblist() {
-    const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
     const [totalItems, setTotalItems] = useState("")
     const [loading, setLoading] = useState(false)
     const [name, setName] = useState("")
@@ -29,8 +29,8 @@ function Joblist() {
         text: "",
         type: ""
     })
+    const userId = localStorage.getItem('user_id');
     const navigate = useNavigate();
-
 
     useEffect(() => {
         showJobsList()
@@ -49,12 +49,9 @@ function Joblist() {
                         let { data } = await http.get(`/companies/applied-users-count/${job._id}`)
                         job.count = data.applied
                         job.shortlisted = data.shortlisted
-
-
                     }
                 })
             )
-            console.log(jobs)
             setAssignJobs(jobs)
             setLoading(false)
         } catch (error) {
@@ -67,68 +64,84 @@ function Joblist() {
         navigate(`/company/applied-users/${job._id}`)
     }
 
-    const handleDelete = (job) => {
+    const handleDelete = async (job) => {
         setIsLoading(true)
-        http.delete(`jobs/delete/${job._id}`)
-            .then((res) => {
-                setIsLoading(false)
-                setModal({ show: false })
-                setMessage({
-                    show: true, text: "Job Deleted", type: "success"
-                })
-                showJobsList();
+        try {
+            await http.delete(`jobs/delete/${job._id}`)
+            setIsLoading(false)
+            setModal({ show: false })
+            setMessage({
+                show: true, text: "Job Deleted", type: "success"
             })
-            .catch((err) => {
-                setIsLoading(false)
-                setModal({ show: false })
-                setMessage({
-                    show: true,
-                    text: "Failed to delete the job, Please try again later",
-                    type: "error"
-                })
+            showJobsList();
+        }
+        catch (err) {
+            setIsLoading(false)
+            setModal({ show: false })
+            setMessage({
+                show: true,
+                text: "Failed to delete the job, Please try again later",
+                type: "error"
             })
+        }
     }
 
+    const closeJob = async (job) => {
+        const data = {
+            userId,
+            jobId: job._id
+        }
+        try {
+            const res = await http.patch('/jobs/close', data)
+            setIsLoading(false)
+            setModal({ show: false })
+            setMessage({
+                show: true, text: "Job Closed", type: "success"
+            })
+            showJobsList();
+        }
+        catch (error) {
+            setIsLoading(false)
+            setModal({ show: false })
+            setMessage({
+                show: true,
+                text: "Failed to close the job, Please try again later",
+                type: "error"
+            })
+        }
+    }
 
     const itemsToShow = (pageNumber) => {
         setPgNumber(pageNumber)
         navigate(`/company/JobList?page=${pageNumber}`)
     }
 
-
     return (
         <>
             <div className="container-scrollar">
                 <Header />
-                <div class="container-fluid page-body-wrapper">
+                <div class="container-fluid page-body-wrapper py-3">
                     <Sidebar />
-
                     <div class="container-fluid">
-                        <div class="content-wrapper">
+                        <div class=" bg-white">
                             <div class="page-header">
-                                <h3 class="page-title">Job List</h3>
+                                <h3 class="page-title">Posted Jobs</h3>
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="#">Employer</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Jobs List</li>
+                                        <li class="breadcrumb-item active" aria-current="page">Posted Jobs</li>
                                     </ol>
                                 </nav>
                             </div>
-
-
-
                             <div class="row">
                                 <div class="col-12">
                                     <Toaster message={message} setMessage={setMessage} />
-
-                                    <div class="py-3 px-5 bg-white rounded ">
-                                        <input type="text" value={name} onChange={(e) => { setName(e.target.value) }} className="form-control my-3 shadow" placeholder="Search by Job Title" />
+                                    <div class=" px-5 bg-white rounded ">
+                                        <input type="text" value={name} onChange={(e) => { setName(e.target.value) }} className="form-control my-3 shadow" placeholder="Search by job title or reference" />
                                         <form class="form-sample">
                                             {
                                                 loading &&
-
                                                 <div style={{ height: "60vh" }} className="d-flex w-full justify-content-center align-items-center">
-
                                                     <RotatingLines
                                                         visible={true}
                                                         height="96"
@@ -143,27 +156,26 @@ function Joblist() {
                                                 </div>
                                             }
                                             {!loading &&
-                                                <div class="col">
-                                                    <table class="table text-center" >
+                                                <div class="col ">
+                                                    <table class="table text-center " >
                                                         <thead>
-                                                            <tr >
-                                                                <th>Job Title</th>
-                                                                <th>Job Reference</th>
+                                                            <tr className="" >
+                                                                <th className="text-start">Job Title</th>
+                                                                <th className="text-start">Job Reference</th>
                                                                 <th>Posted Date</th>
                                                                 <th className="text-center">Status</th>
                                                                 <th>Edit</th>
+                                                                <th>{assignJobs?.some((job) => job.status === "approved") && <span>Close</span>}</th>
                                                                 <th>Delete</th>
                                                                 <th className="text-center">Applications</th>
                                                                 <th>{assignJobs?.some((job) => job.shortlisted > 0) && <span>Shortlisted</span>}</th>
-                                                                <th>{assignJobs?.some((job) => job.status === "expired") && <span>Repost</span>}</th>
-
+                                                                <th>{assignJobs?.some((job) => job.status === "expired" || job.status === "closed") && <span>Repost</span>}</th>
                                                             </tr>
                                                             {assignJobs && assignJobs.length > 0 &&
                                                                 assignJobs.map((job, index) => {
                                                                     return <tr key={index}>
-
-                                                                        <td>{job.jobTitle}</td>
-                                                                        <td>{job.employjobreference}</td>
+                                                                        <td className="text-start">{job.jobTitle}</td>
+                                                                        <td className="text-start">{job.employjobreference}</td>
                                                                         <td>{new Date(job.creationdate).toLocaleDateString('en-GB')}</td>
                                                                         <td className="text-center">
                                                                             {job.status === "queue" || job.status === "review" ? <span>In Review</span> : null}
@@ -178,6 +190,7 @@ function Joblist() {
                                                                                     Revise
                                                                                 </span>}
                                                                             {job.status === "expired" && <span>Expired</span>}
+                                                                            {job.status === "closed" ? <span>Closed</span> : null}
                                                                         </td>
                                                                         <td>
                                                                             <Link to={`/company/editjob/${job._id}`} type="button" disabled={isLoading} class="btn btn-outline-info btn-xs ">
@@ -187,6 +200,18 @@ function Joblist() {
                                                                             </Link>
                                                                         </td>
                                                                         <td>
+                                                                            {job.status === "approved" &&
+                                                                                <button
+                                                                                    type="button"
+                                                                                    className="btn btn-xs btn-danger"
+                                                                                    disabled={isLoading}
+                                                                                    onClick={() => setModal({ show: true, type: "close", clickedJob: job })}
+                                                                                >
+                                                                                    <RxCross2 fill="white" fontSize={20} />
+                                                                                </button>
+                                                                            }
+                                                                        </td>
+                                                                        <td>
                                                                             <button type="button" class="btn  btn-xs btn-outline-danger" disabled={isLoading} onClick={() => setModal({ show: true, type: "delete", clickedJob: job })}>
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
                                                                                     <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
@@ -194,9 +219,7 @@ function Joblist() {
                                                                             </button>
                                                                         </td>
                                                                         <td className="text-center">
-                                                                            {job.status === "queue" || job.status === "review" ? <span>This Job is not live yet</span> : null}
-
-
+                                                                            {job.status === "queue" || job.status === "review" ? <span>In Review</span> : null}
                                                                             {job.status === "approved" &&
                                                                                 <>
                                                                                     {job.count === 0 ?
@@ -210,8 +233,6 @@ function Joblist() {
                                                                                         </>}
                                                                                 </>
                                                                             }
-
-
                                                                         </td>
                                                                         <td>
                                                                             {job.shortlisted > 0 &&
@@ -227,43 +248,28 @@ function Joblist() {
                                                                         </td>
 
                                                                         <td className="text-center">
-                                                                            {job.status === "expired" &&
-                                                                                <IoMdMail role="button" onClick={() => setModal({ show: true, type: "repost", clickedJob: job })} size={"20px"} />
+                                                                            {job.status === "expired" || job.status === "closed" ?
+                                                                                <IoMdMail role="button" onClick={() => setModal({ show: true, type: "repost", clickedJob: job })} size={"20px"} /> : null
                                                                             }
                                                                         </td>
 
                                                                     </tr>
                                                                 })
                                                             }
-
                                                         </thead>
-
                                                     </table>
                                                 </div>}
-
                                         </form>
                                         <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={+pgNumber} pageNumberToShow={2} />
-
                                     </div>
-
                                 </div>
-
-
                             </div>
                         </div>
-
-
                     </div>
-
-
-
-
                 </div>
                 <Footer />
-
             </div>
-
-            <MessagePopup modal={modal} setModal={setModal} handleDelete={handleDelete} />
+            <MessagePopup modal={modal} setModal={setModal} handleDelete={handleDelete} closeJob={closeJob} />
         </>
     )
 }

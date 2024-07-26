@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import http from "../../../helpers/http";
 
-export default function MessagePopup({ modal, setModal, handleDelete }) {
+export default function MessagePopup({ modal, setModal, handleDelete, closeJob }) {
     const [message, setMessage] = useState("")
 
     useEffect(() => {
@@ -17,6 +17,14 @@ export default function MessagePopup({ modal, setModal, handleDelete }) {
                 })
         }
     }, [modal])
+
+
+    const getExpiryDate = (date) => {
+        const expiry = new Date(date)
+        expiry.setMonth(expiry.getMonth() + 1)
+        return expiry.toLocaleDateString("en-GB")
+    }
+
 
 
     return (
@@ -75,6 +83,21 @@ export default function MessagePopup({ modal, setModal, handleDelete }) {
 
 
                     </>
+                }
+                {
+                    modal.type === "close" &&
+                    <div className="py-3 px-1">
+                        <h4>Premature Job Closure</h4>
+
+                        <p>You are attempting to close a job that is still active and has not yet reached its expiry date of <strong>{getExpiryDate(modal.clickedJob.creationdate)}</strong>. Please note that closing the job now will result in the forfeiture of any remaining advertising period. Additionally, please be aware that no credit or refund will be issued for the unused portion of the job posting period.</p>
+
+                        <p>If you are certain you wish to proceed with closing the job early, please confirm. Otherwise, consider allowing the job to run its full course to maximize your recruitment efforts.</p>
+
+                        <div className="d-flex gap-5 pt-3 justify-content-end">
+                            <button type="button" onClick={() => closeJob(modal.clickedJob)} className="btn btn-danger rounded-pill">Close</button>
+                            <button type="button" onClick={() => setModal({ show: false })} className="btn btn-outline-dark rounded-pill">Cancel</button>
+                        </div>
+                    </div>
                 }
 
             </Modal.Body>
