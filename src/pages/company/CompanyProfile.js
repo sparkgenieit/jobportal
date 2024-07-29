@@ -36,6 +36,7 @@ function CompanyProfile() {
     companyService.get(userId)
       .then(response => {
         setUserData(response.data);
+        setInfo(response.data.info)
         if (response.data.logo.length > 0) {
           setCompanyLogo(`${BASE_API_URL}/uploads/logos/${response.data.logo}`)
         }
@@ -191,6 +192,8 @@ function CompanyProfile() {
       obj1 = { ...obj1, contact: userData.contact.trim() }
       obj1 = { ...obj1, email: userData.email }
       obj1 = { ...obj1, youtubeUrl: userData.youtubeUrl }
+      obj1 = { ...obj1, info }
+
 
       try {
         if (logo) {
