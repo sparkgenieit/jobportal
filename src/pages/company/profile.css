@@ -1,0 +1,8 @@
+.my-button {
+    padding: 10px 30px;
+    border-radius: 8px;
+}
+
+.my-button:hover {
+    opacity: 0.8;
+}
