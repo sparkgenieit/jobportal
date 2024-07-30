@@ -120,12 +120,12 @@ function Joblist() {
         <>
             <div className="container-scrollar">
                 <Header />
-                <div class="container-fluid page-body-wrapper py-3">
+                <div class="container-fluid page-body-wrapper">
                     <Sidebar />
-                    <div class="container-fluid">
+                    <div class="container-fluid mt-2">
                         <div class=" bg-white">
                             <div class="page-header">
-                                <h3 class="page-title">Posted Jobs</h3>
+                                <h3 class="page-title">List of Posted Jobs</h3>
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="#">Employer</a></li>
@@ -228,8 +228,7 @@ function Joblist() {
                                                                                         <span>None</span> :
                                                                                         <>
                                                                                             <button type="button" class="btn btn-xs btn-outline-dark" disabled={isLoading} onClick={() => { getAppliedUsers(job) }}>
-                                                                                                <MdRemoveRedEye size={"20px"} />
-                                                                                                <span className="ps-1">{job.count}</span>
+                                                                                                <span className="text-primary text-decoration-underline">{job.count}</span>
                                                                                             </button>
 
                                                                                         </>}
@@ -243,8 +242,8 @@ function Joblist() {
                                                                                     className="btn btn-outline-success btn-xs"
                                                                                     onClick={() => { navigate(`/company/applied-users/${job._id}?s=true`) }}
                                                                                 >
-                                                                                    <MdRemoveRedEye fill="green" size={"20px"} />
-                                                                                    <span className="ps-1">{job.shortlisted}</span>
+
+                                                                                    <span className="text-success text-decoration-underline">{job.shortlisted}</span>
                                                                                 </button>
                                                                             }
                                                                         </td>

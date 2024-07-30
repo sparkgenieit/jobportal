@@ -43,9 +43,10 @@ function Sidebar() {
 
   return (
     <>
-      {<div className={`${sidebarClass}`}>
+      {<div className={`${sidebarClass}  shadow`}>
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
-          <ul class="nav">
+          <ul class="nav border rounded border-secondary">
+
             <li class="nav-item nav-profile">
               <a href="#" class="nav-link">
                 <div class="nav-profile-image">
@@ -119,8 +120,10 @@ function Sidebar() {
                     </div>
                   </a>
                 </li>
+
               </ul>
             </li>
+
           </ul>
         </nav>
       </div>}

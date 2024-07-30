@@ -265,17 +265,18 @@ function CompanyProfile() {
 
 
             <div className="col-12 bg-white">
-              {/* <div className="card"> */}
               <div className="card-body container ">
 
-                {/* <h4 className="card-title">Employer Profile </h4> */}
+
+
+
 
                 {companyBanner && companyBanner.length > 0 &&
                   <div className='border mb-4' style={{ width: "1000px", height: "250px" }}>
                     <img className='rounded ' style={{ width: "1000px", height: "250px" }} src={companyBanner} alt='banner_photo' />
                   </div>
                 }
-                <div className='d-flex justify-content-between'>
+                <div style={{ width: "1000px" }} className='d-flex justify-content-between'>
 
                   <div className='d-flex gap-3'>
                     {companyLogo && companyLogo.length > 0 &&
@@ -295,19 +296,6 @@ function CompanyProfile() {
                   </div>
                   <div>
 
-                    {userData.youtubeUrl && <div className='position-relative'  >
-                      <iframe
-                        ref={youtubeRef}
-                        className='rounded no-scrollbar'
-                        width="150px"
-                        height="80px"
-                        src={`https://www.youtube.com/embed/${getYoutubeVideoId(userData.youtubeUrl)}`}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      />
-                      <span role='button' onClick={() => { youtubeRef.current.requestFullscreen() }} style={{ right: "40px", top: "5px" }} className='position-absolute'>
-                        <FaYoutube fontSize={70} fill="#FF3D00" />
-                      </span>
-                    </div>}
 
                   </div>
 
@@ -434,11 +422,28 @@ function CompanyProfile() {
                         </div>
                       </div>
                     </div>
-                    <div className="row">
-                      <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">Youtube URL</label>
-                        <div className="col-sm-6">
-                          <input type="text" className="form-control" name='youtubeUrl' value={userData.youtubeUrl} onChange={handleInput} />
+                    <div className="row ">
+                      <div className="form-group row d-flex align-items-center">
+                        <label className="col-sm-3 col-form-label ">Youtube URL</label>
+                        <div className="col-sm-6 d-flex gap-2  align-items-center " >
+                          <div className='w-100'>
+                            <input type="text" className="form-control" name='youtubeUrl' value={userData.youtubeUrl} onChange={handleInput} />
+                          </div>
+                          {userData.youtubeUrl && <div className='position-relative'  >
+                            <iframe
+                              ref={youtubeRef}
+                              className='rounded no-scrollbar'
+                              width="150px"
+                              height="80px"
+                              src={`https://www.youtube.com/embed/${getYoutubeVideoId(userData.youtubeUrl)}`}
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                            />
+                            {/* <span role='button' onClick={() => { youtubeRef.current.requestFullscreen() }} style={{ right: "40px", top: "5px" }} className='position-absolute'>
+                              <FaYoutube fontSize={70} fill="#FF3D00" />
+                            </span> */}
+                          </div>}
+
                         </div>
                       </div>
                     </div>
@@ -448,7 +453,7 @@ function CompanyProfile() {
                       <div className="form-group row">
                         <label className="col-form-label">Info (Describe your company business in less than 250 words)</label>
 
-                        <div >
+                        <div>
                           <MdxEditor value={info} setValue={setInfo} />
                         </div>
 
@@ -476,11 +481,11 @@ function CompanyProfile() {
 
           </div>
 
-        </div>
+        </div >
         <Footer />
 
 
-      </div>
+      </div >
       <Hourglass
         visible={loader}
         height="80"
