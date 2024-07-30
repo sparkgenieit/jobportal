@@ -1,5 +1,4 @@
 import '@mdxeditor/editor/style.css';
-import './editor.css';
 import { BoldItalicUnderlineToggles, InsertTable, headingsPlugin, ListsToggle, MDXEditor, UndoRedo, listsPlugin, quotePlugin, tablePlugin, toolbarPlugin } from '@mdxeditor/editor';
 import { useEffect, useRef } from 'react';
 
