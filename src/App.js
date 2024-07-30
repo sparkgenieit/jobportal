@@ -39,10 +39,9 @@ import Jobs from "./pages/common/Jobs";
 //company
 import CompanyHome from "./pages/company/Home";
 import CompanyProfile from "./pages/company/CompanyProfile";
+import Transactions from "./pages/company/Transactions";
 import Postajob from "./pages/company/jobs/Postajob";
 import JobList from "./pages/company/jobs/JobList";
-
-
 
 
 //Admin
@@ -119,6 +118,7 @@ function App() {
         <Route path="/company/editjob/:id" element={(token && role == 'employer') ? <EditJob /> : <Navigate to="/" />} />
         <Route path="/company/postajob" element={(token && role == 'employer') ? <Postajob /> : <Navigate to="/" />} />
         <Route path="/company/JobList" element={(token && role == 'employer') ? <JobList /> : <Navigate to="/" />} />
+        <Route path="/company/transactions" element={(token && role == 'employer') ? <Transactions /> : <Navigate to="/" />} />
         <Route path="/company/applied-users/:id" element={(token && role == 'employer') ? <AppliedUsers /> : <Navigate to="/" />} />
         <Route path="/company/applied-user-profile/:userId" element={(token && role == 'employer') ? <AppliedUserProfile /> : <Navigate to="/" />} />
 

@@ -1,10 +1,11 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import './Sidebar.css';
 import { SidebarContext } from '../../helpers/Context';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import { MdSpaceDashboard } from 'react-icons/md';
 import { BsPostcard, BsPostcardFill, BsCreditCard } from "react-icons/bs";
+import { PiListDashesFill } from "react-icons/pi";
 import { ImProfile } from "react-icons/im";
 
 function Sidebar() {
@@ -43,85 +44,87 @@ function Sidebar() {
 
   return (
     <>
-      {<div className={`${sidebarClass}  shadow`}>
-        <nav class="sidebar sidebar-offcanvas" id="sidebar">
-          <ul class="nav border rounded border-secondary">
+      {<div className={`${sidebarClass} border shadow`}>
+        <nav className="sidebar sidebar-offcanvas" id="sidebar">
+          <ul className="nav border rounded border-secondary">
 
-            <li class="nav-item nav-profile">
-              <a href="#" class="nav-link">
-                <div class="nav-profile-image">
+            <li className="nav-item nav-profile">
+              <Link to="#" className="nav-link">
+                <div className="nav-profile-image">
                   <img src="/assets/images/faces/face1.jpg" alt="profile" />
-                  <span class="login-status online"></span>
+                  <span className="login-status online"></span>
                 </div>
-                <div class="nav-profile-text d-flex flex-column">
-                  <span class="font-weight-bold mb-2">Employer</span>
-                  <span class="text-secondary  mb-2">Available Credits: {localStorage.getItem('credits')}</span>
+                <div className="nav-profile-text d-flex flex-column">
+                  <span className="font-weight-bold mb-2">Employer</span>
+                  <span className="text-secondary  mb-2">Available Credits: {localStorage.getItem('credits')}</span>
                 </div>
 
-              </a>
+              </Link>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/company">
+            <li className="nav-item">
+              <Link className="nav-link" to="/company">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Dashboard</span>
                   <span>
                     <MdSpaceDashboard size={"20"} />
                   </span>
                 </div>
-              </a>
+              </Link>
             </li>
 
 
-            <li class="nav-item">
-              <a class="nav-link" href="/company/CompanyProfile">
+            <li className="nav-item">
+              <Link className="nav-link" to="/company/CompanyProfile">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Company Profile</span>
                   <span>
                     <ImProfile size={"20"} />
                   </span>
                 </div>
-              </a>
+              </Link>
             </li>
 
+            <li className="nav-item">
+              <span role='button' className="nav-link" onClick={() => { handleModal(true) }}>
+                <div className='d-flex justify-content-between w-100'>
+                  <span>Post a Job</span>
+                  <span>
+                    <BsPostcard size={"20"} />
+                  </span>
+                </div>
+              </span>
+            </li>
 
-            <li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/company/JobList">
+                <div className='d-flex justify-content-between w-100'>
+                  <span>Posted Jobs</span>
+                  <span>
+                    <BsPostcardFill size={"20"} />
+                  </span>
+                </div>
+              </Link>
+            </li>
 
-              <ul class="nav sub-nav">
-                <li class="nav-item">
-                  <a href='#' class="nav-link" onClick={() => { handleModal(true) }}>
-                    <div className='d-flex justify-content-between w-100'>
-                      <span>Post a Job</span>
-                      <span>
-                        <BsPostcard size={"20"} />
-                      </span>
-                    </div>
-                  </a>
-                </li>
-
-
-                <li class="nav-item">
-                  <a class="nav-link" href="/company/JobList">
-                    <div className='d-flex justify-content-between w-100'>
-                      <span>Posted Jobs</span>
-                      <span>
-                        <BsPostcardFill size={"20"} />
-                      </span>
-                    </div>
-                  </a>
-                </li>
-
-                <li class="nav-item">
-                  <a class="nav-link" href="/company/BuyCredits">
-                    <div className='d-flex justify-content-between w-100'>
-                      <span>Buy Credits</span>
-                      <span>
-                        <BsCreditCard size={"20"} />
-                      </span>
-                    </div>
-                  </a>
-                </li>
-
-              </ul>
+            <li className="nav-item">
+              <Link className="nav-link" to="/company/BuyCredits">
+                <div className='d-flex justify-content-between w-100'>
+                  <span>Buy Credits</span>
+                  <span>
+                    <BsCreditCard size={"20"} />
+                  </span>
+                </div>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/company/transactions">
+                <div className='d-flex justify-content-between align-items-center w-100'>
+                  <span>Transactions</span>
+                  <span>
+                    <PiListDashesFill size={"22"} />
+                  </span>
+                </div>
+              </Link>
             </li>
 
           </ul>
@@ -145,17 +148,17 @@ function Sidebar() {
                   </div>
 
 
-                  <div class="d-flex justify-content-end">
-                    <button type="button" onClick={() => { handleClose(); navigate('/company/postajob') }} class="btn btn-info">Post a Job</button>
+                  <div className="d-flex justify-content-end">
+                    <button type="button" onClick={() => { handleClose(); navigate('/company/postajob') }} className="btn btn-info">Post a Job</button>
                   </div>
                 </div>
               </>}
 
-            {parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'true' && <><div class="form-row ml-5">
-              <div class="form-group">
-                <div class="form-group">
-                  <div class="form-check ml-2">
-                    <label class="form-check-label" for="invalidCheck2">
+            {parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'true' && <><div className="form-row ml-5">
+              <div className="form-group">
+                <div className="form-group">
+                  <div className="form-check ml-2">
+                    <label className="form-check-label" for="invalidCheck2">
                       <span>Sorry you dont have credits please buy credits to post the job.</span>
                     </label>
                   </div>
@@ -164,8 +167,8 @@ function Sidebar() {
               </div>
             </div>
 
-              <div class="form-row">
-                <button type="button" onClick={() => { handleClose(); navigate('/company/BuyCredits') }} class="btn btn-danger">Buy Credits</button>
+              <div className="form-row">
+                <button type="button" onClick={() => { handleClose(); navigate('/company/BuyCredits') }} className="btn btn-danger">Buy Credits</button>
               </div></>}
           </Modal.Body>
         </div>
@@ -175,12 +178,12 @@ function Sidebar() {
       <Modal showBuy={showBuy} onHide={handleClose}>
         <Modal.Body>
 
-          <div class="form-row ml-5">
-            <div class="form-group">
-              <div class="form-group">
-                <div class="form-check ml-2">
-                  <label class="form-check-label" for="invalidCheck2">
-                    <small><span>By registering you agree to <a href="/privacy" target="_blank" >Privacy Policy</a></span></small>
+          <div className="form-row ml-5">
+            <div className="form-group">
+              <div className="form-group">
+                <div className="form-check ml-2">
+                  <label className="form-check-label" for="invalidCheck2">
+                    <small><span>By registering you agree to <Link to="/privacy" target="_blank" >Privacy Policy</Link> </span></small>
                   </label>
                 </div>
               </div>
@@ -188,8 +191,8 @@ function Sidebar() {
             </div>
           </div>
 
-          <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-danger">Buy Credits</button>
+          <div className="d-flex justify-content-end">
+            <button type="button" className="btn btn-danger">Buy Credits</button>
           </div>
         </Modal.Body>
       </Modal>

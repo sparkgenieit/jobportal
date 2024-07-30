@@ -1,7 +1,12 @@
+import { useEffect } from "react";
 import { itemsPerPage } from "../helpers/constants"
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 function Pagination({ totalCount, onPageClick, currentPage, pageNumberToShow }) {
+    useEffect(() => {
+
+    }, [totalCount])
+
     let total = []
     new Array(Math.ceil(totalCount / itemsPerPage)).fill(1).forEach((arr, index) => total.push({ number: index + 1 }))
 
