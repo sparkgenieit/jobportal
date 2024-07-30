@@ -1,5 +1,5 @@
 import '@mdxeditor/editor/style.css';
-import styles from './editor.module.css';
+import './editor.css';
 import { BoldItalicUnderlineToggles, InsertTable, headingsPlugin, ListsToggle, MDXEditor, UndoRedo, listsPlugin, quotePlugin, tablePlugin, toolbarPlugin } from '@mdxeditor/editor';
 import { useEffect, useRef } from 'react';
 
@@ -13,28 +13,30 @@ export default function MdxEditor({ value, setValue }) {
         setValue(currentMarkdown);
     }
     return (
-        <MDXEditor
-            className={styles.editor}
-            markdown=""
-            ref={editorRef}
-            onChange={() => { handleMarkdown() }}
-            plugins={
-                [
-                    tablePlugin(),
-                    headingsPlugin(),
-                    listsPlugin(),
-                    quotePlugin(),
-                    toolbarPlugin({
-                        toolbarContents: () => (
-                            <>
-                                {' '}
-                                <UndoRedo />
-                                <BoldItalicUnderlineToggles />
-                                <InsertTable />
-                                <ListsToggle />
-                            </>
-                        )
-                    })
-                ]}
-        />)
+        <div style={{ height: "30vh" }}>
+            <MDXEditor
+                className="border border-top-0 border-secondary rounded h-100"
+                markdown=""
+                ref={editorRef}
+                onChange={() => { handleMarkdown() }}
+                plugins={
+                    [
+                        tablePlugin(),
+                        headingsPlugin(),
+                        listsPlugin(),
+                        quotePlugin(),
+                        toolbarPlugin({
+                            toolbarContents: () => (
+                                <>
+                                    {' '}
+                                    <UndoRedo />
+                                    <BoldItalicUnderlineToggles />
+                                    <InsertTable />
+                                    <ListsToggle />
+                                </>
+                            )
+                        })
+                    ]}
+            />
+        </div>)
 }
