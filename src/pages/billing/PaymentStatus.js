@@ -3,7 +3,6 @@ import { RotatingLines } from 'react-loader-spinner'
 import { useNavigate, useSearchParams } from "react-router-dom";
 import http from "../../helpers/http";
 
-
 export default function PaymentStatus() {
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate()
@@ -22,24 +21,25 @@ export default function PaymentStatus() {
                         setAmount(res.data.metadata.total)
                         setStatus("Payment Completed")
                         setCredits(res.data.metadata.credits);
-                        if (localStorage.getItem("placedOrder") === "false") {
-                            let data = {
-                                orderId: session_id,
-                                companyId: localStorage.getItem('user_id'),
-                                credits: res.data.metadata.credits,
-                                planName: res.data.metadata.plan
-                            }
-                            console.log('Order', data);
-                            http.post('/orders/create', data) // To Post the Job
-                                .then((response) => {
-                                    console.log(response);
-                                    const credits = parseInt(localStorage.getItem('credits'));
-                                    localStorage.setItem('credits', credits + +res.data.metadata.credits);
-                                    localStorage.removeItem('placedOrder');
-                                    setLoading(false)
-                                })
-                                .catch(err => setLoading(false))
-                        }
+                        setLoading(false)
+                        // if (localStorage.getItem("placedOrder") === "false") {
+                        //     let data = {
+                        //         orderId: session_id,
+                        //         companyId: localStorage.getItem('user_id'),
+                        //         credits: res.data.metadata.credits,
+                        //         planName: res.data.metadata.plan
+                        //     }
+                        //     console.log('Order', data);
+                        //     http.post('/orders/create', data) // To Post the Job
+                        //         .then((response) => {
+                        //             console.log(response);
+                        //             const credits = parseInt(localStorage.getItem('credits'));
+                        //             localStorage.setItem('credits', credits + +res.data.metadata.credits);
+                        //             localStorage.removeItem('placedOrder');
+                        //             setLoading(false)
+                        //         })
+                        //         .catch(err => setLoading(false))
+                        // }
                     }
                 })
                 .catch((err) => {
