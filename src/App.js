@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -82,7 +82,6 @@ import CheckoutForm from "./pages/billing/CheckoutForm";
 import PaymentStatus from "./pages/billing/PaymentStatus";
 import ActivateAccount from "./pages/common/ActivateAccount";
 import JobSuperAdmin from "./pages/superadmin/joblist/JobSuperadmin";
-import { SidebarContext } from "./helpers/Context";
 import BuyCredits from "./pages/company/jobs/BuyCredits";
 import ContactUs from "./pages/common/contactUs";
 import AppliedUsers from "./pages/company/jobs/AppliedUsers";
@@ -95,10 +94,9 @@ import City from "./pages/common/city";
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [role, setRole] = useState(localStorage.getItem('role') || '');
-  const [showSidebar, setShowSidebar] = useState(true)
 
 
-  return <SidebarContext.Provider value={{ showSidebar, setShowSidebar }}>
+  return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -201,7 +199,7 @@ function App() {
 
       </Routes>
     </BrowserRouter>
-  </SidebarContext.Provider>
+  )
 }
 
 export default App;

@@ -8,6 +8,7 @@ import { RxDownload } from "react-icons/rx";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Pagination from "../../components/Pagination";
 import Loader from "../../components/Loader";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 
 export default function Transactions() {
     const [transactionDetails, setTransactionDetails] = useState(null)
@@ -21,7 +22,7 @@ export default function Transactions() {
 
     useEffect(() => {
         fetchTransactionDetails()
-    }, [searchTerm])
+    }, [])
 
     const fetchTransactionDetails = async () => {
         setLoading(true)
@@ -29,6 +30,7 @@ export default function Transactions() {
         try {
             const res = await http.get(`/orders/get/${userId}?limit=${itemsPerPage}&skip=${skip}&searchTerm=${searchTerm}`)
             setTransactionDetails(res.data.details)
+            console.log(res.data)
             setTotalItems(res.data.total)
             setLoading(false)
 
@@ -54,9 +56,17 @@ export default function Transactions() {
                     <div class="container-fluid">
                         <div className="content-wrapper bg-white">
                             <h4 className="text-center">Transactions</h4>
-                            <div className="my-3">
-                                <input type="search" value={searchTerm} onChange={(e) => { setSearchTerm(e.target.value) }} className="form-control" placeholder="Search Transaction by Invoice number, Date, Amount" />
-                            </div>
+                            <form
+                                onSubmit={(e) => {
+                                    e.preventDefault();
+                                    fetchTransactionDetails();
+                                }}
+                            >
+                                <div className="my-3 input-group">
+                                    <input type="search" value={searchTerm} onChange={(e) => { setSearchTerm(e.target.value) }} className="form-control" placeholder="Search Transaction by Invoice number, Date (dd/mm/yyyy), Amount" />
+                                    <button type="submit" className="btn border-0 btn-outline-secondary"><FaMagnifyingGlass fontSize={20} fill="black" /></button>
+                                </div>
+                            </form>
                             {loading && <Loader />}
                             {!loading &&
                                 <div className="pt-4 w-100">
