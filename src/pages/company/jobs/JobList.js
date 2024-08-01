@@ -228,8 +228,8 @@ function Joblist() {
                                                                                 {job.count === 0 ?
                                                                                     <span>None</span> :
                                                                                     <>
-                                                                                        <button type="button" class="btn btn-xs btn-outline-dark" disabled={isLoading} onClick={() => { getAppliedUsers(job) }}>
-                                                                                            <span className="text-primary text-decoration-underline">{job.count}</span>
+                                                                                        <button type="button" class="btn btn-xs " disabled={isLoading} onClick={() => { getAppliedUsers(job) }}>
+                                                                                            <span className="text-primary h5 text-decoration-underline">{job.count}</span>
                                                                                         </button>
 
                                                                                     </>}
@@ -240,11 +240,11 @@ function Joblist() {
                                                                         {job.shortlisted > 0 &&
                                                                             <button
                                                                                 type="button"
-                                                                                className="btn btn-outline-success btn-xs"
+                                                                                className="btn btn-xs"
                                                                                 onClick={() => { navigate(`/company/applied-users/${job._id}?s=true`) }}
                                                                             >
 
-                                                                                <span className="text-success text-decoration-underline">{job.shortlisted}</span>
+                                                                                <span className="text-success h5 text-decoration-underline">{job.shortlisted}</span>
                                                                             </button>
                                                                         }
                                                                     </td>

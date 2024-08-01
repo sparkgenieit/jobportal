@@ -9,16 +9,13 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { ImProfile } from "react-icons/im";
 
 function Sidebar() {
-
-  //const { showSidebar } = useContext(SidebarContext);
   const [showSidebar, setShowSidebar] = useState(true)
   const navigate = useNavigate()
+  const [tooltip, setTooltip] = useState({})
   let sidebarClass = showSidebar ? { marginLeft: "0" } : { marginLeft: "-230px" };
   const [show, setShow] = useState(false);
   const [showJob, setShowJob] = useState(false);
   const [showBuy, setShowBuy] = useState(false);
-  //const [companyProfile,setCompanyProfile] = useState();
-
 
   const handleModal = () => {
 
@@ -38,6 +35,9 @@ function Sidebar() {
     }
     setShowBuy(true);
   }
+
+
+
   const handleClose = () => {
     setShow(false)
 
@@ -47,10 +47,11 @@ function Sidebar() {
     <>
       {<div style={sidebarClass} className={` border shadow`}>
         <nav className="sidebar sidebar-offcanvas" id="sidebar">
-          <div className=" mt-4 pe-1 d-flex justify-content-end">
-            <RxHamburgerMenu role='button' onClick={() => setShowSidebar(prev => !prev)} fontSize={22} />
+          <div className=" position-relative mt-4 pe-1 d-flex justify-content-end">
+            <span onMouseOver={() => setTooltip({ menu: true })} onMouseLeave={() => setTooltip({ menu: false })} ><RxHamburgerMenu role='button' onClick={() => setShowSidebar(prev => !prev)} fontSize={22} /></span>
+            {tooltip.menu && <span style={{ right: '-25px' }} className='position-absolute mt-4 bg-secondary rounded text-white px-1 py-1'>Menu</span>}
           </div>
-          <ul className="nav border border-top-0 rounded border-secondary">
+          <ul style={{ marginLeft: "15px" }} className="nav  border border-top-0 rounded border-secondary">
 
             {/* <li className="nav-item nav-profile">
               <Link to="#" className="nav-link">
@@ -113,11 +114,14 @@ function Sidebar() {
 
             <li className="nav-item">
               <Link className="nav-link" to="/company/BuyCredits">
-                <div className='d-flex justify-content-between w-100'>
-                  <span>Buy Credits</span>
-                  <span>
-                    <BsCreditCard size={"20"} />
-                  </span>
+                <div className='d-flex flex-column w-100'>
+                  <div className='d-flex  justify-content-between w-100'>
+                    <span>Buy Credits</span>
+                    <span>
+                      <BsCreditCard size={"20"} />
+                    </span>
+                  </div>
+                  <div className="text-secondary small">Available Credits: {localStorage.getItem('credits')}</div>
                 </div>
               </Link>
             </li>
