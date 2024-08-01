@@ -3,13 +3,9 @@ import './assets/vendors/mdi/css/materialdesignicons.min.css';
 import './assets/vendors/css/vendor.bundle.base.css';
 import './assets/css/style.css';
 import { useNavigate } from 'react-router-dom';
-import Head from './Header.js';
-import { useContext } from 'react';
-import { SidebarContext } from '../../helpers/Context.js';
-
 
 function Header() {
-  const { showSidebar, setShowSidebar } = useContext(SidebarContext);
+
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem('user_id');
@@ -21,14 +17,11 @@ function Header() {
   return (
     <>
       <nav class="navbar default-layout-navbar col-lg-12 col-12 pt-2 fixed-top d-flex flex-row">
-        {showSidebar && <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
           <a lass="navbar-brand" href="/"><img src="/assets/images/logo-jp.png"
             alt="logo" /></a>
-        </div>}
+        </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
-          <button class="navbar-toggler navbar-toggler align-self-center" onClick={() => setShowSidebar(!showSidebar)} type="button" >
-            <span class="mdi mdi-menu"></span>
-          </button>
           <div class="search-field d-none d-md-block">
             <form class="d-flex align-items-center h-100" action="#">
               <div class="input-group">

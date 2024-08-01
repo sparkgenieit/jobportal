@@ -1,12 +1,11 @@
 import './Header.css';
-import { useContext, useEffect, useState } from 'react';
-import { SidebarContext } from '../../helpers/Context';
+import { useEffect, useState } from 'react';
+
 import http from '../../helpers/http';
 import { useNavigate } from 'react-router-dom';
 import { timeAgoMinutes } from '../../helpers/functions';
 
 function Header() {
-  const { showSidebar, setShowSidebar } = useContext(SidebarContext);
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [fullname, setFullname] = useState(localStorage.getItem('fullname') || '');
   const [role, setRole] = useState(localStorage.getItem('role') || '');
@@ -33,14 +32,11 @@ function Header() {
   return (
     <>
       <nav class="navbar default-layout-navbar col-lg-12 col-12 pt-2 fixed-top d-flex flex-row">
-        {showSidebar && <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
           <a lass="navbar-brand" href="/"><img src="/assets/images/logo-jp.png"
             alt="logo" /></a>
-        </div>}
+        </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
-          <button class="navbar-toggler navbar-toggler align-self-center" onClick={() => setShowSidebar(!showSidebar)} type="button" data-toggle="minimize">
-            <span class="mdi mdi-menu"></span>
-          </button>
           <div class="search-field d-none d-md-block">
             <form class="d-flex align-items-center h-100" action="#">
               <div class="input-group">

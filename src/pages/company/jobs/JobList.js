@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { MdRemoveRedEye } from "react-icons/md";
-import { IoMdMail } from "react-icons/io";
+import { MdEmail } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { CiBellOn } from "react-icons/ci";
 import { RotatingLines } from "react-loader-spinner";
@@ -205,7 +204,7 @@ function Joblist() {
                                                                         {job.status === "approved" &&
                                                                             <button
                                                                                 type="button"
-                                                                                className="btn btn-xs btn-danger"
+                                                                                className="btn btn-xs bg-danger text-white"
                                                                                 disabled={isLoading}
                                                                                 onClick={() => setModal({ show: true, type: "close", clickedJob: job })}
                                                                             >
@@ -252,7 +251,10 @@ function Joblist() {
 
                                                                     <td className="text-center">
                                                                         {job.status === "expired" || job.status === "closed" ?
-                                                                            <IoMdMail role="button" onClick={() => setModal({ show: true, type: "repost", clickedJob: job })} size={"20px"} /> : null
+                                                                            <button type="button" className="btn btn-xs border-0 btn-outline-secondary" onClick={() => setModal({ show: true, type: "repost", clickedJob: job })}>
+                                                                                <MdEmail fontSize={20} />
+                                                                            </button>
+                                                                            : null
                                                                         }
                                                                     </td>
 

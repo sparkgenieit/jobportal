@@ -91,7 +91,6 @@ const List = () => {
   return (<>
     {!editAdmin &&
       <div className="container-scroller">
-        {IsLoading && <Loader />}
         {/* <Header /> */}
         {/* <Header /> */}
         <Header />

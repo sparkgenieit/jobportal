@@ -1,36 +1,29 @@
 import './Sidebar.css';
-import { useContext } from 'react';
-import { SidebarContext } from '../../helpers/Context';
-import { FaUserCircle, FaCogs, FaListUl, FaLocationArrow } from "react-icons/fa";
+import { useState } from 'react';
+
+import { FaUserCircle, FaCogs, FaListUl } from "react-icons/fa";
 import { IoDocuments } from "react-icons/io5";
 import { BiSolidCategory } from "react-icons/bi";
 import { BsCardChecklist } from "react-icons/bs";
 import { RiAdminFill, RiAdvertisementFill } from "react-icons/ri";
 import { FaMapLocationDot } from "react-icons/fa6";
+import { RxHamburgerMenu } from 'react-icons/rx';
 
 
 function Sidebar() {
-  const { showSidebar } = useContext(SidebarContext)
-  let sidebarClass = showSidebar ? "sidebar-showing" : "sidebar-not-showing";
+  const [showSidebar, setShowSidebar] = useState(true)
+  let sidebarClass = showSidebar ? { marginLeft: "0" } : { marginLeft: "-230px" };
   return (
     <>
-      {<div className={`${sidebarClass}`}>
+      {<div style={sidebarClass}>
 
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
           <ul class="nav">
-            <li class="nav-item nav-profile">
-              <a href="#" class="nav-link">
-                <div class="nav-profile-image">
-                  <img src="/assets/images/faces/face1.jpg" alt="profile" />
-                  <span class="login-status online"></span>
-                </div>
-                <div class="nav-profile-text d-flex flex-column">
-                  <span class="font-weight-bold mb-2">Employer</span>
-                  <span class="text-secondary text-small">Admin</span>
-                </div>
-                <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
-              </a>
-            </li>
+
+            <div className=" mt-4 pe-0 d-flex justify-content-end">
+              <RxHamburgerMenu role='button' onClick={() => setShowSidebar(prev => !prev)} fontSize={22} />
+            </div>
+
             <li class="nav-item">
               <a class="nav-link" href="/superadmin/Table">
                 <div className='d-flex justify-content-between w-100'>

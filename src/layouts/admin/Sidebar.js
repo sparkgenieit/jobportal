@@ -1,17 +1,21 @@
 import './Sidebar.css';
 
-import { useContext } from 'react';
-import { SidebarContext } from '../../helpers/Context';
+import { useState } from 'react';
 import { MdSpaceDashboard, MdAssignment } from "react-icons/md";
 import { HiMiniQueueList } from "react-icons/hi2";
+import { RxHamburgerMenu } from 'react-icons/rx';
 
 function Sidebar() {
-  const { showSidebar } = useContext(SidebarContext)
-  let sidebarClass = showSidebar ? "sidebar-showing" : "sidebar-not-showing";
+  // const { showSidebar } = useContext(SidebarContext)
+  const [showSidebar, setShowSidebar] = useState(true)
+  let sidebarClass = showSidebar ? { marginLeft: "0" } : { marginLeft: "-230px" };
   return (
     <>
-      <div className={`${sidebarClass}`}>
+      <div style={sidebarClass}>
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <div className=" mt-4 pe-0 d-flex justify-content-end">
+            <RxHamburgerMenu role='button' onClick={() => setShowSidebar(prev => !prev)} fontSize={22} />
+          </div>
           <ul class="nav">
             <li class="nav-item nav-profile">
               <a href="#" class="nav-link">

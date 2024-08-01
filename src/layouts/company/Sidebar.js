@@ -1,18 +1,19 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import './Sidebar.css';
-import { SidebarContext } from '../../helpers/Context';
 import { Link, useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import { MdSpaceDashboard } from 'react-icons/md';
 import { BsPostcard, BsPostcardFill, BsCreditCard } from "react-icons/bs";
 import { PiListDashesFill } from "react-icons/pi";
+import { RxHamburgerMenu } from "react-icons/rx";
 import { ImProfile } from "react-icons/im";
 
 function Sidebar() {
 
-  const { showSidebar } = useContext(SidebarContext);
+  //const { showSidebar } = useContext(SidebarContext);
+  const [showSidebar, setShowSidebar] = useState(true)
   const navigate = useNavigate()
-  let sidebarClass = showSidebar ? "sidebar-showing" : "sidebar-not-showing";
+  let sidebarClass = showSidebar ? { marginLeft: "0" } : { marginLeft: "-230px" };
   const [show, setShow] = useState(false);
   const [showJob, setShowJob] = useState(false);
   const [showBuy, setShowBuy] = useState(false);
@@ -44,11 +45,14 @@ function Sidebar() {
 
   return (
     <>
-      {<div className={`${sidebarClass} border shadow`}>
+      {<div style={sidebarClass} className={` border shadow`}>
         <nav className="sidebar sidebar-offcanvas" id="sidebar">
-          <ul className="nav border rounded border-secondary">
+          <div className=" mt-4 pe-1 d-flex justify-content-end">
+            <RxHamburgerMenu role='button' onClick={() => setShowSidebar(prev => !prev)} fontSize={22} />
+          </div>
+          <ul className="nav border border-top-0 rounded border-secondary">
 
-            <li className="nav-item nav-profile">
+            {/* <li className="nav-item nav-profile">
               <Link to="#" className="nav-link">
                 <div className="nav-profile-image">
                   <img src="/assets/images/faces/face1.jpg" alt="profile" />
@@ -60,7 +64,8 @@ function Sidebar() {
                 </div>
 
               </Link>
-            </li>
+            </li> */}
+
             <li className="nav-item">
               <Link className="nav-link" to="/company">
                 <div className='d-flex justify-content-between w-100'>

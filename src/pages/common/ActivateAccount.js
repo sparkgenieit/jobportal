@@ -25,7 +25,6 @@ export default function ActivateAccount() {
 
 
     return <>
-        {loading && <Loader />}
         {!loading &&
             <div>
                 {message}

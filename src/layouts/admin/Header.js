@@ -1,17 +1,13 @@
 import './Header.css';
 import './assets/css/style.css';
-import Head from './Head';
 import { useNavigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
-import { SidebarContext } from '../../helpers/Context';
+import { useState } from 'react';
+
 
 
 function Heder() {
   const navigate = useNavigate()
   const [fullname, setFullname] = useState(localStorage.getItem('fullname') || '');
-  const { showSidebar, setShowSidebar } = useContext(SidebarContext);
-
-
   const handleLogout = () => {
     localStorage.removeItem('user_id');
     localStorage.removeItem('token'); // Remove token from localStorage
@@ -22,14 +18,11 @@ function Heder() {
   return (
     <>
       <nav class="navbar default-layout-navbar col-lg-12 col-12 pt-2 fixed-top d-flex flex-row">
-        {showSidebar && <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <a lass="navbar-brand" href="/"><img height="100px" width="100px" src="/assets/images/logo-jp.png"
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+          <a href="/"><img style={{ objectFit: "contain" }} src="/assets/images/logo-jp.png"
             alt="logo" /></a>
-        </div>}
+        </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
-          <button class="navbar-toggler navbar-toggler align-self-center" onClick={() => setShowSidebar(!showSidebar)} type="button" data-toggle="minimize">
-            <span class="mdi mdi-menu"></span>
-          </button>
           <div class="search-field d-none d-md-block">
             <form class="d-flex align-items-center h-100" action="#">
               <div class="input-group">
