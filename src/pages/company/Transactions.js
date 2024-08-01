@@ -30,7 +30,6 @@ export default function Transactions() {
         try {
             const res = await http.get(`/orders/get/${userId}?limit=${itemsPerPage}&skip=${skip}&searchTerm=${searchTerm}`)
             setTransactionDetails(res.data.details)
-            console.log(res.data)
             setTotalItems(res.data.total)
             setLoading(false)
 
