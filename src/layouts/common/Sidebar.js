@@ -1,5 +1,6 @@
 import './Sidebar.css';
 
+import { Link } from 'react-router-dom';
 import { CgProfile } from "react-icons/cg";
 import { GoBookmarkFill } from "react-icons/go";
 import { LuServer } from "react-icons/lu";
@@ -7,39 +8,39 @@ import { LuServer } from "react-icons/lu";
 function Sidebar() {
   return (
     <>
-      <nav style={{ marginTop: "70px" }} class="sidebar sidebar-offcanvas" id="sidebar">
-        <ul class="nav">
+      <nav style={{ marginTop: "70px" }} className="sidebar sidebar-offcanvas" id="sidebar">
+        <ul className="nav">
 
-          <li class="nav-item">
-            <a class="nav-link" href="/profile">
+          <li className="nav-item">
+            <Link className="nav-link" to="/viewprofile">
               <div className='d-flex justify-content-between w-100'>
                 <span>My Profile</span>
                 <span>
                   <CgProfile size={"20"} />
                 </span>
               </div>
-            </a>
+            </Link>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="/common/Myappliedjobs">
+          <li className="nav-item">
+            <Link className="nav-link" to="/applied-jobs">
               <div className='d-flex justify-content-between w-100'>
                 <span>Applied Jobs</span>
                 <span>
                   <LuServer size={"20"} />
                 </span>
               </div>
-            </a>
+            </Link>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/common/Savedjobs">
+          <li className="nav-item">
+            <Link className="nav-link" to="/saved-jobs">
               <div className='d-flex justify-content-between w-100'>
                 <span>Saved Jobs</span>
                 <span>
                   <GoBookmarkFill size={"20"} />
                 </span>
               </div>
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>

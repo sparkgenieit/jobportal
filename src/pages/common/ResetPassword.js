@@ -57,44 +57,46 @@ function ResetPassword() {
 
     return (
         <>
+            <div className="container-fluid">
 
-            <div style={{ background: "#f2edf3", height: "80vh" }} class=" p-5 d-flex flex-column align-items-center justify-content-center">
-                <div class="page-header">
-                    <h3 class="page-title"> Reset Password  </h3>
-                    {/* <nav aria-label="breadcrumb">
+                <div style={{ height: "80vh" }} class=" bg-light p-5 d-flex flex-column align-items-center justify-content-center">
+                    <div class="page-header">
+                        <h3 class="page-title"> Reset Password  </h3>
+                        {/* <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#"></a></li>
                                 <li class="breadcrumb-item active" aria-current="page"></li>
-                            </ol>
-                        </nav> */}
-                </div>
-                {message.show && <div className={message.class}>{message.text}</div>
+                                </ol>
+                                </nav> */}
+                    </div>
+                    {message.show && <div className={message.class}>{message.text}</div>
 
-                }
+                    }
 
-                <div class="input-group my-2 row">
-                    <label class="col-sm-4 text-center col-form-label">Password</label>
-                    <div className='col-sm-8'>
-                        <input type="password" value={password} onChange={(e) => { setPassword(e.target.value); setPasswordError("") }} class="form-control" />
+                    <div class="input-group my-2 row">
+                        <label class="col-sm-4 text-center col-form-label">Password</label>
+                        <div className='col-sm-8'>
+                            <input type="password" value={password} onChange={(e) => { setPassword(e.target.value); setPasswordError("") }} class="form-control" />
+
+                        </div>
 
                     </div>
+                    <div class="input-group my-2 row">
+                        <label class="col-sm-4 text-center col-form-label">Confirm Password</label>
+                        <div className='col-sm-8'>
+                            <input type="text" value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value); setPasswordError("") }} class="form-control" />
+                            <div className='text-danger'>{PasswordError}</div>
+                        </div>
 
-                </div>
-                <div class="input-group my-2 row">
-                    <label class="col-sm-4 text-center col-form-label">Confirm Password</label>
-                    <div className='col-sm-8'>
-                        <input type="text" value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value); setPasswordError("") }} class="form-control" />
-                        <div className='text-danger'>{PasswordError}</div>
                     </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12 text-center">
+                            <button type="button" onClick={handleSubmit} class="btn btn-gradient-primary">Submit</button>
+                        </div>
+                    </div>
+                </div>
 
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-12 text-center">
-                        <button type="button" onClick={handleSubmit} class="btn btn-gradient-primary">Submit</button>
-                    </div>
-                </div>
             </div>
-
 
         </>
     );

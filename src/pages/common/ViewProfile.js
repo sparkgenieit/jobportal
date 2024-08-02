@@ -16,11 +16,6 @@ function ViewProfile() {
   const buttonLink = '<button onClick={handlePrint}>Print article</button>'
   const myRefname = useRef < HTMLButtonElement > (null);
   return <>
-    <Header />
-    {/* <main id="main"> */}
-
-    {/* <section class="inner-page" data-aos="fade-up"> */}
-    {/* <div class="container-fluid homeBg"> */}
     <div class="container-fluid page-body-wrapper">
       <Sidebar />
       <div class="container-fluid bg-light">
@@ -29,25 +24,11 @@ function ViewProfile() {
             <h3 className="page-title"> Profile </h3>
             <button onClick={handlePrint} className="btn btn-gradient-primary">Print</button>
           </div>
-
-
           <ViewProfileComponent ref={componentRef} />
         </div>
-        {/* </div> */}
       </div>
-      {/* </div> */}
     </div>
-    {/* </div> */}
-    {/* </section> */}
-
-    {/* </main> */}
-    <Footer />
-
-
   </>
-
-
-
 }
 
 export default ViewProfile;

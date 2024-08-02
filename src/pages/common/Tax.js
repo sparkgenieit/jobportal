@@ -4,17 +4,19 @@ import Ads from "./ads";
 function Tax() {
     return (
         <>
-            <Header />
-            <div className="row">
-                <div className="col-9">
+            <div className="container-fluid">
 
+                <div className="row">
+                    <div className="col-9">
+
+                    </div>
+                    <div className="col-3">
+                        <Ads />
+                    </div>
                 </div>
-                <div className="col-3">
-                    <Ads />
-                </div>
+
+
             </div>
-
-            <Footer />
         </>
     )
 }

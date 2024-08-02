@@ -1,19 +1,11 @@
 import './Home.css';
-
-import Header from '../../layouts/common/Header';
-import Footer from '../../layouts/common/Footer';
 import Sidebar from '../../layouts/common/Sidebar';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import userService from '../../services/common/user.service';
 import ValidInNZBox from '../../components/ValidInNZBox';
 import DescriptionBox from '../../components/DescriptionBox';
-import { isValidDateValue } from '@testing-library/user-event/dist/utils';
-
-
 import { Hourglass } from "react-loader-spinner";
-
-
 
 function UserProfile() {
   const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
@@ -664,11 +656,7 @@ function UserProfile() {
 
 
   return <>
-    <Header />
-    {/* <main id="main"> */}
 
-    {/* <section class="inner-page" data-aos="fade-up"> */}
-    {/* <div class="container-fluid homeBg"> */}
     <div class="container-fluid page-body-wrapper">
       <Sidebar />
 
@@ -1241,18 +1229,15 @@ function UserProfile() {
               </div>
             </div>
           </div>
-          {/* </div> */}
+
         </div>}
-        {/* </div> */}
+
 
       </div>
 
     </div>
-    {/* </div> */}
-    {/* </section> */}
 
-    {/* </main> */}
-    <Footer />
+
     <Hourglass
       visible={loader}
       height="80"

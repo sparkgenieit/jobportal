@@ -77,8 +77,8 @@ function Jobs() {
     }
 
     return <>
-        <div>
-            <Header />
+        <div className="container-fluid">
+
             <div className='row'>
                 <div className='col-5'></div>
                 <div className='col-5 mb-2 ps-5 d-flex justify-content-center align-items-end'>
@@ -121,7 +121,7 @@ function Jobs() {
 
                 </div >
             </div>
-            <Footer />
+
         </div>
     </>
 }

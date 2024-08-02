@@ -1,11 +1,11 @@
 import Header from "../../layouts/common/Header";
 import Footer from "../../layouts/common/Footer";
-function FreedomCampaining(){
+function FreedomCampaining() {
     return (
         <>
-        <Header/>
+            <div className="container-fluid">
 
-        <Footer/>
+            </div>
         </>
     )
 }

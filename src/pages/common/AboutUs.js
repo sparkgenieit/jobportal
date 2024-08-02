@@ -1,11 +1,10 @@
-import Header from "../../layouts/common/Header";
-import Footer from "../../layouts/common/Footer";
+
 import Ads from "./ads";
 function AboutUs() {
     return (
         <>
-            <Header />
-            <div className="row">
+
+            <div className=" container-fluid row">
                 <div className="col-9">
 
                 </div>
@@ -15,7 +14,7 @@ function AboutUs() {
             </div>
 
 
-            <Footer />
+
         </>
     )
 }

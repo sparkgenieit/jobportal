@@ -25,11 +25,16 @@ export default function ActivateAccount() {
 
 
     return <>
-        {!loading &&
-            <div>
-                {message}
-                <a href="/">Go to Home</a>
-            </div>
-        }
+        <div className="container-fluid">
+
+            {!loading &&
+                <div>
+                    {message}
+                    <div>
+                        <a href="/" className="text-decoration-underline text-primary">Go to Home</a>
+                    </div>
+                </div>
+            }
+        </div>
     </>
 }

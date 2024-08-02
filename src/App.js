@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import AOS from 'aos';
 import 'aos/dist/aos.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+// Layouts
+import CompanyLayout from "./layouts/company/CompanyLayout";
+import AdminLayout from "./layouts/admin/AdminLayout";
+import SuperAdminLayout from "./layouts/superadmin/SuperAdminLayout";
+import CommonLayout from "./layouts/common/CommonLayout";
+
 //common
 import Home from './pages/common/Home';
-import UserRegistration from "./pages/common/UserRegistration";
-import UserLogin from "./pages/common/UserLogin";
 import UserProfile from "./pages/common/UserProfile";
 import ViewProfile from "./pages/common/ViewProfile";
 import Aboutwhvisa from "./pages/common/Aboutwhvisa";
@@ -17,13 +20,6 @@ import Usefullinks from "./pages/common/Usefullinks";
 import Places from "./pages/common/Places";
 import AboutUs from "./pages/common/AboutUs";
 import Services from "./pages/common/Services";
-import Termsofservice from "./pages/common/Termsofservice";
-import Privacypolicy from "./pages/common/PrivacyPolicy";
-import WebDesign from "./pages/common/WebDesigns";
-import WebDevelopment from "./pages/common/WebDevelopment";
-import ProductManagement from "./pages/common/ProductManagement";
-import Marketing from "./pages/common/Marketing";
-import GraphicDesign from "./pages/common/GraphicDesign";
 import Tax from "./pages/common/Tax";
 import News from "./pages/common/News";
 import Transport from "./pages/common/Transport";
@@ -35,6 +31,13 @@ import SingleJob from "./pages/common/SingleJob";
 import Terms from "./pages/common/Terms";
 import Privacy from "./pages/common/Privacy";
 import Jobs from "./pages/common/Jobs";
+import Myappliedjobs from "./pages/common/Myappliedjobs";
+import Savedjobs from "./pages/common/Savedjobs";
+import ForgetPassword from "./pages/common/forgetPassword";
+import ResetPassword from "./pages/common/ResetPassword";
+import ActivateAccount from "./pages/common/ActivateAccount";
+import City from "./pages/common/city";
+import ContactUs from "./pages/common/contactUs";
 
 //company
 import CompanyHome from "./pages/company/Home";
@@ -42,13 +45,16 @@ import CompanyProfile from "./pages/company/CompanyProfile";
 import Transactions from "./pages/company/Transactions";
 import Postajob from "./pages/company/jobs/Postajob";
 import JobList from "./pages/company/jobs/JobList";
+import BuyCredits from "./pages/company/jobs/BuyCredits";
+import EditJob from "./pages/company/jobs/EditJob";
+import AppliedUsers from "./pages/company/jobs/AppliedUsers";
+import AppliedUserProfile from "./pages/company/jobs/AppliedUserProfile";
 
 
 //Admin
 
 import Jobqueuelist from "./pages/admin/joblist/Jobqueuelist";
-import Categories1 from "./pages/superadmin/categories/Categories1";
-import Categorieslist1 from "./pages/superadmin/categories/Categorieslist1"
+import SingleJobAdmin from "./pages/admin/joblist/SingleJobAdmin";
 import AdminHome from "./pages/admin/Home";
 import Myasignjobs from "./pages/admin/joblist/Myasignjobs";
 import Login from "./pages/admin/login";
@@ -56,17 +62,14 @@ import Login from "./pages/admin/login";
 //superAdmin
 
 import SuperAdminHome from "./pages/superadmin/Home";
+import Categories1 from "./pages/superadmin/categories/Categories1";
+import Categorieslist1 from "./pages/superadmin/categories/Categorieslist1"
 import Create from "./pages/superadmin/adimin-management/Create";
 import List from "./pages/superadmin/adimin-management/List";
 import AddForms from "./pages/superadmin/adsmanagement/AddForms";
 import Table from "./pages/superadmin/adsmanagement/Table";
-import CreateUser from "./pages/superadmin/user/CreateUser";
 import UserList from "./pages/superadmin/user/UserList";
-
-import Myappliedjobs from "./pages/common/Myappliedjobs";
-import Savedjobs from "./pages/common/Savedjobs";
 import SuperAdminLogin from "./pages/superadmin/login";
-
 import OrdersList from "./pages/superadmin/Order-Management/OrdersList";
 import Addpage from "./pages/superadmin/Pages-Management/AddPages";
 import PagesList from "./pages/superadmin/Pages-Management/PagesList";
@@ -74,25 +77,11 @@ import Skills from "./pages/superadmin/Skills-Management/Skills";
 import Addskills from "./pages/superadmin/Skills-Management/Addskills";
 import EditSkill from "./pages/superadmin/Skills-Management/EditSkill";
 import EditCategory from "./pages/superadmin/categories/EditCategory";
-import EditJob from "./pages/company/jobs/EditJob";
 import JobsListSuperAdmin from "./pages/superadmin/joblist/jobslist";
-import ForgetPassword from "./pages/common/forgetPassword";
-import ResetPassword from "./pages/common/ResetPassword";
-import CheckoutForm from "./pages/billing/CheckoutForm";
 import PaymentStatus from "./pages/billing/PaymentStatus";
-import ActivateAccount from "./pages/common/ActivateAccount";
 import JobSuperAdmin from "./pages/superadmin/joblist/JobSuperadmin";
-import BuyCredits from "./pages/company/jobs/BuyCredits";
-import ContactUs from "./pages/common/contactUs";
-import AppliedUsers from "./pages/company/jobs/AppliedUsers";
-import AppliedUserProfile from "./pages/company/jobs/AppliedUserProfile";
 import Profile from "./pages/superadmin/user/Profile";
 import LocationList from "./pages/superadmin/locations-list/LocationList";
-import SingleJobAdmin from "./pages/admin/joblist/SingleJobAdmin";
-import City from "./pages/common/city";
-import CompanyLayout from "./layouts/company/CompanyLayout";
-import AdminLayout from "./layouts/admin/AdminLayout";
-import SuperAdminLayout from "./layouts/superadmin/SuperAdminLayout";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -102,14 +91,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/aboutus" element={<AboutUs />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/terms-conditions" element={<Terms />} />
-        <Route path="/privacy-policy" element={<Privacy />} />
-        <Route path="/contact-us" element={<ContactUs />} />
-
-
 
         {/* Company Routes */}
         <Route path="/company" element={(token && role == 'employer') ? <CompanyLayout /> : <Navigate to="/" />}>
@@ -157,56 +138,41 @@ function App() {
         </Route>
 
 
+        {/* Common Layout */}
+        <Route path="/" element={<CommonLayout />}>
+          <Route index element={<Home />} />
+          <Route path="aboutus" element={<AboutUs />} />
+          <Route path="services" element={<Services />} />
+          <Route path="terms-conditions" element={<Terms />} />
+          <Route path="privacy-policy" element={<Privacy />} />
+          <Route path="contact-us" element={<ContactUs />} />
+          <Route path="common/Aboutwhvisa" element={<Aboutwhvisa />} />
+          <Route path="common/Banking" element={<Banking />} />
+          <Route path="/common/SingleJob/:id" element={<SingleJob />} />
+          <Route path="/common/Typesofwork" element={<Typesofwork />} />
+          <Route path="/common/Usefullinks" element={<Usefullinks />} />
+          <Route path="/common/Places" element={<Places />} />
+          <Route path="/common/Transport" element={<Transport />} />
+          <Route path="/common/News" element={<News />} />
+          <Route path="/common/Tax" element={<Tax />} />
+          <Route path="/common/Accommodation" element={<Accommodation />} />
+          <Route path="/common/HolidayParks" element={<HolidayParks />} />
+          <Route path="/common/FreedomCampaining" element={<FreedomCampaining />} />
+          <Route path="/common/Activities" element={<Activities />} />
+          <Route path="/common/Jobs" element={<Jobs />} />
+          <Route path="/payment-status" element={token ? <PaymentStatus /> : <Navigate to="/" />} />
+          <Route path="/cities/:city" element={<City />} />
+          <Route path="/forgotPassword" element={<ForgetPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/activate-account" element={<ActivateAccount />} />
 
+          {/* User Protected Routes */}
 
-
-        <Route path="/login" element={!token ? <UserLogin /> : <Navigate to="/" />} />
-        <Route path="/register" element={!token ? <UserRegistration /> : <Navigate to="/" />} />
-        <Route path="/profile" element={(token && role == 'user') ? <UserProfile /> : <Navigate to="/" />} />
-        <Route path="/viewprofile" element={(token && role == 'user') ? <ViewProfile /> : <Navigate to="/" />} />
-
-
-
-        <Route path="/common/Aboutwhvisa" element={(token && role == 'user') ? <Aboutwhvisa /> : <Aboutwhvisa />} />
-        <Route path="/common/Banking" element={(token && role == 'user') ? <Banking /> : <Banking />} />
-        <Route path="/common/Typesofwork" element={(token && role == 'user') ? <Typesofwork /> : <Typesofwork />} />
-        <Route path="/common/Usefullinks" element={(token && role == 'user') ? <Usefullinks /> : <Usefullinks />} />
-        <Route path="/common/Places" element={(token && role == 'user') ? <Places /> : <Places />} />
-        <Route path="/common/Tax" element={(token && role == 'user') ? <Tax /> : <Tax />} />
-        <Route path="/common/News" element={(token && role == 'user') ? <News /> : <News />} />
-        <Route path="/common/Transport" element={(token && role == 'user') ? <Transport /> : <Transport />} />
-        <Route path="/common/Accommodation" element={(token && role == 'user') ? <Accommodation /> : <Accommodation />} />
-        <Route path="/common/HolidayParks" element={(token && role == 'user') ? <HolidayParks /> : <HolidayParks />} />
-        <Route path="/common/FreedomCampaining" element={(token && role == 'user') ? <FreedomCampaining /> : <FreedomCampaining />} />
-        <Route path="/common/Activities" element={(token && role == 'user') ? <Activities /> : <Activities />} />
-        <Route path="/common/Myappliedjobs" element={(token && role == 'user') ? <Myappliedjobs /> : <Navigate to="/" />} />
-        <Route path="/common/Savedjobs" element={(token && role == 'user') ? <Savedjobs /> : <Navigate to="/" />} />
-        <Route path="/common/Jobs" element={(token && role == 'user') ? <Jobs /> : <Jobs />} />
-
-
-
-        <Route path="/common/AboutUs" element={(token && role == 'user') ? <AboutUs /> : <AboutUs />} />
-        <Route path="/common/Services" element={(token && role == 'user') ? <Services /> : <Services />} />
-        <Route path="/common/Termsofservice" element={(token && role == 'user') ? <Termsofservice /> : <Termsofservice />} />
-        <Route path="/common/Privacypolicy" element={(token && role == 'user') ? <Privacypolicy /> : <Privacypolicy />} />
-        <Route path="/common/WebDesign" element={(token && role == 'user') ? <WebDesign /> : <WebDesign />} />
-        <Route path="/common/WebDevelopment" element={(token && role == 'user') ? <WebDevelopment /> : <WebDevelopment />} />
-        <Route path="/common/ProductManagement" element={(token && role == 'user') ? <ProductManagement /> : <ProductManagement />} />
-        <Route path="/common/Marketing" element={(token && role == 'user') ? <Marketing /> : <Marketing />} />
-        <Route path="/common/GraphicDesign" element={(token && role == 'user') ? <GraphicDesign /> : <GraphicDesign />} />
-        <Route path="/checkout-page" element={token ? <CheckoutForm /> : <Navigate to="/" />} />
-        <Route path="/payment-status" element={token ? <PaymentStatus /> : <Navigate to="/" />} />
-        <Route path="/cities/:city" element={<City />} />
-
-        <Route path="/forgotPassword" element={<ForgetPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/activate-account" element={<ActivateAccount />} />
-
-        <Route path="/common/SingleJob/:id" element={(token && role == 'user') ? <SingleJob /> : <SingleJob />} />
-
-
-
-
+          <Route path="profile" element={(token && role == 'user') ? <UserProfile /> : <Navigate to="/" />} />
+          <Route path="viewprofile" element={(token && role == 'user') ? <ViewProfile /> : <Navigate to="/" />} />
+          <Route path="applied-jobs" element={(token && role == 'user') ? <Myappliedjobs /> : <Navigate to="/" />} />
+          <Route path="saved-jobs" element={(token && role == 'user') ? <Savedjobs /> : <Navigate to="/" />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   )

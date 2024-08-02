@@ -154,70 +154,68 @@ function ContactUs() {
   }
   return (
     <>
-      <div className="container-scroller ">
-        <Header />
-        <div class="container-fluid page-body-wrapper">
-          <div class="container-fluid">
-            <div className="container d-flex flex-column justify-content-center">
-              <div className='display-6 text-center'>Contact Us</div>
-              <div className="col-12 bg-white">
-                {/* <div className="card"> */}
-                <div className="card-body p-3">
-                  <form className="form-sample rounded border bg-light p-4 ">
-                    <div className="row">
-                      <div className="form-group d-flex flex-column justify-content-center ">
-                        <input type="text" value={subject} onChange={(e) => handleInput("subject", e)} className="form-control p-3  w-100" placeholder='Subject *' />
-                        {errors && errors.subject.show && <span className="text-danger">{errors.subject.text}</span>}
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="form-group d-flex flex-column justify-content-center ">
-                        <input type="text" value={name} onChange={(e) => handleInput("name", e)} className="form-control p-3  w-100" placeholder='Name *' />
-                        {errors && errors.name.show && <span className="text-danger">{errors.name.text}</span>}
-                      </div>
 
-                    </div>
-                    <div className="row">
-                      <div className="form-group d-flex flex-column justify-content-center ">
-                        <input type="text" value={email} onChange={(e) => handleInput("email", e)} className="form-control p-3  w-100" placeholder='Email *' />
-                        {errors && errors.email.show && <span className="text-danger">{errors.email.text}</span>}
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="form-group d-flex flex-column justify-content-center ">
-                        <input type="text" value={phone} onChange={(e) => handleInput("phone", e)} className="form-control p-3  w-100" placeholder='Phone No. *' />
-                        {errors && errors.phone.show && <span className="text-danger">{errors.phone.text}</span>}
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="form-group d-flex flex-column justify-content-center ">
-                        <input type="text" value={organisation} onChange={(e) => handleInput("organisation", e)} className="form-control  p-3 w-100" placeholder='Organisation *' />
-                        {errors && errors.organisation.show && <span className="text-danger">{errors.organisation.text}</span>}
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="form-group d-flex flex-column justify-content-center ">
-                        <textarea value={message} onChange={(e) => handleInput("message", e)} className="form-control  w-100" rows="5" placeholder='Message *'></textarea>
-                        {errors && errors.message.show && <span className="text-danger">{errors.message.text}</span>}
-                      </div>
-                    </div>
 
-                    <div className="row">
-                      <div className="col-md-12">
-                        <button type="button" onClick={() => { handleSubmit() }} className="btn btn-primary w-100">Send</button>
-                      </div>
-                    </div>
-                  </form>
-                  {errors.sentMessage && <div className='text-success text-center'><i>Thank you for your message, we will contact you shortly</i></div>}
-                  {errors.errorMessage && <div className='text-danger text-center'><i>An error occured while submitting the form, please try again later</i></div>}
+      <div class="container-fluid">
+        <div className="container d-flex flex-column justify-content-center">
+          <div className='display-6 text-center'>Contact Us</div>
+          <div className="col-12 bg-white">
+            {/* <div className="card"> */}
+            <div className="card-body p-3">
+              <form className="form-sample rounded border bg-light p-4 ">
+                <div className="row">
+                  <div className="form-group d-flex flex-column justify-content-center ">
+                    <input type="text" value={subject} onChange={(e) => handleInput("subject", e)} className="form-control p-3  w-100" placeholder='Subject *' />
+                    {errors && errors.subject.show && <span className="text-danger">{errors.subject.text}</span>}
+                  </div>
                 </div>
-              </div>
-              {/* </div> */}
+                <div className="row">
+                  <div className="form-group d-flex flex-column justify-content-center ">
+                    <input type="text" value={name} onChange={(e) => handleInput("name", e)} className="form-control p-3  w-100" placeholder='Name *' />
+                    {errors && errors.name.show && <span className="text-danger">{errors.name.text}</span>}
+                  </div>
+
+                </div>
+                <div className="row">
+                  <div className="form-group d-flex flex-column justify-content-center ">
+                    <input type="text" value={email} onChange={(e) => handleInput("email", e)} className="form-control p-3  w-100" placeholder='Email *' />
+                    {errors && errors.email.show && <span className="text-danger">{errors.email.text}</span>}
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="form-group d-flex flex-column justify-content-center ">
+                    <input type="text" value={phone} onChange={(e) => handleInput("phone", e)} className="form-control p-3  w-100" placeholder='Phone No. *' />
+                    {errors && errors.phone.show && <span className="text-danger">{errors.phone.text}</span>}
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="form-group d-flex flex-column justify-content-center ">
+                    <input type="text" value={organisation} onChange={(e) => handleInput("organisation", e)} className="form-control  p-3 w-100" placeholder='Organisation *' />
+                    {errors && errors.organisation.show && <span className="text-danger">{errors.organisation.text}</span>}
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="form-group d-flex flex-column justify-content-center ">
+                    <textarea value={message} onChange={(e) => handleInput("message", e)} className="form-control  w-100" rows="5" placeholder='Message *'></textarea>
+                    {errors && errors.message.show && <span className="text-danger">{errors.message.text}</span>}
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-md-12">
+                    <button type="button" onClick={() => { handleSubmit() }} className="btn btn-primary w-100">Send</button>
+                  </div>
+                </div>
+              </form>
+              {errors.sentMessage && <div className='text-success text-center'><i>Thank you for your message, we will contact you shortly</i></div>}
+              {errors.errorMessage && <div className='text-danger text-center'><i>An error occured while submitting the form, please try again later</i></div>}
             </div>
           </div>
-        </div >
-        <Footer />
-      </div >
+          {/* </div> */}
+        </div>
+      </div>
+
+
     </>
   );
 }
