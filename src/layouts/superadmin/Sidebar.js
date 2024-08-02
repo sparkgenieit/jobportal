@@ -1,5 +1,6 @@
 import './Sidebar.css';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { FaUserCircle, FaCogs, FaListUl } from "react-icons/fa";
 import { IoDocuments } from "react-icons/io5";
@@ -25,99 +26,99 @@ function Sidebar() {
             </div>
 
             <li class="nav-item">
-              <a class="nav-link" href="/superadmin/Table">
+              <Link class="nav-link" to="/superadmin/Table">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Ads Management</span>
                   <span>
                     <RiAdvertisementFill size={"22"} />
                   </span>
                 </div>
-              </a>
+              </Link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/superadmin/admins/List">
+              <Link class="nav-link" to="/superadmin/admins/List">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Admin Management</span>
                   <span>
                     <RiAdminFill size={"22"} />
                   </span>
                 </div>
-              </a>
+              </Link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/superadmin/orders">
+              <Link class="nav-link" to="/superadmin/orders">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Order Management</span>
                   <span>
                     <BsCardChecklist size={"22"} />
                   </span>
                 </div>
-              </a>
+              </Link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/superadmin/jobs">
+              <Link class="nav-link" to="/superadmin/jobs">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Jobs List</span>
                   <span>
                     <FaListUl size={"20"} />
                   </span>
                 </div>
-              </a>
+              </Link>
             </li>
 
 
             <li class="nav-item">
-              <a class="nav-link" href="/superadmin/Skills">
+              <Link class="nav-link" to="/superadmin/Skills">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Skills Management</span>
                   <span>
                     <FaCogs size={"22"} />
                   </span>
                 </div>
-              </a>
+              </Link>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="/superadmin/Categorieslist1">
+              <Link class="nav-link" to="/superadmin/Categorieslist1">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Category Management</span>
                   <span>
                     <BiSolidCategory size={"22"} />
                   </span>
                 </div>
-              </a>
+              </Link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/superadmin/pages">
+              <Link class="nav-link" to="/superadmin/pages">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Pages Management</span>
                   <span>
                     <IoDocuments size={"22"} />
                   </span>
                 </div>
-              </a>
+              </Link>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="/superadmin/users">
+              <Link class="nav-link" to="/superadmin/users">
                 <div className='d-flex justify-content-between w-100'>
                   <span>User Management</span>
                   <span>
                     <FaUserCircle size={"20"} />
                   </span>
                 </div>
-              </a>
+              </Link>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="/superadmin/locations">
+              <Link class="nav-link" to="/superadmin/locations">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Location List</span>
                   <span>
                     <FaMapLocationDot size={"20"} />
                   </span>
                 </div>
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>

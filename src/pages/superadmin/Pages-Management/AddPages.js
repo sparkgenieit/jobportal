@@ -81,100 +81,93 @@ function Addpage() {
     return (
         <>
 
-            <div className="container-scroller">
 
-                <Header />
-                <div class="container-fluid page-body-wrapper">
-                    <Sidebar />
-                    <div class="container-fluid">
-                        <div className="content-wrapper">
-                            <div className="page-header">
-                                <h3 className="page-title"> Create a Page </h3>
-                                <nav aria-label="breadcrumb">
-                                    <ol className="breadcrumb">
-                                        <li className="breadcrumb-item"><a href="List">Super Admin</a></li>
-                                        <li className="breadcrumb-item active" aria-current="page">Create a Page</li>
-                                    </ol>
-                                </nav>
-                            </div>
+            <div class="container-fluid">
+                <div className="content-wrapper">
+                    <div className="page-header">
+                        <h3 className="page-title"> Create a Page </h3>
+                        <nav aria-label="breadcrumb">
+                            <ol className="breadcrumb">
+                                <li className="breadcrumb-item"><a href="List">Super Admin</a></li>
+                                <li className="breadcrumb-item active" aria-current="page">Create a Page</li>
+                            </ol>
+                        </nav>
+                    </div>
 
 
-                            <div className="row ">
-                                <div className="col-12 bg-white">
-                                    {/* <div className="card"> */}
-                                    <div className="card-body">
-                                        <h4 className="card-title">Create Page </h4>
-                                        <form class="form-sample">
-                                            <div className='row'>
-                                                <div className="col-md-12">
+                    <div className="row ">
+                        <div className="col-12 bg-white">
+                            {/* <div className="card"> */}
+                            <div className="card-body">
+                                <h4 className="card-title">Create Page </h4>
+                                <form class="form-sample">
+                                    <div className='row'>
+                                        <div className="col-md-12">
 
 
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-4 col-form-label">Page Id<span className='text-danger'>*</span></label>
-                                                        <div className="col-sm-8">
+                                            <div className="form-group row">
+                                                <label className="col-sm-4 col-form-label">Page Id<span className='text-danger'>*</span></label>
+                                                <div className="col-sm-8">
 
-                                                            <input type="text" value={pageId} onChange={(e) => handleInput('id', e.target.value)} className="form-control" />
-                                                            {error.pageId && <div className='text-danger'>Not a Proper Page Id</div>}
+                                                    <input type="text" value={pageId} onChange={(e) => handleInput('id', e.target.value)} className="form-control" />
+                                                    {error.pageId && <div className='text-danger'>Not a Proper Page Id</div>}
 
 
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className='row'>
-                                                <div className="col-md-12">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-4 col-form-label">Page Title<span className='text-danger'>*</span></label>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" value={pageTitle} onChange={(e) => handleInput('title', e.target.value)} className="form-control" />
-                                                            {error.pageTitle && <div className='text-danger'>Not a Proper Title</div>}
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className='row'>
-                                                <div className="col-md-12">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-4 col-form-label">Description<span className='text-danger'>*</span></label>
-                                                        <div className="col-sm-8">
-                                                            <EditorProvider>
-                                                                <Editor value={description} onChange={(e) => handleInput('description', e.target.value)} />
-
-                                                            </EditorProvider>
-                                                            {error.description && <div className='text-danger'>Please Write Description</div>}
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className='row'>
-                                                <div className="col-md-12">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-4 col-form-label">Image<span className='text-danger'>*</span></label>
-                                                        <div className="col-sm-8">
-                                                            <input type="file" value={image} onChange={(e) => handleInput('image', e.target.value)} className="form-control" />
-                                                            {error.image && <div className='text-danger'>Please Upload an Image</div>}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="col-md-9 mt-3 row">
-                                                <div className="col-md-12  ">
-                                                    <button type="button" className="btn btn-gradient-primary me-2 float-end" onClick={() => submitData()} >Submit</button>
-                                                </div>
-                                            </div>
-
-                                        </form>
+                                        </div>
                                     </div>
-                                    {/* </div> */}
-                                </div>
+                                    <div className='row'>
+                                        <div className="col-md-12">
+                                            <div className="form-group row">
+                                                <label className="col-sm-4 col-form-label">Page Title<span className='text-danger'>*</span></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" value={pageTitle} onChange={(e) => handleInput('title', e.target.value)} className="form-control" />
+                                                    {error.pageTitle && <div className='text-danger'>Not a Proper Title</div>}
 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='row'>
+                                        <div className="col-md-12">
+                                            <div className="form-group row">
+                                                <label className="col-sm-4 col-form-label">Description<span className='text-danger'>*</span></label>
+                                                <div className="col-sm-8">
+                                                    <EditorProvider>
+                                                        <Editor value={description} onChange={(e) => handleInput('description', e.target.value)} />
 
+                                                    </EditorProvider>
+                                                    {error.description && <div className='text-danger'>Please Write Description</div>}
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className='row'>
+                                        <div className="col-md-12">
+                                            <div className="form-group row">
+                                                <label className="col-sm-4 col-form-label">Image<span className='text-danger'>*</span></label>
+                                                <div className="col-sm-8">
+                                                    <input type="file" value={image} onChange={(e) => handleInput('image', e.target.value)} className="form-control" />
+                                                    {error.image && <div className='text-danger'>Please Upload an Image</div>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-9 mt-3 row">
+                                        <div className="col-md-12  ">
+                                            <button type="button" className="btn btn-gradient-primary me-2 float-end" onClick={() => submitData()} >Submit</button>
+                                        </div>
+                                    </div>
+
+                                </form>
                             </div>
+                            {/* </div> */}
                         </div>
-                        <Footer />
+
+
 
 
                     </div>

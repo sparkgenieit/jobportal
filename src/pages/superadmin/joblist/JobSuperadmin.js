@@ -58,14 +58,12 @@ export default function JobSuperAdmin() {
     }
 
     return <>
-        <div className="container-scrollar">
-            <Header />
-            <div class="container-fluid page-body-wrapper">
-                <Sidebar />
-                {jobview && <AdminJob jobview={jobview} handleApprove={handleApprove} setShow={setShow} />}
-            </div>
-            <Footer />
-        </div >
+        <div className="container-fluid">
+
+            {jobview && <AdminJob jobview={jobview} handleApprove={handleApprove} setShow={setShow} />}
+        </div>
+
+
         {show && <RejectJobMessage handleClose={handleClose} job={jobview} userId={userId} />}
 
     </>

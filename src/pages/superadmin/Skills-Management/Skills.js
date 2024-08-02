@@ -55,82 +55,73 @@ function Skills() {
     return (
         <>
 
-            <div className="container-scroller">
 
-                {/* <Header /> */}
-                <Header />
-                <div class="container-fluid page-body-wrapper">
-                    {/* <Sidebar /> */}
-                    <Sidebar />
+            <div class="container-fluid">
+                <div class="content-wrapper">
+                    <div class="page-header">
+                        <h3 class="page-title">Skills</h3>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Super Admin</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Skills</li>
+                            </ol>
+                        </nav>
+                    </div>
 
-                    <div class="container-fluid">
-                        <div class="content-wrapper">
-                            <div class="page-header">
-                                <h3 class="page-title">Skills</h3>
-                                <nav aria-label="breadcrumb">
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="#">Super Admin</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Skills</li>
-                                    </ol>
-                                </nav>
-                            </div>
-
-                            <div class="row my-5">
+                    <div class="row my-5">
 
 
-                                <div class="card-body bg-white  ">
+                        <div class="card-body bg-white  ">
 
-                                    <div class="col-12">
-                                        {Msg.show && <div className={Msg.class}>
-                                            {Msg.message}
+                            <div class="col-12">
+                                {Msg.show && <div className={Msg.class}>
+                                    {Msg.message}
 
-                                        </div>}
-
-
-                                        <div class="row col-12 ">
-                                            <div className="d-flex justify-content-between">
-                                                <h4 className="card-title pt-2">Skills</h4>
-                                                <a type="button" className="btn btn-gradient-primary" href="/superadmin/AddSkills">Add</a>
-                                            </div>
-
-                                            <table class="table mt-4  text-center">
-                                                <thead>
-                                                    <tr>
-                                                        <th >Skill</th>
-                                                        <th> Skill Domain </th>
-                                                        <th >Photo</th>
-                                                        <th></th>
-                                                        <th></th>
-
-                                                    </tr>
-
-                                                    {skillsList && skillsList.map((skill, index) => {
-                                                        return <tr key={index}>
-                                                            <td>{skill.skill_name}</td>
-                                                            <td>{skill.skill_dmain}</td>
-                                                            <td><img src={`http://localhost:8080/uploads/skillPhoto/${skill.photo}`} /></td>
-                                                            <td><button onClick={() => handleEdit(skill)} type="button" class="btn btn-gradient-primary">Edit</button></td>
-                                                            <td><button onClick={() => handleDelete(skill)} type="button" class="btn btn-gradient-primary">Delete</button></td>
-                                                        </tr>
-                                                    })
-
-                                                    }
+                                </div>}
 
 
-                                                </thead>
-                                            </table>
-
-                                        </div>
-
-
-
+                                <div class="row col-12 ">
+                                    <div className="d-flex justify-content-between">
+                                        <h4 className="card-title pt-2">Skills</h4>
+                                        <a type="button" className="btn btn-gradient-primary" href="/superadmin/AddSkills">Add</a>
                                     </div>
+
+                                    <table class="table mt-4  text-center">
+                                        <thead>
+                                            <tr>
+                                                <th >Skill</th>
+                                                <th> Skill Domain </th>
+                                                <th >Photo</th>
+                                                <th></th>
+                                                <th></th>
+
+                                            </tr>
+
+                                            {skillsList && skillsList.map((skill, index) => {
+                                                return <tr key={index}>
+                                                    <td>{skill.skill_name}</td>
+                                                    <td>{skill.skill_dmain}</td>
+                                                    <td><img src={`http://localhost:8080/uploads/skillPhoto/${skill.photo}`} /></td>
+                                                    <td><button onClick={() => handleEdit(skill)} type="button" class="btn btn-gradient-primary">Edit</button></td>
+                                                    <td><button onClick={() => handleDelete(skill)} type="button" class="btn btn-gradient-primary">Delete</button></td>
+                                                </tr>
+                                            })
+
+                                            }
+
+
+                                        </thead>
+                                    </table>
+
                                 </div>
+
+
+
                             </div>
                         </div>
-                        <Footer />
                     </div>
                 </div>
+
             </div>
         </>
     )

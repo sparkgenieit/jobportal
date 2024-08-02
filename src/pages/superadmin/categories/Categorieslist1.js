@@ -60,83 +60,74 @@ function Categorieslist1() {
 
   return (
     <>
-      <div className="container-scroller">
 
-        {/* <Header /> */}
-        <Header />
-        <div class="container-fluid page-body-wrapper">
-          {/* <Sidebar /> */}
-          <Sidebar />
+      <div class="container-fluid">
+        <div class="content-wrapper">
+          <div class="page-header">
+            <h3 class="page-title">Categories List</h3>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Super Admin</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Categories Table</li>
+              </ol>
+            </nav>
+          </div>
 
-          <div class="container-fluid">
-            <div class="content-wrapper">
-              <div class="page-header">
-                <h3 class="page-title">Categories List</h3>
-                <nav aria-label="breadcrumb">
-                  <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Super Admin</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Categories Table</li>
-                  </ol>
-                </nav>
-              </div>
+          <div class="row my-5">
 
-              <div class="row my-5">
-
-                <div class="col-12">
+            <div class="col-12">
 
 
-                  <div class="card-body bg-white  ">
-                    {Msg.show &&
-                      <div className={Msg.class}>
-                        {Msg.message}
+              <div class="card-body bg-white  ">
+                {Msg.show &&
+                  <div className={Msg.class}>
+                    {Msg.message}
 
-                      </div>}
-
-
-                    <div class="row col-12 ">
-
-                      <div className="d-flex justify-content-between">
-                        <h4 className="card-title pt-2">Categories Table</h4>
-                        <a type="button" className="btn btn-gradient-primary" href="/superadmin/Categories1">Add</a>
-                      </div>
-
-                      <table class="table mt-4  text-center">
-                        <thead>
-                          <tr>
-                            <th >Category Name</th>
-                            <th >Parent Category </th>
-                            <th >Photo</th>
-                            <th></th>
-                            <th></th>
-
-                          </tr>
-
-                          {categoriesList && categoriesList.map((category, index) => {
-                            return <tr key={index}>
-                              <td>{category.name}</td>
-                              <td>{category.parent_id}</td>
-                              <td><img src={`http://localhost:8080/uploads/categoryPhoto/${category.photo}`} /></td>
-                              <td><a type="button" onClick={() => editButton(category._id)} class="btn btn-gradient-primary">Edit</a></td>
-                              <td><button type="button" onClick={() => handleDelete(category)} class="btn btn-gradient-primary">Delete</button></td>
-                            </tr>
-                          })
-
-                          }
+                  </div>}
 
 
-                        </thead>
-                      </table>
+                <div class="row col-12 ">
 
-                    </div>
-
-
+                  <div className="d-flex justify-content-between">
+                    <h4 className="card-title pt-2">Categories Table</h4>
+                    <a type="button" className="btn btn-gradient-primary" href="/superadmin/Categories1">Add</a>
                   </div>
+
+                  <table class="table mt-4  text-center">
+                    <thead>
+                      <tr>
+                        <th >Category Name</th>
+                        <th >Parent Category </th>
+                        <th >Photo</th>
+                        <th></th>
+                        <th></th>
+
+                      </tr>
+
+                      {categoriesList && categoriesList.map((category, index) => {
+                        return <tr key={index}>
+                          <td>{category.name}</td>
+                          <td>{category.parent_id}</td>
+                          <td><img src={`http://localhost:8080/uploads/categoryPhoto/${category.photo}`} /></td>
+                          <td><a type="button" onClick={() => editButton(category._id)} class="btn btn-gradient-primary">Edit</a></td>
+                          <td><button type="button" onClick={() => handleDelete(category)} class="btn btn-gradient-primary">Delete</button></td>
+                        </tr>
+                      })
+
+                      }
+
+
+                    </thead>
+                  </table>
+
                 </div>
+
+
               </div>
             </div>
-            <Footer />
           </div>
         </div>
+
       </div>
 
 

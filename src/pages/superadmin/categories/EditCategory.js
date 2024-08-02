@@ -270,141 +270,133 @@ function EditCategory() {
 
     return (
         <>
-            <div className="container-scroller">
 
-                {/* <Header /> */}
-                <Header />
-                <div class="container-fluid page-body-wrapper">
-                    {/* <Sidebar /> */}
-                    <Sidebar />
 
-                    <div class="container-fluid">
-                        <div class="content-wrapper">
-                            <div class="page-header">
-                                <h3 class="page-title"> Categories </h3>
-                                <nav aria-label="breadcrumb">
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="Categorieslist">Super Admin</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Categories</li>
-                                    </ol>
-                                </nav>
-                            </div>
+            <div class="container-fluid">
+                <div class="content-wrapper">
+                    <div class="page-header">
+                        <h3 class="page-title"> Categories </h3>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="Categorieslist">Super Admin</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Categories</li>
+                            </ol>
+                        </nav>
+                    </div>
 
-                            <div class="row">
-                                <div class="col-12">
+                    <div class="row">
+                        <div class="col-12">
 
-                                    <div class="card-body bg-white ">
+                            <div class="card-body bg-white ">
 
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="card">
-                                                    <h4 class="card-title px-3 py-4" > Edit Category</h4>
-                                                    <div class="card-body py-0">
-                                                        {message.showMsg && <div class={message.msgClass} role="alert">
-                                                            {message.Msg}
-                                                        </div>}
-                                                        <form class="form-sample">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group row">
-                                                                    <label class="col-sm-3 col-form-label">Name<span className="text-danger">*</span></label>
-                                                                    <div class="col-sm-9">
-                                                                        <input type="text" value={categoryName} onChange={(e) => handleInput("name", e)} class="form-control" />
-                                                                        {errors.categoryName && <div className="text-danger">Please Write a Proper Name</div>}
-                                                                    </div>
-                                                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <h4 class="card-title px-3 py-4" > Edit Category</h4>
+                                            <div class="card-body py-0">
+                                                {message.showMsg && <div class={message.msgClass} role="alert">
+                                                    {message.Msg}
+                                                </div>}
+                                                <form class="form-sample">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">Name<span className="text-danger">*</span></label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" value={categoryName} onChange={(e) => handleInput("name", e)} class="form-control" />
+                                                                {errors.categoryName && <div className="text-danger">Please Write a Proper Name</div>}
                                                             </div>
-
-                                                            <div class="col-md-6">
-                                                                <div class="form-group row">
-                                                                    <label class="col-sm-3 col-form-label pt-2">Parent Category<span className="text-danger">*</span></label>
-                                                                    <div class="col-sm-9">
-
-                                                                        <select id="Active" value={parentCategory} onChange={(e) => handleInput("parent", e)} class="form-select">
-                                                                            <option value=""></option>
-                                                                            {parentoption && parentoption.length === 0 && <option value="None">None</option>}
-                                                                            {parentoption && parentoption.map((option, index) => {
-                                                                                return (
-                                                                                    <option key={index} value={option.name}>{option.name}</option>
-                                                                                )
-                                                                            })}
-
-                                                                        </select>
-                                                                        {errors.parentCategory && <div className="text-danger">Please Select the Parent Category</div>}
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-md-6">
-                                                                <div class="form-group row">
-                                                                    <label class="col-sm-3 col-form-label">Description<span className="text-danger">*</span></label>
-                                                                    <div class="col-sm-9">
-                                                                        <input type="text" value={description} onChange={(e) => handleInput("description", e)} class="form-control" />
-                                                                        {errors.description && <div className="text-danger">Please Write the Description</div>}
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-
-                                                            <div class="col-md-6">
-                                                                <div class="form-group row">
-                                                                    <label class="col-sm-3 col-form-label" for="photo "> Photo<span className="text-danger">*</span> </label>
-                                                                    <div class="col-sm-9">
-
-
-
-                                                                        {imagePreview.show && <div className="mb-2"><img src={imagePreview.src} height="150px" width="180px" />
-                                                                        </div>}
-                                                                        {
-                                                                            !isImageUpdated && <button type="button" onClick={() => { setIsImageUpdated(true) }} class="btn btn-gradient-primary ">Change Picture</button>
-
-                                                                        }
-                                                                        {isImageUpdated === true &&
-                                                                            <input type="file" id="photo" onChange={(e) => PreviewImage(e)} class="form-control w-40" />
-                                                                        }
-                                                                        {errors.photo && <div className="text-danger">Please Upload the Photo</div>}
-
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-
-                                                            <div class="col-md-6">
-                                                                <div class="form-group row">
-                                                                    <label class="col-sm-3 col-form-label">Status<span className="text-danger">*</span></label>
-                                                                    <div class="col-sm-9">
-                                                                        <select name="Active" id="Active" value={status} onChange={(e) => handleInput("status", e)} class="form-select  ">
-                                                                            <option value=""></option>
-                                                                            <option value="Allow">Allow</option>
-                                                                            <option value="Not Allow">Not Allow</option>
-                                                                        </select>
-                                                                        {errors.status && <div className="text-danger">Please select the Status</div>}
-
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <button type="button" class="btn btn-gradient-primary" onClick={SubmitButton}>Submit</button>
-                                                                    <button type="button" class="btn btn-light float-end">Cancel</button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
+                                                        </div>
                                                     </div>
-                                                </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label pt-2">Parent Category<span className="text-danger">*</span></label>
+                                                            <div class="col-sm-9">
+
+                                                                <select id="Active" value={parentCategory} onChange={(e) => handleInput("parent", e)} class="form-select">
+                                                                    <option value=""></option>
+                                                                    {parentoption && parentoption.length === 0 && <option value="None">None</option>}
+                                                                    {parentoption && parentoption.map((option, index) => {
+                                                                        return (
+                                                                            <option key={index} value={option.name}>{option.name}</option>
+                                                                        )
+                                                                    })}
+
+                                                                </select>
+                                                                {errors.parentCategory && <div className="text-danger">Please Select the Parent Category</div>}
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">Description<span className="text-danger">*</span></label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" value={description} onChange={(e) => handleInput("description", e)} class="form-control" />
+                                                                {errors.description && <div className="text-danger">Please Write the Description</div>}
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label" for="photo "> Photo<span className="text-danger">*</span> </label>
+                                                            <div class="col-sm-9">
+
+
+
+                                                                {imagePreview.show && <div className="mb-2"><img src={imagePreview.src} height="150px" width="180px" />
+                                                                </div>}
+                                                                {
+                                                                    !isImageUpdated && <button type="button" onClick={() => { setIsImageUpdated(true) }} class="btn btn-gradient-primary ">Change Picture</button>
+
+                                                                }
+                                                                {isImageUpdated === true &&
+                                                                    <input type="file" id="photo" onChange={(e) => PreviewImage(e)} class="form-control w-40" />
+                                                                }
+                                                                {errors.photo && <div className="text-danger">Please Upload the Photo</div>}
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">Status<span className="text-danger">*</span></label>
+                                                            <div class="col-sm-9">
+                                                                <select name="Active" id="Active" value={status} onChange={(e) => handleInput("status", e)} class="form-select  ">
+                                                                    <option value=""></option>
+                                                                    <option value="Allow">Allow</option>
+                                                                    <option value="Not Allow">Not Allow</option>
+                                                                </select>
+                                                                {errors.status && <div className="text-danger">Please select the Status</div>}
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <button type="button" class="btn btn-gradient-primary" onClick={SubmitButton}>Submit</button>
+                                                            <button type="button" class="btn btn-light float-end">Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <Footer />
                     </div>
                 </div>
+
             </div>
 
         </>)

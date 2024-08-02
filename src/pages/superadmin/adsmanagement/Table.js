@@ -62,94 +62,88 @@ function Table() {
     return (
         <>
 
-            {!showEditAd && <div className="container-scroller">
-                <Header />
+            {!showEditAd &&
+                <div class="container-fluid">
+                    <div class="content-wrapper">
+                        <div class="page-header">
+                            <h3 class="page-title">Ads List</h3>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">Ads</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Category</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div className="card-body bg-white my-5">
+                            {Msg.show &&
+                                <div className={Msg.class}>
+                                    {Msg.message}
 
-                <div className="container-fluid page-body-wrapper">
-                    <Sidebar />
-                    <div class="container-fluid">
-                        <div class="content-wrapper">
-                            <div class="page-header">
-                                <h3 class="page-title">Ads List</h3>
-                                <nav aria-label="breadcrumb">
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="#">Ads</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Category</li>
-                                    </ol>
-                                </nav>
-                            </div>
-                            <div className="card-body bg-white my-5">
-                                {Msg.show &&
-                                    <div className={Msg.class}>
-                                        {Msg.message}
+                                </div>}
 
-                                    </div>}
-
-                                <div className="row">
-                                    <div className="pb-4">
-                                        <a type="button" className="btn btn-primary float-end" href="/superadmin/AddForms" style={{ textDecoration: "none", color: "white" }}>Add</a>
-                                    </div>
-                                    <div className="col-12">
+                            <div className="row">
+                                <div className="pb-4">
+                                    <a type="button" className="btn btn-primary float-end" href="/superadmin/AddForms" style={{ textDecoration: "none", color: "white" }}>Add</a>
+                                </div>
+                                <div className="col-12">
 
 
 
 
 
 
-                                        <table className="table col-12">
-                                            <thead>
-                                                <tr>
+                                    <table className="table col-12">
+                                        <thead>
+                                            <tr>
 
-                                                    <th>Ad Title</th>
+                                                <th>Ad Title</th>
 
-                                                    <th>Pages</th>
-                                                    <th>Position</th>
-                                                    <th>Size</th>
-                                                    <th>Price</th>
-                                                    <th>Number of Clicks</th>
-                                                    <th colSpan="2"></th>
+                                                <th>Pages</th>
+                                                <th>Position</th>
+                                                <th>Size</th>
+                                                <th>Price</th>
+                                                <th>Number of Clicks</th>
+                                                <th colSpan="2"></th>
 
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {adsList && adsList.map((ads, index) => {
-                                                    return (
-                                                        <tr>
-                                                            <td>{ads.title}</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {adsList && adsList.map((ads, index) => {
+                                                return (
+                                                    <tr>
+                                                        <td>{ads.title}</td>
 
-                                                            <td>{ads.pages}</td>
-                                                            <td>{ads.position}</td>
-                                                            <td>{ads.size}</td>
-                                                            <td>{ads.price}</td>
-                                                            <td>{ads.noOfClicks}</td>
+                                                        <td>{ads.pages}</td>
+                                                        <td>{ads.position}</td>
+                                                        <td>{ads.size}</td>
+                                                        <td>{ads.price}</td>
+                                                        <td>{ads.noOfClicks}</td>
 
-                                                            <td className="text-center"><a type="button" href="#" class="btn btn-gradient-primary" onClick={() => edit(ads)}>Edit</a></td>
-                                                            <td className="text-center"><button type="button" class="btn btn-gradient-primary" onClick={() => handleDelete(ads)}>Delete</button></td>
-
-
-                                                        </tr>)
+                                                        <td className="text-center"><a type="button" href="#" class="btn btn-gradient-primary" onClick={() => edit(ads)}>Edit</a></td>
+                                                        <td className="text-center"><button type="button" class="btn btn-gradient-primary" onClick={() => handleDelete(ads)}>Delete</button></td>
 
 
-
-                                                })}
-                                            </tbody>
+                                                    </tr>)
 
 
 
+                                            })}
+                                        </tbody>
 
-                                        </table>
 
-                                    </div>
+
+
+                                    </table>
+
                                 </div>
                             </div>
-
-
-
                         </div>
+
+
+
                     </div>
-                </div>
-                <Footer />
-            </div >}
+
+                </div >}
             {showEditAd && <EditAd ad={adEdit} />}
         </>
     )

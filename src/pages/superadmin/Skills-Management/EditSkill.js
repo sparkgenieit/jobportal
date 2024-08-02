@@ -215,114 +215,105 @@ function EditSkill() {
 
     return (
         <>
-            <div className="container-scroller">
 
-                {/* <Header /> */}
-                <Header />
-                <div class="container-fluid page-body-wrapper">
-                    {/* <Sidebar /> */}
-                    <Sidebar />
+            <div class="container-fluid">
+                <div class="content-wrapper">
+                    <div class="page-header">
+                        <h3 class="page-title"> Skills </h3>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="Categorieslist">Super Admin</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Skills</li>
+                            </ol>
+                        </nav>
+                    </div>
 
-                    <div class="container-fluid">
-                        <div class="content-wrapper">
-                            <div class="page-header">
-                                <h3 class="page-title"> Skills </h3>
-                                <nav aria-label="breadcrumb">
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="Categorieslist">Super Admin</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Skills</li>
-                                    </ol>
-                                </nav>
-                            </div>
+                    <div class="row">
+                        <div class="col-12">
 
-                            <div class="row">
-                                <div class="col-12">
+                            <div class="card-body bg-white ">
 
-                                    <div class="card-body bg-white ">
-
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="card">
-                                                    <h4 class="card-title px-3 py-4">Edit Skill</h4>
-                                                    <div class="card-body py-0">
-                                                        {showMsg && <div class={msgClass} role="alert">
-                                                            {message}
-                                                        </div>}
-                                                        <form class="form-sample">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group row">
-                                                                    <label class="col-sm-3 col-form-label">Skill Name<span className="text-danger">*</span></label>
-                                                                    <div class="col-sm-9">
-                                                                        <input type="text" value={skillname} onChange={(e) => handleInput("name", e)} class="form-control" />
-                                                                        {error.skillname && <div className="text-danger">Please type the Skill Name</div>}
-                                                                    </div>
-                                                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <h4 class="card-title px-3 py-4">Edit Skill</h4>
+                                            <div class="card-body py-0">
+                                                {showMsg && <div class={msgClass} role="alert">
+                                                    {message}
+                                                </div>}
+                                                <form class="form-sample">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">Skill Name<span className="text-danger">*</span></label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" value={skillname} onChange={(e) => handleInput("name", e)} class="form-control" />
+                                                                {error.skillname && <div className="text-danger">Please type the Skill Name</div>}
                                                             </div>
-
-                                                            <div class="col-md-6">
-                                                                <div class="form-group row">
-                                                                    <label class="col-sm-3 col-form-label">Skill Domain<span className="text-danger">*</span></label>
-                                                                    <div class="col-sm-9">
-                                                                        <input type="text" value={skillDomain} onChange={(e) => handleInput("domain", e)} class="form-control" />
-                                                                        {error.skillDomain && <div className="text-danger">Please type the Skill Domain</div>}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-md-6">
-                                                                <div class="form-group row">
-                                                                    <label class="col-sm-3 col-form-label">Description<span className="text-danger">*</span></label>
-                                                                    <div class="col-sm-9">
-                                                                        <EditorProvider>
-                                                                            <Editor value={description} onChange={(e) => handleInput("description", e)} />
-
-                                                                        </EditorProvider>
-                                                                        {error.description && <div className="text-danger">Please type the Description</div>}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-
-                                                            <div class="col-md-6">
-                                                                <div class="form-group row">
-                                                                    <label class="col-sm-3 col-form-label" for="photo "> Photo<span className="text-danger">*</span> </label>
-                                                                    <div class="col-sm-9">
-
-                                                                        {imagePreview.show && <div className="mb-2"><img src={imagePreview.src} height="150px" width="180px" />
-                                                                        </div>}
-                                                                        {
-                                                                            !isImageUpdated && <button type="button" onClick={() => { setIsImageUpdated(true) }} class="btn btn-gradient-primary ">Change Picture</button>
-
-                                                                        }
-                                                                        {isImageUpdated === true &&
-                                                                            <input type="file" id="photo" onChange={(e) => PreviewImage(e)} class="form-control w-40" />
-                                                                        }
-                                                                        {error.image && <div className="text-danger">Please Upload the Image</div>}
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-
-
-
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <button type="button" onClick={handleSubmit} class="btn btn-gradient-primary ">Save</button>
-                                                                    <button type="button" class="btn btn-light float-end">Cancel</button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
+                                                        </div>
                                                     </div>
-                                                </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">Skill Domain<span className="text-danger">*</span></label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" value={skillDomain} onChange={(e) => handleInput("domain", e)} class="form-control" />
+                                                                {error.skillDomain && <div className="text-danger">Please type the Skill Domain</div>}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">Description<span className="text-danger">*</span></label>
+                                                            <div class="col-sm-9">
+                                                                <EditorProvider>
+                                                                    <Editor value={description} onChange={(e) => handleInput("description", e)} />
+
+                                                                </EditorProvider>
+                                                                {error.description && <div className="text-danger">Please type the Description</div>}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label" for="photo "> Photo<span className="text-danger">*</span> </label>
+                                                            <div class="col-sm-9">
+
+                                                                {imagePreview.show && <div className="mb-2"><img src={imagePreview.src} height="150px" width="180px" />
+                                                                </div>}
+                                                                {
+                                                                    !isImageUpdated && <button type="button" onClick={() => { setIsImageUpdated(true) }} class="btn btn-gradient-primary ">Change Picture</button>
+
+                                                                }
+                                                                {isImageUpdated === true &&
+                                                                    <input type="file" id="photo" onChange={(e) => PreviewImage(e)} class="form-control w-40" />
+                                                                }
+                                                                {error.image && <div className="text-danger">Please Upload the Image</div>}
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <button type="button" onClick={handleSubmit} class="btn btn-gradient-primary ">Save</button>
+                                                            <button type="button" class="btn btn-light float-end">Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <Footer />
                     </div>
+
                 </div>
             </div>
 
