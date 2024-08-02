@@ -346,7 +346,7 @@ function EditJob() {
                             class: "alert alert-success",
                             Msg: "Updated Successfully"
                         })
-                        await getCredits(userId)
+                        await getCredits()
 
                         setTimeout(() => {
                             navigate('/company/JobList', { replace: true });

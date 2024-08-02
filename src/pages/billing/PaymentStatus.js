@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { RotatingLines } from 'react-loader-spinner'
 import { useNavigate, useSearchParams } from "react-router-dom";
 import http from "../../helpers/http";
+import { getCredits } from "../../helpers/functions";
+import Loader from "../../components/Loader";
 
 export default function PaymentStatus() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -14,68 +16,36 @@ export default function PaymentStatus() {
     const success = searchParams.get('success')
 
     useEffect(() => {
+        fetchPaymentStatus();
+    }, [])
+
+    const fetchPaymentStatus = async () => {
         if (session_id && success === "true") {
-            http.get(`/payment/session-complete/${session_id}`)
-                .then((res) => {
-                    if (res.data.status === "complete") {
-                        setAmount(res.data.metadata.total)
-                        setStatus("Payment Completed")
-                        setCredits(res.data.metadata.credits);
-                        setLoading(false)
-                        // if (localStorage.getItem("placedOrder") === "false") {
-                        //     let data = {
-                        //         orderId: session_id,
-                        //         companyId: localStorage.getItem('user_id'),
-                        //         credits: res.data.metadata.credits,
-                        //         planName: res.data.metadata.plan
-                        //     }
-                        //     console.log('Order', data);
-                        //     http.post('/orders/create', data) // To Post the Job
-                        //         .then((response) => {
-                        //             console.log(response);
-                        //             const credits = parseInt(localStorage.getItem('credits'));
-                        //             localStorage.setItem('credits', credits + +res.data.metadata.credits);
-                        //             localStorage.removeItem('placedOrder');
-                        //             setLoading(false)
-                        //         })
-                        //         .catch(err => setLoading(false))
-                        // }
-                    }
-                })
-                .catch((err) => {
+            try {
+                const res = await http.get(`/payment/session-complete/${session_id}`)
+                if (res.data.status === "complete") {
+                    setAmount(res.data.metadata.total)
+                    setStatus("Payment Completed")
+                    setCredits(res.data.metadata.credits);
                     setLoading(false)
-                    setStatus("Unable to verify the payment status")
-                })
+                }
+                await getCredits()
+            } catch (error) {
+                setLoading(false)
+                setStatus("Unable to verify the payment status")
+            }
         }
         if (success === "false") {
             setLoading(false)
             setStatus("Payment was Interrupted")
         }
-
-    }, [])
-
-    const PostJob = async () => {
-        navigate('/company')
-        /* let data = {
-             orderId: "123",
-             companyId: localStorage.getItem('user_id'),
-             credits:credits,
-             planName: localStorage.getItem("Plan")
-         }
-         console.log('Order',data);
-         return http.post('/orders/create', data) // To Post the Job
-             .then(response => {
-                 console.log(response);
-                 localStorage.removeItem("Plan")
-                 localStorage.removeItem("Jobdata")
-                 http.put(`/companies/profile/update/${localStorage.getItem('user_id')}`, {'credits':credits});
-                 navigate('/company/postajob')
- 
-             })
-             .catch(err => console.log(err)) */
     }
 
 
+
+    const PostJob = async () => {
+        navigate('/company')
+    }
     const myStyles = {
         margin: "auto",
         height: "50vh",
@@ -105,17 +75,7 @@ export default function PaymentStatus() {
 
         {loading && <div style={{ height: "90vh" }} className=" d-flex justify-content-center align-items-center gap-3">
 
-            <RotatingLines
-                visible={loading}
-                height="96"
-                width="96"
-                color="grey"
-                strokeWidth="5"
-                animationDuration="0.75"
-                ariaLabel="rotating-lines-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-            />
+            <Loader />
             <div>Please wait, do not refresh the page...</div>
 
         </div>

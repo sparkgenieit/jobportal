@@ -71,7 +71,8 @@ export function getTrueKeys(obj) {
     return truekeys.join(" ")
 }
 
-export async function getCredits(userId) {
+export async function getCredits() {
+    const userId = localStorage.getItem('user_id')
     const { data } = await http.get(`/users/get-credits/${userId}`)
     localStorage.setItem("credits", data.credits)
 }

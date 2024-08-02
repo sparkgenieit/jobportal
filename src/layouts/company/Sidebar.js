@@ -51,7 +51,7 @@ function Sidebar() {
             <span onMouseOver={() => setTooltip({ menu: true })} onMouseLeave={() => setTooltip({ menu: false })} ><RxHamburgerMenu role='button' onClick={() => setShowSidebar(prev => !prev)} fontSize={22} /></span>
             {tooltip.menu && <span style={{ right: '-25px' }} className='position-absolute mt-4 bg-secondary rounded text-white px-1 py-1'>Menu</span>}
           </div>
-          <ul style={{ marginLeft: "15px" }} className="nav  border border-top-0 rounded border-secondary">
+          <ul style={{ marginLeft: "15px" }} className="nav">
 
             {/* <li className="nav-item nav-profile">
               <Link to="#" className="nav-link">
