@@ -61,21 +61,15 @@ function SingleJobAdmin() {
     }
     return (
         <>
-            <div className='container-scrollar'>
-                <Header />
-                <div class="container-fluid page-body-wrapper">
+            <div className="container-fluid">
+                {message.showMsg &&
+                    <div className={message.msgclassName}>
+                        {message.Msg}
+                    </div>
+                }
+                {jobview && <AdminJob jobview={jobview} handleApprove={handleApprove} setShow={setShow} />}
 
-                    <Sidebar />
-                    {message.showMsg &&
-                        <div className={message.msgclassName}>
-                            {message.Msg}
-                        </div>
-                    }
-                    {jobview && <AdminJob jobview={jobview} handleApprove={handleApprove} setShow={setShow} />}
-                </div>
-                <Footer />
-
-            </div >
+            </div>
             {show && <RejectJobMessage handleClose={handleClose} job={jobview} userId={userId} />}
         </>
     );

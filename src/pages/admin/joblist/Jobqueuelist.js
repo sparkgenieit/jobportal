@@ -66,59 +66,53 @@ const Jobqueuelist = () => {
     return (<>
 
 
-        <div className="container-scroller">
 
-            {/* <Header /> */}
-            <Header />
-            <div class="container-fluid page-body-wrapper">
-                {/* <Sidebar /> */}
-                <Sidebar />
 
-                <div class="container-fluid">
-                    <div class="content-wrapper">
-                        <div class="page-header">
-                            <h3 class="page-title"> Job Queue List </h3>
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">Admin</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Job Queue List</li>
-                                </ol>
-                            </nav>
-                        </div>
+        <div class="container-fluid">
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h3 class="page-title"> Job Queue List </h3>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Job Queue List</li>
+                        </ol>
+                    </nav>
+                </div>
 
-                        <div class="row">
-                            <div class="col-12">
-                                {msg && <div class="alert alert-success" role="alert">
-                                    Job Assigned SuccessFully
+                <div class="row">
+                    <div class="col-12">
+                        {msg && <div class="alert alert-success" role="alert">
+                            Job Assigned SuccessFully
 
-                                </div>}
+                        </div>}
 
-                                <div class="card-body  bg-white ">
-                                    <form class="form-sample">
-                                        <div class="col">
+                        <div class="card-body  bg-white ">
+                            <form class="form-sample">
+                                <div class="col">
 
-                                            <table class="table  " >
+                                    <table class="table  " >
 
-                                                <thead>
-                                                    <tr >
-                                                        <th>Job id</th>
-                                                        <th>Job Title</th>
-                                                        <th>Company</th>
-                                                        <th>Creation Date</th>
-                                                        {/* <th>View</th> */}
-                                                        <th>Assign</th>
+                                        <thead>
+                                            <tr >
+                                                <th>Job id</th>
+                                                <th>Job Title</th>
+                                                <th>Company</th>
+                                                <th>Creation Date</th>
+                                                {/* <th>View</th> */}
+                                                <th>Assign</th>
 
-                                                    </tr>
+                                            </tr>
 
-                                                    {table && table.length > 0 &&
-                                                        table.map((job, index) => {
-                                                            return (
-                                                                <tr key={index} className={job.reportReason ? "bg-gradient-danger" : ""}>
-                                                                    <td>{job._id}</td>
-                                                                    <td>{job.jobTitle}</td>
-                                                                    <td>{job.company}</td>
-                                                                    <td>{new Date(job.creationdate).toLocaleDateString('en-GB')}</td>
-                                                                    {/* 
+                                            {table && table.length > 0 &&
+                                                table.map((job, index) => {
+                                                    return (
+                                                        <tr key={index} className={job.reportReason ? "bg-gradient-danger" : ""}>
+                                                            <td>{job._id}</td>
+                                                            <td>{job.jobTitle}</td>
+                                                            <td>{job.company}</td>
+                                                            <td>{new Date(job.creationdate).toLocaleDateString('en-GB')}</td>
+                                                            {/* 
                                                                 <td><button onClick={() => handleJob(job)} type="button" class="btn btn-info btn-xs col-12 ">
 
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -128,35 +122,33 @@ const Jobqueuelist = () => {
 
 
                                                                 </button></td> */}
-                                                                    <td>
+                                                            <td>
 
-                                                                        <button type="button" class="btn  btn-xs btn-success  col-12" onClick={() => handleAssign(job)}>Assign To Me</button>
-                                                                    </td>
-                                                                </tr>
-                                                            )
-                                                        })
-                                                    }
+                                                                <button type="button" class="btn  btn-xs btn-success  col-12" onClick={() => handleAssign(job)}>Assign To Me</button>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                })
+                                            }
 
-                                                </thead>
+                                        </thead>
 
-                                            </table>
-                                        </div>
-
-                                    </form>
-                                    <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={pgNumber} pageNumberToShow={2} />
-
+                                    </table>
                                 </div>
 
-                            </div>
-
+                            </form>
+                            <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={pgNumber} pageNumberToShow={2} />
 
                         </div>
+
                     </div>
+
 
                 </div>
             </div>
-            <Footer />
+
         </div>
+
 
     </>)
 

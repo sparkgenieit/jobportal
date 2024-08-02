@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { MdSpaceDashboard, MdAssignment } from "react-icons/md";
 import { HiMiniQueueList } from "react-icons/hi2";
 import { RxHamburgerMenu } from 'react-icons/rx';
+import { Link } from 'react-router-dom';
 
 function Sidebar() {
   // const { showSidebar } = useContext(SidebarContext)
@@ -18,7 +19,7 @@ function Sidebar() {
           </div>
           <ul class="nav">
             <li class="nav-item nav-profile">
-              <a href="#" class="nav-link">
+              <Link to="#" class="nav-link">
                 <div class="nav-profile-image">
                   <img src="/assets/images/faces/face1.jpg" alt="profile" />
                   <span class="login-status online"></span>
@@ -28,46 +29,46 @@ function Sidebar() {
                   <span class="text-secondary text-small">Admin</span>
                 </div>
                 <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
-              </a>
+              </Link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/admin">
+              <Link class="nav-link" to="/admin">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Dashboard</span>
                   <span>
                     <MdSpaceDashboard size={"20"} />
                   </span>
                 </div>
-              </a>
+              </Link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/admin/jobqueuelist">
+              <Link class="nav-link" to="/admin/jobqueuelist">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Jobs Queue List</span>
                   <span>
                     <HiMiniQueueList size={"20"} />
                   </span>
                 </div>
-              </a>
+              </Link>
             </li>
 
 
             <li class="nav-item">
-              <a class="nav-link" href="/admin/myasignjobs">
+              <Link class="nav-link" to="/admin/myasignjobs">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Assigned Jobs</span>
                   <span>
                     <MdAssignment size={"20"} />
                   </span>
                 </div>
-              </a>
+              </Link>
             </li>
 
             {/* <li class="nav-item">
-              <a class="nav-link" href="jobs.html">
+              <Link class="nav-link" to="jobs.html">
                 <span class="menu-title">Posted Jobs</span>
                 <i class="mdi mdi-contacts menu-icon"></i>
-              </a>
+              </Link>
             </li> */}
           </ul>
         </nav>
