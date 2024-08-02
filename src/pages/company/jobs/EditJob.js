@@ -576,410 +576,406 @@ function EditJob() {
     return (
         <>
 
-            <div className="container-scroller">
 
-                <Header />
-                <div className="container-fluid page-body-wrapper">
-                    <Sidebar />
-                    <div className="container-fluid ">
-                        <div className="content-wrapper">
-                            <div className="page-header">
-                                <h3 className="page-title"> Edit Job </h3>
-                                <nav aria-label="breadcrumb">
-                                    <ol className="breadcrumb">
-                                        <li className="breadcrumb-item"><a href="#">Employer</a></li>
-                                        <li className="breadcrumb-item active" aria-current="page">Edit Job </li>
-                                    </ol>
-                                </nav>
-                            </div>
+            <div className="container-fluid ">
+                <div className="content-wrapper">
+                    <div className="page-header">
+                        <h3 className="page-title"> Edit Job </h3>
+                        <nav aria-label="breadcrumb">
+                            <ol className="breadcrumb">
+                                <li className="breadcrumb-item"><a href="#">Employer</a></li>
+                                <li className="breadcrumb-item active" aria-current="page">Edit Job </li>
+                            </ol>
+                        </nav>
+                    </div>
 
 
-                            <div className="row">
-                                <div className="col-12">
+                    <div className="row">
+                        <div className="col-12">
 
-                                    <div className="card-body bg-white p-5">
-                                        {message.show && <div className={message.class}>
-                                            {message.Msg}
-                                        </div>}
-                                        <h4 className="card-title">Edit Job </h4>
-
-
-                                        <form className="form-sample">
-
-                                            <div className="row">
-                                                <div className="col-md-6">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-4 col-form-label" >Company <span className='text-danger'>*</span></label>
-                                                        <div className="col-sm-8">
-                                                            <input type="text" className="form-control" value={company} disabled />
-                                                            {errors.companyErrors && <span className='text-danger'>{companyMsg}</span>}
-                                                        </div>
-                                                    </div>
-                                                </div>
+                            <div className="card-body bg-white p-5">
+                                {message.show && <div className={message.class}>
+                                    {message.Msg}
+                                </div>}
+                                <h4 className="card-title">Edit Job </h4>
 
 
-                                                <div className="col-md-6">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label">CloseDate</label>
-                                                        <div className="col-sm-8">
-                                                            <input type="date" className="form-control" value={closeDate} onChange={(event) => handleInput('closeDate', event)} />
+                                <form className="form-sample">
 
-                                                            <div className="bgcol" id="error1"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col-md-6">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-4 col-form-label">CreationDate<span className='text-danger'>*</span></label>
-                                                        <div className="col-sm-8">
-                                                            <input type="text" className="form-control" value={new Date(creationDate).toLocaleDateString('en-GB')} disabled />
-                                                            {errors.creationDateErrors && <span className='text-danger'>Please select date</span>}
-                                                        </div>
-                                                    </div>
-                                                    {error && <div style={{ color: 'red' }}>{error}</div>}
-                                                </div>
-
-                                                <div className="col-md-6">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label">Job Type<span className='text-danger'>*</span></label>
-                                                        <div className="col-sm-3">
-
-                                                            <div class="col-sm-5">
-                                                                <div class="form-check">
-
-                                                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="FullTime" onChange={() => handleCheckboxes('jobtype', "FullTime")} checked={jobType.includes("FullTime")} /> FullTime
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-sm-5">
-                                                                <div class="form-check">
-
-                                                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Casual" onChange={() => handleCheckboxes('jobtype', "Casual")} checked={jobType.includes("Casual")} /> Casual
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-sm-5">
-                                                                <div class="form-check">
-
-                                                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Freelance" onChange={() => handleCheckboxes('jobtype', "Freelance")} checked={jobType.includes("Freelance")} /> Freelance
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-
-                                                        <div className="col-md-6">
-
-                                                            <div class="col-sm-5 mx-3">
-                                                                <div class="form-check">
-
-                                                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="PartTime" onChange={() => handleCheckboxes('jobtype', "PartTime")} checked={jobType.includes("PartTime")} /> PartTime
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-sm-5 mx-3">
-                                                                <div class="form-check">
-
-                                                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Contract" onChange={() => handleCheckboxes('jobtype', "Contract")} checked={jobType.includes("Contract")} /> Contract
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-sm-5 mx-3">
-                                                                <div class="form-check">
-
-                                                                    <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Temporary" onClick={() => handleCheckboxes('jobtype', "Temporary")} checked={jobType.includes("Temporary")} /> Temporary
-                                                                </div>
-                                                            </div>
-
-
-                                                        </div>
-                                                        {errors && errors.jobTypeErrors && <div className='mx-auto col-6 text-danger'>please select one</div>}
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                            <div className='row'>
-                                                <div className="col-md-6">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label">Location<span className='text-danger'>*</span></label>
-                                                        <div className="col-sm-8">
-                                                            <select className="form-select border col-6 " value={location} onChange={(event) => handleInput('location', event)} >
-                                                                <option></option>
-                                                                {CitiesList.map((city, index) => {
-                                                                    return <option key={index} value={city}>{city}</option>
-                                                                })}
-                                                            </select>
-                                                            {errors.locationErrors && <span className='text-danger'>{locationMsg}</span>}
-                                                            <div className="bgcol" id="error1"></div>
-                                                        </div>
-                                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="form-group row">
+                                                <label className="col-sm-4 col-form-label" >Company <span className='text-danger'>*</span></label>
+                                                <div className="col-sm-8">
+                                                    <input type="text" className="form-control" value={company} disabled />
+                                                    {errors.companyErrors && <span className='text-danger'>{companyMsg}</span>}
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            <div className="row">
-                                                <div className="col-md-6">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label">Emp job reference</label>
-                                                        <div className="col-sm-8">
-                                                            <input type="text" className="form-control" id="press6" value={empjobreference} onChange={(event) => handleInput('empjobreference', event)} />
-                                                            <div className="bgcol" id="error6"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
 
-                                                <div className="col-md-6">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label">Number of vacancies<span className='text-danger'>*</span></label>
-                                                        <div className="col-sm-8">
-                                                            <input type="number" className="form-control" value={vacancies} onChange={(event) => handleInput('vacancies', event)} />
-                                                            {errors.vacanciesErrors && <span className='text-danger'>{vacanciesMsg} </span>}
-                                                        </div>
-                                                    </div>
+                                        <div className="col-md-6">
+                                            <div className="form-group row">
+                                                <label className="col-sm-3 col-form-label">CloseDate</label>
+                                                <div className="col-sm-8">
+                                                    <input type="date" className="form-control" value={closeDate} onChange={(event) => handleInput('closeDate', event)} />
+
+                                                    <div className="bgcol" id="error1"></div>
                                                 </div>
                                             </div>
-
-                                            <div className="row">
-                                                <div className="col-md-6">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label"> JobTitle<span className='text-danger'>*</span></label>
-                                                        <div className="col-sm-8">
-                                                            <input type="text" className="form-control" value={jobTitle} onChange={(event) => handleInput('jobtitle', event)} />
-                                                            {errors.jobTitleErrors && <span className='text-danger'>{jobTitleMsg}</span>}
-                                                        </div>
-                                                    </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="form-group row">
+                                                <label className="col-sm-4 col-form-label">CreationDate<span className='text-danger'>*</span></label>
+                                                <div className="col-sm-8">
+                                                    <input type="text" className="form-control" value={new Date(creationDate).toLocaleDateString('en-GB')} disabled />
+                                                    {errors.creationDateErrors && <span className='text-danger'>Please select date</span>}
                                                 </div>
-                                                <div className="col-md-6">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label">RatePerHour</label>
-                                                        <div className="col-sm-8">
-                                                            <input type="text" className="form-control" value={rateperhour} onChange={(event) => handleInput('rateperhour', event)} />
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
                                             </div>
+                                            {error && <div style={{ color: 'red' }}>{error}</div>}
+                                        </div>
 
+                                        <div className="col-md-6">
+                                            <div className="form-group row">
+                                                <label className="col-sm-3 col-form-label">Job Type<span className='text-danger'>*</span></label>
+                                                <div className="col-sm-3">
 
-                                            <div className="row">
-                                                <div className="col-md-6">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label">JobCategory<span className='text-danger'>*</span></label>
-                                                        <div className="col-sm-8">
-                                                            <select value={jobCategory} onChange={(event) => handleInput('jobcategory', event)} className="form-select border col-6 " >
+                                                    <div class="col-sm-5">
+                                                        <div class="form-check">
 
-                                                                {parent && parent.map((p, index) => <option className="fw-bold" value={p} >{p}</option>)}
-                                                            </select>
-                                                            {errors.jobCategoryErrors && <span className='text-danger'>Please select Job Category</span>}
-
-                                                            <div className="bgcol" id="jobCategoryError"></div>
-
+                                                            <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="FullTime" onChange={() => handleCheckboxes('jobtype', "FullTime")} checked={jobType.includes("FullTime")} /> FullTime
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className="col-md-6">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label">Duration<span className='text-danger'>*</span></label>
-                                                        <div className="col-sm-8">
-                                                            <select className="form-select border col-6 " value={duration} onChange={(event) => handleInput('duration', event)} >
-                                                                <option></option>
 
-                                                                <option className="fw-bold" value="1 Month">1 Month</option>
-                                                                <option className="fw-bold" value="2 Months">2 Months</option>
-                                                                <option className="fw-bold" value="3 Months">3 Months</option>
-                                                                <option className="fw-bold" value="4 Months">4 Months</option>
-                                                                <option className="fw-bold" value="5 Months">5 Months</option>
-                                                                <option className="fw-bold" value="6 Months" >6 Months</option>
-                                                                <option className="fw-bold" value="6+ Months">6+ Months</option>
-                                                                <option className="fw-bold" value="Permanent">Permanent</option>
+                                                    <div class="col-sm-5">
+                                                        <div class="form-check">
 
-
-                                                            </select>
-                                                            {errors && errors.duration && <div className='text-danger'>Please select one</div>}
-
-
-                                                            <div className="bgcol" id="jobCategoryError"></div>
-
+                                                            <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Casual" onChange={() => handleCheckboxes('jobtype', "Casual")} checked={jobType.includes("Casual")} /> Casual
                                                         </div>
                                                     </div>
+
+                                                    <div class="col-sm-5">
+                                                        <div class="form-check">
+
+                                                            <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Freelance" onChange={() => handleCheckboxes('jobtype', "Freelance")} checked={jobType.includes("Freelance")} /> Freelance
+                                                        </div>
+                                                    </div>
+
                                                 </div>
 
+                                                <div className="col-md-6">
+
+                                                    <div class="col-sm-5 mx-3">
+                                                        <div class="form-check">
+
+                                                            <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="PartTime" onChange={() => handleCheckboxes('jobtype', "PartTime")} checked={jobType.includes("PartTime")} /> PartTime
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-5 mx-3">
+                                                        <div class="form-check">
+
+                                                            <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Contract" onChange={() => handleCheckboxes('jobtype', "Contract")} checked={jobType.includes("Contract")} /> Contract
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-5 mx-3">
+                                                        <div class="form-check">
+
+                                                            <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Temporary" onClick={() => handleCheckboxes('jobtype', "Temporary")} checked={jobType.includes("Temporary")} /> Temporary
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                                {errors && errors.jobTypeErrors && <div className='mx-auto col-6 text-danger'>please select one</div>}
                                             </div>
-
-                                            <div className="row">
-                                                <div className="col-md-6">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label">Sub-category<span className='text-danger'>*</span></label>
-                                                        <div className="col-sm-8">
+                                        </div>
 
 
-                                                            <select className="form-select border" value={subCategory} onChange={(event) => handleInput('subcategory', event)}>
-
-                                                                <option></option>
-                                                                {categoriesList && categoriesList.map((category, index) => {
-                                                                    if (category.parent_id === jobCategory) {
-                                                                        return <option key={index} value={category.name}>{category.name}</option>
-                                                                    }
-                                                                })
-
-                                                                }
-                                                            </select>
-
-
-                                                            {errors.subCategoryErrors && <span className='text-danger'>Please select Sub Category</span>}
-                                                            <div className="bgcol" id="subCategoryError"></div>
-
-                                                        </div>
-                                                    </div>
+                                    </div>
+                                    <div className='row'>
+                                        <div className="col-md-6">
+                                            <div className="form-group row">
+                                                <label className="col-sm-3 col-form-label">Location<span className='text-danger'>*</span></label>
+                                                <div className="col-sm-8">
+                                                    <select className="form-select border col-6 " value={location} onChange={(event) => handleInput('location', event)} >
+                                                        <option></option>
+                                                        {CitiesList.map((city, index) => {
+                                                            return <option key={index} value={city}>{city}</option>
+                                                        })}
+                                                    </select>
+                                                    {errors.locationErrors && <span className='text-danger'>{locationMsg}</span>}
+                                                    <div className="bgcol" id="error1"></div>
                                                 </div>
-                                                <div className="col-md-6">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label">Weekly work hours</label>
-                                                        <div className="col-sm-8">
-                                                            <input type="number" className="form-control" id="press18" value={weeklyperhour} onChange={(event) => handleInput('weeklyperhour', event)} />
-                                                            <div className="bgcol" id="error18"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
                                             </div>
+                                        </div>
+                                    </div>
 
-                                            <div className="col-md-9">
-                                                <div className="form-group row">
-                                                    <div>
-                                                        <label className="col-sm-1 col-form-label">Benifits</label>
-                                                    </div>
-                                                    <div className=" row ">
-                                                        <div className="col-3">
-                                                            <div className="form-check">
-                                                                <input type="checkbox" className="form-check-input " name="workinghoursRadio"
-                                                                    id="workinghoursRadio1" value="Accomdation" checked={benifits.Accommodation} onChange={() => handleCheckboxes('benefits', "Accommodation")} />Accommodation
-                                                            </div>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="form-group row">
+                                                <label className="col-sm-3 col-form-label">Emp job reference</label>
+                                                <div className="col-sm-8">
+                                                    <input type="text" className="form-control" id="press6" value={empjobreference} onChange={(event) => handleInput('empjobreference', event)} />
+                                                    <div className="bgcol" id="error6"></div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                                        </div>
-                                                        <div className="col-2">
-                                                            <div className="form-check">
-                                                                <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                                                    id="workinghoursRadio1" value="Food" checked={benifits.Food} onChange={() => handleCheckboxes('benefits', "Food")} />Food
-                                                            </div>
+                                        <div className="col-md-6">
+                                            <div className="form-group row">
+                                                <label className="col-sm-3 col-form-label">Number of vacancies<span className='text-danger'>*</span></label>
+                                                <div className="col-sm-8">
+                                                    <input type="number" className="form-control" value={vacancies} onChange={(event) => handleInput('vacancies', event)} />
+                                                    {errors.vacanciesErrors && <span className='text-danger'>{vacanciesMsg} </span>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                                        </div>
-                                                        <div className="col-3">
-                                                            <div className="form-check">
-                                                                <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                                                    id="workinghoursRadio1" value="Transport" checked={benifits.Transport} onChange={() => handleCheckboxes('benefits', "Transport")} />Transport
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-4 ">
-                                                            <div className="form-check">
-                                                                <input type="checkbox" className="form-check-input" name="workinghoursRadio"
-                                                                    id="workinghoursRadio1" value="" checked={benifits.Others} onChange={() => handleCheckboxes('benefits', "Others")} />Others
-                                                                {benifits.Others && <input type='text' value={benifits.OthersText} onChange={(e) => setBenifits({ ...benifits, OthersText: e.target.value })} className='form-control col-5' />}
-
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="form-group row">
+                                                <label className="col-sm-3 col-form-label"> JobTitle<span className='text-danger'>*</span></label>
+                                                <div className="col-sm-8">
+                                                    <input type="text" className="form-control" value={jobTitle} onChange={(event) => handleInput('jobtitle', event)} />
+                                                    {errors.jobTitleErrors && <span className='text-danger'>{jobTitleMsg}</span>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="form-group row">
+                                                <label className="col-sm-3 col-form-label">RatePerHour</label>
+                                                <div className="col-sm-8">
+                                                    <input type="text" className="form-control" value={rateperhour} onChange={(event) => handleInput('rateperhour', event)} />
 
                                                 </div>
                                             </div>
-                                            <div className="row">
-                                                <div className="col-md-9">
-                                                    <div className="form-group row">
-                                                        <div>
-                                                            <label className="col-sm-3 col-form-label">Provide Training<span className='text-danger'>*</span></label>
-                                                        </div>
-
-                                                        <div className=" col-2 form-check mx-3">
-
-                                                            <input type="radio" className="form-check-input" name="workinghoursRadio"
-                                                                id="workinghoursRadio1" value="No" onChange={() => handleCheckboxes('training', "No")} checked={!training.status} />No
-
-                                                        </div>
-                                                        <div className=" col-2 form-check mx-3">
-
-                                                            <input type="radio" className="form-check-input" name="workinghoursRadio"
-                                                                id="workinghoursRadio1" value="Yes" onChange={() => { handleCheckboxes('training', "Yes") }} checked={training.status} />Yes
+                                        </div>
 
 
-                                                        </div>
-                                                        <div className='col-6'>
+                                    </div>
 
-                                                            {training.status && <input type='text' value={training.text} onChange={(e) => setTraining({ ...training, text: e.target.value })} className='form-control col-5' />}
 
-                                                        </div>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="form-group row">
+                                                <label className="col-sm-3 col-form-label">JobCategory<span className='text-danger'>*</span></label>
+                                                <div className="col-sm-8">
+                                                    <select value={jobCategory} onChange={(event) => handleInput('jobcategory', event)} className="form-select border col-6 " >
 
-                                                    </div>
+                                                        {parent && parent.map((p, index) => <option className="fw-bold" value={p} >{p}</option>)}
+                                                    </select>
+                                                    {errors.jobCategoryErrors && <span className='text-danger'>Please select Job Category</span>}
+
+                                                    <div className="bgcol" id="jobCategoryError"></div>
 
                                                 </div>
                                             </div>
-                                            <div className='row'>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="form-group row">
+                                                <label className="col-sm-3 col-form-label">Duration<span className='text-danger'>*</span></label>
+                                                <div className="col-sm-8">
+                                                    <select className="form-select border col-6 " value={duration} onChange={(event) => handleInput('duration', event)} >
+                                                        <option></option>
 
-                                                <div className="form-group row">
-                                                    <div class="mb-3">
-                                                        <label for="description" class="form-label">Description<span className='text-danger'>*</span></label>
-                                                        <div className='border rounded'><MdxEditor value={description} setValue={setDescription} /></div>
+                                                        <option className="fw-bold" value="1 Month">1 Month</option>
+                                                        <option className="fw-bold" value="2 Months">2 Months</option>
+                                                        <option className="fw-bold" value="3 Months">3 Months</option>
+                                                        <option className="fw-bold" value="4 Months">4 Months</option>
+                                                        <option className="fw-bold" value="5 Months">5 Months</option>
+                                                        <option className="fw-bold" value="6 Months" >6 Months</option>
+                                                        <option className="fw-bold" value="6+ Months">6+ Months</option>
+                                                        <option className="fw-bold" value="Permanent">Permanent</option>
 
-                                                        {errors.descriptionErrors && <span className='text-danger'>{descriptionMsg}</span>}
+
+                                                    </select>
+                                                    {errors && errors.duration && <div className='text-danger'>Please select one</div>}
+
+
+                                                    <div className="bgcol" id="jobCategoryError"></div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="form-group row">
+                                                <label className="col-sm-3 col-form-label">Sub-category<span className='text-danger'>*</span></label>
+                                                <div className="col-sm-8">
+
+
+                                                    <select className="form-select border" value={subCategory} onChange={(event) => handleInput('subcategory', event)}>
+
+                                                        <option></option>
+                                                        {categoriesList && categoriesList.map((category, index) => {
+                                                            if (category.parent_id === jobCategory) {
+                                                                return <option key={index} value={category.name}>{category.name}</option>
+                                                            }
+                                                        })
+
+                                                        }
+                                                    </select>
+
+
+                                                    {errors.subCategoryErrors && <span className='text-danger'>Please select Sub Category</span>}
+                                                    <div className="bgcol" id="subCategoryError"></div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="form-group row">
+                                                <label className="col-sm-3 col-form-label">Weekly work hours</label>
+                                                <div className="col-sm-8">
+                                                    <input type="number" className="form-control" id="press18" value={weeklyperhour} onChange={(event) => handleInput('weeklyperhour', event)} />
+                                                    <div className="bgcol" id="error18"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div className="col-md-9">
+                                        <div className="form-group row">
+                                            <div>
+                                                <label className="col-sm-1 col-form-label">Benifits</label>
+                                            </div>
+                                            <div className=" row ">
+                                                <div className="col-3">
+                                                    <div className="form-check">
+                                                        <input type="checkbox" className="form-check-input " name="workinghoursRadio"
+                                                            id="workinghoursRadio1" value="Accomdation" checked={benifits.Accommodation} onChange={() => handleCheckboxes('benefits', "Accommodation")} />Accommodation
+                                                    </div>
+
+                                                </div>
+                                                <div className="col-2">
+                                                    <div className="form-check">
+                                                        <input type="checkbox" className="form-check-input" name="workinghoursRadio"
+                                                            id="workinghoursRadio1" value="Food" checked={benifits.Food} onChange={() => handleCheckboxes('benefits', "Food")} />Food
+                                                    </div>
+
+                                                </div>
+                                                <div className="col-3">
+                                                    <div className="form-check">
+                                                        <input type="checkbox" className="form-check-input" name="workinghoursRadio"
+                                                            id="workinghoursRadio1" value="Transport" checked={benifits.Transport} onChange={() => handleCheckboxes('benefits', "Transport")} />Transport
                                                     </div>
                                                 </div>
+                                                <div className="col-4 ">
+                                                    <div className="form-check">
+                                                        <input type="checkbox" className="form-check-input" name="workinghoursRadio"
+                                                            id="workinghoursRadio1" value="" checked={benifits.Others} onChange={() => handleCheckboxes('benefits', "Others")} />Others
+                                                        {benifits.Others && <input type='text' value={benifits.OthersText} onChange={(e) => setBenifits({ ...benifits, OthersText: e.target.value })} className='form-control col-5' />}
 
-                                            </div>
-
-
-                                            <div className="col-md-12">
-                                                <div className="form-group row">
-
-                                                    <label className="col-sm-3 col-form-label ">Employer questions</label>
-
-                                                    <div>
-                                                        {employerquestions.map((question, index) => (
-                                                            <div className=" mt-3 row" key={index}>
-                                                                <div className='col-10'>
-                                                                    <input className="form-control" value={question.value} onChange={(event) => handleQuestionsInput(index, event)} type="text" placeholder="Questions" />
-                                                                </div>
-                                                                {index === 0 && <button className=' btn bg-secondary col-1' type="button" onClick={handleAddFields}>+</button>}
-                                                                {index !== 0 && <button className=' btn bg-secondary col-1' type="button" onClick={() => handleRemoveFields(index)}>-</button>}
-
-                                                            </div>
-                                                        ))}
                                                     </div>
-
-
 
                                                 </div>
 
                                             </div>
 
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-9">
+                                            <div className="form-group row">
+                                                <div>
+                                                    <label className="col-sm-3 col-form-label">Provide Training<span className='text-danger'>*</span></label>
+                                                </div>
 
-                                            <div class="form-group">
-                                                <div className='col-11 p-3'>
-                                                    <button className="btn btn-primary  float-end" type="button" onClick={() => companyButton()}>
-                                                        Save
-                                                    </button>
+                                                <div className=" col-2 form-check mx-3">
+
+                                                    <input type="radio" className="form-check-input" name="workinghoursRadio"
+                                                        id="workinghoursRadio1" value="No" onChange={() => handleCheckboxes('training', "No")} checked={!training.status} />No
+
+                                                </div>
+                                                <div className=" col-2 form-check mx-3">
+
+                                                    <input type="radio" className="form-check-input" name="workinghoursRadio"
+                                                        id="workinghoursRadio1" value="Yes" onChange={() => { handleCheckboxes('training', "Yes") }} checked={training.status} />Yes
+
+
+                                                </div>
+                                                <div className='col-6'>
+
+                                                    {training.status && <input type='text' value={training.text} onChange={(e) => setTraining({ ...training, text: e.target.value })} className='form-control col-5' />}
+
                                                 </div>
 
                                             </div>
 
+                                        </div>
+                                    </div>
+                                    <div className='row'>
+
+                                        <div className="form-group row">
+                                            <div class="mb-3">
+                                                <label for="description" class="form-label">Description<span className='text-danger'>*</span></label>
+                                                <div className='border rounded'><MdxEditor value={description} setValue={setDescription} /></div>
+
+                                                {errors.descriptionErrors && <span className='text-danger'>{descriptionMsg}</span>}
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div className="col-md-12">
+                                        <div className="form-group row">
+
+                                            <label className="col-sm-3 col-form-label ">Employer questions</label>
+
+                                            <div>
+                                                {employerquestions.map((question, index) => (
+                                                    <div className=" mt-3 row" key={index}>
+                                                        <div className='col-10'>
+                                                            <input className="form-control" value={question.value} onChange={(event) => handleQuestionsInput(index, event)} type="text" placeholder="Questions" />
+                                                        </div>
+                                                        {index === 0 && <button className=' btn bg-secondary col-1' type="button" onClick={handleAddFields}>+</button>}
+                                                        {index !== 0 && <button className=' btn bg-secondary col-1' type="button" onClick={() => handleRemoveFields(index)}>-</button>}
+
+                                                    </div>
+                                                ))}
+                                            </div>
 
 
 
-                                        </form>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <div className='col-11 p-3'>
+                                            <button className="btn btn-primary  float-end" type="button" onClick={() => companyButton()}>
+                                                Save
+                                            </button>
+                                        </div>
 
                                     </div>
 
 
 
-                                    <Footer />
 
-                                </div>
+                                </form>
+
                             </div>
+
+
+
+
+
                         </div>
                     </div>
-                </div >
-            </div >
+                </div>
+            </div>
+
+
 
         </>
     )

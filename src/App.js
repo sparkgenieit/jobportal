@@ -90,6 +90,7 @@ import Profile from "./pages/superadmin/user/Profile";
 import LocationList from "./pages/superadmin/locations-list/LocationList";
 import SingleJobAdmin from "./pages/admin/joblist/SingleJobAdmin";
 import City from "./pages/common/city";
+import CompanyLayout from "./layouts/company/CompanyLayout";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -106,19 +107,26 @@ function App() {
         <Route path="/privacy-policy" element={<Privacy />} />
         <Route path="/contact-us" element={<ContactUs />} />
 
+
+
+        {/* Company Routes */}
+        <Route path="/company" element={(token && role == 'employer') ? <CompanyLayout /> : <Navigate to="/" />}>
+          <Route index element={(token && role == 'employer') ? <CompanyHome /> : <Navigate to="/" />} />
+          <Route path="CompanyProfile" element={(token && role == 'employer') ? <CompanyProfile /> : <Navigate to="/" />} />
+          <Route path="postajob" element={(token && role == 'employer') ? <Postajob /> : <Navigate to="/" />} />
+          <Route path="editjob/:id" element={(token && role == 'employer') ? <EditJob /> : <Navigate to="/" />} />
+          <Route path="JobList" element={(token && role == 'employer') ? <JobList /> : <Navigate to="/" />} />
+          <Route path="transactions" element={(token && role == 'employer') ? <Transactions /> : <Navigate to="/" />} />
+          <Route path="applied-users/:id" element={(token && role == 'employer') ? <AppliedUsers /> : <Navigate to="/" />} />
+          <Route path="applied-user-profile/:userId" element={(token && role == 'employer') ? <AppliedUserProfile /> : <Navigate to="/" />} />
+          <Route path="BuyCredits" element={(token && role == 'employer') ? <BuyCredits /> : <Navigate to="/" />} />
+        </Route>
+
         <Route path="/login" element={!token ? <UserLogin /> : <Navigate to="/" />} />
         <Route path="/register" element={!token ? <UserRegistration /> : <Navigate to="/" />} />
         <Route path="/profile" element={(token && role == 'user') ? <UserProfile /> : <Navigate to="/" />} />
         <Route path="/viewprofile" element={(token && role == 'user') ? <ViewProfile /> : <Navigate to="/" />} />
 
-        <Route path="/company" element={(token && role == 'employer') ? <CompanyHome /> : <Navigate to="/" />} />
-        <Route path="/company/CompanyProfile" element={(token && role == 'employer') ? <CompanyProfile /> : <Navigate to="/" />} />
-        <Route path="/company/editjob/:id" element={(token && role == 'employer') ? <EditJob /> : <Navigate to="/" />} />
-        <Route path="/company/postajob" element={(token && role == 'employer') ? <Postajob /> : <Navigate to="/" />} />
-        <Route path="/company/JobList" element={(token && role == 'employer') ? <JobList /> : <Navigate to="/" />} />
-        <Route path="/company/transactions" element={(token && role == 'employer') ? <Transactions /> : <Navigate to="/" />} />
-        <Route path="/company/applied-users/:id" element={(token && role == 'employer') ? <AppliedUsers /> : <Navigate to="/" />} />
-        <Route path="/company/applied-user-profile/:userId" element={(token && role == 'employer') ? <AppliedUserProfile /> : <Navigate to="/" />} />
 
 
         <Route path="/common/Aboutwhvisa" element={(token && role == 'user') ? <Aboutwhvisa /> : <Aboutwhvisa />} />
@@ -136,7 +144,6 @@ function App() {
         <Route path="/common/Myappliedjobs" element={(token && role == 'user') ? <Myappliedjobs /> : <Navigate to="/" />} />
         <Route path="/common/Savedjobs" element={(token && role == 'user') ? <Savedjobs /> : <Navigate to="/" />} />
         <Route path="/common/Jobs" element={(token && role == 'user') ? <Jobs /> : <Jobs />} />
-        <Route path="/company/BuyCredits" element={(token && role == 'employer') ? <BuyCredits /> : <Navigate to="/" />} />
 
 
 

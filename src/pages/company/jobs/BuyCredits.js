@@ -57,52 +57,46 @@ function BuyCredits() {
     }
     return (
         <>
-            <div className="container-scrollar">
-                <Header />
-                <div class="container-fluid page-body-wrapper">
 
-                    <Sidebar />
-                    <div class="container-fluid">
-                        <div class="content-wrapper">
-                            <div class="page-header">
-                                <h3 class="page-title">Buy Credits</h3>
-                                <nav aria-label="breadcrumb">
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="#">Employer</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Buy Credits</li>
-                                    </ol>
-                                </nav>
-                            </div>
+            <div class="container-fluid">
+                <div class="content-wrapper">
+                    <div class="page-header">
+                        <h3 class="page-title">Buy Credits</h3>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Employer</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Buy Credits</li>
+                            </ol>
+                        </nav>
+                    </div>
 
-                            <div className="row">
-                                {
-                                    plans.map((plan, index) => {
-                                        return <div key={index} className="col-md-4">
-                                            <div className="card shadow">
-                                                <div className="card-header text-center text-white display-6 bg-success p-5">
-                                                    {plan.name}
-                                                </div>
-                                                <div className="card-body d-flex  flex-column justify-content-center">
-                                                    <div className="card bg-dark text-light text-center p-3 h3 opacity-50">${plan.price}</div>
-                                                    <ul className="list-group list-group-flush mt-3">
-                                                        <li className="list-group-item">&#9989; Buy {plan.credits} Credits</li>
-                                                        <li className="list-group-item"> &#10060; Other Text Title</li>
-                                                        <li className="list-group-item"> &#10060; Text Space Goes Here</li>
-                                                        <li className="list-group-item"> &#10060; Description Space </li>
-
-                                                    </ul>
-                                                    <button type="button" className="btn btn-success  mt-5 p-3" onClick={() => choocePlan(plan)}>SELECT PACKAGE</button>
-                                                </div>
-                                            </div>
+                    <div className="row">
+                        {
+                            plans.map((plan, index) => {
+                                return <div key={index} className="col-md-4">
+                                    <div className="card shadow">
+                                        <div className="card-header text-center text-white display-6 bg-success p-5">
+                                            {plan.name}
                                         </div>
-                                    })
-                                }
-                            </div>
-                        </div>
+                                        <div className="card-body d-flex  flex-column justify-content-center">
+                                            <div className="card bg-dark text-light text-center p-3 h3 opacity-50">${plan.price}</div>
+                                            <ul className="list-group list-group-flush mt-3">
+                                                <li className="list-group-item">&#9989; Buy {plan.credits} Credits</li>
+                                                <li className="list-group-item"> &#10060; Other Text Title</li>
+                                                <li className="list-group-item"> &#10060; Text Space Goes Here</li>
+                                                <li className="list-group-item"> &#10060; Description Space </li>
+
+                                            </ul>
+                                            <button type="button" className="btn btn-success  mt-5 p-3" onClick={() => choocePlan(plan)}>SELECT PACKAGE</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            })
+                        }
                     </div>
                 </div>
-                <Footer />
-            </div>
+
+            </div >
 
             <Toaster
                 setMessage={setMessage}
