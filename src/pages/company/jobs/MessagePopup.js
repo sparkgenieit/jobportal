@@ -18,18 +18,17 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob }
         }
     }, [modal])
 
-
     const getExpiryDate = (date) => {
         const expiry = new Date(date)
         expiry.setMonth(expiry.getMonth() + 1)
         return expiry.toLocaleDateString("en-GB")
     }
 
-
-
     return (
         <Modal show={modal.show} onHide={() => setModal({ show: false })} centered>
-            <Modal.Body>
+            <Modal.Body style={{ backgroundColor: "white" }}>
+
+
                 {modal.type === "delete" &&
                     <>
                         <div className="d-flex flex-column align-items-center">
@@ -53,7 +52,6 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob }
                                 <Link to={`/company/editjob/${modal.clickedJob._id}`}>
                                     <button type="button" className="btn btn-info rounded-pill">Ok</button>
                                 </Link>
-                                {/* <button type="button" onClick={() => setModal({ show: false })} className="btn btn-outline-danger rounded-pill">Cancel</button> */}
                             </div>
 
                         </> :
@@ -99,11 +97,48 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob }
                         </div>
                     </div>
                 }
+                {
+                    modal.type === "support" &&
+                    <div className="py-3 px-1">
+                        <h4>Inquiry - Support Request</h4>
+                        <form>
+                            <div className="pt-3 d-flex flex-column justify-content-between gap-3 ">
+                                <div>
+                                    Job Title: {modal.clickedJob.jobTitle}
+                                </div>
+                                <div>
+                                    Job ID : {modal.clickedJob._id}
+                                </div>
 
+                                {modal.clickedJob.employjobreference &&
+                                    <div>
+                                        Job Reference : {modal.clickedJob.employjobreference}
+                                    </div>
+                                }
+
+                                <div className="d-flex gap-3 align-items-center">
+                                    <span>Subject:</span>
+                                    <div className="w-100">
+                                        <input type="text" className=" w-100 rounded border-light-subtle p-2" />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div>Message</div>
+                                    <textarea rows={4} className="w-100 rounded border-dark-1 p-3"></textarea>
+                                </div>
+
+                                <div>
+                                    <button className="w-100 btn btn-success " type="button">
+                                        Submit
+                                    </button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                }
             </Modal.Body>
         </Modal >
-
-
     )
-
 }

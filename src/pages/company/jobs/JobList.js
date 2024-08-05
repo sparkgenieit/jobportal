@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+
 import { MdEmail } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { CiBellOn } from "react-icons/ci";
-import { RotatingLines } from "react-loader-spinner";
+import { GoQuestion } from "react-icons/go";
 
-import Footer from "../../../layouts/company/Footer";
-import Header from "../../../layouts/company/Header";
-import Sidebar from "../../../layouts/company/Sidebar";
 import http from "../../../helpers/http";
 import { itemsPerPage } from "../../../helpers/constants";
 import Pagination from '../../../components/Pagination';
+import Loader from '../../../components/Loader';
 import Toaster from "../../../components/Toaster";
 import MessagePopup from "./MessagePopup";
 
@@ -117,40 +116,25 @@ function Joblist() {
 
     return (
         <>
-
-            <div className="container-fluid mt-2">
+            <div className="container-fluid mt-4">
                 <div className=" bg-white">
-                    <div className="page-header">
-                        <h3 className="page-title">List of Posted Jobs</h3>
+                    <h4 className="text-center ">List of Posted Jobs</h4>
+                    {/* <div className="page-header">
                         <nav aria-label="breadcrumb">
                             <ol className="breadcrumb">
                                 <li className="breadcrumb-item"><a href="#">Employer</a></li>
                                 <li className="breadcrumb-item active" aria-current="page">Posted Jobs</li>
                             </ol>
                         </nav>
-                    </div>
+                    </div> */}
                     <div className="row">
                         <div className="col-12">
                             <Toaster message={message} setMessage={setMessage} />
                             <div className=" px-5 bg-white rounded ">
                                 <input type="text" value={name} onChange={(e) => { setName(e.target.value) }} className="form-control my-3 shadow" placeholder="Search by job title or reference" />
                                 <form className="form-sample">
-                                    {
-                                        loading &&
-                                        <div style={{ height: "60vh" }} className="d-flex w-full justify-content-center align-items-center">
-                                            <RotatingLines
-                                                visible={true}
-                                                height="96"
-                                                width="96"
-                                                color="grey"
-                                                strokeWidth="5"
-                                                animationDuration="0.75"
-                                                ariaLabel="rotating-lines-loading"
-                                                wrapperStyle={{}}
-                                                wrapperclassName=""
-                                            />
-                                        </div>
-                                    }
+                                    {loading && <Loader />}
+
                                     {!loading &&
                                         <div className="col ">
                                             <table className="table text-center " >
@@ -172,7 +156,21 @@ function Joblist() {
                                                 {
                                                     assignJobs?.map((job, index) => {
                                                         return <tr key={index}>
-                                                            <td className="text-start">{job.jobTitle}</td>
+                                                            <td className="text-start">
+                                                                <span
+                                                                    role="button"
+                                                                    onClick={() => {
+                                                                        setModal({
+                                                                            show: true,
+                                                                            type: "support",
+                                                                            clickedJob: job
+                                                                        })
+                                                                    }}
+                                                                >
+                                                                    <GoQuestion fontSize={20} />
+                                                                </span>
+                                                                {job.jobTitle}
+                                                            </td>
                                                             <td className="text-start">{job.employjobreference}</td>
                                                             <td>{new Date(job.creationdate).toLocaleDateString('en-GB')}</td>
                                                             <td className="text-center">

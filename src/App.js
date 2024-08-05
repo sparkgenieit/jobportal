@@ -49,6 +49,7 @@ import BuyCredits from "./pages/company/jobs/BuyCredits";
 import EditJob from "./pages/company/jobs/EditJob";
 import AppliedUsers from "./pages/company/jobs/AppliedUsers";
 import AppliedUserProfile from "./pages/company/jobs/AppliedUserProfile";
+import EmployerContactUs from "./pages/company/Contact-Us";
 
 
 //Admin
@@ -103,6 +104,7 @@ function App() {
           <Route path="applied-users/:id" element={<AppliedUsers />} />
           <Route path="applied-user-profile/:userId" element={<AppliedUserProfile />} />
           <Route path="BuyCredits" element={<BuyCredits />} />
+          <Route path="contact-us" element={<EmployerContactUs />} />
         </Route>
 
 

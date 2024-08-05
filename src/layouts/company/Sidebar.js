@@ -1,12 +1,14 @@
-import { useState } from 'react';
 import './Sidebar.css';
+import { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
+
 import { Modal } from "react-bootstrap";
 import { MdSpaceDashboard } from 'react-icons/md';
 import { BsPostcard, BsPostcardFill, BsCreditCard } from "react-icons/bs";
 import { PiListDashesFill } from "react-icons/pi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { ImProfile } from "react-icons/im";
+import { FaRegMessage } from "react-icons/fa6";
 
 function Sidebar() {
   const [showSidebar, setShowSidebar] = useState(true)
@@ -131,6 +133,17 @@ function Sidebar() {
                   <span>Transactions</span>
                   <span>
                     <PiListDashesFill size={"22"} />
+                  </span>
+                </div>
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/company/contact-us">
+                <div className='d-flex justify-content-between align-items-center w-100'>
+                  <span>Contact Us</span>
+                  <span>
+                    <FaRegMessage size={"20"} />
                   </span>
                 </div>
               </Link>
