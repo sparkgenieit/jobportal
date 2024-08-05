@@ -128,13 +128,13 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
     }
 
     const handleFilter = () => {
-        localStorage.setItem("filter", JSON.stringify(filterFields))
+        sessionStorage.setItem("filter", JSON.stringify(filterFields))
         window.history.replaceState(null, null, '/common/jobs')
         setRefresh(prev => !prev)
     }
 
     const ResetFilter = () => {
-        localStorage.removeItem("filter");
+        sessionStorage.removeItem("filter");
         window.history.replaceState(null, null, '/common/jobs')
         setFilterFields({
             company: "",

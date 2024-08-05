@@ -1,23 +1,29 @@
 import './Card.css';
-import { getTrueKeys, timeAgo } from "../helpers/functions";
-import { BASE_API_URL, BASE_APP_URL } from "../helpers/constants"
-import { useState } from 'react';
+
+import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaBowlFood, FaLocationDot } from "react-icons/fa6";
 import { PiTrainFill } from "react-icons/pi";
 import { FaHome, FaCheckSquare, FaDollarSign, FaRegClock, FaShare } from "react-icons/fa";
 import { BsFillPersonFill } from "react-icons/bs";
-import { CiBookmark } from "react-icons/ci";
-import Toaster from "./Toaster"
-import { marked } from 'marked';
-import parse from 'html-react-parser';
-import LocationPopup from './LocationPopup';
-import { useNavigate } from 'react-router-dom';
+import { CiBookmark, CiViewList } from "react-icons/ci";
+
+import { JobsContext } from '../helpers/Context';
+import { getTrueKeys, timeAgo } from "../helpers/functions";
+import { BASE_API_URL, BASE_APP_URL } from "../helpers/constants"
 
 export default function Card({ job }) {
-    const [tooltip, setTooltip] = useState({})
-    const [message, setMessage] = useState({})
-    const [showLocation, setShowLocation] = useState(false)
     const navigate = useNavigate()
+
+    const { setInfo, message, setMessage, setLocationPopup } = useContext(JobsContext)
+
+    const [tooltip, setTooltip] = useState({})
+
+    const JobsData = JSON.parse(sessionStorage.getItem('JobsData'))
+
+    const count = JobsData.JobsCount.filter(x => x._id === job.companyId)
+
+    const companyInfo = JobsData.companiesWIthInfo.filter(x => x.user_id === job.companyId)
 
 
     const handleShare = (event) => {
@@ -42,7 +48,6 @@ export default function Card({ job }) {
         setTooltip({ [name]: value })
     }
 
-
     const date = new Date(job.creationdate).toLocaleDateString('en-GB')
     const benefits = getTrueKeys(JSON.parse(job.benifits))
     const bn = (JSON.parse(job.benifits))
@@ -50,15 +55,52 @@ export default function Card({ job }) {
         <div style={{ height: "37vh", width: "45vw" }} onClick={() => { navigate(`/common/SingleJob/${job._id}`) }} className='job-card px-3 py-2  row border rounded shadow '>
             <div className='col-9 h-100  position-relative px-1 '>
                 <div className='fw-bold h4' >{job.jobTitle}</div>
-                <div>
-                    <span className='text-decoration-underline text-primary' onMouseOver={() => handleTooltip(true, "company")} onMouseLeave={() => handleTooltip(false, "company")} onClick={(e) => { getJobsbyCompany(e) }}>
-                        {job.company}
-                    </span>
+                <div className='position-relative'>
+                    {count.length > 0 &&
+                        <span
+                            onMouseOver={() => handleTooltip(true, "company")}
+                            onMouseLeave={() => handleTooltip(false, "company")}
+                            onClick={(e) => { getJobsbyCompany(e) }}>
+                            <CiViewList />
+                        </span>}
                     {tooltip.company && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Click to View All Jobs</div>}
+                    {companyInfo.length > 0 ?
+                        <>
+                            <span
+                                className='text-decoration-underline text-primary'
+                                onMouseOver={() => handleTooltip(true, "info")}
+                                onMouseLeave={() => handleTooltip(false, "info")}
+                                onClick={(e) => {
+                                    setInfo({
+                                        show: true,
+                                        info: companyInfo[0].info,
+                                        name: job.company
+                                    });
+                                    e.stopPropagation();
+                                }}
+                            >
+                                {job.company}
+                            </span>
+                            {tooltip.info && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>View company info</div>}
+                        </>
+                        :
+                        <span>
+                            {job.company}
+                        </span>
+                    }
                 </div>
 
                 <div className='mt-2'>
-                    <span onClick={(e) => { setShowLocation(true); e.stopPropagation(); }} className='d-flex'>
+                    <span
+                        onClick={(e) => {
+                            setLocationPopup({
+                                show: true,
+                                city: job.location
+                            });
+                            e.stopPropagation();
+                        }}
+                        className='d-flex'
+                    >
                         <FaLocationDot size="20px" />
                         <span onMouseOver={() => handleTooltip(true, "location")} onMouseLeave={() => handleTooltip(false, "location")} className='text-decoration-underline text-primary'>{job.location}</span>
                     </span>
@@ -154,9 +196,5 @@ export default function Card({ job }) {
                 </div >
             </div >
         </div >
-        <Toaster message={message} setMessage={setMessage} />
-
-        <LocationPopup show={showLocation} handleClose={() => { setShowLocation(false) }} city={job.location} />
-
     </>
 }

@@ -22,7 +22,7 @@ export default function Transactions() {
 
     useEffect(() => {
         fetchTransactionDetails()
-    }, [])
+    }, [pgNumber])
 
     const fetchTransactionDetails = async () => {
         setLoading(true)
@@ -43,7 +43,6 @@ export default function Transactions() {
     const itemsToShow = (pageNumber) => {
         setPgNumber(pageNumber)
         navigate(`/company/transactions?page=${pageNumber}`)
-        fetchTransactionDetails()
     }
 
     return (
