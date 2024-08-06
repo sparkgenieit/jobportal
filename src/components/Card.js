@@ -21,9 +21,9 @@ export default function Card({ job }) {
 
     const JobsData = JSON.parse(sessionStorage.getItem('JobsData'))
 
-    const count = JobsData.JobsCount.filter(x => x._id === job.companyId)
+    const count = JobsData?.JobsCount?.filter(x => x._id === job.companyId)
 
-    const companyInfo = JobsData.companiesWIthInfo.filter(x => x.user_id === job.companyId)
+    const companyInfo = JobsData?.companiesWIthInfo?.filter(x => x.user_id === job.companyId)
 
 
     const handleShare = (event) => {
@@ -56,7 +56,7 @@ export default function Card({ job }) {
             <div className='col-9 h-100  position-relative px-1 '>
                 <div className='fw-bold h4' >{job.jobTitle}</div>
                 <div className='position-relative'>
-                    {count.length > 0 &&
+                    {count?.length > 0 &&
                         <span
                             onMouseOver={() => handleTooltip(true, "company")}
                             onMouseLeave={() => handleTooltip(false, "company")}
@@ -64,7 +64,7 @@ export default function Card({ job }) {
                             <CiViewList />
                         </span>}
                     {tooltip.company && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Click to View All Jobs</div>}
-                    {companyInfo.length > 0 ?
+                    {companyInfo?.length > 0 ?
                         <>
                             <span
                                 className='text-decoration-underline text-primary'

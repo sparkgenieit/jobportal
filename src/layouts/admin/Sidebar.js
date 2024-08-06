@@ -1,7 +1,7 @@
 import './Sidebar.css';
 
 import { useState } from 'react';
-import { MdSpaceDashboard, MdAssignment } from "react-icons/md";
+import { MdOutlineContactSupport, MdSpaceDashboard, MdAssignment } from "react-icons/md";
 import { HiMiniQueueList } from "react-icons/hi2";
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { Link } from 'react-router-dom';
@@ -59,6 +59,17 @@ function Sidebar() {
                   <span>Assigned Jobs</span>
                   <span>
                     <MdAssignment size={"20"} />
+                  </span>
+                </div>
+              </Link>
+            </li>
+
+            <li class="nav-item">
+              <Link class="nav-link" to="/admin/queries">
+                <div className='d-flex justify-content-between w-100'>
+                  <span>Queries</span>
+                  <span>
+                    <MdOutlineContactSupport size={"20"} />
                   </span>
                 </div>
               </Link>

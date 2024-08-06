@@ -5,8 +5,15 @@ import http from "../../../helpers/http";
 
 export default function MessagePopup({ modal, setModal, handleDelete, closeJob }) {
     const [message, setMessage] = useState("")
+    const [subject, setSubject] = useState("")
+    const [error, setError] = useState({})
 
     useEffect(() => {
+        if (modal.type === "support") {
+            setSubject("")
+            setMessage("")
+            setError({})
+        }
         if (modal.type === "rejectedMessage") {
             http.get(`/notifications/get-message/${modal.clickedJob._id}`)
                 .then((res => {
@@ -17,6 +24,40 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob }
                 })
         }
     }, [modal])
+
+    const inquiryForm = (setValue, e) => {
+        setValue(e.target.value)
+        e.target.value.trim() === "" ? setError({ ...error, [e.target.name]: true }) : setError({ ...error, [e.target.name]: false })
+    }
+
+
+    const handleSubmitForInquiry = async (e) => {
+        e.preventDefault();
+        let errorObj = { ...error };
+        if (subject.trim() === "") errorObj = ({ ...errorObj, subject: true });
+        if (message.trim() === "") errorObj = ({ ...errorObj, message: true });
+        setError(errorObj);
+
+        if (!errorObj.subject && !errorObj.message) {
+            try {
+                const inquiryData = {
+                    subject,
+                    message,
+                    name: modal.clickedJob.jobTitle,
+                    organisation: modal.clickedJob.company,
+                    jobId: modal.clickedJob._id,
+                    enquirer: "Job-inquiry"
+                }
+                await http.post('/contact/job/query', inquiryData)
+                setError({ status: "Submitted" })
+                setTimeout(() => {
+                    setModal({ show: false })
+                }, 1500);
+            } catch (error) {
+                setError({ status: "Failed" })
+            }
+        }
+    }
 
     const getExpiryDate = (date) => {
         const expiry = new Date(date)
@@ -101,7 +142,7 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob }
                     modal.type === "support" &&
                     <div className="py-3 px-1">
                         <h4>Inquiry - Support Request</h4>
-                        <form>
+                        <form onSubmit={handleSubmitForInquiry}>
                             <div className="pt-3 d-flex flex-column justify-content-between gap-3 ">
                                 <div>
                                     Job Title: {modal.clickedJob.jobTitle}
@@ -119,17 +160,36 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob }
                                 <div className="d-flex gap-3 align-items-center">
                                     <span>Subject:</span>
                                     <div className="w-100">
-                                        <input type="text" className=" w-100 rounded border-light-subtle p-2" />
+                                        <input
+                                            type="text"
+                                            name="subject"
+                                            className={`w-100 rounded  p-2 ${error.subject ? "border-danger" : "border-light-subtle"}`}
+                                            value={subject}
+                                            onChange={(e) => inquiryForm(setSubject, e)}
+                                        />
                                     </div>
                                 </div>
 
                                 <div>
                                     <div>Message</div>
-                                    <textarea rows={4} className="w-100 rounded border-dark-1 p-3"></textarea>
+                                    <textarea
+                                        className={`w-100 rounded  p-2 ${error.message ? "border-danger" : "border-light-subtle"}`}
+                                        rows={4}
+                                        name="message"
+                                        value={message}
+                                        onChange={(e) => inquiryForm(setMessage, e)}
+                                    >
+                                    </textarea>
+                                </div>
+
+                                <div className="text-center">
+                                    {error.status === "Submitted" && <span className="text-success"><em>We will contact you soon regarding your job inquiry.</em></span>}
+                                    {error.status === "Failed" && <span className="text-danger"><em>Failed to submit the inquiry.</em></span>}
                                 </div>
 
                                 <div>
-                                    <button className="w-100 btn btn-success " type="button">
+                                    <button
+                                        className="w-100 btn btn-success " type="submit">
                                         Submit
                                     </button>
                                 </div>

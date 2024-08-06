@@ -141,7 +141,8 @@ function ContactUs() {
         email: email,
         name: name,
         organisation: organisation,
-        phone: phone
+        phone: phone,
+        enquirer: "Visitor"
       }
       http.post('/contact/contact-us', data)
         .then((res) => {

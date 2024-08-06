@@ -83,6 +83,7 @@ import PaymentStatus from "./pages/billing/PaymentStatus";
 import JobSuperAdmin from "./pages/superadmin/joblist/JobSuperadmin";
 import Profile from "./pages/superadmin/user/Profile";
 import LocationList from "./pages/superadmin/locations-list/LocationList";
+import Queries from "./pages/admin/Queries";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -112,6 +113,7 @@ function App() {
         <Route path="/admin" element={(token && role == 'admin') ? <AdminLayout /> : <Login />}>
           <Route index element={<AdminHome />} />
           <Route path="Jobqueuelist" element={<Jobqueuelist />} />
+          <Route path="queries" element={<Queries />} />
           <Route path="Myasignjobs" element={<Myasignjobs />} />
           <Route path="view-job/:id" element={<SingleJobAdmin />} />
         </Route>
