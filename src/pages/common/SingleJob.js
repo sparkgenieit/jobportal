@@ -8,10 +8,12 @@ import Ads from './ads';
 import { Modal } from "react-bootstrap";
 import { BASE_API_URL, BASE_APP_URL } from '../../helpers/constants';
 import { getTrueKeys, getYoutubeVideoId, timeAgo } from '../../helpers/functions';
-import { FaBowlFood, FaDollarSign, FaLocationDot, FaRegClock, FaShare } from 'react-icons/fa6';
-import { PiBookmarkSimpleBold, PiBookmarkSimpleFill, PiTrainFill } from "react-icons/pi";
-import { BsFillPersonFill } from 'react-icons/bs';
-import { FaCheckSquare, FaHome } from 'react-icons/fa';
+import { FaDollarSign, FaRegClock, FaShare } from 'react-icons/fa6';
+import { PiBookmarkSimpleBold, PiBookmarkSimpleFill, PiCarProfileThin } from "react-icons/pi";
+import { MdOutlineLocationOn, MdOutlinePeopleOutline } from "react-icons/md";
+import { FaCheckSquare } from 'react-icons/fa';
+import { GiHotMeal } from "react-icons/gi";
+import { IoHomeOutline } from "react-icons/io5";
 import { FaYoutube } from "react-icons/fa6";
 import { marked } from 'marked';
 import parse from 'html-react-parser';
@@ -209,7 +211,7 @@ function SingleJob() {
                         <div className=' mb-3 mx-4 d-flex justify-content-between '>
                             <div style={{ padding: "0" }} className='d-flex align-items-center'>
                                 {jobview.companyLogo && jobview.companyLogo.length > 0 && <img style={{ width: "9vw", height: "12vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
-                                <div className='col fw-bold h3'>{jobview.company}</div>
+                                <div className='col fw-bold h3' style={{ marginLeft: "30px" }}>{jobview.company}</div>
                             </div>
                             <div>
 
@@ -218,11 +220,11 @@ function SingleJob() {
                                         ref={youtubeRef}
                                         className='rounded no-scrollbar'
                                         width="150px"
-                                        height="80px"
+                                        height="90px"
                                         src={`https://www.youtube.com/embed/${getYoutubeVideoId(jobview.youtubeUrl)}`}
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     />
-                                    <span role='button' onClick={() => { youtubeRef.current.requestFullscreen() }} style={{ right: "40px", top: "5px" }} className='position-absolute'>
+                                    <span role='button' onClick={() => { youtubeRef.current.requestFullscreen() }} style={{ right: "40px", top: "11px" }} className='position-absolute'>
                                         <FaYoutube fontSize={70} fill="#FF3D00" />
                                     </span>
                                 </div>}
@@ -239,7 +241,7 @@ function SingleJob() {
                                     {jobview.jobCategory}/{jobview.subCategory}
                                 </div>
                                 <div role='button' onClick={() => { setShowLocation(true) }}>
-                                    <span className='pe-1 '><FaLocationDot size="20px" /></span>
+                                    <span className='pe-1 '><MdOutlineLocationOn size="20px" /></span>
                                     <span className='text-decoration-underline text-primary'>
                                         {jobview.location}
                                     </span>
@@ -308,7 +310,7 @@ function SingleJob() {
                                 <div>
                                     {jobview.numberofvacancies > 1 && <>
                                         <span onMouseOver={() => handleTooltip(true, "vacancies")} onMouseLeave={(e) => handleTooltip(false, "vacancies")} >
-                                            <span><BsFillPersonFill size="16px" /></span>
+                                            <span><MdOutlinePeopleOutline size="18px" /></span>
                                             <span className='ps-2'>{jobview.numberofvacancies} Vacancies </span>
                                         </span>
 
@@ -331,20 +333,23 @@ function SingleJob() {
                                             <div className='d-flex'>Benefits :
                                                 {getTrueKeys(JSON.parse(jobview.benifits)).includes("Accommodation") &&
                                                     <span onMouseOver={() => handleTooltip(true, "Accommodation")} onMouseLeave={(e) => handleTooltip(false, "Accommodation")} className='px-1'>
-                                                        <FaHome size="18px" />
+                                                        <IoHomeOutline size="18px" />
                                                         {tooltip.Accommodation && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Accommodation</div>}
                                                     </span>
                                                 }
-                                                {getTrueKeys(JSON.parse(jobview.benifits)).includes("Transport") &&
-                                                    <span onMouseOver={() => handleTooltip(true, "transport")} onMouseLeave={(e) => handleTooltip(false, "transport")} className='px-1'>
-                                                        <PiTrainFill size="18px" />
-                                                        {tooltip.transport && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Transport</div>}
-                                                    </span>}
+
                                                 {getTrueKeys(JSON.parse(jobview.benifits)).includes("Food") &&
                                                     <span onMouseOver={() => handleTooltip(true, "food")} onMouseLeave={(e) => handleTooltip(false, "food")} className='px-1'>
-                                                        <FaBowlFood size="18px" />
+                                                        <GiHotMeal size="18px" />
                                                         {tooltip.food && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Food</div>}
                                                     </span>}
+
+                                                {getTrueKeys(JSON.parse(jobview.benifits)).includes("Transport") &&
+                                                    <span onMouseOver={() => handleTooltip(true, "transport")} onMouseLeave={(e) => handleTooltip(false, "transport")} className='px-1'>
+                                                        <PiCarProfileThin size="22px" />
+                                                        {tooltip.transport && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Transport</div>}
+                                                    </span>}
+
                                             </div>
                                             {(JSON.parse(jobview.benifits)).Others && <div>{(JSON.parse(jobview.benifits)).OthersText}</div>}
                                         </div>}

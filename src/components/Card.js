@@ -2,15 +2,18 @@ import './Card.css';
 
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaBowlFood, FaLocationDot } from "react-icons/fa6";
-import { PiTrainFill } from "react-icons/pi";
-import { FaHome, FaCheckSquare, FaDollarSign, FaRegClock, FaShare } from "react-icons/fa";
-import { BsFillPersonFill } from "react-icons/bs";
+
+import { FaCheckSquare, FaDollarSign, FaRegClock, FaShare } from "react-icons/fa";
+
 import { CiBookmark, CiViewList } from "react-icons/ci";
 
 import { JobsContext } from '../helpers/Context';
 import { getTrueKeys, timeAgo } from "../helpers/functions";
 import { BASE_API_URL, BASE_APP_URL } from "../helpers/constants"
+import { MdOutlineLocationOn, MdOutlinePeopleOutline } from 'react-icons/md';
+import { IoHomeOutline } from 'react-icons/io5';
+import { GiHotMeal } from 'react-icons/gi';
+import { PiCarProfileThin } from 'react-icons/pi';
 
 export default function Card({ job }) {
     const navigate = useNavigate()
@@ -91,6 +94,7 @@ export default function Card({ job }) {
                 </div>
 
                 <div className='mt-2'>
+
                     <span
                         onClick={(e) => {
                             setLocationPopup({
@@ -101,7 +105,8 @@ export default function Card({ job }) {
                         }}
                         className='d-flex'
                     >
-                        <FaLocationDot size="20px" />
+                        <MdOutlineLocationOn size="20px" />
+
                         <span onMouseOver={() => handleTooltip(true, "location")} onMouseLeave={() => handleTooltip(false, "location")} className='text-decoration-underline text-primary'>{job.location}</span>
                     </span>
                     {tooltip.location && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Click to View Activities</div>}
@@ -152,7 +157,7 @@ export default function Card({ job }) {
                     <div>
                         {job.numberofvacancies > 1 && <>
                             <span onMouseOver={() => handleTooltip(true, "vacancies")} onMouseLeave={() => handleTooltip(false, "vacancies")} >
-                                <span><BsFillPersonFill size="16px" /></span>
+                                <span><MdOutlinePeopleOutline size="20px" /></span>
                                 <span className='ps-2'>{job.numberofvacancies} </span>
                             </span>
 
@@ -164,7 +169,7 @@ export default function Card({ job }) {
                         {job.training.includes("true") && <span>
                             Training Provided
                             <span className='ps-1'>
-                                <FaCheckSquare size="16px" />
+                                <FaCheckSquare size="18px" />
                             </span>
                         </span>
                         }
@@ -175,20 +180,23 @@ export default function Card({ job }) {
                                 <div className='d-flex'>Benefits:
                                     {benefits.includes("Accommodation") &&
                                         <span onMouseOver={() => handleTooltip(true, "Accommodation")} onMouseLeave={() => handleTooltip(false, "Accommodation")} className='px-1'>
-                                            <FaHome size="18px" />
+                                            <IoHomeOutline size="18px" />
                                             {tooltip.Accommodation && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Accommodation</div>}
                                         </span>
                                     }
-                                    {benefits.includes("Transport") &&
-                                        <span onMouseOver={() => handleTooltip(true, "transport")} onMouseLeave={() => handleTooltip(false, "transport")} className='px-1'>
-                                            <PiTrainFill size="18px" />
-                                            {tooltip.transport && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Transport</div>}
-                                        </span>}
+
                                     {benefits.includes("Food") &&
                                         <span onMouseOver={() => handleTooltip(true, "food")} onMouseLeave={() => handleTooltip(false, "food")} className='px-1'>
-                                            <FaBowlFood size="18px" />
+                                            <GiHotMeal size="18px" />
                                             {tooltip.food && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Food</div>}
                                         </span>}
+
+                                    {benefits.includes("Transport") &&
+                                        <span onMouseOver={() => handleTooltip(true, "transport")} onMouseLeave={() => handleTooltip(false, "transport")} className='px-1'>
+                                            <PiCarProfileThin size="22px" />
+                                            {tooltip.transport && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Transport</div>}
+                                        </span>}
+
                                 </div>
                                 {bn.Others && <div>{bn.OthersText}</div>}
                             </div>}
