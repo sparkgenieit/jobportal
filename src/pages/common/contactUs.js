@@ -3,6 +3,7 @@ import Footer from '../../layouts/common/Footer';
 import Header from '../../layouts/common/Header';
 import './contactUs.css';
 import http from '../../helpers/http';
+import { useNavigate } from 'react-router-dom';
 
 function ContactUs() {
   const [subject, setSubject] = useState("");
@@ -11,6 +12,7 @@ function ContactUs() {
   const [name, setName] = useState("");
   const [organisation, setOrganisation] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate()
 
   const [errors, setErrors] = useState({
     subject: {
@@ -147,6 +149,7 @@ function ContactUs() {
       http.post('/contact/contact-us', data)
         .then((res) => {
           setErrors({ ...errors, sentMessage: true, errorMessage: false })
+          navigate('/')
         })
         .catch(err => {
           setErrors({ ...errors, errorMessage: true, sentMessage: false })
