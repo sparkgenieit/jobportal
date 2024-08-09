@@ -1,33 +1,48 @@
-import { useDebugValue, useEffect, useState } from "react";
-import Header from "../../layouts/common/Header";
+import { useContext, useEffect, useState } from "react";
+import { Modal } from 'react-bootstrap';
 import Sidebar from "../../layouts/common/Sidebar";
-import Footer from "../../layouts/common/Footer";
+
 import http from "../../helpers/http";
 import Card from "../../components/Card";
 import Pagination from "../../components/Pagination";
 import { useSearchParams } from "react-router-dom";
 import { itemsPerPage } from "../../helpers/constants";
 import Ads from "./ads";
+import { JobsContext } from "../../helpers/Context";
+import Loader from "../../components/Loader";
+import Toaster from "../../components/Toaster";
+import LocationPopup from "../../components/LocationPopup";
+import { marked } from "marked";
+import parse from "html-react-parser";
+
 
 function Savedjobs() {
-    const [totalItems, setTotalItems] = useState("")
+    const [totalItems, setTotalItems] = useState(0)
     const [searchParams] = useSearchParams();
-    const [pgNumber, setPgNumber] = useState(searchParams.get("page") || 1)
+    const [loading, setLoading] = useState(false)
+    const [pgNumber, setPgNumber] = useState(+searchParams.get("page") || 1)
     const [savedJobs, setSavedJobs] = useState(null)
     const userId = localStorage.getItem('user_id')
 
-    useEffect(() => {
-        const skip = (pgNumber - 1) * itemsPerPage
-        http.get(`/jobs/savedJobs/${userId}?limit=${itemsPerPage}&skip=${skip}`)
-            .then((response) => {
-                setTotalItems(response.data.total)
-                setSavedJobs(response.data.jobs)
-            })
-    }, [pgNumber])
+    const { setInfo, message, setMessage, setLocationPopup, info, locationPopup } = useContext(JobsContext)
 
-    const itemsToShow = (pageNumber) => {
-        setPgNumber(pageNumber)
-        window.location.href = `/common/Savedjobs?page=${pageNumber}`
+    useEffect(() => {
+        fetchSavedJobs(pgNumber)
+    }, [])
+
+    const fetchSavedJobs = async (page) => {
+        setLoading(true)
+        const skip = (page - 1) * itemsPerPage
+        try {
+            const response = await http.get(`/jobs/savedJobs/${userId}?limit=${itemsPerPage}&skip=${skip}`)
+            setLoading(false)
+            setTotalItems(response.data.total)
+            setSavedJobs(response.data.jobs)
+        } catch (error) {
+            setLoading(false)
+            setTotalItems(0)
+            setSavedJobs([])
+        }
     }
 
     return (
@@ -46,31 +61,48 @@ function Savedjobs() {
                     </div>
                     <div class=" row ">
                         <div className="col-9">
-                            {savedJobs && savedJobs.length > 0 && savedJobs.map((job, index) => {
-                                return <>
-                                    {job.jobId &&
+                            {loading && <Loader />}
+                            {!loading &&
+                                <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} itemsPerPage={itemsPerPage} totalCount={totalItems} pageNumberToShow={2} fetchItems={fetchSavedJobs}>
 
-                                        <div key={index} className="p-2 d-flex flex-column align-items-center">
-                                            <div style={{ width: "45vw" }}>
-                                                <i className="fw-bold">Saved on {job.saved_date}</i> &nbsp;
-                                                {job.jobId.status !== "approved" && <i className="text-secondary small">This job was removed</i>}
-                                            </div>
-                                            {job.jobId.status && <Card job={job.jobId} />}
-                                        </div>
+                                    {savedJobs && savedJobs.length > 0 && savedJobs.map((job, index) => {
+                                        return <>
+                                            {job.jobId &&
+
+                                                <div key={index} className="p-2 d-flex flex-column align-items-center">
+                                                    <div style={{ width: "45vw" }}>
+                                                        <i className="fw-bold">Saved on {job.saved_date}</i> &nbsp;
+                                                        {job.jobId.status !== "approved" && <i className="text-secondary small">This job was removed</i>}
+                                                    </div>
+                                                    {job.jobId.status && <Card job={job.jobId} />}
+                                                </div>
+                                            }
+                                        </>
+
+                                    })
                                     }
-                                </>
-
-                            })
+                                    {savedJobs && savedJobs.length == 0 && <div className="p-3">No Saved Jobs</div>}
+                                </Pagination>
                             }
-                            {savedJobs && savedJobs.length == 0 && <div className="p-3">No Saved Jobs</div>}
                         </div>
                         <section className="col-3">
                             <Ads />
                         </section>
                     </div>
-                    <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={+pgNumber} pageNumberToShow={2} />
                 </div>
             </div>
+
+
+            <Modal size="md" show={info.show} onHide={() => { setInfo({ show: false }) }} centered>
+                <Modal.Body>
+                    <h3>{info.name}</h3>
+                    {info.info && <p>{parse(marked(info.info))}</p>}
+                </Modal.Body>
+            </Modal>
+
+            <Toaster message={message} setMessage={setMessage} />
+            <LocationPopup show={locationPopup.show} handleClose={() => { setLocationPopup({ show: false }) }} city={locationPopup.city} />
+
         </>
     )
 }

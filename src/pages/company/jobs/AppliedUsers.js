@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
-import Footer from "../../../layouts/company/Footer";
-import Header from "../../../layouts/company/Header";
-import Sidebar from "../../../layouts/company/Sidebar";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import http from "../../../helpers/http";
 import Pagination from '../../../components/Pagination';
 import { itemsPerPage } from "../../../helpers/constants";
 import { FaEye, FaRegCircleCheck } from "react-icons/fa6";
+import Loader from "../../../components/Loader";
 
 export default function AppliedUsers() {
   const params = useParams()
-  const [searchParams] = useSearchParams()
-  const [pgNumber, setPgNumber] = useState(searchParams.get("page") || 1)
-  const [totalItems, setTotalItems] = useState("")
+  const [totalItems, setTotalItems] = useState(0)
+  const [searchParams] = useSearchParams();
+  const [loading, setLoading] = useState(false)
+  const [pgNumber, setPgNumber] = useState(+searchParams.get("page") || 1)
   const [appliedUsers, setAppliedUsers] = useState(null)
   const [jobName, setJobName] = useState("")
 
@@ -20,21 +19,24 @@ export default function AppliedUsers() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const skip = (pgNumber - 1) * itemsPerPage
-    http.get(`/companies/applied-users/${params.id}?shortlisted=${isShortListedOnly}&limit=${itemsPerPage}&skip=${skip}`)
-      .then(res => {
-        setJobName(res.data.users[0].jobId.jobTitle)
-        setAppliedUsers(res.data.users)
-        setTotalItems(res.data.total)
-      })
-      .catch(err => {
-        setAppliedUsers([])
-      })
-  }, [pgNumber])
+    fetchAppliedUsers(pgNumber)
+  }, [])
 
-  const itemsToShow = (pageNumber) => {
-    setPgNumber(pageNumber)
-    navigate(`/company/applied-users/${params.id}?page=${pageNumber}`)
+  const fetchAppliedUsers = async (page) => {
+    setLoading(true)
+    const skip = (page - 1) * itemsPerPage
+    try {
+      const res = await http.get(`/companies/applied-users/${params.id}?shortlisted=${isShortListedOnly}&limit=${itemsPerPage}&skip=${skip}`)
+      setLoading(false)
+      setJobName(res.data.users[0].jobId.jobTitle)
+      setAppliedUsers(res.data.users)
+      setTotalItems(res.data.total)
+    } catch (error) {
+      setLoading(false)
+      setJobName("")
+      setAppliedUsers([])
+      setTotalItems(0)
+    }
   }
 
   const goToUserProfile = (userId, jobId) => {
@@ -46,7 +48,6 @@ export default function AppliedUsers() {
   }
 
   return <>
-
     <div class="container-fluid">
       <div class="content-wrapper">
         <div class="page-header">
@@ -63,64 +64,57 @@ export default function AppliedUsers() {
             </ol>
           </nav>
         </div>
-
         <div class="row">
           {/* <div class="col-12">
                 {message.show && <div className={message.class}>
                   {message.text}
                 </div>} */}
-
           <div class="card-body  bg-white ">
-            <div class="col">
-
-              <table class="table text-center">
-                <thead>
-                  <tr >
-                    <th>Applicant Name</th>
-                    <th>Applicant Email</th>
-                    <th>Applied Date</th>
-                    <th className="text-center">View Resume</th>
-                    {appliedUsers && appliedUsers.some((user) => user.shortlisted === true) && <th>Shortlisted</th>}
-                  </tr>
-                </thead>
-                <tbody>
-
-                  {appliedUsers && appliedUsers.length > 0 &&
-                    appliedUsers.map((user, index) => {
-                      return <tr key={index}>
-                        <td>{user.userId.first_name + " " + user.userId.last_name}</td>
-                        <td>{user.userId.email}</td>
-                        <td>{user.applied_date}</td>
-                        <td className="text-center">
-                          <button
-                            type="button"
-                            className="btn btn-outline-dark btn-xs"
-                            onClick={() => goToUserProfile(user.userId._id, user.jobId._id)}
-                          >
-                            <FaEye fontSize={18} />
-                          </button>
-                        </td>
-                        <td >
-                          {user.shortlisted ? <FaRegCircleCheck fill="green" fontSize={20} /> : ""}
-                        </td>
+            <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} itemsPerPage={itemsPerPage} pageNumberToShow={2} totalCount={totalItems} fetchItems={fetchAppliedUsers} >
+              <div class="col">
+                {loading && <Loader />}
+                {
+                  !loading &&
+                  <table class="table text-center">
+                    <thead>
+                      <tr >
+                        <th>Applicant Name</th>
+                        <th>Applicant Email</th>
+                        <th>Applied Date</th>
+                        <th className="text-center">View Resume</th>
+                        {appliedUsers && appliedUsers.some((user) => user.shortlisted === true) && <th>Shortlisted</th>}
                       </tr>
-                    })
-                  }
-                </tbody>
-
-              </table>
-            </div>
-            <Pagination totalCount={totalItems} onPageClick={itemsToShow} currentPage={+pgNumber} pageNumberToShow={2} />
-
+                    </thead>
+                    <tbody>
+                      {appliedUsers && appliedUsers.length > 0 &&
+                        appliedUsers.map((user, index) => {
+                          return <tr key={index}>
+                            <td>{user.userId.first_name + " " + user.userId.last_name}</td>
+                            <td>{user.userId.email}</td>
+                            <td>{user.applied_date}</td>
+                            <td className="text-center">
+                              <button
+                                type="button"
+                                className="btn btn-outline-dark btn-xs"
+                                onClick={() => goToUserProfile(user.userId._id, user.jobId._id)}
+                              >
+                                <FaEye fontSize={18} />
+                              </button>
+                            </td>
+                            <td >
+                              {user.shortlisted ? <FaRegCircleCheck fill="green" fontSize={20} /> : ""}
+                            </td>
+                          </tr>
+                        })
+                      }
+                    </tbody>
+                  </table>
+                }
+              </div>
+            </Pagination>
           </div>
-
         </div>
-
-
       </div>
     </div>
-
-
-
   </>
 }
