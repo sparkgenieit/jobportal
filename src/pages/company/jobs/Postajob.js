@@ -1,6 +1,3 @@
-import Header from '../../../layouts/company/Header';
-import Footer from '../../../layouts/company/Footer';
-import Sidebar from '../../../layouts/company/Sidebar';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import companyService from '../../../services/common/company.service';
@@ -412,7 +409,7 @@ function Postajob() {
 
     }
 
-    if (name == 'jobtype') {
+    if (name == 'jobType') {
       setJobType(event.target.value);
       if (event.target.value == '') {
         setErrors({ ...errors, jobTypeErrors: true })
@@ -631,8 +628,17 @@ function Postajob() {
                     <div className="col-md-6">
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label">Job Type<span className='text-danger'>*</span></label>
-                        <div className="col-sm-3">
-
+                        <div className="col-sm-8">
+                          <select className='form-select' value={jobType} onChange={(event) => { handleInput('jobType', event) }}>
+                            <option value={""}></option>
+                            <option value={"FullTime"}>FullTime</option>
+                            <option value={"PartTime"}>PartTime</option>
+                            <option value={"Freelance"}>Freelance</option>
+                            <option value={"Casual"}>Casual</option>
+                            <option value={"Contract"}>Contract</option>
+                            <option value={"Temporary"}>Temporary</option>
+                          </select>
+                          {/* 
                           <div class="col-sm-5">
                             <div class="form-check">
 
@@ -677,7 +683,7 @@ function Postajob() {
 
                               <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Temporary" onClick={() => handleCheckboxes('jobtype', "Temporary")} checked={jobType.includes("Temporary")} /> Temporary
                             </div>
-                          </div>
+                          </div> */}
 
 
                         </div>

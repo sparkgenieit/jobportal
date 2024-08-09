@@ -1,8 +1,4 @@
-import '@mdxeditor/editor/style.css';
-import Header from '../../../layouts/company/Header';
-import Footer from '../../../layouts/company/Footer';
-import Sidebar from '../../../layouts/company/Sidebar';
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import companyService from '../../../services/common/company.service';
 import http from '../../../helpers/http';
@@ -313,9 +309,6 @@ function EditJob() {
             obj1 = { ...obj1, employer: employer }
             console.log(obj1)
         } else {
-
-
-
             let data = {
                 company: company,
                 closedate: closeDate,
@@ -431,16 +424,14 @@ function EditJob() {
 
         }
 
-        if (name == 'jobtype') {
+        if (name == 'jobType') {
             setJobType(event.target.value);
             if (event.target.value == '') {
                 setErrors({ ...errors, jobTypeErrors: true })
-
             }
             else {
                 setErrors({ ...errors, jobTypeErrors: false })
             }
-
         }
 
         if (name == 'vacancies') {
@@ -638,9 +629,18 @@ function EditJob() {
                                         <div className="col-md-6">
                                             <div className="form-group row">
                                                 <label className="col-sm-3 col-form-label">Job Type<span className='text-danger'>*</span></label>
-                                                <div className="col-sm-3">
+                                                <div className="col-sm-8">
 
-                                                    <div class="col-sm-5">
+                                                    <select className='form-select' value={jobType} onChange={(event) => { handleInput('jobType', event) }}>
+                                                        <option value={""}></option>
+                                                        <option value={"FullTime"}>FullTime</option>
+                                                        <option value={"PartTime"}>PartTime</option>
+                                                        <option value={"Freelance"}>Freelance</option>
+                                                        <option value={"Casual"}>Casual</option>
+                                                        <option value={"Contract"}>Contract</option>
+                                                        <option value={"Temporary"}>Temporary</option>
+                                                    </select>
+                                                    {/* <div class="col-sm-5">
                                                         <div class="form-check">
 
                                                             <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="FullTime" onChange={() => handleCheckboxes('jobtype', "FullTime")} checked={jobType.includes("FullTime")} /> FullTime
@@ -684,7 +684,7 @@ function EditJob() {
 
                                                             <input type="checkbox" class="form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="Temporary" onClick={() => handleCheckboxes('jobtype', "Temporary")} checked={jobType.includes("Temporary")} /> Temporary
                                                         </div>
-                                                    </div>
+                                                    </div> */}
 
 
                                                 </div>
