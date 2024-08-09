@@ -14,7 +14,7 @@ export default function NZMap() {
         // These are the co-ordinates of the Labels on the map
         { id: "Taranaki", shape: "rect", coords: [269, 235, 386, 274] },
         { shape: "rect", id: "Nelson", coords: [260, 335, 360, 370], },
-        { shape: "rect", id: "Manawatu-Whanganaui", coords: [658, 277, 948, 315] },
+        { shape: "rect", id: "Manawatu-Whanganui", coords: [658, 277, 948, 315] },
         { shape: "rect", id: "Auckland", coords: [230, 96, 355, 133] },
         { shape: "rect", id: "Gisborne", coords: [735, 169, 860, 203] },
         { shape: "rect", id: "Hawke's Bay", coords: [721, 227, 890, 260] },

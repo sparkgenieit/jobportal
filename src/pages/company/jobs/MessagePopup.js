@@ -7,6 +7,7 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob }
     const [message, setMessage] = useState("")
     const [subject, setSubject] = useState("")
     const [error, setError] = useState({})
+    const user_id = localStorage.getItem('user_id')
 
     useEffect(() => {
         if (modal.type === "support") {
@@ -46,6 +47,7 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob }
                     name: modal.clickedJob.jobTitle,
                     organisation: modal.clickedJob.company,
                     jobId: modal.clickedJob._id,
+                    companyId: user_id,
                     enquirer: "Job-inquiry"
                 }
                 await http.post('/contact/job/query', inquiryData)

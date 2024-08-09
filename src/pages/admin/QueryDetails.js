@@ -7,7 +7,7 @@ const myStyle = {
     backgroundColor: 'white'
 }
 
-export default function QueryDetails({ modal, setModal, fetchQueries }) {
+export default function QueryDetails({ modal, setModal, fetchQueries, pgNumber }) {
     const [reply, setReply] = useState("")
     const [error, setError] = useState(false)
 
@@ -21,7 +21,7 @@ export default function QueryDetails({ modal, setModal, fetchQueries }) {
             try {
                 const response = await http.patch(`/contact/query/reply/${modal.clickedQuery._id}`, { reply })
                 setModal({ ...modal, status: "posted" })
-                fetchQueries()
+                fetchQueries(pgNumber)
                 setTimeout(() => {
                     setModal({ show: false })
                 }, 1200);
@@ -92,7 +92,7 @@ export default function QueryDetails({ modal, setModal, fetchQueries }) {
                                 {
                                     modal.clickedQuery?.reply ?
                                         <div className='row'>
-                                            <p className='col-3'>Replied:</p>
+                                            <p className='col-3'>Reply:</p>
                                             <p className='col-9'>
                                                 {modal.clickedQuery?.reply}
                                             </p>

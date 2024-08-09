@@ -157,7 +157,7 @@ export default function Queries() {
                     }
                 </div>
             </Pagination>
-            <QueryDetails modal={modal} setModal={setModal} fetchQueries={fetchQueries} />
+            <QueryDetails modal={modal} setModal={setModal} fetchQueries={fetchQueries} pgNumber={currentPage} />
         </div >
     )
 }

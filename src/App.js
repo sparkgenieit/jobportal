@@ -50,6 +50,7 @@ import EditJob from "./pages/company/jobs/EditJob";
 import AppliedUsers from "./pages/company/jobs/AppliedUsers";
 import AppliedUserProfile from "./pages/company/jobs/AppliedUserProfile";
 import EmployerContactUs from "./pages/company/Contact-Us";
+import Inbox from "./pages/company/Inbox";
 
 
 //Admin
@@ -59,6 +60,7 @@ import SingleJobAdmin from "./pages/admin/joblist/SingleJobAdmin";
 import AdminHome from "./pages/admin/Home";
 import Myasignjobs from "./pages/admin/joblist/Myasignjobs";
 import Login from "./pages/admin/login";
+import Queries from "./pages/admin/Queries";
 
 //superAdmin
 
@@ -83,7 +85,7 @@ import PaymentStatus from "./pages/billing/PaymentStatus";
 import JobSuperAdmin from "./pages/superadmin/joblist/JobSuperadmin";
 import Profile from "./pages/superadmin/user/Profile";
 import LocationList from "./pages/superadmin/locations-list/LocationList";
-import Queries from "./pages/admin/Queries";
+
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -106,6 +108,7 @@ function App() {
           <Route path="applied-user-profile/:userId" element={<AppliedUserProfile />} />
           <Route path="BuyCredits" element={<BuyCredits />} />
           <Route path="contact-us" element={<EmployerContactUs />} />
+          <Route path="inbox" element={<Inbox />} />
         </Route>
 
 

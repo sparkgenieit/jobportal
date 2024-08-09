@@ -72,6 +72,7 @@ export default function ContactUs() {
         if (isValid) {
             const contactData = { ...contactForm }
             contactData.enquirer = "Employer"
+            contactData.companyId = user_id
             try {
                 await http.post('/contact/employer/query', contactData)
                 setContactForm({ ...contactForm, status: "Submitted" })

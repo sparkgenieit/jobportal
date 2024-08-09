@@ -9,6 +9,7 @@ import { PiListDashesFill } from "react-icons/pi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { ImProfile } from "react-icons/im";
 import { FaRegMessage } from "react-icons/fa6";
+import { IoMdMailOpen } from "react-icons/io";
 
 function Sidebar() {
   const [showSidebar, setShowSidebar] = useState(true)
@@ -144,6 +145,17 @@ function Sidebar() {
                   <span>Contact Us</span>
                   <span>
                     <FaRegMessage size={"20"} />
+                  </span>
+                </div>
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/company/inbox">
+                <div className='d-flex justify-content-between align-items-center w-100'>
+                  <span>Replied Queries</span>
+                  <span>
+                    <IoMdMailOpen size={"22"} />
                   </span>
                 </div>
               </Link>
