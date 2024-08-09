@@ -7,7 +7,7 @@ import parse from 'html-react-parser';
 import { Modal } from 'react-bootstrap'
 
 import http from '../../helpers/http';
-import { itemsPerPage } from '../../helpers/constants';
+import { BASE_API_URL, itemsPerPage } from '../../helpers/constants';
 import Pagination from '../../components/Pagination';
 import Ads from './ads';
 import Card from '../../components/Card';
@@ -147,9 +147,12 @@ function Jobs() {
         </div >
 
 
-        <Modal size="md" show={info.show} onHide={() => { setInfo({ show: false }) }} centered>
+        <Modal size='lg' show={info.show} onHide={() => { setInfo({ show: false }) }} centered>
             <Modal.Body>
-                <h3>{info.name}</h3>
+                <div className='d-flex align-items-center justify-content-between mb-4'>
+                    <h3>{info.job?.company}</h3>
+                    {info.job?.companyLogo.length > 0 && <img style={{ width: "9vw", height: "12vh" }} className="rounded border" src={`${BASE_API_URL}/uploads/logos/${info.job?.companyLogo}`} alt={info.job?.company} />}
+                </div>
                 {info.info && <p>{parse(marked(info.info))}</p>}
             </Modal.Body>
         </Modal>

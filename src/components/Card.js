@@ -64,7 +64,7 @@ export default function Card({ job }) {
                             onMouseOver={() => handleTooltip(true, "company")}
                             onMouseLeave={() => handleTooltip(false, "company")}
                             onClick={(e) => { getJobsbyCompany(e) }}>
-                            <CiViewList />
+                            <CiViewList fontSize={22} />
                         </span>}
                     {tooltip.company && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Click to View All Jobs</div>}
                     {companyInfo?.length > 0 ?
@@ -77,7 +77,7 @@ export default function Card({ job }) {
                                     setInfo({
                                         show: true,
                                         info: companyInfo[0].info,
-                                        name: job.company
+                                        job: job
                                     });
                                     e.stopPropagation();
                                 }}
@@ -105,7 +105,7 @@ export default function Card({ job }) {
                         }}
                         className='d-flex'
                     >
-                        <MdOutlineLocationOn size="20px" />
+                        <MdOutlineLocationOn size="22px" />
 
                         <span onMouseOver={() => handleTooltip(true, "location")} onMouseLeave={() => handleTooltip(false, "location")} className='text-decoration-underline text-primary'>{job.location}</span>
                     </span>
