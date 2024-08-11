@@ -1,20 +1,13 @@
-import { useContext, useEffect, useState } from "react";
-import { Modal } from 'react-bootstrap';
-import Sidebar from "../../layouts/common/Sidebar";
+import { useEffect, useState } from "react";
 
+import Sidebar from "../../layouts/common/Sidebar";
 import http from "../../helpers/http";
-import Card from "../../components/Card";
 import Pagination from "../../components/Pagination";
 import { useSearchParams } from "react-router-dom";
 import { itemsPerPage } from "../../helpers/constants";
 import Ads from "./ads";
-import { JobsContext } from "../../helpers/Context";
 import Loader from "../../components/Loader";
-import Toaster from "../../components/Toaster";
-import LocationPopup from "../../components/LocationPopup";
-import { marked } from "marked";
-import parse from "html-react-parser";
-
+import JobCardList from "../../components/JobCardsList";
 
 function Savedjobs() {
     const [totalItems, setTotalItems] = useState(0)
@@ -23,8 +16,6 @@ function Savedjobs() {
     const [pgNumber, setPgNumber] = useState(+searchParams.get("page") || 1)
     const [savedJobs, setSavedJobs] = useState(null)
     const userId = localStorage.getItem('user_id')
-
-    const { setInfo, message, setMessage, setLocationPopup, info, locationPopup } = useContext(JobsContext)
 
     useEffect(() => {
         fetchSavedJobs(pgNumber)
@@ -64,24 +55,9 @@ function Savedjobs() {
                             {loading && <Loader />}
                             {!loading &&
                                 <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} itemsPerPage={itemsPerPage} totalCount={totalItems} pageNumberToShow={2} fetchItems={fetchSavedJobs}>
-
-                                    {savedJobs && savedJobs.length > 0 && savedJobs.map((job, index) => {
-                                        return <>
-                                            {job.jobId &&
-
-                                                <div key={index} className="p-2 d-flex flex-column align-items-center">
-                                                    <div style={{ width: "45vw" }}>
-                                                        <i className="fw-bold">Saved on {job.saved_date}</i> &nbsp;
-                                                        {job.jobId.status !== "approved" && <i className="text-secondary small">This job was removed</i>}
-                                                    </div>
-                                                    {job.jobId.status && <Card job={job.jobId} />}
-                                                </div>
-                                            }
-                                        </>
-
-                                    })
-                                    }
-                                    {savedJobs && savedJobs.length == 0 && <div className="p-3">No Saved Jobs</div>}
+                                    <div className="p-2 d-flex flex-column align-items-center">
+                                        <JobCardList jobs={savedJobs} type={"Saved"} />
+                                    </div>
                                 </Pagination>
                             }
                         </div>
@@ -91,18 +67,6 @@ function Savedjobs() {
                     </div>
                 </div>
             </div>
-
-
-            <Modal size="md" show={info.show} onHide={() => { setInfo({ show: false }) }} centered>
-                <Modal.Body>
-                    <h3>{info.name}</h3>
-                    {info.info && <p>{parse(marked(info.info))}</p>}
-                </Modal.Body>
-            </Modal>
-
-            <Toaster message={message} setMessage={setMessage} />
-            <LocationPopup show={locationPopup.show} handleClose={() => { setLocationPopup({ show: false }) }} city={locationPopup.city} />
-
         </>
     )
 }

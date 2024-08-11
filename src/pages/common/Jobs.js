@@ -1,42 +1,35 @@
 import './jobList.css';
 
-import { useContext, useEffect, useRef, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { marked } from 'marked';
-import parse from 'html-react-parser';
-import { Modal } from 'react-bootstrap'
+import { useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import http from '../../helpers/http';
-import { BASE_API_URL, itemsPerPage } from '../../helpers/constants';
+import { itemsPerPage } from '../../helpers/constants';
 import Pagination from '../../components/Pagination';
 import Ads from './ads';
-import Card from '../../components/Card';
 import Filter from '../../components/Filter';
-import Toaster from '../../components/Toaster';
-import { JobsContext } from '../../helpers/Context';
-import LocationPopup from '../../components/LocationPopup';
-import Loader from '../../components/Loader';
+import JobCardList from '../../components/JobCardsList';
 
 function Jobs() {
     const [jobs, setJobs] = useState(null)
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams] = useSearchParams()
     const [totalItems, setTotalItems] = useState("")
     const [pgNumber, setPgNumber] = useState(searchParams.get("page") || 1)
     const [refresh, setRefresh] = useState(true)
     const [loading, setLoading] = useState(false)
-    const { setInfo, message, setMessage, setLocationPopup, info, locationPopup } = useContext(JobsContext)
     const filter = JSON.parse(sessionStorage.getItem("filter"))
-    const [filterFields, setFilterFields] = useState(filter || {
-        company: null,
-        jobTitle: null,
-        location: null,
-        jobtype: null,
-        jobCategory: null,
-        subCategory: null,
-        salary: null,
+    const [filterFields, setFilterFields] = useState(filter ||
+    {
+        company: "",
+        jobTitle: "",
+        location: "",
+        jobtype: "",
+        jobCategory: "",
+        subCategory: "",
+        rateperhour: null,
         duration: null,
-        date: null,
         weeklyperhour: null,
+        date: null,
         sort: "creationdate"
     })
     const ref = useRef(null)
@@ -91,7 +84,7 @@ function Jobs() {
 
     return <>
 
-        <div className="container-fluid">
+        <main className="container-fluid">
 
             <div className='row'>
                 <div className='col-5'></div>
@@ -107,29 +100,17 @@ function Jobs() {
             <div className='d-flex justify-content-end'>
                 <div style={{ width: "97vw" }}>
                     <div className='row'>
-                        <div className='col-3 w-full d-flex justify-content-end '>
+                        <section className='col-3 w-full d-flex justify-content-end '>
                             <Filter filterFields={filterFields} setFilterFields={setFilterFields} setRefresh={setRefresh} />
-                        </div>
+                        </section>
 
-                        <div style={{ paddingLeft: "15px" }} ref={ref} className="col-9  row container-fluid scrollbar  hide-scrollbar ">
+                        <section style={{ paddingLeft: "15px" }} ref={ref} className="col-9  row container-fluid scrollbar  hide-scrollbar ">
 
                             <div className="col-8 w-full d-flex">
                                 <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} itemsPerPage={itemsPerPage} totalCount={totalItems} fetchItems={fetchJobs} pageNumberToShow={2}>
 
                                     <div className="mb-3">
-                                        {/* {loading && <Loader />} */}
-                                        {/* {!loading && <> */}
-                                        {jobs && jobs.length == 0 && <h2 className='m-2 text-center'>No Jobs Found</h2>}
-                                        {jobs && jobs.length > 0 &&
-                                            jobs.map((job, index) => {
-                                                return (
-                                                    <div style={{ marginBottom: "15px" }}>
-                                                        <Card key={index} job={job} />
-                                                    </div>
-                                                )
-                                            })}
-                                        {/* </>
-                                        } */}
+                                        <JobCardList jobs={jobs} />
                                     </div>
 
                                 </Pagination>
@@ -137,25 +118,12 @@ function Jobs() {
                             <div className='col-4 px-0 ps-2'>
                                 <Ads />
                             </div>
-                        </div >
+                        </section >
                     </div>
                 </div >
             </div >
-            <Toaster message={message} setMessage={setMessage} />
-            <LocationPopup show={locationPopup.show} handleClose={() => { setLocationPopup({ show: false }) }} city={locationPopup.city} />
 
-        </div >
-
-
-        <Modal size='lg' show={info.show} onHide={() => { setInfo({ show: false }) }} centered>
-            <Modal.Body>
-                <div className='d-flex align-items-center justify-content-between mb-4'>
-                    <h3>{info.job?.company}</h3>
-                    {info.job?.companyLogo.length > 0 && <img style={{ width: "9vw", height: "12vh" }} className="rounded border" src={`${BASE_API_URL}/uploads/logos/${info.job?.companyLogo}`} alt={info.job?.company} />}
-                </div>
-                {info.info && <p>{parse(marked(info.info))}</p>}
-            </Modal.Body>
-        </Modal>
+        </main >
     </>
 }
 

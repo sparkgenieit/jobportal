@@ -1,16 +1,23 @@
 import { RxCross1 } from 'react-icons/rx';
 import './location-popup.css'
 import { Modal } from "react-bootstrap";
+import { useContext } from 'react';
+import { JobsContext } from '../helpers/Context';
 
 
-export default function LocationPopup({ show, handleClose, city }) {
+export default function LocationPopup() {
+
+    const { locationPopup, setLocationPopup } = useContext(JobsContext);
+
     return <>
-        <Modal size="xl" show={show} onHide={handleClose} centered>
+        <Modal size="xl" show={locationPopup.show} onHide={() => { setLocationPopup({ show: false }) }} centered>
             <Modal.Body>
                 <div>
                     <div className='d-flex justify-content-between my-3'>
-                        <h2>{city}</h2>
-                        <a type="button" onClick={handleClose}>
+                        <h2>{locationPopup.city}</h2>
+                        <a type="button" onClick={() => {
+                            setLocationPopup({ show: false })
+                        }}>
                             <span className='border border-dark rounded p-2'><RxCross1 size={"18px"} /></span>
                         </a>
                     </div>
@@ -37,6 +44,6 @@ export default function LocationPopup({ show, handleClose, city }) {
                     </div>
                 </div>
             </Modal.Body>
-        </Modal>
+        </Modal >
     </>
 }

@@ -81,7 +81,7 @@ export default function Transactions() {
                                                     <td style={{ fontSize: "10px" }} className="py-3">{transaction._id}</td>
                                                     <td>{new Date(transaction.created_date).toLocaleDateString('en-GB')}</td>
                                                     <td>{transaction.description}</td>
-                                                    <td>{transaction.amount ? `$ ${transaction.amount}` : "$0"}</td>
+                                                    <td className="text-end">{transaction.amount ? `$ ${transaction.amount}` : "$0"}</td>
                                                     <td>{transaction.creditsPurchased ? transaction.creditsPurchased : "0"}</td>
                                                     <td>{transaction.creditsUsed}</td>
                                                     <td>{transaction.credits}</td>

@@ -18,7 +18,7 @@ import { PiCarProfileThin } from 'react-icons/pi';
 export default function Card({ job }) {
     const navigate = useNavigate()
 
-    const { setInfo, message, setMessage, setLocationPopup } = useContext(JobsContext)
+    const { setInfo, setMessage, setLocationPopup } = useContext(JobsContext)
 
     const [tooltip, setTooltip] = useState({})
 
@@ -37,7 +37,7 @@ export default function Card({ job }) {
             text: "Link Copied"
         })
         setTimeout(() => {
-            setMessage({ ...message, show: false })
+            setMessage({ show: false })
         }, 3000);
         event.stopPropagation();
     }

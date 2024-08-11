@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import http from "../helpers/http";
 import Suggestions from './Suggestions';
 
@@ -9,8 +9,6 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
     const [locationSuggestions, setLocationSuggestions] = useState(null)
     const [jobSuggestions, setJobSuggestions] = useState(null)
     const [companySuggestions, setCompanySuggestions] = useState(null)
-    const inputRef = useRef(null)
-
 
     useEffect(() => {
         // To Fetch all the categories from the database
@@ -26,22 +24,7 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
                 setParent(p)
             })
             .catch(err => setParent([]))
-
-
-        document.addEventListener('mousedown', handleClickOutside);
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-
     }, [])
-
-
-    const handleClickOutside = (event) => {
-        if (inputRef.current && !inputRef.current.contains(event.target)) {
-            clearSuggestions()
-        }
-    };
 
     const handleKeyDown = (Suggestions, e) => {
         if (e.keyCode == 40) {
@@ -155,7 +138,7 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
     return <div style={{ width: "300px" }} className='p-3 hide-scrollbar rounded border shadow scrollbar'>
         <form autoComplete="off">
             <div className="fw-bold mb-2">Search By</div>
-            <div ref={inputRef} className="border rounded px-2 py-3 mb-4">
+            <div className="border rounded px-2 py-3 mb-4">
                 <div className='mb-4 position-relative'>
                     <input type='text' value={filterFields.jobTitle} name='jobTitle' onKeyDown={(e) => { handleKeyDown(jobSuggestions, e) }} onChange={(e) => handleInput(e)} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Job Title' />
                     <Suggestions SuggestionsList={jobSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="jobTitle" setValue={setFilterFields} value={filterFields} />

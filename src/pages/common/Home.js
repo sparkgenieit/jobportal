@@ -1,12 +1,11 @@
 import './Home.css';
 
-import Header from '../../layouts/common/Header';
-import Footer from '../../layouts/common/Footer';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { IoSearch } from "react-icons/io5";
+
 import http from '../../helpers/http';
 import Ads from './ads';
-import { IoSearch } from "react-icons/io5";
 import Suggestions from '../../components/Suggestions';
 import NZMap from '../../components/NZMap';
 
@@ -20,22 +19,6 @@ function Home() {
     const [jobSuggestions, setJobSuggestions] = useState(null)
     const navigate = useNavigate();
     const [focus, setFocus] = useState(-1)
-    const inputRef = useRef(null)
-
-    useEffect(() => {
-
-        document.addEventListener('mousedown', handleClickOutside);
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [])
-
-    const handleClickOutside = (event) => {
-        if (inputRef.current && !inputRef.current.contains(event.target)) {
-            clearSuggestions()
-        }
-    };
 
     const handleInput = async (name, event) => {
         setFocus(-1)
@@ -99,7 +82,7 @@ function Home() {
                             <h2>Kia ora!</h2>
                             <h2>Welcome to New Zealand</h2>
                         </div>
-                        <div ref={inputRef} className='d-flex align-items-center justify-content-center gap-2'>
+                        <div className='d-flex align-items-center justify-content-center gap-2'>
                             <div className='position-relative'>
                                 <input type="text" style={{ width: "25vw" }} className={`transparent border-white p-1 rounded text-white ${searchButton}`} value={searchBox.jobTitle} placeholder="Job Title" name='jobTitle' onKeyDown={(e) => { handleKeyDown(jobSuggestions, e) }} onChange={(e) => handleInput("jobTitle", e)} />
                                 <Suggestions SuggestionsList={jobSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="jobTitle" setValue={setSearchBox} value={searchBox} />
@@ -124,41 +107,7 @@ function Home() {
                 </form>
             </div>
             <div className="container-fluid text-center py-5">
-                {/* <div className="container-fluid px-3">
-                            <div className="d-flex justify-content-between my-3">
-                                <div className="h2 ">Jobs</div>
-                                <div className="mt-1">
-                                    <button className="btn btn-outline-light btn-sm "> Admin - My Jobs</button>
-                                </div>
-                            </div>
-                            <div className="border rounded  px-5 mb-3">
-                                <div className="row rounded p-3">
-
-                                    {jobs && jobs.length > 0 &&
-                                        jobs.map((job, index) => {
-                                            return (
-                                                <Card key={index} job={job} />
-                                            )
-                                        })}
-                                    <div className='d-flex justify-content-end text-decoration-underline text-primary '>
-                                        <a href='/common/Jobs'>View All Jobs</a>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div> */}
-                {/* <div style={{ height: "685px", overflow: "hidden", marginBottom: "100px" }} className=''>
-                        <iframe title="NZmap" width="100%" style={{ zoom: "2" }} height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiNDU4ZGUyYTUtOGE3Mi00N2Q4LTgxZWUtMjhjNmRjOGFlMmQ4IiwidCI6Ijg5NDhlY2JhLTJlMDItNDUwOS04OTJjLTVkMDYyZjVlN2IzOCJ9&pageName=0af786abcc8256aee8fe" frameborder="0" allowFullScreen="false"></iframe>
-                    </div> */}
-
-                {/* <div style={{ height: "685px" }}>
-                        <iframe title="NZmap2" width="100%" height="100%" src='/Nz-map/NZRegionsMapFinalVersion.htm' frameborder="0" allowFullScreen="false"></iframe>
-                    </div> */}
-
-                {/* <img src="/NzMapSvg.svg" /> */}
                 <div>
-
                     <NZMap />
                 </div>
                 <div className='row'>
@@ -182,7 +131,6 @@ function Home() {
                 </div>
             </div>
         </main >
-
     </>
 }
 

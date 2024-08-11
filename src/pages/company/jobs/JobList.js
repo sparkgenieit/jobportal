@@ -108,31 +108,28 @@ function Joblist() {
         }
     }
 
-    const itemsToShow = (pageNumber) => {
-        setPgNumber(pageNumber)
-        navigate(`/company/JobList?page=${pageNumber}`)
-    }
-
     return (
         <>
             <div className="container-fluid mt-4">
                 <div className=" bg-white">
                     <h4 className="text-center ">List of Posted Jobs</h4>
-                    {/* <div className="page-header">
-                        <nav aria-label="breadcrumb">
-                            <ol className="breadcrumb">
-                                <li className="breadcrumb-item"><a href="#">Employer</a></li>
-                                <li className="breadcrumb-item active" aria-current="page">Posted Jobs</li>
-                            </ol>
-                        </nav>
-                    </div> */}
                     <div className="row">
                         <div className="col-12">
                             <Toaster message={message} setMessage={setMessage} />
                             <Pagination itemsPerPage={itemsPerPage} currentPage={pgNumber} setCurrentPage={setPgNumber} totalCount={totalItems} fetchItems={showJobsList} pageNumberToShow={2}>
 
                                 <div className=" px-5 bg-white rounded ">
-                                    <input type="text" value={name} onChange={(e) => { setName(e.target.value) }} className="form-control my-3 shadow" placeholder="Search by job title or reference" />
+                                    <input
+                                        type="text"
+                                        placeholder="Search by job title or reference"
+                                        className="form-control my-3 shadow"
+                                        value={name}
+                                        onChange={(e) => {
+                                            setName(e.target.value)
+                                            setPgNumber(1)
+                                            window.history.replaceState(null, null, '/company/Joblist')
+                                        }}
+                                    />
                                     <form className="form-sample">
                                         {isLoading && <Loader />}
 
