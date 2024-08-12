@@ -85,6 +85,7 @@ import PaymentStatus from "./pages/billing/PaymentStatus";
 import JobSuperAdmin from "./pages/superadmin/joblist/JobSuperadmin";
 import Profile from "./pages/superadmin/user/Profile";
 import LocationList from "./pages/superadmin/locations-list/LocationList";
+import DownloadTransactions from "./pages/company/DownloadTransactions";
 
 
 function App() {
@@ -111,6 +112,7 @@ function App() {
           <Route path="inbox" element={<Inbox />} />
         </Route>
 
+        <Route path="/company/transactions/download-transactions" element={<DownloadTransactions />} />
 
         {/* Admin Routes */}
         <Route path="/admin" element={(token && role == 'admin') ? <AdminLayout /> : <Login />}>

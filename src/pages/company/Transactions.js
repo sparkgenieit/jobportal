@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { RxDownload } from "react-icons/rx";
-import { useSearchParams } from "react-router-dom";
-import { FaMagnifyingGlass } from "react-icons/fa6";
+import { Link, useSearchParams } from "react-router-dom";
+import { BiSolidUpArrow, BiSolidDownArrow } from "react-icons/bi";
 
 import http from "../../helpers/http";
 import { BASE_API_URL, itemsPerPage } from "../../helpers/constants";
@@ -14,19 +14,20 @@ export default function Transactions() {
     const [loading, setLoading] = useState(false)
     const [searchParams] = useSearchParams()
     const [searchTerm, setSearchTerm] = useState("")
+    const [sort, setSort] = useState("desc")
     const [currentPage, setCurrentPage] = useState(+searchParams.get('page') || 1)
 
     const userId = localStorage.getItem("user_id")
 
     useEffect(() => {
         fetchTransactionDetails(currentPage)
-    }, [])
+    }, [searchTerm, sort])
 
     const fetchTransactionDetails = async (page) => {
         setLoading(true)
         const skip = (page - 1) * itemsPerPage
         try {
-            const res = await http.get(`/orders/get/${userId}?limit=${itemsPerPage}&skip=${skip}&searchTerm=${searchTerm}`)
+            const res = await http.get(`/orders/get/${userId}?limit=${itemsPerPage}&skip=${skip}&searchTerm=${searchTerm}&sort=${sort}`)
             setTransactionDetails(res.data.details)
             setTotalItems(res.data.total)
             setLoading(false)
@@ -36,24 +37,26 @@ export default function Transactions() {
             setLoading(false)
         }
     }
-
     return (
         <>
             <div class="container-fluid">
                 <div className="content-wrapper bg-white">
                     <h4 className="text-center">Transactions</h4>
                     <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalCount={totalItems} itemsPerPage={itemsPerPage} fetchItems={fetchTransactionDetails} pageNumberToShow={2} >
-                        <form
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                window.history.replaceState(null, null, '/company/transactions?page=1')
-                                setCurrentPage(1)
-                                fetchTransactionDetails(1);
-                            }}
-                        >
+                        <form>
                             <div className="my-3 input-group">
-                                <input type="search" value={searchTerm} onChange={(e) => { setSearchTerm(e.target.value) }} className="form-control" placeholder="Search Transaction by Invoice number, Date (dd/mm/yyyy), Amount" />
-                                <button type="submit" className="btn border-0 btn-outline-secondary"><FaMagnifyingGlass fontSize={20} fill="black" /></button>
+                                <input
+                                    type="search"
+                                    value={searchTerm}
+                                    onChange={(e) => {
+                                        setCurrentPage(1)
+                                        window.history.replaceState(null, null, '/company/transactions')
+                                        setSearchTerm(e.target.value);
+                                    }}
+                                    className="form-control"
+                                    placeholder="Search Transaction by Invoice number, Date (dd/mm/yyyy), Amount"
+                                />
+                                <Link to='/company/transactions/download-transactions' className="btn btn-info rounded">Download all transactions</Link>
                             </div>
                         </form>
                         {loading && <Loader />}
@@ -63,7 +66,14 @@ export default function Transactions() {
                                     <thead >
                                         <tr style={{ fontSize: "14px" }} className="text-center">
                                             <th>Transaction ID</th>
-                                            <th>Date</th>
+                                            <th className="d-flex gap-2">
+                                                <span>Date</span>
+                                                {
+                                                    sort === "desc" ?
+                                                        <span role="button" onClick={() => { setSort("asc") }}><BiSolidDownArrow /></span> :
+                                                        <span role="button" onClick={() => { setSort("desc") }}><BiSolidUpArrow /></span>
+                                                }
+                                            </th>
                                             <th>Description</th>
                                             <th>Amount</th>
                                             <th>Credits Purchased</th>
