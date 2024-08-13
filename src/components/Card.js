@@ -14,6 +14,7 @@ import { MdOutlineLocationOn, MdOutlinePeopleOutline } from 'react-icons/md';
 import { IoHomeOutline } from 'react-icons/io5';
 import { GiHotMeal } from 'react-icons/gi';
 import { PiCarProfileThin } from 'react-icons/pi';
+import Tooltip from './Tooltip';
 
 export default function Card({ job }) {
     const navigate = useNavigate()
@@ -58,113 +59,102 @@ export default function Card({ job }) {
         <div style={{ height: "37vh", width: "45vw" }} onClick={() => { navigate(`/common/SingleJob/${job._id}`) }} className='job-card px-3 py-2  row border rounded shadow '>
             <div className='col-9 h-100  position-relative px-1 '>
                 <div className='fw-bold h4' >{job.jobTitle}</div>
-                <div className='position-relative'>
+                <div className='d-flex'>
                     {count?.length > 0 &&
-                        <span
-                            onMouseOver={() => handleTooltip(true, "company")}
-                            onMouseLeave={() => handleTooltip(false, "company")}
-                            onClick={(e) => { getJobsbyCompany(e) }}>
-                            <CiViewList fontSize={22} />
-                        </span>}
-                    {tooltip.company && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Click to View All Jobs</div>}
+                        <Tooltip tooltipText={"Click to View All Jobs"}>
+                            <span onClick={(e) => { getJobsbyCompany(e) }}>
+                                <CiViewList fontSize={22} />
+                            </span>
+                        </Tooltip>
+                    }
                     {companyInfo?.length > 0 ?
                         <>
-                            <span
-                                className='text-decoration-underline text-primary'
-                                onMouseOver={() => handleTooltip(true, "info")}
-                                onMouseLeave={() => handleTooltip(false, "info")}
-                                onClick={(e) => {
-                                    setInfo({
-                                        show: true,
-                                        info: companyInfo[0].info,
-                                        job: job
-                                    });
-                                    e.stopPropagation();
-                                }}
-                            >
-                                {job.company}
-                            </span>
-                            {tooltip.info && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>View company info</div>}
+                            <Tooltip tooltipText={"View company info"}>
+                                <span
+                                    className='text-decoration-underline text-primary'
+                                    onClick={(e) => {
+                                        setInfo({
+                                            show: true,
+                                            info: companyInfo[0].info,
+                                            job: job
+                                        });
+                                        e.stopPropagation();
+                                    }}
+                                >
+                                    {job.company}
+                                </span>
+                            </Tooltip>
                         </>
                         :
                         <span>
                             {job.company}
                         </span>
                     }
-                </div>
+                </div >
 
-                <div className='mt-2'>
+                <div className=' d-flex mt-2'>
 
-                    <span
-                        onClick={(e) => {
-                            setLocationPopup({
-                                show: true,
-                                city: job.location
-                            });
-                            e.stopPropagation();
-                        }}
-                        className='d-flex'
-                    >
-                        <MdOutlineLocationOn size="22px" />
+                    <MdOutlineLocationOn size="22px" />
+                    <Tooltip tooltipText={"Click to View Activities"}>
+                        <span
+                            onClick={(e) => {
+                                setLocationPopup({
+                                    show: true,
+                                    city: job.location
+                                });
+                                e.stopPropagation();
+                            }}
+                            className='text-decoration-underline text-primary'
+                        >
+                            {job.location}
+                        </span>
+                    </Tooltip>
 
-                        <span onMouseOver={() => handleTooltip(true, "location")} onMouseLeave={() => handleTooltip(false, "location")} className='text-decoration-underline text-primary'>{job.location}</span>
-                    </span>
-                    {tooltip.location && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Click to View Activities</div>}
                 </div>
 
                 <p style={{ lineHeight: "1.2" }} className='text-secondary mt-3 mb-2  small'> {job.description.length > 225 ? `${job.description.slice(0, 225)}...` : job.description}</p>
-                <div className='small position-absolute bottom-0 start-0'>
+                <div className='small d-flex position-absolute bottom-0 start-0'>
                     <span className='pe-3'>{date} ({timeAgo(date)})</span>
-
-                    <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share")} onMouseLeave={() => handleTooltip(false, "rateperhour")} onClick={(e) => { handleShare(e) }}>
-                        <span><FaShare size="20px" /></span>
-                        {tooltip.share && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Share</div>}
-                    </a>
-
-                    <a onMouseOver={() => handleTooltip(true, "save")} onMouseLeave={() => handleTooltip(false, "save")} type='button'>
-                        <span><CiBookmark size="22px" /></span>
-                        {tooltip.save && <div className='mt-2 py-1 px-2 position-absolute bg-secondary rounded text-white'>Save</div>}
-                    </a>
+                    <Tooltip tooltipText={"Share"}>
+                        <a className='pe-2' type='button' onClick={(e) => { handleShare(e) }}>
+                            <span><FaShare size="20px" /></span>
+                        </a>
+                    </Tooltip>
+                    <Tooltip tooltipText={"Save"}>
+                        <a className='pe-2' type='button'>
+                            <span><CiBookmark size="22px" /></span>
+                        </a>
+                    </Tooltip>
                 </div>
-            </div>
+            </div >
 
             <div className='col-3 d-flex  flex-column  small'>
                 <div className='h-50'>
                     {job.companyLogo.length > 0 && <img style={{ width: "9vw", height: "12vh" }} className="rounded border" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                 </div>
                 <div className=''>
-                    <div >
-                        <span onMouseOver={() => handleTooltip(true, "rateperhour")} onMouseLeave={() => handleTooltip(false, "rateperhour")}>
-                            <span><FaDollarSign size="16px" /></span>
-                            <span className='ps-2'>
-                                {job.rateperhour} ph
-                            </span>
+                    <Tooltip tooltipText={"Rate per Hour"}>
+                        <span><FaDollarSign size="16px" /></span>
+                        <span className='ps-2'>
+                            {job.rateperhour} ph
                         </span>
+                    </Tooltip>
 
-                        {tooltip.rateperhour && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Rate per Hour</div>}
-
-                    </div>
-                    <div>
-                        <span onMouseOver={() => handleTooltip(true, "duration")} onMouseLeave={() => handleTooltip(false, "duration")} >
-                            <span><FaRegClock size="16px" /></span>
-                            <span className='ps-2'>
-                                {job.duration}
-                            </span>
+                    <Tooltip tooltipText={"Duration"}>
+                        <span><FaRegClock size="16px" /></span>
+                        <span className='ps-2'>
+                            {job.duration}
                         </span>
+                    </Tooltip>
 
-                        {tooltip.duration && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Duration</div>}
-                    </div>
-                    <div>
+                    <Tooltip tooltipText={"Vacancies"}>
                         {job.numberofvacancies > 1 && <>
-                            <span onMouseOver={() => handleTooltip(true, "vacancies")} onMouseLeave={() => handleTooltip(false, "vacancies")} >
+                            <span>
                                 <span><MdOutlinePeopleOutline size="20px" /></span>
                                 <span className='ps-2'>{job.numberofvacancies} </span>
                             </span>
-
-                            {tooltip.vacancies && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Vacancies</div>}
-
                         </>}
-                    </div>
+                    </Tooltip>
                     <div className=''>
                         {job.training.includes("true") && <span>
                             Training Provided
@@ -179,24 +169,28 @@ export default function Card({ job }) {
                             <div>
                                 <div className='d-flex'>Benefits:
                                     {benefits.includes("Accommodation") &&
-                                        <span onMouseOver={() => handleTooltip(true, "Accommodation")} onMouseLeave={() => handleTooltip(false, "Accommodation")} className='px-1'>
-                                            <IoHomeOutline size="18px" />
-                                            {tooltip.Accommodation && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Accommodation</div>}
-                                        </span>
+                                        <Tooltip tooltipText={"Accommodation"}>
+                                            <span className='px-1'>
+                                                <IoHomeOutline size="18px" />
+                                            </span>
+                                        </Tooltip>
                                     }
 
                                     {benefits.includes("Food") &&
-                                        <span onMouseOver={() => handleTooltip(true, "food")} onMouseLeave={() => handleTooltip(false, "food")} className='px-1'>
-                                            <GiHotMeal size="18px" />
-                                            {tooltip.food && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Food</div>}
-                                        </span>}
+                                        <Tooltip tooltipText={"Food"}>
+                                            <span className='px-1'>
+                                                <GiHotMeal size="18px" />
+                                            </span>
+                                        </Tooltip>
+                                    }
 
                                     {benefits.includes("Transport") &&
-                                        <span onMouseOver={() => handleTooltip(true, "transport")} onMouseLeave={() => handleTooltip(false, "transport")} className='px-1'>
-                                            <PiCarProfileThin size="22px" />
-                                            {tooltip.transport && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Transport</div>}
-                                        </span>}
-
+                                        <Tooltip tooltipText={"Transport"}>
+                                            <span className='px-1'>
+                                                <PiCarProfileThin size="22px" />
+                                            </span>
+                                        </Tooltip>
+                                    }
                                 </div>
                                 {bn.Others && <div>{bn.OthersText}</div>}
                             </div>}

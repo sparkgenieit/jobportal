@@ -20,6 +20,7 @@ import parse from 'html-react-parser';
 import Toaster from '../../components/Toaster';
 import Loader from '../../components/Loader';
 import LocationPopup from '../../components/LocationPopup';
+import Tooltip from '../../components/Tooltip';
 
 function SingleJob() {
     const [isJobApplied, setIsJobApplied] = useState(false)
@@ -256,20 +257,22 @@ function SingleJob() {
                                         <button type='button' onClick={handleApply} className='btn btn-primary text-white'>Apply</button>
                                     }
 
-                                    <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share1")} onMouseLeave={(e) => handleTooltip(false, "share1")} onClick={() => { handleShare() }}>
-                                        <span><FaShare size="25px" /></span>
-                                        {tooltip.share1 && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Share</div>}
-                                    </a>
+                                    <Tooltip tooltipText={"Share"}>
+                                        <a className='pe-2' type='button' onClick={() => { handleShare() }}>
+                                            <span><FaShare size="20px" /></span>
+                                        </a>
+                                    </Tooltip>
 
                                     {isJobSaved ?
                                         <a type='button'>
                                             <span><PiBookmarkSimpleFill size="25px" /></span>
                                         </a>
                                         :
-                                        <a onMouseOver={() => handleTooltip(true, "save1")} onMouseLeave={(e) => handleTooltip(false, "save1")} onClick={handleSave} type='button'>
-                                            <span><PiBookmarkSimpleBold size="25px" /></span>
-                                            {tooltip.save1 && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Save</div>}
-                                        </a>
+                                        <Tooltip tooltipText={"Save"}>
+                                            <a type='button' onClick={handleSave}>
+                                                <span><PiBookmarkSimpleBold size="25px" /></span>
+                                            </a>
+                                        </Tooltip>
 
                                     }
                                 </div>
@@ -309,13 +312,8 @@ function SingleJob() {
 
                                 <div>
                                     {jobview.numberofvacancies > 1 && <>
-                                        <span onMouseOver={() => handleTooltip(true, "vacancies")} onMouseLeave={(e) => handleTooltip(false, "vacancies")} >
-                                            <span><MdOutlinePeopleOutline size="18px" /></span>
-                                            <span className='ps-2'>{jobview.numberofvacancies} Vacancies </span>
-                                        </span>
-
-                                        {tooltip.vacancies && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Vacancies</div>}
-
+                                        <span><MdOutlinePeopleOutline size="18px" /></span>
+                                        <span className='ps-2'>{jobview.numberofvacancies} Vacancies </span>
                                     </>}
                                 </div>
                                 <div className=''>
@@ -332,27 +330,33 @@ function SingleJob() {
                                         <div>
                                             <div className='d-flex'>Benefits :
                                                 {getTrueKeys(JSON.parse(jobview.benifits)).includes("Accommodation") &&
-                                                    <span onMouseOver={() => handleTooltip(true, "Accommodation")} onMouseLeave={(e) => handleTooltip(false, "Accommodation")} className='px-1'>
-                                                        <IoHomeOutline size="18px" />
-                                                        {tooltip.Accommodation && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Accommodation</div>}
-                                                    </span>
+                                                    <Tooltip tooltipText={"Accommodation"}>
+                                                        <span className='px-1'>
+                                                            <IoHomeOutline size="18px" />
+                                                        </span>
+                                                    </Tooltip>
                                                 }
 
                                                 {getTrueKeys(JSON.parse(jobview.benifits)).includes("Food") &&
-                                                    <span onMouseOver={() => handleTooltip(true, "food")} onMouseLeave={(e) => handleTooltip(false, "food")} className='px-1'>
-                                                        <GiHotMeal size="18px" />
-                                                        {tooltip.food && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Food</div>}
-                                                    </span>}
+                                                    <Tooltip tooltipText={"Food"}>
+                                                        <span className='px-1'>
+                                                            <GiHotMeal size="18px" />
+                                                        </span>
+                                                    </Tooltip>
+                                                }
 
                                                 {getTrueKeys(JSON.parse(jobview.benifits)).includes("Transport") &&
-                                                    <span onMouseOver={() => handleTooltip(true, "transport")} onMouseLeave={(e) => handleTooltip(false, "transport")} className='px-1'>
-                                                        <PiCarProfileThin size="22px" />
-                                                        {tooltip.transport && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Transport</div>}
-                                                    </span>}
+                                                    <Tooltip tooltipText={"Transport"}>
+                                                        <span className='px-1'>
+                                                            <PiCarProfileThin size="22px" />
+                                                        </span>
+                                                    </Tooltip>
+                                                }
 
                                             </div>
                                             {(JSON.parse(jobview.benifits)).Others && <div>{(JSON.parse(jobview.benifits)).OthersText}</div>}
-                                        </div>}
+                                        </div>
+                                    }
                                 </div>
 
                             </div>
@@ -368,21 +372,22 @@ function SingleJob() {
                                         <button type='button' onClick={handleApply} className='btn btn-primary text-white'>Apply</button>
                                     }
 
-                                    <a className='pe-2' type='button' onMouseOver={() => handleTooltip(true, "share2")} onMouseLeave={(e) => handleTooltip(false, "share2")} onClick={() => { handleShare() }}>
-                                        <span><FaShare size="25px" /></span>
-                                        {tooltip.share2 && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Share</div>}
-                                    </a>
+                                    <Tooltip tooltipText={"Share"}>
+                                        <a className='pe-2' type='button' onClick={() => { handleShare() }}>
+                                            <span><FaShare size="20px" /></span>
+                                        </a>
+                                    </Tooltip>
 
                                     {isJobSaved ?
                                         <a type='button'>
                                             <span><PiBookmarkSimpleFill size="25px" /></span>
                                         </a>
                                         :
-                                        <a onMouseOver={() => handleTooltip(true, "save2")} onMouseLeave={(e) => handleTooltip(false, "save2")} onClick={handleSave} type='button'>
-                                            <span><PiBookmarkSimpleBold size="25px" /></span>
-                                            {tooltip.save2 && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Save</div>}
-                                        </a>
-
+                                        <Tooltip tooltipText={"Save"}>
+                                            <a type='button' onClick={handleSave}>
+                                                <span><PiBookmarkSimpleBold size="25px" /></span>
+                                            </a>
+                                        </Tooltip>
                                     }
                                 </div>
                                 <div>
