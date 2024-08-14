@@ -101,8 +101,8 @@ function App() {
         <Route path="/company" element={(token && role == 'employer') ? <CompanyLayout /> : <Navigate to="/" />}>
           <Route index element={<CompanyHome />} />
           <Route path="CompanyProfile" element={<CompanyProfile />} />
-          <Route path="postajob" element={<Postajob />} />
-          <Route path="editjob/:id" element={<EditJob />} />
+          <Route path="postajob" element={<Postajob name={"Post a Job"} />} />
+          <Route path="editjob/:id" element={<Postajob name={"Edit Job"} />} />
           <Route path="JobList" element={<JobList />} />
           <Route path="transactions" element={<Transactions />} />
           <Route path="applied-users/:id" element={<AppliedUsers />} />
