@@ -86,103 +86,106 @@ import JobSuperAdmin from "./pages/superadmin/joblist/JobSuperadmin";
 import Profile from "./pages/superadmin/user/Profile";
 import LocationList from "./pages/superadmin/locations-list/LocationList";
 import DownloadTransactions from "./pages/company/DownloadTransactions";
+import { CurrentJobContext } from "./helpers/Context";
 
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [role, setRole] = useState(localStorage.getItem('role') || '');
-
+  const [currentJob, setCurrentJob] = useState({})
 
   return (
     <BrowserRouter>
-      <Routes>
+      <CurrentJobContext.Provider value={{ currentJob, setCurrentJob }}>
+        <Routes>
 
-        {/* Company Routes */}
-        <Route path="/company" element={(token && role == 'employer') ? <CompanyLayout /> : <Navigate to="/" />}>
-          <Route index element={<CompanyHome />} />
-          <Route path="CompanyProfile" element={<CompanyProfile />} />
-          <Route path="postajob" element={<Postajob name={"Post a Job"} />} />
-          <Route path="editjob/:id" element={<Postajob name={"Edit Job"} />} />
-          <Route path="JobList" element={<JobList />} />
-          <Route path="transactions" element={<Transactions />} />
-          <Route path="applied-users/:id" element={<AppliedUsers />} />
-          <Route path="applied-user-profile/:userId" element={<AppliedUserProfile />} />
-          <Route path="BuyCredits" element={<BuyCredits />} />
-          <Route path="contact-us" element={<EmployerContactUs />} />
-          <Route path="inbox" element={<Inbox />} />
-        </Route>
+          {/* Company Routes */}
+          <Route path="/company" element={(token && role == 'employer') ? <CompanyLayout /> : <Navigate to="/" />}>
+            <Route index element={<CompanyHome />} />
+            <Route path="CompanyProfile" element={<CompanyProfile />} />
+            <Route path="postajob" element={<Postajob name={"Post a Job"} />} />
+            <Route path="editjob/:id" element={<Postajob name={"Edit Job"} />} />
+            <Route path="JobList" element={<JobList />} />
+            <Route path="transactions" element={<Transactions />} />
+            <Route path="applied-users/:id" element={<AppliedUsers />} />
+            <Route path="applied-user-profile/:userId" element={<AppliedUserProfile />} />
+            <Route path="BuyCredits" element={<BuyCredits />} />
+            <Route path="contact-us" element={<EmployerContactUs />} />
+            <Route path="inbox" element={<Inbox />} />
+          </Route>
 
-        <Route path="/company/transactions/download-transactions" element={<DownloadTransactions />} />
+          <Route path="/company/transactions/download-transactions" element={<DownloadTransactions />} />
 
-        {/* Admin Routes */}
-        <Route path="/admin" element={(token && role == 'admin') ? <AdminLayout /> : <Login />}>
-          <Route index element={<AdminHome />} />
-          <Route path="Jobqueuelist" element={<Jobqueuelist />} />
-          <Route path="queries" element={<Queries />} />
-          <Route path="Myasignjobs" element={<Myasignjobs />} />
-          <Route path="view-job/:id" element={<SingleJobAdmin />} />
-        </Route>
+          {/* Admin Routes */}
+          <Route path="/admin" element={(token && role == 'admin') ? <AdminLayout /> : <Login />}>
+            <Route index element={<AdminHome />} />
+            <Route path="Jobqueuelist" element={<Jobqueuelist />} />
+            <Route path="queries" element={<Queries />} />
+            <Route path="Myasignjobs" element={<Myasignjobs />} />
+            <Route path="view-job/:id" element={<SingleJobAdmin />} />
+          </Route>
 
-        {/* SuperAdmin Routes */}
-        <Route path="/superadmin" element={(token && role == 'superadmin') ? <SuperAdminLayout /> : <SuperAdminLogin />}>
-          <Route index element={<SuperAdminHome />} />
-          <Route path="Categories1" element={<Categories1 />} />
-          <Route path="AddSkills" element={<Addskills />} />
-          <Route path="Categorieslist1" element={<Categorieslist1 />} />
-          <Route path="Categories/:id" element={<EditCategory />} />
-          <Route path="view-profile/:user/:userId" element={<Profile />} />
-          <Route path="locations" element={<LocationList />} />
-          <Route path="admins/Create" element={<Create />} />
-          <Route path="admins/List" element={<List />} />
-          <Route path="AddForms" element={<AddForms />} />
-          <Route path="Table" element={<Table />} />
-          <Route path="Skills" element={<Skills />} />
-          <Route path="users" element={<UserList />} />
-          <Route path="Skills/:id" element={<EditSkill />} />
-          <Route path="orders" element={<OrdersList />} />
-          <Route path="add-page" element={<Addpage />} />
-          <Route path="pages" element={<PagesList />} />
-          <Route path="jobs" element={<JobsListSuperAdmin />} />
-          <Route path="jobs/:id" element={<JobSuperAdmin />} />
-        </Route>
+          {/* SuperAdmin Routes */}
+          <Route path="/superadmin" element={(token && role == 'superadmin') ? <SuperAdminLayout /> : <SuperAdminLogin />}>
+            <Route index element={<SuperAdminHome />} />
+            <Route path="Categories1" element={<Categories1 />} />
+            <Route path="AddSkills" element={<Addskills />} />
+            <Route path="Categorieslist1" element={<Categorieslist1 />} />
+            <Route path="Categories/:id" element={<EditCategory />} />
+            <Route path="view-profile/:user/:userId" element={<Profile />} />
+            <Route path="locations" element={<LocationList />} />
+            <Route path="admins/Create" element={<Create />} />
+            <Route path="admins/List" element={<List />} />
+            <Route path="AddForms" element={<AddForms />} />
+            <Route path="Table" element={<Table />} />
+            <Route path="Skills" element={<Skills />} />
+            <Route path="users" element={<UserList />} />
+            <Route path="Skills/:id" element={<EditSkill />} />
+            <Route path="orders" element={<OrdersList />} />
+            <Route path="add-page" element={<Addpage />} />
+            <Route path="pages" element={<PagesList />} />
+            <Route path="jobs" element={<JobsListSuperAdmin />} />
+            <Route path="jobs/:id" element={<JobSuperAdmin />} />
+          </Route>
 
 
-        {/* Common Layout */}
-        <Route path="/" element={<CommonLayout />}>
-          <Route index element={<Home />} />
-          <Route path="aboutus" element={<AboutUs />} />
-          <Route path="services" element={<Services />} />
-          <Route path="terms-conditions" element={<Terms />} />
-          <Route path="privacy-policy" element={<Privacy />} />
-          <Route path="contact-us" element={<ContactUs />} />
-          <Route path="common/Aboutwhvisa" element={<Aboutwhvisa />} />
-          <Route path="common/Banking" element={<Banking />} />
-          <Route path="/common/SingleJob/:id" element={<SingleJob />} />
-          <Route path="/common/Typesofwork" element={<Typesofwork />} />
-          <Route path="/common/Usefullinks" element={<Usefullinks />} />
-          <Route path="/common/Places" element={<Places />} />
-          <Route path="/common/Transport" element={<Transport />} />
-          <Route path="/common/News" element={<News />} />
-          <Route path="/common/Tax" element={<Tax />} />
-          <Route path="/common/Accommodation" element={<Accommodation />} />
-          <Route path="/common/HolidayParks" element={<HolidayParks />} />
-          <Route path="/common/FreedomCampaining" element={<FreedomCampaining />} />
-          <Route path="/common/Activities" element={<Activities />} />
-          <Route path="/common/Jobs" element={<Jobs />} />
-          <Route path="/payment-status" element={token ? <PaymentStatus /> : <Navigate to="/" />} />
-          <Route path="/cities/:city" element={<City />} />
-          <Route path="/forgotPassword" element={<ForgetPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/activate-account" element={<ActivateAccount />} />
+          {/* Common Layout */}
+          <Route path="/" element={<CommonLayout />}>
+            <Route index element={<Home />} />
+            <Route path="aboutus" element={<AboutUs />} />
+            <Route path="services" element={<Services />} />
+            <Route path="terms-conditions" element={<Terms />} />
+            <Route path="privacy-policy" element={<Privacy />} />
+            <Route path="contact-us" element={<ContactUs />} />
+            <Route path="common/Aboutwhvisa" element={<Aboutwhvisa />} />
+            <Route path="common/Banking" element={<Banking />} />
+            <Route path="/common/SingleJob/:id" element={<SingleJob />} />
+            <Route path="/common/Typesofwork" element={<Typesofwork />} />
+            <Route path="/common/Usefullinks" element={<Usefullinks />} />
+            <Route path="/common/Places" element={<Places />} />
+            <Route path="/common/Transport" element={<Transport />} />
+            <Route path="/common/News" element={<News />} />
+            <Route path="/common/Tax" element={<Tax />} />
+            <Route path="/common/Accommodation" element={<Accommodation />} />
+            <Route path="/common/HolidayParks" element={<HolidayParks />} />
+            <Route path="/common/FreedomCampaining" element={<FreedomCampaining />} />
+            <Route path="/common/Activities" element={<Activities />} />
+            <Route path="/common/Jobs" element={<Jobs />} />
+            <Route path="/payment-status" element={token ? <PaymentStatus /> : <Navigate to="/" />} />
+            <Route path="/cities/:city" element={<City />} />
+            <Route path="/forgotPassword" element={<ForgetPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/activate-account" element={<ActivateAccount />} />
 
-          {/* User Protected Routes */}
+            {/* User Protected Routes */}
 
-          <Route path="profile" element={(token && role == 'user') ? <UserProfile /> : <Navigate to="/" />} />
-          <Route path="viewprofile" element={(token && role == 'user') ? <ViewProfile /> : <Navigate to="/" />} />
-          <Route path="applied-jobs" element={(token && role == 'user') ? <Myappliedjobs /> : <Navigate to="/" />} />
-          <Route path="saved-jobs" element={(token && role == 'user') ? <Savedjobs /> : <Navigate to="/" />} />
-        </Route>
-      </Routes>
+            <Route path="profile" element={(token && role == 'user') ? <UserProfile /> : <Navigate to="/" />} />
+            <Route path="viewprofile" element={(token && role == 'user') ? <ViewProfile /> : <Navigate to="/" />} />
+            <Route path="applied-jobs" element={(token && role == 'user') ? <Myappliedjobs /> : <Navigate to="/" />} />
+            <Route path="saved-jobs" element={(token && role == 'user') ? <Savedjobs /> : <Navigate to="/" />} />
+          </Route>
+        </Routes>
+      </CurrentJobContext.Provider>
     </BrowserRouter>
   )
 }

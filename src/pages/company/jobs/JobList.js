@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import { MdEmail } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { CiBellOn } from "react-icons/ci";
 import { GoQuestion } from "react-icons/go";
+import { FaCopy } from "react-icons/fa";
 
 import http from "../../../helpers/http";
 import { itemsPerPage } from "../../../helpers/constants";
@@ -12,6 +13,7 @@ import Pagination from '../../../components/Pagination';
 import Loader from '../../../components/Loader';
 import Toaster from "../../../components/Toaster";
 import MessagePopup from "./MessagePopup";
+import { CurrentJobContext } from "../../../helpers/Context";
 
 function Joblist() {
     const [totalItems, setTotalItems] = useState(0)
@@ -27,11 +29,17 @@ function Joblist() {
         type: ""
     })
     const userId = localStorage.getItem('user_id');
+    const { setCurrentJob } = useContext(CurrentJobContext)
     const navigate = useNavigate();
 
     useEffect(() => {
         showJobsList(pgNumber)
     }, [name])
+
+    const handleDuplicate = (job) => {
+        setCurrentJob({ ...job })
+        navigate(`/company/postajob?c=${job._id}`)
+    }
 
     const showJobsList = async (page) => {
         setIsLoading(true)
@@ -118,7 +126,7 @@ function Joblist() {
                             <Toaster message={message} setMessage={setMessage} />
                             <Pagination itemsPerPage={itemsPerPage} currentPage={pgNumber} setCurrentPage={setPgNumber} totalCount={totalItems} fetchItems={showJobsList} pageNumberToShow={2}>
 
-                                <div className=" px-5 bg-white rounded ">
+                                <div className="  bg-white rounded ">
                                     <input
                                         type="text"
                                         placeholder="Search by job title or reference"
@@ -143,6 +151,7 @@ function Joblist() {
                                                             <th>Posted Date</th>
                                                             <th className="text-center">Status</th>
                                                             <th>Edit</th>
+                                                            <th>Duplicate</th>
                                                             <th>{assignJobs?.some((job) => job.status === "approved") && <span>Close</span>}</th>
                                                             <th>{assignJobs?.some((job) => job.status === "expired" || job.status === "closed") && <span>Delete</span>}</th>
                                                             <th className="text-center">Applications</th>
@@ -192,6 +201,9 @@ function Joblist() {
                                                                             <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z" />
                                                                         </svg>
                                                                     </Link>
+                                                                </td>
+                                                                <td>
+                                                                    <span role="button" onClick={() => handleDuplicate(job)}><FaCopy fontSize={18} /></span>
                                                                 </td>
                                                                 <td>
                                                                     {job.status === "approved" &&

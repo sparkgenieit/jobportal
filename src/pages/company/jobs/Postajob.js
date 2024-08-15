@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 import { CitiesList } from '../../../helpers/constants';
@@ -6,6 +6,7 @@ import MdxEditor from '../../../components/MdxEditor';
 import Toaster from '../../../components/Toaster';
 import { editJob, fetchCategories, fetchCompanyInfo, fetchJobForEditing, postJob } from './postAndEditJob.service';
 import { getCredits } from '../../../helpers/functions';
+import { CurrentJobContext } from '../../../helpers/Context';
 
 const initialValues = {
   company: "",
@@ -36,6 +37,8 @@ function Postajob({ name }) {
   const formRef = useRef(null)
   const params = useParams()
   const [searchParams] = useSearchParams()
+  const { currentJob, setCurrentJob } = useContext(CurrentJobContext)
+  const cloneJobId = searchParams.get("c")
 
   const [training, setTraining] = useState({
     status: false,
@@ -74,11 +77,10 @@ function Postajob({ name }) {
 
   useEffect(() => {
     fetchCategories(setCategoriesList, setParent)
-    const cloneJob = searchParams.get("c")
 
-    if (name === "Post a Job" && !cloneJob) fetchCompanyInfo(user_id, setJobData, setBenefits, setTraining, setEmployerQuestions, initialValues)
+    if (name === "Post a Job" && !cloneJobId) fetchCompanyInfo(user_id, setJobData, setBenefits, setTraining, setEmployerQuestions, initialValues)
 
-    if (name === 'Post a Job' && cloneJob) setJobData({ ...jobData, creationdate: new Date() })
+    if (name === 'Post a Job' && cloneJobId && cloneJobId === currentJob._id) setJobData({ ...currentJob, creationdate: new Date() })
 
     if (name === "Edit Job") fetchJobForEditing(params.id, setJobData, setBenefits, setTraining, setEmployerQuestions)
 
@@ -95,7 +97,14 @@ function Postajob({ name }) {
   }
 
   const handleClone = () => {
-    navigate(`/company/postajob?c=true`)
+    setCurrentJob({ ...jobData })
+    navigate(`/company/postajob?c=${jobData._id}`)
+    window.scrollTo({ top: 20, behavior: "smooth" })
+  }
+
+  const discardForm = async () => {
+    window.history.replaceState(null, null, '/company/postajob')
+    await fetchCompanyInfo(user_id, setJobData, setBenefits, setTraining, setEmployerQuestions, initialValues)
     window.scrollTo({ top: 20, behavior: "smooth" })
   }
 
@@ -437,18 +446,27 @@ function Postajob({ name }) {
                   <div class="form-group">
                     <div className='d-flex justify-content-between py-2 px-5'>
                       <div>
+                        {name === "Post a Job" && cloneJobId &&
+                          <button
+                            type='button'
+                            className='btn btn-primary'
+                            onClick={discardForm}
+                          >
+                            Discard
+                          </button>
+                        }
                         {name === "Edit Job" &&
                           <button
                             type='button'
                             className='btn btn-primary'
                             onClick={handleClone}
                           >
-                            Clone Job
+                            Duplicate Job
                           </button>
                         }
                       </div>
                       <button className="btn btn-primary" type="button" onClick={submitJob}>
-                        Save
+                        Submit
                       </button>
                     </div>
                   </div>
