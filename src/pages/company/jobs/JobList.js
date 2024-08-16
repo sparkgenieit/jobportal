@@ -126,7 +126,7 @@ function Joblist() {
                             <Toaster message={message} setMessage={setMessage} />
                             <Pagination itemsPerPage={itemsPerPage} currentPage={pgNumber} setCurrentPage={setPgNumber} totalCount={totalItems} fetchItems={showJobsList} pageNumberToShow={2}>
 
-                                <div className="  bg-white rounded ">
+                                <div className="bg-white rounded ">
                                     <input
                                         type="text"
                                         placeholder="Search by job title or reference"
@@ -146,6 +146,7 @@ function Joblist() {
                                                 <table className="table text-center " >
                                                     <thead>
                                                         <tr className="">
+                                                            <th></th>
                                                             <th className="text-start">Job Title</th>
                                                             <th className="text-start">Job Reference</th>
                                                             <th>Posted Date</th>
@@ -176,8 +177,9 @@ function Joblist() {
                                                                     >
                                                                         <GoQuestion fontSize={20} />
                                                                     </span>
-                                                                    {job.jobTitle}
+
                                                                 </td>
+                                                                <td className="text-start">{job.jobTitle}</td>
                                                                 <td className="text-start">{job.employjobreference}</td>
                                                                 <td>{new Date(job.creationdate).toLocaleDateString('en-GB')}</td>
                                                                 <td className="text-center">

@@ -28,7 +28,6 @@ function SingleJob() {
     const [jobview, setJobview] = useState()
     const role = localStorage.getItem('role');
     const navigate = useNavigate()
-    const [tooltip, setTooltip] = useState({})
     const params = useParams();
     const userId = localStorage.getItem('user_id');
     const [message, setMessage] = useState({
@@ -44,8 +43,10 @@ function SingleJob() {
     const [showLocation, setShowLocation] = useState(false)
 
     useEffect(() => {
-        getJob();
-        getUserJobStatus();
+        Promise.all([
+            getJob(),
+            getUserJobStatus()
+        ])
     }, [])
 
     const getJob = () => {
@@ -194,9 +195,6 @@ function SingleJob() {
         }
     }
 
-    const handleTooltip = (value, name) => {
-        setTooltip({ [name]: value })
-    }
 
     return (
         <>

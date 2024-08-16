@@ -1,6 +1,6 @@
 import './Card.css';
 
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { FaCheckSquare, FaDollarSign, FaRegClock, FaShare } from "react-icons/fa";
@@ -11,23 +11,75 @@ import { JobsContext } from '../helpers/Context';
 import { getTrueKeys, timeAgo } from "../helpers/functions";
 import { BASE_API_URL, BASE_APP_URL } from "../helpers/constants"
 import { MdOutlineLocationOn, MdOutlinePeopleOutline } from 'react-icons/md';
-import { IoHomeOutline } from 'react-icons/io5';
+import { IoBookmark, IoHomeOutline } from 'react-icons/io5';
 import { GiHotMeal } from 'react-icons/gi';
 import { PiCarProfileThin } from 'react-icons/pi';
 import Tooltip from './Tooltip';
+import http from '../helpers/http';
 
 export default function Card({ job }) {
+    const [isJobSaved, setIsJobSaved] = useState(false)
+    const user_id = localStorage.getItem('user_id')
+    const role = localStorage.getItem('role');
+
+    useEffect(() => {
+        fetchUserStatus()
+    }, [])
+
+    const fetchUserStatus = async () => {
+        if (role === "user") {
+            const response = await http.get(`/jobs/user-job-status/${user_id}?jobId=${job._id}`)
+            setIsJobSaved(response.data.saved)
+        }
+    }
+
     const navigate = useNavigate()
 
     const { setInfo, setMessage, setLocationPopup } = useContext(JobsContext)
-
-    const [tooltip, setTooltip] = useState({})
 
     const JobsData = JSON.parse(sessionStorage.getItem('JobsData'))
 
     const count = JobsData?.JobsCount?.filter(x => x._id === job.companyId)
 
     const companyInfo = JobsData?.companiesWIthInfo?.filter(x => x.user_id === job.companyId)
+
+    function handleSave(e) {
+        if (user_id && role === "user") {
+            const data = {
+                saved_date: new Date().toLocaleDateString('en-GB'),
+                userId: user_id,
+                jobId: job._id,
+                saved: true
+            }
+
+            http.post("/jobs/save", data)
+                .then((response) => {
+                    setMessage({
+                        show: true,
+                        type: "success",
+                        text: "Job Saved Successfully "
+                    })
+                    setIsJobSaved(true)
+                })
+                .catch((e) => {
+                    setMessage({
+                        show: true,
+                        type: "alert alert-danger",
+                        text: e.response.data.message
+                    })
+                    setTimeout(() => {
+                        setMessage({ show: false })
+                    }, 3000)
+                })
+        } else {
+            setMessage({
+                show: true,
+                type: "alert alert-danger",
+                text: 'Please login as User to save job'
+            })
+        }
+        e.stopPropagation();
+    }
 
 
     const handleShare = (event) => {
@@ -48,9 +100,6 @@ export default function Card({ job }) {
         e.stopPropagation();
     }
 
-    const handleTooltip = (value, name) => {
-        setTooltip({ [name]: value })
-    }
 
     const date = new Date(job.creationdate).toLocaleDateString('en-GB')
     const benefits = getTrueKeys(JSON.parse(job.benifits))
@@ -120,11 +169,17 @@ export default function Card({ job }) {
                             <span><FaShare size="20px" /></span>
                         </a>
                     </Tooltip>
-                    <Tooltip tooltipText={"Save"}>
+
+                    <Tooltip tooltipText={isJobSaved ? "Saved" : "Save"}>
                         <a className='pe-2' type='button'>
-                            <span><CiBookmark size="22px" /></span>
+                            {isJobSaved ?
+                                <span><IoBookmark size="20px" /></span>
+                                :
+                                <span onClick={(e) => handleSave(e)}><CiBookmark size="22px" /></span>
+                            }
                         </a>
                     </Tooltip>
+
                 </div>
             </div >
 
@@ -156,7 +211,7 @@ export default function Card({ job }) {
                         </>}
                     </Tooltip>
                     <div className=''>
-                        {job.training.includes("true") && <span>
+                        {job.training.includes("true") && <span className='text-nowrap'>
                             Training Provided
                             <span className='ps-1'>
                                 <FaCheckSquare size="18px" />
