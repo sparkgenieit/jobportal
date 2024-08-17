@@ -9,6 +9,21 @@ import Pagination from '../../components/Pagination';
 import Ads from './ads';
 import Filter from '../../components/Filter';
 import JobCardList from '../../components/JobCardsList';
+import Loader from '../../components/Loader';
+
+const initialValues = {
+    company: "",
+    jobTitle: "",
+    location: "",
+    jobtype: "",
+    jobCategory: "",
+    subCategory: "",
+    rateperhour: null,
+    duration: null,
+    weeklyperhour: null,
+    date: null,
+    sort: "creationdate"
+}
 
 function Jobs() {
     const [jobs, setJobs] = useState(null)
@@ -18,25 +33,13 @@ function Jobs() {
     const [refresh, setRefresh] = useState(true)
     const [loading, setLoading] = useState(false)
     const filter = JSON.parse(sessionStorage.getItem("filter"))
-    const [filterFields, setFilterFields] = useState(filter ||
-    {
-        company: "",
-        jobTitle: "",
-        location: "",
-        jobtype: "",
-        jobCategory: "",
-        subCategory: "",
-        rateperhour: null,
-        duration: null,
-        weeklyperhour: null,
-        date: null,
-        sort: "creationdate"
-    })
-    const ref = useRef(null)
+    const [filterFields, setFilterFields] = useState(filter || initialValues)
 
     const location = searchParams.get("location")
     const keyword = searchParams.get("keyword")
     const company = searchParams.get("company")
+
+    const ref = useRef(null)
 
     useEffect(() => {
         fetchJobs(pgNumber)
@@ -44,7 +47,7 @@ function Jobs() {
 
     const fetchJobs = async (page) => {
         setLoading(true)
-        let currentFilters = { ...filter }
+        let currentFilters = { ...filterFields }
         if (location && location.trim() != "") {
             currentFilters.location = location;
         }
@@ -81,11 +84,8 @@ function Jobs() {
         setRefresh(!refresh)
     }
 
-
     return <>
-
         <main className="container-fluid">
-
             <div className='row'>
                 <div className='col-5'></div>
                 <div className='col-5 mb-2 ps-5 d-flex justify-content-center align-items-end'>
@@ -106,11 +106,12 @@ function Jobs() {
 
                         <section style={{ paddingLeft: "15px" }} ref={ref} className="col-9  row container-fluid scrollbar  hide-scrollbar ">
 
-                            <div className="col-8 w-full d-flex">
+                            <div className="col-8 w-full">
                                 <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} itemsPerPage={itemsPerPage} totalCount={totalItems} fetchItems={fetchJobs} pageNumberToShow={2}>
 
                                     <div className="mb-3">
-                                        <JobCardList jobs={jobs} />
+                                        {loading && <Loader />}
+                                        {!loading && <JobCardList jobs={jobs} />}
                                     </div>
 
                                 </Pagination>

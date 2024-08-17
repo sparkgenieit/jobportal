@@ -1,7 +1,5 @@
 import './SingleJob.css';
-import Header from '../../layouts/common/Header';
-import Footer from '../../layouts/common/Footer';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import http from '../../helpers/http';
 import Ads from './ads';
@@ -21,12 +19,14 @@ import Toaster from '../../components/Toaster';
 import Loader from '../../components/Loader';
 import LocationPopup from '../../components/LocationPopup';
 import Tooltip from '../../components/Tooltip';
+import { JobsContext } from '../../helpers/Context';
 
 function SingleJob() {
     const [isJobApplied, setIsJobApplied] = useState(false)
     const [isJobSaved, setIsJobSaved] = useState(false)
     const [jobview, setJobview] = useState()
     const role = localStorage.getItem('role');
+    const { setLocationPopup } = useContext(JobsContext);
     const navigate = useNavigate()
     const params = useParams();
     const userId = localStorage.getItem('user_id');
@@ -35,18 +35,20 @@ function SingleJob() {
         type: "alert alert-success",
         text: ""
     })
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [showReport, setShowReport] = useState(false)
     const [reportReason, setReportReason] = useState("")
     const [reportError, setReportError] = useState(false)
     const youtubeRef = useRef(null)
-    const [showLocation, setShowLocation] = useState(false)
 
     useEffect(() => {
-        Promise.all([
-            getJob(),
-            getUserJobStatus()
-        ])
+        setLoading(true)
+        Promise.all([getJob(), getUserJobStatus()])
+            .then(res => {
+                setLoading(false)
+            }).catch(e => {
+                setLoading(false)
+            })
     }, [])
 
     const getJob = () => {
@@ -199,9 +201,8 @@ function SingleJob() {
     return (
         <>
             <Toaster message={message} setMessage={setMessage} />
-
-
-            {jobview && jobview.status === "approved" &&
+            {loading && <Loader />}
+            {!loading && jobview && jobview.status === "approved" &&
                 < div className='row mt-3 '>
                     <div style={{ paddingLeft: "100px" }} className='col-md-9 container-fluid'>
                         <div className='mb-3 mx-4'>
@@ -239,7 +240,7 @@ function SingleJob() {
                                 <div>
                                     {jobview.jobCategory}/{jobview.subCategory}
                                 </div>
-                                <div role='button' onClick={() => { setShowLocation(true) }}>
+                                <div role='button' onClick={() => { setLocationPopup({ show: true, city: jobview.location }) }}>
                                     <span className='pe-1 '><MdOutlineLocationOn size="20px" /></span>
                                     <span className='text-decoration-underline text-primary'>
                                         {jobview.location}
@@ -401,10 +402,10 @@ function SingleJob() {
                 </div>
 
             }
-            {!jobview || jobview.status !== "approved" && <h3>Job Not Found</h3>}
+            {!loading && !jobview || jobview.status !== "approved" && <h3>Job Not Found</h3>}
 
 
-            <LocationPopup show={showLocation} handleClose={() => { setShowLocation(false) }} city={jobview?.location} />
+            <LocationPopup />
 
             <Modal size="md" show={showReport} onHide={handleClose} centered>
                 <Modal.Body>

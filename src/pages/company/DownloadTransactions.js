@@ -86,7 +86,7 @@ export default function DownloadTransactions() {
             </button>
             <div className="d-flex flex-column align-items-center justify-content-center gap-4">
                 <div className="d-flex gap-4">
-                    <h2 className=" flex grow-1 text-center">Download transactions</h2>
+                    <h2 className=" flex grow-1 text-center">Download Transactions</h2>
                 </div>
 
                 <form className="d-flex gap-5">
@@ -98,9 +98,7 @@ export default function DownloadTransactions() {
                             type="date"
                             className="form-control"
                         />
-                    </div>
 
-                    <div className="d-flex gap-3 align-items-center input-group">
                         <label className="fw-bold">To date</label>
                         <input
                             type="date"
@@ -110,12 +108,15 @@ export default function DownloadTransactions() {
                         />
                     </div>
 
+
                     <button onClick={getTransactionsByDate} className=" btn btn-info rounded-4" type="button">
                         Apply
                     </button>
+
                     <button type="button" disabled={downloading} onClick={tableToCSV} className="btn btn-info rounded-4">Download</button>
 
                 </form>
+                <span className="fw-bold small"><em>Select a date range,then click "Apply" or "Download" to export all transactions</em></span>
 
                 {error && <span className="text-danger fw-bold">{error}</span>}
             </div>
