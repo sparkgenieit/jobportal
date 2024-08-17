@@ -5,7 +5,7 @@ import { MdEmail } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { CiBellOn } from "react-icons/ci";
 import { GoQuestion } from "react-icons/go";
-import { FaCopy } from "react-icons/fa";
+import { HiOutlineDocumentDuplicate } from "react-icons/hi2";
 
 import http from "../../../helpers/http";
 import { itemsPerPage } from "../../../helpers/constants";
@@ -205,7 +205,7 @@ function Joblist() {
                                                                     </Link>
                                                                 </td>
                                                                 <td>
-                                                                    <span role="button" onClick={() => handleDuplicate(job)}><FaCopy fontSize={18} /></span>
+                                                                    <span role="button" onClick={() => handleDuplicate(job)}><HiOutlineDocumentDuplicate fontSize={20} /></span>
                                                                 </td>
                                                                 <td>
                                                                     {job.status === "approved" &&

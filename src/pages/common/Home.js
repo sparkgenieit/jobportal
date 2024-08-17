@@ -8,6 +8,7 @@ import http from '../../helpers/http';
 import Ads from './ads';
 import Suggestions from '../../components/Suggestions';
 import NZMap from '../../components/NZMap';
+import LocationPopup from '../../components/LocationPopup';
 
 function Home() {
     const [searchBox, setSearchBox] = useState({
@@ -109,6 +110,7 @@ function Home() {
             <div className="container-fluid text-center py-5">
                 <div>
                     <NZMap />
+                    <LocationPopup />
                 </div>
                 <div className='row'>
                     <section className='col-2'>

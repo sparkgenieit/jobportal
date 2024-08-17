@@ -1,9 +1,5 @@
 import './UserLogin.css';
-
-import Head from "../../layouts/common/Head";
-import Heder from '../../layouts/common/Header';
-import Footer from '../../layouts/common/Footer';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import userService from '../../services/common/user.service';
 
@@ -104,13 +100,11 @@ function UserLogin() {
           // Store the token securely (e.g., in localStorage or HTTP-only cookies)
           localStorage.setItem('token', token);
           localStorage.setItem('fullname', response.data.first_name + " " + response.data.last_name)
-
-
           localStorage.setItem('role', response.data.role)
           if (response.data.role === 'employer') {
             localStorage.setItem('credits', response.data.credits);
             localStorage.setItem('usedFreeCredit', response.data.usedFreeCredit);
-            navigate('/company')
+            window.location.href = "/company"
           } else {
             window.location.reload();
           }

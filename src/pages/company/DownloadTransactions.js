@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react"
 
+import { IoMdArrowBack } from "react-icons/io";
+
 import http from "../../helpers/http";
+import { useNavigate } from "react-router-dom";
 
 export default function DownloadTransactions() {
     const user_id = localStorage.getItem('user_id')
@@ -10,6 +13,7 @@ export default function DownloadTransactions() {
     const [toDate, setToDate] = useState("")
     const [fromDate, setFromDate] = useState("")
     const tableRef = useRef(null)
+    const navigate = useNavigate()
 
     function tableToCSV() {
         setDownloading(true)
@@ -61,6 +65,10 @@ export default function DownloadTransactions() {
         setDownloading(false)
     }
 
+    const goBack = () => {
+        navigate(-1)
+    }
+
     const fetchTransactions = async () => {
         try {
             const response = await http.get(`/orders/download-transactions/${user_id}?from=${fromDate}&to=${toDate}`)
@@ -73,10 +81,12 @@ export default function DownloadTransactions() {
 
     return (
         <div className="container-fluid mt-3">
+            <button onClick={goBack} type="button" className="btn btn-dark btn-xs rounded-circle">
+                <IoMdArrowBack fontSize={16} />
+            </button>
             <div className="d-flex flex-column align-items-center justify-content-center gap-4">
                 <div className="d-flex gap-4">
-                    <h2 className="text-center">Download transactions</h2>
-                    <button type="button" disabled={downloading} onClick={tableToCSV} className="btn btn-info">Download</button>
+                    <h2 className=" flex grow-1 text-center">Download transactions</h2>
                 </div>
 
                 <form className="d-flex gap-5">
@@ -100,9 +110,10 @@ export default function DownloadTransactions() {
                         />
                     </div>
 
-                    <button onClick={getTransactionsByDate} className=" btn btn-light" type="button">
-                        Get Transactions
+                    <button onClick={getTransactionsByDate} className=" btn btn-info rounded-4" type="button">
+                        Apply
                     </button>
+                    <button type="button" disabled={downloading} onClick={tableToCSV} className="btn btn-info rounded-4">Download</button>
 
                 </form>
 

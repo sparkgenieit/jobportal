@@ -40,8 +40,11 @@ export default function Transactions() {
     return (
         <>
             <div class="container-fluid">
-                <div className="content-wrapper bg-white">
-                    <h4 className="text-center">Transactions</h4>
+                <div className="mt-4 bg-white">
+                    <div className="d-flex align-items-center">
+                        <h4 className="flex-grow-1 text-center">Transactions</h4>
+                        <Link to='/company/transactions/download-transactions' className="btn btn-info rounded-4">Download</Link>
+                    </div>
                     <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalCount={totalItems} itemsPerPage={itemsPerPage} fetchItems={fetchTransactionDetails} pageNumberToShow={2} >
                         <form>
                             <div className="my-3 input-group">
@@ -56,7 +59,7 @@ export default function Transactions() {
                                     className="form-control"
                                     placeholder="Search Transaction by Invoice number, Date (dd/mm/yyyy), Amount"
                                 />
-                                <Link to='/company/transactions/download-transactions' className="btn btn-info rounded">Download all transactions</Link>
+
                             </div>
                         </form>
                         {loading && <Loader />}

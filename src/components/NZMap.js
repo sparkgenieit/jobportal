@@ -1,15 +1,18 @@
 import './nz-map.css'
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ImageMapper from 'react-img-mapper';
-import LocationPopup from './LocationPopup';
+import { JobsContext } from '../helpers/Context';
 
 export default function NZMap() {
-    const [show, setShow] = useState(false)
-    const [clickedRegion, setClickedRegion] = useState()
+    const { setLocationPopup } = useContext(JobsContext);
+
     const mapClick = (e) => {
-        setClickedRegion(e.id)
-        setShow(true)
+        setLocationPopup({
+            show: true,
+            city: e.id
+        })
     }
+
     const areas = [
         // These are the co-ordinates of the Labels on the map
         { id: "Taranaki", shape: "rect", coords: [269, 235, 386, 274] },
@@ -64,7 +67,7 @@ export default function NZMap() {
                 />
 
             </div>
-            <LocationPopup show={show} handleClose={() => { setShow(false) }} city={clickedRegion} />
+
         </>
     )
 } 
