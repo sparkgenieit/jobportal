@@ -81,12 +81,13 @@ export default function DownloadTransactions() {
 
     return (
         <div className="container-fluid mt-3">
-            <button onClick={goBack} type="button" className="btn btn-dark btn-xs rounded-circle">
+            <button onClick={goBack} type="button" className="btn p-2 btn-dark btn-xs rounded-circle ">
                 <IoMdArrowBack fontSize={16} />
             </button>
             <div className="d-flex flex-column align-items-center justify-content-center gap-4">
-                <div className="d-flex gap-4">
-                    <h2 className=" flex grow-1 text-center">Download Transactions</h2>
+                <div>
+                    <h2 className=" flex grow-1 fw-bold fs-3 text-center">Download Transactions</h2>
+                    <span className="text-secondary small"><em>Select a date range,then click "Apply" or "Download" to export all transactions</em></span>
                 </div>
 
                 <form className="d-flex gap-5">
@@ -116,12 +117,11 @@ export default function DownloadTransactions() {
                     <button type="button" disabled={downloading} onClick={tableToCSV} className="btn btn-info rounded-4">Download</button>
 
                 </form>
-                <span className="fw-bold small"><em>Select a date range,then click "Apply" or "Download" to export all transactions</em></span>
 
                 {error && <span className="text-danger fw-bold">{error}</span>}
             </div>
 
-            <div className="mt-4">
+            <div className="mt-4 border-top border-2">
                 <table ref={tableRef} className="w-100 table">
                     <thead >
                         <tr style={{ fontSize: "14px" }} className="text-center">
