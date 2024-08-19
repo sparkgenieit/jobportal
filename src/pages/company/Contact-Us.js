@@ -73,6 +73,18 @@ export default function ContactUs() {
             const contactData = { ...contactForm }
             contactData.enquirer = "Employer"
             contactData.companyId = user_id
+
+            const chat = {
+                date: new Date(),
+                from: contactForm.organisation,
+                message: contactForm.message,
+                by: "Enquirer"
+            }
+
+            contactData.chat = chat;
+
+            delete contactData.message;
+
             try {
                 await http.post('/contact/employer/query', contactData)
                 setContactForm({ ...contactForm, status: "Submitted" })

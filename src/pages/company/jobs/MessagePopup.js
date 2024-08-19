@@ -43,7 +43,12 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob }
             try {
                 const inquiryData = {
                     subject,
-                    message,
+                    chat: [{
+                        date: new Date(),
+                        from: modal.clickedJob.company,
+                        message,
+                        by: "Enquirer"
+                    }],
                     name: modal.clickedJob.jobTitle,
                     organisation: modal.clickedJob.company,
                     jobId: modal.clickedJob._id,

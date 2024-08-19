@@ -87,7 +87,7 @@ export default function DownloadTransactions() {
             <div className="d-flex flex-column align-items-center justify-content-center gap-4">
                 <div>
                     <h2 className=" flex grow-1 fw-bold fs-3 text-center">Download Transactions</h2>
-                    <span className="text-secondary small"><em>Select a date range,then click "Apply" or "Download" to export all transactions</em></span>
+                    <span className="text-secondary small"><em>Select a date range, then click "Apply" or "Download" to export all transactions.</em></span>
                 </div>
 
                 <form className="d-flex gap-5">
@@ -127,8 +127,8 @@ export default function DownloadTransactions() {
                         <tr style={{ fontSize: "14px" }} className="text-center">
                             <th>Transaction ID</th>
                             <th>Date</th>
-                            <th>Description</th>
-                            <th>Amount</th>
+                            <th className="text-start">Description</th>
+                            <th className="text-end">Amount</th>
                             <th>Credits Purchased</th>
                             <th>Credits Used</th>
                             <th>Remaining Credits</th>
@@ -142,7 +142,7 @@ export default function DownloadTransactions() {
                                 <tr key={i} className="text-center small border rounded">
                                     <td style={{ fontSize: "10px" }} className="py-3">{transaction._id}</td>
                                     <td>{new Date(transaction.created_date).toLocaleDateString('en-GB')}</td>
-                                    <td>{transaction.description}</td>
+                                    <td className="text-start">{transaction.description}</td>
                                     <td className="text-end">{transaction.amount ? `$ ${transaction.amount}` : "$0"}</td>
                                     <td>{transaction.creditsPurchased ? transaction.creditsPurchased : "0"}</td>
                                     <td>{transaction.creditsUsed}</td>

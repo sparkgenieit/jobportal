@@ -4,8 +4,10 @@ function Pagination({ currentPage, setCurrentPage, totalCount, itemsPerPage, fet
 
     const url = new URL(window.location.href);
 
+
     let total = []
-    new Array(Math.ceil(totalCount / itemsPerPage)).fill(1).forEach((arr, index) => total.push({ number: index + 1 }))
+
+    if (totalCount > 0) new Array(Math.ceil(totalCount / itemsPerPage)).fill(1).forEach((arr, index) => total.push({ number: index + 1 }))
 
     const onButtonClick = async (pgNumber) => {
         setCurrentPage(pgNumber)

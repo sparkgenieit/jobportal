@@ -19,7 +19,13 @@ export default function QueryDetails({ modal, setModal, fetchQueries, pgNumber }
         } else {
             setError(false)
             try {
-                const response = await http.patch(`/contact/query/reply/${modal.clickedQuery._id}`, { reply })
+                const data = {
+                    date: new Date(),
+                    from: "Admin",
+                    message: reply,
+                    by: "Admin"
+                }
+                const response = await http.patch(`/contact/query/reply/${modal.clickedQuery._id}`, data)
                 setModal({ ...modal, status: "posted" })
                 fetchQueries(pgNumber)
                 setTimeout(() => {

@@ -139,7 +139,7 @@ function Sidebar() {
               </Link>
             </li>
 
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link className="nav-link" to="/company/contact-us">
                 <div className='d-flex justify-content-between align-items-center w-100'>
                   <span>Contact Us</span>
@@ -148,12 +148,12 @@ function Sidebar() {
                   </span>
                 </div>
               </Link>
-            </li>
+            </li> */}
 
             <li className="nav-item">
               <Link className="nav-link" to="/company/inbox">
                 <div className='d-flex justify-content-between align-items-center w-100'>
-                  <span>Replied Queries</span>
+                  <span>Mail</span>
                   <span>
                     <IoMdMailOpen size={"22"} />
                   </span>
