@@ -65,11 +65,11 @@ export default function Transactions() {
                         {loading && <Loader />}
                         {!loading &&
                             <div className="pt-4 w-100">
-                                <table className="w-100">
+                                <table className="w-100 text-center">
                                     <thead >
-                                        <tr style={{ fontSize: "14px" }} className="text-center">
+                                        <tr style={{ fontSize: "14px" }}>
                                             <th>Transaction ID</th>
-                                            <th className="d-flex gap-2">
+                                            <th className="d-flex justify-content-center">
                                                 <span>Date</span>
                                                 {
                                                     sort === "desc" ?
@@ -77,8 +77,8 @@ export default function Transactions() {
                                                         <span role="button" onClick={() => { setSort("desc") }}><BiSolidUpArrow /></span>
                                                 }
                                             </th>
-                                            <th>Description</th>
-                                            <th>Amount</th>
+                                            <th className="text-start">Description</th>
+                                            <th className="text-end">Amount</th>
                                             <th>Credits Purchased</th>
                                             <th>Credits Used</th>
                                             <th>Remaining Credits</th>
@@ -90,10 +90,10 @@ export default function Transactions() {
                                     <tbody className="border border-secondary ">
                                         {transactionDetails?.map((transaction, i) => {
                                             return (
-                                                <tr key={i} style={{ fontSize: "12px" }} className="text-center small border rounded">
+                                                <tr key={i} style={{ fontSize: "12px" }} className="small border rounded">
                                                     <td style={{ fontSize: "10px" }} className="py-3">{transaction._id}</td>
                                                     <td>{new Date(transaction.created_date).toLocaleDateString('en-GB')}</td>
-                                                    <td>{transaction.description}</td>
+                                                    <td className="text-start">{transaction.description}</td>
                                                     <td className="text-end">{transaction.amount ? `$ ${transaction.amount}` : "$0"}</td>
                                                     <td>{transaction.creditsPurchased ? transaction.creditsPurchased : "0"}</td>
                                                     <td>{transaction.creditsUsed}</td>
