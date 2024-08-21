@@ -46,7 +46,6 @@ import Transactions from "./pages/company/Transactions";
 import Postajob from "./pages/company/jobs/Postajob";
 import JobList from "./pages/company/jobs/JobList";
 import BuyCredits from "./pages/company/jobs/BuyCredits";
-import EditJob from "./pages/company/jobs/EditJob";
 import AppliedUsers from "./pages/company/jobs/AppliedUsers";
 import AppliedUserProfile from "./pages/company/jobs/AppliedUserProfile";
 import EmployerContactUs from "./pages/company/Contact-Us";
@@ -60,7 +59,7 @@ import SingleJobAdmin from "./pages/admin/joblist/SingleJobAdmin";
 import AdminHome from "./pages/admin/Home";
 import Myasignjobs from "./pages/admin/joblist/Myasignjobs";
 import Login from "./pages/admin/login";
-import Queries from "./pages/admin/Queries";
+import AdminInbox from "./pages/admin/AdminInbox";
 
 //superAdmin
 
@@ -87,6 +86,7 @@ import Profile from "./pages/superadmin/user/Profile";
 import LocationList from "./pages/superadmin/locations-list/LocationList";
 import DownloadTransactions from "./pages/company/DownloadTransactions";
 import { CurrentJobContext } from "./helpers/Context";
+import ChatPage from "./components/ChatPage";
 
 
 function App() {
@@ -112,6 +112,7 @@ function App() {
             <Route path="BuyCredits" element={<BuyCredits />} />
             <Route path="contact-us" element={<EmployerContactUs />} />
             <Route path="inbox" element={<Inbox />} />
+            <Route path="inbox/details/:id" element={<ChatPage name={"Enquirer"} />} />
           </Route>
 
           <Route path="/company/transactions/download-transactions" element={<DownloadTransactions />} />
@@ -120,7 +121,8 @@ function App() {
           <Route path="/admin" element={(token && role == 'admin') ? <AdminLayout /> : <Login />}>
             <Route index element={<AdminHome />} />
             <Route path="Jobqueuelist" element={<Jobqueuelist />} />
-            <Route path="queries" element={<Queries />} />
+            <Route path="inbox" element={<AdminInbox />} />
+            <Route path="inbox/details/:id" element={<ChatPage name={"Admin"} />} />
             <Route path="Myasignjobs" element={<Myasignjobs />} />
             <Route path="view-job/:id" element={<SingleJobAdmin />} />
           </Route>

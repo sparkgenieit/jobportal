@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react"
-import Loader from "../../components/Loader"
-import { itemsPerPage } from "../../helpers/constants"
-import { Link, useSearchParams } from "react-router-dom"
-import http from "../../helpers/http"
-import Pagination from "../../components/Pagination"
-import { IoEyeSharp } from "react-icons/io5"
+
+import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { FaRegMessage } from "react-icons/fa6";
 
-import QueryDetails from "../admin/QueryDetails"
+import { itemsPerPage } from "../../helpers/constants"
+import Loader from "../../components/Loader"
+import Pagination from "../../components/Pagination"
+import http from "../../helpers/http"
 
 export default function Inbox() {
     const [queries, setQueries] = useState(null)
@@ -15,8 +14,9 @@ export default function Inbox() {
     const [loading, setLoading] = useState(false)
     const [searchParams] = useSearchParams()
     const [currentPage, setCurrentPage] = useState(+searchParams.get("page") || 1)
-    const [modal, setModal] = useState({})
     const user_id = localStorage.getItem('user_id')
+    const navigate = useNavigate();
+
     useEffect(() => {
         fetchQueries(currentPage)
     }, [])
@@ -47,11 +47,9 @@ export default function Inbox() {
                 </Link>
             </div>
 
-
             <div className="my-3">
                 <input type="search" className=" w-100 p-2 border-dark border-1" placeholder="Search inbox" />
             </div>
-
 
             <Pagination currentPage={currentPage} totalCount={totalItems} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} pageNumberToShow={2} fetchItems={fetchQueries} >
 
@@ -66,12 +64,11 @@ export default function Inbox() {
                                 <th>Message</th>
                             </tr>
                         </thead>
-
                         <tbody>
                             {queries && queries?.map((query, i) => {
-                                const latestChat = query?.chat[query?.chat?.length - 1];
+                                const latestChat = query?.chat[0];
                                 return (
-                                    <tr key={i}>
+                                    <tr role="button" key={i} onClick={() => { navigate(`/company/inbox/details/${query._id}`) }}>
                                         <td className="text-center">
                                             {new Date(latestChat?.date).toLocaleDateString("en-GB")}
                                         </td>
@@ -79,19 +76,16 @@ export default function Inbox() {
                                         <td>
                                             {query?.subject?.length > 80 ? `${query?.subject?.slice(0, 80)}...` : query?.subject}</td>
                                         <td>
-                                            {latestChat?.message?.length > 80 ? `${latestChat?.message?.slice(0, 80)}...` : latestChat?.message}
+                                            {latestChat?.message?.length > 200 ? `${latestChat?.message?.slice(0, 200)}...` : latestChat?.message}
                                         </td>
                                     </tr>
                                 )
                             })
                             }
                         </tbody>
-
                     </table>
                 }
-
             </Pagination>
-            <QueryDetails modal={modal} setModal={setModal} fetchQueries={fetchQueries} pgNumber={currentPage} />
         </div>
     )
 } 

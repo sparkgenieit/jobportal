@@ -1,10 +1,11 @@
 import './Sidebar.css';
 
 import { useState } from 'react';
-import { MdOutlineContactSupport, MdSpaceDashboard, MdAssignment } from "react-icons/md";
+import { MdSpaceDashboard, MdAssignment } from "react-icons/md";
 import { HiMiniQueueList } from "react-icons/hi2";
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { Link } from 'react-router-dom';
+import { IoMdMailOpen } from 'react-icons/io';
 
 function Sidebar() {
   // const { showSidebar } = useContext(SidebarContext)
@@ -18,7 +19,7 @@ function Sidebar() {
             <RxHamburgerMenu role='button' onClick={() => setShowSidebar(prev => !prev)} fontSize={22} />
           </div>
           <ul class="nav">
-            <li class="nav-item nav-profile">
+            {/* <li class="nav-item nav-profile">
               <Link to="#" class="nav-link">
                 <div class="nav-profile-image">
                   <img src="/assets/images/faces/face1.jpg" alt="profile" />
@@ -30,7 +31,7 @@ function Sidebar() {
                 </div>
                 <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
               </Link>
-            </li>
+            </li> */}
             <li class="nav-item">
               <Link class="nav-link" to="/admin">
                 <div className='d-flex justify-content-between w-100'>
@@ -65,12 +66,12 @@ function Sidebar() {
             </li>
 
             <li class="nav-item">
-              <Link class="nav-link" to="/admin/queries">
-                <div className='d-flex justify-content-between w-100'>
-                  <span>Queries</span>
-                  <span>
-                    <MdOutlineContactSupport size={"20"} />
-                  </span>
+              <Link class="nav-link" to="/admin/inbox">
+                <div className='d-flex align-items-center justify-content-between w-100'>
+                  <span>Mail</span>
+
+                  <IoMdMailOpen size={"22"} />
+
                 </div>
               </Link>
             </li>

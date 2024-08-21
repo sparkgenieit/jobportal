@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { IoEyeSharp } from "react-icons/io5";
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import http from "../../helpers/http";
-import QueryDetails from './QueryDetails';
 import { itemsPerPage } from '../../helpers/constants';
 import Pagination from '../../components/Pagination';
 import Loader from '../../components/Loader';
@@ -14,11 +13,11 @@ export default function Queries() {
     const [loading, setLoading] = useState(false)
     const [searchParams] = useSearchParams()
     const [currentPage, setCurrentPage] = useState(+searchParams.get("page") || 1)
-    const [modal, setModal] = useState({})
     const [searchValues, setSearchValues] = useState({
         type: "",
         search: ""
     })
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetchQueries(currentPage)
@@ -36,6 +35,7 @@ export default function Queries() {
             const { data } = await http.get(url)
             setLoading(false)
             setQueries(data.data)
+            console.log(data.data)
             setTotalItems(data.total)
         } catch (error) {
             setLoading(false)
@@ -47,11 +47,15 @@ export default function Queries() {
     return (
         <div className=" mt-3 container-fluid">
             <Pagination currentPage={currentPage} totalCount={totalItems} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} pageNumberToShow={2} fetchItems={fetchQueries} >
-                <h2 className="text-center">
-                    Queries
+                <h2 className="fw-bold fs-4 text-center">
+                    Inbox
                 </h2>
 
-                <form>
+                <div className="my-3">
+                    <input type="search" className=" w-100 p-2 border-dark border-1" placeholder="Search inbox" />
+                </div>
+
+                {/* <form>
                     <div className='d-flex my-3 align-items-center row'>
                         <div className='col-4'>
                             <input
@@ -104,60 +108,52 @@ export default function Queries() {
 
                         </div>
                     </div>
-                </form >
+                </form > */}
                 <div className='container'>
                     {loading && <Loader />}
                     {!loading &&
-                        <table className='table text-center'>
+                        <table className='table text-start table-hover'>
                             <thead>
                                 <tr >
-                                    <th>Inquiry type</th>
-                                    <th>Name</th>
-                                    <th>Organisation</th>
-                                    <th >Subject</th>
-                                    <th >Reply</th>
-                                    <th >View</th>
+                                    <th className="text-center">Date</th>
+                                    <th>From</th>
+                                    <th>Subject</th>
+                                    <th>Message</th>
                                 </tr>
                             </thead>
-
                             <tbody>
                                 {queries && queries?.map((query, i) => {
-                                    return (
-                                        <tr key={i}>
-                                            <td>
-                                                {query.enquirer}
-                                            </td>
-                                            <td>{query.name}</td>
-                                            <td>{query.organisation}</td>
-                                            <td className='text-start'>{query.subject.length > 80 ? `${query.subject.slice(0, 80)}...` : query.subject}</td>
-                                            <td >
+                                    const latestChat = query?.chat[0];
+                                    return <tr role='button' onClick={() => { navigate(`details/${query._id}?type=${query.enquirer}`) }} key={i}>
 
-                                                {query.enquirer === "Visitor" ? <span className='small fw-light'>Reply to this query via email</span> :
-
-                                                    query.reply ?
-                                                        <span className='badge text-bg-success py-2 rounded-pill'>Replied</span>
-                                                        :
-                                                        <span className='badge text-bg-warning py-2 rounded-pill'>Pending</span>
-                                                }
-
-                                            </td>
-                                            <td >
-                                                <span onClick={() => setModal({ show: true, clickedQuery: query })}>
-                                                    <IoEyeSharp fontSize={20} />
-                                                </span>
-                                            </td>
-
-                                        </tr>
-                                    )
+                                        {query.enquirer === "Visitor" ?
+                                            <>
+                                                <td className='text-center'>{new Date(query.createdAt).toLocaleDateString('en-GB')}</td>
+                                                <td>{query.name}</td>
+                                                <td>{query.subject}</td>
+                                                <td>{query.message}</td>
+                                            </>
+                                            :
+                                            <>
+                                                <td className="text-center">
+                                                    {new Date(latestChat?.date).toLocaleDateString("en-GB")}
+                                                </td>
+                                                <td>{latestChat?.from}</td>
+                                                <td>
+                                                    {query?.subject?.length > 80 ? `${query?.subject?.slice(0, 80)}...` : query?.subject}</td>
+                                                <td>
+                                                    {latestChat?.message?.length > 200 ? `${latestChat?.message?.slice(0, 200)}...` : latestChat?.message}
+                                                </td>
+                                            </>
+                                        }
+                                    </tr>
                                 })
                                 }
                             </tbody>
-
                         </table>
                     }
                 </div>
             </Pagination>
-            <QueryDetails modal={modal} setModal={setModal} fetchQueries={fetchQueries} pgNumber={currentPage} />
         </div >
     )
 }
