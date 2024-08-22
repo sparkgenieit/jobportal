@@ -5,6 +5,12 @@ import { BASE_API_URL } from "../helpers/constants"
 import { RxDoubleArrowRight } from "react-icons/rx";
 import { IoMdArrowBack } from "react-icons/io";
 
+const imgStyles = {
+    width: "35%",
+    height: "45px",
+    objectFit: 'cover'
+}
+
 export default function ChatPage({ name }) {
     const params = useParams()
     const [query, setQuery] = useState({})
@@ -57,7 +63,6 @@ export default function ChatPage({ name }) {
         fetchQuery(queryId, queryType)
     }, [])
 
-
     return (
         <div className=" mt-3 container-fluid">
             <button onClick={() => navigate(-1)} type="button" className="btn p-1 btn-dark btn-xs rounded-circle ">
@@ -97,16 +102,15 @@ export default function ChatPage({ name }) {
                     </div>
                 </div>
                 :
-                <table className="table mt-3 table-bordered">
-
+                <div className=" mt-3 ">
                     {toggleState.showMessageBox &&
-                        <tr>
-                            <td>
-                                {<img className="rounded-circle p-0 img-fluid" style={{ objectFit: 'cover' }} src={addMessage.by === "Enquirer" ? `${BASE_API_URL}/uploads/logos/${query?.companyprofile?.logo}` : "/assets/images/logo-jp.png"} alt="logo" />}
-                            </td>
-                            <td>{addMessage?.date?.toLocaleDateString('en-GB')}</td>
-                            <td>{addMessage?.from}</td>
-                            <td>
+                        <div className="row d-flex align-items-center  border-bottom  p-3" >
+                            <div className="col-2 ">
+                                {<img className="rounded-circle p-0 img-fluid" style={imgStyles} src={addMessage.by === "Enquirer" ? `${BASE_API_URL}/uploads/logos/${query?.companyprofile?.logo}` : "/assets/images/logo-jp.png"} alt="logo" />}
+                            </div>
+                            <div className="col-2 ">{addMessage?.date?.toLocaleDateString('en-GB')}</div>
+                            <div className="col-2 ">{addMessage?.from}</div>
+                            <div className="col-6">
                                 <form autoComplete="off" className="d-flex">
                                     <input
                                         type="text"
@@ -121,29 +125,25 @@ export default function ChatPage({ name }) {
                                     </button>
                                 </form>
                                 {toggleState.errorInPostingReply && <small className="text-danger">Can't post the message! Please try again later</small>}
-                            </td>
-                        </tr>
+                            </div>
+                        </div>
                     }
 
                     {query?.chat &&
                         reverseArray(query?.chat)?.map((msg, i) => {
-                            return <tr>
-                                <td>
-                                    {<img className="rounded-circle p-0 img-fluid" style={{ objectFit: 'cover' }} src={msg.by === "Enquirer" ? `${BASE_API_URL}/uploads/logos/${query?.companyprofile?.logo}` : "/assets/images/logo-jp.png"} alt="logo" />}
-                                </td>
-                                <td>{new Date(msg?.date).toLocaleDateString('en-GB')}</td>
-                                <td>{msg.from}</td>
-                                <td>
-                                    <div className="d-flex">
-                                        <span className="flex-grow-1">
-                                            {msg.message}
-                                        </span>
-                                    </div>
-                                </td>
-                            </tr>
+                            return <div className="row d-flex align-items-center  border-bottom  p-3" >
+                                <div className="col-2 ">
+                                    {<img className="rounded-circle p-0 img-fluid" style={imgStyles} src={msg.by === "Enquirer" ? `${BASE_API_URL}/uploads/logos/${query?.companyprofile?.logo}` : "/assets/images/logo-jp.png"} alt="logo" />}
+                                </div>
+                                <div className="col-2 ">{new Date(msg?.date).toLocaleDateString('en-GB')}</div>
+                                <div className="col-2 ">{msg.from}</div>
+                                <div className="col-6 text-wrap">
+                                    {msg.message}
+                                </div>
+                            </div>
                         })
                     }
-                </table>
+                </div>
             }
         </div>
     )

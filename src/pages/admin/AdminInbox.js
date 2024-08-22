@@ -11,31 +11,34 @@ export default function Queries() {
     const [queries, setQueries] = useState(null)
     const [totalItems, setTotalItems] = useState(0)
     const [loading, setLoading] = useState(false)
-    const [searchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchTerm, setSearchTerm] = useState(searchParams.get("q") || "")
     const [currentPage, setCurrentPage] = useState(+searchParams.get("page") || 1)
-    const [searchValues, setSearchValues] = useState({
-        type: "",
-        search: ""
-    })
     const navigate = useNavigate()
 
     useEffect(() => {
         fetchQueries(currentPage)
     }, [])
 
-    function handleForm(e) {
-        setSearchValues({ ...searchValues, [e.target.name]: e.target.value })
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value)
+        setSearchParams((params) => {
+            params.set("q", e.target.value);
+            params.delete("page")
+            return params;
+        })
+        setCurrentPage(1)
+        fetchQueries(1, e.target.value)
     }
 
-    const fetchQueries = async (page) => {
+    const fetchQueries = async (page, search = searchTerm) => {
         setLoading(true)
         const skip = (page - 1) * itemsPerPage
         try {
-            const url = `/contact/all-queries/?t=${searchValues.type}&s=${searchValues.search}&limit=${itemsPerPage}&skip=${skip}`
+            const url = `/contact/all-queries/?s=${search}&limit=${itemsPerPage}&skip=${skip}`
             const { data } = await http.get(url)
             setLoading(false)
             setQueries(data.data)
-            console.log(data.data)
             setTotalItems(data.total)
         } catch (error) {
             setLoading(false)
@@ -52,7 +55,13 @@ export default function Queries() {
                 </h2>
 
                 <div className="my-3">
-                    <input type="search" className=" w-100 p-2 border-dark border-1" placeholder="Search inbox" />
+                    <input
+                        type="search"
+                        className="form-control"
+                        placeholder="Search inbox"
+                        value={searchTerm}
+                        onChange={(e) => handleSearch(e)}
+                    />
                 </div>
 
                 {/* <form>
@@ -130,8 +139,8 @@ export default function Queries() {
                                             <>
                                                 <td className='text-center'>{new Date(query.createdAt).toLocaleDateString('en-GB')}</td>
                                                 <td>{query.name}</td>
-                                                <td>{query.subject}</td>
-                                                <td>{query.message}</td>
+                                                <td className="text-wrap">{query.subject}</td>
+                                                <td className="text-wrap">{query.message}</td>
                                             </>
                                             :
                                             <>
@@ -139,10 +148,10 @@ export default function Queries() {
                                                     {new Date(latestChat?.date).toLocaleDateString("en-GB")}
                                                 </td>
                                                 <td>{latestChat?.from}</td>
-                                                <td>
-                                                    {query?.subject?.length > 80 ? `${query?.subject?.slice(0, 80)}...` : query?.subject}</td>
-                                                <td>
-                                                    {latestChat?.message?.length > 200 ? `${latestChat?.message?.slice(0, 200)}...` : latestChat?.message}
+                                                <td className="text-wrap">
+                                                    {query?.subject}</td>
+                                                <td className="text-wrap">
+                                                    {latestChat?.message}
                                                 </td>
                                             </>
                                         }

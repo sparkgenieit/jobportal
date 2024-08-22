@@ -77,6 +77,11 @@ export async function getCredits() {
     localStorage.setItem("credits", data.credits)
 }
 
+export const getCloseDate = (date) => {
+    let closedate = new Date(date)
+    closedate.setMonth(closedate.getMonth() + 1)
+    return closedate.toISOString().slice(0, 10)
+}
 
 export function getYoutubeVideoId(url) {
     const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?v=))([^#\&\?]*).*/;

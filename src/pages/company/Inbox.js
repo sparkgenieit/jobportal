@@ -12,7 +12,8 @@ export default function Inbox() {
     const [queries, setQueries] = useState(null)
     const [totalItems, setTotalItems] = useState(0)
     const [loading, setLoading] = useState(false)
-    const [searchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchTerm, setSearchTerm] = useState(searchParams.get("q") || "")
     const [currentPage, setCurrentPage] = useState(+searchParams.get("page") || 1)
     const user_id = localStorage.getItem('user_id')
     const navigate = useNavigate();
@@ -22,11 +23,22 @@ export default function Inbox() {
     }, [])
 
 
-    const fetchQueries = async (page) => {
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value)
+        setSearchParams((params) => {
+            params.set("q", e.target.value);
+            params.delete("page")
+            return params;
+        })
+        setCurrentPage(1)
+        fetchQueries(1, e.target.value)
+    }
+
+    const fetchQueries = async (page, search = searchTerm) => {
         setLoading(true)
         const skip = (page - 1) * itemsPerPage
         try {
-            const url = `/contact/company-queries/${user_id}?limit=${itemsPerPage}&skip=${skip}`
+            const url = `/contact/company-queries/${user_id}?q=${search}&limit=${itemsPerPage}&skip=${skip}`
             const { data } = await http.get(url)
             setLoading(false)
             setQueries(data.data)
@@ -48,7 +60,13 @@ export default function Inbox() {
             </div>
 
             <div className="my-3">
-                <input type="search" className=" w-100 p-2 border-dark border-1" placeholder="Search inbox" />
+                <input
+                    type="search"
+                    className="form-control"
+                    placeholder="Search inbox"
+                    value={searchTerm}
+                    onChange={(e) => handleSearch(e)}
+                />
             </div>
 
             <Pagination currentPage={currentPage} totalCount={totalItems} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} pageNumberToShow={2} fetchItems={fetchQueries} >
@@ -73,10 +91,10 @@ export default function Inbox() {
                                             {new Date(latestChat?.date).toLocaleDateString("en-GB")}
                                         </td>
                                         <td>{latestChat?.from}</td>
-                                        <td>
-                                            {query?.subject?.length > 80 ? `${query?.subject?.slice(0, 80)}...` : query?.subject}</td>
-                                        <td>
-                                            {latestChat?.message?.length > 200 ? `${latestChat?.message?.slice(0, 200)}...` : latestChat?.message}
+                                        <td className="text-wrap">
+                                            {query?.subject}</td>
+                                        <td className="text-wrap">
+                                            {latestChat?.message}
                                         </td>
                                     </tr>
                                 )

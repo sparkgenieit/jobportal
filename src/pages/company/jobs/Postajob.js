@@ -5,14 +5,14 @@ import { CitiesList } from '../../../helpers/constants';
 import MdxEditor from '../../../components/MdxEditor';
 import Toaster from '../../../components/Toaster';
 import { editJob, fetchCategories, fetchCompanyInfo, fetchJobForEditing, postJob } from './postAndEditJob.service';
-import { getCredits } from '../../../helpers/functions';
+import { getCloseDate, getCredits } from '../../../helpers/functions';
 import { CurrentJobContext } from '../../../helpers/Context';
 
 const initialValues = {
   company: "",
   jobtype: "",
   jobTitle: "",
-  closedate: "",
+  closedate: getCloseDate(new Date().toString()),
   jobCategory: "",
   subCategory: "",
   numberofvacancies: "",
@@ -80,7 +80,7 @@ function Postajob({ name }) {
 
     if (name === "Post a Job" && !cloneJobId) fetchCompanyInfo(user_id, setJobData, setBenefits, setTraining, setEmployerQuestions, initialValues)
 
-    if (name === 'Post a Job' && cloneJobId && cloneJobId === currentJob._id) setJobData({ ...currentJob, creationdate: new Date() })
+    if (name === 'Post a Job' && cloneJobId && cloneJobId === currentJob._id) setJobData({ ...currentJob, creationdate: new Date(), closedate: getCloseDate(new Date().toString()) })
 
     if (name === "Edit Job") fetchJobForEditing(params.id, setJobData, setBenefits, setTraining, setEmployerQuestions)
 
@@ -119,6 +119,13 @@ function Postajob({ name }) {
     if (jobData.closedate) {
       if (jobData.creationdate.toISOString() > jobData.closedate) {
         setError({ ...error, closedate: "close date cannot be before creation date" })
+        isFormValid = false
+        invalidInput('closedate')
+        return
+      }
+
+      if (jobData.creationdate.toISOString() < jobData.closedate && getCloseDate(jobData.creationdate) < jobData.closedate) {
+        setError({ ...error, closedate: "close date cannot be more than one month from the creation date" })
         isFormValid = false
         invalidInput('closedate')
         return
@@ -209,7 +216,7 @@ function Postajob({ name }) {
                   <div className="row">
                     <div className="col-md-6">
                       <div className="form-group row">
-                        <label className="col-sm-4 col-form-label" >Company <span className='text-danger'>*</span></label>
+                        <label className="col-sm-4 col-form-label" >Company Name <span className='text-danger'>*</span></label>
                         <div className="col-sm-8">
                           <input type="text" className="form-control" name='company' value={jobData?.company} disabled />
                         </div>

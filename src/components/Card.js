@@ -18,23 +18,12 @@ import Tooltip from './Tooltip';
 import http from '../helpers/http';
 
 export default function Card({ job }) {
-    const [isJobSaved, setIsJobSaved] = useState(false)
+    const savedJobIds = JSON.parse(sessionStorage.getItem('savedJobIds'))
+
+    const [isJobSaved, setIsJobSaved] = useState(savedJobIds?.includes(job._id) || false)
     const user_id = localStorage.getItem('user_id')
     const role = localStorage.getItem('role');
-
-    useEffect(() => {
-        fetchUserStatus()
-    }, [])
-
-    const fetchUserStatus = async () => {
-        if (role === "user") {
-            const response = await http.get(`/jobs/user-job-status/${user_id}?jobId=${job._id}`)
-            setIsJobSaved(response.data.saved)
-        }
-    }
-
     const navigate = useNavigate()
-
     const { setInfo, setMessage, setLocationPopup } = useContext(JobsContext)
 
     const JobsData = JSON.parse(sessionStorage.getItem('JobsData'))
@@ -60,6 +49,8 @@ export default function Card({ job }) {
                         text: "Job Saved Successfully "
                     })
                     setIsJobSaved(true)
+                    savedJobIds.push(job._id)
+                    sessionStorage.setItem("savedJobIds", JSON.stringify(savedJobIds))
                 })
                 .catch((e) => {
                     setMessage({

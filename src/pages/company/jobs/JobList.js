@@ -78,7 +78,7 @@ function Joblist() {
             setMessage({
                 show: true, text: "Job Deleted", type: "success"
             })
-            showJobsList();
+            showJobsList(pgNumber);
         }
         catch (err) {
             setIsLoading(false)
@@ -103,7 +103,7 @@ function Joblist() {
             setMessage({
                 show: true, text: "Job Closed", type: "success"
             })
-            showJobsList();
+            showJobsList(pgNumber);
         }
         catch (error) {
             setIsLoading(false)
@@ -143,7 +143,7 @@ function Joblist() {
 
                                         {!isLoading &&
                                             <div className="col ">
-                                                <table className="table text-center " >
+                                                <table className="table text-center table-responsive" >
                                                     <thead>
                                                         <tr className="">
                                                             <th></th>
@@ -164,7 +164,7 @@ function Joblist() {
                                                     {
                                                         assignJobs?.map((job, index) => {
                                                             return <tr key={index}>
-                                                                <td className="text-start">
+                                                                <td id="jobTitle" className="text-start">
                                                                     <span
                                                                         role="button"
                                                                         onClick={() => {
@@ -179,10 +179,10 @@ function Joblist() {
                                                                     </span>
 
                                                                 </td>
-                                                                <td className="text-start">{job.jobTitle}</td>
-                                                                <td className="text-start">{job.employjobreference}</td>
-                                                                <td>{new Date(job.creationdate).toLocaleDateString('en-GB')}</td>
-                                                                <td className="text-center">
+                                                                <td id="jobTitle" className="text-start">{job.jobTitle}</td>
+                                                                <td id="jobRef" className="text-start">{job.employjobreference}</td>
+                                                                <td id="Posteddate">{new Date(job.creationdate).toLocaleDateString('en-GB')}</td>
+                                                                <td id="status" className="text-center">
                                                                     {job.status === "queue" || job.status === "review" ? <span>In Review</span> : null}
                                                                     {job.status === "approved" && <span>Live</span>}
                                                                     {job.status === "rejected" &&
@@ -197,17 +197,17 @@ function Joblist() {
                                                                     {job.status === "expired" && <span>Expired</span>}
                                                                     {job.status === "closed" ? <span>Closed</span> : null}
                                                                 </td>
-                                                                <td>
+                                                                <td id="edit">
                                                                     <Link to={`/company/editjob/${job._id}`} type="button" disabled={isLoading} >
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                                             <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z" />
                                                                         </svg>
                                                                     </Link>
                                                                 </td>
-                                                                <td>
+                                                                <td id="duplicate">
                                                                     <span role="button" onClick={() => handleDuplicate(job)}><HiOutlineDocumentDuplicate fontSize={20} /></span>
                                                                 </td>
-                                                                <td>
+                                                                <td id="close">
                                                                     {job.status === "approved" &&
                                                                         <span
                                                                             role="button"
@@ -217,8 +217,11 @@ function Joblist() {
                                                                             <RxCross2 color="red" fontSize={22} />
                                                                         </span>
                                                                     }
+                                                                    {
+                                                                        job.status === "closed" && <span>{new Date(job.closedate).toLocaleDateString('en-GB')}</span>
+                                                                    }
                                                                 </td>
-                                                                <td>
+                                                                <td id="delete">
                                                                     {job.status === "closed" || job.status === "expired" ?
                                                                         <span role="button" disabled={isLoading} onClick={() => setModal({ show: true, type: "delete", clickedJob: job })}>
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
@@ -227,7 +230,7 @@ function Joblist() {
                                                                         </span> : null
                                                                     }
                                                                 </td>
-                                                                <td className="text-center">
+                                                                <td id="Applicants" className="text-center">
                                                                     {job.status === "queue" || job.status === "review" ? <span>In Review</span> : null}
                                                                     {job.status === "approved" &&
                                                                         <>
@@ -242,7 +245,7 @@ function Joblist() {
                                                                         </>
                                                                     }
                                                                 </td>
-                                                                <td>
+                                                                <td id="shortlistedCount">
                                                                     {job.shortlisted > 0 &&
                                                                         <button
                                                                             type="button"
@@ -255,7 +258,7 @@ function Joblist() {
                                                                     }
                                                                 </td>
 
-                                                                <td className="text-center">
+                                                                <td id="repost" className="text-center">
                                                                     {job.status === "expired" || job.status === "closed" ?
                                                                         <span role="button" onClick={() => setModal({ show: true, type: "repost", clickedJob: job })}>
                                                                             <MdEmail fontSize={20} />

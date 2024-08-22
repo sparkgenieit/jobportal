@@ -317,7 +317,7 @@ function CompanyProfile() {
               <div className="row">
                 <div className="row">
                   <div className="form-group row">
-                    <label className="col-sm-3 col-form-label">Company<span className='text-danger'>*</span></label>
+                    <label className="col-sm-3 col-form-label">Company Name<span className='text-danger'>*</span></label>
                     <div className="col-sm-6">
                       <input type="text" name='name' className="form-control" value={userData.name} onChange={handleInput} />
                       {errors.name && <span className='text-danger'>{errors.name}</span>}
