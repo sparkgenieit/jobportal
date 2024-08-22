@@ -77,12 +77,25 @@ function Postajob({ name }) {
 
   useEffect(() => {
     fetchCategories(setCategoriesList, setParent)
+  }, [])
 
-    if (name === "Post a Job" && !cloneJobId) fetchCompanyInfo(user_id, setJobData, setBenefits, setTraining, setEmployerQuestions, initialValues)
+  useEffect(() => {
 
-    if (name === 'Post a Job' && cloneJobId && cloneJobId === currentJob._id) setJobData({ ...currentJob, creationdate: new Date(), closedate: getCloseDate(new Date().toString()) })
+    setError({})
+    // If it is a regular post a job
+    if (name === "Post a Job" && !cloneJobId) {
+      fetchCompanyInfo(user_id, setJobData, setBenefits, setTraining, setEmployerQuestions, initialValues)
+    }
 
-    if (name === "Edit Job") fetchJobForEditing(params.id, setJobData, setBenefits, setTraining, setEmployerQuestions)
+    // When the request is to clone a existing job
+    if (name === 'Post a Job' && cloneJobId && cloneJobId === currentJob._id) {
+      setJobData({ ...currentJob, creationdate: new Date(), closedate: getCloseDate(new Date().toString()) })
+    }
+
+    // If it is to edit a job
+    if (name === "Edit Job") {
+      fetchJobForEditing(params.id, setJobData, setBenefits, setTraining, setEmployerQuestions, searchParams.get("repost") === "true" ? true : false)
+    }
 
   }, [name])
 

@@ -10,11 +10,8 @@ function Header() {
 
   const navigate = useNavigate();
   const handleLogout = () => {
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('token'); // Remove token from localStorage
-    localStorage.removeItem('role');
-    localStorage.removeItem('fullname');
-    navigate('/superadmin');
+    localStorage.clear()
+    navigate('/');
   };
   return (
     <>

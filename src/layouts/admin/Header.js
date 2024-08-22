@@ -9,11 +9,8 @@ function Heder() {
   const navigate = useNavigate()
   const [fullname, setFullname] = useState(localStorage.getItem('fullname') || '');
   const handleLogout = () => {
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('token'); // Remove token from localStorage
-    localStorage.removeItem('role');
-    localStorage.removeItem('fullname');
-    navigate('/admin');
+    localStorage.clear()
+    navigate('/');
   };
   return (
     <>

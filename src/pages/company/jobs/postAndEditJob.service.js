@@ -1,3 +1,4 @@
+import { getCloseDate } from "../../../helpers/functions";
 import http from "../../../helpers/http";
 import companyService from "../../../services/common/company.service";
 
@@ -48,13 +49,15 @@ export const fetchCompanyInfo = async (user_id, setJobData, setBenefits, setTrai
 
 }
 
-export const fetchJobForEditing = async (id, setJobData, setBenefits, setTraining, setEmployerQuestions) => {
+export const fetchJobForEditing = async (id, setJobData, setBenefits, setTraining, setEmployerQuestions, isReposting = false) => {
     try {
-        const response = await http.get(`/jobs/${id}`)
-        setJobData({ ...response.data, creationdate: new Date(response.data.creationdate) })
-        setBenefits(JSON.parse(response.data.benifits))
-        setEmployerQuestions(JSON.parse(response.data.employerquestions))
-        setTraining(JSON.parse(response.data.training))
+        const response = await http.get(`/jobs/${id}`);
+        isReposting ?
+            setJobData({ ...response.data, creationdate: new Date(), closedate: getCloseDate(new Date().toISOString()) })
+            : setJobData({ ...response.data, creationdate: new Date(response.data.creationdate) });
+        setBenefits(JSON.parse(response.data.benifits));
+        setEmployerQuestions(JSON.parse(response.data.employerquestions));
+        setTraining(JSON.parse(response.data.training));
         return response
     } catch (error) {
         console.log(error)

@@ -97,7 +97,7 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob }
 
                             </div>
                             <div className="d-flex justify-content-center px-5">
-                                <Link to={`/company/editjob/${modal.clickedJob._id}`}>
+                                <Link to={`/company/editjob/${modal.clickedJob._id}?repost=true`}>
                                     <button type="button" className="btn btn-info rounded-pill">Ok</button>
                                 </Link>
                             </div>
