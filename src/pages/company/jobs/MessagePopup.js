@@ -127,6 +127,10 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob }
 
                         <p>Thank you for your attention to this matter.</p>
 
+                        <Link to={`/company/editjob/${modal.clickedJob._id}`}>
+                            <button type="button" className="btn btn-info rounded-4">Edit Job</button>
+                        </Link>
+
 
                     </>
                 }

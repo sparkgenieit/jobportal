@@ -100,12 +100,15 @@ export default function Card({ job }) {
             <div className='col-9 h-100  position-relative px-1 '>
                 <div className='fw-bold h4' >{job.jobTitle}</div>
                 <div className='d-flex'>
-                    {count?.length > 0 &&
+                    {count?.length > 0 ?
                         <Tooltip tooltipText={"Click to View All Jobs"}>
                             <span onClick={(e) => { getJobsbyCompany(e) }}>
                                 <CiViewList fontSize={22} />
                             </span>
-                        </Tooltip>
+                        </Tooltip> :
+                        <span style={{ visibility: "hidden" }}>
+                            <CiViewList fontSize={22} />
+                        </span>
                     }
                     {companyInfo?.length > 0 ?
                         <>
@@ -126,14 +129,13 @@ export default function Card({ job }) {
                             </Tooltip>
                         </>
                         :
-                        <span>
+                        <span className=''>
                             {job.company}
                         </span>
                     }
                 </div >
 
                 <div className=' d-flex mt-2'>
-
                     <MdOutlineLocationOn size="22px" />
                     <Tooltip tooltipText={"Click to View Activities"}>
                         <span
@@ -149,7 +151,6 @@ export default function Card({ job }) {
                             {job.location}
                         </span>
                     </Tooltip>
-
                 </div>
 
                 <p style={{ lineHeight: "1.2" }} className='text-secondary mt-3 mb-2  small'> {job.description.length > 225 ? `${job.description.slice(0, 225)}...` : job.description}</p>
