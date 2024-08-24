@@ -84,20 +84,22 @@ export default function Inbox() {
                         </thead>
                         <tbody>
                             {queries && queries?.map((query, i) => {
-                                const latestChat = query?.chat[0];
-                                return (
-                                    <tr role="button" key={i} onClick={() => { navigate(`/company/inbox/details/${query._id}`) }}>
-                                        <td className="text-center">
-                                            {new Date(latestChat?.date).toLocaleDateString("en-GB")}
-                                        </td>
-                                        <td>{latestChat?.from}</td>
-                                        <td className="text-wrap">
-                                            {query?.subject}</td>
-                                        <td className="text-wrap">
-                                            {latestChat?.message}
-                                        </td>
-                                    </tr>
-                                )
+                                if (query.chat && query.chat?.length > 0) {
+                                    const latestChat = query?.chat[0];
+                                    return (
+                                        <tr role="button" key={i} onClick={() => { navigate(`/company/inbox/details/${query._id}`) }}>
+                                            <td className="text-center">
+                                                {new Date(latestChat?.date).toLocaleDateString("en-GB")}
+                                            </td>
+                                            <td>{latestChat?.from}</td>
+                                            <td className="text-wrap">
+                                                {query?.subject}</td>
+                                            <td className="text-wrap">
+                                                {latestChat?.message}
+                                            </td>
+                                        </tr>
+                                    )
+                                }
                             })
                             }
                         </tbody>

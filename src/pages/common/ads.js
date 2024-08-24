@@ -30,11 +30,11 @@ function Ads() {
     <>
       {showAdvertisement && (
 
-        <div className="advertisement ">
+        <div className="advertisement d-flex flex-column ">
           <button className="close-btn" onClick={handleClose}>
             &times;
           </button>
-          <img src="https://via.placeholder.com/150" alt="Advertisement" />
+          <img className='rounded-3 w-100 1h-50' src="https://via.placeholder.com/150" alt="Advertisement" />
           <div className="advertisement-content">
             <small>Ads</small>
             <h2>{ad && ad.title}</h2>

@@ -76,36 +76,38 @@ function Home() {
 
 
         <main id="main">
-            <div className="container-fluid homeBg">
-                <form autoComplete='off'>
-                    <div style={{ height: "50vh", width: "100%" }} className="banner">
-                        <div className='d-flex flex-column align-items-center my-3'>
-                            <h2>Kia ora!</h2>
-                            <h2>Welcome to New Zealand</h2>
-                        </div>
-                        <div className='d-flex align-items-center justify-content-center gap-2'>
+            <div className="container-fluid">
+
+                <div style={{ height: "50vh", width: "100%" }} className="banner d-flex justify-content-center align-items-center flex-column ">
+                    <div className='d-flex flex-column  my-3'>
+                        <h2>Kia ora!</h2>
+                        <h2>Welcome to New Zealand</h2>
+                    </div>
+                    <form autoComplete='off'>
+                        <div className='d-flex flex-column flex-md-row  gap-2'>
                             <div className='position-relative'>
-                                <input type="text" style={{ width: "25vw" }} className={`transparent border-white p-1 rounded text-white ${searchButton}`} value={searchBox.jobTitle} placeholder="Job Title" name='jobTitle' onKeyDown={(e) => { handleKeyDown(jobSuggestions, e) }} onChange={(e) => handleInput("jobTitle", e)} />
+                                <input type="text" className={`transparent w-100 border-white p-1 rounded text-white ${searchButton}`} value={searchBox.jobTitle} placeholder="Job Title" name='jobTitle' onKeyDown={(e) => { handleKeyDown(jobSuggestions, e) }} onChange={(e) => handleInput("jobTitle", e)} />
                                 <Suggestions SuggestionsList={jobSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="jobTitle" setValue={setSearchBox} value={searchBox} />
                             </div>
 
 
                             <div className='position-relative'>
-                                <input type="text" style={{ width: "25vw" }} className={`transparent border-white p-1 rounded text-white  ${searchButton}`} value={searchBox.location} name='location' onChange={(e) => handleInput("location", e)} onKeyDown={(e) => { handleKeyDown(locationSuggestions, e) }} placeholder="Location" />
+                                <input type="text" className={`transparent w-100 border-white p-1 rounded text-white  ${searchButton}`} value={searchBox.location} name='location' onChange={(e) => handleInput("location", e)} onKeyDown={(e) => { handleKeyDown(locationSuggestions, e) }} placeholder="Location" />
                                 <Suggestions SuggestionsList={locationSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="location" setValue={setSearchBox} value={searchBox} />
                             </div>
 
-                            <div>
-                                <button type="button" onClick={handleSearch} className='transparent hover btn text-white'>
+                            <div className='d-flex'>
+                                <button type="button" onClick={handleSearch} className='transparent flex-grow-1 hover btn text-white'>
                                     <IoSearch size="24px" />
                                 </button>
+                                <div>
+                                    <Link type="button" to="/common/jobs" className="transparent hover btn border border-white text-white" >View All Jobs</Link>
+                                </div>
                             </div>
-                            <div>
-                                <Link type="button" to="/common/jobs" className="transparent hover btn border border-white text-white" >View All Jobs</Link>
-                            </div>
+
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
             <div className="container-fluid text-center py-5">
                 <div>
@@ -113,21 +115,21 @@ function Home() {
                     <LocationPopup />
                 </div>
                 <div className='row'>
-                    <section className='col-2'>
+                    <section className='col-12 col-md-2'>
                         <Ads />
                     </section>
-                    <section className='col-8'>
+                    <section className=' d-flex flex-column gap-5 col-12 col-md-8'>
                         <div>
-                            <iframe className='rounded' width="800" height="400" src="https://www.youtube.com/embed/7r-If5smQ_s?si=zd0NUcT7rsEV7a4k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+                            <iframe className='rounded w-100 ' style={{ height: "68vh" }} src="https://www.youtube.com/embed/7r-If5smQ_s?si=zd0NUcT7rsEV7a4k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
                             </iframe>
                             <div className='fw-bold'>Experience New Zealand with a Working Holiday Visa</div>
                         </div>
-                        <div className='mt-5'>
-                            <iframe className='rounded' width="800" height="400" src="https://www.youtube.com/embed/P98SjgerM8g?si=x36wJ4kJRg86288m" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <div>
+                            <iframe className='rounded w-100 ' style={{ height: "68vh" }} src="https://www.youtube.com/embed/P98SjgerM8g?si=x36wJ4kJRg86288m" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                             <div className='fw-bold'>Life in New Zealand on a Working Holiday Visa</div>
                         </div>
                     </section>
-                    <section className='col-2'>
+                    <section className='col-12 col-md-2'>
                         <Ads />
                     </section>
                 </div>

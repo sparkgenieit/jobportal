@@ -77,7 +77,6 @@ export default function Queries() {
                             </thead>
                             <tbody>
                                 {queries && queries?.map((query, i) => {
-                                    const latestChat = query?.chat[0];
                                     return <tr role='button' onClick={() => { navigate(`details/${query._id}?type=${query.enquirer}`) }} key={i}>
 
                                         {query.enquirer === "Visitor" ?
@@ -88,16 +87,19 @@ export default function Queries() {
                                                 <td className="text-wrap">{query.message}</td>
                                             </>
                                             :
-                                            <>
-                                                <td className="text-center">
-                                                    {new Date(latestChat?.date).toLocaleDateString("en-GB")}
-                                                </td>
-                                                <td>{latestChat?.from}</td>
-                                                <td className="text-wrap">
-                                                    {query?.subject}</td>
-                                                <td className="text-wrap">
-                                                    {latestChat?.message}
-                                                </td>
+                                            <>{query.chat && query.chat?.length > 0 &&
+                                                <>
+                                                    <td className="text-center">
+                                                        {new Date(query.chat[0]?.date).toLocaleDateString("en-GB")}
+                                                    </td>
+                                                    <td>{query.chat[0]?.from}</td>
+                                                    <td className="text-wrap">
+                                                        {query?.subject}</td>
+                                                    <td className="text-wrap">
+                                                        {query.chat[0]?.message}
+                                                    </td>
+                                                </>
+                                            }
                                             </>
                                         }
                                     </tr>
@@ -107,7 +109,7 @@ export default function Queries() {
                         </table>
                     }
                 </div>
-            </Pagination>
+            </Pagination >
         </div >
     )
 }

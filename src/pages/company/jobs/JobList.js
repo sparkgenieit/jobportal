@@ -58,20 +58,11 @@ function Joblist() {
         try {
             const { data } = await http.get(`/companies/postedJobs/${userId}?limit=${itemsPerPage}&skip=${skip}&name=${name}`)
             setTotalItems(data.total)
-            const jobs = data.jobs;
-            await Promise.all(
-                jobs.map(async (job) => {
-                    if (job.status === "approved") {
-                        let { data } = await http.get(`/companies/applied-users-count/${job._id}`)
-                        job.count = data.applied
-                        job.shortlisted = data.shortlisted
-                    }
-                })
-            )
-            setAssignJobs(jobs)
-            setIsLoading(false)
+            setAssignJobs(data.jobs)
         } catch (error) {
             setAssignJobs([])
+
+        } finally {
             setIsLoading(false)
         }
     }
@@ -167,7 +158,7 @@ function Joblist() {
                                                     <th>{assignJobs?.some((job) => job.status === "approved") && <span>Close</span>}</th>
                                                     <th>{assignJobs?.some((job) => job.status === "expired" || job.status === "closed") && <span>Delete</span>}</th>
                                                     <th className="text-center">Applications</th>
-                                                    <th>{assignJobs?.some((job) => job.shortlisted > 0) && <span>Shortlisted</span>}</th>
+                                                    <th>{assignJobs?.some((job) => job.shortlistedUsers > 0) && <span>Shortlisted</span>}</th>
                                                     <th>{assignJobs?.some((job) => job.status === "expired" || job.status === "closed") && <span>Repost</span>}</th>
                                                 </tr>
 
@@ -246,14 +237,14 @@ function Joblist() {
                                                             }
                                                         </td>
                                                         <td id="Applicants" className="text-center">
-                                                           
+
                                                             {job.status === "approved" &&
                                                                 <>
-                                                                    {job.count === 0 ?
+                                                                    {job.appliedUsers === 0 ?
                                                                         <span>0</span> :
                                                                         <>
                                                                             <button type="button" className="btn btn-xs " disabled={isLoading} onClick={() => { getAppliedUsers(job) }}>
-                                                                                <span className="text-primary h5 text-decoration-underline">{job.count}</span>
+                                                                                <span className="text-primary h5 text-decoration-underline">{job.appliedUsers}</span>
                                                                             </button>
 
                                                                         </>}
@@ -261,14 +252,14 @@ function Joblist() {
                                                             }
                                                         </td>
                                                         <td id="shortlistedCount">
-                                                            {job.shortlisted > 0 &&
+                                                            {job.shortlistedUsers > 0 &&
                                                                 <button
                                                                     type="button"
                                                                     className="btn btn-xs"
                                                                     onClick={() => { navigate(`/company/applied-users/${job._id}?s=true`) }}
                                                                 >
 
-                                                                    <span className="text-success h5 text-decoration-underline">{job.shortlisted}</span>
+                                                                    <span className="text-success h5 text-decoration-underline">{job.shortlistedUsers}</span>
                                                                 </button>
                                                             }
                                                         </td>

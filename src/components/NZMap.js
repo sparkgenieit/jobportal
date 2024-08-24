@@ -6,6 +6,12 @@ import { JobsContext } from '../helpers/Context';
 export default function NZMap() {
     const { setLocationPopup } = useContext(JobsContext);
 
+
+    const windowWidth = window.innerWidth;
+
+
+    const mapWidth = (55 / 100) * windowWidth
+
     const mapClick = (e) => {
         setLocationPopup({
             show: true,
@@ -59,7 +65,7 @@ export default function NZMap() {
                 <ImageMapper
                     src="/Nz-map/NZRegionsMapFinalVersion_files/image051.gif"
                     map={{ name: "Nz-Map", areas }}
-                    width={750}
+                    width={mapWidth}
                     imgWidth={948}
                     active={false}
                     onClick={(e) => { mapClick(e) }}
