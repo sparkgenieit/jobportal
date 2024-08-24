@@ -246,11 +246,11 @@ function Joblist() {
                                                             }
                                                         </td>
                                                         <td id="Applicants" className="text-center">
-                                                            {job.status === "queue" || job.status === "review" ? <span>In Review</span> : null}
+                                                           
                                                             {job.status === "approved" &&
                                                                 <>
                                                                     {job.count === 0 ?
-                                                                        <span>None</span> :
+                                                                        <span>0</span> :
                                                                         <>
                                                                             <button type="button" className="btn btn-xs " disabled={isLoading} onClick={() => { getAppliedUsers(job) }}>
                                                                                 <span className="text-primary h5 text-decoration-underline">{job.count}</span>

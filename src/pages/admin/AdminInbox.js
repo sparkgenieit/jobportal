@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { IoEyeSharp } from "react-icons/io5";
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import http from "../../helpers/http";
@@ -64,60 +63,6 @@ export default function Queries() {
                     />
                 </div>
 
-                {/* <form>
-                    <div className='d-flex my-3 align-items-center row'>
-                        <div className='col-4'>
-                            <input
-                                name='search'
-                                value={searchValues.search}
-                                type='search'
-                                className='form-control'
-                                placeholder='Search by name or organisation'
-                                onChange={handleForm}
-                            />
-                        </div>
-                        <div className='col-6  d-flex align-items-center gap-3'>
-                            <span className='fs-6 text-nowrap'>Filter by inquiry type:</span>
-                            <select
-                                name='type'
-                                onChange={handleForm}
-                                value={searchValues.type}
-                                className='form-select form-select-sm'
-                            >
-                                <option value={""}>All</option>
-                                <option value={"Employer"}>Employer</option>
-                                <option value={"Job-inquiry"}>Job-inquiry</option>
-                                <option value={"Visitor"}>Visitor</option>
-                            </select>
-
-                        </div>
-                        <div className='col-2 d-flex  gap-2'>
-                            <button
-                                onClick={() => {
-                                    setCurrentPage(1)
-                                    fetchQueries(1)
-                                }}
-                                type='button'
-                                className='btn btn-sm btn-primary rounded-pill'
-                            >
-                                Apply
-                            </button>
-                            <button
-                                onClick={() => {
-                                    setSearchValues({
-                                        type: "",
-                                        search: ""
-                                    })
-                                }}
-                                type='button'
-                                className='btn btn-sm btn-outline-dark rounded-pill'
-                            >
-                                Reset
-                            </button>
-
-                        </div>
-                    </div>
-                </form > */}
                 <div className='container'>
                     {loading && <Loader />}
                     {!loading &&
