@@ -15,7 +15,7 @@ import Pagination from '../../../components/Pagination';
 import Loader from '../../../components/Loader';
 import Toaster from "../../../components/Toaster";
 import MessagePopup from "./MessagePopup";
-import { CurrentJobContext } from "../../../helpers/Context";
+import { CurrentJobContext, ToasterContext } from "../../../helpers/Context";
 
 function Joblist() {
     const [totalItems, setTotalItems] = useState(0)
@@ -25,13 +25,9 @@ function Joblist() {
     const [modal, setModal] = useState({});
     const [assignJobs, setAssignJobs] = useState(null);
     const [isLoading, setIsLoading] = useState(false)
-    const [message, setMessage] = useState({
-        show: false,
-        text: "",
-        type: ""
-    })
     const userId = localStorage.getItem('user_id');
     const { setCurrentJob } = useContext(CurrentJobContext)
+    const { setShowToaster } = useContext(ToasterContext)
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -60,8 +56,13 @@ function Joblist() {
             setTotalItems(data.total)
             setAssignJobs(data.jobs)
         } catch (error) {
+            console.log(error)
             setAssignJobs([])
-
+            setShowToaster({
+                show: true,
+                type: "error",
+                text: error.response?.data?.message || error.message
+            })
         } finally {
             setIsLoading(false)
         }
@@ -77,7 +78,7 @@ function Joblist() {
             await http.delete(`jobs/delete/${job._id}`)
             setIsLoading(false)
             setModal({ show: false })
-            setMessage({
+            setShowToaster({
                 show: true, text: "Job Deleted", type: "success"
             })
             showJobsList(pgNumber);
@@ -85,7 +86,7 @@ function Joblist() {
         catch (err) {
             setIsLoading(false)
             setModal({ show: false })
-            setMessage({
+            setShowToaster({
                 show: true,
                 text: "Failed to delete the job, Please try again later",
                 type: "error"
@@ -102,7 +103,7 @@ function Joblist() {
             const res = await http.patch('/jobs/close', data)
             setIsLoading(false)
             setModal({ show: false })
-            setMessage({
+            setShowToaster({
                 show: true, text: "Job Closed", type: "success"
             })
             showJobsList(pgNumber);
@@ -110,7 +111,7 @@ function Joblist() {
         catch (error) {
             setIsLoading(false)
             setModal({ show: false })
-            setMessage({
+            setShowToaster({
                 show: true,
                 text: "Failed to close the job, Please try again later",
                 type: "error"
@@ -125,7 +126,6 @@ function Joblist() {
                     <h4 className="text-center ">List of Posted Jobs</h4>
                     <div>
                         <div>
-                            <Toaster message={message} setMessage={setMessage} />
                             <Pagination itemsPerPage={itemsPerPage} currentPage={pgNumber} setCurrentPage={setPgNumber} totalCount={totalItems} fetchItems={showJobsList} pageNumberToShow={2}>
 
                                 <div className="bg-white rounded ">
@@ -276,7 +276,6 @@ function Joblist() {
                                                     </tr>
                                                 })
                                             }
-
                                         </Table>
                                     }
                                 </div>

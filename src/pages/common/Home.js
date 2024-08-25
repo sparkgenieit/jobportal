@@ -79,7 +79,7 @@ function Home() {
             <div className="container-fluid">
 
                 <div style={{ height: "50vh", width: "100%" }} className="banner d-flex justify-content-center align-items-center flex-column ">
-                    <div className='d-flex flex-column  my-3'>
+                    <div className='d-flex flex-column align-items-center justify-content-center'>
                         <h2>Kia ora!</h2>
                         <h2>Welcome to New Zealand</h2>
                     </div>
@@ -109,8 +109,8 @@ function Home() {
                     </form>
                 </div>
             </div>
-            <div className="container-fluid text-center py-5">
-                <div>
+            <div className="container-fluid text-center py-3">
+                <div className='pt-2'>
                     <NZMap />
                     <LocationPopup />
                 </div>

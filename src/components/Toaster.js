@@ -10,8 +10,7 @@ export default function Toaster({ message, setMessage }) {
 
     return <>
         <Modal size="sm" show={message.show} onHide={handleClose} centered>
-            <Modal.Body>
-
+            <Modal.Body className="bg-white">
                 <div className=" d-flex align-items-center  gap-3">
                     <div>
                         {message.type === "success" &&
@@ -19,7 +18,7 @@ export default function Toaster({ message, setMessage }) {
                                 <IoIosCheckmarkCircle color="green" size={30} />
                             </div>
                         }
-                        {message.type !== "success" &&
+                        {message.type === "error" &&
                             <div>
                                 <MdOutlineCancel color="red" size={30} />
                             </div>
@@ -34,9 +33,7 @@ export default function Toaster({ message, setMessage }) {
                         Ok
                     </button>
                 </div>
-
             </Modal.Body>
-
         </Modal>
     </>
 }

@@ -60,7 +60,7 @@ export default function NZMap() {
 
     return (
         <>
-            <div className=' d-flex justify-content-center pb-5'>
+            <div className=' d-flex justify-content-center'>
 
                 <ImageMapper
                     src="/Nz-map/NZRegionsMapFinalVersion_files/image051.gif"
