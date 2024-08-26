@@ -88,3 +88,7 @@ export function getYoutubeVideoId(url) {
     const match = url.match(regExp);
     return (match && match[7].length === 11) ? match[7] : '';
 }
+
+export function getUserID() {
+    return localStorage.getItem('user_id')
+}
