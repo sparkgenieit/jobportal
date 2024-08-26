@@ -185,7 +185,7 @@ function Postajob({ name }) {
       await getCredits() //To Update Credits
 
       setTimeout(() => {
-        navigate(`/company/JobList`)
+        navigate(`/company/jobs`)
       }, 1500);
 
       window.scrollTo({ top: 40, behavior: "smooth" })

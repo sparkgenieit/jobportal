@@ -1,6 +1,6 @@
-import http from "./http";
+import http from "../http";
 
-export function timeAgo(dateString) {
+export function timeAgo(dateString) { // This function takes the take string in dd/mm/yyyy format
     const now = Date.now();
     const parts = dateString.split("/");
     const date = `${parts[1]}-${parts[0]}-${parts[2]}`;
@@ -72,8 +72,8 @@ export function getTrueKeys(obj) {
 }
 
 export async function getCredits() {
-    const userId = localStorage.getItem('user_id')
-    const { data } = await http.get(`/users/get-credits/${userId}`)
+    const user_id = localStorage.getItem('user_id')
+    const { data } = await http.get(`/users/get-credits/${user_id}`)
     localStorage.setItem("credits", data.credits)
 }
 

@@ -53,7 +53,7 @@ function Plans() {
         //                 class: "alert alert-success"
         //             })
         //             setTimeout(() => {
-        //                 navigate('/company/JobList')
+        //                 navigate('/company/jobs')
         //             }, 2000);
         //         })
         //         .catch(err => setMsg({

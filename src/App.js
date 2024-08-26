@@ -44,12 +44,14 @@ import CompanyHome from "./pages/company/Home";
 import CompanyProfile from "./pages/company/CompanyProfile";
 import Transactions from "./pages/company/Transactions";
 import Postajob from "./pages/company/jobs/Postajob";
-import JobList from "./pages/company/jobs/JobList";
+import PostedJobList from "./pages/company/jobs/PostedJobList";
 import BuyCredits from "./pages/company/jobs/BuyCredits";
 import AppliedUsers from "./pages/company/jobs/AppliedUsers";
 import AppliedUserProfile from "./pages/company/jobs/AppliedUserProfile";
 import EmployerContactUs from "./pages/company/Contact-Us";
 import Inbox from "./pages/company/Inbox";
+import DownloadTransactions from "./pages/company/DownloadTransactions";
+import ChatPage from "./components/ChatPage";
 
 
 //Admin
@@ -60,6 +62,7 @@ import AdminHome from "./pages/admin/Home";
 import Myasignjobs from "./pages/admin/joblist/Myasignjobs";
 import Login from "./pages/admin/login";
 import AdminInbox from "./pages/admin/AdminInbox";
+import UnAssignedQueries from "./pages/admin/UnAssignedQueries";
 
 //superAdmin
 
@@ -84,10 +87,10 @@ import PaymentStatus from "./pages/billing/PaymentStatus";
 import JobSuperAdmin from "./pages/superadmin/joblist/JobSuperadmin";
 import Profile from "./pages/superadmin/user/Profile";
 import LocationList from "./pages/superadmin/locations-list/LocationList";
-import DownloadTransactions from "./pages/company/DownloadTransactions";
-import { CurrentJobContext, ToasterProvider } from "./helpers/Context";
-import ChatPage from "./components/ChatPage";
 
+//Context
+
+import { CurrentJobContext, ToasterProvider } from "./helpers/Context";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -106,7 +109,7 @@ function App() {
               <Route path="CompanyProfile" element={<CompanyProfile />} />
               <Route path="postajob" element={<Postajob name={"Post a Job"} />} />
               <Route path="editjob/:id" element={<Postajob name={"Edit Job"} />} />
-              <Route path="JobList" element={<JobList />} />
+              <Route path="jobs" element={<PostedJobList />} />
               <Route path="transactions" element={<Transactions />} />
               <Route path="applied-users/:id" element={<AppliedUsers />} />
               <Route path="applied-user-profile/:userId" element={<AppliedUserProfile />} />
@@ -122,6 +125,7 @@ function App() {
             <Route path="/admin" element={(token && role == 'admin') ? <AdminLayout /> : <Login />}>
               <Route index element={<AdminHome />} />
               <Route path="Jobqueuelist" element={<Jobqueuelist />} />
+              <Route path="user-queries" element={<UnAssignedQueries />} />
               <Route path="inbox" element={<AdminInbox />} />
               <Route path="inbox/details/:id" element={<ChatPage name={"Admin"} />} />
               <Route path="Myasignjobs" element={<Myasignjobs />} />

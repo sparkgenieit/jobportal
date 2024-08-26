@@ -1,15 +1,13 @@
 import { useNavigate, useParams, useSearchParams } from "react-router-dom"
-import http from "../helpers/http"
 import { useEffect, useState } from "react"
-import { BASE_API_URL } from "../helpers/constants"
+
 import { RxDoubleArrowRight } from "react-icons/rx";
 import { IoMdArrowBack } from "react-icons/io";
 
-const imgStyles = {
-    width: "35%",
-    height: "45px",
-    objectFit: 'cover'
-}
+import { timeAgoMinutes } from "../helpers/functions";
+import http from "../helpers/http"
+import MdxEditor from "./MdxEditor";
+import { markdownToText } from "../helpers/functions/textFunctions";
 
 export default function ChatPage({ name }) {
     const params = useParams()
@@ -22,11 +20,15 @@ export default function ChatPage({ name }) {
     const fetchQuery = async (id, queryType) => {
         try {
             const res = await http.get(`/contact/query/${id}?type=${queryType}`)
-            console.log(res.data)
             setQuery(res.data)
         } catch (error) {
             setQuery({})
         }
+    }
+
+    const handleMessage = (value) => {
+        setAddMessage({ ...addMessage, message: value })
+        setToggleState({ ...toggleState, errorInPostingReply: value?.trim() === "" ? 'Please enter message' : null })
     }
 
     function reverseArray(arr) {
@@ -35,25 +37,29 @@ export default function ChatPage({ name }) {
     }
 
     const postReply = async () => {
-        setToggleState({ ...toggleState, sendingReply: true })
-        try {
-            const response = await http.patch(`/contact/query/reply/${query._id}`, addMessage)
-            setToggleState({ showMessageBox: false, sendingReply: false, errorInPostingReply: false })
-            setAddMessage({})
-            fetchQuery(params.id)
-        } catch (error) {
-            setToggleState({ ...toggleState, sendingReply: false, errorInPostingReply: true })
+        if (addMessage.message && addMessage.message?.trim() !== "") {
+            setToggleState({ ...toggleState, sendingReply: true })
+            try {
+                const response = await http.patch(`/contact/query/reply/${query._id}`, addMessage)
+                setToggleState({ showMessageBox: false, sendingReply: false, errorInPostingReply: null })
+                setAddMessage({})
+                fetchQuery(params.id)
+            } catch (error) {
+                setToggleState({ ...toggleState, sendingReply: false, errorInPostingReply: "Something went wrong! Please try again" })
+            }
+        } else {
+            setToggleState({ ...toggleState, errorInPostingReply: 'Please enter message' })
         }
     }
 
     const sendMessage = () => {
-        setAddMessage({
+        const messageData = {
             date: new Date(),
             by: name,
             message: "",
-            from: localStorage.getItem("fullname"),
-        })
-
+            from: name === "Enquirer" ? query.organisation : localStorage.getItem("fullname"),
+        }
+        setAddMessage(messageData)
         setToggleState({ ...toggleState, showMessageBox: true })
     }
 
@@ -98,48 +104,35 @@ export default function ChatPage({ name }) {
                         <div >{query?.email}</div>
                         <div >{query?.phone}</div>
                         <div >{query?.organisation}</div>
-                        <div >{query?.message}</div>
+                        <div >{query.chat?.length > 0 && query?.chat[0]?.message}</div>
                     </div>
                 </div>
                 :
                 <div className=" mt-3 ">
                     {toggleState.showMessageBox &&
-                        <div className="row d-flex align-items-center  border-bottom  p-3" >
-                            <div className="col-2 ">
-                                {<img className="rounded-circle p-0 img-fluid" style={imgStyles} src={addMessage.by === "Enquirer" ? `${BASE_API_URL}/uploads/logos/${query?.companyprofile?.logo}` : "/assets/images/logo-jp.png"} alt="logo" />}
+                        <div className="border-bottom  p-3" >
+                            <p className={`fw-bold fs-5 ${addMessage.by === "Enquirer" ? "text-dark" : "text-primary"}`}>{addMessage.from}</p>
+                            <p>{new Date(addMessage?.date).toLocaleDateString('en-GB')}</p>
+                            <div className=" w-100 d-flex">
+                                <div className="flex-grow-1">
+                                    <MdxEditor value={addMessage.message} setValue={handleMessage} />
+                                </div>
+                                <button type="button" disabled={toggleState.sendingReply} onClick={postReply} className="btn btn-success align-self-end rounded p-2">
+                                    <RxDoubleArrowRight fontSize={20} />
+                                </button>
                             </div>
-                            <div className="col-2 ">{addMessage?.date?.toLocaleDateString('en-GB')}</div>
-                            <div className="col-2 ">{addMessage?.from}</div>
-                            <div className="col-6">
-                                <form autoComplete="off" className="d-flex">
-                                    <input
-                                        type="text"
-                                        value={addMessage.message}
-                                        name="message"
-                                        onChange={(e) => { setAddMessage({ ...addMessage, message: e.target.value }) }}
-                                        className="rounded border p-2 border-dark flex-grow-1"
-                                        placeholder="Type your message"
-                                    />
-                                    <button type="button" onClick={postReply} className="btn btn-success rounded p-2">
-                                        <RxDoubleArrowRight fontSize={20} />
-                                    </button>
-                                </form>
-                                {toggleState.errorInPostingReply && <small className="text-danger">Can't post the message! Please try again later</small>}
-                            </div>
+                            {toggleState.errorInPostingReply && <small className="text-danger">{toggleState.errorInPostingReply}</small>}
                         </div>
                     }
 
                     {query?.chat &&
                         reverseArray(query?.chat)?.map((msg, i) => {
-                            return <div className="row d-flex align-items-center  border-bottom  p-3" >
-                                <div className="col-2 ">
-                                    {<img className="rounded-circle p-0 img-fluid" style={imgStyles} src={msg.by === "Enquirer" ? `${BASE_API_URL}/uploads/logos/${query?.companyprofile?.logo}` : "/assets/images/logo-jp.png"} alt="logo" />}
-                                </div>
-                                <div className="col-2 ">{new Date(msg?.date).toLocaleDateString('en-GB')}</div>
-                                <div className="col-2 ">{msg.from}</div>
-                                <div className="col-6 text-wrap">
-                                    {msg.message}
-                                </div>
+                            return <div className=" border-bottom  p-3" >
+                                <p className={`fw-bold fs-5 ${msg.by === "Enquirer" ? "text-dark" : "text-primary"}`}>{msg.from}</p>
+                                <p>{new Date(msg?.date).toLocaleDateString('en-GB')} ({timeAgoMinutes(new Date(msg?.date).toISOString())})</p>
+                                <p className="text-wrap">
+                                    {markdownToText(msg.message)}
+                                </p>
                             </div>
                         })
                     }

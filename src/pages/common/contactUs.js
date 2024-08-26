@@ -138,7 +138,12 @@ function ContactUs() {
     setErrors(obj)
     if (isValid) {
       const data = {
-        message: message,
+        chat: [{
+          date: new Date(),
+          from: name,
+          message: message,
+          by: "Visitor"
+        }],
         subject: subject,
         email: email,
         name: name,

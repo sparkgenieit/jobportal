@@ -7,6 +7,7 @@ import { itemsPerPage } from "../../helpers/constants"
 import Loader from "../../components/Loader"
 import Pagination from "../../components/Pagination"
 import http from "../../helpers/http"
+import { markdownToText } from "../../helpers/functions/textFunctions";
 
 export default function Inbox() {
     const [queries, setQueries] = useState(null)
@@ -95,7 +96,7 @@ export default function Inbox() {
                                             <td className="text-wrap">
                                                 {query?.subject}</td>
                                             <td className="text-wrap">
-                                                {latestChat?.message}
+                                                {markdownToText(latestChat?.message)}
                                             </td>
                                         </tr>
                                     )

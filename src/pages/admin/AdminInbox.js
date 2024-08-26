@@ -5,8 +5,10 @@ import http from "../../helpers/http";
 import { itemsPerPage } from '../../helpers/constants';
 import Pagination from '../../components/Pagination';
 import Loader from '../../components/Loader';
+import { markdownToText } from '../../helpers/functions/textFunctions';
 
 export default function Queries() {
+    const user_id = localStorage.getItem("user_id")
     const [queries, setQueries] = useState(null)
     const [totalItems, setTotalItems] = useState(0)
     const [loading, setLoading] = useState(false)
@@ -34,7 +36,7 @@ export default function Queries() {
         setLoading(true)
         const skip = (page - 1) * itemsPerPage
         try {
-            const url = `/contact/all-queries/?s=${search}&limit=${itemsPerPage}&skip=${skip}`
+            const url = `/contact/assigned-queries/${user_id}/?s=${search}&limit=${itemsPerPage}&skip=${skip}`
             const { data } = await http.get(url)
             setLoading(false)
             setQueries(data.data)
@@ -84,7 +86,7 @@ export default function Queries() {
                                                 <td className='text-center'>{new Date(query.createdAt).toLocaleDateString('en-GB')}</td>
                                                 <td>{query.name}</td>
                                                 <td className="text-wrap">{query.subject}</td>
-                                                <td className="text-wrap">{query.message}</td>
+                                                <td className="text-wrap">{query.chat?.length > 0 && query.chat[0]?.message}</td>
                                             </>
                                             :
                                             <>{query.chat && query.chat?.length > 0 &&
@@ -96,7 +98,7 @@ export default function Queries() {
                                                     <td className="text-wrap">
                                                         {query?.subject}</td>
                                                     <td className="text-wrap">
-                                                        {query.chat[0]?.message}
+                                                        {markdownToText(query.chat[0]?.message)}
                                                     </td>
                                                 </>
                                             }

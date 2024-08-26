@@ -1,8 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
-import { Table } from 'react-bootstrap';
-import { MdEmail } from "react-icons/md";
+import Table from 'react-bootstrap/Table';
 import { RxCross2 } from "react-icons/rx";
 import { CiBellOn } from "react-icons/ci";
 import { GoQuestion } from "react-icons/go";
@@ -13,11 +12,10 @@ import http from "../../../helpers/http";
 import { itemsPerPage } from "../../../helpers/constants";
 import Pagination from '../../../components/Pagination';
 import Loader from '../../../components/Loader';
-import Toaster from "../../../components/Toaster";
 import MessagePopup from "./MessagePopup";
 import { CurrentJobContext, ToasterContext } from "../../../helpers/Context";
 
-function Joblist() {
+function PostedJobList() {
     const [totalItems, setTotalItems] = useState(0)
     const [searchParams] = useSearchParams();
     const [pgNumber, setPgNumber] = useState(+searchParams.get("page") || 1)
@@ -137,7 +135,7 @@ function Joblist() {
                                         onChange={(e) => {
                                             setName(e.target.value)
                                             setPgNumber(1)
-                                            window.history.replaceState(null, null, '/company/Joblist')
+                                            window.history.replaceState(null, null, '/company/jobs')
                                         }}
                                     />
                                     {isLoading && <Loader />}
@@ -288,4 +286,4 @@ function Joblist() {
         </>
     )
 }
-export default Joblist;
+export default PostedJobList;

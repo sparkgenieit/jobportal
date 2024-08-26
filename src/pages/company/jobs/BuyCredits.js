@@ -1,13 +1,10 @@
-import './buy-credit.css';
 import { useState } from "react";
-import Footer from "../../../layouts/company/Footer";
-import Header from "../../../layouts/company/Header";
-import Sidebar from "../../../layouts/company/Sidebar";
+import { RotatingLines } from "react-loader-spinner";
+import { Modal } from "react-bootstrap";
+
 import http from "../../../helpers/http";
 import { plans } from "../../../helpers/constants";
 import Toaster from "../../../components/Toaster";
-import { Modal } from "react-bootstrap";
-import { RotatingLines } from "react-loader-spinner";
 
 function BuyCredits() {
     const [user_id, setUser_id] = useState(localStorage.getItem('user_id'));

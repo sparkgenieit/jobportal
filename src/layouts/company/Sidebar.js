@@ -105,7 +105,7 @@ function Sidebar() {
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/company/JobList">
+              <Link className="nav-link" to="/company/jobs">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Posted Jobs</span>
                   <span>

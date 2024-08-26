@@ -21,7 +21,7 @@ function Header() {
   }, [])
 
   const handleNotification = (notification) => {
-    navigate(`/company/joblist`);
+    navigate(`/company/jobs`);
   }
 
   const handleLogout = () => {

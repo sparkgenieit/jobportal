@@ -342,7 +342,7 @@ function EditJob() {
                         await getCredits()
 
                         setTimeout(() => {
-                            navigate('/company/JobList', { replace: true });
+                            navigate('/company/jobs', { replace: true });
                         }, 2000)
 
                     }
