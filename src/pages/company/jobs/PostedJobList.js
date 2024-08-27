@@ -155,6 +155,7 @@ function PostedJobList() {
                                                     <th>Duplicate</th>
                                                     <th>{assignJobs?.some((job) => job.status === "approved") && <span>Close</span>}</th>
                                                     <th>{assignJobs?.some((job) => job.status === "expired" || job.status === "closed") && <span>Delete</span>}</th>
+                                                    <th className="text-end">Views</th>
                                                     <th className="text-center">Applications</th>
                                                     <th>{assignJobs?.some((job) => job.shortlistedUsers > 0) && <span>Shortlisted</span>}</th>
                                                     <th>{assignJobs?.some((job) => job.status === "expired" || job.status === "closed") && <span>Repost</span>}</th>
@@ -234,8 +235,8 @@ function PostedJobList() {
                                                                 </span> : null
                                                             }
                                                         </td>
+                                                        <td id="views" className="text-end">{job.views ? job.views : 0}</td>
                                                         <td id="Applicants" className="text-center">
-
                                                             {job.status === "approved" &&
                                                                 <>
                                                                     {job.appliedUsers === 0 ?

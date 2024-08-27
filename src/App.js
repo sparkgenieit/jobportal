@@ -125,7 +125,7 @@ function App() {
             <Route path="/admin" element={(token && role == 'admin') ? <AdminLayout /> : <Login />}>
               <Route index element={<AdminHome />} />
               <Route path="Jobqueuelist" element={<Jobqueuelist />} />
-              <Route path="user-queries" element={<UnAssignedQueries />} />
+              <Route path="employer-queries" element={<UnAssignedQueries />} />
               <Route path="inbox" element={<AdminInbox />} />
               <Route path="inbox/details/:id" element={<ChatPage name={"Admin"} />} />
               <Route path="Myasignjobs" element={<Myasignjobs />} />

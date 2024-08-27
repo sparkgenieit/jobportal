@@ -1,49 +1,54 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useSearchParams } from "react-router-dom"
 import Table from 'react-bootstrap/Table'
 
 import http from "../../helpers/http"
-import { markdownToText } from "../../helpers/functions/textFunctions"
+import { markdownToPlainText } from "../../helpers/functions/textFunctions"
 import { itemsPerPage } from "../../helpers/constants"
 import Pagination from "../../components/Pagination"
 import Loader from "../../components/Loader"
 import { getUserID } from "../../helpers/functions"
-import { ToasterContext } from "../../helpers/Context"
+import useShowMessage from "../../helpers/Hooks/useShowMessage"
 
 export default function UnAssignedQueries() {
     const [queries, setQueries] = useState([])
     const [totalItems, setTotalItems] = useState(0)
     const [loading, setLoading] = useState(false)
+    const [search, setSearch] = useState("")
     const [assigning, setAssigning] = useState(false)
-    const [searchParams] = useSearchParams()
-    const { setShowToaster } = useContext(ToasterContext)
+    const [searchParams, setSearchParams] = useSearchParams()
     const [currentPage, setCurrentPage] = useState(+searchParams.get("page") || 1)
-    const navigate = useNavigate()
+
+    //Custom Hook
+    const message = useShowMessage()
 
     useEffect(() => {
         fetchQueries(currentPage)
-    }, [])
+    }, [search])
 
 
     const fetchQueries = async (page) => {
         setLoading(true)
         const skip = (page - 1) * itemsPerPage
         try {
-            const response = await http.get(`/contact/unassigned-queries?limit=${itemsPerPage}&skip=${skip}`)
+            const response = await http.get(`/contact/unassigned-queries?s=${search}&limit=${itemsPerPage}&skip=${skip}`)
             setQueries(response.data.queries)
             setTotalItems(response.data.total)
         } catch (error) {
-            setShowToaster({
-                show: true,
-                type: "error",
-                text: error.response?.data?.message || error.message
-            })
-            setQueries([])
-            setTotalItems(0)
+            message({ status: 'Error', error })
         } finally {
             setLoading(false)
         }
+    }
+
+    const handleSearch = (e) => {
+        setSearch(e.target.value)
+        setSearchParams((params) => {
+            params.delete("page")
+            return params;
+        })
+        setCurrentPage(1)
     }
 
 
@@ -51,21 +56,16 @@ export default function UnAssignedQueries() {
         setAssigning(true)
         const user_id = getUserID()
         try {
-            const res = await http.patch(`/contact/assign-query/${user_id}?query_id=${query._id}`)
-            setShowToaster({
-                show: true,
-                type: "success",
-                text: "Assigned Successfully"
+            await http.patch(`/contact/assign-query/${user_id}?query_id=${query._id}`)
+            message({
+                status: "Success",
+                successMessage: "Assigned Successfully",
+                path: "/admin/inbox"
             })
-            setTimeout(() => {
-                navigate('/admin/inbox')
-            }, 1200);
         } catch (error) {
-            console.log(error)
-            setShowToaster({
-                show: true,
-                type: "error",
-                text: error.response?.data?.message || error.message
+            message({
+                status: "Error",
+                error
             })
         } finally {
             setAssigning(false)
@@ -75,8 +75,17 @@ export default function UnAssignedQueries() {
     return (
         <div className="mt-3 container-fluid">
             <h2 className="fw-bold fs-4 text-center">
-                User Queries
+                Employer Queries
             </h2>
+
+            <div id="search-box" className="my-2">
+                <input type="text"
+                    value={search}
+                    onChange={(e) => handleSearch(e)}
+                    className="form-control"
+                    placeholder="Search Queries"
+                />
+            </div>
 
             <Pagination currentPage={currentPage} totalCount={totalItems} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} pageNumberToShow={2} fetchItems={fetchQueries} >
 
@@ -87,7 +96,7 @@ export default function UnAssignedQueries() {
                         <thead>
                             <tr>
                                 <td>Date</td>
-                                <td>Organisation</td>
+                                <td>Company</td>
                                 <td>Subject</td>
                                 <td>Message</td>
                                 <td></td>
@@ -102,8 +111,8 @@ export default function UnAssignedQueries() {
                                         <tr key={i}>
                                             <td>{new Date(query.createdAt).toLocaleDateString('en-GB')}</td>
                                             <td>{query.organisation}</td>
-                                            <td>{query.subject}</td>
-                                            <td>{query.chat?.length > 0 && markdownToText(query?.chat[0]?.message)}</td>
+                                            <td>{markdownToPlainText(query.subject, 40)}</td>
+                                            <td>{query.chat?.length > 0 && markdownToPlainText(query?.chat[0]?.message, 50)}</td>
                                             <td>
                                                 <button
                                                     onClick={() => assignedToMe(query)}

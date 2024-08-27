@@ -7,7 +7,8 @@ import { itemsPerPage } from "../../helpers/constants"
 import Loader from "../../components/Loader"
 import Pagination from "../../components/Pagination"
 import http from "../../helpers/http"
-import { markdownToText } from "../../helpers/functions/textFunctions";
+import { markdownToPlainText } from "../../helpers/functions/textFunctions";
+import { getDate } from "../../helpers/functions/dateFunctions";
 
 export default function Inbox() {
     const [queries, setQueries] = useState(null)
@@ -90,13 +91,13 @@ export default function Inbox() {
                                     return (
                                         <tr role="button" key={i} onClick={() => { navigate(`/company/inbox/details/${query._id}`) }}>
                                             <td className="text-center">
-                                                {new Date(latestChat?.date).toLocaleDateString("en-GB")}
+                                                {getDate(latestChat?.date)}
                                             </td>
                                             <td>{latestChat?.from}</td>
                                             <td className="text-wrap">
-                                                {query?.subject}</td>
+                                                {markdownToPlainText(query?.subject, 40)}</td>
                                             <td className="text-wrap">
-                                                {markdownToText(latestChat?.message)}
+                                                {markdownToPlainText(latestChat?.message, 50)}
                                             </td>
                                         </tr>
                                     )

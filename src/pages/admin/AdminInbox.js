@@ -5,7 +5,8 @@ import http from "../../helpers/http";
 import { itemsPerPage } from '../../helpers/constants';
 import Pagination from '../../components/Pagination';
 import Loader from '../../components/Loader';
-import { markdownToText } from '../../helpers/functions/textFunctions';
+import { markdownToPlainText } from '../../helpers/functions/textFunctions';
+import { getDate } from '../../helpers/functions/dateFunctions';
 
 export default function Queries() {
     const user_id = localStorage.getItem("user_id")
@@ -83,7 +84,7 @@ export default function Queries() {
 
                                         {query.enquirer === "Visitor" ?
                                             <>
-                                                <td className='text-center'>{new Date(query.createdAt).toLocaleDateString('en-GB')}</td>
+                                                <td className='text-center'>{getDate(query.createdAt)}</td>
                                                 <td>{query.name}</td>
                                                 <td className="text-wrap">{query.subject}</td>
                                                 <td className="text-wrap">{query.chat?.length > 0 && query.chat[0]?.message}</td>
@@ -92,13 +93,13 @@ export default function Queries() {
                                             <>{query.chat && query.chat?.length > 0 &&
                                                 <>
                                                     <td className="text-center">
-                                                        {new Date(query.chat[0]?.date).toLocaleDateString("en-GB")}
+                                                        {getDate(query.chat[0]?.date)}
                                                     </td>
                                                     <td>{query.chat[0]?.from}</td>
                                                     <td className="text-wrap">
-                                                        {query?.subject}</td>
+                                                        {markdownToPlainText(query?.subject, 40)}</td>
                                                     <td className="text-wrap">
-                                                        {markdownToText(query.chat[0]?.message)}
+                                                        {markdownToPlainText(query.chat[0]?.message, 50)}
                                                     </td>
                                                 </>
                                             }

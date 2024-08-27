@@ -5,21 +5,19 @@ import http from '../../helpers/http';
 import Ads from './ads';
 import { Modal } from "react-bootstrap";
 import { BASE_API_URL, BASE_APP_URL } from '../../helpers/constants';
-import { getTrueKeys, getYoutubeVideoId, timeAgo } from '../../helpers/functions';
-import { FaDollarSign, FaRegClock, FaShare } from 'react-icons/fa6';
+import { getTrueKeys, getUserID, getYoutubeVideoId, timeAgo } from '../../helpers/functions';
+import { FaDollarSign, FaRegClock, FaShare, FaYoutube } from 'react-icons/fa6';
 import { PiBookmarkSimpleBold, PiBookmarkSimpleFill, PiCarProfileThin } from "react-icons/pi";
 import { MdOutlineLocationOn, MdOutlinePeopleOutline } from "react-icons/md";
 import { FaCheckSquare } from 'react-icons/fa';
 import { GiHotMeal } from "react-icons/gi";
 import { IoHomeOutline } from "react-icons/io5";
-import { FaYoutube } from "react-icons/fa6";
-import { marked } from 'marked';
-import parse from 'html-react-parser';
 import Toaster from '../../components/Toaster';
 import Loader from '../../components/Loader';
 import LocationPopup from '../../components/LocationPopup';
 import Tooltip from '../../components/Tooltip';
 import { JobsContext } from '../../helpers/Context';
+import { markdownToPlainText, markdownToText } from '../../helpers/functions/textFunctions';
 
 function SingleJob() {
     const [isJobApplied, setIsJobApplied] = useState(false)
@@ -29,7 +27,7 @@ function SingleJob() {
     const { setLocationPopup } = useContext(JobsContext);
     const navigate = useNavigate()
     const params = useParams();
-    const userId = localStorage.getItem('user_id');
+    const userId = getUserID();
     const [message, setMessage] = useState({
         show: false,
         type: "alert alert-success",
@@ -51,13 +49,25 @@ function SingleJob() {
             })
     }, [])
 
+
     const getJob = () => {
         http.get(`/jobs/${params.id}`)
             .then((response) => {
                 setLoading(false)
                 setJobview(response.data)
+                increaseView(response.data)
             })
             .catch(err => setJobview(null))
+    }
+
+    const increaseView = async (job) => {
+        if (job && job.status === "approved" && (!role || role === "user")) {
+            try {
+                await http.patch(`/jobs/increase-views-count/${job._id}`)
+            } catch (error) {
+            }
+        }
+
     }
 
     const getUserJobStatus = () => {
@@ -77,6 +87,10 @@ function SingleJob() {
                 })
         }
     }
+
+
+
+
 
     const handleReportReason = (e) => {
         setReportReason(e.target.value)
@@ -362,7 +376,7 @@ function SingleJob() {
                         </div>
 
                         <div className='row border border-success rounded  m-4 p-3'>
-                            <p>{parse(marked(jobview.description))}</p>
+                            <p>{markdownToText(jobview.description)}</p>
                             <div className='d-flex justify-content-between'>
                                 <div className='d-flex gap-4  mt-2 align-items-center'>
                                     {isJobApplied ?

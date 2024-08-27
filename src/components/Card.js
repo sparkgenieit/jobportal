@@ -16,6 +16,7 @@ import { GiHotMeal } from 'react-icons/gi';
 import { PiCarProfileThin } from 'react-icons/pi';
 import Tooltip from './Tooltip';
 import http from '../helpers/http';
+import { markdownToPlainText } from '../helpers/functions/textFunctions';
 
 export default function Card({ job }) {
     const savedJobIds = JSON.parse(sessionStorage.getItem('savedJobIds'))
@@ -153,7 +154,7 @@ export default function Card({ job }) {
                     </Tooltip>
                 </div>
 
-                <p style={{ lineHeight: "1.2" }} className='text-secondary mt-3 mb-2  small'> {job.description.length > 225 ? `${job.description.slice(0, 225)}...` : job.description}</p>
+                <p style={{ lineHeight: "1.2" }} className='text-secondary mt-3 mb-2  small'> {markdownToPlainText(job.description, 225)}</p>
                 <div className='small d-flex position-absolute bottom-0 start-0'>
                     <span className='pe-3'>{date} ({timeAgo(date)})</span>
                     <Tooltip tooltipText={"Share"}>

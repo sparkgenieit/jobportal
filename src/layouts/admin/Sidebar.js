@@ -68,9 +68,9 @@ function Sidebar() {
             </li>
 
             <li class="nav-item">
-              <Link class="nav-link" to="/admin/user-queries">
+              <Link class="nav-link" to="/admin/employer-queries">
                 <div className='d-flex justify-content-between w-100'>
-                  <span>User Queries</span>
+                  <span>Employer Queries</span>
                   <span>
                     <BiUserPin size={"22"} />
                   </span>

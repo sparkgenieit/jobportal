@@ -8,6 +8,7 @@ import { timeAgoMinutes } from "../helpers/functions";
 import http from "../helpers/http"
 import MdxEditor from "./MdxEditor";
 import { markdownToText } from "../helpers/functions/textFunctions";
+import { getDate } from "../helpers/functions/dateFunctions";
 
 export default function ChatPage({ name }) {
     const params = useParams()
@@ -99,7 +100,7 @@ export default function ChatPage({ name }) {
                     </div>
 
                     <div className="col-6 d-flex flex-column gap-4">
-                        <div >{new Date(query?.createdAt).toLocaleDateString('en-GB')}</div>
+                        <div >{getDate(query?.createdAt)}</div>
                         <div >{query?.name}</div>
                         <div >{query?.email}</div>
                         <div >{query?.phone}</div>
@@ -112,7 +113,7 @@ export default function ChatPage({ name }) {
                     {toggleState.showMessageBox &&
                         <div className="border-bottom  p-3" >
                             <p className={`fw-bold fs-5 ${addMessage.by === "Enquirer" ? "text-dark" : "text-primary"}`}>{addMessage.from}</p>
-                            <p>{new Date(addMessage?.date).toLocaleDateString('en-GB')}</p>
+                            <p>{getDate(addMessage?.date)}</p>
                             <div className=" w-100 d-flex">
                                 <div className="flex-grow-1">
                                     <MdxEditor value={addMessage.message} setValue={handleMessage} />
@@ -129,7 +130,7 @@ export default function ChatPage({ name }) {
                         reverseArray(query?.chat)?.map((msg, i) => {
                             return <div className=" border-bottom  p-3" >
                                 <p className={`fw-bold fs-5 ${msg.by === "Enquirer" ? "text-dark" : "text-primary"}`}>{msg.from}</p>
-                                <p>{new Date(msg?.date).toLocaleDateString('en-GB')} ({timeAgoMinutes(new Date(msg?.date).toISOString())})</p>
+                                <p>{getDate(msg?.date)} ({timeAgoMinutes(new Date(msg?.date).toISOString())})</p>
                                 <p className="text-wrap">
                                     {markdownToText(msg.message)}
                                 </p>
