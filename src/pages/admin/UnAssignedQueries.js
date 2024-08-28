@@ -59,7 +59,7 @@ export default function UnAssignedQueries() {
             await http.patch(`/contact/assign-query/${user_id}?query_id=${query._id}`)
             message({
                 status: "Success",
-                successMessage: "Assigned Successfully",
+                message: "Assigned Successfully",
                 path: "/admin/inbox"
             })
         } catch (error) {

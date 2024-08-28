@@ -7,23 +7,29 @@ export default function useShowMessage() {
 
     const { setShowToaster } = useContext(ToasterContext)
 
-    const handleMessage = ({ status, successMessage, path, error }) => {
-        if (status.toLowerCase() === "success") {
+    const handleMessage = ({ status, message, path, error }) => {
+        if (status && status?.toLowerCase() === "success") {
             setShowToaster({
                 show: true,
                 type: "success",
-                text: successMessage
+                text: message
             })
         }
 
-        if (status.toLowerCase() === "error") {
+        else if (status && status?.toLowerCase() === "error") {
             setShowToaster({
                 show: true,
                 type: "error",
                 text: error.response?.data?.message || error.message
             })
+        }
 
-            if (error.response.status === "401" || "403") path = '/'
+        else if (message) {
+            setShowToaster({
+                show: true,
+                type: "",
+                text: message
+            })
         }
 
         if (path) {

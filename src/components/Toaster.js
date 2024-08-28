@@ -6,7 +6,7 @@ export default function Toaster({ message, setMessage }) {
     const handleClose = () => {
         setMessage({ ...message, show: false })
     }
-    const buttonType = `btn ${message.type === "success" ? " btn-success" : "btn-danger"}`
+    const buttonType = `btn ${message.type === "success" ? " btn-success" : message.type === "error" ? "btn-danger" : "btn-info"}`
 
     return <>
         <Modal size="sm" show={message.show} onHide={handleClose} centered>

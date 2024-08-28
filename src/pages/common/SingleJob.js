@@ -12,12 +12,12 @@ import { MdOutlineLocationOn, MdOutlinePeopleOutline } from "react-icons/md";
 import { FaCheckSquare } from 'react-icons/fa';
 import { GiHotMeal } from "react-icons/gi";
 import { IoHomeOutline } from "react-icons/io5";
-import Toaster from '../../components/Toaster';
 import Loader from '../../components/Loader';
 import LocationPopup from '../../components/LocationPopup';
 import Tooltip from '../../components/Tooltip';
 import { JobsContext } from '../../helpers/Context';
-import { markdownToPlainText, markdownToText } from '../../helpers/functions/textFunctions';
+import useShowMessage from '../../helpers/Hooks/useShowMessage';
+import { markdownToText } from '../../helpers/functions/textFunctions';
 
 function SingleJob() {
     const [isJobApplied, setIsJobApplied] = useState(false)
@@ -25,19 +25,14 @@ function SingleJob() {
     const [jobview, setJobview] = useState()
     const role = localStorage.getItem('role');
     const { setLocationPopup } = useContext(JobsContext);
-    const navigate = useNavigate()
     const params = useParams();
     const userId = getUserID();
-    const [message, setMessage] = useState({
-        show: false,
-        type: "alert alert-success",
-        text: ""
-    })
     const [loading, setLoading] = useState(false)
     const [showReport, setShowReport] = useState(false)
     const [reportReason, setReportReason] = useState("")
     const [reportError, setReportError] = useState(false)
     const youtubeRef = useRef(null)
+    const message = useShowMessage()
 
     useEffect(() => {
         setLoading(true)
@@ -50,21 +45,32 @@ function SingleJob() {
     }, [])
 
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            increaseView(params.id)
+        }, 15 * 1000)
+
+        return () => {
+            clearTimeout(timer)
+        }
+    }, [])
+
+
     const getJob = () => {
         http.get(`/jobs/${params.id}`)
             .then((response) => {
                 setLoading(false)
                 setJobview(response.data)
-                increaseView(response.data)
             })
-            .catch(err => setJobview(null))
+            .catch(err => setJobview())
     }
 
-    const increaseView = async (job) => {
-        if (job && job.status === "approved" && (!role || role === "user")) {
+    const increaseView = async (id) => {
+        if (!role || role === "user") {
             try {
-                await http.patch(`/jobs/increase-views-count/${job._id}`)
+                await http.patch(`/jobs/increase-view-count/${id}`)
             } catch (error) {
+                console.log("error ocuured while increasing views")
             }
         }
 
@@ -89,9 +95,6 @@ function SingleJob() {
     }
 
 
-
-
-
     const handleReportReason = (e) => {
         setReportReason(e.target.value)
     }
@@ -112,10 +115,11 @@ function SingleJob() {
                 }
                 await http.post("jobs/report", data)
                 handleClose();
-                setMessage({ show: true, type: "success", text: "Reported Successfully" })
-                setTimeout(() => {
-                    navigate('/common/jobs')
-                }, 2000);
+                message({
+                    status: "Success",
+                    message: "Reported Successfully",
+                    path: -1
+                })
             }
             else {
                 throw new Error
@@ -127,15 +131,10 @@ function SingleJob() {
 
     const handleShare = () => {
         navigator.clipboard.writeText(`${BASE_APP_URL}/common/SingleJob/${jobview._id}`)
-        setMessage({
-            show: true,
-            type: "success",
-            text: "Link Copied"
+        message({
+            status: "Success",
+            message: "Link Copied"
         })
-
-        setTimeout(() => {
-            setMessage({ ...message, show: false })
-        }, 3000);
     }
 
     function handleApply() {
@@ -148,29 +147,24 @@ function SingleJob() {
             }
             http.post("/jobs/apply", data)
                 .then((response) => {
-                    setMessage({
-                        show: true,
-                        type: "success",
-                        text: "Applied Successfully"
+
+                    message({
+                        status: "Success",
+                        message: "Applied Successfully"
                     })
                     setIsJobApplied(true)
                 })
                 .catch((e) => {
-                    setMessage({
-                        show: true,
-                        type: "alert alert-danger",
-                        text: e.response.data.message
+                    message({
+                        status: "Error",
+                        error: e
                     })
-                    setTimeout(() => {
-                        setMessage({ ...message, show: false })
-                    }, 3000)
                 })
 
         } else {
-            setMessage({
-                show: true,
-                type: "alert alert-danger",
-                text: 'Please login as User to apply job'
+            message({
+                status: "Error",
+                error: { message: "Please login as user to apply to job" }
             })
         }
     }
@@ -185,28 +179,25 @@ function SingleJob() {
 
             http.post("/jobs/save", data)
                 .then((response) => {
-                    setMessage({
-                        show: true,
-                        type: "success",
-                        text: "Job Saved Successfully "
+
+                    message({
+                        status: "Success",
+                        message: "Job Saved Successfully"
                     })
                     setIsJobSaved(true)
                 })
                 .catch((e) => {
-                    setMessage({
-                        show: true,
-                        type: "alert alert-danger",
-                        text: e.response.data.message
+                    message({
+                        status: "Error",
+                        error: e
                     })
-                    setTimeout(() => {
-                        setMessage({ ...message, show: false })
-                    }, 3000)
                 })
         } else {
-            setMessage({
-                show: true,
-                type: "alert alert-danger",
-                text: 'Please login as User to save job'
+            message({
+                status: "Error",
+                error: {
+                    message: "Please login as user to save to job",
+                }
             })
         }
     }
@@ -214,7 +205,6 @@ function SingleJob() {
 
     return (
         <>
-            <Toaster message={message} setMessage={setMessage} />
             {loading && <Loader />}
             {!loading && jobview && jobview.status === "approved" &&
                 < div className='row mt-3 '>
