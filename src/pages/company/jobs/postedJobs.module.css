@@ -1,0 +1,9 @@
+.sidebarCollasped {
+    width: 90vw;
+    overflow-x: auto;
+}
+
+.sidebarNotCollasped {
+    width: 75vw;
+    overflow-x: auto;
+}

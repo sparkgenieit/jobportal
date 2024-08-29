@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToasterContext } from "../Context";
+import { GeneralContext } from "../Context";
 
 export default function useShowMessage() {
     const navigate = useNavigate()
 
-    const { setShowToaster } = useContext(ToasterContext)
+    const { setShowToaster } = useContext(GeneralContext)
 
     const handleMessage = ({ status, message, path, error }) => {
         if (status && status?.toLowerCase() === "success") {

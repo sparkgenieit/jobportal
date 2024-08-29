@@ -1,5 +1,5 @@
 import './Sidebar.css';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 
 import { Modal } from "react-bootstrap";
@@ -10,12 +10,13 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { ImProfile } from "react-icons/im";
 import { FaRegMessage } from "react-icons/fa6";
 import { IoMdMailOpen } from "react-icons/io";
+import { GeneralContext } from '../../helpers/Context';
 
 function Sidebar() {
-  const [showSidebar, setShowSidebar] = useState(true)
+  const { isSidebarOpen, setIsSidebarOpen } = useContext(GeneralContext)
   const navigate = useNavigate()
   const [tooltip, setTooltip] = useState({})
-  let sidebarClass = showSidebar ? { marginLeft: "0" } : { marginLeft: "-230px" };
+  let sidebarClass = isSidebarOpen ? { marginLeft: "0" } : { marginLeft: "-230px" };
   const [show, setShow] = useState(false);
   const [showJob, setShowJob] = useState(false);
   const [showBuy, setShowBuy] = useState(false);
@@ -51,7 +52,7 @@ function Sidebar() {
       {<div style={sidebarClass} className={` border shadow`}>
         <nav className="sidebar sidebar-offcanvas" id="sidebar">
           <div className=" position-relative mt-4 pe-1 d-flex justify-content-end">
-            <span onMouseOver={() => setTooltip({ menu: true })} onMouseLeave={() => setTooltip({ menu: false })} ><RxHamburgerMenu role='button' onClick={() => setShowSidebar(prev => !prev)} fontSize={22} /></span>
+            <span onMouseOver={() => setTooltip({ menu: true })} onMouseLeave={() => setTooltip({ menu: false })} ><RxHamburgerMenu role='button' onClick={() => setIsSidebarOpen(prev => !prev)} fontSize={22} /></span>
             {tooltip.menu && <span style={{ right: '-25px' }} className='position-absolute mt-4 bg-secondary rounded text-white px-1 py-1'>Menu</span>}
           </div>
           <ul style={{ marginLeft: "15px" }} className="nav">

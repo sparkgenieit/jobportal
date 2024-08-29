@@ -6,7 +6,7 @@ import MdxEditor from '../../../components/MdxEditor';
 import Toaster from '../../../components/Toaster';
 import { editJob, fetchCategories, fetchCompanyInfo, fetchJobForEditing, postJob } from './postAndEditJob.service';
 import { getCloseDate, getCredits } from '../../../helpers/functions';
-import { CurrentJobContext } from '../../../helpers/Context';
+import { GeneralContext } from '../../../helpers/Context';
 
 const initialValues = {
   company: "",
@@ -37,7 +37,7 @@ function Postajob({ name }) {
   const formRef = useRef(null)
   const params = useParams()
   const [searchParams] = useSearchParams()
-  const { currentJob, setCurrentJob } = useContext(CurrentJobContext)
+  const { currentJob, setCurrentJob, isSidebarOpen } = useContext(GeneralContext)
   const cloneJobId = searchParams.get("c")
 
   const [training, setTraining] = useState({
