@@ -1,7 +1,7 @@
 import styles from './postedJobs.module.css';
 
 
-import { useContext, useEffect, useRef, useState } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
 import Table from 'react-bootstrap/Table';
@@ -153,23 +153,28 @@ function PostedJobList() {
                                                         <th className="text-start">Job Title</th>
                                                         <th className="text-start">Job Reference</th>
                                                         <th>Posted Date</th>
-                                                        <th>Expired</th>
+                                                        <th>End Date</th>
                                                         <th className="text-center">Status</th>
                                                         <th className="text-end">Views</th>
                                                         <th className="text-center">Applications</th>
                                                         <th>{assignJobs?.some((job) => job.shortlistedUsers > 0) && <span>Shortlisted</span>}</th>
                                                         {isTableCollapsed &&
                                                             <>
-                                                                <th>Edit</th>
-                                                                <th>Duplicate</th>
-                                                                <th>{assignJobs?.some((job) => job.status === "approved") && <span>Close</span>}</th>
-                                                                <th>{assignJobs?.some((job) => job.status === "expired" || job.status === "closed") && <span>Delete</span>}</th>
-                                                                <th>{assignJobs?.some((job) => job.status === "expired" || job.status === "closed") && <span>Repost</span>}</th>
+                                                                <th className='text-primary d-flex align-items-center gap-1'>
+                                                                    <span role='button' onClick={() => setIsTableCollapsed(prev => !prev)}>
+                                                                        <RxHamburgerMenu fontSize={18} />
+                                                                    </span>
+                                                                    Edit
+                                                                </th>
+                                                                <th className='text-primary'>Duplicate</th>
+                                                                <th className='text-primary'>{assignJobs?.some((job) => job.status === "approved") && <span>Close</span>}</th>
+                                                                <th className='text-primary'>{assignJobs?.some((job) => job.status === "expired" || job.status === "closed") && <span>Delete</span>}</th>
+                                                                <th className='text-primary'>{assignJobs?.some((job) => job.status === "expired" || job.status === "closed") && <span>Repost</span>}</th>
                                                             </>
                                                         }
                                                         {
                                                             !isTableCollapsed &&
-                                                            <th role='button' className="d-flex gap-2 align-items-center">
+                                                            <th role='button' className="d-flex gap-2 text-primary align-items-center">
                                                                 <span>Actions</span>
                                                                 <span onClick={() => setIsTableCollapsed(prev => !prev)}>
                                                                     <RxHamburgerMenu fontSize={18} />
