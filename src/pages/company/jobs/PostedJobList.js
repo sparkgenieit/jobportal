@@ -169,7 +169,7 @@ function PostedJobList() {
                                                         }
                                                         {
                                                             !isTableCollapsed &&
-                                                            <th className="d-flex gap-2 align-items-center">
+                                                            <th role='button' className="d-flex gap-2 align-items-center">
                                                                 <span>Actions</span>
                                                                 <span onClick={() => setIsTableCollapsed(prev => !prev)}>
                                                                     <RxHamburgerMenu fontSize={18} />
