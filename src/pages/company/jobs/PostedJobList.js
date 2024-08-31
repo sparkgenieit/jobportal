@@ -146,7 +146,7 @@ function PostedJobList() {
                                     {!isLoading &&
 
                                         <div className={isSidebarOpen ? styles.sidebarNotCollasped : styles.sidebarCollasped}>
-                                            <Table className="text-wrap text-center">
+                                            <Table responsive className="text-wrap text-center">
                                                 <thead>
                                                     <tr>
                                                         <th></th>

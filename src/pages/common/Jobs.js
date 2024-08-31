@@ -97,16 +97,16 @@ function Jobs() {
                     </select>
                 </div>
             </div>
-            <div className='d-flex justify-content-end'>
+            <div className='d-md-flex justify-content-end'>
                 <div style={{ width: "97vw" }}>
                     <div className='row'>
-                        <section className='col-3 w-full d-flex justify-content-end '>
+                        <section className='col-12 filter col-lg-3 w-full d-lg-flex  justify-content-end '>
                             <Filter filterFields={filterFields} setFilterFields={setFilterFields} setRefresh={setRefresh} />
                         </section>
 
-                        <section style={{ paddingLeft: "15px" }} ref={ref} className="col-9  row container-fluid scrollbar  hide-scrollbar ">
+                        <section style={{ paddingLeft: "15px" }} ref={ref} className="col-12 col-lg-9  row container-fluid scrollbar  hide-scrollbar ">
 
-                            <div className="col-8 w-full">
+                            <div className="col-12 col-lg-8 w-full">
                                 <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} itemsPerPage={itemsPerPage} totalCount={totalItems} fetchItems={fetchJobs} pageNumberToShow={2}>
 
                                     <div className="mb-3">
@@ -116,7 +116,7 @@ function Jobs() {
 
                                 </Pagination>
                             </div>
-                            <div className='col-4 px-0 ps-2'>
+                            <div className='col-12 col-lg-4  px-0 ps-2'>
                                 <Ads />
                             </div>
                         </section >

@@ -1,7 +1,3 @@
-
-import Header from '../../../layouts/superadmin/Header';
-import Sidebar from '../../../layouts/superadmin/Sidebar';
-import Footer from '../../../layouts/superadmin/Footer';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import http from "../../../helpers/http";
@@ -156,102 +152,94 @@ function AdminEdit({ currentAdmin }) {
     return (
         <>
 
-            <div className="container-scroller">
 
-                <Header />
-                <div class="container-fluid page-body-wrapper">
-                    <Sidebar />
-                    <div class="container-fluid">
-                        <div className="content-wrapper">
-                            <div className="page-header">
-                                <h3 className="page-title"> Edit Admin </h3>
-                                <nav aria-label="breadcrumb">
-                                    <ol className="breadcrumb">
-                                        <li className="breadcrumb-item"><a href="List">Admin</a></li>
-                                        <li className="breadcrumb-item active" aria-current="page">Edit Admin</li>
-                                    </ol>
-                                </nav>
-                            </div>
+            <div class="container-fluid">
+                <div className="content-wrapper">
+                    <div className="page-header">
+                        <h3 className="page-title"> Edit Admin </h3>
+                        <nav aria-label="breadcrumb">
+                            <ol className="breadcrumb">
+                                <li className="breadcrumb-item"><a href="List">Admin</a></li>
+                                <li className="breadcrumb-item active" aria-current="page">Edit Admin</li>
+                            </ol>
+                        </nav>
+                    </div>
 
 
-                            <div className="row ">
-                                <div className="col-12 bg-white my-2 ">
-                                    {/* <div className="card"> */}
-                                    <div className="card-body">
-                                        <h4 className="card-title">Edit Admin </h4>
-                                        <form class="form-sample">
-                                            <div className='row'>
-                                                <div className="col-md-12">
-                                                    {msg && <div class="alert alert-success" role="alert">
-                                                        Admin Edited SuccessFully
-                                                    </div>}
-                                                    {errorMsg && <div class="alert alert-danger" role="alert">
-                                                        {CreateError}
-                                                    </div>}
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-4 col-form-label">FirstName</label>
-                                                        <div className="col-sm-8">
+                    <div className="row ">
+                        <div className="col-12 bg-white my-2 ">
+                            {/* <div className="card"> */}
+                            <div className="card-body">
+                                <h4 className="card-title">Edit Admin </h4>
+                                <form class="form-sample">
+                                    <div className='row'>
+                                        <div className="col-md-12">
+                                            {msg && <div class="alert alert-success" role="alert">
+                                                Admin Edited SuccessFully
+                                            </div>}
+                                            {errorMsg && <div class="alert alert-danger" role="alert">
+                                                {CreateError}
+                                            </div>}
+                                            <div className="form-group row">
+                                                <label className="col-sm-4 col-form-label">FirstName</label>
+                                                <div className="col-sm-8">
 
-                                                            <input type="text" value={fname} onChange={(event) => handleInput('fname', event)} className="form-control" />
+                                                    <input type="text" value={fname} onChange={(event) => handleInput('fname', event)} className="form-control" />
 
-                                                            {errors && errors.fname && <div className=' text-danger'>{firstnameError}</div>}
-                                                        </div>
-                                                    </div>
+                                                    {errors && errors.fname && <div className=' text-danger'>{firstnameError}</div>}
                                                 </div>
                                             </div>
-                                            <div className='row'>
-                                                <div className="col-md-12">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-4 col-form-label">LastName</label>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" value={lname} onChange={(event) => handleInput('lname', event)} className="form-control" />
-
-                                                            {errors && errors.lname && <div className="text-danger">{lastnameError} </div>}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className='row'>
-                                                <div className="col-md-12">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-4 col-form-label">Email</label>
-                                                        <div className="col-sm-8">
-                                                            <input type="text" value={email} onChange={(event) => handleInput('email', event)} className="form-control" />
-                                                            {errors && errors.email && <div className="error text-danger">{emailError}</div>}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className='row'>
-                                                <div className="col-md-12">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-4 col-form-label"> Reset Password</label>
-                                                        <div className="col-sm-8">
-                                                            <input type="password" value={password} onChange={(event) => handleInput('password', event)} className="form-control" />
-                                                            {errors && errors.password && <div className="error text-danger">{passwordError}</div>}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="col-md-9 mt-3 row">
-                                                <div className="col-md-12  ">
-                                                    <button type="button" className="btn btn-gradient-primary me-2 float-end" onClick={() => submitData()} >Submit</button>
-                                                </div>
-                                            </div>
-
-                                        </form>
+                                        </div>
                                     </div>
-                                    {/* </div> */}
-                                </div>
+                                    <div className='row'>
+                                        <div className="col-md-12">
+                                            <div className="form-group row">
+                                                <label className="col-sm-4 col-form-label">LastName</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" value={lname} onChange={(event) => handleInput('lname', event)} className="form-control" />
 
+                                                    {errors && errors.lname && <div className="text-danger">{lastnameError} </div>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='row'>
+                                        <div className="col-md-12">
+                                            <div className="form-group row">
+                                                <label className="col-sm-4 col-form-label">Email</label>
+                                                <div className="col-sm-8">
+                                                    <input type="text" value={email} onChange={(event) => handleInput('email', event)} className="form-control" />
+                                                    {errors && errors.email && <div className="error text-danger">{emailError}</div>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
+                                    <div className='row'>
+                                        <div className="col-md-12">
+                                            <div className="form-group row">
+                                                <label className="col-sm-4 col-form-label"> Reset Password</label>
+                                                <div className="col-sm-8">
+                                                    <input type="password" value={password} onChange={(event) => handleInput('password', event)} className="form-control" />
+                                                    {errors && errors.password && <div className="error text-danger">{passwordError}</div>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-9 mt-3 row">
+                                        <div className="col-md-12  ">
+                                            <button type="button" className="btn btn-gradient-primary me-2 float-end" onClick={() => submitData()} >Submit</button>
+                                        </div>
+                                    </div>
+
+                                </form>
                             </div>
+                            {/* </div> */}
                         </div>
-                        <Footer />
 
 
                     </div>
+
                 </div>
             </div>
 

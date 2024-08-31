@@ -97,154 +97,158 @@ export default function Card({ job }) {
     const benefits = getTrueKeys(JSON.parse(job.benifits))
     const bn = (JSON.parse(job.benifits))
     return <>
-        <div style={{ height: "37vh", width: "45vw" }} onClick={() => { navigate(`/common/SingleJob/${job._id}`) }} className='job-card px-3 py-2  row border rounded shadow '>
-            <div className='col-9 h-100  position-relative px-1 '>
-                <div className='fw-bold h4' >{job.jobTitle}</div>
-                <div className='d-flex'>
-                    {count?.length > 0 ?
-                        <Tooltip tooltipText={"Click to View All Jobs"}>
-                            <span onClick={(e) => { getJobsbyCompany(e) }}>
+        <div onClick={() => { navigate(`/common/SingleJob/${job._id}`) }} className='job-card px-3 py-1  border rounded shadow '>
+            <div style={{ height: "85%" }} className='d-flex flex-column flex-sm-row'>
+                <div style={{ width: "80%" }} className=' h-100  position-relative px-1 '>
+                    <div className='fw-bold h4' >{job.jobTitle}</div>
+                    <div className='d-flex'>
+                        {count?.length > 0 ?
+                            <Tooltip tooltipText={"Click to View All Jobs"}>
+                                <span onClick={(e) => { getJobsbyCompany(e) }}>
+                                    <CiViewList fontSize={22} />
+                                </span>
+                            </Tooltip> :
+                            <span style={{ visibility: "hidden" }}>
                                 <CiViewList fontSize={22} />
                             </span>
-                        </Tooltip> :
-                        <span style={{ visibility: "hidden" }}>
-                            <CiViewList fontSize={22} />
-                        </span>
-                    }
-                    {companyInfo?.length > 0 ?
-                        <>
-                            <Tooltip tooltipText={"View company info"}>
-                                <span
-                                    className='text-decoration-underline text-primary'
-                                    onClick={(e) => {
-                                        setInfo({
-                                            show: true,
-                                            info: companyInfo[0].info,
-                                            job: job
-                                        });
-                                        e.stopPropagation();
-                                    }}
-                                >
-                                    {job.company}
-                                </span>
-                            </Tooltip>
-                        </>
-                        :
-                        <span className=''>
-                            {job.company}
-                        </span>
-                    }
-                </div >
-
-                <div className=' d-flex mt-2'>
-                    <MdOutlineLocationOn size="22px" />
-                    <Tooltip tooltipText={"Click to View Activities"}>
-                        <span
-                            onClick={(e) => {
-                                setLocationPopup({
-                                    show: true,
-                                    city: job.location
-                                });
-                                e.stopPropagation();
-                            }}
-                            className='text-decoration-underline text-primary'
-                        >
-                            {job.location}
-                        </span>
-                    </Tooltip>
-                </div>
-
-                <p style={{ lineHeight: "1.2" }} className='text-secondary mt-3 mb-2  small'> {markdownToPlainText(job.description, 225)}</p>
-                <div className='small d-flex position-absolute bottom-0 start-0'>
-                    <span className='pe-3'>{date} ({timeAgo(date)})</span>
-                    <Tooltip tooltipText={"Share"}>
-                        <a className='pe-2' type='button' onClick={(e) => { handleShare(e) }}>
-                            <span><FaShare size="20px" /></span>
-                        </a>
-                    </Tooltip>
-
-                    <Tooltip tooltipText={isJobSaved ? "Saved" : "Save"}>
-                        <a className='pe-2' type='button'>
-                            {isJobSaved ?
-                                <span><IoBookmark size="20px" /></span>
-                                :
-                                <span onClick={(e) => handleSave(e)}><CiBookmark size="22px" /></span>
-                            }
-                        </a>
-                    </Tooltip>
-
-                </div>
-            </div >
-
-            <div className='col-3 d-flex  flex-column  small'>
-                <div className='h-50'>
-                    {job.companyLogo.length > 0 && <img style={{ width: "9vw", height: "12vh" }} className="rounded border" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
-                </div>
-                <div className=''>
-                    <Tooltip tooltipText={"Rate per Hour"}>
-                        <span><FaDollarSign size="16px" /></span>
-                        <span className='ps-2'>
-                            {job.rateperhour} ph
-                        </span>
-                    </Tooltip>
-
-                    <Tooltip tooltipText={"Duration"}>
-                        <span><FaRegClock size="16px" /></span>
-                        <span className='ps-2'>
-                            {job.duration}
-                        </span>
-                    </Tooltip>
-
-                    <Tooltip tooltipText={"Vacancies"}>
-                        {job.numberofvacancies > 1 && <>
-                            <span>
-                                <span><MdOutlinePeopleOutline size="20px" /></span>
-                                <span className='ps-2'>{job.numberofvacancies} </span>
-                            </span>
-                        </>}
-                    </Tooltip>
-                    <div className=''>
-                        {job.training.includes("true") && <span className='text-nowrap'>
-                            Training Provided
-                            <span className='ps-1'>
-                                <FaCheckSquare size="18px" />
-                            </span>
-                        </span>
                         }
-                    </div>
-                    <div>
-                        {job.benifits && benefits.length > 0 &&
-                            <div>
-                                <div className='d-flex'>Benefits:
-                                    {benefits.includes("Accommodation") &&
-                                        <Tooltip tooltipText={"Accommodation"}>
-                                            <span className='px-1'>
-                                                <IoHomeOutline size="18px" />
-                                            </span>
-                                        </Tooltip>
-                                    }
+                        {companyInfo?.length > 0 ?
+                            <>
+                                <Tooltip tooltipText={"View company info"}>
+                                    <span
+                                        className='text-decoration-underline text-primary'
+                                        onClick={(e) => {
+                                            setInfo({
+                                                show: true,
+                                                info: companyInfo[0].info,
+                                                job: job
+                                            });
+                                            e.stopPropagation();
+                                        }}
+                                    >
+                                        {job.company}
+                                    </span>
+                                </Tooltip>
+                            </>
+                            :
+                            <span className=''>
+                                {job.company}
+                            </span>
+                        }
+                    </div >
 
-                                    {benefits.includes("Food") &&
-                                        <Tooltip tooltipText={"Food"}>
-                                            <span className='px-1'>
-                                                <GiHotMeal size="18px" />
-                                            </span>
-                                        </Tooltip>
-                                    }
-
-                                    {benefits.includes("Transport") &&
-                                        <Tooltip tooltipText={"Transport"}>
-                                            <span className='px-1'>
-                                                <PiCarProfileThin size="22px" />
-                                            </span>
-                                        </Tooltip>
-                                    }
-                                </div>
-                                {bn.Others && <div>{bn.OthersText}</div>}
-                            </div>}
+                    <div className=' d-flex mt-2'>
+                        <MdOutlineLocationOn size="22px" />
+                        <Tooltip tooltipText={"Click to View Activities"}>
+                            <span
+                                onClick={(e) => {
+                                    setLocationPopup({
+                                        show: true,
+                                        city: job.location
+                                    });
+                                    e.stopPropagation();
+                                }}
+                                className='text-decoration-underline text-primary'
+                            >
+                                {job.location}
+                            </span>
+                        </Tooltip>
                     </div>
+
+                    <p className='description text-secondary mt-2 mb-2  small'> {markdownToPlainText(job.description)}</p>
+
+                </div >
+
+                <div className=' d-flex  flex-column   small'>
+                    <div className='h-50'>
+                        {job.companyLogo.length > 0 && <img className="rounded border company-logo" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
+                    </div>
+                    <div className=''>
+                        <Tooltip tooltipText={"Rate per Hour"}>
+                            <span><FaDollarSign size="16px" /></span>
+                            <span className='ps-2'>
+                                {job.rateperhour} ph
+                            </span>
+                        </Tooltip>
+
+                        <Tooltip tooltipText={"Duration"}>
+                            <span><FaRegClock size="16px" /></span>
+                            <span className='ps-2'>
+                                {job.duration}
+                            </span>
+                        </Tooltip>
+
+                        <Tooltip tooltipText={"Vacancies"}>
+                            {job.numberofvacancies > 1 && <>
+                                <span>
+                                    <span><MdOutlinePeopleOutline size="20px" /></span>
+                                    <span className='ps-2'>{job.numberofvacancies} </span>
+                                </span>
+                            </>}
+                        </Tooltip>
+                        <div className=''>
+                            {job.training.includes("true") && <span className='text-nowrap'>
+                                Training Provided
+                                <span className='ps-1'>
+                                    <FaCheckSquare size="18px" />
+                                </span>
+                            </span>
+                            }
+                        </div>
+                        <div>
+                            {job.benifits && benefits.length > 0 &&
+                                <div>
+                                    <div className='d-flex'>Benefits:
+                                        {benefits.includes("Accommodation") &&
+                                            <Tooltip tooltipText={"Accommodation"}>
+                                                <span className='px-1'>
+                                                    <IoHomeOutline size="18px" />
+                                                </span>
+                                            </Tooltip>
+                                        }
+
+                                        {benefits.includes("Food") &&
+                                            <Tooltip tooltipText={"Food"}>
+                                                <span className='px-1'>
+                                                    <GiHotMeal size="18px" />
+                                                </span>
+                                            </Tooltip>
+                                        }
+
+                                        {benefits.includes("Transport") &&
+                                            <Tooltip tooltipText={"Transport"}>
+                                                <span className='px-1'>
+                                                    <PiCarProfileThin size="22px" />
+                                                </span>
+                                            </Tooltip>
+                                        }
+                                    </div>
+                                    {bn.Others && <div>{bn.OthersText}</div>}
+                                </div>}
+                        </div>
+                    </div >
                 </div >
             </div >
-        </div >
+
+            <div className='small d-flex align-items-center '>
+                <span className='pe-3'>{date} ({timeAgo(date)})</span>
+                <Tooltip tooltipText={"Share"}>
+                    <a className='pe-2' type='button' onClick={(e) => { handleShare(e) }}>
+                        <span><FaShare size="20px" /></span>
+                    </a>
+                </Tooltip>
+
+                <Tooltip tooltipText={isJobSaved ? "Saved" : "Save"}>
+                    <a className='pe-2' type='button'>
+                        {isJobSaved ?
+                            <span><IoBookmark size="20px" /></span>
+                            :
+                            <span onClick={(e) => handleSave(e)}><CiBookmark size="22px" /></span>
+                        }
+                    </a>
+                </Tooltip>
+
+            </div>
+        </div>
     </>
 }

@@ -7,3 +7,24 @@
     height: 80vh;
     overflow-y: auto;
 }
+
+.filter {
+    width: 300px;
+}
+
+
+@media (max-width: 768px) {
+    .filter {
+        width: 100%;
+        margin-bottom: 6px;
+    }
+}
+
+
+@media (min-width: 1400px) {
+
+    /* Devices with higher than 1440px width */
+    .filter {
+        width: 100%;
+    }
+}
