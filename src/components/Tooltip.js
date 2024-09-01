@@ -17,7 +17,7 @@ export default function Tooltip({ tooltipText, children }) {
             onMouseLeave={() => handleTooltip(false)}
         >
             {children}
-            {tooltip && <div className='text-nowrap z-3 position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>{tooltipText}</div>}
+            {tooltip && <div style={{ zIndex: 1000 }} className='text-nowrap  position-absolute bg-secondary mt-1 py-1 px-2 rounded text-white'>{tooltipText}</div>}
         </div>
 
 

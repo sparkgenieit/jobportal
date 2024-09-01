@@ -183,6 +183,7 @@ function Postajob({ name }) {
         await editJob(jobData._id, data, setMsg)
       }
       await getCredits() //To Update Credits
+      localStorage.setItem("usedFreeCredit", "true")
 
       setTimeout(() => {
         navigate(`/company/jobs`)

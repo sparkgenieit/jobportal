@@ -100,13 +100,13 @@ function Jobs() {
             <div className='d-md-flex justify-content-end'>
                 <div style={{ width: "97vw" }}>
                     <div className='row'>
-                        <section className='col-12 filter col-lg-3 w-full d-lg-flex  justify-content-end '>
+                        <section className='col-12 filter col-lg-3 w-full d-lg-flex p-0 justify-content-end '>
                             <Filter filterFields={filterFields} setFilterFields={setFilterFields} setRefresh={setRefresh} />
                         </section>
 
                         <section style={{ paddingLeft: "15px" }} ref={ref} className="col-12 col-lg-9  row container-fluid scrollbar  hide-scrollbar ">
 
-                            <div className="col-12 col-lg-8 w-full">
+                            <div className="col-12 col-lg-8 w-full p-0">
                                 <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} itemsPerPage={itemsPerPage} totalCount={totalItems} fetchItems={fetchJobs} pageNumberToShow={2}>
 
                                     <div className="mb-3">

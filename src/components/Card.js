@@ -97,7 +97,7 @@ export default function Card({ job }) {
     const benefits = getTrueKeys(JSON.parse(job.benifits))
     const bn = (JSON.parse(job.benifits))
     return <>
-        <div onClick={() => { navigate(`/common/SingleJob/${job._id}`) }} className='job-card px-3 py-1  border rounded shadow '>
+        <div onClick={() => { navigate(`/common/SingleJob/${job._id}`) }} className='job-card px-3 py-2  border rounded shadow '>
             <div style={{ height: "85%" }} className='d-flex flex-column flex-sm-row'>
                 <div style={{ width: "80%" }} className=' h-100  position-relative px-1 '>
                     <div className='fw-bold h4' >{job.jobTitle}</div>

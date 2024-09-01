@@ -9,12 +9,11 @@ import useShowMessage from '../../../helpers/Hooks/useShowMessage'
 import { BASE_API_URL } from "../../../helpers/constants";
 
 function OrdersList() {
-    const [credits, setCredits] = useState("")
     const [orders, setOrders] = useState(null)
     const [showModal, setShowModal] = useState(false)
+    const [sendingRequest, setSendingRequest] = useState(false)
 
     const message = useShowMessage()
-
 
     useEffect(() => {
         fetchOrders()
@@ -35,19 +34,21 @@ function OrdersList() {
 
     async function refundCredits() {
         try {
-            await http.put(`/orders/refund-credits/${credits}`)
-            setShowModal(false)
+            setSendingRequest(true)
+            await http.put(`/jobs/refund-credits`)
             message({
                 status: "success",
                 message: "Credits refunded successfully"
             })
             fetchOrders()
         } catch (error) {
-            setShowModal(false)
             message({
                 status: "error",
                 error
             })
+        } finally {
+            setShowModal(false)
+            setSendingRequest(false)
         }
     }
 
@@ -58,7 +59,6 @@ function OrdersList() {
                     <div className="d-flex ">
                         <h2 className="fw-bold text-center w-100">Transactions</h2>
                         <div className="d-flex flex-shrink-1" >
-                            <input type="number" value={credits} onChange={(e) => { setCredits(e.target.value) }} className="form-control" placeholder="Credits to refund" />
                             <button
                                 type="button"
                                 onClick={() => {
@@ -69,8 +69,7 @@ function OrdersList() {
                             </button>
                         </div>
                     </div>
-                    {/* {loading && <Loader />} */}
-                    {/* {!loading && */}
+
                     <div className="pt-4  w-100">
                         <table className="w-100 text-center">
                             <thead >
@@ -131,31 +130,16 @@ function OrdersList() {
 
             <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Body className="bg-white">
-                    {!credits &&
-                        <span>
-                            Please specify the credits  to refund
-                        </span>
 
-                    }
+                    <div className="d-flex flex-column justify-content-center gap-3 align-items-center">
+                        Are you sure want to refund all the employers with  credits
 
-                    {
-                        credits && credits <= 0 &&
-                        <span>
-                            Please provide a valid number
-                        </span>
-                    }
+                        <button type="button" disabled={sendingRequest} onClick={refundCredits} className="btn btn-info">
+                            {sendingRequest ? "Please wait! Refunding in progress" : "Ok"}
+                        </button>
 
-                    {
-                        credits && credits > 0 &&
-                        <div className="d-flex flex-column justify-content-center gap-3 align-items-center">
-                            Are you sure want to refund all the employers with {credits} credits
+                    </div>
 
-                            <button type="button" onClick={refundCredits} className="btn btn-info">
-                                Ok
-                            </button>
-
-                        </div>
-                    }
                 </Modal.Body>
             </Modal>
         </>

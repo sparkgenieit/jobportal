@@ -75,6 +75,7 @@ export async function getCredits() {
     const user_id = localStorage.getItem('user_id')
     const { data } = await http.get(`/users/get-credits/${user_id}`)
     localStorage.setItem("credits", data.credits)
+    return data.credits
 }
 
 export const getCloseDate = (date) => {

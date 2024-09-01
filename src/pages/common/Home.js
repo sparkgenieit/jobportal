@@ -110,7 +110,7 @@ function Home() {
                 </div>
             </div>
             <div className="container-fluid text-center py-3">
-                <div className='pt-2'>
+                <div className='pb-4 pt-2 '>
                     <NZMap />
                     <LocationPopup />
                 </div>
@@ -120,12 +120,12 @@ function Home() {
                     </section>
                     <section className=' d-flex flex-column gap-5 col-12 col-md-8'>
                         <div>
-                            <iframe className='rounded w-100 ' style={{ height: "68vh" }} src="https://www.youtube.com/embed/7r-If5smQ_s?si=zd0NUcT7rsEV7a4k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+                            <iframe className='rounded' width="800" height="400" src="https://www.youtube.com/embed/7r-If5smQ_s?si=zd0NUcT7rsEV7a4k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
                             </iframe>
                             <div className='fw-bold'>Experience New Zealand with a Working Holiday Visa</div>
                         </div>
-                        <div>
-                            <iframe className='rounded w-100 ' style={{ height: "68vh" }} src="https://www.youtube.com/embed/P98SjgerM8g?si=x36wJ4kJRg86288m" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <div className='mt-5'>
+                            <iframe className='rounded' width="800" height="400" src="https://www.youtube.com/embed/P98SjgerM8g?si=x36wJ4kJRg86288m" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                             <div className='fw-bold'>Life in New Zealand on a Working Holiday Visa</div>
                         </div>
                     </section>

@@ -8,68 +8,47 @@ import { BsPostcard, BsPostcardFill, BsCreditCard } from "react-icons/bs";
 import { PiListDashesFill } from "react-icons/pi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { ImProfile } from "react-icons/im";
-import { FaRegMessage } from "react-icons/fa6";
 import { IoMdMailOpen } from "react-icons/io";
+
 import { GeneralContext } from '../../helpers/Context';
+import Tooltip from '../../components/Tooltip';
 
 function Sidebar() {
   const { isSidebarOpen, setIsSidebarOpen } = useContext(GeneralContext)
-  const navigate = useNavigate()
-  const [tooltip, setTooltip] = useState({})
-  let sidebarClass = isSidebarOpen ? { marginLeft: "0" } : { marginLeft: "-230px" };
   const [show, setShow] = useState(false);
-  const [showJob, setShowJob] = useState(false);
-  const [showBuy, setShowBuy] = useState(false);
+  const navigate = useNavigate()
+
+  let sidebarClass = isSidebarOpen ? { marginLeft: "0" } : { marginLeft: "-230px" };
 
   const handleModal = () => {
 
     if (parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'false') {
-      setShowJob(true);
       setShow(true);
-
-
     }
     else if (parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'true') {
-      setShowBuy(true);
       setShow(true);
-
     }
     else {
       navigate('/company/postajob')
     }
-    setShowBuy(true);
   }
-
-
 
   const handleClose = () => {
     setShow(false)
-
   }
 
   return (
     <>
-      {<div style={sidebarClass} className={` border shadow`}>
+      <div style={sidebarClass} className="border shadow">
         <nav className="sidebar sidebar-offcanvas" id="sidebar">
-          <div className=" position-relative mt-4 pe-1 d-flex justify-content-end">
-            <span onMouseOver={() => setTooltip({ menu: true })} onMouseLeave={() => setTooltip({ menu: false })} ><RxHamburgerMenu role='button' onClick={() => setIsSidebarOpen(prev => !prev)} fontSize={22} /></span>
-            {tooltip.menu && <span style={{ right: '-25px' }} className='position-absolute mt-4 bg-secondary rounded text-white px-1 py-1'>Menu</span>}
+          <div className="  mt-4 pe-1 d-flex justify-content-end">
+            <Tooltip tooltipText={"Menu"}>
+              <a className='pe-2' type='button'>
+                <span onClick={() => setIsSidebarOpen(prev => !prev)}><RxHamburgerMenu size="20px" /></span>
+              </a>
+            </Tooltip>
           </div>
-          <ul style={{ marginLeft: "15px" }} className="nav">
-
-            {/* <li className="nav-item nav-profile">
-              <Link to="#" className="nav-link">
-                <div className="nav-profile-image">
-                  <img src="/assets/images/faces/face1.jpg" alt="profile" />
-                  <span className="login-status online"></span>
-                </div>
-                <div className="nav-profile-text d-flex flex-column">
-                  <span className="font-weight-bold mb-2">Employer</span>
-                  <span className="text-secondary  mb-2">Available Credits: {localStorage.getItem('credits')}</span>
-                </div>
-
-              </Link>
-            </li> */}
+          <ul className="nav">
 
             <li className="nav-item">
               <Link className="nav-link" to="/company">
@@ -140,17 +119,6 @@ function Sidebar() {
               </Link>
             </li>
 
-            {/* <li className="nav-item">
-              <Link className="nav-link" to="/company/contact-us">
-                <div className='d-flex justify-content-between align-items-center w-100'>
-                  <span>Contact Us</span>
-                  <span>
-                    <FaRegMessage size={"20"} />
-                  </span>
-                </div>
-              </Link>
-            </li> */}
-
             <li className="nav-item">
               <Link className="nav-link" to="/company/inbox">
                 <div className='d-flex justify-content-between align-items-center w-100'>
@@ -164,61 +132,38 @@ function Sidebar() {
 
           </ul>
         </nav>
-      </div>}
+      </div>
+
+
       <Modal show={show} onHide={handleClose} centered>
-        <div className='bg-light'>
-          <Modal.Body>
-            {parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'false' &&
-              <>
-                <div className='d-flex flex-column align-items-center gap-2 p-2'>
-                  <h3>POST A JOB FOR FREE</h3>
-                  <div>
-                    <iframe style={{ width: "200px" }} src="https://lottie.host/embed/7e57bc16-9962-42d7-a47c-95c5493b7e18/ugELYiVQBH.json"></iframe>
-                  </div>
-
-                  <div className='d-flex flex-column align-items-center   '>
-                    <p> You can post the first job for free</p>
-
-                    <p> For your next job you need to buy credits</p>
-                  </div>
-
-
-                  <div className="d-flex justify-content-end">
-                    <button type="button" onClick={() => { handleClose(); navigate('/company/postajob') }} className="btn btn-info">Post a Job</button>
-                  </div>
-                </div>
-              </>}
-
-            {parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'true' && <><div className="form-row ml-5">
-              <div className="form-group">
-                <div className="form-group">
-                  <div className="form-check ml-2">
-                    <label className="form-check-label" for="invalidCheck2">
-                      <span>Sorry you dont have credits please buy credits to post the job.</span>
-                    </label>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-              <div className="form-row">
-                <button type="button" onClick={() => { handleClose(); navigate('/company/BuyCredits') }} className="btn btn-danger">Buy Credits</button>
-              </div></>}
-          </Modal.Body>
-        </div>
-
-      </Modal>
-
-      <Modal showBuy={showBuy} onHide={handleClose}>
         <Modal.Body>
+          {parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'false' &&
+            <>
+              <div className='d-flex flex-column align-items-center gap-2 p-2'>
+                <h3>POST A JOB FOR FREE</h3>
+                <div>
+                  <img style={{ width: "200px" }} src="/assets/images/free-job.gif" alt='free-job'></img>
+                </div>
 
-          <div className="form-row ml-5">
+                <div className='d-flex flex-column align-items-center'>
+                  <p> You can post the first job for free</p>
+
+                  <p> For your next job you need to buy credits</p>
+                </div>
+
+
+                <div className="d-flex justify-content-end">
+                  <button type="button" onClick={() => { handleClose(); navigate('/company/postajob') }} className="btn btn-info">Post a Job</button>
+                </div>
+              </div>
+            </>}
+
+          {parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'true' && <><div className="form-row ml-5">
             <div className="form-group">
               <div className="form-group">
                 <div className="form-check ml-2">
-                  <label className="form-check-label" for="invalidCheck2">
-                    <small><span>By registering you agree to <Link to="/privacy" target="_blank" >Privacy Policy</Link> </span></small>
+                  <label className="form-check-label">
+                    <span>Sorry, you dont have credits please buy credits to post the job.</span>
                   </label>
                 </div>
               </div>
@@ -226,11 +171,11 @@ function Sidebar() {
             </div>
           </div>
 
-          <div className="d-flex justify-content-end">
-            <button type="button" className="btn btn-danger">Buy Credits</button>
-          </div>
+            <div className="d-flex justify-content-center">
+              <button type="button" onClick={() => { handleClose(); navigate('/company/BuyCredits') }} className="btn btn-danger rounded-3">Buy Credits</button>
+            </div></>}
         </Modal.Body>
-      </Modal>
+      </Modal >
     </>
   );
 }
