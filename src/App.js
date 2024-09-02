@@ -87,6 +87,7 @@ import PaymentStatus from "./pages/billing/PaymentStatus";
 import JobSuperAdmin from "./pages/superadmin/joblist/JobSuperadmin";
 import Profile from "./pages/superadmin/user/Profile";
 import LocationList from "./pages/superadmin/locations-list/LocationList";
+import SuperAdminMail from "./pages/superadmin/mail/SuperAdminMail";
 
 //Context
 import GeneralProvider from "./helpers/Context/GeneralContext";
@@ -97,7 +98,6 @@ function App() {
   return (
     <BrowserRouter>
       <GeneralProvider>
-
         <Routes>
 
           {/* Company Routes */}
@@ -146,6 +146,7 @@ function App() {
             <Route path="users" element={<UserList />} />
             <Route path="Skills/:id" element={<EditSkill />} />
             <Route path="orders" element={<OrdersList />} />
+            <Route path="mail" element={<SuperAdminMail />} />
             <Route path="add-page" element={<Addpage />} />
             <Route path="pages" element={<PagesList />} />
             <Route path="jobs" element={<JobsListSuperAdmin />} />

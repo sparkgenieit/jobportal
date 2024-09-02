@@ -163,7 +163,7 @@ function Sidebar() {
               <div className="form-group">
                 <div className="form-check ml-2">
                   <label className="form-check-label">
-                    <span>Sorry, you dont have credits please buy credits to post the job.</span>
+                    <span>Not Enough Credits</span>
                   </label>
                 </div>
               </div>
