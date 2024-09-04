@@ -11,6 +11,7 @@ import UserRegistration from '../../pages/common/UserRegistration';
 import CompanyRegistration from '../../pages/common/CompanyRegistration';
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import CustomToggle from '../../components/CustomToggle';
+import RecruiterLogin from '../../pages/company/Recruiter/RecruiterLogin';
 
 function Header() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -269,8 +270,18 @@ function Header() {
 
         <Tabs justify className="mb-3">
           <Tab eventKey="login" title="Login">
-            <UserLogin />
+            <Tabs justify className="mb-3">
+              <Tab eventKey="loginUser" title="User Login">
+                <UserLogin />
+              </Tab>
+              <Tab eventKey="loginRecruiter" title="Recruiter Login">
+                <RecruiterLogin />
+              </Tab>
+            </Tabs>
           </Tab>
+
+
+
           <Tab eventKey="register" title="Register">
 
             <Tabs justify className="mb-3">

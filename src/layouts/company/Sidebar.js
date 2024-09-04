@@ -4,11 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { Modal } from "react-bootstrap";
 import { MdSpaceDashboard } from 'react-icons/md';
-import { BsPostcard, BsPostcardFill, BsCreditCard } from "react-icons/bs";
+import { BsPostcard, BsPostcardFill, BsCreditCard, BsFillPersonCheckFill } from "react-icons/bs";
 import { PiListDashesFill } from "react-icons/pi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { ImProfile } from "react-icons/im";
 import { IoMdMailOpen } from "react-icons/io";
+
 
 import { GeneralContext } from '../../helpers/Context';
 import Tooltip from '../../components/Tooltip';
@@ -90,6 +91,17 @@ function Sidebar() {
                   <span>Posted Jobs</span>
                   <span>
                     <BsPostcardFill size={"20"} />
+                  </span>
+                </div>
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/company/recruiters">
+                <div className='d-flex justify-content-between w-100'>
+                  <span>Recruiters</span>
+                  <span>
+                    <BsFillPersonCheckFill size={"20"} />
                   </span>
                 </div>
               </Link>

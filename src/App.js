@@ -91,6 +91,9 @@ import SuperAdminMail from "./pages/superadmin/mail/SuperAdminMail";
 
 //Context
 import GeneralProvider from "./helpers/Context/GeneralContext";
+import RecruiterList from "./pages/company/Recruiter/RecruiterList";
+import EditRecruiter from "./pages/company/Recruiter/EditRecruiter";
+import AddRecruiter from "./pages/company/Recruiter/AddRecruiter";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -114,6 +117,9 @@ function App() {
             <Route path="contact-us" element={<EmployerContactUs />} />
             <Route path="inbox" element={<Inbox />} />
             <Route path="inbox/details/:id" element={<ChatPage name={"Enquirer"} />} />
+            <Route path="recruiters" element={<RecruiterList />} />
+            <Route path="recruiters/add" element={<AddRecruiter />} />
+            <Route path="recruiters/edit/:id" element={<EditRecruiter />} />
           </Route>
 
           <Route path="/company/transactions/download-transactions" element={<DownloadTransactions />} />
