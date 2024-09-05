@@ -1,50 +1,67 @@
-export default function RecruiterForm({ recruiterData, handleRecruiterData, errors, submit, sending }) {
+import { useState } from "react"
+import { validateEmailAddress, validateIsNotEmpty } from "../../../helpers/functions/textFunctions"
+
+export default function RecruiterForm({ inputValues, submit, sending, mode }) {
+    const [recruiterData, setRecruiterData] = useState(inputValues)
+    const [errors, setErrors] = useState({})
+
+    const handleRecruiterData = (e) => {
+        setRecruiterData({ ...recruiterData, [e.target.name]: e.target.value })
+        setErrors({ ...errors, [e.target.name]: e.target.value.trim() === "" ? `${e.target.name} is required` : "" })
+    }
+
+    const validatingInput = (e) => {
+        e.preventDefault();
+        let isValid = true
+        const fieldsToBeValidated = ["name", "email", "password"]
+        for (const input of fieldsToBeValidated) {
+            if (!validateIsNotEmpty(recruiterData[input])) {
+                setErrors({ ...errors, [input]: `${input} is required` })
+                isValid = false
+                break;
+            }
+        }
+
+        if (!isValid) return
+
+        if (!validateEmailAddress(recruiterData.email)) {
+            isValid = false
+            setErrors({ ...errors, email: "Invalid Email" })
+            return
+        }
+
+        if (isValid) {
+            submit(recruiterData)
+        }
+    }
+
     return (
         <div className="card-body  rounded-3">
-            <form onSubmit={submit} className="form-sample">
+            <div className="fw-bold fs-5 mb-4">{mode} Recruiter</div>
+            <form onSubmit={e => validatingInput(e)} className="form-sample">
                 <div className='row'>
                     <div className="col-md-12">
                         <div className="form-group row">
-                            <label className="col-sm-4 col-form-label">First name</label>
+                            <label className="col-sm-4 col-form-label">User name</label>
                             <div className="col-sm-8">
 
                                 <input
                                     type="text"
                                     className="form-control"
-                                    name="firstname"
-                                    value={recruiterData?.firstname}
+                                    name="name"
+                                    value={recruiterData?.name}
                                     onChange={handleRecruiterData}
                                     required
-                                    placeholder="First name"
+                                    placeholder="User name"
                                     disabled={sending}
                                 />
 
-                                {<div className='text-danger'>{errors?.firstname}</div>}
+                                {<div className='text-danger'>{errors?.name}</div>}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className='row'>
-                    <div className="col-md-12">
-                        <div className="form-group row">
-                            <label className="col-sm-4 col-form-label">Last name</label>
-                            <div className="col-sm-8">
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="lastname"
-                                    value={recruiterData?.lastname}
-                                    onChange={handleRecruiterData}
-                                    required
-                                    placeholder="Last name"
-                                    disabled={sending}
-                                />
 
-                                {<div className='text-danger'>{errors?.lastname}</div>}
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div className='row'>
                     <div className="col-md-12">
                         <div className="form-group row">
@@ -58,7 +75,7 @@ export default function RecruiterForm({ recruiterData, handleRecruiterData, erro
                                     onChange={handleRecruiterData}
                                     required
                                     placeholder="Email Address"
-                                    disabled={sending}
+                                    disabled={mode === "Edit" ? true : sending}
                                 />
 
                                 {<div className='text-danger'>{errors?.email}</div>}
@@ -70,7 +87,7 @@ export default function RecruiterForm({ recruiterData, handleRecruiterData, erro
                 <div className='row'>
                     <div className="col-md-12">
                         <div className="form-group row">
-                            <label className="col-sm-4 col-form-label">Password</label>
+                            <label className="col-sm-4 col-form-label">{mode === "Edit" ? "New " : ""}Password</label>
                             <div className="col-sm-8">
                                 <input
                                     type="password"
@@ -87,16 +104,15 @@ export default function RecruiterForm({ recruiterData, handleRecruiterData, erro
                         </div>
                     </div>
                 </div>
-                <div className="col-md-9 mt-3 row">
-                    <div className="col-md-12  ">
-                        <button
-                            type="submit"
-                            className="btn btn-gradient-primary me-2 float-end"
-                            disabled={sending}
-                        >
-                            {sending ? "Adding Recruiter" : "Add"}
-                        </button>
-                    </div>
+
+                <div className="d-flex justify-content-end">
+                    <button
+                        type="submit"
+                        className="btn btn-gradient-primary"
+                        disabled={sending}
+                    >
+                        {sending ? "Saving Recruiter" : "Save"}
+                    </button>
                 </div>
 
             </form>

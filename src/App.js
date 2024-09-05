@@ -9,7 +9,7 @@ import AdminLayout from "./layouts/admin/AdminLayout";
 import SuperAdminLayout from "./layouts/superadmin/SuperAdminLayout";
 import CommonLayout from "./layouts/common/CommonLayout";
 
-//common
+//Common
 import Home from './pages/common/Home';
 import UserProfile from "./pages/common/UserProfile";
 import ViewProfile from "./pages/common/ViewProfile";
@@ -39,7 +39,7 @@ import ActivateAccount from "./pages/common/ActivateAccount";
 import City from "./pages/common/city";
 import ContactUs from "./pages/common/contactUs";
 
-//company
+//Company
 import CompanyHome from "./pages/company/Home";
 import CompanyProfile from "./pages/company/CompanyProfile";
 import Transactions from "./pages/company/Transactions";
@@ -52,10 +52,9 @@ import EmployerContactUs from "./pages/company/Contact-Us";
 import Inbox from "./pages/company/Inbox";
 import DownloadTransactions from "./pages/company/DownloadTransactions";
 import ChatPage from "./components/ChatPage";
-
+import RecruiterList from "./pages/company/Recruiter/RecruiterList";
 
 //Admin
-
 import Jobqueuelist from "./pages/admin/joblist/Jobqueuelist";
 import SingleJobAdmin from "./pages/admin/joblist/SingleJobAdmin";
 import AdminHome from "./pages/admin/Home";
@@ -64,8 +63,8 @@ import Login from "./pages/admin/login";
 import AdminInbox from "./pages/admin/AdminInbox";
 import UnAssignedQueries from "./pages/admin/UnAssignedQueries";
 
-//superAdmin
 
+//SuperAdmin
 import SuperAdminHome from "./pages/superadmin/Home";
 import Categories1 from "./pages/superadmin/categories/Categories1";
 import Categorieslist1 from "./pages/superadmin/categories/Categorieslist1"
@@ -91,9 +90,6 @@ import SuperAdminMail from "./pages/superadmin/mail/SuperAdminMail";
 
 //Context
 import GeneralProvider from "./helpers/Context/GeneralContext";
-import RecruiterList from "./pages/company/Recruiter/RecruiterList";
-import EditRecruiter from "./pages/company/Recruiter/EditRecruiter";
-import AddRecruiter from "./pages/company/Recruiter/AddRecruiter";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -118,8 +114,6 @@ function App() {
             <Route path="inbox" element={<Inbox />} />
             <Route path="inbox/details/:id" element={<ChatPage name={"Enquirer"} />} />
             <Route path="recruiters" element={<RecruiterList />} />
-            <Route path="recruiters/add" element={<AddRecruiter />} />
-            <Route path="recruiters/edit/:id" element={<EditRecruiter />} />
           </Route>
 
           <Route path="/company/transactions/download-transactions" element={<DownloadTransactions />} />
