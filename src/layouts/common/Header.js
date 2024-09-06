@@ -274,7 +274,7 @@ function Header() {
               <Tab eventKey="loginUser" title="User Login">
                 <UserLogin />
               </Tab>
-              <Tab eventKey="loginRecruiter" title="Recruiter Login">
+              <Tab eventKey="loginRecruiter" title="Company Login">
                 <RecruiterLogin />
               </Tab>
             </Tabs>
