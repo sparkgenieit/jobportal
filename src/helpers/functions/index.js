@@ -73,9 +73,15 @@ export function getTrueKeys(obj) {
 
 export async function getCredits() {
     const user_id = localStorage.getItem('user_id')
-    const { data } = await http.get(`/users/get-credits/${user_id}`)
-    localStorage.setItem("credits", data.credits)
-    return data.credits
+    try {
+        const { data } = await http.get(`/users/get-credits/${user_id}`)
+        localStorage.setItem("credits", data.credits)
+        localStorage.setItem("usedFreeCredit", data.usedFreeCredit)
+        return data.credits
+    } catch (error) {
+        console.log(error);
+    }
+
 }
 
 export const getCloseDate = (date) => {

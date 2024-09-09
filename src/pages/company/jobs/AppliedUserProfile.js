@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams, useSearchParams } from "react-router-dom"
-import Footer from "../../../layouts/company/Footer";
-import Header from "../../../layouts/company/Header";
-import Sidebar from "../../../layouts/company/Sidebar";
 import http from "../../../helpers/http"
 import ViewProfileData from "../../../components/ViewProfileData"
 
@@ -16,7 +13,8 @@ export default function AppliedUserProfile() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchData()
+        fetchData();
+        fetchStatus();
     }, [])
 
     const fetchData = async () => {
@@ -32,13 +30,20 @@ export default function AppliedUserProfile() {
                 }
             }
             setJobTypes(jobs)
-            const { data } = await http.get(`/jobs/user-job-status/${res.data.user_id}?jobId=${jobId}`)
-            setIsShorlisted(data.shortlisted)
+
         }
 
         catch (err) {
-            setIsShorlisted(false)
             setUser({})
+        }
+    }
+
+    const fetchStatus = async () => {
+        try {
+            const { data } = await http.get(`/jobs/user-job-status/${params.userId}?jobId=${jobId}`)
+            setIsShorlisted(data.shortlisted)
+        } catch (error) {
+            setIsShorlisted(false)
         }
     }
 
@@ -50,7 +55,7 @@ export default function AppliedUserProfile() {
         }
         try {
             const res = await http.patch("/companies/shortlist-candidate", data)
-            fetchData()
+            fetchStatus()
         }
         catch (err) {
         }

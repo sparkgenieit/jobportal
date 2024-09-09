@@ -92,8 +92,6 @@ function UserLogin() {
 
       userService.login({ email, password })
         .then(response => {
-          console.log(response.data);
-          localStorage.setItem('token', response.data.token);
           const token = response.data.token;
 
           localStorage.setItem('user_id', response.data._id);

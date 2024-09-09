@@ -118,7 +118,7 @@ function Header() {
                       <Link to="#" className="menu-item first-item expand-btn"><CgProfile size={"40px"} /></Link>
                       <ul className="dropdown-menu menu-left  sample bg-white">
                         {role === "user" && <li><Link to={"/viewprofile"}>My Profile</Link></li>}
-                        {role === 'employer' &&
+                        {(role === 'employer' || role === "recruiter") &&
                           <li className='px-4 pb-2'>
                             <button type='button' onClick={() => { navigate("/company") }} className="btn btn-secondary w-100" >
                               Dashboard
@@ -235,7 +235,7 @@ function Header() {
                 <Accordion.Body>
                   <ul className="list-unstyled d-flex flex-column gap-3">
                     {role === "user" && <li><Link to={"/viewprofile"}>My Profile</Link></li>}
-                    {role === 'employer' &&
+                    {(role === 'employer' || role === "recruiter") &&
                       <li>
                         <button type='button' onClick={() => { navigate("/company") }} className="btn btn-secondary w-100" >
                           Dashboard

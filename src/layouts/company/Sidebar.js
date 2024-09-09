@@ -17,6 +17,7 @@ import Tooltip from '../../components/Tooltip';
 function Sidebar() {
   const { isSidebarOpen, setIsSidebarOpen } = useContext(GeneralContext)
   const [show, setShow] = useState(false);
+  const [role] = useState(localStorage.getItem("role"))
   const navigate = useNavigate()
 
   let sidebarClass = isSidebarOpen ? { marginLeft: "0" } : { marginLeft: "-230px" };
@@ -63,16 +64,19 @@ function Sidebar() {
             </li>
 
 
-            <li className="nav-item">
-              <Link className="nav-link" to="/company/CompanyProfile">
-                <div className='d-flex justify-content-between w-100'>
-                  <span>Company Profile</span>
-                  <span>
-                    <ImProfile size={"20"} />
-                  </span>
-                </div>
-              </Link>
-            </li>
+            {
+              role === "employer" &&
+              <li className="nav-item">
+                <Link className="nav-link" to="/company/CompanyProfile">
+                  <div className='d-flex justify-content-between w-100'>
+                    <span>Company Profile</span>
+                    <span>
+                      <ImProfile size={"20"} />
+                    </span>
+                  </div>
+                </Link>
+              </li>
+            }
 
             <li className="nav-item">
               <span role='button' className="nav-link" onClick={() => { handleModal(true) }}>
@@ -96,40 +100,49 @@ function Sidebar() {
               </Link>
             </li>
 
-            <li className="nav-item">
-              <Link className="nav-link" to="/company/recruiters">
-                <div className='d-flex justify-content-between w-100'>
-                  <span>Recruiters</span>
-                  <span>
-                    <BsFillPersonCheckFill size={"20"} />
-                  </span>
-                </div>
-              </Link>
-            </li>
-
-            <li className="nav-item">
-              <Link className="nav-link" to="/company/BuyCredits">
-                <div className='d-flex flex-column w-100'>
-                  <div className='d-flex  justify-content-between w-100'>
-                    <span>Buy Credits</span>
+            {role === "employer" ? <>
+              <li className="nav-item">
+                <Link className="nav-link" to="/company/recruiters">
+                  <div className='d-flex justify-content-between w-100'>
+                    <span>Recruiters</span>
                     <span>
-                      <BsCreditCard size={"20"} />
+                      <BsFillPersonCheckFill size={"20"} />
                     </span>
                   </div>
-                  <div className="text-secondary small">Available Credits: {localStorage.getItem('credits')}</div>
-                </div>
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/company/transactions">
-                <div className='d-flex justify-content-between align-items-center w-100'>
-                  <span>Transactions</span>
-                  <span>
-                    <PiListDashesFill size={"22"} />
-                  </span>
-                </div>
-              </Link>
-            </li>
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link className="nav-link" to="/company/BuyCredits">
+                  <div className='d-flex flex-column w-100'>
+                    <div className='d-flex  justify-content-between w-100'>
+                      <span>Buy Credits</span>
+                      <span>
+                        <BsCreditCard size={"20"} />
+                      </span>
+                    </div>
+
+                  </div>
+                </Link>
+              </li>
+            </> :
+              <li className='nav-item'>
+                <div className="text-secondary small">Available Credits: {localStorage.getItem('credits')}</div>
+              </li>
+            }
+
+            {role === "employer" &&
+              <li className="nav-item">
+                <Link className="nav-link" to="/company/transactions">
+                  <div className='d-flex justify-content-between align-items-center w-100'>
+                    <span>Transactions</span>
+                    <span>
+                      <PiListDashesFill size={"22"} />
+                    </span>
+                  </div>
+                </Link>
+              </li>
+            }
 
             <li className="nav-item">
               <Link className="nav-link" to="/company/inbox">

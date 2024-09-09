@@ -23,12 +23,29 @@ export default function RecruiterLogin() {
             setError({ ...error, password: "Password is required" })
             return
         }
+
+        if (!validateIsNotEmpty(role)) {
+            setError({ ...error, role: "Please select the role" })
+            return
+        }
+
         try {
             setLoader(true)
             let url = role === "recruiter" ? "/users/login/recruiter" : "/users/login"
             let data = { email, password }
-            const user = await http.post(url, data)
-        } catch (error) {
+            const response = await http.post(url, data)
+            localStorage.setItem("token", response.data.token)
+            if (role === "recruiter") {
+                localStorage.setItem("user_id", response.data.companyId)
+                localStorage.setItem("role", "recruiter")
+                localStorage.setItem("fullname", response.data.name)
+            } else {
+                localStorage.setItem("user_id", response.data._id)
+                localStorage.setItem("role", "employer")
+                localStorage.setItem('fullname', response.data.first_name + " " + response.data.last_name)
+            }
+            window.location.href = `/company`
+        } catch (e) {
             setError({ ...error, loginError: e.response.data.message || e.message })
         } finally {
             setLoader(false)
@@ -67,36 +84,39 @@ export default function RecruiterLogin() {
                     />
                     <span className="text-danger">{error.password}</span>
                 </div>
-                <div className="d-flex align-items-center ">
-                    <div className="flex-grow-1">
-                        Role
-                    </div>
-
-                    <div className="d-flex gap-3">
-                        <div className="d-flex  gap-2 align-items-center">
-                            <input
-                                type="radio"
-                                name="role"
-                                className="form-check-input"
-                                value={"recruiter"}
-                                checked={role === "recruiter"}
-                                onChange={() => setRole("recruiter")}
-                            />
-                            <label className="p-0 m-0" >Recruiter</label>
+                <div>
+                    <div className="d-flex align-items-center ">
+                        <div className="flex-grow-1">
+                            Role
                         </div>
 
-                        <div className="d-flex  gap-2 align-items-center">
-                            <input
-                                type="radio"
-                                name="role"
-                                className="form-check-input"
-                                value={"company"}
-                                checked={role === "company"}
-                                onChange={() => setRole("company")}
-                            />
-                            <label className="p-0 m-0" >Company</label>
+                        <div className="d-flex gap-3">
+                            <div className="d-flex  gap-2 align-items-center">
+                                <input
+                                    type="radio"
+                                    name="role"
+                                    className="form-check-input"
+                                    value={"recruiter"}
+                                    checked={role === "recruiter"}
+                                    onChange={() => { setRole("recruiter"); setError({ ...error, role: "" }) }}
+                                />
+                                <label className="p-0 m-0" >Recruiter</label>
+                            </div>
+
+                            <div className="d-flex  gap-2 align-items-center">
+                                <input
+                                    type="radio"
+                                    name="role"
+                                    className="form-check-input"
+                                    value={"company"}
+                                    checked={role === "company"}
+                                    onChange={() => { setRole("company"); setError({ ...error, role: "" }) }}
+                                />
+                                <label className="p-0 m-0" >Company</label>
+                            </div>
                         </div>
                     </div>
+                    <span className="text-danger">{error.role}</span>
                 </div>
 
                 <button type="submit" className="btn btn-primary btn-lg">Login</button>

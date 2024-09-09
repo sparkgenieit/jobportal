@@ -100,7 +100,7 @@ function App() {
         <Routes>
 
           {/* Company Routes */}
-          <Route path="/company" element={(token && role == 'employer') ? <CompanyLayout /> : <Navigate to="/" />}>
+          <Route path="/company" element={(token && (role == 'employer' || role === "recruiter")) ? <CompanyLayout /> : <Navigate to="/" />}>
             <Route index element={<CompanyHome />} />
             <Route path="CompanyProfile" element={<CompanyProfile />} />
             <Route path="postajob" element={<Postajob name={"Post a Job"} />} />
@@ -115,6 +115,9 @@ function App() {
             <Route path="inbox/details/:id" element={<ChatPage name={"Enquirer"} />} />
             <Route path="recruiters" element={<RecruiterList />} />
           </Route>
+
+
+
 
           <Route path="/company/transactions/download-transactions" element={<DownloadTransactions />} />
 

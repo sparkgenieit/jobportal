@@ -172,7 +172,7 @@ function Postajob({ name }) {
         benifits: JSON.stringify(benefits),
         training: JSON.stringify(training),
         employerquestions: JSON.stringify(employerquestions),
-        employer: company,
+        employer: localStorage.getItem("fullname"),
         companyId: user_id,
       }
       if (name === "Post a Job") {
