@@ -39,3 +39,11 @@ export const validateIsNotEmpty = (value) => {
     }
     return true
 }
+
+export const stringifyObject = (object) => {
+    return JSON.stringify(object)
+}
+
+export const parseString = (string) => {
+    return JSON.parse(string)
+}

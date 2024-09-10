@@ -121,6 +121,7 @@ function Sidebar() {
                         <BsCreditCard size={"20"} />
                       </span>
                     </div>
+                    <div className="text-secondary small">Available Credits: {localStorage.getItem('credits')}</div>
 
                   </div>
                 </Link>

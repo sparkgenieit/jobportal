@@ -17,7 +17,7 @@ import LocationPopup from '../../components/LocationPopup';
 import Tooltip from '../../components/Tooltip';
 import { JobsContext } from '../../helpers/Context';
 import useShowMessage from '../../helpers/Hooks/useShowMessage';
-import { markdownToText } from '../../helpers/functions/textFunctions';
+import { markdownToText, parseString } from '../../helpers/functions/textFunctions';
 
 function SingleJob() {
     const [isJobApplied, setIsJobApplied] = useState(false)
@@ -366,7 +366,21 @@ function SingleJob() {
                         </div>
 
                         <div className='row border border-success rounded  m-4 p-3'>
-                            <p>{markdownToText(jobview.description)}</p>
+                            <div>
+                                <p>{markdownToText(jobview.description)}</p>
+
+                                <p className='fw-bold'>Employer Questions</p>
+                                <ul className='list-unstyled d-flex flex-column gap-3'>
+                                    {parseString(jobview.employerquestions).map((question, i) => {
+                                        if (question.value) {
+                                            return (
+                                                <li key={question.value}>Q{i + 1}. {question.value}</li>
+                                            )
+                                        }
+                                    })}
+                                </ul>
+
+                            </div>
                             <div className='d-flex justify-content-between'>
                                 <div className='d-flex gap-4  mt-2 align-items-center'>
                                     {isJobApplied ?

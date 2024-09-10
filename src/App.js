@@ -99,27 +99,28 @@ function App() {
       <GeneralProvider>
         <Routes>
 
-          {/* Company Routes */}
+          {/* Company and Recruiter shared Routes */}
           <Route path="/company" element={(token && (role == 'employer' || role === "recruiter")) ? <CompanyLayout /> : <Navigate to="/" />}>
             <Route index element={<CompanyHome />} />
-            <Route path="CompanyProfile" element={<CompanyProfile />} />
             <Route path="postajob" element={<Postajob name={"Post a Job"} />} />
             <Route path="editjob/:id" element={<Postajob name={"Edit Job"} />} />
             <Route path="jobs" element={<PostedJobList />} />
-            <Route path="transactions" element={<Transactions />} />
             <Route path="applied-users/:id" element={<AppliedUsers />} />
             <Route path="applied-user-profile/:userId" element={<AppliedUserProfile />} />
-            <Route path="BuyCredits" element={<BuyCredits />} />
             <Route path="contact-us" element={<EmployerContactUs />} />
             <Route path="inbox" element={<Inbox />} />
             <Route path="inbox/details/:id" element={<ChatPage name={"Enquirer"} />} />
+          </Route>
+
+          {/* Company only Routes */}
+          <Route path="/company" element={(token && (role == 'employer')) ? <CompanyLayout /> : <Navigate to="/" />}>
+            <Route path="CompanyProfile" element={<CompanyProfile />} />
+            <Route path="transactions" element={<Transactions />} />
+            <Route path="BuyCredits" element={<BuyCredits />} />
             <Route path="recruiters" element={<RecruiterList />} />
           </Route>
 
-
-
-
-          <Route path="/company/transactions/download-transactions" element={<DownloadTransactions />} />
+          <Route path="/company/transactions/download-transactions" element={(token && (role == 'employer')) ? < DownloadTransactions /> : <Navigate to="/" />} />
 
           {/* Admin Routes */}
           <Route path="/admin" element={(token && role == 'admin') ? <AdminLayout /> : <Login />}>

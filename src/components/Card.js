@@ -31,8 +31,6 @@ export default function Card({ job }) {
 
     const count = JobsData?.JobsCount?.filter(x => x._id === job.companyId)
 
-    const companyInfo = JobsData?.companiesWIthInfo?.filter(x => x.user_id === job.companyId)
-
     function handleSave(e) {
         if (user_id && role === "user") {
             const data = {
@@ -92,7 +90,6 @@ export default function Card({ job }) {
         e.stopPropagation();
     }
 
-
     const date = new Date(job.creationdate).toLocaleDateString('en-GB')
     const benefits = getTrueKeys(JSON.parse(job.benifits))
     const bn = (JSON.parse(job.benifits))
@@ -112,7 +109,7 @@ export default function Card({ job }) {
                                 <CiViewList fontSize={22} />
                             </span>
                         }
-                        {companyInfo?.length > 0 ?
+                        {job.info?.length > 0 ?
                             <>
                                 <Tooltip tooltipText={"View company info"}>
                                     <span
@@ -120,7 +117,7 @@ export default function Card({ job }) {
                                         onClick={(e) => {
                                             setInfo({
                                                 show: true,
-                                                info: companyInfo[0].info,
+                                                info: job.info,
                                                 job: job
                                             });
                                             e.stopPropagation();

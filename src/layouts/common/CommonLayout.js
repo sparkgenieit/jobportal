@@ -34,7 +34,7 @@ export default function CommonLayout() {
     const fetchCompaniesInfo = async () => {
         if (sessionStorage.getItem("JobsData")) return
         try {
-            const res = await http.get('jobs/job-count/info-details')
+            const res = await http.get('jobs/job-count')
             sessionStorage.setItem("JobsData", JSON.stringify(res.data))
         } catch (error) {
             console.log(error)
