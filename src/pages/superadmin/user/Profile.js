@@ -53,7 +53,7 @@ export default function Profile() {
         <>
 
             <div class="container-fluid">
-                <div class="content-wrapper">
+                <div className="content-wrapper bg-white">
                     <div class="page-header">
                         <a onClick={goBack}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">

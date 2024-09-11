@@ -211,7 +211,7 @@ function Postajob({ name }) {
   return (
     <>
       <div className="container-fluid">
-        <div className="content-wrapper">
+        <div className="content-wrapper bg-white">
           <div className="page-header">
             <h3 className="page-title"> {name} </h3>
             <nav aria-label="breadcrumb">

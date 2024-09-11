@@ -369,7 +369,8 @@ function SingleJob() {
                             <div>
                                 <p>{markdownToText(jobview.description)}</p>
 
-                                <p className='fw-bold'>Employer Questions</p>
+                                {parseString(jobview.employerquestions).some(question => question.value !== "") &&
+                                    <p className='fw-bold'>Employer Questions</p>}
                                 <ul className='list-unstyled d-flex flex-column gap-3'>
                                     {parseString(jobview.employerquestions).map((question, i) => {
                                         if (question.value) {

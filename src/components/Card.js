@@ -20,7 +20,6 @@ import { markdownToPlainText } from '../helpers/functions/textFunctions';
 
 export default function Card({ job }) {
     const savedJobIds = JSON.parse(sessionStorage.getItem('savedJobIds'))
-
     const [isJobSaved, setIsJobSaved] = useState(savedJobIds?.includes(job._id) || false)
     const user_id = localStorage.getItem('user_id')
     const role = localStorage.getItem('role');
@@ -99,16 +98,13 @@ export default function Card({ job }) {
                 <div style={{ width: "80%" }} className=' h-100  position-relative px-1 '>
                     <div className='fw-bold h4' >{job.jobTitle}</div>
                     <div className='d-flex'>
-                        {count?.length > 0 ?
+                        <div style={{ visibility: count?.length > 0 ? "visible" : "hidden" }}>
                             <Tooltip tooltipText={"Click to View All Jobs"}>
                                 <span onClick={(e) => { getJobsbyCompany(e) }}>
                                     <CiViewList fontSize={22} />
                                 </span>
-                            </Tooltip> :
-                            <span style={{ visibility: "hidden" }}>
-                                <CiViewList fontSize={22} />
-                            </span>
-                        }
+                            </Tooltip>
+                        </div>
                         {job.info?.length > 0 ?
                             <>
                                 <Tooltip tooltipText={"View company info"}>

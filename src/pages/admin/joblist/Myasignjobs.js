@@ -102,7 +102,7 @@ function Myasignjobs() {
     return (
         <>
             <div className="container-fluid">
-                <div className="content-wrapper">
+                <div className="content-wrapper bg-white">
                     <div className="page-header">
                         <h3 className="page-title">Assign Jobs</h3>
                         <nav aria-label="breadcrumb">

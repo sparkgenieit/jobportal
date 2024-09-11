@@ -83,7 +83,7 @@ function Addpage() {
 
 
             <div class="container-fluid">
-                <div className="content-wrapper">
+                <div className="content-wrapper bg-white">
                     <div className="page-header">
                         <h3 className="page-title"> Create a Page </h3>
                         <nav aria-label="breadcrumb">

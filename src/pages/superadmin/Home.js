@@ -7,7 +7,7 @@ function Home() {
 
 
     <div class="container-fluid">
-      <div class="content-wrapper">
+      <div className="content-wrapper bg-white">
         <div class="page-header">
           <h3 class="page-title">
             <span class="page-title-icon bg-gradient-primary text-white me-2">

@@ -156,7 +156,7 @@ function Login() {
       <div className="container-scroller">
         <div class="container-fluid content-wrapper page-body-wrapper">
           <div class="container-fluid container">
-            <div className="content-wrapper">
+            <div className="content-wrapper bg-white">
               <div className="row">
                 <div className="col-12 bg-white">
                   <div className="card-body">

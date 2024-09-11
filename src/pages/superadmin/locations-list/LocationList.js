@@ -12,7 +12,7 @@ function LocationList() {
         <>
 
             <div class="container-fluid">
-                <div class="content-wrapper">
+                <div className="content-wrapper bg-white">
                     <div class="page-header">
                         <h3 class="page-title">Location List</h3>
                         <nav aria-label="breadcrumb">

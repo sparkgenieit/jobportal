@@ -569,7 +569,7 @@ function EditJob() {
 
 
             <div className="container-fluid ">
-                <div className="content-wrapper">
+                <div className="content-wrapper bg-white">
                     <div className="page-header">
                         <h3 className="page-title"> Edit Job </h3>
                         <nav aria-label="breadcrumb">

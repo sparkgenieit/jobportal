@@ -39,7 +39,7 @@ const PagesList = () => {
 
 
         <div class="container-fluid">
-            <div class="content-wrapper">
+            <div className="content-wrapper bg-white">
                 <div class="page-header">
                     <h3 class="page-title"> Pages-Management </h3>
                     <nav aria-label="breadcrumb">

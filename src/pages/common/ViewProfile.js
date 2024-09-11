@@ -19,7 +19,7 @@ function ViewProfile() {
     <div class="container-fluid page-body-wrapper">
       <Sidebar />
       <div class="container-fluid bg-light">
-        <div className="content-wrapper">
+        <div className="content-wrapper bg-white">
           <div className="page-header">
             <h3 className="page-title"> Profile </h3>
             <button onClick={handlePrint} className="btn btn-gradient-primary">Print</button>

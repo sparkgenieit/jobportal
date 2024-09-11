@@ -1,13 +1,7 @@
-import Heder from '../../layouts/company/Header';
-import Footer from '../../layouts/company/Footer';
-import Sidebar from '../../layouts/company/Sidebar';
-
 function Home() {
   return <>
-
-
     <div class="container-fluid">
-      <div class="content-wrapper">
+      <div class="content-wrapper bg-white">
         <div class="page-header">
           <h3 class="page-title">
             <span class="page-title-icon bg-gradient-primary text-white me-2">
