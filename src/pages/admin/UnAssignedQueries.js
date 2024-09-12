@@ -54,9 +54,8 @@ export default function UnAssignedQueries() {
 
     const assignedToMe = async (query) => {
         setAssigning(true)
-        const user_id = getUserID()
         try {
-            await http.patch(`/contact/assign-query/${user_id}?query_id=${query._id}`)
+            await http.patch(`/contact/assign-query?query_id=${query._id}`)
             message({
                 status: "Success",
                 message: "Assigned Successfully",

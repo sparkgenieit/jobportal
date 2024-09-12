@@ -1,6 +1,6 @@
-import './SingleJob.css';
+import "./SingleJob.css"
 import { useContext, useEffect, useRef, useState } from 'react';
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import http from '../../helpers/http';
 import Ads from './ads';
 import { Modal } from "react-bootstrap";
@@ -207,8 +207,8 @@ function SingleJob() {
         <>
             {loading && <Loader />}
             {!loading && jobview && jobview.status === "approved" &&
-                < div className='row mt-3 '>
-                    <div style={{ paddingLeft: "100px" }} className='col-md-9 container-fluid'>
+                <div className='row mt-3 '>
+                    <div style={{ paddingLeft: "100px" }} className={`col-md-9 job-details-box`}>
                         <div className='mb-3 mx-4'>
                             {jobview.banner && <img style={{ width: "100%", height: "40vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/banners/${jobview.banner}`} alt={jobview.company} />}
                         </div>
@@ -237,7 +237,7 @@ function SingleJob() {
                         </div>
 
                         <div className='row border border-success rounded mx-4 p-3'>
-                            <div className='col-8 '>
+                            <div className='col-md-8 col-12'>
                                 <div className='h4'>
                                     {jobview.jobTitle}
                                 </div>
@@ -281,7 +281,7 @@ function SingleJob() {
                                 </div>
                             </div>
 
-                            <div className='col-4'>
+                            <div className='col-md-4 col-12'>
                                 <div>
                                     <span><FaDollarSign size="16px" /></span>
                                     <span className='ps-2'>

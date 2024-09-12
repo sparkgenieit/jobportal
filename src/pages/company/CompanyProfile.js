@@ -1,23 +1,32 @@
 import './profile.css'
 
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Hourglass } from "react-loader-spinner";
+
 import { BASE_API_URL } from '../../helpers/constants';
-import Toaster from '../../components/Toaster';
-import Header from '../../layouts/company/Header';
-import Footer from '../../layouts/company/Footer';
-import Sidebar from '../../layouts/company/Sidebar';
 import companyService from '../../services/common/company.service';
 import httpUpload from '../../helpers/httpUpload';
-import { FaYoutube } from 'react-icons/fa6';
 import { getYoutubeVideoId } from '../../helpers/functions';
+import useShowMessage from '../../helpers/Hooks/useShowMessage';
 import MdxEditor from '../../components/MdxEditor';
+import { validateEmailAddress, validateIsNotEmpty } from '../../helpers/functions/textFunctions';
+
+const formInitialValues = {
+  name: "",
+  postalCode: "",
+  city: "",
+  address1: "",
+  address2: "",
+  address3: "",
+  phone: "",
+  email: "",
+  website: "",
+  contact: ""
+}
 
 function CompanyProfile() {
   const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
-  const [userData, setUserData] = useState({});
-  const [message, setMessage] = useState({});
+  const [userData, setUserData] = useState(formInitialValues);
   const [loader, setLoader] = useState(false);
   const [logo, setLogo] = useState(null);
   const [banner, setBanner] = useState(null);
@@ -25,12 +34,10 @@ function CompanyProfile() {
   const [companyBanner, setCompanyBanner] = useState()
   const [errors, setErrors] = useState({})
   const [info, setInfo] = useState("")
-
+  const message = useShowMessage()
   const youtubeRef = useRef(null)
   const bannerRef = useRef(null)
   const logoRef = useRef(null)
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     companyService.get(userId)
@@ -61,123 +68,26 @@ function CompanyProfile() {
     }
   };
 
-  const submit = async () => {
+  const submit = async (e) => {
+    e.preventDefault();
     let eObj = {};
     let valid = true
 
-    if (userData.name == '') {
-      valid = false
-      eObj = { ...eObj, name: "Please Enter Company Name" };
-    } else if (/^[\w ]{2,}$/gi.test(userData.name.trim()) == false) {
-      valid = false
-      eObj = { ...eObj, name: 'Not a Correct Company Name' };
-    }
-    else {
-      eObj = { ...eObj, name: null };
+    const inputToBeValidated = ["name", "contact", "address1", "address2", "address3", "email", "phone", "city", "website", "postalCode"]
+
+    for (const inputField of inputToBeValidated) {
+      if (!validateIsNotEmpty(userData[inputField])) {
+        valid = false
+        eObj = { ...eObj, [inputField]: `Please enter ${inputField}` }
+      }
     }
 
-    if (userData.postalCode == '') {
+    if (!validateEmailAddress(userData.email)) {
       valid = false
-      eObj = { ...eObj, postalCode: "Please Enter Post Code" };
-    } else if (/^[0-9]{2,}$/gi.test(userData.postalCode) == false) {
-      valid = false
-      eObj = { ...eObj, postalCode: 'Not a Postal Code' };
-    }
-    else {
-      eObj = { ...eObj, postalCode: null };
+      eObj = { ...eObj, email: `Invalid Email` }
     }
 
-    if (userData.website == '') {
-      valid = false
-      eObj = { ...eObj, website: 'Please Enter Website' };
-    }
-    else {
-      eObj = { ...eObj, website: null };
-    }
-
-    if (userData.address1 == '') {
-      valid = false
-      eObj = { ...eObj, address1: 'Please Enter Address 1' };
-    } else if (/^[\w ]{2,}$/gi.test(userData.address1) == false) {
-      valid = false
-      eObj = { ...eObj, address1: 'Not proper Address' };
-    }
-    else {
-      eObj = { ...eObj, address1: null };
-    }
-
-    if (userData.address2 == '') {
-      valid = false
-      eObj = { ...eObj, address2: 'Please Enter Address 2' };
-    } else if (/^[\w ]{2,}$/gi.test(userData.address2) == false) {
-      valid = false
-      eObj = { ...eObj, address2: 'Not proper Address' };
-    }
-    else {
-      eObj = { ...eObj, address2: null };
-    }
-
-
-    if (userData.address3 == '') {
-      valid = false
-      eObj = { ...eObj, address3: 'Please Enter Address 3' };
-    } else if (/^[\w ]{2,}$/gi.test(userData.address3) == false) {
-      valid = false
-      eObj = { ...eObj, address3: 'Not proper Address' };
-    }
-    else {
-      eObj = { ...eObj, address3: null };
-    }
-
-    if (userData.city == '') {
-      valid = false
-      eObj = { ...eObj, city: "Please Enter City" };
-    }
-    else if (/^[\w ]{2,}$/gi.test(userData.city) == false) {
-      valid = false
-      eObj = { ...eObj, city: 'Not a City' };
-    }
-    else {
-      eObj = { ...eObj, city: null };
-    }
-
-    if (userData.phone == '') {
-      valid = false
-      eObj = { ...eObj, phone: 'Please Enter Phone' };
-    }
-    else if (/^[0-9]{2,}$/gi.test(userData.phone) == false) {
-      valid = false
-      eObj = { ...eObj, phone: 'Not a  Phone Number' };
-    }
-    else {
-      eObj = { ...eObj, phone: null };
-    }
-
-    if (userData.email == '') {
-      valid = false
-      eObj = { ...eObj, email: 'Please Enter Email' };
-    }
-    else if (/^[a-z A-Z 0-9._-]+@[a-z A-Z 0-9.-]+\.[a-z A-Z]{2,4}$/.test(userData.email) == false) {
-      valid = false
-      eObj = { ...eObj, email: 'Not an Email' };
-    }
-    else {
-      eObj = { ...eObj, email: null };
-    }
-
-    if (userData.contact == '') {
-      valid = false
-      eObj = { ...eObj, contact: 'Please Enter Contact' };
-    }
-    else if (/^[a-z ]{2,}$/gi.test(userData.contact.trim()) == false) {
-      valid = false
-      eObj = { ...eObj, contact: 'Not a proper Name' };
-    }
-    else {
-      eObj = { ...eObj, contact: null };
-    }
-
-    setErrors(eObj);
+    if (!valid) setErrors(eObj)
 
     if (valid) {
       let obj1 = {}
@@ -209,23 +119,17 @@ function CompanyProfile() {
           obj1 = { ...obj1, banner: data.filename }
         }
         const response = await companyService.update(userId, obj1)
-        setMessage({
-          show: true,
-          type: "success",
-          text: "Updated Successfully"
+
+        message({
+          status: "Success",
+          message: "Updated Successfully",
+          path: "/company"
         })
-        setTimeout(() => {
-          // Inside the handleLogin function
-          window.scrollTo({ top: 10, behavior: "smooth" });
-          navigate('/company'); // Redirect to the dashboard after login
-        }, 1500);
 
       } catch (e) {
-        console.log(e)
-        setMessage({
-          show: true,
-          type: "error",
-          text: e.response.data.email || e.response.data.message || e.message
+        message({
+          status: "error",
+          error: e
         })
         setTimeout(() => { setLoader(false); window.scrollTo({ top: 10, behavior: "smooth" }); }, 1200)
       }
@@ -235,38 +139,14 @@ function CompanyProfile() {
   const handleInput = (e) => {
     let name = e.target.name;
     setUserData({ ...userData, [name]: e.target.value });
-    if (e.target.value == '') {
-      setErrors({ ...errors, [name]: `Please Enter ${name}` })
-    }
-    else {
-      setErrors({ ...errors, [name]: null })
-    }
+    setErrors({ ...errors, [name]: e.target.value === "" ? `Please Enter ${name}` : null })
   }
 
   return (
     <>
-
       <div class="container-fluid">
-
-        {/* <div className="page-header">
-                <h3 className="page-title"> Employer Profile </h3>
-                <nav aria-label="breadcrumb">
-                  <ol className="breadcrumb">
-                    <li className="breadcrumb-item"><a href="#">Employer</a></li>
-                    <li className="breadcrumb-item active" aria-current="page">Profile</li>
-                  </ol>
-                </nav>
-              </div> */}
-        <Toaster message={message} setMessage={setMessage} />
-
-
         <div className="col-12 bg-white">
           <div className="card-body container ">
-
-
-
-
-
             {companyBanner && companyBanner.length > 0 &&
               <div className='border mb-4' style={{ width: "1000px", height: "250px" }}>
                 <img className='rounded ' style={{ width: "1000px", height: "250px" }} src={companyBanner} alt='banner_photo' />
@@ -313,7 +193,7 @@ function CompanyProfile() {
               <input ref={logoRef} type="file" id="logo" onChange={onFileChange} />
             </div>
 
-            <form className="form-sample mt-3 p-4 ">
+            <form onSubmit={submit} className="form-sample mt-3 p-4 ">
               <div className="row">
                 <div className="row">
                   <div className="form-group row">
@@ -464,7 +344,7 @@ function CompanyProfile() {
 
               <div className="row">
                 <div className="col-md-12">
-                  <button type="button" onClick={() => submit()} className="btn btn-gradient-primary float-end">Save</button>
+                  <button type="submit" className="btn btn-gradient-primary float-end">Save</button>
                 </div>
               </div>
 

@@ -1,0 +1,10 @@
+.job-details-box {
+    padding-left: 100px !important;
+}
+
+
+@media (max-width: 500px) {
+    .job-details-box {
+        padding-left: 0px !important;
+    }
+}

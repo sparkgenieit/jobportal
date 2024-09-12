@@ -9,7 +9,6 @@ import { markdownToPlainText } from '../../helpers/functions/textFunctions';
 import { getDate } from '../../helpers/functions/dateFunctions';
 
 export default function Queries() {
-    const user_id = localStorage.getItem("user_id")
     const [queries, setQueries] = useState(null)
     const [totalItems, setTotalItems] = useState(0)
     const [loading, setLoading] = useState(false)
@@ -37,7 +36,7 @@ export default function Queries() {
         setLoading(true)
         const skip = (page - 1) * itemsPerPage
         try {
-            const url = `/contact/assigned-queries/${user_id}/?s=${search}&limit=${itemsPerPage}&skip=${skip}`
+            const url = `/contact/assigned-queries?s=${search}&limit=${itemsPerPage}&skip=${skip}`
             const { data } = await http.get(url)
             setLoading(false)
             setQueries(data.data)
