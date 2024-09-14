@@ -90,6 +90,7 @@ import SuperAdminMail from "./pages/superadmin/mail/SuperAdminMail";
 
 //Context
 import GeneralProvider from "./helpers/Context/GeneralContext";
+import CredtisManagement from "./pages/superadmin/Credtis-Management/CreditsManagement";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -150,6 +151,7 @@ function App() {
             <Route path="users" element={<UserList />} />
             <Route path="Skills/:id" element={<EditSkill />} />
             <Route path="orders" element={<OrdersList />} />
+            <Route path="credits-management" element={<CredtisManagement />} />
             <Route path="mail" element={<SuperAdminMail />} />
             <Route path="add-page" element={<Addpage />} />
             <Route path="pages" element={<PagesList />} />

@@ -2,7 +2,7 @@ import './Sidebar.css';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { FaUserCircle, FaCogs, FaListUl } from "react-icons/fa";
+import { FaUserCircle, FaCogs, FaListUl, FaDollarSign } from "react-icons/fa";
 import { IoDocuments } from "react-icons/io5";
 import { BiSolidCategory } from "react-icons/bi";
 import { BsCardChecklist } from "react-icons/bs";
@@ -127,6 +127,17 @@ function Sidebar() {
                   <span>Location List</span>
                   <span>
                     <FaMapLocationDot size={"20"} />
+                  </span>
+                </div>
+              </Link>
+            </li>
+
+            <li class="nav-item">
+              <Link class="nav-link" to="/superadmin/credits-management">
+                <div className='d-flex justify-content-between w-100'>
+                  <span>Credits Management</span>
+                  <span>
+                    <FaDollarSign size={"20"} />
                   </span>
                 </div>
               </Link>

@@ -21,11 +21,9 @@ function OrdersList() {
 
 
     const fetchOrders = async () => {
-
         try {
             const res = await http.get('/orders/all')
             setOrders(res.data)
-
         } catch (error) {
 
         }
@@ -123,7 +121,6 @@ function OrdersList() {
                             </tbody>
                         </table>
                     </div>
-                    {/* } */}
                 </div>
             </div >
 
@@ -131,12 +128,20 @@ function OrdersList() {
             <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Body className="bg-white">
 
+                    <h3 className="fw-bold text-center">Bulk Refund</h3>
+
                     <div className="d-flex flex-column justify-content-center gap-3 align-items-center">
                         Are you sure want to refund all the employers with  credits
 
-                        <button type="button" disabled={sendingRequest} onClick={refundCredits} className="btn btn-info">
-                            {sendingRequest ? "Please wait! Refunding in progress" : "Ok"}
-                        </button>
+                        <div className="d-flex gap-3">
+                            <button type="button" disabled={sendingRequest} onClick={refundCredits} className="btn btn-info">
+                                {sendingRequest ? "Please wait! Refunding in progress" : "Ok"}
+                            </button>
+
+                            <button type="button" disabled={sendingRequest} onClick={() => setShowModal(false)} className="btn btn-danger">
+                                Cancel
+                            </button>
+                        </div>
 
                     </div>
 
