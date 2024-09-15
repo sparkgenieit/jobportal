@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import MdxEditor from "../../../components/MdxEditor";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import http from "../../../helpers/http";
+import { validateIsNotEmpty } from "../../../helpers/functions/textFunctions";
 
 let limit = 100
 
@@ -9,17 +10,21 @@ export default function CredtisManagement() {
     const [msg, setMsg] = useState("")
     const [companies, setCompanies] = useState([])
     const [selectedCompany, setSelectedCompany] = useState({})
-    const [credits, setCredits] = useState(0)
+    const [credits, setCredits] = useState("")
     const [type, setType] = useState("Refund")
     const message = useShowMessage()
 
     const fetchCompanies = async () => {
-        const res = await http.get(`/users/all?role=employer&limit=${limit}&skip=0`)
-        setCompanies(res.data.users)
-        setSelectedCompany(res.data.users[0])
-        if (res.data.total > limit) {
-            limit = res.data.total
-            fetchCompanies()
+        try {
+            const res = await http.get(`/users/all?role=employer&limit=${limit}&skip=0`)
+            setCompanies(res.data.users)
+            setSelectedCompany(res.data.users[0])
+            if (res.data.total > limit) {
+                limit = res.data.total
+                fetchCompanies()
+            }
+        } catch (error) {
+            message({ status: "error", error })
         }
     }
 
@@ -33,27 +38,75 @@ export default function CredtisManagement() {
     }
 
     const handleCredits = async () => {
-        if (credits < 1 || credits === "") {
-            message({ message: "Please provide the credits!" })
+        const Credits = Number(credits)
+
+        if (isNaN(Credits)) {
+            message({ message: `${credits} is not a valid number!` })
             return
         }
 
-        if (type === "Deduct" && credits > selectedCompany.credits) {
-            message({ message: `Cant deduct ${credits} from ${selectedCompany.credits} credits!` })
+        if (Credits < 1) {
+            message({ message: "Please provide valid credits!" })
             return
         }
 
-        const data = {
-            credits: type === "Refund" ? selectedCompany.credits + parseInt(credits) : selectedCompany.credits - parseInt(credits)
+        if (type === "Deduct" && Credits > selectedCompany.credits) {
+            message({ message: `Cant deduct ${Credits} from ${selectedCompany.credits} credits!` })
+            return
         }
+
+        if (!validateIsNotEmpty(msg)) {
+            message({ message: "Please type the message" })
+            return
+        }
+
+        const creditUpdate = {
+            credits: type === "Refund" ? selectedCompany.credits + Credits : selectedCompany.credits - Credits
+        }
+
+        const orderCreationData = {
+            companyId: selectedCompany._id,
+            description: `Credits ${type}`,
+            amount: 0,
+            credits: creditUpdate.credits,
+            creditsPurchased: type === "Refund" ? Credits : 0,
+            creditsUsed: type === "Refund" ? 0 : Credits
+        }
+
+        const mailCreate = {
+            subject: `Credits ${type}`,
+            name: selectedCompany.first_name + " " + selectedCompany.last_name,
+            chat: [
+                {
+                    date: new Date(),
+                    from: "Super Admin",
+                    message: msg,
+                    by: "Admin",
+                }
+            ],
+            companyId: selectedCompany._id,
+            organisation: selectedCompany.first_name + " " + selectedCompany.last_name,
+            email: selectedCompany.email,
+            enquirer: "Enquirer",
+            assignedTo: "Super Admin",
+        }
+
+        message({ message: "Processing please wait... " })
 
         try {
-            const res = await http.put(`/users/update/${selectedCompany._id}`, data)
+            await Promise.all([
+                http.put(`/users/update/${selectedCompany._id}`, creditUpdate),
+                http.post(`/orders/create`, orderCreationData),
+                http.post(`/contact/employer/query`, mailCreate),
+            ])
+
             message({ status: "Success", message: `Credits ${type}ed` })
+            fetchCompanies()
+            setCredits("")
+            setMsg("")
         } catch (e) {
-
+            message({ status: "error", error: e })
         }
-
     }
 
     return (
@@ -81,11 +134,10 @@ export default function CredtisManagement() {
                         <div className="d-flex flex-grow-1 flex-column">
                             <label className="form-label"> Enter the no. of credits</label>
                             <input
-                                type="number"
+                                type="text"
                                 className="form-control"
                                 onChange={(e) => setCredits(e.target.value)}
                                 value={credits}
-                                onWheel={(e) => e.preventDefault()}
                             />
                         </div>
 
