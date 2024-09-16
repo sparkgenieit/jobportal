@@ -38,6 +38,11 @@ export default function CredtisManagement() {
     }
 
     const handleCredits = async () => {
+        if (!selectedCompany?._id) {
+            message({ message: "Please select a company" })
+            return
+        }
+
         const Credits = Number(credits)
 
         if (isNaN(Credits)) {
@@ -50,7 +55,7 @@ export default function CredtisManagement() {
             return
         }
 
-        if (type === "Deduct" && Credits > selectedCompany.credits) {
+        if (type === "Deduct" && Credits > selectedCompany?.credits) {
             message({ message: `Cant deduct ${Credits} from ${selectedCompany.credits} credits!` })
             return
         }
@@ -117,7 +122,7 @@ export default function CredtisManagement() {
                     <div className="d-flex gap-5 ">
                         <div className="d-flex flex-grow-1 flex-column">
                             <label className="form-label">Select a Company Name</label>
-                            <select onChange={handleSelectCompany} value={selectedCompany._id} className="form-select">
+                            <select onChange={handleSelectCompany} value={selectedCompany?._id} className="form-select">
                                 {companies.length > 0 && companies.map(company => (
                                     <option key={company._id} value={company._id}>{company.first_name + " " + company.last_name}</option>
                                 ))}
@@ -126,7 +131,7 @@ export default function CredtisManagement() {
 
                         <div className="d-flex flex-column w-50">
                             <label className="form-label"> Company ID</label>
-                            <input type="text" className="form-control" value={selectedCompany._id} disabled />
+                            <input type="text" className="form-control" value={selectedCompany?._id} disabled />
                         </div>
                     </div>
 
@@ -154,14 +159,14 @@ export default function CredtisManagement() {
                         <div className="d-flex flex-grow-1 flex-column gap-3">
                             <div>Description</div>
                             <div>
-                                <input type="text" className="form-control" value={`Credits ${type}`} disabled />
+                                <p className="form-control">{`Credits ${type}`}</p>
                             </div>
 
                         </div>
                         <div className="d-flex  flex-column gap-3 w-25">
                             <div>Current Credits</div>
                             <div>
-                                <input type="number" className="form-control" value={selectedCompany.credits} disabled />
+                                <input type="number" className="form-control" value={selectedCompany?.credits} disabled />
                             </div>
 
                         </div>

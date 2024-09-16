@@ -4,7 +4,7 @@ import MdxEditor from "../../../components/MdxEditor"
 import http from "../../../helpers/http"
 import useShowMessage from "../../../helpers/Hooks/useShowMessage"
 
-export default function SuperAdminMail() {
+export default function SendMailToAllEmployer() {
 
     const [message, setMessage] = useState("")
     const [subject, setSubject] = useState("")

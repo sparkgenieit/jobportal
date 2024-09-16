@@ -9,7 +9,7 @@ import { BsCardChecklist } from "react-icons/bs";
 import { RiAdminFill, RiAdvertisementFill } from "react-icons/ri";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { IoMdMailOpen } from 'react-icons/io';
+import { IoMdMailOpen, IoMdMailUnread } from 'react-icons/io';
 
 
 function Sidebar() {
@@ -56,10 +56,22 @@ function Sidebar() {
                 </div>
               </Link>
             </li>
+
             <li class="nav-item">
               <Link class="nav-link" to="/superadmin/mail">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Mail</span>
+                  <span>
+                    <IoMdMailUnread size={"22"} />
+                  </span>
+                </div>
+              </Link>
+            </li>
+
+            <li class="nav-item">
+              <Link class="nav-link" to="/superadmin/inbox">
+                <div className='d-flex justify-content-between w-100'>
+                  <span>Inbox</span>
                   <span>
                     <IoMdMailOpen size={"22"} />
                   </span>

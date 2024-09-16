@@ -86,11 +86,13 @@ import PaymentStatus from "./pages/billing/PaymentStatus";
 import JobSuperAdmin from "./pages/superadmin/joblist/JobSuperadmin";
 import Profile from "./pages/superadmin/user/Profile";
 import LocationList from "./pages/superadmin/locations-list/LocationList";
-import SuperAdminMail from "./pages/superadmin/mail/SuperAdminMail";
+import SendMailToAllEmployer from "./pages/superadmin/mail/SendMailToAllEmployer";
+import MailAdmin from "./pages/superadmin/mail/MailAdmin";
+import SuperAdminInbox from "./pages/superadmin/mail/Inbox";
+import CredtisManagement from "./pages/superadmin/Credtis-Management/CreditsManagement";
 
 //Context
 import GeneralProvider from "./helpers/Context/GeneralContext";
-import CredtisManagement from "./pages/superadmin/Credtis-Management/CreditsManagement";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -152,7 +154,9 @@ function App() {
             <Route path="Skills/:id" element={<EditSkill />} />
             <Route path="orders" element={<OrdersList />} />
             <Route path="credits-management" element={<CredtisManagement />} />
-            <Route path="mail" element={<SuperAdminMail />} />
+            <Route path="mail" element={< SendMailToAllEmployer />} />
+            <Route path="mail-admin" element={< MailAdmin />} />
+            <Route path="inbox" element={< SuperAdminInbox />} />
             <Route path="add-page" element={<Addpage />} />
             <Route path="pages" element={<PagesList />} />
             <Route path="jobs" element={<JobsListSuperAdmin />} />
