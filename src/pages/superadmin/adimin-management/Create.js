@@ -131,7 +131,8 @@ function Create() {
         last_name: lname.trim(),
         email: email,
         password: password,
-        role: 'admin'
+        role: 'admin',
+        activated: true
       }
 
       http.post("/users/register", data)

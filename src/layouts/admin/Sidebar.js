@@ -82,9 +82,16 @@ function Sidebar() {
               <Link class="nav-link" to="/admin/inbox">
                 <div className='d-flex align-items-center justify-content-between w-100'>
                   <span>Mail</span>
-
                   <IoMdMailOpen size={"22"} />
+                </div>
+              </Link>
+            </li>
 
+            <li class="nav-item">
+              <Link class="nav-link" to="/admin/admin-inbox">
+                <div className='d-flex align-items-center justify-content-between w-100'>
+                  <span> Admin Mails</span>
+                  <IoMdMailOpen size={"22"} />
                 </div>
               </Link>
             </li>

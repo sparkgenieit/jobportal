@@ -126,9 +126,8 @@ function AdminEdit({ currentAdmin }) {
                 last_name: lname.trim(),
                 email: email,
                 password: password,
-                role: 'admin'
+                role: currentAdmin.role
             }
-
 
             http.put(`/users/admin/update/${currentAdmin._id}`, userDto)
                 .then((response) => {
@@ -208,7 +207,7 @@ function AdminEdit({ currentAdmin }) {
                                             <div className="form-group row">
                                                 <label className="col-sm-4 col-form-label">Email</label>
                                                 <div className="col-sm-8">
-                                                    <input type="text" value={email} onChange={(event) => handleInput('email', event)} className="form-control" />
+                                                    <input type="text" value={email} onChange={(event) => handleInput('email', event)} className="form-control" disabled />
                                                     {errors && errors.email && <div className="error text-danger">{emailError}</div>}
                                                 </div>
                                             </div>

@@ -69,7 +69,7 @@ function Sidebar() {
             </li>
 
             <li class="nav-item">
-              <Link class="nav-link" to="/superadmin/inbox">
+              <Link class="nav-link" to="/superadmin/admin-inbox">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Inbox</span>
                   <span>

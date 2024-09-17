@@ -93,6 +93,7 @@ import CredtisManagement from "./pages/superadmin/Credtis-Management/CreditsMana
 
 //Context
 import GeneralProvider from "./helpers/Context/GeneralContext";
+import Chat from "./pages/superadmin/mail/Chat";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -134,6 +135,9 @@ function App() {
             <Route path="inbox/details/:id" element={<ChatPage name={"Admin"} />} />
             <Route path="Myasignjobs" element={<Myasignjobs />} />
             <Route path="view-job/:id" element={<SingleJobAdmin />} />
+            <Route path="admin-inbox" element={<SuperAdminInbox />} />
+            <Route path="mail-admin" element={< MailAdmin />} />
+            <Route path="admin-inbox/details/:id" element={< Chat />} />
           </Route>
 
           {/* SuperAdmin Routes */}
@@ -156,7 +160,8 @@ function App() {
             <Route path="credits-management" element={<CredtisManagement />} />
             <Route path="mail" element={< SendMailToAllEmployer />} />
             <Route path="mail-admin" element={< MailAdmin />} />
-            <Route path="inbox" element={< SuperAdminInbox />} />
+            <Route path="admin-inbox" element={< SuperAdminInbox />} />
+            <Route path="admin-inbox/details/:id" element={< Chat />} />
             <Route path="add-page" element={<Addpage />} />
             <Route path="pages" element={<PagesList />} />
             <Route path="jobs" element={<JobsListSuperAdmin />} />

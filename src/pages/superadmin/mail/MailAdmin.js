@@ -3,6 +3,8 @@ import MdxEditor from "../../../components/MdxEditor";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import http from "../../../helpers/http";
 import { validateIsNotEmpty } from "../../../helpers/functions/textFunctions";
+import { getUserID } from "../../../helpers/functions";
+import { IoMdArrowBack } from "react-icons/io";
 
 let limit = 100
 
@@ -13,11 +15,13 @@ export default function MailAdmin() {
     const [submitting, setSubmitting] = useState(false)
     const [subject, setSubject] = useState("")
     const message = useShowMessage()
+    const [role] = useState(localStorage.getItem("role"))
 
     const fetchAdmins = async () => {
         try {
             const res = await http.get(`/users/admins/all?limit=${limit}&skip=0`)
-            setAdmins(res.data.admins)
+            const Admins = res.data.admins.filter(admin => admin._id !== getUserID())
+            setAdmins(Admins)
             setSelectedAdmin(res.data.admins[0])
             if (res.data.total > limit) {
                 limit = res.data.total
@@ -51,25 +55,23 @@ export default function MailAdmin() {
 
         setSubmitting(true)
         message({ message: "Sending the mail..." })
-
         try {
             const data = {
                 subject,
                 participants: [selectedAdmin._id],
                 chat: [
                     {
-                        data: new Date(),
+                        date: new Date(),
                         from: localStorage.getItem("fullname"),
                         message: msg,
                         by: localStorage.getItem("role")
-
                     }
                 ]
             }
             await http.post("/mails/create", data)
             setMsg("")
             setSubject("")
-            message({ status: "success", message: "Mail sent" })
+            message({ status: "success", message: "Mail sent", path: `/${role}/admin-inbox` })
         } catch (error) {
             message({ status: "error", error })
         } finally {
@@ -84,7 +86,11 @@ export default function MailAdmin() {
 
     return (
         <div className="content-wrapper bg-white" >
-            <h2 className="fw-bold fs-4 text-center">Mail an Admin</h2>
+            <button onClick={() => message({ path: -1 })} type="button" className="btn p-1 btn-dark btn-xs rounded-circle ">
+                <IoMdArrowBack fontSize={16} />
+            </button>
+
+            <h2 className="fw-bold flex-grow-1 fs-4 text-center">Mail an Admin</h2>
 
             <div className="d-flex flex-column gap-5">
 

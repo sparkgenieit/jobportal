@@ -5,20 +5,18 @@ import userService from '../../services/common/user.service';
 
 import { Hourglass } from "react-loader-spinner";
 import http from '../../helpers/http';
+import useShowMessage from '../../helpers/Hooks/useShowMessage';
 
 function UserLogin() {
+  const message = useShowMessage()
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
 
   const [errors, setErrors] = useState({ email: '', password: '' })
   const [verifyStatus, setVerifyStatus] = useState(false)
   const [verifybutton, setVerifybutton] = useState(false)
   const [loader, setLoader] = useState(false);
-
-  const navigate = useNavigate();
-
 
   const validateEmailAddress = (emailAddress) => {
     var atSymbol = emailAddress.indexOf("@");
@@ -42,6 +40,8 @@ function UserLogin() {
     http.post(`/users/verify-email?email=${email}`)
       .then(res => {
         setVerifyStatus(true)
+      }).catch(e => {
+        message({ status: "error", error: e })
       })
   }
 
