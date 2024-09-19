@@ -40,7 +40,7 @@ export const validateIsNotEmpty = (value) => {
     return true
 }
 
-export const stringifyObject = (object) => {
+export const stringify = (object) => {
     return JSON.stringify(object)
 }
 

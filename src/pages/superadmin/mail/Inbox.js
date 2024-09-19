@@ -8,6 +8,9 @@ import { markdownToPlainText } from "../../../helpers/functions/textFunctions"
 import { itemsPerPage } from "../../../helpers/constants"
 import Loader from "../../../components/Loader"
 import Pagination from "../../../components/Pagination"
+import { getUserID } from "../../../helpers/functions"
+import { useDispatch } from "react-redux"
+import { decrementAdminUnreadCount } from "../../../helpers/slices/mailCountSlice"
 
 
 export default function Inbox() {
@@ -18,6 +21,7 @@ export default function Inbox() {
     const [searchTerm, setSearchTerm] = useState(searchParams.get("q") || "")
     const [currentPage, setCurrentPage] = useState(+searchParams.get("page") || 1)
     const message = useShowMessage()
+    const dispatch = useDispatch()
     const [role] = useState(localStorage.getItem("role"))
 
     const fetchMails = async (page = currentPage, search = searchTerm) => {
@@ -32,6 +36,13 @@ export default function Inbox() {
         } finally {
             setLoading(false)
         }
+    }
+
+    const handleClick = (mail) => {
+        if (!mail.readBy.includes(getUserID())) {
+            dispatch(decrementAdminUnreadCount())
+        }
+        message({ path: `details/${mail._id}` })
     }
 
     const handleSearch = (e) => {
@@ -81,7 +92,7 @@ export default function Inbox() {
                             </thead>
                             <tbody>
                                 {mails.length > 0 && mails?.map((mail, i) => (
-                                    <tr role='button' onClick={() => { message({ path: `/${role}/admin-inbox/details/${mail._id}` }) }} key={mail._id}>
+                                    <tr role='button' className={mail.readBy.includes(getUserID()) ? "" : "fw-bold"} onClick={() => handleClick(mail)} key={mail._id}>
                                         <td className="text-center">
                                             {getDate(mail.chat[0]?.date)}
                                         </td>

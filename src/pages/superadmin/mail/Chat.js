@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import useShowMessage from "../../../helpers/Hooks/useShowMessage"
-import { IoMdArrowBack } from "react-icons/io"
-import MdxEditor from "../../../components/MdxEditor"
+
 import { RxDoubleArrowRight } from "react-icons/rx"
-import { timeAgoMinutes } from "../../../helpers/functions"
+import { IoMdArrowBack } from "react-icons/io"
+import { useDispatch } from "react-redux"
+
+import useShowMessage from "../../../helpers/Hooks/useShowMessage"
+import MdxEditor from "../../../components/MdxEditor"
+import { getUserID, timeAgoMinutes } from "../../../helpers/functions"
 import { markdownToText, validateIsNotEmpty } from "../../../helpers/functions/textFunctions"
 import { getDate } from "../../../helpers/functions/dateFunctions"
 import http from "../../../helpers/http"
+import { decrementAdminUnreadCount } from "../../../helpers/slices/mailCountSlice"
 
 export default function Chat() {
     const params = useParams()
@@ -15,6 +19,7 @@ export default function Chat() {
     const [addMessage, setAddMessage] = useState({})
     const [toggleState, setToggleState] = useState({})
     const message = useShowMessage()
+    const dispatch = useDispatch()
 
     function reverseArray(arr) {
         const reverseArray = arr.toReversed()
@@ -23,9 +28,8 @@ export default function Chat() {
 
     const fetchMail = async (id = params.id) => {
         try {
-            const res = await http.get(`/mails/details/${id}`)
-            setMail(res.data)
-            console.log(res.data);
+            const { data } = await http.get(`/mails/details/${id}`)
+            setMail(data)
         } catch (error) {
             message({ status: "Error", error })
         }

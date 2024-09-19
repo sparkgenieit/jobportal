@@ -22,7 +22,7 @@ export default function MailAdmin() {
             const res = await http.get(`/users/admins/all?limit=${limit}&skip=0`)
             const Admins = res.data.admins.filter(admin => admin._id !== getUserID())
             setAdmins(Admins)
-            setSelectedAdmin(res.data.admins[0])
+            setSelectedAdmin(Admins.length > 0 ? Admins[0] : {})
             if (res.data.total > limit) {
                 limit = res.data.total
                 fetchAdmins()

@@ -10,11 +10,12 @@ import { RiAdminFill, RiAdvertisementFill } from "react-icons/ri";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { IoMdMailOpen, IoMdMailUnread } from 'react-icons/io';
-
+import { useSelector } from 'react-redux';
 
 function Sidebar() {
   const [showSidebar, setShowSidebar] = useState(true)
   let sidebarClass = showSidebar ? { marginLeft: "0" } : { marginLeft: "-230px" };
+  const adminMailCount = useSelector((state) => state.mailCount.AdminUnreadCount)
   return (
     <>
       {<div style={sidebarClass}>
@@ -71,7 +72,12 @@ function Sidebar() {
             <li class="nav-item">
               <Link class="nav-link" to="/superadmin/admin-inbox">
                 <div className='d-flex justify-content-between w-100'>
-                  <span>Inbox</span>
+                  <span className='d-flex gap-3 align-items-center'>
+                    <span>Inbox</span>
+                    <span className='fs-6 text-danger'>
+                      {adminMailCount > 0 ? adminMailCount : null}
+                    </span>
+                  </span>
                   <span>
                     <IoMdMailOpen size={"22"} />
                   </span>
