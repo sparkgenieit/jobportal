@@ -18,6 +18,7 @@ import Tooltip from '../../components/Tooltip';
 import { JobsContext } from '../../helpers/Context';
 import useShowMessage from '../../helpers/Hooks/useShowMessage';
 import { markdownToText, parseString } from '../../helpers/functions/textFunctions';
+import { BsCalendar3 } from "react-icons/bs";
 
 function SingleJob() {
     const [isJobApplied, setIsJobApplied] = useState(false)
@@ -285,14 +286,22 @@ function SingleJob() {
                                 <div>
                                     <span><FaDollarSign size="16px" /></span>
                                     <span className='ps-2'>
-                                        {jobview.rateperhour} ph
+                                        {jobview.rateperhour} per hour
                                     </span>
                                 </div>
                                 <div>
                                     <span>
-                                        <span><FaRegClock size="16px" /></span>
+                                        <span><BsCalendar3 size="16px" /></span>
                                         <span className='ps-2'>
                                             {jobview.duration}
+                                        </span>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>
+                                        <span><FaRegClock fontSize={16} /></span>
+                                        <span className='ps-1'>
+                                            {jobview.weeklyperhour} hours per week
                                         </span>
                                     </span>
                                 </div>
@@ -301,14 +310,6 @@ function SingleJob() {
                                         <span>Type:</span>
                                         <span className='ps-1'>
                                             {jobview.jobtype}
-                                        </span>
-                                    </span>
-                                </div>
-                                <div>
-                                    <span>
-                                        <span>Weekly Hours:</span>
-                                        <span className='ps-1'>
-                                            {jobview.weeklyperhour}
                                         </span>
                                     </span>
                                 </div>
@@ -321,7 +322,7 @@ function SingleJob() {
                                 </div>
                                 <div className=''>
                                     {jobview.training.includes("true") && <span>
-                                        Training Provided
+                                        Training provided
                                         <span className='ps-1'>
                                             <FaCheckSquare size="16px" />
                                         </span>

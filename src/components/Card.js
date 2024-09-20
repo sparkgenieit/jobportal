@@ -17,6 +17,7 @@ import { PiCarProfileThin } from 'react-icons/pi';
 import Tooltip from './Tooltip';
 import http from '../helpers/http';
 import { markdownToPlainText } from '../helpers/functions/textFunctions';
+import { BsCalendar3 } from 'react-icons/bs';
 
 export default function Card({ job }) {
     const savedJobIds = JSON.parse(sessionStorage.getItem('savedJobIds'))
@@ -69,7 +70,6 @@ export default function Card({ job }) {
         }
         e.stopPropagation();
     }
-
 
     const handleShare = (event) => {
         navigator.clipboard.writeText(`${BASE_APP_URL}/common/SingleJob/${job._id}`)
@@ -152,36 +152,52 @@ export default function Card({ job }) {
 
                 </div >
 
-                <div className=' d-flex  flex-column   small'>
+                <div className=' d-flex  flex-column small'>
                     <div className='h-50'>
                         {job.companyLogo.length > 0 && <img className="rounded border company-logo" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                     </div>
-                    <div className=''>
+                    <div className='small'>
                         <Tooltip tooltipText={"Rate per Hour"}>
-                            <span><FaDollarSign size="16px" /></span>
-                            <span className='ps-2'>
-                                {job.rateperhour} ph
-                            </span>
+                            <div className='d-flex  gap-3'>
+                                <span><FaDollarSign size="16px" /></span>
+                                <span className=''>
+                                    {job.rateperhour} per hour
+                                </span>
+                            </div>
                         </Tooltip>
 
                         <Tooltip tooltipText={"Duration"}>
-                            <span><FaRegClock size="16px" /></span>
-                            <span className='ps-2'>
-                                {job.duration}
-                            </span>
+                            <div className='d-flex  gap-3'>
+                                <span><BsCalendar3 size="16px" /></span>
+                                <span className=''>
+                                    {job.duration}
+                                </span>
+                            </div>
                         </Tooltip>
 
-                        <Tooltip tooltipText={"Vacancies"}>
-                            {job.numberofvacancies > 1 && <>
-                                <span>
-                                    <span><MdOutlinePeopleOutline size="20px" /></span>
-                                    <span className='ps-2'>{job.numberofvacancies} </span>
-                                </span>
-                            </>}
-                        </Tooltip>
+                        {job.weeklyperhour > 0 &&
+                            <Tooltip tooltipText={"Weekly Hours"}>
+                                <div className='d-flex  gap-3'>
+                                    <span><FaRegClock size="16px" /></span>
+                                    <span className=''>
+                                        {job.weeklyperhour} hours per week
+                                    </span>
+                                </div>
+                            </Tooltip>
+                        }
+
+                        {job.numberofvacancies > 1 &&
+                            <Tooltip tooltipText={"Vacancies"}>
+                                <div className='d-flex gap-2'>
+                                    <span><MdOutlinePeopleOutline fontSize={20} /></span>
+                                    <span className=''>{job.numberofvacancies} Vacancies </span>
+                                </div>
+                            </Tooltip>
+                        }
+
                         <div className=''>
                             {job.training.includes("true") && <span className='text-nowrap'>
-                                Training Provided
+                                Training provided
                                 <span className='ps-1'>
                                     <FaCheckSquare size="18px" />
                                 </span>
@@ -242,6 +258,6 @@ export default function Card({ job }) {
                 </Tooltip>
 
             </div>
-        </div>
+        </div >
     </>
 }

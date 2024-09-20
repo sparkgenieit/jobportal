@@ -141,8 +141,6 @@ function UserLogin() {
 
   return (
     <>
-
-
       <div class="row">
         <div class="col-12">
           {errors && errors.loginError && <div class="alert alert-danger" role="alert">

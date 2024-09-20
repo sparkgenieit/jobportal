@@ -1,5 +1,4 @@
 import http from "../http";
-import { stringify } from "./textFunctions";
 
 export function timeAgo(dateString) { // This function takes the take string in dd/mm/yyyy format
     const now = Date.now();
