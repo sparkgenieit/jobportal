@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-import { Link, useNavigate, useSearchParams } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import { FaRegMessage } from "react-icons/fa6";
 
 import { itemsPerPage } from "../../helpers/constants"
@@ -9,6 +9,10 @@ import Pagination from "../../components/Pagination"
 import http from "../../helpers/http"
 import { markdownToPlainText } from "../../helpers/functions/textFunctions";
 import { getDate } from "../../helpers/functions/dateFunctions";
+import useShowMessage from "../../helpers/Hooks/useShowMessage";
+import useCurrentUser from "../../helpers/Hooks/useCurrentUser";
+import { decrementEmployerUnreadCount } from "../../helpers/slices/mailCountSlice";
+import { useDispatch } from "react-redux";
 
 export default function Inbox() {
     const [queries, setQueries] = useState(null)
@@ -17,12 +21,20 @@ export default function Inbox() {
     const [searchParams, setSearchParams] = useSearchParams()
     const [searchTerm, setSearchTerm] = useState(searchParams.get("q") || "")
     const [currentPage, setCurrentPage] = useState(+searchParams.get("page") || 1)
-    const user_id = localStorage.getItem('user_id')
-    const navigate = useNavigate();
+    const message = useShowMessage()
+    const dispatch = useDispatch()
+    const user = useCurrentUser()
 
     useEffect(() => {
         fetchQueries(currentPage)
     }, [])
+
+    const handleClick = (mail) => {
+        if (!mail.readBy.includes(user._id)) {
+            dispatch(decrementEmployerUnreadCount())
+        }
+        message({ path: `details/${mail._id}` })
+    }
 
 
     const handleSearch = (e) => {
@@ -40,15 +52,14 @@ export default function Inbox() {
         setLoading(true)
         const skip = (page - 1) * itemsPerPage
         try {
-            const url = `/contact/company-queries/${user_id}?q=${search}&limit=${itemsPerPage}&skip=${skip}`
+            const url = `/mails/employer/all?q=${search}&limit=${itemsPerPage}&skip=${skip}`
             const { data } = await http.get(url)
-            setLoading(false)
-            setQueries(data.data)
+            setQueries(data.mails)
             setTotalItems(data.total)
         } catch (error) {
+            message({ status: "error", error })
+        } finally {
             setLoading(false)
-            setQueries([])
-            setTotalItems(0)
         }
     }
 
@@ -89,7 +100,7 @@ export default function Inbox() {
                                 if (query.chat && query.chat?.length > 0) {
                                     const latestChat = query?.chat[0];
                                     return (
-                                        <tr role="button" key={i} onClick={() => { navigate(`/company/inbox/details/${query._id}`) }}>
+                                        <tr role="button" className={query.readBy.includes(user._id) ? "" : "fw-bold"} key={i} onClick={() => handleClick(query)}>
                                             <td className="text-center">
                                                 {getDate(latestChat?.date)}
                                             </td>

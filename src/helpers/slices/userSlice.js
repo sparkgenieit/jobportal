@@ -4,7 +4,9 @@ import http from '../http'
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
-        currentUser: {}
+        currentUser: {
+            role: localStorage.getItem('role')
+        }
     },
     reducers: {
         setUser: (state, action) => {

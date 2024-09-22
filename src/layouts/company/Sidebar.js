@@ -13,12 +13,15 @@ import { IoMdMailOpen } from "react-icons/io";
 
 import { GeneralContext } from '../../helpers/Context';
 import Tooltip from '../../components/Tooltip';
+import { useSelector } from 'react-redux';
 
 function Sidebar() {
   const { isSidebarOpen, setIsSidebarOpen } = useContext(GeneralContext)
   const [show, setShow] = useState(false);
   const [role] = useState(localStorage.getItem("role"))
   const navigate = useNavigate()
+
+  const count = useSelector((state) => state.mailCount.EmployerUnreadCount)
 
   let sidebarClass = isSidebarOpen ? { marginLeft: "0" } : { marginLeft: "-230px" };
 
@@ -148,7 +151,10 @@ function Sidebar() {
             <li className="nav-item">
               <Link className="nav-link" to="/company/inbox">
                 <div className='d-flex justify-content-between align-items-center w-100'>
-                  <span>Mail</span>
+                  <span>
+                    Mail
+                    {count > 0 && <span className=' ps-3 text-danger'>{count}</span>}
+                  </span>
                   <span>
                     <IoMdMailOpen size={"22"} />
                   </span>

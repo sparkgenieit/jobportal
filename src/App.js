@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import 'aos/dist/aos.css';
@@ -97,8 +97,8 @@ import Chat from "./pages/superadmin/mail/Chat";
 import GeneralProvider from "./helpers/Context/GeneralContext";
 
 // Functions
-import useCurrentUser from "./helpers/Hooks/useCurrentUser";
 import { fetchUser } from "./helpers/slices/userSlice";
+import useCurrentUser from "./helpers/Hooks/useCurrentUser";
 
 function App() {
   const { role } = useCurrentUser()

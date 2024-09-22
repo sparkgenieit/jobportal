@@ -3,16 +3,20 @@ import { useEffect, useState } from "react";
 import Loader from "../../components/Loader";
 import companyService from "../../services/common/company.service";
 import http from "../../helpers/http";
+import useCurrentUser from "../../helpers/Hooks/useCurrentUser";
+import useShowMessage from "../../helpers/Hooks/useShowMessage";
 
 export default function ContactUs() {
     const [contactForm, setContactForm] = useState({})
     const [error, setError] = useState({})
     const [loading, setLoading] = useState(false)
-    const user_id = localStorage.getItem('user_id')
+    const user = useCurrentUser()
+    const message = useShowMessage()
 
     const fetchCompanyDetails = async () => {
         try {
             setLoading(true)
+            const user_id = user.role === "recruiter" ? user.companyId._id : user._id
             const { data } = await companyService.get(user_id)
             const companyData = { ...contactForm }
             companyData.name = data.contact
@@ -70,30 +74,39 @@ export default function ContactUs() {
         setError(errorObj)
 
         if (isValid) {
-            const contactData = { ...contactForm }
-            contactData.enquirer = "Employer"
-            contactData.companyId = user_id
+            // const contactData = { ...contactForm }
+            // contactData.enquirer = "Employer"
+            // //contactData.companyId = user_id
 
-            const chat = {
-                date: new Date(),
-                from: contactForm.organisation,
-                message: contactForm.message,
-                by: "Enquirer"
+            // const chat = {
+            //     date: new Date(),
+            //     from: contactForm.organisation,
+            //     message: contactForm.message,
+            //     by: "Enquirer"
+            // }
+
+            // contactData.chat = chat;
+
+            // delete contactData.message;
+
+            const name = user.role === "recruiter" ? `${user.name}(${user.companyId.first_name + " " + user.companyId.last_name})` : user.first_name + " " + user.last_name
+
+            const mailData = {
+                subject: contactForm.subject,
+                participants: [user._id],
+                chat: [{
+                    date: new Date(),
+                    from: name,
+                    message: contactForm.message,
+                    by: "employer"
+                }],
+                readBy: [user._id],
             }
-
-            contactData.chat = chat;
-
-            delete contactData.message;
-
             try {
-                await http.post('/contact/employer/query', contactData)
-                setContactForm({ ...contactForm, status: "Submitted" })
-                setTimeout(() => {
-                    window.location.reload()
-                }, 2000);
+                await http.post('/mails/employer/create', mailData)
+                message({ status: "success", message: "Mail Sent", path: "/company/inbox" })
             } catch (error) {
-                console.log(error)
-                setContactForm({ ...contactForm, status: "Failed" })
+                message({ status: "error", error })
             }
         }
     }

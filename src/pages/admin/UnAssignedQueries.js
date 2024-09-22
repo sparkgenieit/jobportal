@@ -8,7 +8,6 @@ import { markdownToPlainText } from "../../helpers/functions/textFunctions"
 import { itemsPerPage } from "../../helpers/constants"
 import Pagination from "../../components/Pagination"
 import Loader from "../../components/Loader"
-import { getUserID } from "../../helpers/functions"
 import useShowMessage from "../../helpers/Hooks/useShowMessage"
 
 export default function UnAssignedQueries() {
@@ -27,13 +26,12 @@ export default function UnAssignedQueries() {
         fetchQueries(currentPage)
     }, [search])
 
-
     const fetchQueries = async (page) => {
         setLoading(true)
         const skip = (page - 1) * itemsPerPage
         try {
-            const response = await http.get(`/contact/unassigned-queries?s=${search}&limit=${itemsPerPage}&skip=${skip}`)
-            setQueries(response.data.queries)
+            const response = await http.get(`/mails/unassigned-mails?s=${search}&limit=${itemsPerPage}&skip=${skip}`)
+            setQueries(response.data.mails)
             setTotalItems(response.data.total)
         } catch (error) {
             message({ status: 'Error', error })
@@ -55,7 +53,7 @@ export default function UnAssignedQueries() {
     const assignedToMe = async (query) => {
         setAssigning(true)
         try {
-            await http.patch(`/contact/assign-query?query_id=${query._id}`)
+            await http.patch(`/mails/assign-mail?query_id=${query._id}`)
             message({
                 status: "Success",
                 message: "Assigned Successfully",
@@ -109,7 +107,7 @@ export default function UnAssignedQueries() {
                                     return (
                                         <tr key={i}>
                                             <td>{new Date(query.createdAt).toLocaleDateString('en-GB')}</td>
-                                            <td>{query.organisation}</td>
+                                            <td>{query.chat[0].from}</td>
                                             <td>{markdownToPlainText(query.subject, 40)}</td>
                                             <td>{query.chat?.length > 0 && markdownToPlainText(query?.chat[0]?.message, 50)}</td>
                                             <td>

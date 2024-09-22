@@ -1,7 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import http from '../http'
 
 export const mailCountSlice = createSlice({
-    name: 'mailCountSlice',
+    name: 'mail',
     initialState: {
         AdminUnreadCount: 0,
         EmployerUnreadCount: 0
@@ -9,9 +10,6 @@ export const mailCountSlice = createSlice({
     reducers: {
         setAdminUnreadCount: (state, action) => {
             state.AdminUnreadCount = action.payload
-        },
-        setEmployerUnreadCount: (state, action) => {
-            state.EmployerUnreadCount = action.payload
         },
         decrementAdminUnreadCount: (state) => {
             if (state.AdminUnreadCount > 0) state.AdminUnreadCount = state.AdminUnreadCount - 1
@@ -21,8 +19,25 @@ export const mailCountSlice = createSlice({
 
         },
     },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchEmployerUnreadCount.fulfilled, (state, action) => {
+                state.EmployerUnreadCount = action.payload
+            }).addCase(fetchEmployerUnreadCount.rejected, (state) => {
+                state.EmployerUnreadCount = 0
+            });
+    }
 })
 
-export const { setAdminUnreadCount, setEmployerUnreadCount, decrementAdminUnreadCount, decrementEmployerUnreadCount } = mailCountSlice.actions
+
+export const fetchEmployerUnreadCount = createAsyncThunk(
+    "mail/fetchEmployerUnreadCount",
+    async () => {
+        const { data } = await http.get('/mails/employer/unread-mails')
+        return data
+    }
+)
+
+export const { setAdminUnreadCount, decrementAdminUnreadCount, decrementEmployerUnreadCount } = mailCountSlice.actions
 
 export default mailCountSlice.reducer

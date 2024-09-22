@@ -4,7 +4,7 @@ import Footer from './Footer';
 import Sidebar from './Sidebar';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setAdminUnreadCount } from '../../helpers/slices/mailCountSlice';
+import { fetchEmployerUnreadCount, setAdminUnreadCount } from '../../helpers/slices/mailCountSlice';
 import http from '../../helpers/http';
 
 export default function AdminLayout() {
@@ -20,6 +20,7 @@ export default function AdminLayout() {
     }
     useEffect(() => {
         AdminMailUnreadCount()
+        dispatch(fetchEmployerUnreadCount())
     }, [])
 
     return (

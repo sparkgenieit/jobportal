@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import http from "../../helpers/http";
 import { itemsPerPage } from '../../helpers/constants';
@@ -7,6 +7,10 @@ import Pagination from '../../components/Pagination';
 import Loader from '../../components/Loader';
 import { markdownToPlainText } from '../../helpers/functions/textFunctions';
 import { getDate } from '../../helpers/functions/dateFunctions';
+import { useDispatch } from 'react-redux';
+import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
+import { decrementEmployerUnreadCount } from '../../helpers/slices/mailCountSlice';
+import useShowMessage from '../../helpers/Hooks/useShowMessage';
 
 export default function Queries() {
     const [queries, setQueries] = useState(null)
@@ -15,11 +19,20 @@ export default function Queries() {
     const [searchParams, setSearchParams] = useSearchParams()
     const [searchTerm, setSearchTerm] = useState(searchParams.get("q") || "")
     const [currentPage, setCurrentPage] = useState(+searchParams.get("page") || 1)
-    const navigate = useNavigate()
+    const message = useShowMessage()
+    const dispatch = useDispatch()
+    const user = useCurrentUser()
 
     useEffect(() => {
         fetchQueries(currentPage)
     }, [])
+
+    const handleClick = (mail) => {
+        if (!mail.readBy.includes(user._id)) {
+            dispatch(decrementEmployerUnreadCount())
+        }
+        message({ path: `details/${mail._id}` })
+    }
 
     const handleSearch = (e) => {
         setSearchTerm(e.target.value)
@@ -36,10 +49,10 @@ export default function Queries() {
         setLoading(true)
         const skip = (page - 1) * itemsPerPage
         try {
-            const url = `/contact/assigned-queries?s=${search}&limit=${itemsPerPage}&skip=${skip}`
+            const url = `/mails/employer/all?s=${search}&limit=${itemsPerPage}&skip=${skip}`
             const { data } = await http.get(url)
             setLoading(false)
-            setQueries(data.data)
+            setQueries(data.mails)
             setTotalItems(data.total)
         } catch (error) {
             setLoading(false)
@@ -79,7 +92,7 @@ export default function Queries() {
                             </thead>
                             <tbody>
                                 {queries && queries?.map((query, i) => {
-                                    return <tr role='button' onClick={() => { navigate(`details/${query._id}?type=${query.enquirer}`) }} key={i}>
+                                    return <tr role='button' className={query.readBy.includes(user._id) ? "" : "fw-bold"} key={i} onClick={() => handleClick(query)}>
 
                                         {query.enquirer === "Visitor" ?
                                             <>

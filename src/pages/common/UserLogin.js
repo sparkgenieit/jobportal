@@ -109,7 +109,7 @@ function UserLogin() {
           } else if (response.data.role === 'user') {
             window.location.reload()
           } else {
-            message({ path: `/${response.data.role}` })
+            window.location.href = `/${response.data.role}`
           }
 
         })

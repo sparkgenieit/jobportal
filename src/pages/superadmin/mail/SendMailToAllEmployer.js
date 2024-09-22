@@ -27,7 +27,7 @@ export default function SendMailToAllEmployer() {
         try {
             setSendingMessage(true)
             const data = { subject, message }
-            http.post("/contact/mail-all-employers", data)
+            http.post("/mails/mail-all-employers", data)
             messageHook({
                 status: "success",
                 message: "Messages Sent"

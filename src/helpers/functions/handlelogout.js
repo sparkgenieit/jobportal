@@ -1,7 +1,11 @@
 import http from "../http"
 
 export default async function handleLogout() {
-    await http.post("/users/logout")
+    try {
+        await http.post("/users/logout")
+    } catch (error) {
+        //console.log(error);
+    }
     localStorage.clear()
     window.location.href = "/"
 }

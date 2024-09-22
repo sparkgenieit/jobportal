@@ -80,19 +80,16 @@ export default function CredtisManagement() {
 
         const mailCreate = {
             subject: `Credits ${type}`,
-            name: selectedCompany.first_name + " " + selectedCompany.last_name,
+            participants: [selectedCompany._id],
             chat: [
                 {
                     date: new Date(),
                     from: "Super Admin",
                     message: msg,
-                    by: "Admin",
+                    by: "admin",
                 }
             ],
-            companyId: selectedCompany._id,
-            organisation: selectedCompany.first_name + " " + selectedCompany.last_name,
-            email: selectedCompany.email,
-            enquirer: "Enquirer",
+            readBy: [],
             assignedTo: "Super Admin",
         }
 
@@ -102,7 +99,7 @@ export default function CredtisManagement() {
             await Promise.all([
                 http.put(`/users/update/${selectedCompany._id}`, creditUpdate),
                 http.post(`/orders/create`, orderCreationData),
-                http.post(`/contact/employer/query`, mailCreate),
+                http.post(`/mails/employer/create`, mailCreate),
             ])
 
             message({ status: "Success", message: `Credits ${type}ed` })

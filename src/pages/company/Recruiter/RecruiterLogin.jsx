@@ -40,7 +40,7 @@ export default function RecruiterLogin() {
             const response = await http.post(url, data)
             dispatch(setUser(response.data))
             if (role === "recruiter") {
-                localStorage.setItem("user_id", response.data.companyId)
+                localStorage.setItem("user_id", response.data.companyId._id)
                 localStorage.setItem("role", "recruiter")
                 localStorage.setItem("fullname", response.data.name)
             } else {

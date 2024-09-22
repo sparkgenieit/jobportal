@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import http from "../../../helpers/http";
+import useShowMessage from "../../../helpers/Hooks/useShowMessage";
+import useCurrentUser from "../../../helpers/Hooks/useCurrentUser";
 
 export default function MessagePopup({ modal, setModal, handleDelete, closeJob }) {
     const [message, setMessage] = useState("")
     const [subject, setSubject] = useState("")
     const [error, setError] = useState({})
     const user_id = localStorage.getItem('user_id')
+    const showMessage = useShowMessage()
+    const user = useCurrentUser()
 
     useEffect(() => {
         if (modal.type === "support") {
@@ -41,25 +45,38 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob }
 
         if (!errorObj.subject && !errorObj.message) {
             try {
-                const inquiryData = {
-                    subject,
+                // const inquiryData = {
+                // subject,
+                // chat: [{
+                //     date: new Date(),
+                //     from: modal.clickedJob.company,
+                //     message,
+                //     by: "Enquirer"
+                // }],
+                // name: modal.clickedJob.jobTitle,
+                // organisation: modal.clickedJob.company,
+                // jobId: modal.clickedJob._id,
+                // companyId: user_id,
+                // enquirer: "Job-inquiry"
+                //}
+
+                const name = user.role === "recruiter" ? `${user.name}(${user.companyId.first_name + " " + user.companyId.last_name})` : user.first_name + " " + user.last_name
+
+                const mailData = {
+                    subject: subject,
+                    participants: [user._id],
                     chat: [{
                         date: new Date(),
-                        from: modal.clickedJob.company,
-                        message,
-                        by: "Enquirer"
+                        from: name,
+                        message: message,
+                        by: "employer"
                     }],
-                    name: modal.clickedJob.jobTitle,
-                    organisation: modal.clickedJob.company,
-                    jobId: modal.clickedJob._id,
-                    companyId: user_id,
-                    enquirer: "Job-inquiry"
+                    readBy: [user._id],
                 }
-                await http.post('/contact/job/query', inquiryData)
+                await http.post('/mails/employer/create', mailData)
                 setError({ status: "Submitted" })
-                setTimeout(() => {
-                    setModal({ show: false })
-                }, 1500);
+                showMessage({ status: "success", message: "Support Request Sent", path: "/company/inbox" })
+                setModal({ show: false })
             } catch (error) {
                 setError({ status: "Failed" })
             }
