@@ -19,14 +19,14 @@ function Sidebar() {
   return (
     <>
       <div style={sidebarClass}>
-        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <nav className="sidebar sidebar-offcanvas" id="sidebar">
           <div className=" mt-4 pe-0 d-flex justify-content-end">
             <RxHamburgerMenu role='button' onClick={() => setShowSidebar(prev => !prev)} fontSize={22} />
           </div>
 
-          <ul class="nav">
-            <li class="nav-item">
-              <Link class="nav-link" to="/admin">
+          <ul className="nav">
+            <li className="nav-item">
+              <Link className="nav-link" to="/admin">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Dashboard</span>
                   <span>
@@ -35,8 +35,8 @@ function Sidebar() {
                 </div>
               </Link>
             </li>
-            <li class="nav-item">
-              <Link class="nav-link" to="/admin/jobqueuelist">
+            <li className="nav-item">
+              <Link className="nav-link" to="/admin/jobqueuelist">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Jobs Queue List</span>
                   <span>
@@ -47,8 +47,8 @@ function Sidebar() {
             </li>
 
 
-            <li class="nav-item">
-              <Link class="nav-link" to="/admin/myasignjobs">
+            <li className="nav-item">
+              <Link className="nav-link" to="/admin/myasignjobs">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Assigned Jobs</span>
                   <span>
@@ -58,8 +58,8 @@ function Sidebar() {
               </Link>
             </li>
 
-            <li class="nav-item">
-              <Link class="nav-link" to="/admin/employer-queries">
+            <li className="nav-item">
+              <Link className="nav-link" to="/admin/employer-queries">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Employer Queries</span>
                   <span>
@@ -69,8 +69,8 @@ function Sidebar() {
               </Link>
             </li>
 
-            <li class="nav-item">
-              <Link class="nav-link" to="/admin/inbox">
+            <li className="nav-item">
+              <Link className="nav-link" to="/admin/inbox">
                 <div className='d-flex align-items-center justify-content-between w-100'>
                   <span className='d-flex gap-3 align-items-center'>
                     <span>Mail</span>
@@ -83,8 +83,8 @@ function Sidebar() {
               </Link>
             </li>
 
-            <li class="nav-item">
-              <Link class="nav-link" to="/admin/admin-inbox">
+            <li className="nav-item">
+              <Link className="nav-link" to="/admin/admin-inbox">
                 <div className='d-flex align-items-center justify-content-between w-100'>
                   <span className='d-flex gap-3 align-items-center'>
                     <span>Admin Mails</span>

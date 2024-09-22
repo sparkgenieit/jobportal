@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link, useSearchParams } from "react-router-dom"
+import { useDispatch } from "react-redux"
 
 import http from "../../../helpers/http"
 import useShowMessage from "../../../helpers/Hooks/useShowMessage"
@@ -8,8 +9,6 @@ import { markdownToPlainText } from "../../../helpers/functions/textFunctions"
 import { itemsPerPage } from "../../../helpers/constants"
 import Loader from "../../../components/Loader"
 import Pagination from "../../../components/Pagination"
-import { getUserID } from "../../../helpers/functions"
-import { useDispatch } from "react-redux"
 import { decrementAdminUnreadCount } from "../../../helpers/slices/mailCountSlice"
 import useCurrentUser from "../../../helpers/Hooks/useCurrentUser"
 
@@ -93,7 +92,7 @@ export default function Inbox() {
                             </thead>
                             <tbody>
                                 {mails.length > 0 && mails?.map((mail, i) => (
-                                    <tr role='button' className={mail.readBy.includes(_id) ? "" : "fw-bold"} onClick={() => handleClick(mail)} key={mail._id}>
+                                    <tr role='button' className={mail.readBy?.includes(_id) ? "" : "fw-bold"} onClick={() => handleClick(mail)} key={mail._id}>
                                         <td className="text-center">
                                             {getDate(mail.chat[0]?.date)}
                                         </td>
