@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import 'aos/dist/aos.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -90,21 +91,32 @@ import SendMailToAllEmployer from "./pages/superadmin/mail/SendMailToAllEmployer
 import MailAdmin from "./pages/superadmin/mail/MailAdmin";
 import SuperAdminInbox from "./pages/superadmin/mail/Inbox";
 import CredtisManagement from "./pages/superadmin/Credtis-Management/CreditsManagement";
+import Chat from "./pages/superadmin/mail/Chat";
 
 //Context
 import GeneralProvider from "./helpers/Context/GeneralContext";
-import Chat from "./pages/superadmin/mail/Chat";
+
+// Functions
+import useCurrentUser from "./helpers/Hooks/useCurrentUser";
+import { fetchUser } from "./helpers/slices/userSlice";
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem('token') || '');
-  const [role, setRole] = useState(localStorage.getItem('role') || '');
+  const { role } = useCurrentUser()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (localStorage.getItem("isSignedIn")) {
+      dispatch(fetchUser())
+    }
+  }, [])
+
+
   return (
     <BrowserRouter>
       <GeneralProvider>
         <Routes>
-
           {/* Company and Recruiter shared Routes */}
-          <Route path="/company" element={(token && (role == 'employer' || role === "recruiter")) ? <CompanyLayout /> : <Navigate to="/" />}>
+          <Route path="/company" element={(role == 'employer' || role === "recruiter") ? <CompanyLayout /> : <Navigate to="/" />}>
             <Route index element={<CompanyHome />} />
             <Route path="postajob" element={<Postajob name={"Post a Job"} />} />
             <Route path="editjob/:id" element={<Postajob name={"Edit Job"} />} />
@@ -117,17 +129,17 @@ function App() {
           </Route>
 
           {/* Company only Routes */}
-          <Route path="/company" element={(token && (role == 'employer')) ? <CompanyLayout /> : <Navigate to="/" />}>
+          <Route path="/company" element={((role == 'employer')) ? <CompanyLayout /> : <Navigate to="/" />}>
             <Route path="CompanyProfile" element={<CompanyProfile />} />
             <Route path="transactions" element={<Transactions />} />
             <Route path="BuyCredits" element={<BuyCredits />} />
             <Route path="recruiters" element={<RecruiterList />} />
           </Route>
 
-          <Route path="/company/transactions/download-transactions" element={(token && (role == 'employer')) ? < DownloadTransactions /> : <Navigate to="/" />} />
+          <Route path="/company/transactions/download-transactions" element={(role == 'employer') ? < DownloadTransactions /> : <Navigate to="/" />} />
 
           {/* Admin Routes */}
-          <Route path="/admin" element={(token && role == 'admin') ? <AdminLayout /> : <Login />}>
+          <Route path="/admin" element={(role == 'admin') ? <AdminLayout /> : <Login />}>
             <Route index element={<AdminHome />} />
             <Route path="Jobqueuelist" element={<Jobqueuelist />} />
             <Route path="employer-queries" element={<UnAssignedQueries />} />
@@ -141,7 +153,7 @@ function App() {
           </Route>
 
           {/* SuperAdmin Routes */}
-          <Route path="/superadmin" element={(token && role == 'superadmin') ? <SuperAdminLayout /> : <SuperAdminLogin />}>
+          <Route path="/superadmin" element={(role == 'superadmin') ? <SuperAdminLayout /> : <SuperAdminLogin />}>
             <Route index element={<SuperAdminHome />} />
             <Route path="Categories1" element={<Categories1 />} />
             <Route path="AddSkills" element={<Addskills />} />
@@ -191,7 +203,7 @@ function App() {
             <Route path="/common/FreedomCampaining" element={<FreedomCampaining />} />
             <Route path="/common/Activities" element={<Activities />} />
             <Route path="/common/Jobs" element={<Jobs />} />
-            <Route path="/payment-status" element={token ? <PaymentStatus /> : <Navigate to="/" />} />
+            <Route path="/payment-status" element={role === "employer" ? <PaymentStatus /> : <Navigate to="/" />} />
             <Route path="/cities/:city" element={<City />} />
             <Route path="/forgotPassword" element={<ForgetPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
@@ -199,10 +211,10 @@ function App() {
 
             {/* User Protected Routes */}
 
-            <Route path="profile" element={(token && role == 'user') ? <UserProfile /> : <Navigate to="/" />} />
-            <Route path="viewprofile" element={(token && role == 'user') ? <ViewProfile /> : <Navigate to="/" />} />
-            <Route path="applied-jobs" element={(token && role == 'user') ? <Myappliedjobs /> : <Navigate to="/" />} />
-            <Route path="saved-jobs" element={(token && role == 'user') ? <Savedjobs /> : <Navigate to="/" />} />
+            <Route path="profile" element={(role == 'user') ? <UserProfile /> : <Navigate to="/" />} />
+            <Route path="viewprofile" element={(role == 'user') ? <ViewProfile /> : <Navigate to="/" />} />
+            <Route path="applied-jobs" element={(role == 'user') ? <Myappliedjobs /> : <Navigate to="/" />} />
+            <Route path="saved-jobs" element={(role == 'user') ? <Savedjobs /> : <Navigate to="/" />} />
           </Route>
         </Routes>
       </GeneralProvider>

@@ -11,6 +11,7 @@ import Pagination from "../../../components/Pagination"
 import { getUserID } from "../../../helpers/functions"
 import { useDispatch } from "react-redux"
 import { decrementAdminUnreadCount } from "../../../helpers/slices/mailCountSlice"
+import useCurrentUser from "../../../helpers/Hooks/useCurrentUser"
 
 
 export default function Inbox() {
@@ -22,7 +23,7 @@ export default function Inbox() {
     const [currentPage, setCurrentPage] = useState(+searchParams.get("page") || 1)
     const message = useShowMessage()
     const dispatch = useDispatch()
-    const [role] = useState(localStorage.getItem("role"))
+    const { _id, role } = useCurrentUser()
 
     const fetchMails = async (page = currentPage, search = searchTerm) => {
         setLoading(true)
@@ -39,7 +40,7 @@ export default function Inbox() {
     }
 
     const handleClick = (mail) => {
-        if (!mail.readBy.includes(getUserID())) {
+        if (!mail.readBy.includes(_id)) {
             dispatch(decrementAdminUnreadCount())
         }
         message({ path: `details/${mail._id}` })
@@ -83,7 +84,7 @@ export default function Inbox() {
                     {!loading &&
                         <table className='table text-start table-hover mt-3'>
                             <thead>
-                                <tr >
+                                <tr>
                                     <th className="text-center">Date</th>
                                     <th>From</th>
                                     <th>Subject</th>
@@ -92,7 +93,7 @@ export default function Inbox() {
                             </thead>
                             <tbody>
                                 {mails.length > 0 && mails?.map((mail, i) => (
-                                    <tr role='button' className={mail.readBy.includes(getUserID()) ? "" : "fw-bold"} onClick={() => handleClick(mail)} key={mail._id}>
+                                    <tr role='button' className={mail.readBy.includes(_id) ? "" : "fw-bold"} onClick={() => handleClick(mail)} key={mail._id}>
                                         <td className="text-center">
                                             {getDate(mail.chat[0]?.date)}
                                         </td>

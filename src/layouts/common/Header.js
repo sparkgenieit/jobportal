@@ -12,9 +12,10 @@ import CompanyRegistration from '../../pages/common/CompanyRegistration';
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import CustomToggle from '../../components/CustomToggle';
 import RecruiterLogin from '../../pages/company/Recruiter/RecruiterLogin';
+import handleLogout from '../../helpers/functions/handlelogout';
 
 function Header() {
-  const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const [isSignedIn, setIsSignedIn] = useState(localStorage.getItem('isSignedIn') || '');
   const [fullname, setFullname] = useState(localStorage.getItem('fullname') || '');
   const [role, setRole] = useState(localStorage.getItem('role') || '');
   const [isExpanded, setIsExpanded] = useState(false)
@@ -34,14 +35,6 @@ function Header() {
       navigate(`/cities/${searchCity}`)
     }
   }
-
-  const handleLogout = () => {
-    localStorage.clear()
-    setToken("")
-    setFullname("")
-    setRole("")
-    navigate('/');
-  };
 
   return <>
     <Head />
@@ -107,11 +100,11 @@ function Header() {
                 </Tooltip>
               </div>
               <div className=' col-auto d-flex me-4'>
-                {!token && <> <button type='button' onClick={() => handleShow()} className="btn btn-primary me-3 py-0" ><Link to="#" >
+                {!isSignedIn && <> <button type='button' onClick={() => handleShow()} className="btn btn-primary me-3 py-0" ><Link to="#" >
                   Login
                 </Link></button>
                 </>}
-                {token && <>
+                {isSignedIn && <>
                   <span className=' d-flex align-items-center fw-bold'> {fullname}</span>
                   <ul className='list-unstyled'>
                     <li className="dropdown dropdown-right">
@@ -215,7 +208,7 @@ function Header() {
             </button>
           </div>
 
-          {!token &&
+          {!isSignedIn &&
             <button type='button' onClick={() => handleShow()} className="btn btn-primary" >
               <span>
                 Login
@@ -223,7 +216,7 @@ function Header() {
             </button>
           }
 
-          {token &&
+          {isSignedIn &&
             <Accordion flush>
               <Accordion.Item eventKey="2">
                 <div className='d-flex align-items-center'>

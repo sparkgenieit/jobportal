@@ -5,6 +5,5 @@ export default axios.create({
   headers: {
     "Content-Type": "multipart/form-data",
     "Accept": "application/json",
-    "Authorization": `Bearer ${localStorage.getItem("token")}`
   }
 });

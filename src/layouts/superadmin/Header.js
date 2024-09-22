@@ -3,16 +3,14 @@ import './assets/vendors/mdi/css/materialdesignicons.min.css';
 import './assets/vendors/css/vendor.bundle.base.css';
 import './assets/css/style.css';
 import { Link, useNavigate } from 'react-router-dom';
+import handleLogout from '../../helpers/functions/handlelogout';
 
 function Header() {
 
   const fullname = localStorage.getItem('fullname') || ""
 
   const navigate = useNavigate();
-  const handleLogout = () => {
-    localStorage.clear()
-    navigate('/');
-  };
+
   return (
     <>
       <nav className="navbar default-layout-navbar col-lg-12 col-12 pt-2 fixed-top d-flex flex-row">

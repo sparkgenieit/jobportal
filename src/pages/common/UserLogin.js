@@ -6,9 +6,11 @@ import userService from '../../services/common/user.service';
 import { Hourglass } from "react-loader-spinner";
 import http from '../../helpers/http';
 import useShowMessage from '../../helpers/Hooks/useShowMessage';
+import { stringify } from '../../helpers/functions/textFunctions';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../helpers/slices/userSlice';
 
 function UserLogin() {
-  const message = useShowMessage()
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,6 +19,8 @@ function UserLogin() {
   const [verifyStatus, setVerifyStatus] = useState(false)
   const [verifybutton, setVerifybutton] = useState(false)
   const [loader, setLoader] = useState(false);
+  const message = useShowMessage()
+  const dispatch = useDispatch()
 
   const validateEmailAddress = (emailAddress) => {
     var atSymbol = emailAddress.indexOf("@");
@@ -92,19 +96,18 @@ function UserLogin() {
 
       userService.login({ email, password })
         .then(response => {
-          const token = response.data.token;
-
+          dispatch(setUser(response.data))
+          setLoader(false)
+          localStorage.setItem("isSignedIn", stringify(true))
           localStorage.setItem('user_id', response.data._id);
-          // Store the token securely (e.g., in localStorage or HTTP-only cookies)
-          localStorage.setItem('token', token);
           localStorage.setItem('fullname', response.data.first_name + " " + response.data.last_name)
           localStorage.setItem('role', response.data.role)
           if (response.data.role === 'employer') {
             localStorage.setItem('credits', response.data.credits);
             localStorage.setItem('usedFreeCredit', response.data.usedFreeCredit);
-            window.location.href = "/company"
+            message({ path: "/company" })
           } else {
-            window.location.reload();
+            message({ path: `/${response.data.role}` })
           }
 
         })

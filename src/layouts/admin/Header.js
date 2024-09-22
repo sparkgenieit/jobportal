@@ -3,15 +3,11 @@ import './assets/css/style.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-
+import handleLogout from "../../helpers/functions/handlelogout"
 
 function Heder() {
-  const navigate = useNavigate()
   const [fullname, setFullname] = useState(localStorage.getItem('fullname') || '');
-  const handleLogout = () => {
-    localStorage.clear()
-    navigate('/');
-  };
+
   return (
     <>
       <nav class="navbar default-layout-navbar col-lg-12 col-12 pt-2 fixed-top d-flex flex-row">

@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import http from '../../helpers/http';
 import { Link, useNavigate } from 'react-router-dom';
 import { timeAgoMinutes } from '../../helpers/functions';
+import handleLogout from '../../helpers/functions/handlelogout';
 
 function Header() {
-  const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [fullname, setFullname] = useState(localStorage.getItem('fullname') || '');
   const [role, setRole] = useState(localStorage.getItem('role') || '');
   const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
@@ -24,12 +24,6 @@ function Header() {
     navigate(`/company/jobs`);
   }
 
-  const handleLogout = () => {
-    setToken('');
-    localStorage.removeItem('token'); // Remove token from localStorage
-    localStorage.removeItem('role');
-    navigate('/')
-  };
   return (
     <>
       <nav className="navbar default-layout-navbar col-lg-12 col-12 pt-2 fixed-top d-flex flex-row">

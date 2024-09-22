@@ -113,14 +113,8 @@ function Login() {
 
       http.post("/users/login", data)
         .then((response) => {
-          console.log(response.data);
-          localStorage.setItem('token', response.data.token);
-          const token = response.data.token;
           localStorage.setItem('fullname', response.data.first_name + " " + response.data.last_name)
           localStorage.setItem('user_id', response.data._id);
-          // Store the token securely (e.g., in localStorage or HTTP-only cookies)
-          localStorage.setItem('token', token);
-
           localStorage.setItem('role', response.data.role)
           setTimeout(() => {
             // Inside the handleLogin function

@@ -14,10 +14,11 @@ export const mailCountSlice = createSlice({
             state.EmployerUnreadCount = action.payload
         },
         decrementAdminUnreadCount: (state) => {
-            state.AdminUnreadCount = state.AdminUnreadCount - 1
+            if (state.AdminUnreadCount > 0) state.AdminUnreadCount = state.AdminUnreadCount - 1
         },
         decrementEmployerUnreadCount: (state) => {
-            state.EmployerUnreadCount = state.EmployerUnreadCount - 1
+            if (state.EmployerUnreadCount > 0) state.EmployerUnreadCount = state.EmployerUnreadCount - 1
+
         },
     },
 })

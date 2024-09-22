@@ -1,7 +1,10 @@
 import { useState } from "react"
-import { validateEmailAddress, validateIsNotEmpty } from "../../../helpers/functions/textFunctions"
+import { stringify, validateEmailAddress, validateIsNotEmpty } from "../../../helpers/functions/textFunctions"
 import { Hourglass } from "react-loader-spinner"
 import http from "../../../helpers/http"
+import { useDispatch } from "react-redux"
+import { setUser } from "../../../helpers/slices/userSlice"
+import useShowMessage from "../../../helpers/Hooks/useShowMessage"
 
 export default function RecruiterLogin() {
     const [email, setEmail] = useState("")
@@ -9,7 +12,8 @@ export default function RecruiterLogin() {
     const [role, setRole] = useState("")
     const [error, setError] = useState({})
     const [loader, setLoader] = useState(false)
-
+    const dispatch = useDispatch()
+    const message = useShowMessage()
 
     const Login = async (e) => {
         e.preventDefault();
@@ -34,7 +38,7 @@ export default function RecruiterLogin() {
             let url = role === "recruiter" ? "/users/login/recruiter" : "/users/login"
             let data = { email, password }
             const response = await http.post(url, data)
-            localStorage.setItem("token", response.data.token)
+            dispatch(setUser(response.data))
             if (role === "recruiter") {
                 localStorage.setItem("user_id", response.data.companyId)
                 localStorage.setItem("role", "recruiter")
@@ -44,7 +48,8 @@ export default function RecruiterLogin() {
                 localStorage.setItem("role", "employer")
                 localStorage.setItem('fullname', response.data.first_name + " " + response.data.last_name)
             }
-            window.location.href = `/company`
+            localStorage.setItem("isSignedIn", stringify(true))
+            message({ path: `/company` })
         } catch (e) {
             setError({ ...error, loginError: e.response.data.message || e.message })
         } finally {
