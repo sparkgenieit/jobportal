@@ -106,6 +106,8 @@ function UserLogin() {
             localStorage.setItem('credits', response.data.credits);
             localStorage.setItem('usedFreeCredit', response.data.usedFreeCredit);
             message({ path: "/company" })
+          } else if (response.data.role === 'user') {
+            window.location.reload()
           } else {
             message({ path: `/${response.data.role}` })
           }

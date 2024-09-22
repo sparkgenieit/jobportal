@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import 'aos/dist/aos.css';
@@ -104,12 +104,11 @@ function App() {
   const { role } = useCurrentUser()
   const dispatch = useDispatch()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (localStorage.getItem("isSignedIn")) {
       dispatch(fetchUser())
     }
   }, [])
-
 
   return (
     <BrowserRouter>
