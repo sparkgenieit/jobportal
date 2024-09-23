@@ -5,9 +5,9 @@ import Modal from "react-bootstrap/Modal"
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 
 import http from "../../../helpers/http"
-import { getUserID } from "../../../helpers/functions"
 import RecruiterForm from "./RecruiterForm";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
+import useCurrentUser from "../../../helpers/Hooks/useCurrentUser";
 
 const initialValues = {
     name: "",
@@ -21,10 +21,11 @@ export default function RecruiterList() {
     const [errors, setErrors,] = useState({})
     const [sending, setSending] = useState(false)
     const message = useShowMessage()
+    const user = useCurrentUser()
 
     const fetchRecruiters = async () => {
         try {
-            const response = await http.get(`/companies/recruiters/${getUserID()}`)
+            const response = await http.get(`/companies/recruiters`)
             setRecruiters(response.data)
         } catch (error) {
             message({
@@ -48,7 +49,6 @@ export default function RecruiterList() {
         } finally {
             setSending(false)
         }
-
     }
 
     const AddRecruiter = async (recruiterData) => {
@@ -56,7 +56,7 @@ export default function RecruiterList() {
             name: recruiterData.name,
             email: recruiterData.email,
             password: recruiterData.password,
-            companyId: getUserID()
+            companyId: user._id
         }
         try {
             setSending(true)

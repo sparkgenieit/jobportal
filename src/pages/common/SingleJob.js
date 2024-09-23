@@ -28,7 +28,8 @@ function SingleJob() {
     const [jobview, setJobview] = useState()
     const { setLocationPopup, setInfo } = useContext(JobsContext);
     const params = useParams();
-    const { _id: userId, role } = useCurrentUser;
+    const role = localStorage.getItem('role')
+    const userId = getUserID()
     const [loading, setLoading] = useState(false)
     const [showReport, setShowReport] = useState(false)
     const [reportReason, setReportReason] = useState("")

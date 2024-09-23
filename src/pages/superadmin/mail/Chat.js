@@ -7,11 +7,10 @@ import { useDispatch } from "react-redux"
 
 import useShowMessage from "../../../helpers/Hooks/useShowMessage"
 import MdxEditor from "../../../components/MdxEditor"
-import { getUserID, timeAgoMinutes } from "../../../helpers/functions"
+import { timeAgoMinutes } from "../../../helpers/functions"
 import { markdownToText, validateIsNotEmpty } from "../../../helpers/functions/textFunctions"
 import { getDate } from "../../../helpers/functions/dateFunctions"
 import http from "../../../helpers/http"
-import { decrementAdminUnreadCount } from "../../../helpers/slices/mailCountSlice"
 
 export default function Chat() {
     const params = useParams()
@@ -19,7 +18,6 @@ export default function Chat() {
     const [addMessage, setAddMessage] = useState({})
     const [toggleState, setToggleState] = useState({})
     const message = useShowMessage()
-    const dispatch = useDispatch()
 
     function reverseArray(arr) {
         const reverseArray = arr.toReversed()
