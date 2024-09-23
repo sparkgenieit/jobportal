@@ -6,8 +6,8 @@ import { useDispatch } from 'react-redux'
 import Header from './Header';
 import Footer from './Footer';
 import Sidebar from './Sidebar';
-import { getCredits } from '../../helpers/functions';
 import { fetchEmployerUnreadCount } from '../../helpers/slices/mailCountSlice';
+
 
 
 export default function CompanyLayout() {
@@ -16,7 +16,6 @@ export default function CompanyLayout() {
 
     useEffect(() => {
         dispatch(fetchEmployerUnreadCount())
-        getCredits()
     }, [])
     return (
         <>

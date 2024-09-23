@@ -9,6 +9,8 @@ import { itemsPerPage } from "../../helpers/constants"
 import Pagination from "../../components/Pagination"
 import Loader from "../../components/Loader"
 import useShowMessage from "../../helpers/Hooks/useShowMessage"
+import { useDispatch } from "react-redux"
+import { fetchEmployerUnreadCount } from "../../helpers/slices/mailCountSlice"
 
 export default function UnAssignedQueries() {
     const [queries, setQueries] = useState([])
@@ -18,6 +20,7 @@ export default function UnAssignedQueries() {
     const [assigning, setAssigning] = useState(false)
     const [searchParams, setSearchParams] = useSearchParams()
     const [currentPage, setCurrentPage] = useState(+searchParams.get("page") || 1)
+    const dispatch = useDispatch()
 
     //Custom Hook
     const message = useShowMessage()
@@ -59,6 +62,7 @@ export default function UnAssignedQueries() {
                 message: "Assigned Successfully",
                 path: "/admin/inbox"
             })
+            dispatch(fetchEmployerUnreadCount())
         } catch (error) {
             message({
                 status: "Error",

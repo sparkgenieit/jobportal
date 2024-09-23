@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { RotatingLines } from 'react-loader-spinner'
 import { useNavigate, useSearchParams } from "react-router-dom";
 import http from "../../helpers/http";
-import { getCredits } from "../../helpers/functions";
 import Loader from "../../components/Loader";
+import { useDispatch } from "react-redux";
+import { fetchUser } from "../../helpers/slices/userSlice";
 
 export default function PaymentStatus() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -14,6 +14,7 @@ export default function PaymentStatus() {
     const [loading, setLoading] = useState(true)
     const session_id = searchParams.get('session_id')
     const success = searchParams.get('success')
+    const dispatch = useDispatch()
 
     useEffect(() => {
         fetchPaymentStatus();
@@ -29,7 +30,7 @@ export default function PaymentStatus() {
                     setCredits(res.data.metadata.credits);
                     setLoading(false)
                 }
-                await getCredits()
+                dispatch(fetchUser())
             } catch (error) {
                 setLoading(false)
                 setStatus("Unable to verify the payment status")

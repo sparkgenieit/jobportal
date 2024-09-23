@@ -5,8 +5,10 @@ import { CitiesList } from '../../../helpers/constants';
 import MdxEditor from '../../../components/MdxEditor';
 import Toaster from '../../../components/Toaster';
 import { editJob, fetchCategories, fetchCompanyInfo, fetchJobForEditing, postJob } from './postAndEditJob.service';
-import { getCloseDate, getCredits } from '../../../helpers/functions';
+import { getCloseDate } from '../../../helpers/functions';
 import { GeneralContext } from '../../../helpers/Context';
+import { fetchUser } from '../../../helpers/slices/userSlice';
+import { useDispatch } from 'react-redux';
 
 const initialValues = {
   company: "",
@@ -39,6 +41,7 @@ function Postajob({ name }) {
   const [searchParams] = useSearchParams()
   const { currentJob, setCurrentJob, isSidebarOpen } = useContext(GeneralContext)
   const cloneJobId = searchParams.get("c")
+  const dispatch = useDispatch()
 
   const [training, setTraining] = useState({
     status: false,
@@ -182,8 +185,7 @@ function Postajob({ name }) {
       if (name === "Edit Job") {
         await editJob(jobData._id, data, setMsg)
       }
-      await getCredits() //To Update Credits
-      localStorage.setItem("usedFreeCredit", "true")
+      dispatch(fetchUser()) //To Update Credits
 
       setTimeout(() => {
         navigate(`/company/jobs`)

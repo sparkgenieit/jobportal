@@ -18,16 +18,17 @@ import Tooltip from '../../components/Tooltip';
 import { JobsContext } from '../../helpers/Context';
 import useShowMessage from '../../helpers/Hooks/useShowMessage';
 import { markdownToText, parseString } from '../../helpers/functions/textFunctions';
-import { BsCalendar3 } from "react-icons/bs";
+import { BsBriefcase, BsCalendar3 } from "react-icons/bs";
+import InfoPopup from "../../components/InfoPopup";
+import useCurrentUser from "../../helpers/Hooks/useCurrentUser";
 
 function SingleJob() {
     const [isJobApplied, setIsJobApplied] = useState(false)
     const [isJobSaved, setIsJobSaved] = useState(false)
     const [jobview, setJobview] = useState()
-    const role = localStorage.getItem('role');
-    const { setLocationPopup } = useContext(JobsContext);
+    const { setLocationPopup, setInfo } = useContext(JobsContext);
     const params = useParams();
-    const userId = getUserID();
+    const { _id: userId, role } = useCurrentUser;
     const [loading, setLoading] = useState(false)
     const [showReport, setShowReport] = useState(false)
     const [reportReason, setReportReason] = useState("")
@@ -74,7 +75,6 @@ function SingleJob() {
                 console.log("error ocuured while increasing views")
             }
         }
-
     }
 
     const getUserJobStatus = () => {
@@ -94,7 +94,6 @@ function SingleJob() {
                 })
         }
     }
-
 
     const handleReportReason = (e) => {
         setReportReason(e.target.value)
@@ -216,7 +215,31 @@ function SingleJob() {
                         <div className=' mb-3 mx-4 d-flex justify-content-between '>
                             <div style={{ padding: "0" }} className='d-flex align-items-center'>
                                 {jobview.companyLogo && jobview.companyLogo.length > 0 && <img style={{ width: "9vw", height: "12vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
-                                <div className='col fw-bold h3' style={{ marginLeft: "30px" }}>{jobview.company}</div>
+                                <div className='col fw-bold h3' style={{ marginLeft: "30px" }}>
+                                    {jobview.info?.length > 0 ?
+                                        <>
+                                            <Tooltip tooltipText={"View Company Info"} size={12}>
+                                                <span
+                                                    className='text-decoration-underline text-primary'
+                                                    onClick={(e) => {
+                                                        setInfo({
+                                                            show: true,
+                                                            info: jobview.info,
+                                                            job: jobview
+                                                        });
+                                                        e.stopPropagation();
+                                                    }}
+                                                >
+                                                    {jobview.company}
+                                                </span>
+                                            </Tooltip>
+                                        </>
+                                        :
+                                        <span className=''>
+                                            {jobview.company}
+                                        </span>
+                                    }
+                                </div>
                             </div>
                             <div>
 
@@ -283,86 +306,79 @@ function SingleJob() {
                             </div>
 
                             <div className='col-md-4 col-12'>
-                                <div>
-                                    <span><FaDollarSign size="16px" /></span>
-                                    <span className='ps-2'>
+                                <div className="d-flex gap-3" >
+                                    <span><FaDollarSign fontSize={16} /></span>
+                                    <span>
                                         {jobview.rateperhour} per hour
                                     </span>
                                 </div>
-                                <div>
+                                <div className='d-flex gap-3'>
+                                    <span><BsBriefcase fontSize={16} /></span>
+                                    <span className='text-capitalize fw-bold'>
+                                        {jobview.jobtype.toLowerCase()}
+                                    </span>
+                                </div>
+                                <div className="d-flex gap-3">
+                                    <span><BsCalendar3 fontSize={16} /></span>
                                     <span>
-                                        <span><BsCalendar3 size="16px" /></span>
-                                        <span className='ps-2'>
-                                            {jobview.duration}
-                                        </span>
+                                        {jobview.duration}
                                     </span>
                                 </div>
-                                <div>
+                                <div className="d-flex gap-3" >
+                                    <span><FaRegClock fontSize={16} /></span>
                                     <span>
-                                        <span><FaRegClock fontSize={16} /></span>
-                                        <span className='ps-1'>
-                                            {jobview.weeklyperhour} hours per week
-                                        </span>
-                                    </span>
-                                </div>
-                                <div>
-                                    <span>
-                                        <span>Type:</span>
-                                        <span className='ps-1'>
-                                            {jobview.jobtype}
-                                        </span>
+                                        {jobview.weeklyperhour} hours per week
                                     </span>
                                 </div>
 
-                                <div>
-                                    {jobview.numberofvacancies > 1 && <>
-                                        <span><MdOutlinePeopleOutline size="18px" /></span>
-                                        <span className='ps-2'>{jobview.numberofvacancies} Vacancies </span>
-                                    </>}
-                                </div>
-                                <div className=''>
-                                    {jobview.training.includes("true") && <span>
-                                        Training provided
-                                        <span className='ps-1'>
-                                            <FaCheckSquare size="16px" />
+                                {jobview.numberofvacancies > 1 &&
+                                    <div className="d-flex gap-3">
+                                        <span><MdOutlinePeopleOutline fontSize={16} /></span>
+                                        <span>{jobview.numberofvacancies} Vacancies </span>
+                                    </div>
+                                }
+
+                                {jobview.training.includes("true") &&
+                                    <div className='d-flex gap-3'>
+                                        <span>
+                                            <FaCheckSquare fontSize={16} />
                                         </span>
-                                    </span>
-                                    }
-                                </div>
-                                <div>
-                                    {jobview.benifits && getTrueKeys(JSON.parse(jobview.benifits)).length > 0 &&
-                                        <div>
-                                            <div className='d-flex'>Benefits :
-                                                {getTrueKeys(JSON.parse(jobview.benifits)).includes("Accommodation") &&
-                                                    <Tooltip tooltipText={"Accommodation"}>
-                                                        <span className='px-1'>
-                                                            <IoHomeOutline size="18px" />
-                                                        </span>
-                                                    </Tooltip>
-                                                }
+                                        <span>
+                                            Training provided
+                                        </span>
+                                    </div>
+                                }
 
-                                                {getTrueKeys(JSON.parse(jobview.benifits)).includes("Food") &&
-                                                    <Tooltip tooltipText={"Food"}>
-                                                        <span className='px-1'>
-                                                            <GiHotMeal size="18px" />
-                                                        </span>
-                                                    </Tooltip>
-                                                }
 
-                                                {getTrueKeys(JSON.parse(jobview.benifits)).includes("Transport") &&
-                                                    <Tooltip tooltipText={"Transport"}>
-                                                        <span className='px-1'>
-                                                            <PiCarProfileThin size="22px" />
-                                                        </span>
-                                                    </Tooltip>
-                                                }
+                                {jobview.benifits && getTrueKeys(JSON.parse(jobview.benifits)).length > 0 &&
 
-                                            </div>
-                                            {(JSON.parse(jobview.benifits)).Others && <div>{(JSON.parse(jobview.benifits)).OthersText}</div>}
-                                        </div>
-                                    }
-                                </div>
+                                    <div className='d-flex gap-2'>
+                                        {getTrueKeys(JSON.parse(jobview.benifits)).includes("Accommodation") &&
+                                            <Tooltip tooltipText={"Accommodation"}>
+                                                <span>
+                                                    <IoHomeOutline fontSize={16} />
+                                                </span>
+                                            </Tooltip>
+                                        }
 
+                                        {getTrueKeys(JSON.parse(jobview.benifits)).includes("Food") &&
+                                            <Tooltip tooltipText={"Food"}>
+                                                <span >
+                                                    <GiHotMeal fontSize={16} />
+                                                </span>
+                                            </Tooltip>
+                                        }
+
+                                        {getTrueKeys(JSON.parse(jobview.benifits)).includes("Transport") &&
+                                            <Tooltip tooltipText={"Transport"}>
+                                                <span>
+                                                    <PiCarProfileThin fontSize={16} />
+                                                </span>
+                                            </Tooltip>
+                                        }
+                                        <span>Benefits</span>
+                                    </div>
+                                }
                             </div>
                         </div>
 
@@ -424,8 +440,8 @@ function SingleJob() {
             }
             {!loading && !jobview || jobview.status !== "approved" && <h3>Job Not Found</h3>}
 
-
             <LocationPopup />
+            <InfoPopup />
 
             <Modal size="md" show={showReport} onHide={handleClose} centered>
                 <Modal.Body>

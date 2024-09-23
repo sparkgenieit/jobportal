@@ -14,23 +14,23 @@ import { IoMdMailOpen } from "react-icons/io";
 import { GeneralContext } from '../../helpers/Context';
 import Tooltip from '../../components/Tooltip';
 import { useSelector } from 'react-redux';
+import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 
 function Sidebar() {
   const { isSidebarOpen, setIsSidebarOpen } = useContext(GeneralContext)
   const [show, setShow] = useState(false);
-  const [role] = useState(localStorage.getItem("role"))
   const navigate = useNavigate()
-
+  const user = useCurrentUser()
   const count = useSelector((state) => state.mailCount.EmployerUnreadCount)
 
   let sidebarClass = isSidebarOpen ? { marginLeft: "0" } : { marginLeft: "-230px" };
 
   const handleModal = () => {
 
-    if (parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'false') {
+    if (user?.credits === 0 && !user?.usedFreeCredit) {
       setShow(true);
     }
-    else if (parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'true') {
+    else if (user?.credits === 0 && user?.usedFreeCredit) {
       setShow(true);
     }
     else {
@@ -68,7 +68,7 @@ function Sidebar() {
 
 
             {
-              role === "employer" &&
+              user?.role === "employer" &&
               <li className="nav-item">
                 <Link className="nav-link" to="/company/CompanyProfile">
                   <div className='d-flex justify-content-between w-100'>
@@ -103,7 +103,7 @@ function Sidebar() {
               </Link>
             </li>
 
-            {role === "employer" ? <>
+            {user?.role === "employer" ? <>
               <li className="nav-item">
                 <Link className="nav-link" to="/company/recruiters">
                   <div className='d-flex justify-content-between w-100'>
@@ -124,18 +124,18 @@ function Sidebar() {
                         <BsCreditCard size={"20"} />
                       </span>
                     </div>
-                    <div className="text-secondary small">Available Credits: {localStorage.getItem('credits')}</div>
+                    <div className="text-secondary small">Available Credits: {user?.credits ? user.credits : 0}</div>
 
                   </div>
                 </Link>
               </li>
             </> :
               <li className='nav-item'>
-                <div className="text-secondary small">Available Credits: {localStorage.getItem('credits')}</div>
+                <div className="text-secondary small">Available Credits: {user?.companyId?.credits ? user?.companyId?.credits : 0}</div>
               </li>
             }
 
-            {role === "employer" &&
+            {user?.role === "employer" &&
               <li className="nav-item">
                 <Link className="nav-link" to="/company/transactions">
                   <div className='d-flex justify-content-between align-items-center w-100'>
@@ -169,7 +169,7 @@ function Sidebar() {
 
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Body>
-          {parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'false' &&
+          {user?.credits === 0 && !user?.usedFreeCredit &&
             <>
               <div className='d-flex flex-column align-items-center gap-2 p-2'>
                 <h3>POST A JOB FOR FREE</h3>
@@ -190,22 +190,23 @@ function Sidebar() {
               </div>
             </>}
 
-          {parseInt(localStorage.getItem('credits')) === 0 && localStorage.getItem('usedFreeCredit') === 'true' && <><div className="form-row ml-5">
-            <div className="form-group">
+          {user?.credits === 0 && user?.usedFreeCredit &&
+            <><div className="form-row ml-5">
               <div className="form-group">
-                <div className="form-check ml-2">
-                  <label className="form-check-label">
-                    <span>Not Enough Credits</span>
-                  </label>
+                <div className="form-group">
+                  <div className="form-check ml-2">
+                    <label className="form-check-label">
+                      <span>Not Enough Credits</span>
+                    </label>
+                  </div>
                 </div>
+
               </div>
-
             </div>
-          </div>
 
-            <div className="d-flex justify-content-center">
-              <button type="button" onClick={() => { handleClose(); navigate('/company/BuyCredits') }} className="btn btn-danger rounded-3">Buy Credits</button>
-            </div></>}
+              <div className="d-flex justify-content-center">
+                <button type="button" onClick={() => { handleClose(); navigate('/company/BuyCredits') }} className="btn btn-danger rounded-3">Buy Credits</button>
+              </div></>}
         </Modal.Body>
       </Modal >
     </>

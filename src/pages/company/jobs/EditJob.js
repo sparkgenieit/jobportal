@@ -4,7 +4,6 @@ import companyService from '../../../services/common/company.service';
 import http from '../../../helpers/http';
 import { CitiesList } from '../../../helpers/constants';
 import MdxEditor from '../../../components/MdxEditor';
-import { getCredits } from '../../../helpers/functions';
 
 function EditJob() {
     const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
@@ -339,7 +338,6 @@ function EditJob() {
                             class: "alert alert-success",
                             Msg: "Updated Successfully"
                         })
-                        await getCredits()
 
                         setTimeout(() => {
                             navigate('/company/jobs', { replace: true });
