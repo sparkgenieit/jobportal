@@ -1,6 +1,6 @@
 import './Header.css';
 import './assets/css/style.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 import handleLogout from "../../helpers/functions/handlelogout"
