@@ -206,9 +206,9 @@ export default function Card({ job }) {
 
                             {job.numberofvacancies > 1 &&
                                 <Tooltip tooltipText={"Vacancies"}>
-                                    <div className='d-flex gap-2'>
+                                    <div className='d-flex gap-1'>
                                         <span>
-                                            <MdOutlinePeopleOutline fontSize={13} />
+                                            <MdOutlinePeopleOutline fontSize={17} />
                                         </span>
                                         <span>
                                             {job.numberofvacancies} Vacancies
@@ -250,7 +250,7 @@ export default function Card({ job }) {
                                         {benefits.includes("Transport") &&
                                             <Tooltip tooltipText={"Transport"}>
                                                 <span>
-                                                    <PiCarProfileThin fontSize={13} />
+                                                    <PiCarProfileThin fontSize={17} />
                                                 </span>
                                             </Tooltip>
                                         }
