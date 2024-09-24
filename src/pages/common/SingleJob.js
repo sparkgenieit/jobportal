@@ -307,25 +307,25 @@ function SingleJob() {
                             </div>
 
                             <div className='col-md-4 col-12'>
-                                <div className="d-flex gap-3" >
+                                <div className="d-flex gap-2" >
                                     <span><FaDollarSign fontSize={16} /></span>
                                     <span>
                                         {jobview.rateperhour} per hour
                                     </span>
                                 </div>
-                                <div className='d-flex gap-3'>
+                                <div className='d-flex gap-2'>
                                     <span><BsBriefcase fontSize={16} /></span>
                                     <span>
                                         {jobview.jobtype}
                                     </span>
                                 </div>
-                                <div className="d-flex gap-3">
+                                <div className="d-flex gap-2">
                                     <span><BsCalendar3 fontSize={16} /></span>
                                     <span>
                                         {jobview.duration}
                                     </span>
                                 </div>
-                                <div className="d-flex gap-3" >
+                                <div className="d-flex gap-2" >
                                     <span><FaRegClock fontSize={16} /></span>
                                     <span>
                                         {jobview.weeklyperhour} hours per week
@@ -333,14 +333,14 @@ function SingleJob() {
                                 </div>
 
                                 {jobview.numberofvacancies > 1 &&
-                                    <div className="d-flex gap-3">
+                                    <div className="d-flex gap-2">
                                         <span><MdOutlinePeopleOutline fontSize={16} /></span>
                                         <span>{jobview.numberofvacancies} Vacancies </span>
                                     </div>
                                 }
 
                                 {jobview.training.includes("true") &&
-                                    <div className='d-flex gap-3'>
+                                    <div className='d-flex gap-2'>
                                         <span>
                                             <FaCheckSquare fontSize={16} />
                                         </span>
