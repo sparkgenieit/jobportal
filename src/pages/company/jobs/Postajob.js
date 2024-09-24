@@ -261,8 +261,8 @@ function Postajob({ name }) {
                         <div className="col-sm-8">
                           <select className='form-select' name='jobtype' value={jobData.jobtype} onChange={handleForm}>
                             <option value={" "}></option>
-                            <option value={"FullTime"}>FullTime</option>
-                            <option value={"PartTime"}>PartTime</option>
+                            <option value={"Full time"}>Full time</option>
+                            <option value={"Part time"}>Part time</option>
                             <option value={"Freelance"}>Freelance</option>
                             <option value={"Casual"}>Casual</option>
                             <option value={"Contract"}>Contract</option>

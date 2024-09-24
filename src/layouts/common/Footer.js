@@ -12,14 +12,14 @@ function Footer() {
   }, [])
 
   return <>
-    <footer id="footer" class="footer" style={{ 'padding': '0px' }}>
+    <footer id="footer" className="footer" style={{ 'padding': '0px' }}>
 
-      <div class="footer-content">
-        <div class="container">
-          <div class="row">
+      <div className="footer-content">
+        <div className="container">
+          <div className="row">
 
-            <div class="col-lg-3 col-md-6">
-              <div class="footer-info">
+            <div className="col-lg-3 col-md-6">
+              <div className="footer-info">
                 <h3>Job Board</h3>
                 <p>
                   A108 Adam Street <br />
@@ -32,29 +32,29 @@ function Footer() {
               </div>
             </div>
 
-            <div class="col-lg-2 col-md-6 footer-links">
+            <div className="col-lg-2 col-md-6 footer-links">
               <h4>Useful Links</h4>
               <ul>
-                <li><i class="bi bi-chevron-right"></i> <a href="/">Home</a></li>
-                <li><i class="bi bi-chevron-right"></i> <a href="/aboutus">About us</a></li>
-                <li><i class="bi bi-chevron-right"></i> <a href="/services">Services</a></li>
-                <li><i class="bi bi-chevron-right"></i> <a href="/termsofservice">Terms of service</a></li>
-                <li><i class="bi bi-chevron-right"></i> <a href="/privacypolicy">Privacy policy</a></li>
+                <li><i className="bi bi-chevron-right"></i> <a href="/">Home</a></li>
+                <li><i className="bi bi-chevron-right"></i> <a href="/aboutus">About us</a></li>
+                <li><i className="bi bi-chevron-right"></i> <a href="/services">Services</a></li>
+                <li><i className="bi bi-chevron-right"></i> <a href="/termsofservice">Terms of service</a></li>
+                <li><i className="bi bi-chevron-right"></i> <a href="/privacypolicy">Privacy policy</a></li>
               </ul>
             </div>
 
-            <div class="col-lg-3 col-md-6 footer-links">
+            <div className="col-lg-3 col-md-6 footer-links">
               <h4>Our Services</h4>
               <ul>
-                <li><i class="bi bi-chevron-right"></i> <a href="/common/WebDesign">Web Design</a></li>
-                <li><i class="bi bi-chevron-right"></i> <a href="/common/WebDevelopment">Web Development</a></li>
-                <li><i class="bi bi-chevron-right"></i> <a href="/common/ProductManagement">Product Management</a></li>
-                <li><i class="bi bi-chevron-right"></i> <a href="/common/Marketing">Marketing</a></li>
-                <li><i class="bi bi-chevron-right"></i> <a href="/common/GraphicDesign">Graphic Design</a></li>
+                <li><i className="bi bi-chevron-right"></i> <a href="/common/WebDesign">Web Design</a></li>
+                <li><i className="bi bi-chevron-right"></i> <a href="/common/WebDevelopment">Web Development</a></li>
+                <li><i className="bi bi-chevron-right"></i> <a href="/common/ProductManagement">Product Management</a></li>
+                <li><i className="bi bi-chevron-right"></i> <a href="/common/Marketing">Marketing</a></li>
+                <li><i className="bi bi-chevron-right"></i> <a href="/common/GraphicDesign">Graphic Design</a></li>
               </ul>
             </div>
 
-            <div class="col-lg-4 col-md-6 footer-newsletter">
+            <div className="col-lg-4 col-md-6 footer-newsletter">
               <h4>Our Newsletter</h4>
               <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
               <form action="" method="post">
@@ -70,26 +70,26 @@ function Footer() {
       </div>
 
 
-      <div class="footer-legal text-center">
+      <div className="footer-legal text-center">
         <div
-          class="container d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between align-items-center">
+          className="container d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between align-items-center">
 
-          <div class="d-flex flex-column align-items-center align-items-lg-start">
-            <div class="copyright">
+          <div className="d-flex flex-column align-items-center align-items-lg-start">
+            <div className="copyright">
               &copy; Copyright <strong><span>Job Board</span></strong>. All Rights Reserved
             </div>
-            <div class="credits">
+            <div className="credits">
 
               Designed by <a href="https://sparkgenieit.com/">Spark Genie IT Solutions</a>
             </div>
           </div>
 
-          <div class="social-links order-first order-lg-last mb-3 mb-lg-0">
-            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="google-plus"><i class="bi bi-skype"></i></a>
-            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+          <div className="social-links order-first order-lg-last mb-3 mb-lg-0">
+            <a href="#" className="twitter"><i className="bi bi-twitter"></i></a>
+            <a href="#" className="facebook"><i className="bi bi-facebook"></i></a>
+            <a href="#" className="instagram"><i className="bi bi-instagram"></i></a>
+            <a href="#" className="google-plus"><i className="bi bi-skype"></i></a>
+            <a href="#" className="linkedin"><i className="bi bi-linkedin"></i></a>
           </div>
 
         </div>
@@ -98,8 +98,8 @@ function Footer() {
     </footer>
 
 
-    <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i
-      class="bi bi-arrow-up-short"></i></a>
+    <a href="#" className="scroll-top d-flex align-items-center justify-content-center"><i
+      className="bi bi-arrow-up-short"></i></a>
 
     {loader && <div id="preloader"></div>}
 

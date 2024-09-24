@@ -315,8 +315,8 @@ function SingleJob() {
                                 </div>
                                 <div className='d-flex gap-3'>
                                     <span><BsBriefcase fontSize={16} /></span>
-                                    <span className='text-capitalize fw-bold'>
-                                        {jobview.jobtype.toLowerCase()}
+                                    <span>
+                                        {jobview.jobtype}
                                     </span>
                                 </div>
                                 <div className="d-flex gap-3">
@@ -385,7 +385,7 @@ function SingleJob() {
 
                         <div className='row border border-success rounded  m-4 p-3'>
                             <div>
-                                <p>{markdownToText(jobview.description)}</p>
+                                <div>{markdownToText(jobview.description)}</div>
 
                                 {parseString(jobview.employerquestions).some(question => question.value !== "") &&
                                     <p className='fw-bold'>Employer Questions</p>}

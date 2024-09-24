@@ -137,7 +137,7 @@ export default function Card({ job }) {
                     </div>
 
                     <div className='h-100 flex-grow-1 d-flex  flex-column justify-content-between'>
-                        <p className='description text-secondary mt-2  flex-grow-1  small'> {markdownToPlainText(job.description)}</p>
+                        <p className='description text-secondary mt-2  flex-grow-1  small'> {markdownToPlainText(job.description, 250)}</p>
 
                         <div className='small d-flex align-items-center '>
                             <span className='pe-3'>{date} ({timeAgo(date)})</span>
@@ -167,7 +167,7 @@ export default function Card({ job }) {
                         </div>
                         <div className='flex-grow-1 h-100 d-flex flex-column justify-content-end'>
                             <Tooltip tooltipText={"Rate per Hour"}>
-                                <div className='d-flex  gap-3'>
+                                <div className='d-flex  gap-2'>
                                     <span><FaDollarSign fontSize={13} /></span>
                                     <span className=''>
                                         {job.rateperhour} per hour
@@ -176,16 +176,16 @@ export default function Card({ job }) {
                             </Tooltip>
 
 
-                            <div className='d-flex  gap-3'>
+                            <div className='d-flex  gap-2'>
                                 <span><BsBriefcase fontSize={13} /></span>
-                                <span className='text-capitalize fw-bold'>
-                                    {job.jobtype.toLowerCase()}
+                                <span>
+                                    {job.jobtype}
                                 </span>
                             </div>
 
 
                             <Tooltip tooltipText={"Duration"}>
-                                <div className='d-flex  gap-3'>
+                                <div className='d-flex  gap-2'>
                                     <span><BsCalendar3 fontSize={13} /></span>
                                     <span className=''>
                                         {job.duration}
@@ -195,7 +195,7 @@ export default function Card({ job }) {
 
                             {job.weeklyperhour > 0 &&
                                 <Tooltip tooltipText={"Weekly Hours"}>
-                                    <div className='d-flex  gap-3'>
+                                    <div className='d-flex  gap-2'>
                                         <span><FaRegClock fontSize={13} /></span>
                                         <span className=''>
                                             {job.weeklyperhour} hours per week
@@ -206,7 +206,7 @@ export default function Card({ job }) {
 
                             {job.numberofvacancies > 1 &&
                                 <Tooltip tooltipText={"Vacancies"}>
-                                    <div className='d-flex gap-3'>
+                                    <div className='d-flex gap-2'>
                                         <span>
                                             <MdOutlinePeopleOutline fontSize={13} />
                                         </span>
@@ -219,7 +219,7 @@ export default function Card({ job }) {
 
 
                             {job.training.includes("true") &&
-                                <span className='text-nowrap d-flex gap-3'>
+                                <span className='text-nowrap d-flex gap-2'>
                                     <span>
                                         <FaCheckSquare fontSize={13} />
                                     </span>

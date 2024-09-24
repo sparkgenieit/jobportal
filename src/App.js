@@ -23,8 +23,6 @@ const CommonLayout = lazy(() => import("./layouts/common/CommonLayout"))
 
 const DownloadTransactions = lazy(() => import("./pages/company/DownloadTransactions"));
 
-
-
 function App() {
   const { role } = useCurrentUser()
   const dispatch = useDispatch()
@@ -40,40 +38,62 @@ function App() {
       <GeneralProvider>
         <Routes>
 
-          <Route path="/company/transactions/download-transactions"
-            element={(role == 'employer') ?
+          <Route
+            path="/company/transactions/download-transactions"
+            element={
+              (role == 'employer') ?
+                <Suspense fallback={<Loader />}>
+                  < DownloadTransactions />
+                </Suspense>
+                :
+                <Navigate to="/" />
+            }
+          />
+
+          <Route
+            path="/company/*"
+            element={
+              (role == 'employer' || role === "recruiter") ?
+                <Suspense fallback={<Loader />}>
+                  <CompanyLayout />
+                </Suspense>
+                :
+                <Navigate to="/" />
+            }
+          />
+
+          <Route
+            path="/admin/*"
+            element={
+              (role == 'admin') ?
+                <Suspense fallback={<Loader />}>
+                  <AdminLayout />
+                </Suspense>
+                :
+                <Login />
+            }
+          />
+
+          <Route
+            path="/superadmin/*"
+            element={
+              (role == 'superadmin') ?
+                <Suspense fallback={<Loader />}>
+                  <SuperAdminLayout />
+                </Suspense>
+                :
+                <SuperAdminLogin />
+            }
+          />
+
+          <Route
+            path="*"
+            element={
               <Suspense fallback={<Loader />}>
-                < DownloadTransactions />
+                <CommonLayout />
               </Suspense>
-              :
-              <Navigate to="/" />}
+            }
           />
-
-          <Route path="/company/*" element={(role == 'employer' || role === "recruiter") ?
-            <Suspense fallback={<Loader />}>
-              <CompanyLayout />
-            </Suspense>
-            : <Navigate to="/" />}
-          />
-
-          <Route path="/admin/*" element={(role == 'admin') ?
-            <Suspense fallback={<Loader />}>
-              <AdminLayout />
-            </Suspense>
-            : <Login />}
-          />
-
-          <Route path="/superadmin/*" element={(role == 'superadmin') ?
-            <Suspense fallback={<Loader />}>
-              <SuperAdminLayout />
-            </Suspense>
-            : <SuperAdminLogin />} />
-
-          <Route path="*" element={
-            <Suspense fallback={<Loader />}>
-              <CommonLayout />
-            </Suspense>
-          } />
 
         </Routes>
       </GeneralProvider>

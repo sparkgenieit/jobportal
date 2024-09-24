@@ -516,45 +516,10 @@ function UserProfile() {
         email: email,
         phone: mobile,
         profile_summary: personal,
-        work_history: works.map((x) => {
-          return ({
-            jobTitle: x.jobTitle,
-            employer: x.employer,
-            location: x.location,
-            fromDate: x.fromDate,
-            toDate: x.toDate,
-            description: x.description
-          })
-        }),
-        education: education.map((x) => {
-          return ({
-            educationProvider: x.educationProvider,
-            qualification: x.qualification,
-            yearCompleted: x.yearCompleted,
-            validInNZ: x.validInNZ,
-            description: x.description
-          })
-        }),
-        licences: licences.map((x) => {
-          return ({
-            licenseName: x.licenseName,
-            issuingAuthority: x.issuingAuthority,
-            issueDate: x.issueDate,
-            expiryDate: x.expiryDate,
-            validInNZ: x.validInNZ,
-            description: x.description
-          })
-        }),
-        certification: certificates.map((x) => {
-          return ({
-            certificateName: x.certificateName,
-            issuingAuthority: x.issuingAuthority,
-            issueDate: x.issueDate,
-            expiryDate: x.expiryDate,
-            validInNZ: x.validInNZ,
-            description: x.description
-          })
-        }),
+        work_history: works,
+        education: education,
+        licences: licences,
+        certification: certificates,
         skills: skills,
         preferredJobCategories: preferredJobCategory,
         preferredJobLocations: preferredLocations,
