@@ -5,6 +5,7 @@ import http from '../../helpers/http';
 import { Link, useNavigate } from 'react-router-dom';
 import { timeAgoMinutes } from '../../helpers/functions';
 import handleLogout from '../../helpers/functions/handlelogout';
+import Head from './Head';
 
 function Header() {
   const [fullname, setFullname] = useState(localStorage.getItem('fullname') || '');
@@ -26,6 +27,7 @@ function Header() {
 
   return (
     <>
+      <Head />
       <nav className="navbar default-layout-navbar col-lg-12 col-12 pt-2 fixed-top d-flex flex-row">
         <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
           <Link to="/">

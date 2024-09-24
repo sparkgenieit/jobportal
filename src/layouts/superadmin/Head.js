@@ -9,9 +9,8 @@
 // import '../../assets/css/main.css';
 
 function Head() {
-  return <> 
-    <link href="/assets/vendors/mdi/css/materialdesignicons.min.css" rel="stylesheet"></link>
-    <link href="/assets/vendors/css/vendor.bundle.base.css" rel="stylesheet"></link>
+  return <>
+    <link href="/assets/css/style.css" rel="stylesheet"></link>
   </>
 }
 

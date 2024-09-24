@@ -1,7 +1,5 @@
 import './Header.css';
-import './assets/vendors/mdi/css/materialdesignicons.min.css';
-import './assets/vendors/css/vendor.bundle.base.css';
-import './assets/css/style.css';
+import Head from './Head'
 import { Link, useNavigate } from 'react-router-dom';
 import handleLogout from '../../helpers/functions/handlelogout';
 
@@ -13,6 +11,7 @@ function Header() {
 
   return (
     <>
+      <Head />
       <nav className="navbar default-layout-navbar col-lg-12 col-12 pt-2 fixed-top d-flex flex-row">
         <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
           <Link to="/"><img style={{ objectFit: "contain" }} src="/assets/images/logo-jp.png"
