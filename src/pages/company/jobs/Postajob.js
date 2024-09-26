@@ -216,23 +216,16 @@ function Postajob({ name }) {
         <div className="content-wrapper bg-white">
           <div className="page-header">
             <h3 className="page-title"> {name} </h3>
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb">
-                <li className="breadcrumb-item"><a href="#">Employer</a></li>
-                <li className="breadcrumb-item active" aria-current="page">{name}</li>
-              </ol>
-            </nav>
           </div>
           <div className="row">
             <div className="col-12">
               <Toaster setMessage={setMsg} message={msg} />
-              <div className="card-body bg-white p-5">
-                <h4 className="card-title">{name} </h4>
+              <div className="card-body bg-white">
                 <form ref={formRef}>
                   <div className="row">
                     <div className="col-md-6">
                       <div className="form-group row">
-                        <label className="col-sm-4 col-form-label" >Company Name <span className='text-danger'>*</span></label>
+                        <label className="col-sm-4 col-form-label text-nowrap" >Company Name <span className='text-danger'>*</span></label>
                         <div className="col-sm-8">
                           <input type="text" className="form-control" name='company' value={jobData?.company} disabled />
                         </div>
@@ -426,16 +419,13 @@ function Postajob({ name }) {
                     <div className="col-md-9">
                       <div className="form-group row">
                         <div>
-                          <label className="col-sm-3 col-form-label">Provide Training<span className='text-danger'>*</span></label>
+                          <label className="col-sm-3 col-form-label">Training Provided?<span className='text-danger'>*</span></label>
                         </div>
                         <div className=" col-2 form-check mx-3">
                           <input type="radio" className="form-check-input" value="No" onChange={() => handleCheckboxes('training', "No")} checked={!training.status} />No
                         </div>
                         <div className=" col-2 form-check mx-3">
                           <input type="radio" className="form-check-input" value="Yes" onChange={() => { handleCheckboxes('training', "Yes") }} checked={training.status} />Yes
-                        </div>
-                        <div className='col-6'>
-                          {training.status && <input type='text' value={training.text} onChange={(e) => setTraining({ ...training, text: e.target.value })} className='form-control col-5' />}
                         </div>
                       </div>
                     </div>
