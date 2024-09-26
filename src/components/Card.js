@@ -78,10 +78,10 @@ export default function Card({ job }) {
     const benefits = getTrueKeys(JSON.parse(job.benifits))
     return (
         <div onClick={() => { message({ path: `/common/SingleJob/${job._id}` }) }} className='job-card border shadow rounded '>
-            <div className='row h-100 pt-2 pb-3 px-3'>
+            <div className='row h-100 p-3 '>
                 <div className='col-9 h-100 d-flex flex-column justify-content-between'>
                     <div>
-                        <div className='fw-bold h4' >
+                        <div className='fw-bold h5' >
                             {job.jobTitle}
                         </div>
                         <div className='d-flex'>
@@ -137,7 +137,7 @@ export default function Card({ job }) {
                     </div>
 
                     <div className='h-100 flex-grow-1 d-flex  flex-column justify-content-between'>
-                        <p className='description text-secondary mt-2  flex-grow-1  small'> {markdownToPlainText(job.description, 250)}</p>
+                        <p className='description text-secondary mt-2  flex-grow-1  small'> {markdownToPlainText(job.description, 190)}</p>
 
                         <div className='small d-flex align-items-center '>
                             <span className='pe-3'>{date} ({timeAgo(date)})</span>
@@ -161,7 +161,7 @@ export default function Card({ job }) {
                 </div>
 
                 <div className='col-3 h-100'>
-                    <div style={{ fontSize: "12px" }} className=' h-100 d-flex flex-column'>
+                    <div style={{ fontSize: "11px" }} className=' h-100 d-flex flex-column'>
                         <div className='h-50'>
                             {job.companyLogo.length > 0 && <img className="rounded border company-logo" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                         </div>
@@ -175,13 +175,14 @@ export default function Card({ job }) {
                                 </div>
                             </Tooltip>
 
-
-                            <div className='d-flex  gap-2'>
-                                <span><BsBriefcase fontSize={13} /></span>
-                                <span>
-                                    {job.jobtype}
-                                </span>
-                            </div>
+                            <Tooltip tooltipText={"Job Type"}>
+                                <div className='d-flex  gap-2'>
+                                    <span><BsBriefcase fontSize={13} /></span>
+                                    <span>
+                                        {job.jobtype}
+                                    </span>
+                                </div>
+                            </Tooltip>
 
 
                             <Tooltip tooltipText={"Duration"}>
@@ -230,7 +231,7 @@ export default function Card({ job }) {
                             <div>
                                 {job.benifits && benefits.length > 0 &&
 
-                                    <div className='d-flex gap-2 align-items-center'>
+                                    <div className='d-flex gap-2 '>
                                         {benefits.includes("Accommodation") &&
                                             <Tooltip tooltipText={"Accommodation"}>
                                                 <span>
@@ -248,13 +249,15 @@ export default function Card({ job }) {
                                         }
 
                                         {benefits.includes("Transport") &&
-                                            <Tooltip tooltipText={"Transport"}>
-                                                <span>
-                                                    <PiCarProfileThin fontSize={17} />
-                                                </span>
-                                            </Tooltip>
+                                            <div style={{ paddingTop: '1px' }}>
+                                                <Tooltip tooltipText={"Transport"}>
+                                                    <span >
+                                                        <PiCarProfileThin fontSize={17} />
+                                                    </span>
+                                                </Tooltip>
+                                            </div>
                                         }
-                                        <span>
+                                        <span style={{ paddingTop: '2px' }} >
                                             Benefits
                                         </span>
 

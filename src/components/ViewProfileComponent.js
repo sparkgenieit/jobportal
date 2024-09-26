@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import userService from '../services/common/user.service';
 import { forwardRef } from 'react';
 import ViewProfileData from './ViewProfileData';
+import { Link } from 'react-router-dom';
 
 const ViewProfileComponent = forwardRef((props, ref) => {
   const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
@@ -86,7 +87,7 @@ const ViewProfileComponent = forwardRef((props, ref) => {
             <h4 className="card-title col-9 ">User Profile </h4>
 
             <div className='col-3 text-center'>
-              <button type="button" className="btn btn-gradient-primary"><a href='/profile'>Edit</a></button>
+              <button type="button" className="btn btn-gradient-primary"><Link to='/profile'>Edit</Link></button>
             </div>
 
             {user && <ViewProfileData user={user} JobTypes={JobTypes} />}

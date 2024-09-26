@@ -1,16 +1,20 @@
 import './Home.css';
 import Sidebar from '../../layouts/common/Sidebar';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import userService from '../../services/common/user.service';
 import ValidInNZBox from '../../components/ValidInNZBox';
 import DescriptionBox from '../../components/DescriptionBox';
 import { Hourglass } from "react-loader-spinner";
+import useShowMessage from '../../helpers/Hooks/useShowMessage';
+import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
+import { validateEmailAddress, validateIsNotEmpty } from '../../helpers/functions/textFunctions';
 
 function UserProfile() {
-  const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
+  const user = useCurrentUser()
+  const [userId, setUserId] = useState(user?._id || localStorage.getItem('user_id'));
   const [userData, setUserData] = useState(null);
   const [isUpdated, setIsUpdated] = useState(false);
+  const message = useShowMessage()
 
   const [firstName, setfirstName] = useState((userData && userData.first_name) || "");
   const [mobile, setMobile] = useState(userData && userData.phone || "");
@@ -63,48 +67,26 @@ function UserProfile() {
   const [isCvUploaded, setisCvUploaded] = useState(false)
   const [isCoverUploaded, setisCoverUploaded] = useState(false)
 
-  // const [fromDate, setFromDate] = useState("");
-  // const [toDate, setToDate] = useState("");
 
   const [errors, setErrors] = useState({
-    firstName: false,
-    lastName: false,
-    email: false,
-    personal: false,
-    showProfile: false,
-    visa: false,
-    cv: false,
-    coverLetter: false,
-    fromDate: false,
-    toDate: false,
-    jobTitle: false,
-    educationProvider: false,
-    licenseName: false,
-    certificateName: false,
+    firstName: "",
+    lastName: "",
+    email: "",
+    personal: "",
+    showProfile: "",
+    visa: "",
+    cv: "",
+    coverLetter: "",
+    fromDate: "",
+    toDate: "",
+    jobTitle: "",
+    educationProvider: "",
+    licenseName: "",
+    certificateName: "",
   })
 
 
-  const navigate = useNavigate();
-
-  const validateEmailAddress = (emailAddress) => {
-    var atSymbol = emailAddress.indexOf("@");
-    var dotSymbol = emailAddress.lastIndexOf(".");
-    var spaceSymbol = emailAddress.indexOf(" ");
-
-    if ((atSymbol != -1) &&
-      (atSymbol != 0) &&
-      (dotSymbol != -1) &&
-      (dotSymbol != 0) &&
-      (dotSymbol > atSymbol + 1) &&
-      (emailAddress.length > dotSymbol + 1) &&
-      (spaceSymbol == -1)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-
+  console.log(errors);
 
   useEffect(() => {
 
@@ -179,27 +161,6 @@ function UserProfile() {
     }
 
   };
-
-  // On file upload (click the upload button)
-  const onFileUpload = () => {
-    // Create an object of formData
-    const formData = new FormData();
-
-    // Update the formData object
-    formData.append(
-      "myFile",
-      this.state.selectedFile,
-      this.state.selectedFile.name
-    );
-
-    // Details of the uploaded file
-
-
-    // Request made to the backend api
-    // Send formData object
-    //axios.post("api/uploadfile", formData);
-  };
-
 
   const chnageOut = (name, event) => {
     if (name == "firstName") {
@@ -375,11 +336,25 @@ function UserProfile() {
 
   }
 
-  const SubmitData = () => {
+  const SubmitData = async () => {
 
     let obj = {};
 
     let isValid = true;
+
+
+    const fieldsToBeValidated = [firstName, lastName, personal, showProfile, visa]
+
+    for (const field of fieldsToBeValidated) {
+      if (!validateIsNotEmpty(field)) {
+        isValid = false
+        setErrors({ ...errors, [field]: `${field} is required` })
+        alert(field)
+        return
+      }
+    }
+
+    if (!isValid) return
 
 
 
@@ -506,9 +481,6 @@ function UserProfile() {
     }
     setErrors(obj);
 
-
-
-
     if (isValid) {
       const userData = {
         first_name: firstName,
@@ -532,56 +504,35 @@ function UserProfile() {
         preferredJobTypes: preferredJobTypes
       };
 
-
       const fd = new FormData();
       fd.append('file', cv);
 
       const fd1 = new FormData();
       fd1.append('file', coverLetter)
-      userService.uploadCV(fd).then((res) => {
 
+      try {
+
+        const res = await userService.uploadCV(fd)
         userData.cv = res.data.filename;
-        userService.uploadCoverLetter(fd1).then((res) => {
 
-          userData.coverLetter = res.data.filename;
-          console.log(userData);
-          userService.update(userId, userData)
-            .then(response => {
+        const { data } = await userService.uploadCoverLetter(fd1)
+        userData.coverLetter = data.filename
 
-              window.scrollTo({ top: 10, behavior: "smooth" });
-              setIsUpdated(true);
-              setTimeout(() => {
-                // Inside the handleLogin function
-                navigate('/viewprofile', { replace: true }); // Redirect to the dashboard after login
-              }, 1500);
+        await userService.update(userId, userData)
 
-            })
-            .catch(e => {
-              console.log(e);
+        message({
+          status: 'success',
+          message: 'User Profile Update Success',
+          path: "/viewprofile"
+        })
 
-              if (e && e.code) {
-                if (e.response && e.response.data) {
-                  if (e.response.data.email) {
-                    setErrors({ updateError: e.response.data.email });
-                  }
-
-                  if (e.response.data.message) {
-                    setErrors({ updateError: e.response.data.message });
-                  }
-                } else {
-                  setErrors({ updateError: e.message });
-                }
-              }
-              setTimeout(() => { setLoader(false); window.scrollTo({ top: 10, behavior: "smooth" }); }, 1200)
-
-
-            });
-        });
-      })
-        .catch((e) => console.log(e))
-    } else {
+      } catch (error) {
+        message({
+          status: "error",
+          error
+        })
+      }
     }
-
   }
 
 
@@ -622,17 +573,11 @@ function UserProfile() {
 
   return <>
 
-    <div class="container-fluid page-body-wrapper">
+    <div class="container-fluid  page-body-wrapper">
       <Sidebar />
 
-      <div class="container-fluid bg-light">
-        {errors && errors.updateError && <div class="alert alert-danger" role="alert">
-          {errors && errors.updateError}</div>}
-        {isUpdated && <div class="alert alert-success" role="alert">
-          User Profile Updated successfully!
-        </div>}
-
-        {!isUpdated && <div className="content-wrapper pb-0">
+      <div class="container-fluid ">
+        {!isUpdated && <div className="content-wrapper bg-white pb-0">
           <div className="page-header">
             <h3 className="page-title"> User Profile </h3>
             <nav aria-label="breadcrumb">
@@ -644,7 +589,6 @@ function UserProfile() {
           </div>
           <div className="row bg-white">
             <div className="col-12">
-              {/* <div className="card"> */}
               <div className="card-body p-3" >
                 <h4 className="card-title py-3">User Profile </h4>
                 <form className="form-sample">
@@ -655,7 +599,7 @@ function UserProfile() {
                         <div className="col-sm-9">
                           <input type="text" className="form-control" value={firstName} onChange={(event) => chnageOut("firstName", event)} />
 
-                          {errors && errors.firstName && <div className="error text-danger"> {firstNameError}</div>}
+                          {errors && errors.firstName && <div className="error text-danger"> {errors.firstName}</div>}
 
                         </div>
                       </div>

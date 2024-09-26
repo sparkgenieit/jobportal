@@ -18,7 +18,7 @@ function ViewProfile() {
   return <>
     <div class="container-fluid page-body-wrapper">
       <Sidebar />
-      <div class="container-fluid bg-light">
+      <div class="container-fluid">
         <div className="content-wrapper bg-white">
           <div className="page-header">
             <h3 className="page-title"> Profile </h3>
