@@ -208,12 +208,6 @@ function Categories1() {
         <div className="content-wrapper bg-white">
           <div class="page-header">
             <h3 class="page-title"> Categories </h3>
-            <nav aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="Categorieslist">Super Admin</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Categories</li>
-              </ol>
-            </nav>
           </div>
 
           <div class="row">

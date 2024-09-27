@@ -570,12 +570,6 @@ function EditJob() {
                 <div className="content-wrapper bg-white">
                     <div className="page-header">
                         <h3 className="page-title"> Edit Job </h3>
-                        <nav aria-label="breadcrumb">
-                            <ol className="breadcrumb">
-                                <li className="breadcrumb-item"><a href="#">Employer</a></li>
-                                <li className="breadcrumb-item active" aria-current="page">Edit Job </li>
-                            </ol>
-                        </nav>
                     </div>
 
 

@@ -140,18 +140,15 @@ function ContactUs() {
       const data = {
         chat: [{
           date: new Date(),
-          from: name,
+          from: `${organisation}(${name}) `,
           message: message,
-          by: "Visitor"
+          by: email
         }],
         subject: subject,
-        email: email,
-        name: name,
-        organisation: organisation,
-        phone: phone,
-        enquirer: "Visitor"
+        participants: ["Visitor"],
+        readBy: []
       }
-      http.post('/contact/contact-us', data)
+      http.post('/mails/contact-us', data)
         .then((res) => {
           setErrors({ ...errors, sentMessage: true, errorMessage: false })
           navigate('/')

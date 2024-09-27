@@ -86,12 +86,6 @@ function Addpage() {
                 <div className="content-wrapper bg-white">
                     <div className="page-header">
                         <h3 className="page-title"> Create a Page </h3>
-                        <nav aria-label="breadcrumb">
-                            <ol className="breadcrumb">
-                                <li className="breadcrumb-item"><a href="List">Super Admin</a></li>
-                                <li className="breadcrumb-item active" aria-current="page">Create a Page</li>
-                            </ol>
-                        </nav>
                     </div>
 
 

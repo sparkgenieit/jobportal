@@ -7,7 +7,7 @@ import { IoMdArrowBack } from "react-icons/io";
 import { timeAgoMinutes } from "../helpers/functions";
 import http from "../helpers/http"
 import MdxEditor from "./MdxEditor";
-import { markdownToText } from "../helpers/functions/textFunctions";
+import { markdownToPlainText, markdownToText } from "../helpers/functions/textFunctions";
 import { getDate } from "../helpers/functions/dateFunctions";
 import useShowMessage from "../helpers/Hooks/useShowMessage";
 import useCurrentUser from "../helpers/Hooks/useCurrentUser";
@@ -43,8 +43,12 @@ export default function ChatPage({ name }) {
     const postReply = async () => {
         if (addMessage.message && addMessage.message?.trim() !== "") {
             setToggleState({ ...toggleState, sendingReply: true })
+            const reply = { ...addMessage }
+            if (query.participants?.includes("Visitor")) {
+                reply.message = markdownToPlainText(reply.message)
+            }
             try {
-                const response = await http.put(`/mails/employer/reply/${query._id}`, addMessage)
+                const response = await http.put(`/mails/employer/reply/${query._id}`, reply)
                 setToggleState({ showMessageBox: false, sendingReply: false, errorInPostingReply: null })
                 setAddMessage({})
                 fetchQuery(query._id)

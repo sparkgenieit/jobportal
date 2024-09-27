@@ -42,12 +42,6 @@ const PagesList = () => {
             <div className="content-wrapper bg-white">
                 <div class="page-header">
                     <h3 class="page-title"> Pages-Management </h3>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Pages List</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Pages-Management</li>
-                        </ol>
-                    </nav>
                 </div>
 
 

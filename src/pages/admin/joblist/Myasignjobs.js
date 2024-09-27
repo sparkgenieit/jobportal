@@ -105,12 +105,6 @@ function Myasignjobs() {
                 <div className="content-wrapper bg-white">
                     <div className="page-header">
                         <h3 className="page-title">Assign Jobs</h3>
-                        <nav aria-label="breadcrumb">
-                            <ol className="breadcrumb">
-                                <li className="breadcrumb-item"><a href="#">Admin</a></li>
-                                <li className="breadcrumb-item active" aria-current="page">Jobs List</li>
-                            </ol>
-                        </nav>
                     </div>
                     <div className="row">
                         <div className="col-12">

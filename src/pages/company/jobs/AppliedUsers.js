@@ -57,12 +57,6 @@ export default function AppliedUsers() {
             </svg>
           </a>
           <h3 class="page-title">List of Applicants for {jobName}</h3>
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#">Employer</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Applicants</li>
-            </ol>
-          </nav>
         </div>
         <div class="row">
           {/* <div class="col-12">

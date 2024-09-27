@@ -79,12 +79,6 @@ export default function AppliedUserProfile() {
 
                         Resume
                     </h3>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Employer</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Resume</li>
-                        </ol>
-                    </nav>
                 </div>
                 <div class="row">
                     <div class="card-body  bg-white ">

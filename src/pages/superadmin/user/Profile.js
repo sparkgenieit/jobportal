@@ -64,12 +64,6 @@ export default function Profile() {
 
                             {params.user} Profile
                         </h3>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#">Super Admin</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">{params.user} Profile</li>
-                            </ol>
-                        </nav>
                     </div>
                     <div class="row">
                         <div class="card-body  bg-white ">

@@ -58,12 +58,6 @@ const Jobqueuelist = () => {
             <div className="content-wrapper bg-white">
                 <div className="page-header">
                     <h3 className="page-title"> Job Queue List </h3>
-                    <nav aria-label="breadcrumb">
-                        <ol className="breadcrumb">
-                            <li className="breadcrumb-item"><a href="#">Admin</a></li>
-                            <li className="breadcrumb-item active" aria-current="page">Job Queue List</li>
-                        </ol>
-                    </nav>
                 </div>
 
                 <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} totalCount={totalItems} pageNumberToShow={2} itemsPerPage={itemsPerPage} fetchItems={fetchJobs}>

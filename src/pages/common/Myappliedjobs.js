@@ -44,12 +44,6 @@ function Myappliedjobs() {
                 <div className="container-fluid">
                     <div className="page-header">
                         <h3 className="page-title">My Applied Jobs</h3>
-                        <nav aria-label="breadcrumb">
-                            <ol className="breadcrumb">
-                                <li className="breadcrumb-item"><a>User</a></li>
-                                <li className="breadcrumb-item active" aria-current="page">Appliedjobs</li>
-                            </ol>
-                        </nav>
                     </div>
                     <div className=" row ">
                         <div className="col-9">

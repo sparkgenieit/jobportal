@@ -156,12 +156,6 @@ function AdminEdit({ currentAdmin }) {
                 <div className="content-wrapper bg-white">
                     <div className="page-header">
                         <h3 className="page-title"> Edit Admin </h3>
-                        <nav aria-label="breadcrumb">
-                            <ol className="breadcrumb">
-                                <li className="breadcrumb-item"><a href="List">Admin</a></li>
-                                <li className="breadcrumb-item active" aria-current="page">Edit Admin</li>
-                            </ol>
-                        </nav>
                     </div>
 
 

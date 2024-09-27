@@ -577,68 +577,60 @@ function UserProfile() {
       <Sidebar />
 
       <div class="container-fluid ">
-        {!isUpdated && <div className="content-wrapper bg-white pb-0">
-          <div className="page-header">
-            <h3 className="page-title"> User Profile </h3>
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb">
-                <li className="breadcrumb-item"><a href="#">User</a></li>
-                <li className="breadcrumb-item active" aria-current="page">My Profile</li>
-              </ol>
-            </nav>
-          </div>
-          <div className="row bg-white">
-            <div className="col-12">
-              <div className="card-body p-3" >
-                <h4 className="card-title py-3">User Profile </h4>
-                <form className="form-sample">
-                  <div className="row">
-                    <div className="col-md-9">
-                      <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">First Name <span style={{ color: "red" }}>*</span></label>
-                        <div className="col-sm-9">
-                          <input type="text" className="form-control" value={firstName} onChange={(event) => chnageOut("firstName", event)} />
+        {!isUpdated &&
+          <div className="content-wrapper bg-white px-3 py-2 ">
+            <div className="row bg-white">
+              <div className="col-12">
+                <div className="card-body " >
+                  <h4 className="card-title pb-4">User Profile </h4>
+                  <form className="form-sample">
+                    <div className="row">
+                      <div className="col-md-9">
+                        <div className="form-group row">
+                          <label className="col-sm-3 col-form-label">First Name <span style={{ color: "red" }}>*</span></label>
+                          <div className="col-sm-9">
+                            <input type="text" className="form-control" value={firstName} onChange={(event) => chnageOut("firstName", event)} />
 
-                          {errors && errors.firstName && <div className="error text-danger"> {errors.firstName}</div>}
+                            {errors && errors.firstName && <div className="error text-danger"> {errors.firstName}</div>}
 
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-9">
-                      <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">Last Name <span style={{ color: "red" }}>*</span></label>
-                        <div className="col-sm-9">
-                          <input type="text" className="form-control" value={lastName} onChange={(event) => chnageOut("lastName", event)} />
+                    <div className="row">
+                      <div className="col-md-9">
+                        <div className="form-group row">
+                          <label className="col-sm-3 col-form-label">Last Name <span style={{ color: "red" }}>*</span></label>
+                          <div className="col-sm-9">
+                            <input type="text" className="form-control" value={lastName} onChange={(event) => chnageOut("lastName", event)} />
 
-                          {errors && errors.lastName && <div className="error text-danger"> {lastNameError}</div>}
+                            {errors && errors.lastName && <div className="error text-danger"> {lastNameError}</div>}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-9">
-                      <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">Email <span style={{ color: "red" }}>*</span></label>
-                        <div className="col-sm-9">
-                          <input type="email" disabled className="form-control" value={email} onChange={(event) => chnageOut("email", event)} />
-                          {errors && errors.email && <div className="error text-danger"> {emailError}</div>}
+                    <div className="row">
+                      <div className="col-md-9">
+                        <div className="form-group row">
+                          <label className="col-sm-3 col-form-label">Email <span style={{ color: "red" }}>*</span></label>
+                          <div className="col-sm-9">
+                            <input type="email" disabled className="form-control" value={email} onChange={(event) => chnageOut("email", event)} />
+                            {errors && errors.email && <div className="error text-danger"> {emailError}</div>}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-9">
-                      <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">Mobile</label>
-                        <div className="col-sm-9">
-                          <input type="number" class="form-control" value={mobile} onChange={(event) => chnageOut("mobile", event)} />
+                    <div className="row">
+                      <div className="col-md-9">
+                        <div className="form-group row">
+                          <label className="col-sm-3 col-form-label">Mobile</label>
+                          <div className="col-sm-9">
+                            <input type="number" class="form-control" value={mobile} onChange={(event) => chnageOut("mobile", event)} />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  {/* <div className="row">
+                    {/* <div className="row">
                     <div className="col-md-9">
                       <div className="form-group row">
                         <label className="col-sm-6 col-form-label ">Personal Summary<span style={{ color: "red" }}>*</span></label>
@@ -651,422 +643,422 @@ function UserProfile() {
                       </div>
                     </div>
                   </div> */}
-                  <div className="row">
-                    <div className="col-md-9">
-                      <div className="form-group row">
-                        <label className="col-sm-6 col-form-label">Personal Summary<span style={{ color: "red" }}>*</span></label>
-                        <div className="col-sm-12">
-                          <textarea type="text" className="form-control" value={personal} onChange={(event) => chnageOut("personal", event)}></textarea>
-                          {errors && errors.personal && <div className="error text-danger"> {personalsummaryError}</div>}
+                    <div className="row">
+                      <div className="col-md-9">
+                        <div className="form-group row">
+                          <label className="col-sm-6 col-form-label">Personal Summary<span style={{ color: "red" }}>*</span></label>
+                          <div className="col-sm-12">
+                            <textarea type="text" className="form-control" value={personal} onChange={(event) => chnageOut("personal", event)}></textarea>
+                            {errors && errors.personal && <div className="error text-danger"> {personalsummaryError}</div>}
 
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <p className="card-description mt-3"><strong>Work History</strong></p>
-                  <div className="row">
-                    <div className="col-md-12">
+                    <p className="card-description mt-3"><strong>Work History</strong></p>
+                    <div className="row">
+                      <div className="col-md-12">
 
-                      {
-                        works.map((work, index) => {
-                          return (
-                            <div className="form-group row">
+                        {
+                          works.map((work, index) => {
+                            return (
+                              <div className="form-group row">
+                                <div key={index} className="col-md-12">
+                                  <div className="form-group row">
+                                    <div className="col-md-2">
+                                      <label className="col-sm-1 col-form-label">JobTitle</label>
+                                      <input type="text" className="form-control" value={work.jobTitle} onChange={(event) => handleWorks("jobTitle", event.target.value, work, index)} />
+                                    </div>
+                                    <div className="col-md-2">
+                                      <label className="col-sm-2 col-form-label">Employer</label>
+                                      <input type="text" className="form-control" value={work.employer} onChange={(event) => handleWorks("employer", event.target.value, work, index)} />
+                                    </div>
+                                    <div className="col-md-2">
+                                      <label className="col-sm-2 col-form-label">Location</label>
+                                      <input type="text" class="form-control" value={work.location} onChange={(event) => handleWorks("location", event.target.value, work, index)} />
+                                    </div>
+                                    <div className="col-md-3">
+                                      <label className="col-sm-3 col-form-label">From</label>
+                                      <input type="date" class="form-control" value={work.fromDate} onChange={(event) => handleWorks("fromDate", event.target.value, work, index)} />
+                                    </div>
+                                    <div className="col-md-3">
+                                      <label className="col-sm-3 col-form-label">To</label>
+                                      <input type="date" className="form-control" value={work.toDate} onChange={(event) => handleWorks("toDate", event.target.value, work, index)} />
+                                    </div>
+
+
+                                    <div className="col-md-9">
+                                      <div className="form-group row">
+
+                                        <DescriptionBox value={work.description} functionName={handleWorks} arrayName={work} index={index} />
+
+
+                                      </div>
+                                    </div>
+                                    <div className="col-md-2">
+                                      <div className='mt-2'></div>
+                                      {index == 0 && <button type='button' className='btn btn-outline-primary my-4' onClick={() => addWork(index)} >+</button>}
+                                      {index > 0 && <button type='button' className='btn btn-outline-primary my-4' onClick={() => deleteWork(index)} >-</button>}
+                                    </div>
+
+                                  </div>
+                                </div>
+                              </div>)
+                          })
+                        }
+                        {errors && errors.jobTitle && <div className="error text-danger"> {jobTitleError}</div>}
+
+                        {!workDate && <div className='text-danger px-4 pb-3'>From date cannot be after To date </div>}
+
+
+
+                      </div>
+                    </div>
+                    <p className="card-description mt-3"><strong>Education</strong></p>
+                    <div className="row">
+                      <div className="col-md-12">
+                        {
+
+                          education.map((edu, index) => {
+                            return (
                               <div key={index} className="col-md-12">
                                 <div className="form-group row">
-                                  <div className="col-md-2">
-                                    <label className="col-sm-1 col-form-label">JobTitle</label>
-                                    <input type="text" className="form-control" value={work.jobTitle} onChange={(event) => handleWorks("jobTitle", event.target.value, work, index)} />
-                                  </div>
-                                  <div className="col-md-2">
-                                    <label className="col-sm-2 col-form-label">Employer</label>
-                                    <input type="text" className="form-control" value={work.employer} onChange={(event) => handleWorks("employer", event.target.value, work, index)} />
-                                  </div>
-                                  <div className="col-md-2">
-                                    <label className="col-sm-2 col-form-label">Location</label>
-                                    <input type="text" class="form-control" value={work.location} onChange={(event) => handleWorks("location", event.target.value, work, index)} />
-                                  </div>
                                   <div className="col-md-3">
-                                    <label className="col-sm-3 col-form-label">From</label>
-                                    <input type="date" class="form-control" value={work.fromDate} onChange={(event) => handleWorks("fromDate", event.target.value, work, index)} />
+                                    <label className="col-sm-12 col-form-label "><small>Education Provider</small></label>
+                                    <input type="text" className="form-control" value={edu.educationProvider} onChange={(event) => handleEducation("educationProvider", event.target.value, edu, index)} />
                                   </div>
+
                                   <div className="col-md-3">
-                                    <label className="col-sm-3 col-form-label">To</label>
-                                    <input type="date" className="form-control" value={work.toDate} onChange={(event) => handleWorks("toDate", event.target.value, work, index)} />
+                                    <label className="col-sm-12 col-form-label "><small>Qualification</small></label>
+                                    <input type="text" className="form-control " value={edu.qualification} onChange={(event) => handleEducation("qualification", event.target.value, edu, index)} />
+                                    <div className="bgred" id="error12"></div>
                                   </div>
 
-
-                                  <div className="col-md-9">
-                                    <div className="form-group row">
-
-                                      <DescriptionBox value={work.description} functionName={handleWorks} arrayName={work} index={index} />
-
-
-                                    </div>
-                                  </div>
-                                  <div className="col-md-2">
-                                    <div className='mt-2'></div>
-                                    {index == 0 && <button type='button' className='btn btn-outline-primary my-4' onClick={() => addWork(index)} >+</button>}
-                                    {index > 0 && <button type='button' className='btn btn-outline-primary my-4' onClick={() => deleteWork(index)} >-</button>}
+                                  <div className="col-md-3">
+                                    <label className="col-sm-12 col-form-label "><small>Year Completed</small></label>
+                                    <input type="number" className="form-control" value={edu.yearCompleted} onChange={(event) => handleEducation("yearCompleted", event.target.value, edu, index)} />
                                   </div>
 
-                                </div>
-                              </div>
-                            </div>)
-                        })
-                      }
-                      {errors && errors.jobTitle && <div className="error text-danger"> {jobTitleError}</div>}
-
-                      {!workDate && <div className='text-danger px-4 pb-3'>From date cannot be after To date </div>}
-
-
-
-                    </div>
-                  </div>
-                  <p className="card-description mt-3"><strong>Education</strong></p>
-                  <div className="row">
-                    <div className="col-md-12">
-                      {
-
-                        education.map((edu, index) => {
-                          return (
-                            <div key={index} className="col-md-12">
-                              <div className="form-group row">
-                                <div className="col-md-3">
-                                  <label className="col-sm-12 col-form-label "><small>Education Provider</small></label>
-                                  <input type="text" className="form-control" value={edu.educationProvider} onChange={(event) => handleEducation("educationProvider", event.target.value, edu, index)} />
-                                </div>
-
-                                <div className="col-md-3">
-                                  <label className="col-sm-12 col-form-label "><small>Qualification</small></label>
-                                  <input type="text" className="form-control " value={edu.qualification} onChange={(event) => handleEducation("qualification", event.target.value, edu, index)} />
-                                  <div className="bgred" id="error12"></div>
-                                </div>
-
-                                <div className="col-md-3">
-                                  <label className="col-sm-12 col-form-label "><small>Year Completed</small></label>
-                                  <input type="number" className="form-control" value={edu.yearCompleted} onChange={(event) => handleEducation("yearCompleted", event.target.value, edu, index)} />
-                                </div>
-
-                                <div className="col-md-3">
-                                  <ValidInNZBox validInNZ={edu.validInNZ} functionName={handleEducation} arrayName={edu} index={index} />
-                                  {/* 
+                                  <div className="col-md-3">
+                                    <ValidInNZBox validInNZ={edu.validInNZ} functionName={handleEducation} arrayName={edu} index={index} />
+                                    {/* 
                                   <label className="col-sm-12 col-form-label"><small>Valid in NZ?</small></label>
                                   <input type="text" className="form-control" value={edu.validInNZ} onChange={(event) => handleEducation("validInNZ", event.target.value, edu, index)} />
                           */}
-                                </div>
-                                <div className="row">
-                                  <div className="col-md-9">
-                                    <div className="form-group row">
+                                  </div>
+                                  <div className="row">
+                                    <div className="col-md-9">
+                                      <div className="form-group row">
 
-                                      <DescriptionBox value={edu.description} functionName={handleEducation} arrayName={edu} index={index} />
+                                        <DescriptionBox value={edu.description} functionName={handleEducation} arrayName={edu} index={index} />
+
+
+                                      </div>
+                                    </div>
+
+                                    <div className="col-md-2">
+                                      {index == 0 && <button type='button' className='btn btn-outline-primary my-4' onClick={() => addEdu(index)} >+</button>}
+                                      {index > 0 && <button type='button' className='btn btn-outline-primary my-4' onClick={() => deleteEdu(index)} >-</button>}
 
 
                                     </div>
                                   </div>
-
-                                  <div className="col-md-2">
-                                    {index == 0 && <button type='button' className='btn btn-outline-primary my-4' onClick={() => addEdu(index)} >+</button>}
-                                    {index > 0 && <button type='button' className='btn btn-outline-primary my-4' onClick={() => deleteEdu(index)} >-</button>}
-
-
-                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          )
-                        })
-                      }
-                      {errors && errors.educationProvider && <div className="error text-danger"> {educationProviderError}</div>}
+                            )
+                          })
+                        }
+                        {errors && errors.educationProvider && <div className="error text-danger"> {educationProviderError}</div>}
 
 
 
 
 
+                      </div>
                     </div>
-                  </div>
 
 
-                  <p className="card-description mt-3"><strong>Licences</strong></p>
-                  <div className="row">
-                    <div className="col-md-12">
+                    <p className="card-description mt-3"><strong>Licences</strong></p>
+                    <div className="row">
+                      <div className="col-md-12">
 
 
-                      {
-                        licences.map((licence, index) => {
-                          return (
-                            <div key={index} className="col-md-12">
-                              <div className="form-group row">
-                                <div className="col-md-3">
-                                  <label className="col-sm-12 col-form-label"><small>Licence Name</small></label>
+                        {
+                          licences.map((licence, index) => {
+                            return (
+                              <div key={index} className="col-md-12">
+                                <div className="form-group row">
+                                  <div className="col-md-3">
+                                    <label className="col-sm-12 col-form-label"><small>Licence Name</small></label>
 
-                                  <input type="text" className="form-control" value={licence.licenseName} onChange={(event) => handleLicenses("licenseName", event.target.value, licence, index)} />
-                                </div>
+                                    <input type="text" className="form-control" value={licence.licenseName} onChange={(event) => handleLicenses("licenseName", event.target.value, licence, index)} />
+                                  </div>
 
-                                <div className="col-md-3">
-                                  <label className="col-sm-12 col-form-label"><small>Issuing Authority</small></label>
-                                  <input type="text" class="form-control" value={licence.issuingAuthority} onChange={(event) => handleLicenses("issuingAuthority", event.target.value, licence, index)} />
-                                </div>
+                                  <div className="col-md-3">
+                                    <label className="col-sm-12 col-form-label"><small>Issuing Authority</small></label>
+                                    <input type="text" class="form-control" value={licence.issuingAuthority} onChange={(event) => handleLicenses("issuingAuthority", event.target.value, licence, index)} />
+                                  </div>
 
-                                <div className="col-md-2">
-                                  <label className="col-sm-12 col-form-label"><small>Issue Date</small></label>
-                                  <input type="date" className="form-control" value={licence.issueDate} onChange={(event) => handleLicenses("issueDate", event.target.value, licence, index)} />
-                                </div>
+                                  <div className="col-md-2">
+                                    <label className="col-sm-12 col-form-label"><small>Issue Date</small></label>
+                                    <input type="date" className="form-control" value={licence.issueDate} onChange={(event) => handleLicenses("issueDate", event.target.value, licence, index)} />
+                                  </div>
 
-                                <div className="col-md-2">
-                                  <label className="col-sm-12 col-form-label"><small>Expiry Date</small></label>
-                                  <input type="date" className="form-control" value={licence.expiryDate} onChange={(event) => handleLicenses("expiryDate", event.target.value, licence, index)} />
-                                </div>
-                                <div className="col-md-2">
-                                  <ValidInNZBox validInNZ={licence.validInNZ} functionName={handleLicenses} arrayName={licence} index={index} />
-                                </div>
-                                <div className="row">
-                                  <div className="col-md-9">
-                                    <div className="form-group row">
-                                      <DescriptionBox value={licence.description} functionName={handleLicenses} arrayName={licence} index={index} />
+                                  <div className="col-md-2">
+                                    <label className="col-sm-12 col-form-label"><small>Expiry Date</small></label>
+                                    <input type="date" className="form-control" value={licence.expiryDate} onChange={(event) => handleLicenses("expiryDate", event.target.value, licence, index)} />
+                                  </div>
+                                  <div className="col-md-2">
+                                    <ValidInNZBox validInNZ={licence.validInNZ} functionName={handleLicenses} arrayName={licence} index={index} />
+                                  </div>
+                                  <div className="row">
+                                    <div className="col-md-9">
+                                      <div className="form-group row">
+                                        <DescriptionBox value={licence.description} functionName={handleLicenses} arrayName={licence} index={index} />
+                                      </div>
+                                    </div>
+
+                                    <div className="col-md-2">
+                                      {index == 0 && <button type='button' className='btn btn-outline-primary my-4' onClick={() => addLic(index)} >+</button>}
+                                      {index > 0 && <button type='button' className='btn btn-outline-primary my-4' onClick={() => deleteLic(index)} >-</button>}
                                     </div>
                                   </div>
-
-                                  <div className="col-md-2">
-                                    {index == 0 && <button type='button' className='btn btn-outline-primary my-4' onClick={() => addLic(index)} >+</button>}
-                                    {index > 0 && <button type='button' className='btn btn-outline-primary my-4' onClick={() => deleteLic(index)} >-</button>}
-                                  </div>
                                 </div>
                               </div>
-                            </div>
 
-                          )
-                        })
+                            )
+                          })
 
-                      }
-                      {errors && errors.licenseName && <div className="error text-danger"> {licenseNameError}</div>}
-                      {!licenceDate && <div className='text-danger px-4 pb-3'>From date cannot be after To date </div>}
-
+                        }
+                        {errors && errors.licenseName && <div className="error text-danger"> {licenseNameError}</div>}
+                        {!licenceDate && <div className='text-danger px-4 pb-3'>From date cannot be after To date </div>}
 
 
 
 
 
+
+                      </div>
                     </div>
-                  </div>
-                  <p className="card-description mt-3"><strong>Certifications</strong></p>
-                  <div className="row">
-                    <div className="col-md-12">
+                    <p className="card-description mt-3"><strong>Certifications</strong></p>
+                    <div className="row">
+                      <div className="col-md-12">
 
 
-                      {
-                        certificates.map((certificate, index) => {
-                          return (
-                            <div key={index} className="col-md-12">
-                              <div className="form-group row">
-                                <div className="col-md-3">
-                                  <label className="col-sm-12 col-form-label"><small>Certificate Name</small></label>
+                        {
+                          certificates.map((certificate, index) => {
+                            return (
+                              <div key={index} className="col-md-12">
+                                <div className="form-group row">
+                                  <div className="col-md-3">
+                                    <label className="col-sm-12 col-form-label"><small>Certificate Name</small></label>
 
-                                  <input type="text" className="form-control" value={certificate.certificateName} onChange={(event) => handleCertificates("certificateName", event.target.value, certificate, index)} />
-                                </div>
+                                    <input type="text" className="form-control" value={certificate.certificateName} onChange={(event) => handleCertificates("certificateName", event.target.value, certificate, index)} />
+                                  </div>
 
-                                <div className="col-md-3">
-                                  <label className="col-sm-12 col-form-label"><small>Issuing Authority</small></label>
+                                  <div className="col-md-3">
+                                    <label className="col-sm-12 col-form-label"><small>Issuing Authority</small></label>
 
-                                  <input type="text" className="form-control" value={certificate.issuingAuthority} onChange={(event) => handleCertificates("issuingAuthority", event.target.value, certificate, index)} />
-                                </div>
+                                    <input type="text" className="form-control" value={certificate.issuingAuthority} onChange={(event) => handleCertificates("issuingAuthority", event.target.value, certificate, index)} />
+                                  </div>
 
-                                <div className="col-md-2">
-                                  <label className="col-sm-12 col-form-label"><small>Issue Date</small></label>
+                                  <div className="col-md-2">
+                                    <label className="col-sm-12 col-form-label"><small>Issue Date</small></label>
 
-                                  <input type="date" className="form-control" value={certificate.issueDate} onChange={(event) => handleCertificates("issueDate", event.target.value, certificate, index)} />
-                                </div>
+                                    <input type="date" className="form-control" value={certificate.issueDate} onChange={(event) => handleCertificates("issueDate", event.target.value, certificate, index)} />
+                                  </div>
 
-                                <div className="col-md-2">
-                                  <label className="col-sm-12 col-form-label"><small>Expiry Date</small></label>
+                                  <div className="col-md-2">
+                                    <label className="col-sm-12 col-form-label"><small>Expiry Date</small></label>
 
-                                  <input type="date" className="form-control" value={certificate.expiryDate} onChange={(event) => handleCertificates("expiryDate", event.target.value, certificate, index)} />
-                                </div>
-                                <div className="col-md-2">
-                                  <ValidInNZBox validInNZ={certificate.validInNZ} functionName={handleCertificates} arrayName={certificate} index={index} />
+                                    <input type="date" className="form-control" value={certificate.expiryDate} onChange={(event) => handleCertificates("expiryDate", event.target.value, certificate, index)} />
+                                  </div>
+                                  <div className="col-md-2">
+                                    <ValidInNZBox validInNZ={certificate.validInNZ} functionName={handleCertificates} arrayName={certificate} index={index} />
 
-                                </div>
-                                <div className="row">
-                                  <div className="col-md-9">
-                                    <div className="form-group row">
-                                      <DescriptionBox value={certificate.description} functionName={handleCertificates} arrayName={certificate} index={index} />
+                                  </div>
+                                  <div className="row">
+                                    <div className="col-md-9">
+                                      <div className="form-group row">
+                                        <DescriptionBox value={certificate.description} functionName={handleCertificates} arrayName={certificate} index={index} />
+                                      </div>
+                                    </div>
+
+                                    <div className="col-md-2">
+                                      {index == 0 && <button type='button' className='btn btn-outline-primary my-4' onClick={() => addcer(index)} >+</button>}
+                                      {index > 0 && <button type='button' className='btn btn-outline-primary my-4' onClick={() => deleteCer(index)} >-</button>}
+
+
+
                                     </div>
                                   </div>
-
-                                  <div className="col-md-2">
-                                    {index == 0 && <button type='button' className='btn btn-outline-primary my-4' onClick={() => addcer(index)} >+</button>}
-                                    {index > 0 && <button type='button' className='btn btn-outline-primary my-4' onClick={() => deleteCer(index)} >-</button>}
-
-
-
-                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          )
-                        })
-                      }
-                      {errors && errors.certificateName && <div className="error text-danger"> {certificateNameError}</div>}
-                      {!certificateDate && <div className='text-danger px-4 pb-3'>From date cannot be after To date </div>}
+                            )
+                          })
+                        }
+                        {errors && errors.certificateName && <div className="error text-danger"> {certificateNameError}</div>}
+                        {!certificateDate && <div className='text-danger px-4 pb-3'>From date cannot be after To date </div>}
 
 
 
 
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="row">
-                    <div className="col-md-9">
-                      <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">Skills</label>
-                        <div className="col-sm-12">
-                          <input type="text" className="form-control" value={skills} onChange={(event) => chnageOut("skills", event)} />
+                    <div className="row">
+                      <div className="col-md-9">
+                        <div className="form-group row">
+                          <label className="col-sm-3 col-form-label">Skills</label>
+                          <div className="col-sm-12">
+                            <input type="text" className="form-control" value={skills} onChange={(event) => chnageOut("skills", event)} />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
 
 
 
-                  <label className="card-description my-3"> Availability </label>
+                    <label className="card-description my-3"> Availability </label>
 
-                  <div className="row">
-                    <div className="col-12">
-                      <div className="form-group row">
-                        <div className="col-6 px-2">
-                          {console.log(availability)}
-                          <input type="checkbox" class="mx-2" checked={availability} value={availability} onChange={(event) => chnageOut("availability", event)} />
-                          Immediately
+                    <div className="row">
+                      <div className="col-12">
+                        <div className="form-group row">
+                          <div className="col-6 px-2">
+                            {console.log(availability)}
+                            <input type="checkbox" class="mx-2" checked={availability} value={availability} onChange={(event) => chnageOut("availability", event)} />
+                            Immediately
+
+                          </div>
 
                         </div>
 
-                      </div>
-
-                      <div className="row">
-                        <div className="col-md-9">
-                          <div className="form-group row">
-                            <label className="col-sm-7 col-form-label">Enter number of weeks notice period </label>
-                            <div className="col-sm-5">
-                              <input type="text" className="form-control" value={noticePeriod} onChange={(event) => chnageOut("noticePeriod", event)} />
+                        <div className="row">
+                          <div className="col-md-9">
+                            <div className="form-group row">
+                              <label className="col-sm-7 col-form-label">Enter number of weeks notice period </label>
+                              <div className="col-sm-5">
+                                <input type="text" className="form-control" value={noticePeriod} onChange={(event) => chnageOut("noticePeriod", event)} />
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <p className="card-description mt-3">Preferred Job Types</p>
-                  <div className="row">
-                    <div className="col-md-12">
-                      {preferredJobTypes && <div className="form-group row">
-                        <div className="col-md-4">
-                          <input type="checkbox" class="col-sm-12 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" checked={preferredJobTypes.fullTime} onChange={(event) => preferredjobstypes("fullTime", event)} /> Full Time
+                    <p className="card-description mt-3">Preferred Job Types</p>
+                    <div className="row">
+                      <div className="col-md-12">
+                        {preferredJobTypes && <div className="form-group row">
+                          <div className="col-md-4">
+                            <input type="checkbox" class="col-sm-12 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" checked={preferredJobTypes.fullTime} onChange={(event) => preferredjobstypes("fullTime", event)} /> Full Time
 
-                        </div>
-                        <div className="col-md-4">
-                          <input type="checkbox" class="col-sm-11 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" checked={preferredJobTypes.partTime} onChange={(event) => preferredjobstypes("partTime", event)} /> Part Time
+                          </div>
+                          <div className="col-md-4">
+                            <input type="checkbox" class="col-sm-11 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" checked={preferredJobTypes.partTime} onChange={(event) => preferredjobstypes("partTime", event)} /> Part Time
 
-                        </div>
-                        <div className="col-md-4">
-                          <input type="checkbox" class="col-sm-11 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" checked={preferredJobTypes.casual} onChange={(event) => preferredjobstypes("casual", event)} /> Casual
+                          </div>
+                          <div className="col-md-4">
+                            <input type="checkbox" class="col-sm-11 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" checked={preferredJobTypes.casual} onChange={(event) => preferredjobstypes("casual", event)} /> Casual
 
-                        </div>
-                        <div className="col-md-4">
-                          <input type="checkbox" class="col-sm-11 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" checked={preferredJobTypes.contract} onChange={(event) => preferredjobstypes("contract", event)} /> Contract
+                          </div>
+                          <div className="col-md-4">
+                            <input type="checkbox" class="col-sm-11 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" checked={preferredJobTypes.contract} onChange={(event) => preferredjobstypes("contract", event)} /> Contract
 
-                        </div>
-                        <div className="col-md-4">
-                          <input type="checkbox" class="col-sm-11 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" checked={preferredJobTypes.freelance} onChange={(event) => preferredjobstypes("freelance", event)} /> Freelance
+                          </div>
+                          <div className="col-md-4">
+                            <input type="checkbox" class="col-sm-11 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" checked={preferredJobTypes.freelance} onChange={(event) => preferredjobstypes("freelance", event)} /> Freelance
 
-                        </div>
-                        <div className="col-md-4">
-                          <input type="checkbox" class="col-sm-12 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" checked={preferredJobTypes.temporary} onChange={(event) => preferredjobstypes("temporary", event)} /> Temporary
+                          </div>
+                          <div className="col-md-4">
+                            <input type="checkbox" class="col-sm-12 form-check-input" name="jobtypeCheckbox" id="jobtypeCheckbox2" value="option2" checked={preferredJobTypes.temporary} onChange={(event) => preferredjobstypes("temporary", event)} /> Temporary
 
-                        </div>
+                          </div>
 
 
-                      </div>}
+                        </div>}
+                      </div>
                     </div>
-                  </div>
 
 
 
 
-                  <div className="row">
-                    <div className="col-md-9">
-                      <div className="form-group row">
-                        <label className="col-sm-6 col-form-label">Preferred Locations</label>
-                        <div className="col-sm-12">
-                          <input type="text" className="form-control" value={preferredLocations} onChange={(event) => chnageOut("preferredLocations", event)} />
+                    <div className="row">
+                      <div className="col-md-9">
+                        <div className="form-group row">
+                          <label className="col-sm-6 col-form-label">Preferred Locations</label>
+                          <div className="col-sm-12">
+                            <input type="text" className="form-control" value={preferredLocations} onChange={(event) => chnageOut("preferredLocations", event)} />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-9">
-                      <div className="form-group row">
-                        <label className="col-sm-5 col-form-label">Preferred Job Category</label>
-                        <div className="col-sm-7">
-                          <input type="text" className="form-control" value={preferredJobCategory} onChange={(event) => chnageOut("preferredJobCategory", event)} />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col-md-9">
-                      <div className="form-group row">
-                        <label className="col-sm-5 col-form-label">Expected Rate Per Hour </label>
-                        <div className="col-sm-7">
-                          <input type="number" className="form-control form-control form-control-lg" value={expectedRate} onChange={(event) => chnageOut("expectedRate", event)} />
-
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div className="row">
-                    <div className="col-md-9">
-                      <div className="form-group row">
-
-                        <label className="col-sm-3 col-form-label">Show Profile <span style={{ color: "red" }}>*</span></label>
-                        <div className="col-sm-9">
-                          <select type="dropdown" className=" form-select form-control" value={showProfile} onChange={(event) => chnageOut("showProfile", event)}>
-                            <option>---Select---</option>
-                            <option selected={showProfile == "Yes"} value="Yes">Yes</option>
-                            <option selected={showProfile == "No"} value="No">No</option>
-                          </select>
-
-                          {errors && errors.showProfile && <div className="error text-danger"> {showprofileError}</div>}
-
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-
-
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div class="form-group row">
-                        <label className="col-sm-6 col-form-label">Visa Type <span style={{ color: "red" }}>*</span></label>
-                        <div className="col-sm-12">
-                          <select type="dropdown" className="form-select form-control" value={visa} onChange={(event) => chnageOut("visa", event)}>
-                            <option>---Select---</option>
-                            <option>Working holiday visa</option>
-                            <option>Work visa</option>
-                            <option>Student visa</option>
-                            <option>Permanet Resident</option>
-                            <option>NZ citizen</option>
-                            <option>Others </option>
-                          </select>
-                          {errors && errors.visa && <div className="error text-danger"> {visaError}</div>}
+                    <div className="row">
+                      <div className="col-md-9">
+                        <div className="form-group row">
+                          <label className="col-sm-5 col-form-label">Preferred Job Category</label>
+                          <div className="col-sm-7">
+                            <input type="text" className="form-control" value={preferredJobCategory} onChange={(event) => chnageOut("preferredJobCategory", event)} />
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    {/* <div className="col-md-6">
+                    <div className="row">
+                      <div className="col-md-9">
+                        <div className="form-group row">
+                          <label className="col-sm-5 col-form-label">Expected Rate Per Hour </label>
+                          <div className="col-sm-7">
+                            <input type="number" className="form-control form-control form-control-lg" value={expectedRate} onChange={(event) => chnageOut("expectedRate", event)} />
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div className="row">
+                      <div className="col-md-9">
+                        <div className="form-group row">
+
+                          <label className="col-sm-3 col-form-label">Show Profile <span style={{ color: "red" }}>*</span></label>
+                          <div className="col-sm-9">
+                            <select type="dropdown" className=" form-select form-control" value={showProfile} onChange={(event) => chnageOut("showProfile", event)}>
+                              <option>---Select---</option>
+                              <option selected={showProfile == "Yes"} value="Yes">Yes</option>
+                              <option selected={showProfile == "No"} value="No">No</option>
+                            </select>
+
+                            {errors && errors.showProfile && <div className="error text-danger"> {showprofileError}</div>}
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div class="form-group row">
+                          <label className="col-sm-6 col-form-label">Visa Type <span style={{ color: "red" }}>*</span></label>
+                          <div className="col-sm-12">
+                            <select type="dropdown" className="form-select form-control" value={visa} onChange={(event) => chnageOut("visa", event)}>
+                              <option>---Select---</option>
+                              <option>Working holiday visa</option>
+                              <option>Work visa</option>
+                              <option>Student visa</option>
+                              <option>Permanet Resident</option>
+                              <option>NZ citizen</option>
+                              <option>Others </option>
+                            </select>
+                            {errors && errors.visa && <div className="error text-danger"> {visaError}</div>}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* <div className="col-md-6">
                       <div className="form-group row">
                         <label className="col-form-label">Visa Expiry Date</label>
                         <div className="col-sm-9">
@@ -1075,71 +1067,71 @@ function UserProfile() {
                         </div>
                       </div>
                     </div> */}
-                    {/* <div className="row"> */}
-                    <div className="col-md-6">
-                      <div className="form-group row">
-                        <label className="col-sm-6 col-form-label">Visa Expiry Date </label>
-                        <div className="col-sm-12">
-                          <input className="form-control" type="date" value={visaExpiry} onChange={(event) => chnageOut("visaExpiry", event)} />
+                      {/* <div className="row"> */}
+                      <div className="col-md-6">
+                        <div className="form-group row">
+                          <label className="col-sm-6 col-form-label">Visa Expiry Date </label>
+                          <div className="col-sm-12">
+                            <input className="form-control" type="date" value={visaExpiry} onChange={(event) => chnageOut("visaExpiry", event)} />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
 
-                  <div className="row">
-                    <div className="col-md-9">
-                      <div className="form-group row">
+                    <div className="row">
+                      <div className="col-md-9">
+                        <div className="form-group row">
 
-                        <label className="col-sm-5 col-form-label">Upload CV  <span style={{ color: "red" }}>*</span></label>
+                          <label className="col-sm-5 col-form-label">Upload CV  <span style={{ color: "red" }}>*</span></label>
 
 
-                        <div className="col-sm-7">
-                          <input type="file" id="cv" className="form-control" onChange={onFileChange} />
-                          {errors && errors.cv && <div className="error text-danger"> {cvError}</div>}
+                          <div className="col-sm-7">
+                            <input type="file" id="cv" className="form-control" onChange={onFileChange} />
+                            {errors && errors.cv && <div className="error text-danger"> {cvError}</div>}
 
-                          {isCvUploaded === true ? <div className="col-sm-7"> Uploaded</div> : ''}
+                            {isCvUploaded === true ? <div className="col-sm-7"> Uploaded</div> : ''}
+                          </div>
+
+
+
                         </div>
-
-
-
                       </div>
+
                     </div>
 
-                  </div>
-
-                  <div className="row">
-                    <div className="col-md-9">
-                      <div className="form-group row">
-                        {/* <label className="col-sm-3 col-form-label">Upload Cover Letter <span style={{ color: "red" }}>*</span></label>
+                    <div className="row">
+                      <div className="col-md-9">
+                        <div className="form-group row">
+                          {/* <label className="col-sm-3 col-form-label">Upload Cover Letter <span style={{ color: "red" }}>*</span></label>
                         <div className="col-sm-9">
                           <input type="file" className="form-control" /> */}
-                        <label className="col-sm-5 col-form-label">Upload Cover Letter <span style={{ color: "red" }}>*</span></label>
+                          <label className="col-sm-5 col-form-label">Upload Cover Letter <span style={{ color: "red" }}>*</span></label>
 
-                        <div className="col-sm-7">
-                          <input type="file" id="coverLetter" className="form-control" onChange={onFileChange} />
-                          {errors && errors.coverLetter && <div className="error text-danger"> {coverLetterError}</div>}
-                          {isCoverUploaded === true ? <div className="col-sm-7"> Uploaded</div> : ''}
+                          <div className="col-sm-7">
+                            <input type="file" id="coverLetter" className="form-control" onChange={onFileChange} />
+                            {errors && errors.coverLetter && <div className="error text-danger"> {coverLetterError}</div>}
+                            {isCoverUploaded === true ? <div className="col-sm-7"> Uploaded</div> : ''}
+                          </div>
+
                         </div>
-
                       </div>
                     </div>
-                  </div>
 
-                  <div className="col-md-12 mt-3 row">
-                    <div className="col-md-6">
-                    </div>
-                    <div className="col-md-12 d-flex justify-content-end">
+                    <div className="col-md-12 mt-3 row">
+                      <div className="col-md-6">
+                      </div>
+                      <div className="col-md-12 d-flex justify-content-end">
 
-                      <button type="button" onClick={() => SubmitData()} className="btn btn-gradient-primary me-2">SAVE</button>
+                        <button type="button" onClick={() => SubmitData()} className="btn btn-gradient-primary me-2">SAVE</button>
+                      </div>
                     </div>
-                  </div>
-                </form>
+                  </form>
+                </div>
               </div>
             </div>
-          </div>
 
-        </div>}
+          </div>}
 
 
       </div>

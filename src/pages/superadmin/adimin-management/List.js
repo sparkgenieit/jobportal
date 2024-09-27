@@ -73,12 +73,6 @@ const List = () => {
         <div className="content-wrapper bg-white">
           <div class="page-header">
             <h3 class="page-title"> Admin-Management </h3>
-            <nav aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Admin</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Admin-Management</li>
-              </ol>
-            </nav>
           </div>
           <div class="row ">
             <div className="">
