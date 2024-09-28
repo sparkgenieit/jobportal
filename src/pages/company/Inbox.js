@@ -30,7 +30,7 @@ export default function Inbox() {
     }, [])
 
     const handleClick = (mail) => {
-        if (!mail.readBy.includes(user._id)) {
+        if (!mail?.readBy?.includes(user._id)) {
             dispatch(decrementEmployerUnreadCount())
         }
         message({ path: `details/${mail._id}` })
@@ -100,7 +100,7 @@ export default function Inbox() {
                                 if (query.chat && query.chat?.length > 0) {
                                     const latestChat = query?.chat[0];
                                     return (
-                                        <tr role="button" className={query.readBy.includes(user._id) ? "" : "fw-bold"} key={i} onClick={() => handleClick(query)}>
+                                        <tr role="button" className={query?.readBy?.includes(user._id) ? "" : "fw-bold"} key={i} onClick={() => handleClick(query)}>
                                             <td className="text-center">
                                                 {getDate(latestChat?.date)}
                                             </td>

@@ -28,7 +28,7 @@ export default function Queries() {
     }, [])
 
     const handleClick = (mail) => {
-        if (!mail.readBy.includes(user._id)) {
+        if (!mail?.readBy?.includes(user._id)) {
             dispatch(decrementEmployerUnreadCount())
         }
         message({ path: `details/${mail._id}` })
@@ -92,7 +92,7 @@ export default function Queries() {
                             </thead>
                             <tbody>
                                 {queries && queries?.map((query, i) => {
-                                    return <tr role='button' className={query.readBy.includes(user._id) ? "" : "fw-bold"} key={i} onClick={() => handleClick(query)}>
+                                    return <tr role='button' className={query?.readBy?.includes(user._id) ? "" : "fw-bold"} key={i} onClick={() => handleClick(query)}>
 
                                         {query.enquirer === "Visitor" ?
                                             <>

@@ -39,7 +39,7 @@ export default function Inbox() {
     }
 
     const handleClick = (mail) => {
-        if (!mail.readBy.includes(_id)) {
+        if (!mail?.readBy?.includes(_id)) {
             dispatch(decrementAdminUnreadCount())
         }
         message({ path: `details/${mail._id}` })
