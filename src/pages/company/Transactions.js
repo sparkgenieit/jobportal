@@ -57,7 +57,7 @@ export default function Transactions() {
                                         setSearchTerm(e.target.value);
                                     }}
                                     className="form-control"
-                                    placeholder="Search Transaction by Invoice number, Date (dd/mm/yyyy), Amount"
+                                    placeholder="Search Transaction by Invoice number, Date (dd/mm/yyyy), Amount or Description"
                                 />
 
                             </div>

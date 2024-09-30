@@ -18,6 +18,7 @@ import { fetchEmployerUnreadCount, setAdminUnreadCount } from '../../helpers/sli
 import http from '../../helpers/http';
 import ChatPage from '../../components/ChatPage';
 import NotFound from '../../components/NotFound';
+import Audit from '../../pages/superadmin/Audit_Log/Audit_Log';
 
 export default function AdminLayout() {
     const dispatch = useDispatch()
@@ -52,6 +53,7 @@ export default function AdminLayout() {
                         <Route path="admin-inbox" element={<SuperAdminInbox />} />
                         <Route path="mail-admin" element={< MailAdmin />} />
                         <Route path="admin-inbox/details/:id" element={< Chat />} />
+                        <Route path="audit" element={< Audit />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </div>

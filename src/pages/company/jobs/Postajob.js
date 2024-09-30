@@ -43,10 +43,7 @@ function Postajob({ name }) {
   const cloneJobId = searchParams.get("c")
   const dispatch = useDispatch()
 
-  const [training, setTraining] = useState({
-    status: false,
-    text: ""
-  });
+  const [training, setTraining] = useState("");
 
   const [benefits, setBenefits] = useState({
     Accommodation: false,
@@ -173,7 +170,7 @@ function Postajob({ name }) {
       let data = {
         company, closedate, creationdate, jobtype, location, employjobreference, numberofvacancies, jobTitle, rateperhour, duration, jobCategory, subCategory, weeklyperhour, description, companyLogo,
         benifits: JSON.stringify(benefits),
-        training: JSON.stringify(training),
+        training,
         employerquestions: JSON.stringify(employerquestions),
         employer: localStorage.getItem("fullname"),
         companyId: user_id,
@@ -201,12 +198,7 @@ function Postajob({ name }) {
     }
 
     if (name === "training") {
-      if (value === "Yes") {
-        setTraining({ ...training, status: true })
-      }
-      if (value === "No") {
-        setTraining({ status: false, text: "" })
-      }
+      setTraining(value)
     }
   }
 
@@ -422,10 +414,10 @@ function Postajob({ name }) {
                           <label className="col-sm-3 col-form-label">Training Provided?<span className='text-danger'>*</span></label>
                         </div>
                         <div className=" col-2 form-check mx-3">
-                          <input type="radio" className="form-check-input" value="No" onChange={() => handleCheckboxes('training', "No")} checked={!training.status} />No
+                          <input type="radio" className="form-check-input" value="No" onChange={() => handleCheckboxes('training', "No")} checked={training === "No"} />No
                         </div>
                         <div className=" col-2 form-check mx-3">
-                          <input type="radio" className="form-check-input" value="Yes" onChange={() => { handleCheckboxes('training', "Yes") }} checked={training.status} />Yes
+                          <input type="radio" className="form-check-input" value="Yes" onChange={() => { handleCheckboxes('training', "Yes") }} checked={training === "Yes"} />Yes
                         </div>
                       </div>
                     </div>

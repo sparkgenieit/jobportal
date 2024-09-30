@@ -21,6 +21,7 @@ import Inbox from "../../pages/company/Inbox";
 import RecruiterList from "../../pages/company/Recruiter/RecruiterList";
 import ChatPage from '../../components/ChatPage';
 import NotFound from '../../components/NotFound';
+import Audit from '../../pages/company/Audit-Log';
 
 export default function CompanyLayout() {
     const { role } = useCurrentUser()
@@ -46,6 +47,7 @@ export default function CompanyLayout() {
                         <Route path="contact-us" element={<EmployerContactUs />} />
                         <Route path="inbox" element={<Inbox />} />
                         <Route path="inbox/details/:id" element={<ChatPage name={"Enquirer"} />} />
+                        <Route path="audit" element={<Audit />} />
 
                         {/* Company only Routes */}
                         <Route path="CompanyProfile" element={role == 'employer' ? <CompanyProfile /> : <CompanyHome />} />

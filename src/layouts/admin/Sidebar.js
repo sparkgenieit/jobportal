@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { MdSpaceDashboard, MdAssignment } from "react-icons/md";
-import { HiMiniQueueList } from "react-icons/hi2";
+import { HiMiniQueueList, HiOutlineDocumentMagnifyingGlass } from "react-icons/hi2";
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { BiUserPin } from "react-icons/bi";
 import { IoMdMailOpen } from 'react-icons/io';
@@ -96,6 +96,20 @@ function Sidebar() {
                 </div>
               </Link>
             </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/admin/audit">
+                <div className='d-flex justify-content-between align-items-center w-100'>
+                  <span>
+                    Audit Log
+                  </span>
+                  <span>
+                    <HiOutlineDocumentMagnifyingGlass size={"22"} />
+                  </span>
+                </div>
+              </Link>
+            </li>
+
           </ul>
         </nav>
       </div>

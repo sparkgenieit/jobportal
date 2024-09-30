@@ -166,8 +166,8 @@ export default function Card({ job }) {
                             {job.companyLogo.length > 0 && <img className="rounded border company-logo" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                         </div>
                         <div className='flex-grow-1 h-100 d-flex flex-column justify-content-end'>
-                            <Tooltip tooltipText={"Rate per Hour"}>
-                                <div className='d-flex  gap-2'>
+                            <Tooltip tooltipText={"Approximate salary"}>
+                                <div className='d-flex gap-2'>
                                     <span><FaDollarSign fontSize={13} /></span>
                                     <span className=''>
                                         {job.rateperhour} per hour

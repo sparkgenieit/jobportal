@@ -11,6 +11,7 @@ import { FaMapLocationDot } from "react-icons/fa6";
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { IoMdMailOpen, IoMdMailUnread } from 'react-icons/io';
 import { useSelector } from 'react-redux';
+import { HiOutlineDocumentMagnifyingGlass } from 'react-icons/hi2';
 
 function Sidebar() {
   const [showSidebar, setShowSidebar] = useState(true)
@@ -138,6 +139,20 @@ function Sidebar() {
                 </div>
               </Link>
             </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/superadmin/audit">
+                <div className='d-flex justify-content-between align-items-center w-100'>
+                  <span>
+                    Audit Log
+                  </span>
+                  <span>
+                    <HiOutlineDocumentMagnifyingGlass size={"22"} />
+                  </span>
+                </div>
+              </Link>
+            </li>
+
 
             <li class="nav-item">
               <Link class="nav-link" to="/superadmin/locations">

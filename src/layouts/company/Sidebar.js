@@ -9,6 +9,7 @@ import { PiListDashesFill } from "react-icons/pi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { ImProfile } from "react-icons/im";
 import { IoMdMailOpen } from "react-icons/io";
+import { HiOutlineDocumentMagnifyingGlass } from "react-icons/hi2";
 
 
 import { GeneralContext } from '../../helpers/Context';
@@ -157,6 +158,19 @@ function Sidebar() {
                   </span>
                   <span>
                     <IoMdMailOpen size={"22"} />
+                  </span>
+                </div>
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/company/audit">
+                <div className='d-flex justify-content-between align-items-center w-100'>
+                  <span>
+                    Audit Log
+                  </span>
+                  <span>
+                    <HiOutlineDocumentMagnifyingGlass size={"22"} />
                   </span>
                 </div>
               </Link>
