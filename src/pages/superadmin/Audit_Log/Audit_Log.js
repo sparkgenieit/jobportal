@@ -7,6 +7,7 @@ import { itemsPerPage } from "../../../helpers/constants";
 import http from "../../../helpers/http";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import { getDate } from "../../../helpers/functions/dateFunctions";
+import Loader from "../../../components/Loader";
 
 export default function Audit() {
     const [totalItems, setTotalItems] = useState(0)
@@ -14,21 +15,26 @@ export default function Audit() {
     const [pgNumber, setPgNumber] = useState(+searchParams.get("page") || 1)
     const [logs, setLogs] = useState([])
     const message = useShowMessage()
+    const [search, setSearch] = useState("")
+    const [loading, setLoading] = useState(false)
 
     const fetchLogs = async (page) => {
         const skip = (page - 1) * itemsPerPage
+        setLoading(true)
         try {
-            const res = await http.get(`/companies/logs?limit=${itemsPerPage}&skip=${skip}`)
+            const res = await http.get(`/companies/logs?limit=${itemsPerPage}&skip=${skip}&s=${search}`)
             setLogs(res.data.logs)
             setTotalItems(res.data.total)
         } catch (error) {
             message({ status: "Error", error })
+        } finally {
+            setLoading(false)
         }
     }
 
     useEffect(() => {
         fetchLogs(pgNumber)
-    }, [])
+    }, [search])
 
     return (
         <div className="container-fluid content-wrapper px-0 bg-white">
@@ -36,16 +42,28 @@ export default function Audit() {
             <h2 className="text-center fw-bold fs-3 mb-3" > Audit Log</h2>
 
             <div className="container-fluid">
-                {logs.length > 0 &&
-                    <div>
-                        <input className="form-control" />
-                    </div>
-                }
+
+                <div>
+                    <input
+                        className="form-control"
+                        placeholder="Search logs"
+                        value={search}
+                        onChange={(e) => {
+                            setSearch(e.target.value)
+                            setPgNumber(1)
+                        }} />
+                </div>
 
                 <Pagination itemsPerPage={itemsPerPage} currentPage={pgNumber} pageNumberToShow={2} setCurrentPage={setPgNumber} fetchItems={fetchLogs} totalCount={totalItems}>
                     <div className="table-responsive">
-                        {logs.length <= 0 && <div className="text-center  fw-bold mt-3 fs-4">No Logs Yet</div>}
-                        {logs.length > 0 &&
+
+                        {loading &&
+                            <div className="container">
+                                <Loader />
+                            </div>
+                        }
+
+                        {!loading && logs.length > 0 &&
                             <Table className="text-center small text-wrap">
                                 <thead>
                                     <th>Date</th>

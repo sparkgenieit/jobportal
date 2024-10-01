@@ -164,7 +164,16 @@ function Postajob({ name }) {
       return
     }
 
+    //validating training 
+    if (training !== "Yes" && training !== "No") {
+      setError({ ...error, training: "Please select training" })
+      isFormValid = false
+      invalidInput("training")
+      return
+    }
+
     if (isFormValid) {
+      setError({})
       const { company, closedate, creationdate, jobtype, location, employjobreference, numberofvacancies, jobTitle, rateperhour, duration, jobCategory, subCategory, weeklyperhour, description, companyLogo } = jobData
 
       let data = {
@@ -414,11 +423,12 @@ function Postajob({ name }) {
                           <label className="col-sm-3 col-form-label">Training Provided?<span className='text-danger'>*</span></label>
                         </div>
                         <div className=" col-2 form-check mx-3">
-                          <input type="radio" className="form-check-input" value="No" onChange={() => handleCheckboxes('training', "No")} checked={training === "No"} />No
+                          <input type="radio" name='training' className="form-check-input" value="No" onChange={() => handleCheckboxes('training', "No")} checked={training === "No"} />No
                         </div>
                         <div className=" col-2 form-check mx-3">
-                          <input type="radio" className="form-check-input" value="Yes" onChange={() => { handleCheckboxes('training', "Yes") }} checked={training === "Yes"} />Yes
+                          <input type="radio" name='training' className="form-check-input" value="Yes" onChange={() => { handleCheckboxes('training', "Yes") }} checked={training === "Yes"} />Yes
                         </div>
+                        <span className='text-danger small'>{error.training && error.training}</span>
                       </div>
                     </div>
                   </div>

@@ -13,6 +13,8 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob }
     const showMessage = useShowMessage()
     const user = useCurrentUser()
 
+    const credits = user.role === "recruiter" ? user.companyId.credits : user.credits
+
     useEffect(() => {
         if (modal.type === "support") {
             setSubject("")
@@ -107,7 +109,7 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob }
                     </>
                 }
                 {modal.type === "repost" && <>
-                    {+localStorage.getItem("credits") > 0 ?
+                    {credits > 0 ?
                         <>
                             <div className="d-flex flex-column align-items-center">
                                 <div className="text-center fw-bold p-3">Please review all details before reposting this job.</div>
