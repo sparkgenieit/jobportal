@@ -25,7 +25,7 @@ function Pagination({ currentPage, setCurrentPage, totalCount, itemsPerPage, fet
     }
 
     return (
-        <div style={{ minHeight: "80vh" }} className="d-flex flex-column justify-content-between">
+        <div className="d-flex flex-column justify-content-between">
             <div className="container-fluid p-0">
                 {children}
             </div>

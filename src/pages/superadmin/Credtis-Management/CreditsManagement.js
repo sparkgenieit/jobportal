@@ -3,22 +3,24 @@ import MdxEditor from "../../../components/MdxEditor";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import http from "../../../helpers/http";
 import { validateIsNotEmpty } from "../../../helpers/functions/textFunctions";
+import ComboBox from "../../../components/ComboBox";
 
 let limit = 100
 
-export default function CredtisManagement() {
+export default function CreditsManagement() {
     const [msg, setMsg] = useState("")
     const [companies, setCompanies] = useState([])
     const [selectedCompany, setSelectedCompany] = useState({})
     const [credits, setCredits] = useState("")
     const [type, setType] = useState("Refund")
+    const [companiesSuggestions, setCompaniesSuggestions] = useState([])
+    const [name, setName] = useState("")
     const message = useShowMessage()
 
     const fetchCompanies = async () => {
         try {
             const res = await http.get(`/users/all?role=employer&limit=${limit}&skip=0`)
             setCompanies(res.data.users)
-            setSelectedCompany(res.data.users[0])
             if (res.data.total > limit) {
                 limit = res.data.total
                 fetchCompanies()
@@ -32,9 +34,25 @@ export default function CredtisManagement() {
         fetchCompanies()
     }, [])
 
-    const handleSelectCompany = (e) => {
-        const selected = companies.find(company => company._id === e.target.value)
-        setSelectedCompany(selected)
+    const handleOnChange = (e) => {
+        let value = e.target.value
+        setName(value)
+        if (!value.trim()) {
+            setCompaniesSuggestions([])
+            return
+        }
+        let companyNames = companies
+            ?.filter(company => (company?.first_name + " " + company?.last_name).toLowerCase().includes(value.toLowerCase()))
+            .map((company) => ({ ...company, fullname: company?.first_name + " " + company?.last_name }))
+
+        setCompaniesSuggestions(companyNames)
+    }
+
+    const handleSuggestionOnEnter = (selectedCompany) => {
+        const { fullname, ...company } = selectedCompany
+        setName(fullname)
+        setSelectedCompany(company)
+        setCompaniesSuggestions([])
     }
 
     const handleCredits = async () => {
@@ -101,9 +119,10 @@ export default function CredtisManagement() {
                 http.post(`/orders/create`, orderCreationData),
                 http.post(`/mails/employer/create`, mailCreate),
             ])
-
             message({ status: "Success", message: `Credits ${type}ed` })
             fetchCompanies()
+            setSelectedCompany({})
+            setName("")
             setCredits("")
             setMsg("")
         } catch (e) {
@@ -118,17 +137,23 @@ export default function CredtisManagement() {
                 <div className="d-flex flex-column gap-4 mt-4">
                     <div className="d-flex gap-5 ">
                         <div className="d-flex flex-grow-1 flex-column">
-                            <label className="form-label">Select a Company Name</label>
-                            <select onChange={handleSelectCompany} value={selectedCompany?._id} className="form-select">
-                                {companies.length > 0 && companies.map(company => (
-                                    <option key={company._id} value={company._id}>{company.first_name + " " + company.last_name}</option>
-                                ))}
-                            </select>
+                            <label className="form-label">Company Name</label>
+                            <ComboBox
+                                suggestions={companiesSuggestions}
+                                setSuggestions={setCompaniesSuggestions}
+                                label={"fullname"}
+                                suggestionValue={"_id"}
+                                placeholder='Type company name here'
+                                className="form-control"
+                                value={name}
+                                onChange={handleOnChange}
+                                onEnter={handleSuggestionOnEnter}
+                            />
                         </div>
 
                         <div className="d-flex flex-column w-50">
                             <label className="form-label"> Company ID</label>
-                            <input type="text" className="form-control" value={selectedCompany?._id} disabled />
+                            <input type="text" className="form-control" value={selectedCompany?._id || ""} disabled readOnly />
                         </div>
                     </div>
 
@@ -163,7 +188,7 @@ export default function CredtisManagement() {
                         <div className="d-flex  flex-column gap-3 w-25">
                             <div>Current Credits</div>
                             <div>
-                                <input type="number" className="form-control" value={selectedCompany?.credits} disabled />
+                                <input type="number" className="form-control" value={selectedCompany?.credits || 0} disabled readOnly />
                             </div>
 
                         </div>

@@ -21,15 +21,15 @@ function Sidebar() {
     <>
       {<div style={sidebarClass}>
 
-        <nav class="sidebar sidebar-offcanvas" id="sidebar">
-          <ul class="nav">
+        <nav className="sidebar sidebar-offcanvas" id="sidebar">
+          <ul className="nav">
 
             <div className=" mt-4 pe-0 d-flex justify-content-end">
               <RxHamburgerMenu role='button' onClick={() => setShowSidebar(prev => !prev)} fontSize={22} />
             </div>
 
-            <li class="nav-item">
-              <Link class="nav-link" to="/superadmin/Table">
+            <li className="nav-item">
+              <Link className="nav-link" to="/superadmin/Table">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Ads Management</span>
                   <span>
@@ -38,8 +38,8 @@ function Sidebar() {
                 </div>
               </Link>
             </li>
-            <li class="nav-item">
-              <Link class="nav-link" to="/superadmin/admins/List">
+            <li className="nav-item">
+              <Link className="nav-link" to="/superadmin/admins/List">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Admin Management</span>
                   <span>
@@ -48,8 +48,8 @@ function Sidebar() {
                 </div>
               </Link>
             </li>
-            <li class="nav-item">
-              <Link class="nav-link" to="/superadmin/orders">
+            <li className="nav-item">
+              <Link className="nav-link" to="/superadmin/orders">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Order Management</span>
                   <span>
@@ -59,8 +59,8 @@ function Sidebar() {
               </Link>
             </li>
 
-            <li class="nav-item">
-              <Link class="nav-link" to="/superadmin/mail">
+            <li className="nav-item">
+              <Link className="nav-link" to="/superadmin/mail">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Mail</span>
                   <span>
@@ -70,8 +70,8 @@ function Sidebar() {
               </Link>
             </li>
 
-            <li class="nav-item">
-              <Link class="nav-link" to="/superadmin/admin-inbox">
+            <li className="nav-item">
+              <Link className="nav-link" to="/superadmin/admin-inbox">
                 <div className='d-flex justify-content-between w-100'>
                   <span className='d-flex gap-3 align-items-center'>
                     <span>Inbox</span>
@@ -85,8 +85,8 @@ function Sidebar() {
                 </div>
               </Link>
             </li>
-            <li class="nav-item">
-              <Link class="nav-link" to="/superadmin/jobs">
+            <li className="nav-item">
+              <Link className="nav-link" to="/superadmin/jobs">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Jobs List</span>
                   <span>
@@ -97,8 +97,8 @@ function Sidebar() {
             </li>
 
 
-            <li class="nav-item">
-              <Link class="nav-link" to="/superadmin/Skills">
+            <li className="nav-item">
+              <Link className="nav-link" to="/superadmin/Skills">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Skills Management</span>
                   <span>
@@ -108,8 +108,8 @@ function Sidebar() {
               </Link>
             </li>
 
-            <li class="nav-item">
-              <Link class="nav-link" to="/superadmin/Categorieslist1">
+            <li className="nav-item">
+              <Link className="nav-link" to="/superadmin/Categorieslist1">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Category Management</span>
                   <span>
@@ -118,8 +118,8 @@ function Sidebar() {
                 </div>
               </Link>
             </li>
-            <li class="nav-item">
-              <Link class="nav-link" to="/superadmin/pages">
+            <li className="nav-item">
+              <Link className="nav-link" to="/superadmin/pages">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Pages Management</span>
                   <span>
@@ -129,8 +129,8 @@ function Sidebar() {
               </Link>
             </li>
 
-            <li class="nav-item">
-              <Link class="nav-link" to="/superadmin/users">
+            <li className="nav-item">
+              <Link className="nav-link" to="/superadmin/users">
                 <div className='d-flex justify-content-between w-100'>
                   <span>User Management</span>
                   <span>
@@ -154,8 +154,8 @@ function Sidebar() {
             </li>
 
 
-            <li class="nav-item">
-              <Link class="nav-link" to="/superadmin/locations">
+            <li className="nav-item">
+              <Link className="nav-link" to="/superadmin/locations">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Location List</span>
                   <span>
@@ -165,8 +165,8 @@ function Sidebar() {
               </Link>
             </li>
 
-            <li class="nav-item">
-              <Link class="nav-link" to="/superadmin/credits-management">
+            <li className="nav-item">
+              <Link className="nav-link" to="/superadmin/credits-management">
                 <div className='d-flex justify-content-between w-100'>
                   <span>Credits Management</span>
                   <span>

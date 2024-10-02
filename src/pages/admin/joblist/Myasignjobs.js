@@ -1,20 +1,17 @@
 import { useEffect, useState } from "react";
-import Footer from "../../../layouts/admin/Footer";
-import Header from "../../../layouts/admin/Header";
-import Sidebar from "../../../layouts/admin/Sidebar";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { itemsPerPage } from "../../../helpers/constants";
 import http from "../../../helpers/http";
 import Pagination from "../../../components/Pagination";
 import RejectJobMessage from "../../../components/RejectJobMessage";
 import Loader from "../../../components/Loader";
+import useShowMessage from "../../../helpers/Hooks/useShowMessage";
+import useCurrentUser from "../../../helpers/Hooks/useCurrentUser";
 
 function Myasignjobs() {
     const [assignJobs, setAssignJobs] = useState(null)
     const [msg, setMsg] = useState(false)
     const [error, setError] = useState(false)
-    const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
-    const [joblist, setJoblist] = useState(true)
     const [releaseError, setReleaseError] = useState(false)
     const [jobData, setJobData] = useState()
     const [searchParams] = useSearchParams()
@@ -23,6 +20,8 @@ function Myasignjobs() {
     const [pgNumber, setPgNumber] = useState(+searchParams.get('page') || 1)
     const [show, setShow] = useState(false)
     const [loading, setLoading] = useState(false)
+    const message = useShowMessage()
+    const { id: userId } = useCurrentUser()
 
     useEffect(() => {
         fetchAssignJobs(pgNumber)
@@ -32,14 +31,13 @@ function Myasignjobs() {
         setLoading(true)
         const skip = (page - 1) * itemsPerPage;
         try {
-            const response = await http.get(`/jobs/assignedJobs/${userId}?limit=${itemsPerPage}&skip=${skip}`)
-            setLoading(false)
+            const response = await http.get(`/jobs/assignedJobs?limit=${itemsPerPage}&skip=${skip}`)
             setAssignJobs(response.data.jobs)
             setTotalItems(response.data.total)
         } catch (error) {
+            message({ status: "error", error })
+        } finally {
             setLoading(false)
-            setAssignJobs([])
-            setTotalItems(0)
         }
     }
 
@@ -69,11 +67,12 @@ function Myasignjobs() {
                 }
             })
             .then(res => {
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000)
+                fetchAssignJobs(pgNumber)
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                message({ status: "error", error: err })
+            }
+            )
     }
 
     function handleJob(job) {
@@ -95,7 +94,7 @@ function Myasignjobs() {
                 }
             })
             .catch((e) => {
-                setReleaseError(true)
+                message({ status: "error", error: e })
             })
 
     }
@@ -112,17 +111,6 @@ function Myasignjobs() {
                                 <div className="card-body  bg-white ">
                                     <form className="form-sample">
                                         <div className="col">
-                                            {msg && <div className="alert alert-success" role="alert">
-                                                Job Approved
-                                            </div>}
-                                            {error && <div className="alert alert-danger" role="alert">
-                                                Job Rejected
-                                            </div>
-                                            }
-                                            {releaseError && <div className="alert alert-danger" role="alert">
-                                                An Error Ocuured
-                                            </div>
-                                            }
                                             {loading && < Loader />}
                                             {!loading && <table className="table  " >
                                                 <thead>
@@ -155,15 +143,18 @@ function Myasignjobs() {
                                                                     </button>}
                                                                 </td>
                                                                 <td>
-                                                                    {job.status !== "approved" && <button onClick={() => handleApprove(job)} type="button" className="btn btn-outline-info btn-xs col-12  ">
+                                                                    {(job.status === "review" || job.status === "rejected") && <button onClick={() => handleApprove(job)} type="button" className="btn btn-outline-info btn-xs col-12  ">
                                                                         Approve
+                                                                    </button>}
+                                                                    {(job.status === "closed" || job.status === "expired") && <button disabled type="button" className="btn btn-outline-info text-capitalize btn-xs col-12  ">
+                                                                        {job.status}
                                                                     </button>}
                                                                     {job.status === "approved" && <button disabled type="button" className="btn btn-success btn-xs col-12  ">
                                                                         Approved
                                                                     </button>}
                                                                 </td>
                                                                 <td>
-                                                                    {job.status !== "rejected" && < button onClick={() => { setShow(true); setJobData(job) }} type="button" className="btn  btn-xs btn-outline-danger col-12">
+                                                                    {(job.status === "review" || job.status === "approved") && < button onClick={() => { setShow(true); setJobData(job) }} type="button" className="btn  btn-xs btn-outline-danger col-12">
                                                                         Reject
                                                                     </button>}
                                                                     {job.status === "rejected" && < button disabled type="button" className="btn  btn-xs btn-danger col-12">

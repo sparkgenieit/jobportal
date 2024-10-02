@@ -73,7 +73,7 @@ function SingleJob() {
             try {
                 await http.patch(`/jobs/increase-view-count/${id}`)
             } catch (error) {
-                console.log("error ocuured while increasing views")
+                console.log("error occured while increasing views")
             }
         }
     }
