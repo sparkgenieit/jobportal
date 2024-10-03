@@ -19,6 +19,7 @@ import http from '../../helpers/http';
 import ChatPage from '../../components/ChatPage';
 import NotFound from '../../components/NotFound';
 import Audit from '../../pages/superadmin/Audit_Log/Audit_Log';
+import GeneralQueries from '../../pages/admin/GeneralQueries';
 
 export default function AdminLayout() {
     const dispatch = useDispatch()
@@ -46,6 +47,7 @@ export default function AdminLayout() {
                         <Route index element={<AdminHome />} />
                         <Route path="jobqueuelist" element={<Jobqueuelist />} />
                         <Route path="employer-queries" element={<UnAssignedQueries />} />
+                        <Route path="general-queries" element={<GeneralQueries />} />
                         <Route path="inbox" element={<AdminInbox />} />
                         <Route path="inbox/details/:id" element={<ChatPage name={"Admin"} />} />
                         <Route path="Myasignjobs" element={<Myasignjobs />} />

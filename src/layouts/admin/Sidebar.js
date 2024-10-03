@@ -3,7 +3,7 @@ import './Sidebar.css';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { MdSpaceDashboard, MdAssignment } from "react-icons/md";
+import { MdSpaceDashboard, MdAssignment, MdOutlineQuestionMark } from "react-icons/md";
 import { HiMiniQueueList, HiOutlineDocumentMagnifyingGlass } from "react-icons/hi2";
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { BiUserPin } from "react-icons/bi";
@@ -64,6 +64,17 @@ function Sidebar() {
                   <span>Employer Queries</span>
                   <span>
                     <BiUserPin size={"22"} />
+                  </span>
+                </div>
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/admin/general-queries">
+                <div className='d-flex justify-content-between w-100'>
+                  <span>General Queries</span>
+                  <span>
+                    < MdOutlineQuestionMark size={"20"} />
                   </span>
                 </div>
               </Link>

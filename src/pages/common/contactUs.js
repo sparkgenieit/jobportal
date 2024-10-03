@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import Footer from '../../layouts/common/Footer';
-import Header from '../../layouts/common/Header';
 import './contactUs.css';
 import http from '../../helpers/http';
-import { useNavigate } from 'react-router-dom';
+import useShowMessage from '../../helpers/Hooks/useShowMessage';
+
 
 function ContactUs() {
   const [subject, setSubject] = useState("");
@@ -12,7 +11,8 @@ function ContactUs() {
   const [name, setName] = useState("");
   const [organisation, setOrganisation] = useState("");
   const [message, setMessage] = useState("");
-  const navigate = useNavigate()
+  const showMessage = useShowMessage()
+
 
   const [errors, setErrors] = useState({
     subject: {
@@ -151,10 +151,11 @@ function ContactUs() {
       http.post('/mails/contact-us', data)
         .then((res) => {
           setErrors({ ...errors, sentMessage: true, errorMessage: false })
-          navigate('/')
+          showMessage({ status: "success", message: "Form submitted", path: "/" })
         })
         .catch(err => {
           setErrors({ ...errors, errorMessage: true, sentMessage: false })
+          showMessage({ status: "error", error: err })
         })
     }
   }

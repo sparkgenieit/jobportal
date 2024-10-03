@@ -21,7 +21,7 @@ function Myasignjobs() {
     const [show, setShow] = useState(false)
     const [loading, setLoading] = useState(false)
     const message = useShowMessage()
-    const { id: userId } = useCurrentUser()
+    const { _id: userId } = useCurrentUser()
 
     useEffect(() => {
         fetchAssignJobs(pgNumber)

@@ -5,7 +5,8 @@ export const userSlice = createSlice({
     name: 'user',
     initialState: {
         currentUser: {
-            role: localStorage.getItem('role')
+            role: localStorage.getItem('role'),
+            _id: localStorage.getItem("user_id")
         }
     },
     reducers: {

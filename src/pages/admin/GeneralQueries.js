@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 
 import { useSearchParams } from "react-router-dom"
 import Table from 'react-bootstrap/Table'
+import { BsTrash3Fill } from "react-icons/bs";
 
 import http from "../../helpers/http"
 import { markdownToPlainText } from "../../helpers/functions/textFunctions"
@@ -12,14 +13,14 @@ import useShowMessage from "../../helpers/Hooks/useShowMessage"
 import { useDispatch } from "react-redux"
 import { fetchEmployerUnreadCount } from "../../helpers/slices/mailCountSlice"
 
-export default function UnAssignedQueries() {
+export default function GeneralQueries() {
     const [queries, setQueries] = useState([])
     const [totalItems, setTotalItems] = useState(0)
     const [loading, setLoading] = useState(false)
-    const [search, setSearch] = useState("")
     const [assigning, setAssigning] = useState(false)
     const [searchParams, setSearchParams] = useSearchParams()
     const [currentPage, setCurrentPage] = useState(+searchParams.get("page") || 1)
+    const [search, setSearch] = useState("")
     const dispatch = useDispatch()
 
     //Custom Hook
@@ -33,7 +34,7 @@ export default function UnAssignedQueries() {
         setLoading(true)
         const skip = (page - 1) * itemsPerPage
         try {
-            const response = await http.get(`/mails/unassigned-mails/employer?s=${search}&limit=${itemsPerPage}&skip=${skip}`)
+            const response = await http.get(`/mails/unassigned-mails/general?s=${search}&limit=${itemsPerPage}&skip=${skip}`)
             setQueries(response.data.mails)
             setTotalItems(response.data.total)
         } catch (error) {
@@ -50,6 +51,25 @@ export default function UnAssignedQueries() {
             return params;
         })
         setCurrentPage(1)
+    }
+
+    const handleDelete = async (query) => {
+        setAssigning(true)
+        try {
+            await http.delete(`/mails/delete/${query._id}`)
+            message({
+                status: "Success",
+                message: "Query deleted",
+            })
+            fetchQueries(currentPage)
+        } catch (error) {
+            message({
+                status: "Error",
+                error
+            })
+        } finally {
+            setAssigning(false)
+        }
     }
 
 
@@ -76,7 +96,7 @@ export default function UnAssignedQueries() {
     return (
         <div className="mt-3 container-fluid">
             <h2 className="fw-bold fs-4 text-center">
-                Employer Queries
+                General Queries
             </h2>
 
             <div id="search-box" className="my-2">
@@ -101,6 +121,7 @@ export default function UnAssignedQueries() {
                                 <td>Subject</td>
                                 <td>Message</td>
                                 <td></td>
+                                <td></td>
                             </tr>
                         </thead>
                         <tbody>
@@ -121,6 +142,12 @@ export default function UnAssignedQueries() {
                                                     className="btn btn-xs btn-info rounded-4 "
                                                 >
                                                     Assign to me
+                                                </button>
+                                            </td>
+
+                                            <td>
+                                                <button type="button" disabled={assigning} className="border-0 bg-white" onClick={() => handleDelete(query)}>
+                                                    <BsTrash3Fill fontSize={18} />
                                                 </button>
                                             </td>
 
