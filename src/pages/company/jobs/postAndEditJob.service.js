@@ -58,7 +58,7 @@ export const fetchJobForEditing = async (id, setJobData, setBenefits, setTrainin
             setJobData({ ...response.data, creationdate: new Date(response.data.creationdate) });
         setBenefits(JSON.parse(response.data.benifits));
         setEmployerQuestions(JSON.parse(response.data.employerquestions));
-        setTraining(response.data.training);
+        setTraining(response.data.training === "Yes" ? "Yes" : "No");
         return response
     } catch (error) {
         console.log(error)

@@ -164,14 +164,6 @@ function Postajob({ name }) {
       return
     }
 
-    //validating training 
-    if (training !== "Yes" && training !== "No") {
-      setError({ ...error, training: "Please select training" })
-      isFormValid = false
-      invalidInput("training")
-      return
-    }
-
     if (isFormValid) {
       setError({})
       const { company, closedate, creationdate, jobtype, location, employjobreference, numberofvacancies, jobTitle, rateperhour, duration, jobCategory, subCategory, weeklyperhour, description, companyLogo } = jobData

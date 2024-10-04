@@ -9,6 +9,7 @@ import httpUpload from '../../helpers/httpUpload';
 import { getYoutubeVideoId } from '../../helpers/functions';
 import useShowMessage from '../../helpers/Hooks/useShowMessage';
 import MdxEditor from '../../components/MdxEditor';
+import ImageResizer from '../../components/ImageResizer';
 import { validateEmailAddress, validateIsNotEmpty } from '../../helpers/functions/textFunctions';
 
 const formInitialValues = {
@@ -52,7 +53,7 @@ function CompanyProfile() {
         }
       })
       .catch(e => {
-        console.log(e);
+        message({ status: "error", error: e })
       })
   }, [userId])
 
@@ -147,36 +148,32 @@ function CompanyProfile() {
       <div class="container-fluid">
         <div className="col-12 bg-white">
           <div className="card-body container ">
-            {companyBanner && companyBanner.length > 0 &&
-              <div className='border mb-4' style={{ width: "1000px", height: "250px" }}>
-                <img className='rounded ' style={{ width: "1000px", height: "250px" }} src={companyBanner} alt='banner_photo' />
-              </div>
-            }
+
+            <div className='mb-4'>
+              {companyBanner && companyBanner.length > 0 &&
+                <ImageResizer width={1000} height={250} setImage={setBanner} defaultImg={companyBanner} />
+              }
+            </div>
             <div style={{ width: "1000px" }} className='d-flex justify-content-between'>
 
-              <div className='d-flex gap-3'>
+              <div className='d-flex'>
+
                 {companyLogo && companyLogo.length > 0 &&
-                  <div>
-                    <img className='rounded' style={{ width: "120px", height: "75px" }} src={companyLogo} />
-                  </div>
+                  <ImageResizer width={120} height={75} setImage={setLogo} defaultImg={companyLogo} />
                 }
-                <div>
-                  <button type='button' style={{ backgroundColor: "blue" }} className='my-button text-white' onClick={() => { logoRef.current.click() }}>
-                    <small>
-                      Change Logo <br />
-                      75 px height <br />
-                      120px width
-                    </small>
-                  </button>
-                </div>
-              </div>
-              <div>
 
+                <button type='button' style={{ backgroundColor: "blue" }} className='my-button align-self-center text-white' onClick={() => { logoRef.current.click() }}>
+                  <small>
+                    Change Logo <br />
+                    75 px height <br />
+                    120px width
+                  </small>
+                </button>
 
               </div>
 
               <div>
-                <button type='button' style={{ backgroundColor: "#04045b" }} className='my-button text-white' onClick={() => { bannerRef.current.click() }} >
+                <button type='button' style={{ backgroundColor: "#04045b" }} className='my-button px-2 text-white' onClick={() => { bannerRef.current.click() }} >
                   <small>
                     Change Banner
                     <br />
