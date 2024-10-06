@@ -1,5 +1,17 @@
-.height-range {
-    transform: rotate(90deg);
-    height: 10px;
-    width: 75px;
+.slider {
+    height: 5px;
+}
+
+
+.height-slider {
+    writing-mode: vertical-rl;
+    width: 5px;
+
+}
+
+
+
+.img-resize {
+    width: 100%;
+    height: 100%;
 }
