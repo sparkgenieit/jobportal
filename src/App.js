@@ -41,7 +41,7 @@ function App() {
           <Route
             path="/company/transactions/download-transactions"
             element={
-              (role == 'employer') ?
+              (role === 'employer' || role === "recruiter") ?
                 <Suspense fallback={<Loader />}>
                   < DownloadTransactions />
                 </Suspense>

@@ -48,11 +48,11 @@ export default function CompanyLayout() {
                         <Route path="inbox" element={<Inbox />} />
                         <Route path="inbox/details/:id" element={<ChatPage name={"Enquirer"} />} />
                         <Route path="audit" element={<Audit />} />
+                        <Route path="transactions" element={<Transactions />} />
+                        <Route path="BuyCredits" element={<BuyCredits />} />
 
                         {/* Company only Routes */}
                         <Route path="CompanyProfile" element={role == 'employer' ? <CompanyProfile /> : <CompanyHome />} />
-                        <Route path="transactions" element={role == 'employer' ? <Transactions /> : <CompanyHome />} />
-                        <Route path="BuyCredits" element={role == 'employer' ? <BuyCredits /> : <CompanyHome />} />
                         <Route path="recruiters" element={role == 'employer' ? <RecruiterList /> : <CompanyHome />} />
 
                         <Route path="*" element={<NotFound />} />

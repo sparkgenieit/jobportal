@@ -5,15 +5,19 @@ import { Modal } from "react-bootstrap";
 import http from "../../../helpers/http";
 import { plans } from "../../../helpers/constants";
 import Toaster from "../../../components/Toaster";
+import useCurrentUser from "../../../helpers/Hooks/useCurrentUser";
 
 function BuyCredits() {
-    const [user_id, setUser_id] = useState(localStorage.getItem('user_id'));
     const [message, setMessage] = useState({})
     const [show, setShow] = useState(false)
     const [loading, setLoading] = useState(false)
     const [paymentDetails, setPaymentDetails] = useState({})
+    const user = useCurrentUser()
 
     const choocePlan = (plan) => {
+
+        const user_id = user.role === "recruiter" ? user.companyId._id : user._id
+
         if (user_id) {
             setShow(true)
             setLoading(true)

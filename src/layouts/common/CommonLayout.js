@@ -88,11 +88,13 @@ export default function CommonLayout() {
                     <Route path="/common/FreedomCampaining" element={<FreedomCampaining />} />
                     <Route path="/common/Activities" element={<Activities />} />
                     <Route path="/common/Jobs" element={<Jobs />} />
-                    <Route path="/payment-status" element={role === "employer" ? <PaymentStatus /> : <Navigate to="/" />} />
                     <Route path="/cities/:city" element={<City />} />
                     <Route path="/forgotPassword" element={<ForgetPassword />} />
                     <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="/activate-account" element={<ActivateAccount />} />
+
+                    {/* Company Protected Route */}
+                    <Route path="/payment-status" element={(role === "employer" || role === "recruiter") ? <PaymentStatus /> : <Navigate to="/" />} />
 
                     {/* User Protected Routes */}
 

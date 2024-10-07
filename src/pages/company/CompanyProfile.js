@@ -158,7 +158,7 @@ function CompanyProfile() {
             <div className='d-flex gap-3 align-items-center'>
 
               {companyLogo && companyLogo.length > 0 &&
-                <ImageResizer width={120} height={75} setImg={setLogo} imgSrc={companyLogo} />
+                <ImageResizer width={125} height={75} setImg={setLogo} imgSrc={companyLogo} />
               }
 
               <button type='button' style={{ backgroundColor: "blue" }} className='my-button align-self-start mt-1 text-white' onClick={() => { logoRef.current.click() }}>

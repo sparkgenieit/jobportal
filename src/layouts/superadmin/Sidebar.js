@@ -62,7 +62,7 @@ function Sidebar() {
             <li className="nav-item">
               <Link className="nav-link" to="/superadmin/mail">
                 <div className='d-flex justify-content-between w-100'>
-                  <span>Mail</span>
+                  <span>Bulk Mail</span>
                   <span>
                     <IoMdMailUnread size={"22"} />
                   </span>

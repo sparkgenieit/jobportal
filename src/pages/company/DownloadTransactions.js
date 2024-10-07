@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react"
-
+import { useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 
 import http from "../../helpers/http";
-import { useNavigate } from "react-router-dom";
+import useCurrentUser from "../../helpers/Hooks/useCurrentUser";
 
 export default function DownloadTransactions() {
-    const user_id = localStorage.getItem('user_id')
+    const user = useCurrentUser()
+    const user_id = user.role === 'recruiter' ? user.companyId._id : user._id
     const [transactionDetails, setTransactionDetails] = useState([])
     const [downloading, setDownloading] = useState(false)
     const [error, setError] = useState("")
@@ -72,7 +73,6 @@ export default function DownloadTransactions() {
     const fetchTransactions = async () => {
         try {
             const response = await http.get(`/orders/download-transactions/${user_id}?from=${fromDate}&to=${toDate}`)
-            const data = response.data
             setTransactionDetails(response.data)
         } catch (error) {
             setTransactionDetails([])

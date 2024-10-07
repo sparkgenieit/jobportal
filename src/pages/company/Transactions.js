@@ -7,6 +7,7 @@ import http from "../../helpers/http";
 import { BASE_API_URL, itemsPerPage } from "../../helpers/constants";
 import Pagination from "../../components/Pagination";
 import Loader from "../../components/Loader";
+import useCurrentUser from "../../helpers/Hooks/useCurrentUser";
 
 export default function Transactions() {
     const [transactionDetails, setTransactionDetails] = useState(null)
@@ -16,8 +17,8 @@ export default function Transactions() {
     const [searchTerm, setSearchTerm] = useState("")
     const [sort, setSort] = useState("desc")
     const [currentPage, setCurrentPage] = useState(+searchParams.get('page') || 1)
-
-    const userId = localStorage.getItem("user_id")
+    const user = useCurrentUser()
+    const userId = user.role === 'recruiter' ? user.companyId._id : user._id
 
     useEffect(() => {
         fetchTransactionDetails(currentPage)

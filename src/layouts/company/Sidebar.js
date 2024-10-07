@@ -23,15 +23,17 @@ function Sidebar() {
   const navigate = useNavigate()
   const user = useCurrentUser()
   const count = useSelector((state) => state.mailCount.EmployerUnreadCount)
+  const credits = user.role === 'recruiter' ? user.companyId.credits : user.credits
+  const usedFreeCredit = user.role === 'recruiter' ? user.companyId.usedFreeCredit : user.usedFreeCredit
 
   let sidebarClass = isSidebarOpen ? { marginLeft: "0" } : { marginLeft: "-230px" };
 
   const handleModal = () => {
 
-    if (user?.credits === 0 && !user?.usedFreeCredit) {
+    if (credits === 0 && !usedFreeCredit) {
       setShow(true);
     }
-    else if (user?.credits === 0 && user?.usedFreeCredit) {
+    else if (credits === 0 && usedFreeCredit) {
       setShow(true);
     }
     else {
@@ -104,50 +106,46 @@ function Sidebar() {
               </Link>
             </li>
 
-            {user?.role === "employer" ? <>
-              <li className="nav-item">
-                <Link className="nav-link" to="/company/recruiters">
-                  <div className='d-flex justify-content-between w-100'>
-                    <span>Recruiters</span>
+
+            {user?.role === "employer" && <li className="nav-item">
+              <Link className="nav-link" to="/company/recruiters">
+                <div className='d-flex justify-content-between w-100'>
+                  <span>Recruiters</span>
+                  <span>
+                    <BsFillPersonCheckFill size={"20"} />
+                  </span>
+                </div>
+              </Link>
+            </li>}
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/company/BuyCredits">
+                <div className='d-flex flex-column w-100'>
+                  <div className='d-flex  justify-content-between w-100'>
+                    <span>Buy Credits</span>
                     <span>
-                      <BsFillPersonCheckFill size={"20"} />
+                      <BsCreditCard size={"20"} />
                     </span>
                   </div>
-                </Link>
-              </li>
+                  <div className="text-secondary small">Available Credits: {credits ? credits : 0}</div>
 
-              <li className="nav-item">
-                <Link className="nav-link" to="/company/BuyCredits">
-                  <div className='d-flex flex-column w-100'>
-                    <div className='d-flex  justify-content-between w-100'>
-                      <span>Buy Credits</span>
-                      <span>
-                        <BsCreditCard size={"20"} />
-                      </span>
-                    </div>
-                    <div className="text-secondary small">Available Credits: {user?.credits ? user.credits : 0}</div>
+                </div>
+              </Link>
+            </li>
 
-                  </div>
-                </Link>
-              </li>
-            </> :
-              <li className='nav-item'>
-                <div className="text-secondary small">Available Credits: {user?.companyId?.credits ? user?.companyId?.credits : 0}</div>
-              </li>
-            }
 
-            {user?.role === "employer" &&
-              <li className="nav-item">
-                <Link className="nav-link" to="/company/transactions">
-                  <div className='d-flex justify-content-between align-items-center w-100'>
-                    <span>Transactions</span>
-                    <span>
-                      <PiListDashesFill size={"22"} />
-                    </span>
-                  </div>
-                </Link>
-              </li>
-            }
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/company/transactions">
+                <div className='d-flex justify-content-between align-items-center w-100'>
+                  <span>Transactions</span>
+                  <span>
+                    <PiListDashesFill size={"22"} />
+                  </span>
+                </div>
+              </Link>
+            </li>
+
 
             <li className="nav-item">
               <Link className="nav-link" to="/company/inbox">
@@ -178,12 +176,12 @@ function Sidebar() {
 
           </ul>
         </nav>
-      </div>
+      </div >
 
 
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Body>
-          {user?.credits === 0 && !user?.usedFreeCredit &&
+          {credits === 0 && !usedFreeCredit &&
             <>
               <div className='d-flex flex-column align-items-center gap-2 p-2'>
                 <h3>POST A JOB FOR FREE</h3>
@@ -204,7 +202,7 @@ function Sidebar() {
               </div>
             </>}
 
-          {user?.credits === 0 && user?.usedFreeCredit &&
+          {credits === 0 && usedFreeCredit &&
             <><div className="form-row ml-5">
               <div className="form-group">
                 <div className="form-group">
