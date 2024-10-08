@@ -230,13 +230,12 @@ function PostedJobList() {
                                                                         {job.status === "approved" &&
                                                                             <>
                                                                                 {job.appliedUsers === 0 ?
-                                                                                    <span>0</span> :
-                                                                                    <>
-                                                                                        <button type="button" className="btn btn-xs " disabled={isLoading} onClick={() => { getAppliedUsers(job) }}>
-                                                                                            <span className="text-primary h5 text-decoration-underline">{job.appliedUsers}</span>
-                                                                                        </button>
-
-                                                                                    </>}
+                                                                                    <span>0</span>
+                                                                                    :
+                                                                                    <button type="button" className="border-0 bg-white text-primary fw-bold text-decoration-underline " disabled={isLoading} onClick={() => { getAppliedUsers(job) }}>
+                                                                                        {job.appliedUsers}
+                                                                                    </button>
+                                                                                }
                                                                             </>
                                                                         }
                                                                     </td>
@@ -248,7 +247,7 @@ function PostedJobList() {
                                                                                 onClick={() => { message({ path: `/company/applied-users/${job._id}?s=true` }) }}
                                                                             >
 
-                                                                                <span className="text-success h5 text-decoration-underline">{job.shortlistedUsers}</span>
+                                                                                <span className="text-success text-decoration-underline">{job.shortlistedUsers}</span>
                                                                             </button>
                                                                         }
                                                                     </td>

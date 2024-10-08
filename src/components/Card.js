@@ -21,7 +21,7 @@ import { markdownToPlainText } from '../helpers/functions/textFunctions';
 
 export default function Card({ job }) {
     const savedJobIds = JSON.parse(sessionStorage.getItem('savedJobIds'))
-    const [isJobSaved, setIsJobSaved] = useState(savedJobIds?.includes(job._id) || false)
+    const [isJobSaved, setIsJobSaved] = useState(savedJobIds?.includes(job?._id) || false)
     const { _id: user_id, role } = useCurrentUser()
     const message = useShowMessage()
     const { setInfo, setLocationPopup } = useContext(JobsContext)
@@ -74,8 +74,9 @@ export default function Card({ job }) {
         e.stopPropagation();
     }
 
-    const date = new Date(job.creationdate).toLocaleDateString('en-GB')
-    const benefits = getTrueKeys(JSON.parse(job.benifits))
+    const date = new Date(job?.creationdate).toLocaleDateString('en-GB')
+    const benefits = getTrueKeys(JSON.parse(job?.benifits))
+
     return (
         <div onClick={() => { message({ path: `/common/SingleJob/${job._id}` }) }} className='job-card border shadow rounded '>
             <div className='row h-100 p-3 '>
@@ -229,7 +230,7 @@ export default function Card({ job }) {
                             }
 
                             <div>
-                                {job.benifits && benefits.length > 0 &&
+                                {job.benifits && benefits?.length > 0 &&
 
                                     <div className='d-flex gap-2 '>
                                         {benefits.includes("Accommodation") &&

@@ -157,9 +157,16 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
             </div>
 
             <div className='mb-2'>
-                <div className='d-flex justify-content-between'>
-                    <span className='fw-bold'>Rate per hour  </span>
+                <div className='d-flex  small'>
+                    <div className='fw-bold'>
+                        Salary
+                    </div>
+                    <div style={{ fontSize: "10px" }} className="d-flex flex-grow-1 ps-2 align-items-center gap-2">
+                        <input type="radio" name="salary" id="annum" /><label for="annum">per annum</label>
+                        <input type="radio" name="salary" id="week" /><label for="week">per week</label>
+                    </div>
                     <span >{filterFields.rateperhour ? `$ ${filterFields.rateperhour}` : "Any"}</span>
+
                 </div>
                 <input type='range' name='rateperhour' value={filterFields.rateperhour} min="1" max="10" defaultValue="10" onChange={(e) => { handleRanges("rateperhour", e) }} className='form-range' />
             </div>

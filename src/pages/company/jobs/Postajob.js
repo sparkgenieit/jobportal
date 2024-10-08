@@ -9,6 +9,8 @@ import { getCloseDate } from '../../../helpers/functions';
 import { GeneralContext } from '../../../helpers/Context';
 import { fetchUser } from '../../../helpers/slices/userSlice';
 import { useDispatch } from 'react-redux';
+import { BsInfoCircle } from 'react-icons/bs';
+import MessagePopup from './MessagePopup';
 
 const initialValues = {
   company: "",
@@ -41,6 +43,7 @@ function Postajob({ name }) {
   const [searchParams] = useSearchParams()
   const { currentJob, setCurrentJob, isSidebarOpen } = useContext(GeneralContext)
   const cloneJobId = searchParams.get("c")
+  const [showModal, setShowModal] = useState({ show: false })
   const dispatch = useDispatch()
 
   const [training, setTraining] = useState("");
@@ -294,6 +297,17 @@ function Postajob({ name }) {
                       </div>
                     </div>
                   </div>
+
+                  <div className='row'>
+                    <div className='col-md-6'></div>
+                    <div className='col-md-6 d-flex gap-1'>
+                      Salary
+                      <span role='button' onClick={() => setShowModal({ show: true })}>
+                        <BsInfoCircle />
+                      </span>
+                    </div>
+                  </div>
+
                   <div className="row">
                     <div className="col-md-6">
                       <div className="form-group row">
@@ -305,8 +319,9 @@ function Postajob({ name }) {
                       </div>
                     </div>
                     <div className="col-md-6">
+
                       <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">RatePerHour</label>
+                        <label className="col-sm-3 col-form-label">Amount</label>
                         <div className="col-sm-8">
                           <input type="number" className="form-control" name='rateperhour' value={jobData?.rateperhour} onChange={handleForm} />
                         </div>
@@ -483,6 +498,22 @@ function Postajob({ name }) {
           </div>
         </div>
       </div >
+
+      <MessagePopup modal={showModal} setModal={setShowModal}>
+        <div className='small'>
+          <p className='fw-bold'>Job Advertisement will be shown where the salary search is up to the "Amount" entered:</p>
+
+          <ul>
+            <li>If rate per hour is selected, the annual salary is calculated as the hourly rate multiplied by 2080.</li>
+            <li>  If salary per annum is selected, the rate per hour is calculated as the annual salary divided by 2080.</li>
+            <li>  If Negotiable is selected, the salary will not be displayed, but the job advertisement will still appear in search results.</li>
+          </ul>
+
+          <p className='text-danger fw-bold'>  If required, please mention the exact salary in the job description. On the advertisement cards, it will be displayed as an "approximate salary".</p>
+
+
+        </div>
+      </MessagePopup>
     </>
   )
 }

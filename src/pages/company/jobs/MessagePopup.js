@@ -5,11 +5,10 @@ import http from "../../../helpers/http";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import useCurrentUser from "../../../helpers/Hooks/useCurrentUser";
 
-export default function MessagePopup({ modal, setModal, handleDelete, closeJob }) {
+export default function MessagePopup({ modal, setModal, handleDelete, closeJob, children }) {
     const [message, setMessage] = useState("")
     const [subject, setSubject] = useState("")
     const [error, setError] = useState({})
-    const user_id = localStorage.getItem('user_id')
     const showMessage = useShowMessage()
     const user = useCurrentUser()
 
@@ -227,6 +226,10 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob }
                             </div>
                         </form>
                     </div>
+                }
+
+                {
+                    !modal.type && <>{children}</>
                 }
             </Modal.Body>
         </Modal >

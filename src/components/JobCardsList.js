@@ -10,6 +10,8 @@ export default function JobCardList({ jobs, type }) {
 
     const { info, setInfo, message, setMessage } = useContext(JobsContext)
 
+    console.log(jobs);
+
     return (
         <>
             {jobs && jobs.length == 0 && <h2 className='m-2 text-center'>No Jobs Found</h2>}
@@ -17,14 +19,20 @@ export default function JobCardList({ jobs, type }) {
                 jobs.map((job, index) => {
                     return (
                         <div key={index}>
-                            {type &&
+                            {type && job.jobId && job?.jobId?.status &&
                                 <div style={{ width: "45vw" }}>
                                     <i className="fw-bold">{type} on {type === "Saved" ? job.saved_date : job.applied_date}</i> &nbsp;
-                                    {job.jobId.status !== "approved" && <i className="text-secondary small">This job was removed</i>}
+                                    {job?.jobId?.status !== "approved" && <i className="text-secondary small">This job was removed</i>}
                                 </div>
                             }
                             <div style={{ marginBottom: "15px" }}>
-                                <Card job={type ? job.jobId : job} />
+                                {type && job.jobId && job?.jobId?.status &&
+                                    <Card job={job?.jobId} />
+
+                                }
+                                {!type &&
+                                    <Card job={job} />
+                                }
                             </div>
                         </ div>
                     )
