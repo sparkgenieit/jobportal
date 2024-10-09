@@ -47,3 +47,13 @@ export const stringify = (object) => {
 export const parseString = (string) => {
     return JSON.parse(string)
 }
+
+
+export const salaryPerAnnum = (rate) => {
+    const pA = (Math.round(rate * 2080)).toString()
+    if (pA.length > 3) {
+        return (pA / 1000).toFixed(2) + "K"
+    } else {
+        return pA
+    }
+}

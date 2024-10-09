@@ -5,14 +5,12 @@ import Sidebar from "../../../layouts/superadmin/Sidebar";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import http from "../../../helpers/http";
-import httpUpload from "../../../helpers/httpUpload";
 
 function Categories1() {
   const [categoryName, setCategoryName] = useState("")
   const [parentCategory, setParentCategory] = useState("")
   const [parentoption, setParentoption] = useState([])
   const [description, setDescription] = useState("")
-  const [photo, setPhoto] = useState("")
   const [status, setStatus] = useState("")
   const [message, setMessage] = useState({
     Msg: "",
@@ -29,11 +27,8 @@ function Categories1() {
     categoryName: false,
     parentCategory: false,
     description: false,
-    photo: false,
     status: false
   })
-
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,15 +41,6 @@ function Categories1() {
       })
   }, [])
 
-  const PreviewImage = (e) => {
-    setPhoto(e.target.files[0])
-    setImagePreview({
-      show: true,
-      src: URL.createObjectURL(e.target.files[0])
-    })
-
-
-  }
 
   const handleInput = (name, event) => {
 
@@ -133,12 +119,6 @@ function Categories1() {
       obj = { ...obj, description: false }
     }
 
-    if (photo === "") {
-      obj = { ...obj, photo: true }
-      isValid = false;
-    } else {
-      obj = { ...obj, photo: false }
-    }
 
     if (status === "") {
       obj = { ...obj, status: true }
@@ -149,25 +129,16 @@ function Categories1() {
 
     setErrors(obj)
 
-
     if (isValid) {
 
-      const imageData = new FormData();
-      imageData.append("file", photo);
+      let data = {
+        "name": categoryName.trim(),
+        "parent_id": parentCategory,
+        "description": description,
+        "status": status
+      }
 
-
-      httpUpload.post("/upload/categoryPhoto?path=categoryPhoto", imageData)
-        .then(res => {
-          let data = {
-            "name": categoryName.trim(),
-            "parent_id": parentCategory,
-            "description": description,
-            "photo": res.data.filename,
-            "status": status
-          }
-
-          return http.post("/categories/create", data)
-        })
+      http.post("/categories/create", data)
         .then((res) => {
           setMessage({
             showMsg: true,
@@ -177,8 +148,6 @@ function Categories1() {
           setTimeout(() => {
             navigate("/superadmin/Categorieslist1")
           }, 2000)
-
-
         })
         .catch((err) => {
           setMessage({
@@ -186,11 +155,9 @@ function Categories1() {
             Msg: err.response.statusText,
             msgClass: "alert alert-danger"
           })
-
           setTimeout(() => {
             setMessage({ ...message, showMsg: false })
           }, 4000)
-
         })
 
       window.scrollTo({ top: 40, behavior: "smooth" })
@@ -270,23 +237,6 @@ function Categories1() {
                               </div>
                             </div>
                           </div>
-
-
-                          <div class="col-md-6">
-                            <div class="form-group row">
-                              <label class="col-sm-3 col-form-label" for="photo "> Photo<span className="text-danger">*</span> </label>
-                              <div class="col-sm-9">
-                                <input type="file" id="photo" onChange={(e) => PreviewImage(e)} class="form-control w-40" />
-                                {errors.photo && <div className="text-danger">Please Upload the Photo</div>}
-
-
-                                {imagePreview.show && <img src={imagePreview.src} height="150px" width="180px" />}
-
-                              </div>
-                            </div>
-                          </div>
-
-
                           <div class="col-md-6">
                             <div class="form-group row">
                               <label class="col-sm-3 col-form-label">Status<span className="text-danger">*</span></label>

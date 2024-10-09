@@ -129,7 +129,7 @@ export default function Input({ width, height, setImg, imgSrc }) {
                         height: `${height}px`,
                         overflow: "hidden",
                     }}
-                    className="rounded border border-dark d-flex align-items-center justify-content-center"
+                    className="rounded border border-2 d-flex align-items-center justify-content-center"
                 >
                     <img className="rounded img-resize" ref={imgRef} />
                 </div>

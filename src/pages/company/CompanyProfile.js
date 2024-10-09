@@ -11,6 +11,8 @@ import useShowMessage from '../../helpers/Hooks/useShowMessage';
 import MdxEditor from '../../components/MdxEditor';
 import ImageResizer from '../../components/ImageResizer';
 import { validateEmailAddress, validateIsNotEmpty } from '../../helpers/functions/textFunctions';
+import { BsInfoCircle } from 'react-icons/bs';
+import Modal from 'react-bootstrap/Modal';
 
 const formInitialValues = {
   name: "",
@@ -39,6 +41,9 @@ function CompanyProfile() {
   const youtubeRef = useRef(null)
   const bannerRef = useRef(null)
   const logoRef = useRef(null)
+  const [showModal, setShowModal] = useState({
+    show: false,
+  })
 
   useEffect(() => {
     companyService.get(userId)
@@ -148,39 +153,33 @@ function CompanyProfile() {
       <div class="container-fluid px-0 mt-4 bg-white">
         <div className='container'>
 
-
           {companyBanner && companyBanner.length > 0 &&
             <ImageResizer width={1000} height={250} setImg={setBanner} imgSrc={companyBanner} />
           }
 
-          <div style={{ width: "1000px" }} className='d-flex mt-3 justify-content-between'>
+          <div style={{ width: "1000px" }} className='d-flex justify-content-between'>
+            <div className='d-flex flex-column'>
+              <div className='d-flex  align-items-center'>
+                <button type='button' className=' border-0 bg-white align-self-start mt-1 text-primary text-decoration-underline' onClick={() => { logoRef.current.click() }}>
+                  Change Logo
+                </button>
 
-            <div className='d-flex gap-3 align-items-center'>
-
+                <span role='button' onClick={() => setShowModal({ show: true, type: "logo" })}>
+                  <BsInfoCircle />
+                </span>
+              </div>
               {companyLogo && companyLogo.length > 0 &&
                 <ImageResizer width={125} height={75} setImg={setLogo} imgSrc={companyLogo} />
               }
-
-              <button type='button' style={{ backgroundColor: "blue" }} className='my-button align-self-start mt-1 text-white' onClick={() => { logoRef.current.click() }}>
-
-                Change Logo <br />
-                75 px height <br />
-                120px width
-
-              </button>
-
             </div>
 
-            <div>
-              <button type='button' style={{ backgroundColor: "#04045b" }} className='my-button mt-1 text-white' onClick={() => { bannerRef.current.click() }} >
-                <small>
-                  Change Banner
-                  <br />
-                  250 px height <br />
-                  1000px width
-
-                </small>
+            <div className='d-flex align-self-start align-items-center'>
+              <button type='button' className=' border-0 bg-white align-self-start mt-1  text-primary text-decoration-underline' onClick={() => { bannerRef.current.click() }} >
+                Change Banner
               </button>
+              <span role='button' onClick={() => setShowModal({ show: true, type: "banner" })}>
+                <BsInfoCircle />
+              </span>
             </div>
           </div>
 
@@ -199,11 +198,9 @@ function CompanyProfile() {
                     {errors.name && <span className='text-danger'>{errors.name}</span>}
                   </div>
                 </div>
-
               </div>
 
               <div className="row">
-
                 <div className="form-group row">
                   <label className="col-sm-3 col-form-label">Address1<span className='text-danger'>*</span></label>
                   <div className="col-sm-6">
@@ -213,16 +210,13 @@ function CompanyProfile() {
                 </div>
               </div>
               <div className="row">
-
                 <div className="form-group row">
                   <label className="col-sm-3 col-form-label">Address2<span className='text-danger'>*</span></label>
                   <div className="col-sm-6">
                     <input type="text" className="form-control" name='address2' value={userData.address2} onChange={handleInput} />
                     {errors.address2 && <span className='text-danger'>{errors.address2}</span>}
                   </div>
-
                 </div>
-
               </div>
               <div className="row">
                 <div className="form-group row">
@@ -230,22 +224,16 @@ function CompanyProfile() {
                   <div className="col-sm-6">
                     <input type="text" name='address3' className="form-control" value={userData.address3} onChange={handleInput} />
                     {errors.address3 && <span className='text-danger'>{errors.address3}</span>}
-
                   </div>
                 </div>
-
-
               </div>
-
               <div className="row">
-
                 <div className="form-group row">
                   <label className="col-sm-3 col-form-label">City<span className='text-danger'>*&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span></label>
                   <div className="col-sm-6">
                     <input type="text" name='city' className="form-control" value={userData.city} onChange={handleInput} />
                     {errors.city && <span className='text-danger'>{errors.city}</span>}
                   </div>
-
                 </div>
               </div>
               <div className="row">
@@ -254,7 +242,6 @@ function CompanyProfile() {
                   <div className="col-sm-6">
                     <input type="text" className="form-control" name='postalCode' value={userData.postalCode} onChange={handleInput} />
                     {errors.postalCode && <span className='text-danger'>{errors.postalCode}</span>}
-
                   </div>
                 </div>
               </div>
@@ -272,7 +259,6 @@ function CompanyProfile() {
                   <label className="col-sm-3 col-form-label">Email<span className='text-danger'>*&nbsp; &nbsp; &nbsp;</span></label>
                   <div className="col-sm-6">
                     <input type="text" className="form-control" name='email' disabled value={userData.email} onChange={handleInput} />
-
                   </div>
                 </div>
               </div>
@@ -315,38 +301,50 @@ function CompanyProfile() {
                               <FaYoutube fontSize={70} fill="#FF3D00" />
                             </span> */}
                     </div>}
-
                   </div>
                 </div>
               </div>
-
-
               <div className="row">
                 <div className="form-group row">
                   <label className="col-form-label">Info (Describe your company business in less than 250 words)</label>
-
                   <div>
                     <MdxEditor value={info} setValue={setInfo} />
                   </div>
-
-
                 </div>
               </div>
-
-
-
-
             </div>
-
             <div className="row">
               <div className="col-md-12">
                 <button type="submit" className="btn btn-gradient-primary float-end">Save</button>
               </div>
             </div>
-
           </form>
         </div>
       </div >
+
+      <Modal size={"sm"} show={showModal.show} onHide={() => setShowModal({ show: false })} centered>
+        <Modal.Body>
+
+          {
+            showModal.type === "logo" &&
+            <div>
+              <p className='fw-bold'>The logo size should be : </p>
+              <p>Height:  75px</p>
+              <div>Width: 125px </div>
+            </div>
+          }
+
+          {
+            showModal.type === "banner" &&
+            <div>
+              <p className='fw-bold'>The banner size should be : </p>
+              <p>Height:  1000px</p>
+              <div>Width: 250px </div>
+            </div>
+          }
+
+        </Modal.Body>
+      </Modal>
 
       <Hourglass
         visible={loader}

@@ -11,6 +11,7 @@ import { fetchUser } from '../../../helpers/slices/userSlice';
 import { useDispatch } from 'react-redux';
 import { BsInfoCircle } from 'react-icons/bs';
 import MessagePopup from './MessagePopup';
+import { salaryPerAnnum } from '../../../helpers/functions/textFunctions';
 
 const initialValues = {
   company: "",
@@ -45,6 +46,7 @@ function Postajob({ name }) {
   const cloneJobId = searchParams.get("c")
   const [showModal, setShowModal] = useState({ show: false })
   const dispatch = useDispatch()
+  const [amountType, setAmountType] = useState("perhour")
 
   const [training, setTraining] = useState("");
 
@@ -169,7 +171,9 @@ function Postajob({ name }) {
 
     if (isFormValid) {
       setError({})
-      const { company, closedate, creationdate, jobtype, location, employjobreference, numberofvacancies, jobTitle, rateperhour, duration, jobCategory, subCategory, weeklyperhour, description, companyLogo } = jobData
+      let { company, closedate, creationdate, jobtype, location, employjobreference, numberofvacancies, jobTitle, rateperhour, duration, jobCategory, subCategory, weeklyperhour, description, companyLogo } = jobData
+
+      rateperhour = amountType === "peranuum" ? Math.round(rateperhour / 2080) : rateperhour
 
       let data = {
         company, closedate, creationdate, jobtype, location, employjobreference, numberofvacancies, jobTitle, rateperhour, duration, jobCategory, subCategory, weeklyperhour, description, companyLogo,
@@ -319,11 +323,40 @@ function Postajob({ name }) {
                       </div>
                     </div>
                     <div className="col-md-6">
-
                       <div className="form-group row">
                         <label className="col-sm-3 col-form-label">Amount</label>
                         <div className="col-sm-8">
-                          <input type="number" className="form-control" name='rateperhour' value={jobData?.rateperhour} onChange={handleForm} />
+                          <input type="number" className="form-control" name='rateperhour' value={jobData?.rateperhour} onChange={handleForm} disabled={amountType === "negotiable"} />
+                        </div>
+                      </div>
+
+                      <div className="form-group row">
+                        <label className="col-sm-3 col-form-label"></label>
+                        <div className="col-sm-8 d-flex small gap-1 ">
+                          <div className='d-flex flex-column align-items-center'>
+                            <div className='d-flex gap-1'>
+                              <input type="radio" className="form-check-input m-0" id='perhour' name='salary' checked={amountType === "perhour"} onChange={() => { setAmountType("perhour") }} />
+                              <label className='m-0' for='perhour'>
+                                Rate per hour
+                              </label>
+                            </div>
+                            <p>{jobData?.rateperhour && (amountType === 'perhour' ? `$${jobData.rateperhour}` : "$" + (jobData.rateperhour / 2080).toFixed(2))}</p>
+                          </div>
+                          <div className='d-flex flex-column  align-items-center'>
+                            <div className='d-flex gap-1'>
+                              <input type="radio" className="form-check-input m-0 " id='perannum' name='salary' checked={amountType === "perannum"} onChange={() => { setAmountType("perannum") }} />
+                              <label className='m-0' for="perannum">
+                                Salary per annum
+                              </label>
+                            </div>
+                            <p>{jobData?.rateperhour && (amountType === "perhour" ? `$${salaryPerAnnum(jobData?.rateperhour)}` : "$" + jobData.rateperhour)}</p>
+                          </div>
+                          <div className='d-flex gap-1'>
+                            <input type="radio" id='negotiable' className="form-check-input m-0" name='salary' checked={amountType === "negotiable"} onChange={() => { setAmountType("negotiable"); setJobData({ ...jobData, rateperhour: "" }) }} />
+                            <label className='m-0' for="negotiable">
+                              Negotiable
+                            </label>
+                          </div>
                         </div>
                       </div>
                     </div>
