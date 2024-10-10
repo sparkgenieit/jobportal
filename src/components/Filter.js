@@ -10,7 +10,6 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
     const [focus, setFocus] = useState(-1)
     const [locationSuggestions, setLocationSuggestions] = useState(null)
     const [jobSuggestions, setJobSuggestions] = useState(null)
-    const [salaryType, setSalaryType] = useState("hour")
     const [companySuggestions, setCompanySuggestions] = useState(null)
 
     useEffect(() => {
@@ -133,7 +132,8 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
             duration: null,
             weeklyperhour: null,
             date: null,
-            sort: "creationdate"
+            sort: "creationdate",
+            salaryType: "hour"
         })
         setRefresh(prev => !prev)
     }
@@ -163,13 +163,13 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
                         Salary
                     </div>
                     <div style={{ fontSize: "10px" }} className="d-flex flex-grow-1 ps-2 align-items-center gap-2">
-                        <input type="radio" name="salary" id="annum" checked={salaryType === "annum"} onChange={() => { setSalaryType("annum"); setFilterFields({ ...filterFields, rateperhour: "" }) }} /><label for="annum">per annum</label>
-                        <input type="radio" name="salary" id="hour" checked={salaryType === "hour"} onChange={() => { setSalaryType("hour"); setFilterFields({ ...filterFields, rateperhour: "" }) }} /><label for="hour">per hour</label>
+                        <input type="radio" name="salary" id="annum" checked={filterFields.salaryType === "annum"} onChange={() => { setFilterFields({ ...filterFields, rateperhour: "10000", salaryType: "annum" }) }} /><label for="annum">per annum</label>
+                        <input type="radio" name="salary" id="hour" checked={filterFields.salaryType === "hour"} onChange={() => { setFilterFields({ ...filterFields, rateperhour: "1", salaryType: "hour" }) }} /><label for="hour">per hour</label>
                     </div>
                     <span >{filterFields.rateperhour ? `$ ${filterFields.rateperhour}` : "Any"}</span>
 
                 </div>
-                <input type='range' name='rateperhour' value={filterFields.rateperhour} min={salaryType === "annum" ? "10000" : "1"} max={salaryType === "annum" ? "100000" : "10"} defaultValue="10" onChange={(e) => { handleRanges("rateperhour", e) }} className='form-range' />
+                <input type='range' name='rateperhour' value={filterFields.rateperhour} min={filterFields.salaryType === "annum" ? "10000" : "1"} max={filterFields.salaryType === "annum" ? "100000" : "10"} defaultValue="10" onChange={(e) => { handleRanges("rateperhour", e) }} className='form-range' />
             </div>
 
             <div className='mb-2'>

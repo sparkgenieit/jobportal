@@ -6,19 +6,17 @@ export const postJob = async (data, setMsg) => {
     try {
         const response = await http.post('/jobs/create', data)
         setMsg({
-            show: true,
-            type: "success",
-            text: "Jobs Posted Successfully"
-        });
-    } catch (err) {
+            status: "Success",
+            message: "Job Posted Successfully"
+        })
+    }
+    catch (err) {
         setMsg({
-            show: true,
-            type: "error",
-            text: err.response.data.error || err.response.data.message || err.message
-        });
+            status: "error",
+            error: err,
+        })
     }
 }
-
 export const fetchCategories = async (setCategoriesList, setParent) => {
     try {
         const res = await http.get("/categories/all")
@@ -70,16 +68,14 @@ export const editJob = async (jobID, data, setMsg) => {
         const response = await http.put(`/jobs/update/${jobID}`, data)
         if (response && response.status) {
             setMsg({
-                show: true,
-                type: "success",
-                text: "Updated Successfully"
+                status: "Success",
+                message: "Updated Successfully"
             })
         }
     } catch (err) {
         setMsg({
-            show: true,
-            type: "error",
-            text: err.response.data.message || err.message
+            status: "error",
+            error: err,
         })
     }
 }

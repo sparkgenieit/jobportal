@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import Table from 'react-bootstrap/Table'
 
 import Pagination from "../../components/Pagination";
 import Loader from "../../components/Loader";
@@ -32,6 +31,13 @@ export default function Audit() {
         }
     }
 
+
+    const downloadLogs = () => {
+
+    }
+
+
+
     useEffect(() => {
         fetchLogs(pgNumber)
     }, [search])
@@ -39,7 +45,10 @@ export default function Audit() {
     return (
         <div className="container-fluid content-wrapper px-0 bg-white">
 
-            <h2 className="text-center fw-bold fs-3 mb-3" > Audit Log</h2>
+            <div className="d-flex">
+                <h2 className="text-center flex-grow-1 fw-bold fs-3 mb-3" > Audit Log</h2>
+                <button type="button" className="btn btn-info rounded-3">Download</button>
+            </div>
 
             <div className="container-fluid">
 
@@ -64,24 +73,26 @@ export default function Audit() {
                         }
 
                         {!loading && logs.length > 0 &&
-                            <Table className="text-center small text-wrap">
-                                <thead>
-                                    <th>Date</th>
-                                    <th>Job ID</th>
-                                    <th>Employer Reference</th>
-                                    <th>Job Title</th>
-                                    <th>User Name</th>
-                                    <th>Email</th>
-                                    <th>Description</th>
-                                    <th>Field Name</th>
-                                    <th>Changed From</th>
-                                    <th>Changed To</th>
+                            <table className="text-center my-table mt-2  text-wrap">
+                                <thead className="small">
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Job ID</th>
+                                        <th>Employer Reference</th>
+                                        <th>Job Title</th>
+                                        <th>User Name</th>
+                                        <th>Email</th>
+                                        <th>Description</th>
+                                        <th>Field Name</th>
+                                        <th>Changed From</th>
+                                        <th>Changed To</th>
+                                    </tr>
                                 </thead>
 
                                 <tbody>
 
                                     {logs.map((log) => (
-                                        <tr key={log._id}>
+                                        <tr style={{ fontSize: "12px" }} key={log._id} className="border rounded border-secondary border-0 border-top" >
                                             <td>{getDate(log.date)}</td>
                                             <td className="small">{log.jobId ? log.jobId : "-"} </td>
                                             <td>{log.employerReference ? log.employerReference : "-"} </td>
@@ -96,7 +107,7 @@ export default function Audit() {
                                     ))}
 
                                 </tbody>
-                            </Table>
+                            </table>
                         }
                     </div>
                 </Pagination>

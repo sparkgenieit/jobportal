@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef, useContext } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 import { CitiesList } from '../../../helpers/constants';
 import MdxEditor from '../../../components/MdxEditor';
-import Toaster from '../../../components/Toaster';
 import { editJob, fetchCategories, fetchCompanyInfo, fetchJobForEditing, postJob } from './postAndEditJob.service';
 import { getCloseDate } from '../../../helpers/functions';
 import { GeneralContext } from '../../../helpers/Context';
@@ -12,6 +11,8 @@ import { useDispatch } from 'react-redux';
 import { BsInfoCircle } from 'react-icons/bs';
 import MessagePopup from './MessagePopup';
 import { salaryPerAnnum } from '../../../helpers/functions/textFunctions';
+import useCurrentUser from '../../../helpers/Hooks/useCurrentUser';
+import useShowMessage from '../../../helpers/Hooks/useShowMessage';
 
 const initialValues = {
   company: "",
@@ -33,23 +34,12 @@ const initialValues = {
 function Postajob({ name }) {
   const [jobData, setJobData] = useState(initialValues)
   const [error, setError] = useState({});
-  const user_id = localStorage.getItem('user_id')
   const [employerquestions, setEmployerQuestions] = useState([{ value: "" }])
-  const [categoriesList, setCategoriesList] = useState();
-  const [parent, setParent] = useState();
-  const [msg, setMsg] = useState('')
-  const navigate = useNavigate();
-  const formRef = useRef(null)
-  const params = useParams()
-  const [searchParams] = useSearchParams()
-  const { currentJob, setCurrentJob, isSidebarOpen } = useContext(GeneralContext)
-  const cloneJobId = searchParams.get("c")
+  const [categoriesList, setCategoriesList] = useState([]);
+  const [parent, setParent] = useState([]);
   const [showModal, setShowModal] = useState({ show: false })
-  const dispatch = useDispatch()
   const [amountType, setAmountType] = useState("perhour")
-
   const [training, setTraining] = useState("");
-
   const [benefits, setBenefits] = useState({
     Accommodation: false,
     Food: false,
@@ -57,6 +47,22 @@ function Postajob({ name }) {
     Others: false,
     OthersText: ""
   })
+
+  const { currentJob, setCurrentJob } = useContext(GeneralContext)
+
+  const formRef = useRef(null)
+
+  const params = useParams()
+  const [searchParams] = useSearchParams()
+
+  const dispatch = useDispatch()
+
+  const user = useCurrentUser()
+  const message = useShowMessage()
+  const company_id = user.role === "employer" ? user._id : user.companyId._id
+
+  const cloneJobId = searchParams.get("c")
+
 
   const handleDescription = (value) => {
     setJobData({ ...jobData, description: value })
@@ -73,7 +79,6 @@ function Postajob({ name }) {
     setEmployerQuestions([...employerquestions, { value: '' }]);
   }
 
-
   const handleRemoveFields = (index) => {
     const values = [...employerquestions];
     values.splice(index, 1);
@@ -85,14 +90,13 @@ function Postajob({ name }) {
   }, [])
 
   useEffect(() => {
-
     setError({})
     // If it is a regular post a job
     if (name === "Post a Job" && !cloneJobId) {
-      fetchCompanyInfo(user_id, setJobData, setBenefits, setTraining, setEmployerQuestions, initialValues)
+      fetchCompanyInfo(company_id, setJobData, setBenefits, setTraining, setEmployerQuestions, initialValues)
     }
 
-    // When the request is to clone a existing job
+    // When the request is to clone an existing job
     if (name === 'Post a Job' && cloneJobId && cloneJobId === currentJob._id) {
       setJobData({ ...currentJob, creationdate: new Date(), closedate: getCloseDate(new Date().toString()) })
     }
@@ -101,13 +105,12 @@ function Postajob({ name }) {
     if (name === "Edit Job") {
       fetchJobForEditing(params.id, setJobData, setBenefits, setTraining, setEmployerQuestions, searchParams.get("repost") === "true" ? true : false)
     }
-
   }, [name])
 
 
   const handleForm = (e) => {
     setJobData({ ...jobData, [e.target.name]: e.target.value })
-    setError({ ...error, [e.target.name]: e.target.value?.trim() === "" ? `Please enter ${e.target.name}` : null })
+    setError({ ...error, [e.target.name]: e.target.value?.trim() === "" ? `Please enter ${e.target.name}` : "" })
   }
 
   const invalidInput = (name) => {
@@ -116,13 +119,13 @@ function Postajob({ name }) {
 
   const handleClone = () => {
     setCurrentJob({ ...jobData })
-    navigate(`/company/postajob?c=${jobData._id}`)
+    message({ path: `/company/postajob?c=${jobData._id}` })
     window.scrollTo({ top: 20, behavior: "smooth" })
   }
 
   const discardForm = async () => {
     window.history.replaceState(null, null, '/company/postajob')
-    await fetchCompanyInfo(user_id, setJobData, setBenefits, setTraining, setEmployerQuestions, initialValues)
+    await fetchCompanyInfo(company_id, setJobData, setBenefits, setTraining, setEmployerQuestions, initialValues)
     window.scrollTo({ top: 20, behavior: "smooth" })
   }
 
@@ -131,7 +134,7 @@ function Postajob({ name }) {
 
     let isFormValid = true;
 
-    let theFieldToBeValidated = ["company", "jobtype", "location", "numberofvacancies", "jobTitle", "jobCategory", "subCategory", "duration"]
+    let requiredFields = ["company", "jobtype", "location", "numberofvacancies", "jobTitle", "jobCategory", "subCategory", "duration"]
 
     // validating the close date
     if (jobData.closedate) {
@@ -151,7 +154,7 @@ function Postajob({ name }) {
     }
 
     // Validating the text fields
-    for (const fieldName of theFieldToBeValidated) {
+    for (const fieldName of requiredFields) {
       if (!jobData[fieldName] || jobData[fieldName]?.toString().trim() === "") {
         setError({ ...error, [fieldName]: `Please enter ${fieldName}` })
         isFormValid = false
@@ -173,7 +176,7 @@ function Postajob({ name }) {
       setError({})
       let { company, closedate, creationdate, jobtype, location, employjobreference, numberofvacancies, jobTitle, rateperhour, duration, jobCategory, subCategory, weeklyperhour, description, companyLogo } = jobData
 
-      rateperhour = amountType === "peranuum" ? Math.round(rateperhour / 2080) : rateperhour
+      rateperhour = amountType === "peranuum" ? Math.round(+rateperhour / 2080) : +rateperhour
 
       let data = {
         company, closedate, creationdate, jobtype, location, employjobreference, numberofvacancies, jobTitle, rateperhour, duration, jobCategory, subCategory, weeklyperhour, description, companyLogo,
@@ -181,19 +184,22 @@ function Postajob({ name }) {
         training,
         employerquestions: JSON.stringify(employerquestions),
         employer: localStorage.getItem("fullname"),
-        companyId: user_id,
+        companyId: company_id,
       }
       if (name === "Post a Job") {
-        await postJob(data, setMsg)
+        await postJob(data, message)
       }
 
       if (name === "Edit Job") {
-        await editJob(jobData._id, data, setMsg)
+        await editJob(jobData._id, data, message)
       }
+
       dispatch(fetchUser()) //To Update Credits
 
       setTimeout(() => {
-        navigate(`/company/jobs`)
+        message({
+          path: `/company/jobs`
+        })
       }, 1500);
 
       window.scrollTo({ top: 40, behavior: "smooth" })
@@ -219,7 +225,6 @@ function Postajob({ name }) {
           </div>
           <div className="row">
             <div className="col-12">
-              <Toaster setMessage={setMsg} message={msg} />
               <div className="card-body bg-white">
                 <form ref={formRef}>
                   <div className="row">
@@ -336,7 +341,7 @@ function Postajob({ name }) {
                           <div className='d-flex flex-column align-items-center'>
                             <div className='d-flex gap-1'>
                               <input type="radio" className="form-check-input m-0" id='perhour' name='salary' checked={amountType === "perhour"} onChange={() => { setAmountType("perhour") }} />
-                              <label className='m-0' for='perhour'>
+                              <label className='m-0' htmlFor='perhour'>
                                 Rate per hour
                               </label>
                             </div>
@@ -345,7 +350,7 @@ function Postajob({ name }) {
                           <div className='d-flex flex-column  align-items-center'>
                             <div className='d-flex gap-1'>
                               <input type="radio" className="form-check-input m-0 " id='perannum' name='salary' checked={amountType === "perannum"} onChange={() => { setAmountType("perannum") }} />
-                              <label className='m-0' for="perannum">
+                              <label className='m-0' htmlFor="perannum">
                                 Salary per annum
                               </label>
                             </div>
@@ -353,7 +358,7 @@ function Postajob({ name }) {
                           </div>
                           <div className='d-flex gap-1'>
                             <input type="radio" id='negotiable' className="form-check-input m-0" name='salary' checked={amountType === "negotiable"} onChange={() => { setAmountType("negotiable"); setJobData({ ...jobData, rateperhour: "" }) }} />
-                            <label className='m-0' for="negotiable">
+                            <label className='m-0' htmlFor="negotiable">
                               Negotiable
                             </label>
                           </div>
@@ -368,7 +373,7 @@ function Postajob({ name }) {
                         <div className="col-sm-8">
                           <select name='jobCategory' value={jobData?.jobCategory} onChange={handleForm} className="form-select border col-6 " >
                             <option value={" "}></option>
-                            {parent && parent.map((p, index) => <option className="fw-bold" value={p} >{p}</option>)}
+                            {parent && parent.map((p, index) => <option key={index} className="fw-bold" value={p} >{p}</option>)}
                           </select>
                         </div>
                         <span className='text-danger small'>{error.jobCategory && error.jobCategory}</span>
@@ -474,8 +479,8 @@ function Postajob({ name }) {
                   </div>
                   <div className='row'>
                     <div className="form-group row">
-                      <div class="mb-3">
-                        <label for="description" class="form-label">Description<span className='text-danger'>*</span></label>
+                      <div className="mb-3">
+                        <label htmlFor="description" className="form-label">Description<span className='text-danger'>*</span></label>
                         <MdxEditor value={jobData.description} setValue={handleDescription} />
                         <span className='text-danger small'>{error.description && error.description}</span>
                       </div>
@@ -498,7 +503,7 @@ function Postajob({ name }) {
                       </div>
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div className="form-group">
                     <div className='d-flex justify-content-between py-2 px-5'>
                       <div>
                         {name === "Post a Job" && cloneJobId &&

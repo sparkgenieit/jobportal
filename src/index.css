@@ -1,3 +1,7 @@
 body {
     font-family: "poppins-regular" !important;
 }
+
+.my-table td {
+    padding: 12px 10px;
+}
