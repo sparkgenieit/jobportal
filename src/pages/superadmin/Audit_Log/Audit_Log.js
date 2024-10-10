@@ -1,28 +1,38 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import Table from 'react-bootstrap/Table'
 
 import Pagination from "../../../components/Pagination";
+import Loader from "../../../components/Loader";
 import { itemsPerPage } from "../../../helpers/constants";
 import http from "../../../helpers/http";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import { getDate } from "../../../helpers/functions/dateFunctions";
-import Loader from "../../../components/Loader";
+import { tableToCSV } from "../../../helpers/functions/csvFunctions";
+
+const inputValues = {
+    toDate: "",
+    fromDate: "",
+    jobId: "",
+    employerReference: "",
+    jobTitle: ""
+}
 
 export default function Audit() {
     const [totalItems, setTotalItems] = useState(0)
     const [searchParams] = useSearchParams();
+    const [filters, setFilters] = useState(JSON.parse(sessionStorage.getItem("logs-filters")) || inputValues)
     const [pgNumber, setPgNumber] = useState(+searchParams.get("page") || 1)
     const [logs, setLogs] = useState([])
     const message = useShowMessage()
-    const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(false)
+    const tableRef = useRef(null)
 
     const fetchLogs = async (page) => {
         const skip = (page - 1) * itemsPerPage
         setLoading(true)
+        console.log(skip);
         try {
-            const res = await http.get(`/companies/logs?limit=${itemsPerPage}&skip=${skip}&s=${search}`)
+            const res = await http.post(`/companies/logs?limit=${itemsPerPage}&skip=${skip}`, filters)
             setLogs(res.data.logs)
             setTotalItems(res.data.total)
         } catch (error) {
@@ -32,30 +42,55 @@ export default function Audit() {
         }
     }
 
+    const handleChange = (e) => {
+        setFilters({ ...filters, [e.target.name]: e.target.value })
+    }
+
+
+    const FetchLogsWithFilters = () => {
+        if (filters.toDate && filters.fromDate > filters.toDate) {
+            message({ message: "From date can't be more than to date" })
+            return
+        }
+        sessionStorage.setItem("logs-filters", JSON.stringify(filters))
+        window.history.replaceState(null, null, '/admin/audit')
+        fetchLogs(1)
+    }
+
+
     useEffect(() => {
         fetchLogs(pgNumber)
-    }, [search])
+    }, [])
 
     return (
         <div className="container-fluid content-wrapper px-0 bg-white">
 
-            <h2 className="text-center fw-bold fs-3 mb-3" > Audit Log</h2>
+            <div className="d-flex">
+                <h2 className="text-center flex-grow-1 fw-bold fs-3 mb-3" > Audit Log</h2>
+                <button type="button" onClick={() => tableToCSV(tableRef.current, 'logs')} className="btn btn-info rounded-4">Download</button>
+            </div>
 
             <div className="container-fluid">
 
-                <div>
-                    <input
-                        className="form-control"
-                        placeholder="Search logs"
-                        value={search}
-                        onChange={(e) => {
-                            setSearch(e.target.value)
-                            setPgNumber(1)
-                        }} />
+                <div className="d-flex gap-2 my-3 small">
+                    <div className="d-flex flex-column align-items-start">
+                        <label>From Date</label>
+                        <input type="date" name="fromDate" className="form-control" value={filters.fromDate} onChange={handleChange} />
+                    </div>
+                    <div className="d-flex flex-column align-items-start">
+                        <label>To Date</label>
+                        <input type="date" name="toDate" className="form-control" value={filters.toDate} onChange={handleChange} />
+                    </div>
+
+                    <input type="text" placeholder="Job Title" className="form-control align-self-end" name="jobTitle" value={filters.jobTitle} onChange={handleChange} />
+                    <input type="text" placeholder="Employer Reference" className="form-control align-self-end" name="employerReference" value={filters.employerReference} onChange={handleChange} />
+                    <input type="text" placeholder="Job ID" className="form-control align-self-end" name="jobId" value={filters.jobId} onChange={handleChange} />
+
+                    <button onClick={FetchLogsWithFilters} className="btn btn-info align-self-end mt-2 rounded-4 ">Apply</button>
                 </div>
 
                 <Pagination itemsPerPage={itemsPerPage} currentPage={pgNumber} pageNumberToShow={2} setCurrentPage={setPgNumber} fetchItems={fetchLogs} totalCount={totalItems}>
-                    <div className="table-responsive">
+                    <div className="my-table">
 
                         {loading &&
                             <div className="container">
@@ -64,26 +99,28 @@ export default function Audit() {
                         }
 
                         {!loading && logs.length > 0 &&
-                            <Table className="text-center small text-wrap">
-                                <thead>
-                                    <th>Date</th>
-                                    <th>Company ID</th>
-                                    <th>Company Name</th>
-                                    <th>Job ID</th>
-                                    <th>Employer Reference</th>
-                                    <th>Job Title</th>
-                                    <th>User Name</th>
-                                    <th>Email</th>
-                                    <th>Description</th>
-                                    <th>Field Name</th>
-                                    <th>Changed From</th>
-                                    <th>Changed To</th>
+                            <table ref={tableRef} className="text-center mt-2 text-wrap">
+                                <thead className="small">
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Company ID</th>
+                                        <th>Company Name</th>
+                                        <th>Job ID</th>
+                                        <th>Employer Reference</th>
+                                        <th>Job Title</th>
+                                        <th>User Name</th>
+                                        <th>Email</th>
+                                        <th>Description</th>
+                                        <th>Field Name</th>
+                                        <th>Changed From</th>
+                                        <th>Changed To</th>
+                                    </tr>
                                 </thead>
 
                                 <tbody>
 
                                     {logs.map((log) => (
-                                        <tr key={log._id}>
+                                        <tr style={{ fontSize: "12px" }} key={log._id} className="border rounded border-secondary border-0 border-top" >
                                             <td>{getDate(log.date)}</td>
                                             <td className="small" >{log.companyId}</td>
                                             <td>{log.companyName}</td>
@@ -100,7 +137,7 @@ export default function Audit() {
                                     ))}
 
                                 </tbody>
-                            </Table>
+                            </table>
                         }
                     </div>
                 </Pagination>

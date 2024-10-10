@@ -4,6 +4,7 @@ import { IoMdArrowBack } from "react-icons/io";
 
 import http from "../../helpers/http";
 import useCurrentUser from "../../helpers/Hooks/useCurrentUser";
+import { tableToCSV } from "../../helpers/functions/csvFunctions";
 
 export default function DownloadTransactions() {
     const user = useCurrentUser()
@@ -15,29 +16,6 @@ export default function DownloadTransactions() {
     const [fromDate, setFromDate] = useState("")
     const tableRef = useRef(null)
     const navigate = useNavigate()
-
-    function tableToCSV() {
-        setDownloading(true)
-        const table = tableRef.current
-        let csvContent = "";
-        for (let i = 0; i < table.rows.length; i++) {
-            let row = table.rows[i];
-            let rowData = [];
-
-            // Iterate through each cell in the row
-            for (let j = 0; j < row.cells.length; j++) {
-                rowData.push(row.cells[j].textContent);
-            }
-            csvContent += rowData.join(",") + "\n";
-        }
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'transactions.csv';
-        link.click();
-        link.remove()
-        setDownloading(false)
-    }
 
     useEffect(() => {
         fetchTransactions()
@@ -114,7 +92,7 @@ export default function DownloadTransactions() {
                         Apply
                     </button>
 
-                    <button type="button" disabled={downloading} onClick={tableToCSV} className="btn btn-info rounded-4">Download</button>
+                    <button type="button" disabled={downloading} onClick={() => tableToCSV(tableRef.current, 'transactions')} className="btn btn-info rounded-4">Download</button>
 
                 </form>
 
