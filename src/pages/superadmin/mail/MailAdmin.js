@@ -33,6 +33,7 @@ export default function MailAdmin() {
     }
 
     useEffect(() => {
+        document.title = "Send Mail"
         fetchAdmins()
     }, [])
 

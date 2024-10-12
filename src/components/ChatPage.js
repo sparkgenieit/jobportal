@@ -73,6 +73,7 @@ export default function ChatPage({ name }) {
     }
 
     useEffect(() => {
+        document.title = "Inbox"
         const queryId = params.id
         fetchQuery(queryId)
     }, [])

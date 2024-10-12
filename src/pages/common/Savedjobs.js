@@ -19,6 +19,8 @@ function Savedjobs() {
 
     useEffect(() => {
         fetchSavedJobs(pgNumber)
+
+        document.title = "Saved Jobs"
     }, [])
 
     const fetchSavedJobs = async (page) => {

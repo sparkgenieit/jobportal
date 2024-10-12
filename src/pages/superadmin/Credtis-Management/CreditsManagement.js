@@ -31,6 +31,8 @@ export default function CreditsManagement() {
     }
 
     useEffect(() => {
+        document.title = "Credits Management"
+
         fetchCompanies()
     }, [])
 

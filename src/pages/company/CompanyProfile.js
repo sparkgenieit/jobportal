@@ -39,8 +39,6 @@ function CompanyProfile() {
   const [info, setInfo] = useState("")
   const message = useShowMessage()
   const youtubeRef = useRef(null)
-  const bannerRef = useRef(null)
-  const logoRef = useRef(null)
   const [showModal, setShowModal] = useState({
     show: false,
   })
@@ -60,6 +58,8 @@ function CompanyProfile() {
       .catch(e => {
         message({ status: "error", error: e })
       })
+
+    document.title = "Company Profile"
   }, [userId])
 
   const onFileChange = (event) => {
@@ -160,9 +160,9 @@ function CompanyProfile() {
           <div style={{ width: "1000px" }} className='d-flex justify-content-between'>
             <div className='d-flex flex-column'>
               <div className='d-flex  align-items-center'>
-                <button type='button' className=' border-0 bg-white align-self-start mt-1 text-primary text-decoration-underline' onClick={() => { logoRef.current.click() }}>
+                <label htmlFor='logo' type='button' className=' border-0 bg-white align-self-start mt-1 text-primary text-decoration-underline'>
                   Change Logo
-                </button>
+                </label>
 
                 <span role='button' onClick={() => setShowModal({ show: true, type: "logo" })}>
                   <BsInfoCircle />
@@ -174,18 +174,18 @@ function CompanyProfile() {
             </div>
 
             <div className='d-flex align-self-start align-items-center'>
-              <button type='button' className=' border-0 bg-white align-self-start mt-1  text-primary text-decoration-underline' onClick={() => { bannerRef.current.click() }} >
+              <label htmlFor='banner' type='button' className=' border-0 bg-white align-self-start mt-1  text-primary text-decoration-underline'>
                 Change Banner
-              </button>
+              </label>
               <span role='button' onClick={() => setShowModal({ show: true, type: "banner" })}>
                 <BsInfoCircle />
               </span>
             </div>
           </div>
 
-          <div style={{ display: "none" }}>
-            <input ref={bannerRef} type="file" id="banner" accept='.jpg ,.png ,.jpeg' onChange={onFileChange} />
-            <input ref={logoRef} type="file" id="logo" accept='.jpg ,.png, .jpeg' onChange={onFileChange} />
+          <div>
+            <input hidden type="file" id="banner" accept='.jpg ,.png ,.jpeg' onChange={onFileChange} />
+            <input hidden type="file" id="logo" accept='.jpg ,.png, .jpeg' onChange={onFileChange} />
           </div>
 
           <form onSubmit={submit} className="form-sample mt-3 p-4 ">

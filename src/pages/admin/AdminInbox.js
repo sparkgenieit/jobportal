@@ -24,6 +24,7 @@ export default function Queries() {
     const user = useCurrentUser()
 
     useEffect(() => {
+        document.title = "Inbox"
         fetchQueries(currentPage)
     }, [])
 

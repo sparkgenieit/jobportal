@@ -30,6 +30,7 @@ export default function ContactUs() {
     }
 
     useEffect(() => {
+        document.title = "Employer | Contact-us"
         fetchCompanyDetails()
     }, [])
 

@@ -39,6 +39,8 @@ function EditCategory() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        document.title = "Edit category"
+
         http.get(`/categories/${id}`)
             .then((res) => {
                 setCategoryName(res.data.name)

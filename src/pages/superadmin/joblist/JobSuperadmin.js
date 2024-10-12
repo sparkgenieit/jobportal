@@ -21,8 +21,8 @@ export default function JobSuperAdmin() {
     useEffect(() => {
         http.get(`/jobs/${params.id}`)
             .then((response) => {
-                console.log(response)
                 setJobview(response.data)
+                document.title = response.data.jobTitle + " | " + response.data.company
             })
             .catch(err => setJobview(null))
     }, [])

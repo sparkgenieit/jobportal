@@ -3,7 +3,7 @@ import Footer from '../../layouts/common/Footer';
 import Sidebar from '../../layouts/common/Sidebar';
 
 import ViewProfileComponent from '../../components/ViewProfileComponent';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 
 
@@ -13,8 +13,11 @@ function ViewProfile() {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current
   });
-  const buttonLink = '<button onClick={handlePrint}>Print article</button>'
-  const myRefname = useRef < HTMLButtonElement > (null);
+
+  useEffect(() => {
+    document.title = "Profile"
+  }, [])
+
   return <>
     <div class="container-fluid page-body-wrapper">
       <Sidebar />

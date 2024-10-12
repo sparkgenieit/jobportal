@@ -21,6 +21,7 @@ export default function Transactions() {
     const userId = user.role === 'recruiter' ? user.companyId._id : user._id
 
     useEffect(() => {
+        document.title = "Transactions"
         fetchTransactionDetails(currentPage)
     }, [searchTerm, sort])
 

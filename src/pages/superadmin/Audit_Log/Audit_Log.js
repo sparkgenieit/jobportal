@@ -12,6 +12,7 @@ import { itemsPerPage } from "../../../helpers/constants";
 import http from "../../../helpers/http";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import { getDate } from "../../../helpers/functions/dateFunctions";
+import useCurrentUser from "../../../helpers/Hooks/useCurrentUser";
 import { downloadCsv, tableToCSV } from "../../../helpers/functions/csvFunctions";
 
 const inputValues = {
@@ -31,6 +32,7 @@ export default function Audit() {
     const message = useShowMessage()
     const [loading, setLoading] = useState(false)
     const tableRef = useRef(null)
+    const { role } = useCurrentUser()
 
     const fetchLogs = async (page) => {
         const skip = (page - 1) * itemsPerPage
@@ -73,7 +75,7 @@ export default function Audit() {
             message({ message: "From date can't be more than to date" })
             return
         }
-        window.history.replaceState(null, null, '/company/audit')
+        window.history.replaceState(null, null, `/${role}/audit`)
         fetchLogs(1)
     }
 

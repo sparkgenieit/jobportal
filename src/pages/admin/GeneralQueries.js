@@ -27,6 +27,7 @@ export default function GeneralQueries() {
     const message = useShowMessage()
 
     useEffect(() => {
+        document.title = "General Queries"
         fetchQueries(currentPage)
     }, [search])
 

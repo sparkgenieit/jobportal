@@ -18,6 +18,8 @@ export default function PaymentStatus() {
 
     useEffect(() => {
         fetchPaymentStatus();
+
+        document.title = "Payment-Status"
     }, [])
 
     const fetchPaymentStatus = async () => {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
 import { Modal } from "react-bootstrap";
 
@@ -13,6 +13,10 @@ function BuyCredits() {
     const [loading, setLoading] = useState(false)
     const [paymentDetails, setPaymentDetails] = useState({})
     const user = useCurrentUser()
+
+    useEffect(() => {
+        document.title = "Buy Credits"
+    }, [])
 
     const choocePlan = (plan) => {
 

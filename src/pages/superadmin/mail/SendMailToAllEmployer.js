@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import MdxEditor from "../../../components/MdxEditor"
 import http from "../../../helpers/http"
@@ -10,6 +10,10 @@ export default function SendMailToAllEmployer() {
     const [subject, setSubject] = useState("")
     const [sendingMessage, setSendingMessage] = useState(false)
     const [error, setError] = useState("")
+
+    useEffect(() => {
+        document.title = "Mail all the employers"
+    }, [])
 
     const messageHook = useShowMessage()
 

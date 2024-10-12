@@ -8,6 +8,15 @@ export default function Input({ width, height, setImg, imgSrc }) {
     const imgRef = useRef(null);
     const [originalImageUrl, setOriginalImageUrl] = useState(null)
 
+    const imgContainer = {
+        width: `${width}px`,
+        height: `${height}px`,
+        overflow: "hidden",
+        borderWidth: "1px",
+        borderStyle: "solid",
+        borderColor: "#40404"
+    }
+
     useEffect(() => {
         fetch(imgSrc)
             .then(response => response.blob())
@@ -124,12 +133,8 @@ export default function Input({ width, height, setImg, imgSrc }) {
         <div>
             <div className="d-flex gap-4 align-items-center">
                 <div
-                    style={{
-                        width: `${width}px`,
-                        height: `${height}px`,
-                        overflow: "hidden",
-                    }}
-                    className="rounded border border-2 d-flex align-items-center justify-content-center"
+                    style={imgContainer}
+                    className="rounded d-flex align-items-center justify-content-center"
                 >
                     <img className="rounded img-resize" ref={imgRef} />
                 </div>
@@ -140,7 +145,6 @@ export default function Input({ width, height, setImg, imgSrc }) {
                         onChange={(e) => { handleHeightSlider(e) }}
                         defaultValue={height}
                         min={10}
-                        step={10}
                         max={height}
                         className="height-slider"
                         style={{ height: `${height}px` }}
@@ -150,11 +154,10 @@ export default function Input({ width, height, setImg, imgSrc }) {
             <input
                 type="range"
                 name="width"
-                className="slider width-slider"
+                className="slider"
                 onChange={(e) => handleWidthSliders(e)}
                 defaultValue={width}
                 min={10}
-                step={10}
                 max={width}
                 style={{ width: `${width}px` }}
             />

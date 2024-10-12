@@ -1,6 +1,6 @@
 import './Home.css';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoSearch } from "react-icons/io5";
 
@@ -33,6 +33,10 @@ function Home() {
             clearSuggestions()
         }
     }
+
+    useEffect(() => {
+        document.title = "Working Holiday Jobs New Zealand"
+    }, [])
 
     const handleKeyDown = (Suggestions, e) => {
         if (e.keyCode == 40) {

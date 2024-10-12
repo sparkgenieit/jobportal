@@ -26,6 +26,7 @@ export default function UnAssignedQueries() {
     const message = useShowMessage()
 
     useEffect(() => {
+        document.title = "Employer Queries"
         fetchQueries(currentPage)
     }, [search])
 

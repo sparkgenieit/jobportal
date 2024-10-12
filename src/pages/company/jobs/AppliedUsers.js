@@ -28,7 +28,9 @@ export default function AppliedUsers() {
     try {
       const res = await http.get(`/companies/applied-users/${params.id}?shortlisted=${isShortListedOnly}&limit=${itemsPerPage}&skip=${skip}`)
       setLoading(false)
-      setJobName(res.data.users[0].jobId.jobTitle)
+      const jobTitle = res.data.users[0].jobId.jobTitle
+      document.title = jobTitle + " | Applied Users"
+      setJobName(jobTitle)
       setAppliedUsers(res.data.users)
       setTotalItems(res.data.total)
     } catch (error) {

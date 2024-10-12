@@ -16,6 +16,7 @@ function OrdersList() {
     const message = useShowMessage()
 
     useEffect(() => {
+        document.title = "Transactions"
         fetchOrders()
     }, [])
 

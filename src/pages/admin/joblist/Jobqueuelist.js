@@ -17,6 +17,7 @@ const Jobqueuelist = () => {
     const [msg, setMsg] = useState(false)
 
     useEffect(() => {
+        document.title = "Job Queue List"
         fetchJobs(pgNumber)
     }, [])
 

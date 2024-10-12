@@ -24,6 +24,7 @@ function Myasignjobs() {
     const { _id: userId } = useCurrentUser()
 
     useEffect(() => {
+        document.title = "Assigned Jobs"
         fetchAssignJobs(pgNumber)
     }, [])
 

@@ -19,6 +19,8 @@ function Myappliedjobs() {
 
     useEffect(() => {
         fetchAppliedJobs(pgNumber)
+
+        document.title = "Applied Jobs"
     }, [])
 
 

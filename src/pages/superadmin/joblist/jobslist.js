@@ -24,6 +24,7 @@ const JobsListSuperAdmin = () => {
     })
 
     useEffect(() => {
+        document.title = "Jobs list"
         fetchJobs(pgNumber)
     }, [searchValue])
 

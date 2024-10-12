@@ -43,6 +43,7 @@ function Jobs() {
     const ref = useRef(null)
 
     useEffect(() => {
+        document.title = "Jobs"
         fetchJobs(pgNumber)
     }, [refresh])
 

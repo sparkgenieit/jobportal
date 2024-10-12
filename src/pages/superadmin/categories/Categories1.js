@@ -32,6 +32,8 @@ function Categories1() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title = "Add a category"
+
     http.get("/categories/all")
       .then((res) => {
         if (res.data.length === 0) {

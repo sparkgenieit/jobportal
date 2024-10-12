@@ -45,6 +45,7 @@ export default function Chat() {
     }
 
     useEffect(() => {
+        document.title = "Inbox"
         fetchMail()
     }, [])
 

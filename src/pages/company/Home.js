@@ -1,4 +1,11 @@
+import { useEffect } from "react";
+
 function Home() {
+
+  useEffect(() => {
+    document.title = "Dashboard"
+  }, [])
+
   return <>
     <div class="container-fluid">
       <div class="content-wrapper bg-white">

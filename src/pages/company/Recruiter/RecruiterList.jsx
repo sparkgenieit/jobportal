@@ -105,6 +105,7 @@ export default function RecruiterList() {
     }
 
     useEffect(() => {
+        document.title = "Recruiters"
         fetchRecruiters()
     }, [])
 

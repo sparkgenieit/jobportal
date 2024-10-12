@@ -16,6 +16,7 @@ function SingleJobAdmin() {
         http.get(`/jobs/${params.id}`)
             .then((response) => {
                 setJobview(response.data)
+                document.title = response.data.jobTitle + " | " + response.data.company
             })
             .catch(err => setJobview(null))
     }, [])

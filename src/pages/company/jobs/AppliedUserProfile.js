@@ -21,6 +21,7 @@ export default function AppliedUserProfile() {
         try {
             const res = await http.get(`/users/profile/${params.userId}`)
             setUser(res.data)
+            document.title = res.data.first_name + " " + res.data.last_name
             let jobtype = res.data.preferredJobTypes[0]
             let jobs = []
             for (const key in jobtype) {

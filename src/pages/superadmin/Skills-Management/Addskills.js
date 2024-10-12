@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../../../layouts/superadmin/Footer";
 import Header from "../../../layouts/superadmin/Header";
 import Sidebar from "../../../layouts/superadmin/Sidebar";
@@ -29,6 +29,9 @@ function Addskills() {
     const [message, setMessage] = useState("")
     const navigate = useNavigate();
 
+    useEffect(() => {
+        document.title = "Add a skill"
+    }, [])
 
     function handleInput(name, event) {
         if (name === "name") {

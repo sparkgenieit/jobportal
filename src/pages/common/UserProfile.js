@@ -85,10 +85,9 @@ function UserProfile() {
     certificateName: "",
   })
 
-
-  console.log(errors);
-
   useEffect(() => {
+
+    document.title = "User Profile"
 
     userService.get(userId)
       .then(response => {

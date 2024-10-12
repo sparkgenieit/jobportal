@@ -64,6 +64,7 @@ function SingleJob() {
             .then((response) => {
                 setLoading(false)
                 setJobview(response.data)
+                document.title = response.data.jobTitle + " | " + response.data.company
             })
             .catch(err => setJobview())
     }

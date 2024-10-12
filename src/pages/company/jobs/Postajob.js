@@ -90,6 +90,7 @@ function Postajob({ name }) {
   }, [])
 
   useEffect(() => {
+    document.title = name
     setError({})
     // If it is a regular post a job
     if (name === "Post a Job" && !cloneJobId) {

@@ -29,6 +29,7 @@ function Categorieslist1() {
   }
 
   useEffect(() => {
+    document.title = "Categories list"
     fetchCategories()
   }, [])
 

@@ -57,6 +57,7 @@ export default function Inbox() {
     }
 
     useEffect(() => {
+        document.title = "Admin Inbox"
         fetchMails()
     }, [])
 

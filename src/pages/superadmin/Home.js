@@ -1,8 +1,9 @@
-import Heder from '../../layouts/superadmin/Header';
-import Footer from '../../layouts/superadmin/Footer';
-import Sidebar from '../../layouts/superadmin/Sidebar';
+import { useEffect } from "react";
 
 function Home() {
+  useEffect(() => {
+    document.title = "Dashboard"
+  }, [])
   return <>
 
 

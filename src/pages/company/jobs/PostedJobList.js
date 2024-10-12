@@ -34,6 +34,7 @@ function PostedJobList() {
     const message = useShowMessage()
 
     useEffect(() => {
+        document.title = "Posted Jobs"
         showJobsList(pgNumber)
     }, [name])
 

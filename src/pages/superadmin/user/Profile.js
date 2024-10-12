@@ -14,6 +14,8 @@ export default function Profile() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        document.title = "Profile"
+
         if (params.user == "User") {
             http.get(`/users/profile/${params.userId}`)
                 .then((res) => {
