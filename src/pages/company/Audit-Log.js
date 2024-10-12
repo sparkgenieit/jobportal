@@ -1,13 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
+import { RxDownload } from "react-icons/rx";
+import { FaCheck } from "react-icons/fa";
+import { RxCross2 } from "react-icons/rx";
+
 import Pagination from "../../components/Pagination";
+import Tooltip from "../../components/Tooltip";
 import Loader from "../../components/Loader";
 import { itemsPerPage } from "../../helpers/constants";
 import http from "../../helpers/http";
 import useShowMessage from "../../helpers/Hooks/useShowMessage";
 import { getDate } from "../../helpers/functions/dateFunctions";
-import { tableToCSV } from "../../helpers/functions/csvFunctions";
+import { downloadCsv, tableToCSV } from "../../helpers/functions/csvFunctions";
 
 const inputValues = {
     toDate: "",
@@ -20,7 +25,7 @@ const inputValues = {
 export default function Audit() {
     const [totalItems, setTotalItems] = useState(0)
     const [searchParams] = useSearchParams();
-    const [filters, setFilters] = useState(JSON.parse(sessionStorage.getItem("logs-filters")) || inputValues)
+    const [filters, setFilters] = useState(inputValues)
     const [pgNumber, setPgNumber] = useState(+searchParams.get("page") || 1)
     const [logs, setLogs] = useState([])
     const message = useShowMessage()
@@ -30,7 +35,6 @@ export default function Audit() {
     const fetchLogs = async (page) => {
         const skip = (page - 1) * itemsPerPage
         setLoading(true)
-        console.log(skip);
         try {
             const res = await http.post(`/companies/logs?limit=${itemsPerPage}&skip=${skip}`, filters)
             setLogs(res.data.logs)
@@ -42,6 +46,21 @@ export default function Audit() {
         }
     }
 
+    const convertLogsObjectToCsvString = (log) => {
+        return [
+            getDate(log.date),
+            log.jobId ? log.jobId : "-",
+            log.employerReference ? log.employerReference : "-",
+            log.jobTitle ? log.jobTitle : "-",
+            log.username ? log.username : "-",
+            log.email ? log.email : "-",
+            log.description ? log.description : "-",
+            log.fieldName ? log.fieldName : "-",
+            log.changedFrom ? log.changedFrom : "-",
+            log.changedTo ? log.changedTo : "-",
+        ].join(",") + '\n'
+    }
+
     const handleChange = (e) => {
         setFilters({ ...filters, [e.target.name]: e.target.value })
     }
@@ -51,26 +70,47 @@ export default function Audit() {
             message({ message: "From date can't be more than to date" })
             return
         }
-        sessionStorage.setItem("logs-filters", JSON.stringify(filters))
         window.history.replaceState(null, null, '/company/audit')
         fetchLogs(1)
     }
 
+    const downloadAllLogs = async (limit = 1000) => {
+        document.body.style.cursor = "wait"
+        try {
+            const res = await http.post(`/companies/logs?limit=${limit}&skip=0`, inputValues)
+
+            if (limit < res.data.total) {
+                downloadAllLogs(res.data.total)
+            }
+
+            let csvString = 'Data,Job ID,Employer Reference,Job Title,User Name,Email,Description,Field Name,Changed From,Changed To \n'
+
+            res.data.logs.forEach(log => {
+                csvString += convertLogsObjectToCsvString(log)
+            })
+            downloadCsv(csvString, "all-logs")
+        } catch (error) {
+            message({ status: "Error", error })
+        } finally {
+            document.body.style.cursor = "auto"
+        }
+    }
 
     useEffect(() => {
         fetchLogs(pgNumber)
+
+        document.title = "Audits Logs"
     }, [])
 
     return (
         <div className="container-fluid content-wrapper px-0 bg-white">
 
-            <div className="d-flex">
-                <h2 className="text-center flex-grow-1 fw-bold fs-3 mb-3" > Audit Log</h2>
-                <button type="button" onClick={() => tableToCSV(tableRef.current, 'logs')} className="btn btn-info rounded-4">Download</button>
+            <div className="d-flex position-relative align-items-center">
+                <h2 className="text-center w-100 fw-bold fs-3 mb-3" > Audit Log</h2>
+                <button type="button" onClick={() => downloadAllLogs()} className="btn position-absolute end-0 me-2  btn-info rounded-4">Download All</button>
             </div>
 
             <div className="container-fluid">
-
                 <div className="d-flex gap-2 my-3 small">
                     <div className="d-flex flex-column align-items-start">
                         <label>From Date</label>
@@ -81,11 +121,29 @@ export default function Audit() {
                         <input type="date" name="toDate" className="form-control" value={filters.toDate} onChange={handleChange} />
                     </div>
 
-                    <input type="text" placeholder="Job Title" className="form-control align-self-end" name="jobTitle" value={filters.jobTitle} onChange={handleChange} />
-                    <input type="text" placeholder="Employer Reference" className="form-control align-self-end" name="employerReference" value={filters.employerReference} onChange={handleChange} />
-                    <input type="text" placeholder="Job ID" className="form-control align-self-end" name="jobId" value={filters.jobId} onChange={handleChange} />
+                    <div className="d-flex align-self-end flex-grow-1 gap-2">
+                        <input type="text" placeholder="Job Title" className="form-control " name="jobTitle" value={filters.jobTitle} onChange={handleChange} />
+                        <input type="text" placeholder="Employer Reference" className="form-control " name="employerReference" value={filters.employerReference} onChange={handleChange} />
+                        <input type="text" placeholder="Job ID" className="form-control" name="jobId" value={filters.jobId} onChange={handleChange} />
 
-                    <button onClick={FetchLogsWithFilters} className="btn btn-info align-self-end mt-2 rounded-4 ">Apply</button>
+                        <div className="d-flex align-items-center gap-3">
+                            <Tooltip tooltipText={"Apply"}>
+                                <span onClick={FetchLogsWithFilters}>
+                                    <FaCheck color="green" fontSize={20} />
+                                </span>
+                            </Tooltip>
+                            <Tooltip tooltipText={"Clear"}>
+                                <span onClick={() => { setFilters(inputValues) }}>
+                                    <RxCross2 color="red" fontSize={20} />
+                                </span>
+                            </Tooltip>
+                            <Tooltip tooltipText={"Download"} rightAlign>
+                                <span onClick={() => tableToCSV(tableRef.current, 'logs')}>
+                                    <RxDownload fontSize={20} />
+                                </span>
+                            </Tooltip>
+                        </div>
+                    </div>
                 </div>
 
                 <Pagination itemsPerPage={itemsPerPage} currentPage={pgNumber} pageNumberToShow={2} setCurrentPage={setPgNumber} fetchItems={fetchLogs} totalCount={totalItems}>

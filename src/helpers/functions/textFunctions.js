@@ -48,6 +48,10 @@ export const parseString = (string) => {
     return JSON.parse(string)
 }
 
+export function capitalize(txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+}
+
 
 export const salaryPerAnnum = (rate) => {
     const pA = (Math.round(rate * 2080)).toString()

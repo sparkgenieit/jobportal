@@ -18,3 +18,13 @@ export function tableToCSV(table, output_file_name) {
     link.click();
     link.remove()
 }
+
+
+export const downloadCsv = (csv_string, output_file_name) => {
+    const blob = new Blob([csv_string], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${output_file_name}.csv`;
+    link.click();
+    link.remove()
+}
