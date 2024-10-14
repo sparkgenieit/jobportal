@@ -88,11 +88,6 @@ function CompanyProfile() {
       }
     }
 
-    if (!validateEmailAddress(userData.email)) {
-      valid = false
-      eObj = { ...eObj, email: `Invalid Email` }
-    }
-
     if (!valid) setErrors(eObj)
 
     if (valid) {
@@ -106,7 +101,6 @@ function CompanyProfile() {
       obj1 = { ...obj1, city: userData.city }
       obj1 = { ...obj1, phone: userData.phone }
       obj1 = { ...obj1, contact: userData.contact.trim() }
-      obj1 = { ...obj1, email: userData.email }
       obj1 = { ...obj1, youtubeUrl: userData.youtubeUrl }
       obj1 = { ...obj1, info: info }
 

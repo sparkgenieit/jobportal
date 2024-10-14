@@ -101,6 +101,24 @@ export default function Audit() {
         }
     }
 
+    const downloadFilteredLogs = async () => {
+        document.body.style.cursor = "wait"
+        try {
+            const res = await http.post(`/companies/logs?limit=${totalItems}&skip=0`, filters)
+
+            let csvString = 'Data,Company ID,Company Name,Job ID,Employer Reference,Job Title,User Name,Email,Description,Field Name,Changed From,Changed To \n'
+
+            res.data.logs.forEach(log => {
+                csvString += convertLogsObjectToCsvString(log)
+            })
+            downloadCsv(csvString, "logs")
+        } catch (error) {
+            message({ status: "Error", error })
+        } finally {
+            document.body.style.cursor = "auto"
+        }
+    }
+
     useEffect(() => {
         fetchLogs(pgNumber)
 
@@ -143,7 +161,7 @@ export default function Audit() {
                                 </span>
                             </Tooltip>
                             <Tooltip tooltipText={"Download"} rightAlign>
-                                <span onClick={() => tableToCSV(tableRef.current, 'logs')}>
+                                <span onClick={() => downloadFilteredLogs()}>
                                     <RxDownload fontSize={20} />
                                 </span>
                             </Tooltip>

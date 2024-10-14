@@ -56,7 +56,7 @@ export function capitalize(txt) {
 export const salaryPerAnnum = (rate) => {
     const pA = (Math.round(rate * 2080)).toString()
     if (pA.length > 3) {
-        return (pA / 1000).toFixed(2) + "K"
+        return Math.round(pA / 1000) + "K"
     } else {
         return pA
     }

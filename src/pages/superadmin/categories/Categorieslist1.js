@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import http from '../../../helpers/http';
 import { Modal } from 'react-bootstrap';
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
+import { downloadCsv } from "../../../helpers/functions/csvFunctions";
+import ConfirmDialog from "../../../components/ConfirmDialog";
 
 
 function Categorieslist1() {
@@ -17,6 +19,7 @@ function Categorieslist1() {
   const [downloading, setDownloading] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [toUploadList, setToUploadList] = useState([])
+  const [showConfirmation, setShowConfirmation] = useState({})
   const message = useShowMessage()
 
   const fetchCategories = async () => {
@@ -96,6 +99,20 @@ function Categorieslist1() {
     };
   }
 
+  const deleteAll = async () => {
+    setShowConfirmation({ show: false })
+    setDownloading(true)
+    try {
+      await http.delete('/categories/bulk-delete')
+      message({ status: "success", message: "All Categories deleted" })
+      fetchCategories()
+    } catch (error) {
+      message({ status: "error", error })
+    } finally {
+      setDownloading(false)
+    }
+  }
+
   function tableToCSV() {
     setDownloading(true)
     const table = tableRef.current
@@ -110,14 +127,12 @@ function Categorieslist1() {
       }
       csvContent += rowData.join(",") + "\n";
     }
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'categories.csv';
-    link.click();
-    link.remove()
+
+    downloadCsv(csvContent, "categories")
     setDownloading(false)
   }
+
+
 
   const editButton = (id) => {
     navigate(`/superadmin/Categories/${id}`)
@@ -142,6 +157,7 @@ function Categorieslist1() {
                       <label htmlFor="upload_button" type="button" disabled={downloading} className="btn btn-info rounded-3" onClick={() => { }}>Upload</label>
                       <input type="file" id="upload_button" onChange={readCSV} accept=".csv" hidden />
                       <a type="button" disabled={downloading} className="btn btn-info rounded-3" onClick={() => navigate("/superadmin/Categories1")}>Add</a>
+                      <a type="button" disabled={downloading} className="btn btn-danger rounded-3" onClick={() => { setShowConfirmation({ show: true }) }}>Delete All</a>
                     </div>
                   </div>
                   <table ref={tableRef} class="table mt-4  text-center">
@@ -183,6 +199,25 @@ function Categorieslist1() {
           </div>
         </div>
       </div>
+
+      <ConfirmDialog
+        showModal={showConfirmation.show}
+        onHideModal={() => setShowConfirmation({ show: false })}
+        confirmText={"Are you really want to delete all of the categories"}
+        confirmTextClasses="fw-bold mb-3 text-center"
+        buttonAttributes={[
+          {
+            text: "Yes",
+            className: "btn btn-info rounded-3",
+            onClick: deleteAll
+          },
+          {
+            text: "No",
+            className: "btn btn-outline-dark rounded-3",
+            onClick: () => { setShowConfirmation({ show: false }) }
+          }
+        ]}
+      />
 
       <Modal show={showModal} onHide={() => { setShowModal(false) }} centered>
         <Modal.Body className="bg-white p-4 d-flex flex-column gap-3">

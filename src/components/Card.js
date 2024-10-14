@@ -17,7 +17,7 @@ import Tooltip from './Tooltip';
 import http from '../helpers/http';
 import useShowMessage from '../helpers/Hooks/useShowMessage';
 import useCurrentUser from '../helpers/Hooks/useCurrentUser';
-import { markdownToPlainText } from '../helpers/functions/textFunctions';
+import { markdownToPlainText, salaryPerAnnum } from '../helpers/functions/textFunctions';
 
 export default function Card({ job }) {
     const savedJobIds = JSON.parse(sessionStorage.getItem('savedJobIds'))
@@ -167,14 +167,14 @@ export default function Card({ job }) {
                             {job.companyLogo.length > 0 && <img className="rounded border company-logo" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                         </div>
                         <div className='flex-grow-1 h-100 d-flex flex-column justify-content-end'>
-                            <Tooltip tooltipText={"Approximate salary"}>
+                            {job.rateperhour && <Tooltip tooltipText={"Approximate salary"}>
                                 <div className='d-flex gap-2'>
                                     <span><FaDollarSign fontSize={13} /></span>
                                     <span className=''>
-                                        {job.rateperhour} per hour
+                                        {job.salary_type === "per annum" ? salaryPerAnnum(job.rateperhour) : job.rateperhour} {job.salary_type}
                                     </span>
                                 </div>
-                            </Tooltip>
+                            </Tooltip>}
 
                             <Tooltip tooltipText={"Job Type"}>
                                 <div className='d-flex  gap-2'>

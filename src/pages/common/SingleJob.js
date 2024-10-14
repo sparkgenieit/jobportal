@@ -17,7 +17,7 @@ import LocationPopup from '../../components/LocationPopup';
 import Tooltip from '../../components/Tooltip';
 import { JobsContext } from '../../helpers/Context';
 import useShowMessage from '../../helpers/Hooks/useShowMessage';
-import { markdownToText, parseString } from '../../helpers/functions/textFunctions';
+import { markdownToText, parseString, salaryPerAnnum } from '../../helpers/functions/textFunctions';
 import { BsBriefcase, BsCalendar3 } from "react-icons/bs";
 import InfoPopup from "../../components/InfoPopup";
 import useCurrentUser from "../../helpers/Hooks/useCurrentUser";
@@ -311,7 +311,7 @@ function SingleJob() {
                                 <div className="d-flex gap-2" >
                                     <span><FaDollarSign fontSize={16} /></span>
                                     <span>
-                                        {jobview.rateperhour} per hour
+                                        {jobview.salary_type === "per annum" ? salaryPerAnnum(jobview.rateperhour) : jobview.rateperhour} {jobview.salary_type}
                                     </span>
                                 </div>
                                 <div className='d-flex gap-2'>
