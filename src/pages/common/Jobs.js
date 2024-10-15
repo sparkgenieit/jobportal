@@ -23,7 +23,7 @@ const initialValues = {
     weeklyperhour: null,
     date: null,
     sort: "creationdate",
-    salaryType: "hour"
+    salaryType: "per hour"
 }
 
 function Jobs() {

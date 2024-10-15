@@ -52,9 +52,8 @@ export function capitalize(txt) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
 }
 
-
-export const salaryPerAnnum = (rate) => {
-    const pA = (Math.round(rate * 2080)).toString()
+export const salaryPerAnnum = (rateperhour) => {
+    const pA = (Math.round(rateperhour * 2080)).toString()
     if (pA.length > 3) {
         return Math.round(pA / 1000) + "K"
     } else {
