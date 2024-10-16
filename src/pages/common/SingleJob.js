@@ -310,9 +310,13 @@ function SingleJob() {
                             <div className='col-md-4 col-12'>
                                 <div className="d-flex gap-2" >
                                     <span><FaDollarSign fontSize={16} /></span>
-                                    <span>
-                                        {jobview.salary_type === "per annum" ? salaryPerAnnum(jobview.rateperhour) : jobview.rateperhour} {jobview.salary_type}
-                                    </span>
+                                    {jobview.salary_type === "negotiable" ?
+                                        <span>Negotiable</span>
+                                        :
+                                        < span className=''>
+                                            {jobview.salary_type === "per annum" ? salaryPerAnnum(jobview.rateperhour) : jobview.rateperhour} {jobview.salary_type}
+                                        </span>
+                                    }
                                 </div>
                                 <div className='d-flex gap-2'>
                                     <span><BsBriefcase fontSize={16} /></span>
