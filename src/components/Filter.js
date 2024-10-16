@@ -162,16 +162,22 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
 
             <div className='mb-2'>
                 <div className='d-flex  small'>
-                    <div className='fw-bold'>
-                        Salary
+                    <div className='fw-bold text-nowrap'>
+                        Minimum Salary
                     </div>
-                    <div style={{ fontSize: "10px" }} className="d-flex flex-grow-1 ps-2 align-items-center gap-2">
-                        <input type="radio" name="salary" id="per annum" checked={filterFields.salaryType === "per annum"} onChange={() => { setFilterFields({ ...filterFields, rateperhour: "10K", salaryType: "per annum" }) }} /><label for="per annum">per annum</label>
-                        <input type="radio" name="salary" id="per hour" checked={filterFields.salaryType === "per hour"} onChange={() => { setFilterFields({ ...filterFields, rateperhour: "20", salaryType: "per hour" }) }} /><label for="per hour">per hour</label>
+                    <div style={{ fontSize: "10px" }} className="d-flex flex-grow-1  ps-2 align-items-center gap-2">
+                        <div className="d-flex align-items-center">
+                            <input type="radio" name="salary" id="per annum" checked={filterFields.salaryType === "per annum"} onChange={() => { setFilterFields({ ...filterFields, rateperhour: null, salaryType: "per annum" }) }} />
+                            <label className="ms-1" for="per annum">Yearly</label>
+                        </div>
+                        <div className="d-flex align-items-center ">
+                            <input type="radio" name="salary" id="per hour" checked={filterFields.salaryType === "per hour"} onChange={() => { setFilterFields({ ...filterFields, rateperhour: null, salaryType: "per hour" }) }} />
+                            <label className="ms-1" for="per hour">Hourly</label>
+                        </div>
                     </div>
-                    <span >
+                    <span className=" ps-1 text-nowrap" >
                         {filterFields.rateperhour ?
-                            `$ ${filterFields.rateperhour}`
+                            `$${filterFields.rateperhour}`
                             : "Any"}
                     </span>
 

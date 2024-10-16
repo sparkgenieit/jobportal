@@ -34,12 +34,10 @@ export const fetchCategories = async (setCategoriesList, setParent) => {
     }
 }
 
-export const fetchCompanyInfo = async (user_id, setJobData, setBenefits, setTraining, setEmployerQuestions, initialValues) => {
+export const fetchCompanyInfo = async (user_id, setJobData, setEmployerQuestions, initialValues) => {
     try {
         const response = await companyService.get(user_id)
         setJobData({ ...initialValues, company: response.data.name, companyLogo: response.data.logo });
-        setBenefits({})
-        setTraining("No")
         setEmployerQuestions([{ value: '' }])
     } catch (error) {
         console.log(error)
@@ -47,17 +45,16 @@ export const fetchCompanyInfo = async (user_id, setJobData, setBenefits, setTrai
 
 }
 
-export const fetchJobForEditing = async (id, setJobData, setBenefits, setTraining, setEmployerQuestions, isReposting = false) => {
+export const fetchJobForEditing = async (id, setJobData, setEmployerQuestions, isReposting = false) => {
     try {
         const response = await http.get(`/jobs/${id}`);
+        const benifits = response.data.benifits?.includes("{") ? "" : response.data.benifits
         isReposting ?
-            setJobData({ ...response.data, creationdate: new Date(), closedate: getCloseDate(new Date().toISOString()) })
+            setJobData({ ...response.data, creationdate: new Date(), closedate: getCloseDate(new Date().toISOString()), benifits })
             :
-            setJobData({ ...response.data, creationdate: new Date(response.data.creationdate) });
-        setBenefits(JSON.parse(response.data.benifits));
+            setJobData({ ...response.data, creationdate: new Date(response.data.creationdate), benifits });
         setEmployerQuestions(JSON.parse(response.data.employerquestions));
-        setTraining(response.data.training === "Yes" ? "Yes" : "No");
-        return response
+        return response.data
     } catch (error) {
         console.log(error)
     }

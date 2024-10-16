@@ -75,7 +75,6 @@ export default function Card({ job }) {
     }
 
     const date = new Date(job?.creationdate).toLocaleDateString('en-GB')
-    const benefits = getTrueKeys(JSON.parse(job?.benifits))
 
     return (
         <div onClick={() => { message({ path: `/common/SingleJob/${job._id}` }) }} className='job-card border shadow rounded '>
@@ -170,9 +169,13 @@ export default function Card({ job }) {
                             {job.rateperhour && <Tooltip tooltipText={"Approximate salary"}>
                                 <div className='d-flex gap-2'>
                                     <span><FaDollarSign fontSize={13} /></span>
-                                    <span className=''>
-                                        {job.salary_type === "per annum" ? salaryPerAnnum(job.rateperhour) : job.rateperhour} {job.salary_type}
-                                    </span>
+                                    {job.salary_type === "negotiable" ?
+                                        <span>Negotiable</span>
+                                        :
+                                        < span className=''>
+                                            {job.salary_type === "per annum" ? salaryPerAnnum(job.rateperhour) : job.rateperhour} {job.salary_type}
+                                        </span>
+                                    }
                                 </div>
                             </Tooltip>}
 
@@ -220,7 +223,7 @@ export default function Card({ job }) {
                             }
 
 
-                            {job.training.includes("true") &&
+                            {job.training?.includes("Yes") &&
                                 <span className='text-nowrap d-flex gap-2'>
                                     <span>
                                         <FaCheckSquare fontSize={13} />
@@ -230,10 +233,10 @@ export default function Card({ job }) {
                             }
 
                             <div>
-                                {job.benifits && benefits?.length > 0 &&
+                                {job.benifits &&
 
                                     <div className='d-flex gap-2 '>
-                                        {benefits.includes("Accommodation") &&
+                                        {job.benifits?.includes("Accommodation") &&
                                             <Tooltip tooltipText={"Accommodation"}>
                                                 <span>
                                                     <IoHomeOutline fontSize={13} />
@@ -241,7 +244,7 @@ export default function Card({ job }) {
                                             </Tooltip>
                                         }
 
-                                        {benefits.includes("Food") &&
+                                        {job.benifits?.includes("Food") &&
                                             <Tooltip tooltipText={"Food"}>
                                                 <span>
                                                     <GiHotMeal fontSize={13} />
@@ -249,7 +252,7 @@ export default function Card({ job }) {
                                             </Tooltip>
                                         }
 
-                                        {benefits.includes("Transport") &&
+                                        {job.benifits?.includes("Transport") &&
                                             <div style={{ paddingTop: '1px' }}>
                                                 <Tooltip tooltipText={"Transport"}>
                                                     <span >

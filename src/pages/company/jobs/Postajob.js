@@ -39,14 +39,7 @@ function Postajob({ name }) {
   const [categoriesList, setCategoriesList] = useState([]);
   const [parent, setParent] = useState([]);
   const [showModal, setShowModal] = useState({ show: false })
-  const [training, setTraining] = useState("");
-  const [benefits, setBenefits] = useState({
-    Accommodation: false,
-    Food: false,
-    Transport: false,
-    Others: false,
-    OthersText: ""
-  })
+  const [showOthersBenefits, setShowOthersBenefits] = useState(false)
 
   const { currentJob, setCurrentJob } = useContext(GeneralContext)
 
@@ -94,17 +87,21 @@ function Postajob({ name }) {
     setError({})
     // If it is a regular post a job
     if (name === "Post a Job" && !cloneJobId) {
-      fetchCompanyInfo(company_id, setJobData, setBenefits, setTraining, setEmployerQuestions, initialValues)
+      fetchCompanyInfo(company_id, setJobData, setEmployerQuestions, initialValues)
     }
 
     // When the request is to clone an existing job
     if (name === 'Post a Job' && cloneJobId && cloneJobId === currentJob._id) {
       setJobData({ ...currentJob, creationdate: new Date(), closedate: getCloseDate(new Date().toString()) })
+      if (currentJob.other_benefits) setShowOthersBenefits(true)
     }
 
     // If it is to edit a job
     if (name === "Edit Job") {
-      fetchJobForEditing(params.id, setJobData, setBenefits, setTraining, setEmployerQuestions, searchParams.get("repost") === "true" ? true : false)
+      fetchJobForEditing(params.id, setJobData, setEmployerQuestions, searchParams.get("repost") === "true" ? true : false)
+        .then(data => {
+          if (data.other_benefits) setShowOthersBenefits(true)
+        })
     }
   }, [name])
 
@@ -124,10 +121,23 @@ function Postajob({ name }) {
     window.scrollTo({ top: 20, behavior: "smooth" })
   }
 
+  const handleBenefits = (e) => {
+    let { benifits } = jobData
+    const value = e.target.value
+
+    if (benifits.includes(value)) {
+      benifits = benifits.replace(value, "").trim()
+    } else {
+      benifits = benifits + value + " "
+    }
+    setJobData({ ...jobData, benifits: benifits })
+  }
+
   const discardForm = async () => {
     window.history.replaceState(null, null, '/company/postajob')
-    await fetchCompanyInfo(company_id, setJobData, setBenefits, setTraining, setEmployerQuestions, initialValues)
+    await fetchCompanyInfo(company_id, setJobData, setEmployerQuestions, initialValues)
     window.scrollTo({ top: 20, behavior: "smooth" })
+    setShowOthersBenefits(false)
   }
 
 
@@ -175,14 +185,15 @@ function Postajob({ name }) {
 
     if (isFormValid) {
       setError({})
-      let { company, closedate, creationdate, jobtype, location, employjobreference, numberofvacancies, jobTitle, rateperhour, duration, jobCategory, subCategory, weeklyperhour, description, companyLogo, salary_type } = jobData
+      let { company, closedate, creationdate, training, benifits, other_benefits, jobtype, location, employjobreference, numberofvacancies, jobTitle, rateperhour, duration, jobCategory, subCategory, weeklyperhour, description, companyLogo, salary_type } = jobData
 
 
       let data = {
         company, closedate, creationdate, jobtype, location, employjobreference, numberofvacancies, jobTitle, rateperhour, duration, jobCategory, subCategory, weeklyperhour, description, companyLogo,
-        benifits: JSON.stringify(benefits),
+        benifits,
         training,
         salary_type,
+        other_benefits,
         employerquestions: JSON.stringify(employerquestions),
         employer: localStorage.getItem("fullname"),
         companyId: company_id,
@@ -207,15 +218,7 @@ function Postajob({ name }) {
     }
   }
 
-  function handleCheckboxes(name, value) {
-    if (name === "benefits") {
-      setBenefits({ ...benefits, [value]: !benefits[value] })
-    }
 
-    if (name === "training") {
-      setTraining(value)
-    }
-  }
 
   return (
     <>
@@ -436,27 +439,35 @@ function Postajob({ name }) {
                       <div className=" row ">
                         <div className="col-3">
                           <div className="form-check">
-                            <input type="checkbox" className="form-check-input" value="Accomdation" checked={benefits.Accommodation} onChange={() => handleCheckboxes('benefits', "Accommodation")} />
+                            <input type="checkbox" className="form-check-input" value="Accomdation" checked={jobData.benifits?.includes("Accomdation")} onChange={handleBenefits} />
                             Accommodation
                           </div>
                         </div>
                         <div className="col-2">
                           <div className="form-check">
-                            <input type="checkbox" className="form-check-input" value="Food" checked={benefits.Food} onChange={() => handleCheckboxes('benefits', "Food")} />
+                            <input type="checkbox" className="form-check-input" value="Food" checked={jobData.benifits?.includes("Food")} onChange={handleBenefits} />
                             Food
                           </div>
                         </div>
                         <div className="col-3">
                           <div className="form-check">
-                            <input type="checkbox" className="form-check-input" value="Transport" checked={benefits.Transport} onChange={() => handleCheckboxes('benefits', "Transport")} />
+                            <input type="checkbox" className="form-check-input" value="Transport" checked={jobData.benifits?.includes("Transport")} onChange={handleBenefits} />
                             Transport
                           </div>
                         </div>
                         <div className="col-4 ">
                           <div className="form-check">
-                            <input type="checkbox" className="form-check-input" value="" checked={benefits.Others} onChange={() => handleCheckboxes('benefits', "Others")} />
+                            <input
+                              type="checkbox"
+                              className="form-check-input"
+                              checked={showOthersBenefits}
+                              onChange={() => {
+                                setJobData({ ...jobData, other_benefits: "" })
+                                setShowOthersBenefits(!showOthersBenefits)
+                              }} />
                             Others
-                            {benefits.Others && <input type='text' value={benefits.OthersText} onChange={(e) => setBenefits({ ...benefits, OthersText: e.target.value })} className='form-control col-5' />}
+                            {showOthersBenefits &&
+                              <input type='text' name='other_benefits' value={jobData.other_benefits} onChange={handleForm} className='form-control col-5' />}
                           </div>
                         </div>
                       </div>
@@ -469,12 +480,11 @@ function Postajob({ name }) {
                           <label className="col-sm-3 col-form-label">Training Provided?<span className='text-danger'>*</span></label>
                         </div>
                         <div className=" col-2 form-check mx-3">
-                          <input type="radio" name='training' className="form-check-input" value="No" onChange={() => handleCheckboxes('training', "No")} checked={training === "No"} />No
+                          <input type="radio" name='training' className="form-check-input" value="No" onChange={handleForm} checked={jobData.training === "No"} />No
                         </div>
                         <div className=" col-2 form-check mx-3">
-                          <input type="radio" name='training' className="form-check-input" value="Yes" onChange={() => { handleCheckboxes('training', "Yes") }} checked={training === "Yes"} />Yes
+                          <input type="radio" name='training' className="form-check-input" value="Yes" onChange={handleForm} checked={jobData.training === "Yes"} />Yes
                         </div>
-                        <span className='text-danger small'>{error.training && error.training}</span>
                       </div>
                     </div>
                   </div>

@@ -340,7 +340,7 @@ function SingleJob() {
                                     </div>
                                 }
 
-                                {jobview.training.includes("true") &&
+                                {jobview.training?.includes("Yes") &&
                                     <div className='d-flex gap-2'>
                                         <span>
                                             <FaCheckSquare fontSize={16} />
@@ -352,10 +352,10 @@ function SingleJob() {
                                 }
 
 
-                                {jobview.benifits && getTrueKeys(JSON.parse(jobview.benifits)).length > 0 &&
+                                {jobview.benifits &&
 
-                                    <div className='d-flex gap-2'>
-                                        {getTrueKeys(JSON.parse(jobview.benifits)).includes("Accommodation") &&
+                                    <div className='d-flex  align-items-center gap-2'>
+                                        {jobview.benifits?.includes("Accommodation") &&
                                             <Tooltip tooltipText={"Accommodation"}>
                                                 <span>
                                                     <IoHomeOutline fontSize={16} />
@@ -363,7 +363,7 @@ function SingleJob() {
                                             </Tooltip>
                                         }
 
-                                        {getTrueKeys(JSON.parse(jobview.benifits)).includes("Food") &&
+                                        {jobview.benifits?.includes("Food") &&
                                             <Tooltip tooltipText={"Food"}>
                                                 <span >
                                                     <GiHotMeal fontSize={16} />
@@ -371,14 +371,16 @@ function SingleJob() {
                                             </Tooltip>
                                         }
 
-                                        {getTrueKeys(JSON.parse(jobview.benifits)).includes("Transport") &&
+                                        {jobview.benifits?.includes("Transport") &&
                                             <Tooltip tooltipText={"Transport"}>
                                                 <span>
-                                                    <PiCarProfileThin fontSize={16} />
+                                                    <PiCarProfileThin fontSize={17} />
                                                 </span>
                                             </Tooltip>
                                         }
-                                        <span>Benefits</span>
+                                        <span style={{ paddingTop: '2px' }} >
+                                            Benefits
+                                        </span>
                                     </div>
                                 }
                             </div>
