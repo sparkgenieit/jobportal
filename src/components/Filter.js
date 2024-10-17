@@ -3,7 +3,9 @@ import "../pages/common/jobList.css"
 import { useEffect, useState } from "react";
 import http from "../helpers/http";
 import Suggestions from './Suggestions';
-import { salaryPerAnnum } from "../helpers/functions/textFunctions";
+
+const PER_HOUR_VALUES = ["20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100", "125", "150", "175", "200", "250", "300", "350+", null]
+const PER_ANNUM_VALUES = ["10K", "20K", "30K", "40K", "50K", "60K", "70K", "80K", "90K", "100K", "125K", "150K", "175K", "200K", "250K", "300K", "300K+", null]
 
 export default function Filter({ filterFields, setFilterFields, setRefresh }) {
     const [categoriesList, setCategoriesList] = useState(null)
@@ -91,11 +93,10 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
         }
         if (name === "rateperhour") {
             if (filterFields.salaryType === "per hour") {
-                let values = ["20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100", "125", "150", "175", "200", "250", "300", "350+"]
-                setFilterFields({ ...filterFields, rateperhour: values[e.target.value] })
+                setFilterFields({ ...filterFields, rateperhour: PER_HOUR_VALUES[e.target.value] })
             } else {
-                let values = ["10K", "20K", "30K", "40K", "50K", "60K", "70K", "80K", "90K", "100K", "125K", "150K", "175K", "200K", "250K", "300K", "300K+"]
-                setFilterFields({ ...filterFields, rateperhour: values[e.target.value] })
+
+                setFilterFields({ ...filterFields, rateperhour: PER_ANNUM_VALUES[e.target.value] })
             }
         }
         if (name === "weeklyperhour") {
@@ -167,11 +168,11 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
                     </div>
                     <div style={{ fontSize: "10px" }} className="d-flex flex-grow-1  ps-2 align-items-center gap-2">
                         <div className="d-flex align-items-center">
-                            <input type="radio" name="salary" id="per annum" checked={filterFields.salaryType === "per annum"} onChange={() => { setFilterFields({ ...filterFields, rateperhour: null, salaryType: "per annum" }) }} />
+                            <input type="radio" name="salary" id="per annum" checked={filterFields.salaryType === "per annum"} onChange={() => { setFilterFields({ ...filterFields, rateperhour: PER_ANNUM_VALUES[PER_HOUR_VALUES.indexOf(filterFields.rateperhour)] || PER_ANNUM_VALUES[16], salaryType: "per annum" }) }} />
                             <label className="ms-1" for="per annum">Yearly</label>
                         </div>
                         <div className="d-flex align-items-center ">
-                            <input type="radio" name="salary" id="per hour" checked={filterFields.salaryType === "per hour"} onChange={() => { setFilterFields({ ...filterFields, rateperhour: null, salaryType: "per hour" }) }} />
+                            <input type="radio" name="salary" id="per hour" checked={filterFields.salaryType === "per hour"} onChange={() => { setFilterFields({ ...filterFields, rateperhour: PER_HOUR_VALUES[PER_ANNUM_VALUES.indexOf(filterFields.rateperhour)], salaryType: "per hour" }) }} />
                             <label className="ms-1" for="per hour">Hourly</label>
                         </div>
                     </div>
@@ -182,7 +183,8 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
                     </span>
 
                 </div>
-                <input type='range' name='rateperhour' min={0} max={filterFields.salaryType === "per hour" ? 24 : 17} defaultValue={0} onChange={(e) => { handleRanges("rateperhour", e) }} className='form-range' />
+                {filterFields.salaryType === "per hour" && < input type='range' name='rateperhour' value={PER_HOUR_VALUES.indexOf(filterFields.rateperhour)} min={0} max={24} defaultValue={0} onChange={(e) => { handleRanges("rateperhour", e) }} className='form-range' />}
+                {filterFields.salaryType === "per annum" && <input type='range' name='rateperhour' value={PER_ANNUM_VALUES.indexOf(filterFields.rateperhour)} min={0} max={17} defaultValue={0} onChange={(e) => { handleRanges("rateperhour", e) }} className='form-range' />}
             </div>
 
             <div className='mb-2'>
