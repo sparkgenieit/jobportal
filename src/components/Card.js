@@ -74,6 +74,7 @@ export default function Card({ job }) {
         e.stopPropagation();
     }
 
+
     const date = new Date(job?.creationdate).toLocaleDateString('en-GB')
 
     return (
@@ -233,7 +234,7 @@ export default function Card({ job }) {
                             }
 
                             <div>
-                                {job.benifits &&
+                                {job.benifits.trim() &&
 
                                     <div className='d-flex gap-2 '>
                                         {job.benifits?.includes("Accommodation") &&
@@ -264,7 +265,6 @@ export default function Card({ job }) {
                                         <span style={{ paddingTop: '2px' }} >
                                             Benefits
                                         </span>
-
                                     </div>
                                 }
                             </div>

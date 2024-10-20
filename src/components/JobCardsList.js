@@ -10,7 +10,6 @@ export default function JobCardList({ jobs, type }) {
 
     const { info, setInfo, message, setMessage } = useContext(JobsContext)
 
-    console.log(jobs);
 
     return (
         <>

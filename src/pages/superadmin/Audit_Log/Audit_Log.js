@@ -202,8 +202,8 @@ export default function Audit() {
                                     {logs.map((log) => (
                                         <tr style={{ fontSize: "12px" }} key={log._id} className="border rounded border-secondary border-0 border-top" >
                                             <td>{getDate(log.date)}</td>
-                                            <td className="small" >{log.companyId}</td>
-                                            <td>{log.companyName}</td>
+                                            <td className="small" >{log.user_id}</td>
+                                            <td>{log.name}</td>
                                             <td className="small">{log.jobId ? log.jobId : "-"} </td>
                                             <td>{log.employerReference ? log.employerReference : "-"} </td>
                                             <td>{log.jobTitle ? log.jobTitle : "-"} </td>

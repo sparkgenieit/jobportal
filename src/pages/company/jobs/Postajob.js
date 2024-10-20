@@ -439,7 +439,7 @@ function Postajob({ name }) {
                       <div className=" row ">
                         <div className="col-3">
                           <div className="form-check">
-                            <input type="checkbox" className="form-check-input" value="Accomdation" checked={jobData.benifits?.includes("Accomdation")} onChange={handleBenefits} />
+                            <input type="checkbox" className="form-check-input" value="Accommodation" checked={jobData.benifits?.includes("Accommodation")} onChange={handleBenefits} />
                             Accommodation
                           </div>
                         </div>
