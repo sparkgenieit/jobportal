@@ -6,6 +6,7 @@ import { FaUserCircle, FaCogs, FaListUl, FaDollarSign } from "react-icons/fa";
 import { IoDocuments } from "react-icons/io5";
 import { BiSolidCategory } from "react-icons/bi";
 import { BsCardChecklist } from "react-icons/bs";
+import { GrDocumentTime } from "react-icons/gr";
 import { RiAdminFill, RiAdvertisementFill } from "react-icons/ri";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { RxHamburgerMenu } from 'react-icons/rx';
@@ -148,6 +149,19 @@ function Sidebar() {
                   </span>
                   <span>
                     <HiOutlineDocumentMagnifyingGlass size={"22"} />
+                  </span>
+                </div>
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/superadmin/audit/admin">
+                <div className='d-flex justify-content-between pe-1 align-items-center w-100'>
+                  <span>
+                    Admin Audit Logs
+                  </span>
+                  <span>
+                    <GrDocumentTime size={"18"} />
                   </span>
                 </div>
               </Link>

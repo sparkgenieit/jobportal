@@ -36,7 +36,7 @@ export default function Audit() {
         const skip = (page - 1) * itemsPerPage
         setLoading(true)
         try {
-            const res = await http.post(`/companies/logs?limit=${itemsPerPage}&skip=${skip}`, filters)
+            const res = await http.post(`/audit/logs?limit=${itemsPerPage}&skip=${skip}`, filters)
             setLogs(res.data.logs)
             setTotalItems(res.data.total)
         } catch (error) {
@@ -77,9 +77,9 @@ export default function Audit() {
     const downloadFilteredLogs = async () => {
         document.body.style.cursor = "wait"
         try {
-            const res = await http.post(`/companies/logs?limit=${totalItems}&skip=0`, filters)
+            const res = await http.post(`/audit/logs?limit=${totalItems}&skip=0`, filters)
 
-            let csvString = 'Data,Job ID,Employer Reference,Job Title,User Name,Email,Description,Field Name,Changed From,Changed To \n'
+            let csvString = 'Date,Job ID,Employer Reference,Job Title,User Name,Email,Description,Field Name,Changed From,Changed To \n'
 
             res.data.logs.forEach(log => {
                 csvString += convertLogsObjectToCsvString(log)
@@ -95,13 +95,13 @@ export default function Audit() {
     const downloadAllLogs = async (limit = 1000) => {
         document.body.style.cursor = "wait"
         try {
-            const res = await http.post(`/companies/logs?limit=${limit}&skip=0`, inputValues)
+            const res = await http.post(`/audit/logs?limit=${limit}&skip=0`, inputValues)
 
             if (limit < res.data.total) {
                 downloadAllLogs(res.data.total)
             }
 
-            let csvString = 'Data,Job ID,Employer Reference,Job Title,User Name,Email,Description,Field Name,Changed From,Changed To \n'
+            let csvString = 'Date,Job ID,Employer Reference,Job Title,User Name,Email,Description,Field Name,Changed From,Changed To \n'
 
             res.data.logs.forEach(log => {
                 csvString += convertLogsObjectToCsvString(log)

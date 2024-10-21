@@ -33,6 +33,7 @@ import { setAdminUnreadCount } from '../../helpers/slices/mailCountSlice';
 import http from '../../helpers/http';
 import NotFound from '../../components/NotFound';
 import Audit from '../../pages/superadmin/Audit_Log/Audit_Log';
+import AdminAuditLogs from '../../pages/superadmin/Audit_Log/AdminAuditLogs';
 
 export default function SuperAdminLayout() {
     const dispatch = useDispatch()
@@ -82,6 +83,7 @@ export default function SuperAdminLayout() {
                         <Route path="jobs" element={<JobsListSuperAdmin />} />
                         <Route path="jobs/:id" element={<JobSuperAdmin />} />
                         <Route path="audit" element={<Audit />} />
+                        <Route path="audit/admin" element={<AdminAuditLogs />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </div>

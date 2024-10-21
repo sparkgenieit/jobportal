@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { MdSpaceDashboard, MdAssignment, MdOutlineQuestionMark } from "react-icons/md";
 import { HiMiniQueueList, HiOutlineDocumentMagnifyingGlass } from "react-icons/hi2";
+import { GrDocumentTime } from "react-icons/gr";
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { BiUserPin } from "react-icons/bi";
 import { IoMdMailOpen } from 'react-icons/io';
@@ -116,6 +117,19 @@ function Sidebar() {
                   </span>
                   <span>
                     <HiOutlineDocumentMagnifyingGlass size={"22"} />
+                  </span>
+                </div>
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/admin/my-logs">
+                <div className='d-flex justify-content-between pe-1 align-items-center w-100'>
+                  <span>
+                    Admin Logs
+                  </span>
+                  <span>
+                    <GrDocumentTime size={"18"} />
                   </span>
                 </div>
               </Link>

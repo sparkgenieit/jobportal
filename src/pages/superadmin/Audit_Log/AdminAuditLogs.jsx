@@ -13,7 +13,7 @@ import http from "../../../helpers/http";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import { getDate } from "../../../helpers/functions/dateFunctions";
 import useCurrentUser from "../../../helpers/Hooks/useCurrentUser";
-import { downloadCsv, tableToCSV } from "../../../helpers/functions/csvFunctions";
+import { downloadCsv } from "../../../helpers/functions/csvFunctions";
 
 const inputValues = {
     toDate: "",
@@ -23,7 +23,7 @@ const inputValues = {
     jobTitle: ""
 }
 
-export default function Audit() {
+export default function AdminAuditLogs() {
     const [totalItems, setTotalItems] = useState(0)
     const [searchParams] = useSearchParams();
     const [filters, setFilters] = useState(inputValues)
@@ -38,7 +38,7 @@ export default function Audit() {
         const skip = (page - 1) * itemsPerPage
         setLoading(true)
         try {
-            const res = await http.post(`/audit/logs?limit=${itemsPerPage}&skip=${skip}`, filters)
+            const res = await http.post(`/audit/admin/logs?limit=${itemsPerPage}&skip=${skip}`, filters)
             setLogs(res.data.logs)
             setTotalItems(res.data.total)
         } catch (error) {
@@ -51,12 +51,10 @@ export default function Audit() {
     const convertLogsObjectToCsvString = (log) => {
         return [
             getDate(log.date),
-            log.companyId,
-            log.companyName,
             log.jobId ? log.jobId : "-",
             log.employerReference ? log.employerReference : "-",
             log.jobTitle ? log.jobTitle : "-",
-            log.username ? log.username : "-",
+            log.name ? log.name : "-",
             log.email ? log.email : "-",
             log.description ? log.description : "-",
             log.fieldName ? log.fieldName : "-",
@@ -82,18 +80,18 @@ export default function Audit() {
     const downloadAllLogs = async (limit = 1000) => {
         document.body.style.cursor = "wait"
         try {
-            const res = await http.post(`/audit/logs?limit=${limit}&skip=0`, inputValues)
+            const res = await http.post(`/audit/admin/logs?limit=${limit}&skip=0`, inputValues)
 
             if (limit < res.data.total) {
                 downloadAllLogs(res.data.total)
             }
 
-            let csvString = 'Date,Company ID,Company Name,Job ID,Employer Reference,Job Title,User Name,Email,Description,Field Name,Changed From,Changed To \n'
+            let csvString = 'Date,Job ID,Employer Reference,Job Title,User Name,Email,Description,Field Name,Changed From,Changed To \n'
 
             res.data.logs.forEach(log => {
                 csvString += convertLogsObjectToCsvString(log)
             })
-            downloadCsv(csvString, "all-logs")
+            downloadCsv(csvString, "logs")
         } catch (error) {
             message({ status: "Error", error })
         } finally {
@@ -104,9 +102,9 @@ export default function Audit() {
     const downloadFilteredLogs = async () => {
         document.body.style.cursor = "wait"
         try {
-            const res = await http.post(`/audit/logs?limit=${totalItems}&skip=0`, filters)
+            const res = await http.post(`/audit/admin/logs?limit=${totalItems}&skip=0`, filters)
 
-            let csvString = 'Date,Company ID,Company Name,Job ID,Employer Reference,Job Title,User Name,Email,Description,Field Name,Changed From,Changed To \n'
+            let csvString = 'Date,Job ID,Employer Reference,Job Title,User Name,Email,Description,Field Name,Changed From,Changed To \n'
 
             res.data.logs.forEach(log => {
                 csvString += convertLogsObjectToCsvString(log)
@@ -122,14 +120,14 @@ export default function Audit() {
     useEffect(() => {
         fetchLogs(pgNumber)
 
-        document.title = "Audits Logs"
+        document.title = "Admin-Logs"
     }, [])
 
     return (
         <div className="container-fluid content-wrapper px-0 bg-white">
 
             <div className="d-flex position-relative align-items-center">
-                <h2 className="text-center w-100 fw-bold fs-3 mb-3" > Audit Log</h2>
+                <h2 className="text-center w-100 fw-bold fs-3 mb-3" > Admin Logs</h2>
                 <button type="button" onClick={() => downloadAllLogs()} className="btn position-absolute end-0 me-2  btn-info rounded-4">Download All</button>
             </div>
 
@@ -179,12 +177,10 @@ export default function Audit() {
                         }
 
                         {!loading && logs.length > 0 &&
-                            <table ref={tableRef} className="text-center my-table mt-2  text-wrap">
+                            <table ref={tableRef} className="text-center w-100 my-table mt-2  text-wrap">
                                 <thead className="small">
                                     <tr>
                                         <th>Date</th>
-                                        <th>Company ID</th>
-                                        <th>Company Name</th>
                                         <th>Job ID</th>
                                         <th>Employer Reference</th>
                                         <th>Job Title</th>
@@ -202,12 +198,10 @@ export default function Audit() {
                                     {logs.map((log) => (
                                         <tr style={{ fontSize: "12px" }} key={log._id} className="border rounded border-secondary border-0 border-top" >
                                             <td>{getDate(log.date)}</td>
-                                            <td className="small" >{log.user_id}</td>
-                                            <td>{log.name}</td>
                                             <td className="small">{log.jobId ? log.jobId : "-"} </td>
                                             <td>{log.employerReference ? log.employerReference : "-"} </td>
                                             <td>{log.jobTitle ? log.jobTitle : "-"} </td>
-                                            <td>{log.username ? log.username : "-"} </td>
+                                            <td>{log.name ? log.name : "-"} </td>
                                             <td>{log.email ? log.email : "-"} </td>
                                             <td className="text-capitalize">{log.description ? log.description : "-"} </td>
                                             <td className="text-capitalize">{log.fieldName ? log.fieldName : "-"} </td>
