@@ -2,12 +2,12 @@ import './combo-box.css'
 import { useEffect, useRef, useState } from "react"
 
 
-export default function ComboBox({ suggestions, setSuggestions, label, suggestionValue, onEnter, ...inputProps }) {
+export default function ComboBox({ suggestions, setSuggestions, label, suggestionValue, onEnter, onFocusClasses = "bg-primary text-white", ...inputProps }) {
     const [current, setCurrent] = useState(-1)
     const comboBoxRef = useRef(null)
 
     useEffect(() => {
-        if (suggestions.length === 0) {
+        if (!suggestions || suggestions.length === 0) {
             setCurrent(-1)
         }
 
@@ -28,7 +28,7 @@ export default function ComboBox({ suggestions, setSuggestions, label, suggestio
     const handleKeyDown = (e) => {
         if (e.keyCode === 40) {  // down arrow
             e.preventDefault()
-            if (suggestions.length - 1 > current) {
+            if (suggestions?.length - 1 > current) {
                 setCurrent((pre) => pre + 1)
             }
         }
@@ -40,7 +40,7 @@ export default function ComboBox({ suggestions, setSuggestions, label, suggestio
         }
         if (e.keyCode == 13) { //enter 
             e.preventDefault()
-            if (current > -1 && current < suggestions.length) {
+            if (current > -1 && current < suggestions?.length) {
                 onEnter(suggestions[current])
             }
         }
@@ -48,13 +48,13 @@ export default function ComboBox({ suggestions, setSuggestions, label, suggestio
     return (
         <div ref={comboBoxRef} className="position-relative">
             <input onKeyDown={handleKeyDown} {...inputProps} />
-            <ul className="suggestions position-absolute w-100 list-unstyled">
+            <ul className="suggestions rounded-2 position-absolute z-3 w-100 bg-light list-unstyled">
                 {suggestions?.length > 0 && suggestions.map((suggestion, i) => (
                     <li
                         key={suggestionValue ? suggestion[suggestionValue] : suggestion}
                         role='button'
                         onClick={() => onEnter(suggestion)}
-                        className={` rounded-2 px-1 py-2 ${current === i ? " bg-primary text-white" : "bg-light"} `}
+                        className={` rounded-2 px-1 py-2 text-dark ${current === i ? onFocusClasses : "bg-light"} `}
                     >
                         {label ? suggestion[label] : suggestion}
                     </li>

@@ -6,9 +6,9 @@ import { IoSearch } from "react-icons/io5";
 
 import http from '../../helpers/http';
 import Ads from './ads';
-import Suggestions from '../../components/Suggestions';
 import NZMap from '../../components/NZMap';
 import LocationPopup from '../../components/LocationPopup';
+import ComboBox from '../../components/ComboBox';
 
 function Home() {
     const [searchBox, setSearchBox] = useState({
@@ -19,10 +19,8 @@ function Home() {
     const [locationSuggestions, setLocationSuggestions] = useState(null)
     const [jobSuggestions, setJobSuggestions] = useState(null)
     const navigate = useNavigate();
-    const [focus, setFocus] = useState(-1)
 
     const handleInput = async (name, event) => {
-        setFocus(-1)
         setSearchBox({ ...searchBox, [name]: event.target.value })
         try {
             let { data } = await http.get(`/jobs/suggestions?searchTerm=${name}&searchValue=${event.target.value}`)
@@ -38,33 +36,10 @@ function Home() {
         document.title = "Working Holiday Jobs New Zealand"
     }, [])
 
-    const handleKeyDown = (Suggestions, e) => {
-        if (e.keyCode == 40) {
-            let current = focus + 1
-            if (Suggestions && current > -1 && Suggestions.length > current) {
-                setFocus(current);
-            }
-            /*If the arrow DOWN key is pressed,
-            increase the currentFocus variable:*/
-        } else if (e.keyCode == 38) { //ups
-            let current = focus - 1
-            if (Suggestions && current > -1 && Suggestions.length > current) {
-                setFocus(current)
-            }
-            /*If the arrow UP key is pressed,
-            decrease the currentFocus variable:*/
-        } else if (e.keyCode == 13) {
-            if (Suggestions && focus > -1 && Suggestions.length > focus) {
-                setSearchBox({ ...searchBox, [e.target.name]: Suggestions[focus]?.value })
-                clearSuggestions()
-            }
-        }
-    }
 
     const clearSuggestions = () => {
         setJobSuggestions(null);
         setLocationSuggestions(null);
-        setFocus(-1)
     }
 
     const handleSearch = () => {
@@ -77,8 +52,6 @@ function Home() {
     }
 
     return <>
-
-
         <main id="main">
             <div className="container-fluid">
 
@@ -89,16 +62,41 @@ function Home() {
                     </div>
                     <form autoComplete='off'>
                         <div className='d-flex flex-column flex-md-row  gap-2'>
-                            <div className='position-relative'>
-                                <input type="text" className={`transparent w-100 border-white p-1 rounded text-white ${searchButton}`} value={searchBox.jobTitle} placeholder="Job Title" name='jobTitle' onKeyDown={(e) => { handleKeyDown(jobSuggestions, e) }} onChange={(e) => handleInput("jobTitle", e)} />
-                                <Suggestions SuggestionsList={jobSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="jobTitle" setValue={setSearchBox} value={searchBox} />
-                            </div>
 
 
-                            <div className='position-relative'>
-                                <input type="text" className={`transparent w-100 border-white p-1 rounded text-white  ${searchButton}`} value={searchBox.location} name='location' onChange={(e) => handleInput("location", e)} onKeyDown={(e) => { handleKeyDown(locationSuggestions, e) }} placeholder="Location" />
-                                <Suggestions SuggestionsList={locationSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="location" setValue={setSearchBox} value={searchBox} />
-                            </div>
+                            <ComboBox
+                                suggestions={jobSuggestions}
+                                setSuggestions={setJobSuggestions}
+                                onEnter={(suggestion) => {
+                                    setSearchBox({ ...searchBox, jobTitle: suggestion.value })
+                                    clearSuggestions()
+                                }}
+                                label={"value"}
+                                suggestionValue={"value"}
+                                type="text"
+                                className={`transparent w-100 border-white p-1 rounded text-white ${searchButton}`}
+                                value={searchBox.jobTitle}
+                                placeholder="Job Title"
+                                name='jobTitle'
+                                onChange={(e) => handleInput("jobTitle", e)}
+                            />
+
+                            <ComboBox
+                                suggestions={locationSuggestions}
+                                setSuggestions={setLocationSuggestions}
+                                onEnter={(suggestion) => {
+                                    setSearchBox({ ...searchBox, location: suggestion.value })
+                                    clearSuggestions()
+                                }}
+                                label={"value"}
+                                suggestionValue={"value"}
+                                type="text"
+                                className={`transparent w-100 border-white p-1 rounded text-white ${searchButton}`}
+                                value={searchBox.location}
+                                placeholder="Location"
+                                name='location'
+                                onChange={(e) => handleInput("location", e)}
+                            />
 
                             <div className='d-flex'>
                                 <button type="button" onClick={handleSearch} className='transparent flex-grow-1 hover btn text-white'>

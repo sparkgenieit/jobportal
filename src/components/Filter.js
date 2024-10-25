@@ -2,7 +2,7 @@ import "../pages/common/jobList.css"
 
 import { useEffect, useState } from "react";
 import http from "../helpers/http";
-import Suggestions from './Suggestions';
+import ComboBox from "./ComboBox";
 
 const PER_HOUR_VALUES = ["20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100", "125", "150", "175", "200", "250", "300", "350+", null]
 const PER_ANNUM_VALUES = ["10K", "20K", "30K", "40K", "50K", "60K", "70K", "80K", "90K", "100K", "125K", "150K", "175K", "200K", "250K", "300K", "300K+", null]
@@ -10,7 +10,6 @@ const PER_ANNUM_VALUES = ["10K", "20K", "30K", "40K", "50K", "60K", "70K", "80K"
 export default function Filter({ filterFields, setFilterFields, setRefresh }) {
     const [categoriesList, setCategoriesList] = useState(null)
     const [parent, setParent] = useState(null)
-    const [focus, setFocus] = useState(-1)
     const [locationSuggestions, setLocationSuggestions] = useState(null)
     const [jobSuggestions, setJobSuggestions] = useState(null)
     const [companySuggestions, setCompanySuggestions] = useState(null)
@@ -31,29 +30,6 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
             .catch(err => setParent([]))
     }, [])
 
-    const handleKeyDown = (Suggestions, e) => {
-        if (e.keyCode == 40) {
-            let current = focus + 1
-            if (Suggestions && current > -1 && Suggestions.length > current) {
-                setFocus(current);
-            }
-            /*If the arrow DOWN key is pressed,
-            increase the currentFocus variable:*/
-        } else if (e.keyCode == 38) { //ups
-            let current = focus - 1
-            if (Suggestions && current > -1 && Suggestions.length > current) {
-                setFocus(current)
-            }
-            /*If the arrow UP key is pressed,
-            decrease the currentFocus variable:*/
-        } else if (e.keyCode == 13) {
-            if (Suggestions && focus > -1 && Suggestions.length > focus) {
-                let filter = { ...filterFields, [e.target.name]: Suggestions[focus].value };
-                setFilterFields(filter)
-                clearSuggestions()
-            }
-        }
-    }
 
     const handleInput = async (e) => {
         let filter = { ...filterFields, [e.target.name]: e.target.value };
@@ -73,7 +49,6 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
         setJobSuggestions(null);
         setCompanySuggestions(null);
         setLocationSuggestions(null);
-        setFocus(-1)
     }
 
     const handleRanges = (name, e) => {
@@ -137,7 +112,7 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
             weeklyperhour: null,
             date: null,
             sort: "creationdate",
-            salaryType: "hour"
+            salaryType: "per hour"
         })
         setRefresh(prev => !prev)
     }
@@ -145,20 +120,62 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
     return <div className='p-3 filter hide-scrollbar rounded border shadow scrollbar'>
         <form autoComplete="off">
             <div className="fw-bold mb-2">Search By</div>
-            <div className="border rounded px-2 py-3 mb-4">
-                <div className='mb-4 position-relative'>
-                    <input type='text' value={filterFields.jobTitle} name='jobTitle' onKeyDown={(e) => { handleKeyDown(jobSuggestions, e) }} onChange={(e) => handleInput(e)} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Job Title' />
-                    <Suggestions SuggestionsList={jobSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="jobTitle" setValue={setFilterFields} value={filterFields} />
-                </div>
-                <div className='mb-4 position-relative'>
-                    <input type='text' name='location' className='form-input d-block w-100 rounded p-2 shadow-sm border-0' value={filterFields.location} onKeyDown={(e) => { handleKeyDown(locationSuggestions, e) }} onChange={(e) => handleInput(e)} placeholder='Location' />
-                    <Suggestions SuggestionsList={locationSuggestions} focus={focus} clearSuggestions={clearSuggestions} name="location" setValue={setFilterFields} value={filterFields} />
-                </div>
+            <div className="border rounded px-2 py-3 mb-4 d-flex gap-4 flex-column">
 
-                <div className=' position-relative'>
-                    <input type='text' name='company' value={filterFields.company} onChange={(e) => handleInput(e)} onKeyDown={(e) => { handleKeyDown(companySuggestions, e) }} className='form-input d-block w-100 rounded shadow-sm p-2 border-0' placeholder='Company' />
-                    <Suggestions SuggestionsList={companySuggestions} focus={focus} clearSuggestions={clearSuggestions} name="company" setValue={setFilterFields} value={filterFields} />
-                </div>
+                <ComboBox
+                    suggestions={jobSuggestions}
+                    setSuggestions={setJobSuggestions}
+                    onEnter={(suggestion) => {
+                        setFilterFields({ ...filterFields, jobTitle: suggestion.value })
+                        clearSuggestions()
+                    }}
+                    label={"value"}
+                    suggestionValue={"value"}
+                    type='text'
+                    value={filterFields.jobTitle}
+                    name='jobTitle'
+                    onChange={(e) => handleInput(e)}
+                    className='form-input d-block w-100 rounded shadow-sm p-2 border-0'
+                    placeholder='Job Title'
+                    onFocusClasses="border border-dark"
+                />
+
+                <ComboBox
+                    suggestions={locationSuggestions}
+                    setSuggestions={setLocationSuggestions}
+                    onEnter={(suggestion) => {
+                        setFilterFields({ ...filterFields, location: suggestion.value })
+                        clearSuggestions()
+                    }}
+                    label={"value"}
+                    suggestionValue={"value"}
+                    type='text'
+                    value={filterFields.location}
+                    name='location'
+                    onChange={(e) => handleInput(e)}
+                    className='form-input d-block w-100 rounded shadow-sm p-2 border-0'
+                    placeholder='Location'
+                    onFocusClasses="border border-dark"
+                />
+
+                <ComboBox
+                    suggestions={companySuggestions}
+                    setSuggestions={setCompanySuggestions}
+                    onEnter={(suggestion) => {
+                        setFilterFields({ ...filterFields, company: suggestion.value })
+                        clearSuggestions()
+                    }}
+                    label={"value"}
+                    suggestionValue={"value"}
+                    type='text'
+                    value={filterFields.company}
+                    name='company'
+                    onChange={(e) => handleInput(e)}
+                    className='form-input d-block w-100 rounded shadow-sm p-2 border-0'
+                    placeholder='Company'
+                    onFocusClasses="border border-dark"
+                />
+
             </div>
 
             <div className='mb-2'>
@@ -214,10 +231,10 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
                 <label className='fw-bold form-label '>Job Type</label>
                 <select className='form-select d-block' value={filterFields.jobtype} onChange={(e) => { setFilterFields({ ...filterFields, jobtype: e.target.value }) }}>
                     <option value="">Any</option>
-                    <option value="FullTime">Full Time</option>
-                    <option value="PartTime">Part Time</option>
+                    <option value="Full Time">Full Time</option>
+                    <option value="Part Time">Part Time</option>
                     <option value="Contract">Contract</option>
-                    <option value="Freelance">FreeLance</option>
+                    <option value="Freelance">Freelance</option>
                     <option value="Temporary">Temporary</option>
                     <option value="Casual">Casual</option>
                 </select>
