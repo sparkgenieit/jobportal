@@ -21,6 +21,9 @@ import NotFound from '../../components/NotFound';
 import Audit from '../../pages/superadmin/Audit_Log/Audit_Log';
 import GeneralQueries from '../../pages/admin/GeneralQueries';
 import AdminAuditLogs from '../../pages/superadmin/Audit_Log/AdminAuditLogs';
+import ProfilesQueue from '../../pages/admin/companylist/ProfilesQueue';
+import CompanyProfileChanges from '../../pages/admin/companylist/CompanyProfileChanges';
+import AssignedProfiles from '../../pages/admin/companylist/AssigendProfiles';
 
 export default function AdminLayout() {
     const dispatch = useDispatch()
@@ -58,6 +61,9 @@ export default function AdminLayout() {
                         <Route path="admin-inbox/details/:id" element={< Chat />} />
                         <Route path="audit" element={< Audit />} />
                         <Route path="my-logs" element={< AdminAuditLogs />} />
+                        <Route path="profiles/queue" element={< ProfilesQueue />} />
+                        <Route path="profiles/assigned" element={< AssignedProfiles />} />
+                        <Route path="profiles/profile/:id" element={< CompanyProfileChanges />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </div>

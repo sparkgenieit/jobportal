@@ -87,3 +87,12 @@ export function getYoutubeVideoId(url) {
 export function getUserID() {
     return localStorage.getItem('user_id')
 }
+
+export const tryCatch = async (request) => {
+    try {
+        const response = await request()
+        return { data: response.data, error: null }
+    } catch (error) {
+        return { data: null, error }
+    }
+}

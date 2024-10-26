@@ -10,7 +10,7 @@ export default function ConfirmDialog({ showModal, onHideModal, confirmText, but
                 <div className="d-flex justify-content-center gap-3" >
                     {
                         buttonAttributes?.map(({ text, onClick, ...rest }, i) => (
-                            <button type="button" onClick={onClick} {...rest}>{text}</button>
+                            <button key={i} type="button" onClick={onClick} {...rest}>{text}</button>
                         ))
                     }
                 </div>

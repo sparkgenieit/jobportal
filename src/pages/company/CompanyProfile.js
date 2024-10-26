@@ -13,6 +13,8 @@ import ImageResizer from '../../components/ImageResizer';
 import { validateEmailAddress, validateIsNotEmpty } from '../../helpers/functions/textFunctions';
 import { BsInfoCircle } from 'react-icons/bs';
 import Modal from 'react-bootstrap/Modal';
+import ConfirmDialog from '../../components/ConfirmDialog';
+import http from '../../helpers/http';
 
 const formInitialValues = {
   name: "",
@@ -42,8 +44,9 @@ function CompanyProfile() {
   const [showModal, setShowModal] = useState({
     show: false,
   })
+  const [showConfirm, setShowConfirm] = useState(false)
 
-  useEffect(() => {
+  const fetchUser = async () => {
     companyService.get(userId)
       .then(response => {
         setUserData(response.data);
@@ -58,7 +61,10 @@ function CompanyProfile() {
       .catch(e => {
         message({ status: "error", error: e })
       })
+  }
 
+  useEffect(() => {
+    fetchUser()
     document.title = "Company Profile"
   }, [userId])
 
@@ -75,7 +81,7 @@ function CompanyProfile() {
   };
 
   const submit = async (e) => {
-    e.preventDefault();
+
     let eObj = {};
     let valid = true
 
@@ -131,10 +137,53 @@ function CompanyProfile() {
           status: "error",
           error: e
         })
-        setTimeout(() => { setLoader(false); window.scrollTo({ top: 10, behavior: "smooth" }); }, 1200)
       }
+      setTimeout(() => { setLoader(false); window.scrollTo({ top: 10, behavior: "smooth" }); }, 1200)
     }
   }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (userData.status === "pending") {
+      setShowConfirm(true)
+    } else {
+      submit()
+    }
+  }
+
+  const revertChanges = async () => {
+    try {
+      await http.put('/companies/revert-changes')
+      message({
+        status: "success",
+        message: "Changes Reverted"
+      })
+      fetchUser()
+    } catch (error) {
+      message({
+        status: "Error",
+        error
+      })
+    }
+  }
+
+
+  const statusMessage = (status) => {
+    switch (status) {
+      case "pending":
+        return (
+          <div className='d-flex flex-column gap-2'>
+            <small className='text-danger'>
+              The changes you have made previously is pending for approval
+            </small>
+            <button type='button' onClick={revertChanges} className='btn align-self-end btn-primary'>Revert Changes</button>
+          </div>
+        )
+      case "rejected":
+        return <div className='text-danger'>{userData.reject_message}</div>
+    }
+  }
+
 
   const handleInput = (e) => {
     let name = e.target.name;
@@ -166,14 +215,16 @@ function CompanyProfile() {
                 <ImageResizer width={125} height={75} setImg={setLogo} imgSrc={companyLogo} />
               }
             </div>
-
-            <div className='d-flex align-self-start align-items-center'>
-              <label htmlFor='banner' type='button' className=' border-0 bg-white align-self-start mt-1  text-primary text-decoration-underline'>
-                Change Banner
-              </label>
-              <span role='button' onClick={() => setShowModal({ show: true, type: "banner" })}>
-                <BsInfoCircle />
-              </span>
+            <div className='d-flex flex-column align-items-end gap-4'>
+              <div className='d-flex  align-items-center'>
+                <label htmlFor='banner' type='button' className=' border-0 bg-white align-self-start mt-1  text-primary text-decoration-underline'>
+                  Change Banner
+                </label>
+                <span role='button' onClick={() => setShowModal({ show: true, type: "banner" })}>
+                  <BsInfoCircle />
+                </span>
+              </div>
+              {statusMessage(userData.status)}
             </div>
           </div>
 
@@ -182,7 +233,7 @@ function CompanyProfile() {
             <input hidden type="file" id="logo" accept='.jpg ,.png, .jpeg' onChange={onFileChange} />
           </div>
 
-          <form onSubmit={submit} className="form-sample mt-3 p-4 ">
+          <form onSubmit={handleSubmit} className="form-sample mt-3 p-4 ">
             <div className="row">
               <div className="row">
                 <div className="form-group row">
@@ -315,6 +366,34 @@ function CompanyProfile() {
           </form>
         </div>
       </div >
+
+
+      <ConfirmDialog
+        showModal={showConfirm}
+        onHideModal={() => setShowConfirm(false)}
+        confirmText={
+          <>
+            <div className='mb-3'>You have made changes to the profile previously those changes will overwrite these changes.</div>
+            <div className='small'>Are you sure you want to overwrite those changes ?</div>
+          </>
+        }
+        confirmTextClasses={"mb-4"}
+        buttonAttributes={
+          [
+            {
+              onClick: () => { submit(); setShowConfirm(false) },
+              text: "Yes",
+              className: " btn btn-info"
+            },
+            {
+              onClick: () => setShowConfirm(false),
+              text: "No",
+              className: "btn btn-outline-dark"
+            }
+          ]
+        }
+      />
+
 
       <Modal size={"sm"} show={showModal.show} onHide={() => setShowModal({ show: false })} centered>
         <Modal.Body>

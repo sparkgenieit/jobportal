@@ -3,7 +3,7 @@ import './Sidebar.css';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { MdSpaceDashboard, MdAssignment, MdOutlineQuestionMark } from "react-icons/md";
+import { MdSpaceDashboard, MdAssignment, MdOutlineQuestionMark, MdAssignmentTurnedIn, MdAssignmentInd } from "react-icons/md";
 import { HiMiniQueueList, HiOutlineDocumentMagnifyingGlass } from "react-icons/hi2";
 import { GrDocumentTime } from "react-icons/gr";
 import { RxHamburgerMenu } from 'react-icons/rx';
@@ -54,6 +54,28 @@ function Sidebar() {
                   <span>Assigned Jobs</span>
                   <span>
                     <MdAssignment size={"20"} />
+                  </span>
+                </div>
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/admin/profiles/queue">
+                <div className='d-flex justify-content-between w-100'>
+                  <span>Profiles Queue</span>
+                  <span>
+                    <MdAssignmentInd size={"20"} />
+                  </span>
+                </div>
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/admin/profiles/assigned">
+                <div className='d-flex justify-content-between w-100'>
+                  <span>Assigned Profiles</span>
+                  <span>
+                    <MdAssignmentTurnedIn size={"20"} />
                   </span>
                 </div>
               </Link>
