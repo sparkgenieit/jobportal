@@ -31,23 +31,11 @@ export default function AssignedProfiles() {
     }, [])
 
 
-
-    const assignToMe = async (id) => {
-        const { data, error } = await tryCatch(() => http.put(`/companies/profiles/assign/${id}`))
-        if (error) {
-            message({
-                status: "Error",
-                error
-            })
-        }
-        if (data) {
-            fetchassignedProfiles()
-        }
-    }
-
-
     return (
         <div className="container-fluid content-wrapper bg-white">
+
+            <h1 className="text-center fw-bold fs-4 mb-3">Assigned Profiles</h1>
+
             <table className="table text-center">
                 <thead>
                     <tr>
@@ -69,7 +57,7 @@ export default function AssignedProfiles() {
                                 {profile.old_profile.name}
                             </td>
                             <td>
-                                <span onClick={() => { }} className="btn btn-xs">
+                                <span role="button" onClick={() => { message({ path: `/admin/profiles/profile/${profile._id}` }) }} className="">
                                     <HiEye fontSize={18} />
                                 </span>
                             </td>

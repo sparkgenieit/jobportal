@@ -128,7 +128,7 @@ function CompanyProfile() {
 
         message({
           status: "Success",
-          message: "Updated Successfully",
+          message: "Changes sent for approval",
           path: "/company"
         })
 
@@ -180,7 +180,7 @@ function CompanyProfile() {
           </div>
         )
       case "rejected":
-        return <div className='text-danger'>{userData.reject_message}</div>
+        return <div className='text-danger'>Your request for changes in profile is rejected</div>
     }
   }
 

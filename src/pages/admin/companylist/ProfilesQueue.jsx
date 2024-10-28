@@ -48,6 +48,8 @@ export default function ProfilesQueue() {
 
     return (
         <div className="container-fluid content-wrapper bg-white">
+            <h1 className="text-center fw-bold fs-4 mb-3">Profiles Queue</h1>
+
             <table className="table text-center">
                 <thead>
                     <tr>
