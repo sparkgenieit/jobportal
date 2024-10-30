@@ -21,8 +21,15 @@ function Header() {
       .catch((err) => { console.log(err) })
   }, [])
 
-  const handleNotification = (notification) => {
-    navigate(`/company/jobs`);
+  const handleNotificationClick = (notification) => {
+    if (notification.jobId && notification.status === "Approved") {
+      navigate("/company/jobs")
+
+    } else {
+      navigate("/company/CompanyProfile")
+    }
+
+    setShowNotifications(false)
   }
 
   return (
@@ -128,20 +135,28 @@ function Header() {
                 </div>
                 <ul className='list-unstyled'>
                   {notificationList && notificationList.map((notification, index) => {
+
+                    if (!notification.jobId) {
+                      return <li role='button' onClick={() => handleNotificationClick(notification)} className={"alert border d-flex gap-2 justify-content-between  alert-light"}>
+                        < span className='small text-info fw-bold' > {notification.message}</span>
+                        <span className='small'>{timeAgoMinutes(notification.createdAt)}</span>
+                      </li>
+                    }
+
                     if (notification.status == "Approved") {
                       return (
-                        <li style={{ cursor: "pointer" }} onClick={() => handleNotification(notification)} className={`alert border d-flex justify-content-between ${notification.isRead ? "alert-light" : "alert-dark"}`}>
-                          <span className='text-success fw-bold'>Your Job for {notification.jobTitle} is now Live</span>
+                        <li style={{ cursor: "pointer" }} onClick={() => handleNotificationClick(notification)} className={`alert border d-flex justify-content-between  alert-light`}>
+                          <span className=' small text-success fw-bold'>Your Job for {notification.jobTitle} is now Live</span>
                           <span className='small'>{timeAgoMinutes(notification.createdAt)}</span>
                         </li>
                       )
                     } else {
                       return (<>
-                        <li onClick={() => { }} className={`alert border rejected-notification d-flex justify-content-between ${notification.isRead ? "alert-light" : "alert-dark"}`}>
+                        <li onClick={() => { }} className={`alert border rejected-notification d-flex justify-content-between alert-light`}>
                           <div>
-                            <div className='text-danger fw-bold'>Your Job for {notification.jobTitle} is {notification.status}</div>
+                            <div className=' small text-danger fw-bold'>Your Job for {notification.jobTitle} is {notification.status}</div>
                             <div className='rejected-notification-message'>
-                              Reason : <span className='fw-bold'>{notification.message}</span>
+                              Reason : <span className=' small fw-bold'>{notification.message}</span>
                               <div>
                                 <Link to={`/company/editjob/${notification.jobId}`}>Click Here to go to Job</Link>
                               </div>
@@ -209,11 +224,11 @@ function Header() {
                 <i className="mdi mdi-format-line-spacing"></i>
               </Link>
             </li>
-          </ul>
+          </ul >
           <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
             <span className="mdi mdi-menu"></span>
           </button>
-        </div>
+        </div >
       </nav >
     </>
   );
