@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import http from "../../../helpers/http";
+import { BASE_API_URL } from "../../../helpers/constants";
 function Skills() {
     const [Msg, setMsg] = useState({
         message: "",
@@ -95,7 +96,7 @@ function Skills() {
                                                 return <tr key={index}>
                                                     <td>{skill.skill_name}</td>
                                                     <td>{skill.skill_dmain}</td>
-                                                    <td><img src={`http://localhost:8080/uploads/skillPhoto/${skill.photo}`} /></td>
+                                                    <td><img src={`${BASE_API_URL}/uploads/skillPhoto/${skill.photo}`} /></td>
                                                     <td><button onClick={() => handleEdit(skill)} type="button" class="btn btn-gradient-primary">Edit</button></td>
                                                     <td><button onClick={() => handleDelete(skill)} type="button" class="btn btn-gradient-primary">Delete</button></td>
                                                 </tr>

@@ -394,7 +394,7 @@ function SingleJob() {
                             <div>
                                 <div>{markdownToText(jobview.description)}</div>
 
-                                {parseString(jobview.employerquestions).some(question => question.value !== "") &&
+                                {/* {parseString(jobview.employerquestions).some(question => question.value !== "") &&
                                     <p className='fw-bold'>Employer Questions</p>}
                                 <ul className='list-unstyled d-flex flex-column gap-3'>
                                     {parseString(jobview.employerquestions).map((question, i) => {
@@ -404,7 +404,7 @@ function SingleJob() {
                                             )
                                         }
                                     })}
-                                </ul>
+                                </ul> */}
 
                             </div>
                             <div className='d-flex justify-content-between'>

@@ -25,11 +25,11 @@ export const userSlice = createSlice({
 
 })
 
-
 export const fetchUser = createAsyncThunk(
     "user/fetchUser",
     async () => {
         const { data } = await http.get('/users/user')
+        localStorage.setItem("fullname", data.first_name + " " + data.last_name)
         return data
     }
 )

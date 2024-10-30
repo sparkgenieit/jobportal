@@ -35,7 +35,7 @@ const initialValues = {
 function Postajob({ name }) {
   const [jobData, setJobData] = useState(initialValues)
   const [error, setError] = useState({});
-  const [employerquestions, setEmployerQuestions] = useState([{ value: "" }])
+  // const [employerquestions, setEmployerQuestions] = useState([{ value: "" }])
   const [categoriesList, setCategoriesList] = useState([]);
   const [parent, setParent] = useState([]);
   const [showModal, setShowModal] = useState({ show: false })
@@ -62,21 +62,21 @@ function Postajob({ name }) {
     setError({ ...error, description: value?.trim() === "" ? 'Please enter description' : "" })
   }
 
-  const handleQuestionsInput = (index, event) => {
-    const values = [...employerquestions];
-    values[index].value = event.target.value;
-    setEmployerQuestions(values);
-  };
+  // const handleQuestionsInput = (index, event) => {
+  //   const values = [...employerquestions];
+  //   values[index].value = event.target.value;
+  //   setEmployerQuestions(values);
+  // };
 
-  const handleAddFields = () => {
-    setEmployerQuestions([...employerquestions, { value: '' }]);
-  }
+  // const handleAddFields = () => {
+  //   setEmployerQuestions([...employerquestions, { value: '' }]);
+  // }
 
-  const handleRemoveFields = (index) => {
-    const values = [...employerquestions];
-    values.splice(index, 1);
-    setEmployerQuestions(values);
-  };
+  // const handleRemoveFields = (index) => {
+  //   const values = [...employerquestions];
+  //   values.splice(index, 1);
+  //   setEmployerQuestions(values);
+  // };
 
   useEffect(() => {
     fetchCategories(setCategoriesList, setParent)
@@ -87,7 +87,7 @@ function Postajob({ name }) {
     setError({})
     // If it is a regular post a job
     if (name === "Post a Job" && !cloneJobId) {
-      fetchCompanyInfo(company_id, setJobData, setEmployerQuestions, initialValues)
+      fetchCompanyInfo(company_id, setJobData, initialValues)
     }
 
     // When the request is to clone an existing job
@@ -98,7 +98,7 @@ function Postajob({ name }) {
 
     // If it is to edit a job
     if (name === "Edit Job") {
-      fetchJobForEditing(params.id, setJobData, setEmployerQuestions, searchParams.get("repost") === "true" ? true : false)
+      fetchJobForEditing(params.id, setJobData, searchParams.get("repost") === "true" ? true : false)
         .then(data => {
           if (data.other_benefits) setShowOthersBenefits(true)
         })
@@ -135,7 +135,7 @@ function Postajob({ name }) {
 
   const discardForm = async () => {
     window.history.replaceState(null, null, '/company/postajob')
-    await fetchCompanyInfo(company_id, setJobData, setEmployerQuestions, initialValues)
+    await fetchCompanyInfo(company_id, setJobData, initialValues)
     window.scrollTo({ top: 20, behavior: "smooth" })
     setShowOthersBenefits(false)
   }
@@ -194,7 +194,6 @@ function Postajob({ name }) {
         training,
         salary_type,
         other_benefits,
-        employerquestions: JSON.stringify(employerquestions),
         employer: localStorage.getItem("fullname"),
         companyId: company_id,
       }
@@ -497,7 +496,7 @@ function Postajob({ name }) {
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-12">
+                  {/* <div className="col-md-12">
                     <div className="form-group row">
                       <label className="col-sm-3 col-form-label ">Employer questions</label>
                       <div>
@@ -513,7 +512,7 @@ function Postajob({ name }) {
                         ))}
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="form-group">
                     <div className='d-flex justify-content-between py-2 px-5'>
                       <div>

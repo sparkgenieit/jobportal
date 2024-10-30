@@ -10,7 +10,7 @@ export default function Toaster({ message, setMessage }) {
 
     return <>
         <Modal size="sm" show={message.show} onHide={handleClose} centered>
-            <Modal.Body className="bg-white">
+            <Modal.Body className="bg-white p-2">
                 <div className=" d-flex align-items-center  gap-3">
                     <div>
                         {message.type === "success" &&
@@ -24,7 +24,7 @@ export default function Toaster({ message, setMessage }) {
                             </div>
                         }
                     </div>
-                    <div className="fw-bold">
+                    <div className="fw-bold flex-grow-1">
                         {message.text}
                     </div>
                 </div>

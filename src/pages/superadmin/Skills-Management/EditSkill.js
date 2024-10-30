@@ -7,6 +7,7 @@ import { Editor, EditorProvider } from "react-simple-wysiwyg";
 import { useNavigate, useParams } from "react-router-dom";
 import http from "../../../helpers/http";
 import httpUpload from "../../../helpers/httpUpload";
+import { BASE_API_URL } from "../../../helpers/constants";
 
 function EditSkill() {
     const [skillname, setSkillname] = useState("");
@@ -43,7 +44,7 @@ function EditSkill() {
 
                 setImagePreview({
                     show: true,
-                    src: `http://localhost:8080/uploads/skillPhoto/${res.data.photo}`
+                    src: `${BASE_API_URL}/uploads/skillPhoto/${res.data.photo}`
                 })
             })
             .catch(err => console.log(err))

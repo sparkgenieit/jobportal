@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from "react-router-dom";
 import http from "../../../helpers/http";
 import httpUpload from "../../../helpers/httpUpload";
+import { BASE_API_URL } from "../../../helpers/constants";
 
 function EditCategory() {
     const [categoryName, setCategoryName] = useState("")
@@ -50,7 +51,7 @@ function EditCategory() {
                 setStatus(res.data.status)
                 setImagePreview({
                     show: true,
-                    src: `http://localhost:8080/uploads/categoryPhoto/${res.data.photo}`
+                    src: `${BASE_API_URL}/uploads/categoryPhoto/${res.data.photo}`
                 })
 
                 if (res.data.parent_id !== "None") {  // Checking if parent id is none 

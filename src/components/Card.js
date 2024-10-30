@@ -60,6 +60,11 @@ export default function Card({ job }) {
         e.stopPropagation();
     }
 
+    const openInNewTab = (id) => {
+        const url = `${BASE_APP_URL}/common/SingleJob/${id}`
+        window.open(url, '_blank', 'noopener,noreferrer')
+    }
+
     const handleShare = (event) => {
         navigator.clipboard.writeText(`${BASE_APP_URL}/common/SingleJob/${job._id}`)
         message({
@@ -78,8 +83,8 @@ export default function Card({ job }) {
     const date = new Date(job?.creationdate).toLocaleDateString('en-GB')
 
     return (
-        <div onClick={() => { message({ path: `/common/SingleJob/${job._id}` }) }} className='job-card border shadow rounded '>
-            <div className='row h-100 p-3 '>
+        <div onClick={() => openInNewTab(job._id)} className='job-card border shadow rounded '>
+            <div className='row h-100 px-3 pt-3 pb-1 '>
                 <div className='col-9 h-100 d-flex flex-column justify-content-between'>
                     <div>
                         <div className='fw-bold h5' >
@@ -87,7 +92,7 @@ export default function Card({ job }) {
                         </div>
                         <div className='d-flex'>
                             <div>
-                                <Tooltip tooltipText={"View All Jobs"}>
+                                <Tooltip tooltipText={"View All Jobs"} size={12}>
                                     <span onClick={(e) => { getJobsbyCompany(e) }}>
                                         <CiViewList fontSize={22} />
                                     </span>
@@ -95,7 +100,7 @@ export default function Card({ job }) {
                             </div>
                             {job.info?.length > 0 ?
                                 <>
-                                    <Tooltip tooltipText={"View Company Info"}>
+                                    <Tooltip tooltipText={"View Company Info"} size={12}>
                                         <span
                                             className='text-decoration-underline text-primary'
                                             onClick={(e) => {
@@ -120,7 +125,7 @@ export default function Card({ job }) {
 
                         <div className=' d-flex mt-2'>
                             <MdOutlineLocationOn size="22px" />
-                            <Tooltip tooltipText={"Click to View Activities"}>
+                            <Tooltip tooltipText={"View Activities"} size={12}>
                                 <span
                                     onClick={(e) => {
                                         setLocationPopup({
@@ -137,10 +142,10 @@ export default function Card({ job }) {
                         </div>
                     </div>
 
-                    <div className='h-100 flex-grow-1 d-flex  flex-column justify-content-between'>
-                        <p className='description text-secondary mt-2  flex-grow-1  small'> {markdownToPlainText(job.description, 190)}</p>
+                    <div className='h-100 flex-grow-1 d-flex  pt-3 position-relative flex-column'>
+                        <p className=' text-secondary  flex-grow-1  small'> {markdownToPlainText(job.description, 150)}</p>
 
-                        <div className='small d-flex align-items-center '>
+                        <div className='small position-absolute d-flex align-items-center bottom-0 '>
                             <span className='pe-3'>{date} ({timeAgo(date)})</span>
                             <Tooltip tooltipText={"Share"} size={10} >
                                 <a className='pe-2' type='button' onClick={(e) => { handleShare(e) }}>
@@ -162,11 +167,11 @@ export default function Card({ job }) {
                 </div>
 
                 <div className='col-3 h-100'>
-                    <div style={{ fontSize: "11px" }} className=' h-100 d-flex flex-column'>
+                    <div style={{ fontSize: "11px" }} className=' h-100 d-flex flex-column gap-2'>
                         <div className='h-50'>
                             {job.companyLogo.length > 0 && <img className="rounded border company-logo" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                         </div>
-                        <div className='flex-grow-1 h-100 d-flex flex-column justify-content-end'>
+                        <div className='flex-grow-1 h-100 d-flex flex-column'>
                             {job.rateperhour && <Tooltip tooltipText={"Approximate salary"}>
                                 <div className='d-flex gap-2'>
                                     <span><FaDollarSign fontSize={13} /></span>

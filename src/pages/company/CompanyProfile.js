@@ -50,6 +50,15 @@ function CompanyProfile() {
     companyService.get(userId)
       .then(response => {
         setUserData(response.data);
+
+        if (response.data.status === "rejected") {
+          message({ message: "Your request for the changes in profile is rejected" })
+        }
+
+        if (response.data.status === "approved") {
+          message({ status: "success", message: "Your request for the changes in profile is approved" })
+        }
+
         response.data.info ? setInfo(response.data.info) : setInfo("")
         if (response.data.logo.length > 0) {
           setCompanyLogo(`${BASE_API_URL}/uploads/logos/${response.data.logo}`)
@@ -179,8 +188,8 @@ function CompanyProfile() {
             <button type='button' onClick={revertChanges} className='btn align-self-end btn-primary'>Revert Changes</button>
           </div>
         )
-      case "rejected":
-        return <div className='text-danger'>Your request for changes in profile is rejected</div>
+      default:
+        return null
     }
   }
 

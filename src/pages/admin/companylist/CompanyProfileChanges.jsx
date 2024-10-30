@@ -7,6 +7,63 @@ import { markdownToPlainText } from "../../../helpers/functions/textFunctions"
 import { BASE_API_URL } from "../../../helpers/constants"
 import { FaArrowRight } from "react-icons/fa";
 
+const profileChanges = [
+    {
+        field: "name",
+        label: "Name"
+    },
+    {
+        field: "address1",
+        label: "Address 1"
+    },
+    {
+        field: "address2",
+        label: "Address 2"
+    },
+    {
+        field: "address3",
+        label: "Address 3"
+    },
+    {
+        field: "city",
+        label: "City"
+    },
+    {
+        field: "postalCode",
+        label: "Postal Code"
+    },
+    {
+        field: "email",
+        label: "Email"
+    },
+    {
+        field: "contact",
+        label: "Contact Person"
+    },
+    {
+        field: "website",
+        label: "Website"
+    },
+    {
+        field: "youtubeUrl",
+        label: "Youtube"
+    },
+    {
+        field: "info",
+        label: "Info"
+    },
+    {
+        field: "logo",
+        label: "Logo",
+        photo: true
+    },
+    {
+        field: "banner",
+        label: "Banner",
+        photo: true
+    }
+]
+
 export default function CompanyProfileChanges() {
     const [profile, setProfile] = useState(null)
     const [processing, setProcessing] = useState(false)
@@ -69,7 +126,9 @@ export default function CompanyProfileChanges() {
                 <div className="row" >
                     <span className="col-3">{label} :</span>
                     {(profile?.old_profile[field] === profile?.new_profile[field] || !profile?.new_profile[field]) ?
-                        <img style={{ height: "8rem", width: "8rem" }} src={`${BASE_API_URL}/uploads/${field}s/${profile?.old_profile[field]}`} className="col rounded-3" />
+                        <div className="d-flex align-items-center col">
+                            <img style={{ height: "8rem", width: "8rem" }} src={`${BASE_API_URL}/uploads/${field}s/${profile?.old_profile[field]}`} className="rounded-3" />
+                        </div>
                         :
                         <div className="d-flex align-items-center col gap-5">
                             <img style={{ height: "8rem", width: "8rem" }} src={`${BASE_API_URL}/uploads/${field}s/${profile?.old_profile[field]}`} className=" rounded-3" />
@@ -138,23 +197,14 @@ export default function CompanyProfileChanges() {
                 <button type="button" className="btn btn-danger" disabled={processing} onClick={reject}>Reject</button>
             </div>
 
-            {profile &&
-                <div className="d-flex flex-column gap-4">
-                    <ProfileField field={"name"} label={"Name"} />
-                    <ProfileField field={"address1"} label={"Address 1"} />
-                    <ProfileField field={"address2"} label={"Address 2"} />
-                    <ProfileField field={"address3"} label={"Address 3"} />
-                    <ProfileField field={"city"} label={"City"} />
-                    <ProfileField field={"postalCode"} label={"Postal code"} />
-                    <ProfileField field={"email"} label={"Email"} />
-                    <ProfileField field={"contact"} label={"Contact Person"} />
-                    <ProfileField field={"website"} label={"Website"} />
-                    <ProfileField field={"youtubeUrl"} label={"Youtube url"} />
-                    <ProfileField field={"info"} label={"Info"} />
-                    <ProfileField field={"logo"} label={"Logo"} photo />
-                    <ProfileField field={"banner"} label={"Banner "} photo />
-                </div>
-            }
+
+            <div className="d-flex flex-column gap-4">
+
+                {profile && profileChanges.map((field) => (
+                    <ProfileField {...field} />
+                ))}
+            </div>
+
         </div>
     )
 }

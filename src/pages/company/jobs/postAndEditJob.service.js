@@ -34,18 +34,17 @@ export const fetchCategories = async (setCategoriesList, setParent) => {
     }
 }
 
-export const fetchCompanyInfo = async (user_id, setJobData, setEmployerQuestions, initialValues) => {
+export const fetchCompanyInfo = async (user_id, setJobData, initialValues) => {
     try {
         const response = await companyService.get(user_id)
         setJobData({ ...initialValues, company: response.data.name, companyLogo: response.data.logo });
-        setEmployerQuestions([{ value: '' }])
     } catch (error) {
         console.log(error)
     }
 
 }
 
-export const fetchJobForEditing = async (id, setJobData, setEmployerQuestions, isReposting = false) => {
+export const fetchJobForEditing = async (id, setJobData, isReposting = false) => {
     try {
         const response = await http.get(`/jobs/${id}`);
         const benifits = response.data.benifits?.includes("{") ? "" : response.data.benifits
@@ -53,7 +52,6 @@ export const fetchJobForEditing = async (id, setJobData, setEmployerQuestions, i
             setJobData({ ...response.data, creationdate: new Date(), closedate: getCloseDate(new Date().toISOString()), benifits })
             :
             setJobData({ ...response.data, creationdate: new Date(response.data.creationdate), benifits });
-        setEmployerQuestions(JSON.parse(response.data.employerquestions));
         return response.data
     } catch (error) {
         console.log(error)
