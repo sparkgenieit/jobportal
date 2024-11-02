@@ -159,11 +159,7 @@ function Create() {
 
       <div class="container-fluid">
         <div className="content-wrapper bg-white">
-          <div className="page-header">
-            <h3 className="page-title"> Create Admin </h3>
-          </div>
-
-
+          <h3 className="fs-4 text-center fw-bold">Create Admin</h3>
           <div className="row ">
             <div className="col-12 bg-white my-5 m-3">
               {/* <div className="card"> */}

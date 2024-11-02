@@ -167,19 +167,13 @@ function Addskills() {
 
             <div class="container-fluid">
                 <div className="content-wrapper bg-white">
-                    <div class="page-header">
-                        <h3 class="page-title"> Skills </h3>
-                    </div>
-
+                    <h3 className="fs-4 text-center fw-bold">Add a skill</h3>
                     <div class="row">
                         <div class="col-12">
-
                             <div class="card-body bg-white ">
-
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="card">
-                                            <h4 class="card-title px-3 py-4">Add Skill</h4>
                                             <div class="card-body py-0">
                                                 {showMsg && <div class={msgClass} role="alert">
                                                     {message}

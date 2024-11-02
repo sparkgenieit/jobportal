@@ -40,18 +40,15 @@ const PagesList = () => {
 
         <div class="container-fluid">
             <div className="content-wrapper bg-white">
-                <div class="page-header">
-                    <h3 class="page-title"> Pages-Management </h3>
-                </div>
-
+                <h3 className="fs-4 text-center fw-bold">Pages List</h3>
 
                 <div class="row ">
 
                     <div class="col-12">
 
                         <div class="card">
-                            <div className="p-3  d-flex justify-content-between">
-                                <div className='fw-bold h4  pt-3 px-3'>Pages List</div>
+                            <div className="p-3  d-flex justify-content-end">
+
                                 <a type="button" className="btn btn-primary float-end" href="/superadmin/add-page">Add</a>
 
                             </div>

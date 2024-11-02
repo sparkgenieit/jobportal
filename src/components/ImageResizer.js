@@ -18,9 +18,15 @@ export default function Input({ width, height, setImg, imgSrc }) {
     }
 
     useEffect(() => {
-        fetch(imgSrc)
-            .then(response => response.blob())
-            .then(blob => {
+        let isMounted = true
+
+        const fetchImage = async () => {
+
+            const data = await fetch(imgSrc)
+
+            if (isMounted) {
+                const blob = await data.blob()
+
                 const reader = new FileReader();
                 reader.readAsDataURL(blob);
                 reader.onload = function (e) {
@@ -42,12 +48,22 @@ export default function Input({ width, height, setImg, imgSrc }) {
                         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
                         const dataurl = canvas.toDataURL("image/jpeg");
-                        setOriginalImageUrl(dataurl);
-                        imgRef.current.src = dataurl
+
+                        if (imgRef.current) {
+                            imgRef.current.src = dataurl
+                        }
+
                         canvas.remove()
                     }
                 }
-            })
+            }
+        }
+
+        fetchImage()
+
+        return () => {
+            isMounted = false
+        }
     }, [imgSrc])
 
 

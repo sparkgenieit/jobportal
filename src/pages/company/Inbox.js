@@ -67,9 +67,9 @@ export default function Inbox() {
 
     return (
         <div className=" mt-4 container-fluid">
-            <div className="d-flex">
+            <div className="d-flex align-items-center position-relative my-2" >
                 <h2 className="text-center fw-bold flex-grow-1  fs-4">Inbox</h2>
-                <Link className="btn btn-info align-items-center d-flex gap-3 rounded-4" to={"/company/contact-us"}>
+                <Link className="btn btn-info align-items-center d-flex gap-3 rounded-4 position-absolute end-0" to={"/company/contact-us"}>
                     New Mail <FaRegMessage fontSize={20} />
                 </Link>
             </div>

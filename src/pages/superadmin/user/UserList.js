@@ -39,15 +39,13 @@ export default function UserList() {
         <>
             <div class="container-fluid">
                 <div className="content-wrapper bg-white">
-                    <div class="page-header">
-                        <h3 class="page-title">Users</h3>
-                    </div>
-                    <div class="row my-5">
+                    <h3 className="fs-4 text-center fw-bold">User Management</h3>
+                    <div class="row">
                         <div class="card-body bg-white rounded">
                             <div class="col-12">
                                 <div class="row col-12 ">
-                                    <div className="d-flex justify-content-between ">
-                                        <h4 className="card-title pt-2">Users</h4>
+                                    <div className="d-flex justify-content-end ">
+
                                         <div>
                                             <select className="form-select" value={userRole} onChange={(e) => { setUserRole(e.target.value); setPgNumber(1) }}>
                                                 <option value="User">User</option>

@@ -150,15 +150,15 @@ function Categorieslist1() {
                     {Msg.message}
                   </div>}
                 <div class="row col-12 ">
-                  <div className="d-flex justify-content-between">
-                    <h4 className="card-title pt-2">Categories Table</h4>
-                    <div className='d-flex gap-3'>
-                      <a type="button" disabled={downloading} className="btn btn-info rounded-3" onClick={() => tableToCSV()}>Download</a>
-                      <label htmlFor="upload_button" type="button" disabled={downloading} className="btn btn-info rounded-3" onClick={() => { }}>Upload</label>
-                      <input type="file" id="upload_button" onChange={readCSV} accept=".csv" hidden />
-                      <a type="button" disabled={downloading} className="btn btn-info rounded-3" onClick={() => navigate("/superadmin/Categories1")}>Add</a>
-                      <a type="button" disabled={downloading} className="btn btn-danger rounded-3" onClick={() => { setShowConfirmation({ show: true }) }}>Delete All</a>
-                    </div>
+                  <h3 className="fs-4 text-center fw-bold mb-3">Categories List</h3>
+                  <div className="d-flex justify-content-end gap-3">
+
+                    <a type="button" disabled={downloading} className="btn btn-info rounded-3" onClick={() => tableToCSV()}>Download</a>
+                    <label htmlFor="upload_button" type="button" disabled={downloading} className="btn btn-info rounded-3" onClick={() => { }}>Upload</label>
+                    <input type="file" id="upload_button" onChange={readCSV} accept=".csv" hidden />
+                    <a type="button" disabled={downloading} className="btn btn-info rounded-3" onClick={() => navigate("/superadmin/Categories1")}>Add</a>
+                    <a type="button" disabled={downloading} className="btn btn-danger rounded-3" onClick={() => { setShowConfirmation({ show: true }) }}>Delete All</a>
+
                   </div>
                   <table ref={tableRef} class="table mt-4  text-center">
                     <thead>

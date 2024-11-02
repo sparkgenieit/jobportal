@@ -123,8 +123,8 @@ export default function Audit() {
     return (
         <div className="container-fluid content-wrapper px-0 bg-white">
 
-            <div className="d-flex position-relative align-items-center">
-                <h2 className="text-center w-100 fw-bold fs-3 mb-3" > Audit Log</h2>
+            <div className="d-flex position-relative align-items-center mb-3">
+                <h2 className="text-center w-100 fw-bold fs-3 " > Audit Log</h2>
                 <button type="button" onClick={() => downloadAllLogs()} className="btn position-absolute end-0 me-2  btn-info rounded-4">Download All</button>
             </div>
 
@@ -198,7 +198,7 @@ export default function Audit() {
                                             <td className="small">{log.jobId ? log.jobId : "-"} </td>
                                             <td>{log.employerReference ? log.employerReference : "-"} </td>
                                             <td>{log.jobTitle ? log.jobTitle : "-"} </td>
-                                            <td>{log.username ? log.username : "-"} </td>
+                                            <td className="text-start" >{log.username ? log.username : "-"} </td>
                                             <td>{log.email ? log.email : "-"} </td>
                                             <td className="text-capitalize">{log.description ? log.description : "-"} </td>
                                             <td className="text-capitalize">{log.fieldName ? log.fieldName : "-"} </td>

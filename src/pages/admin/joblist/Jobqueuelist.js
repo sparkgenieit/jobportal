@@ -57,9 +57,9 @@ const Jobqueuelist = () => {
     return (<>
         <div className="container-fluid">
             <div className="content-wrapper bg-white">
-                <div className="page-header">
-                    <h3 className="page-title"> Job Queue List </h3>
-                </div>
+
+                <h3 className="fs-4 fw-bold text-center "> Job Queue List </h3>
+
 
                 <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} totalCount={totalItems} pageNumberToShow={2} itemsPerPage={itemsPerPage} fetchItems={fetchJobs}>
 

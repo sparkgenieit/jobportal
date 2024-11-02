@@ -65,9 +65,9 @@ export default function Inbox() {
         <div className="content-wrapper bg-white">
             <div className="container-fluid">
                 <Pagination currentPage={currentPage} totalCount={totalItems} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} pageNumberToShow={2} fetchItems={fetchMails} >
-                    <div className="d-flex">
+                    <div className="d-flex position-relative">
                         <h2 className="text-center flex-grow-1 fw-bold fs-4">Inbox</h2>
-                        <Link to={`/${role}/mail-admin`} className="btn btn-info rounded-4">New Mail</Link>
+                        <Link to={`/${role}/mail-admin`} className="btn btn-info rounded-4 position-absolute end-0">New Mail</Link>
                     </div>
 
                     <div className="my-3">

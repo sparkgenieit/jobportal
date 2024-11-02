@@ -84,15 +84,8 @@ const ViewProfileComponent = forwardRef((props, ref) => {
         {/* <div className="card"> */}
         <div className="card-body p-3" >
           <div className='row my-4'>
-            <h4 className="card-title col-9 ">User Profile </h4>
-
-            <div className='col-3 text-center'>
-              <button type="button" className="btn btn-gradient-primary"><Link to='/profile'>Edit</Link></button>
-            </div>
 
             {user && <ViewProfileData user={user} JobTypes={JobTypes} />}
-
-
 
           </div>
         </div>

@@ -5,7 +5,7 @@ import http from '../../../helpers/http';
 import Pagination from '../../../components/Pagination';
 import Loader from '../../../components/Loader';
 import { itemsPerPage } from '../../../helpers/constants';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 
 
@@ -71,13 +71,15 @@ const List = () => {
     {!editAdmin &&
       <div class="container-fluid">
         <div className="content-wrapper bg-white">
-          <div class="page-header">
-            <h3 class="page-title"> Admin-Management </h3>
+          <div className='position-relative d-flex mb-2'>
+            <h3 className="fs-4 text-center w-100 fw-bold"> Admin Management</h3>
+            <Link className="btn btn-primary position-absolute end-0 rounded-2 py-3" to="/superadmin/admins/Create">Add</Link>
           </div>
+
+
           <div class="row ">
-            <div className="">
-              <a type="button" className="btn btn-primary float-end mb-1  " href="/superadmin/admins/Create">Add</a>
-            </div>
+
+
             <div class="col-12">
               <div class="card">
                 <div class="card-body">

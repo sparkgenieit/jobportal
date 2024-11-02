@@ -65,9 +65,9 @@ function BuyCredits() {
 
             <div class="container-fluid">
                 <div className="content-wrapper bg-white">
-                    <div class="page-header">
-                        <h3 class="page-title">Buy Credits</h3>
-                    </div>
+
+                    <h3 class="fs-4 text-center my-2 fw-bold">Buy Credits</h3>
+
 
                     <div className="row">
                         {

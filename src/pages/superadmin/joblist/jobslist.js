@@ -118,9 +118,7 @@ const JobsListSuperAdmin = () => {
 
         <div class="container-fluid">
             <div className="content-wrapper bg-white">
-                <div class="page-header">
-                    <h3 class="page-title"> Jobs List </h3>
-                </div>
+                <h3 className="fs-4 text-center fw-bold">Jobs List</h3>
                 <div class="row">
                     <div class="col-12">
                         <div class="card-body  bg-white ">

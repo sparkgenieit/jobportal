@@ -13,10 +13,8 @@ function LocationList() {
 
             <div class="container-fluid">
                 <div className="content-wrapper bg-white">
-                    <div class="page-header">
-                        <h3 class="page-title">Location List</h3>
-                    </div>
-                    <div className="card-body bg-white my-5">
+                    <h3 className="fs-4 text-center fw-bold">Location List</h3>
+                    <div className="card-body bg-white">
                         <div className="row p-4">
                             <table className="table">
                                 <thead>

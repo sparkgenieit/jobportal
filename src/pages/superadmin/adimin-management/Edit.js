@@ -154,9 +154,7 @@ function AdminEdit({ currentAdmin }) {
 
             <div class="container-fluid">
                 <div className="content-wrapper bg-white">
-                    <div className="page-header">
-                        <h3 className="page-title"> Edit Admin </h3>
-                    </div>
+                    <h3 className="fs-4 text-center fw-bold">Edit Admin</h3>
 
 
                     <div className="row ">

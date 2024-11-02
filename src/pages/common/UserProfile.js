@@ -577,11 +577,11 @@ function UserProfile() {
 
       <div class="container-fluid ">
         {!isUpdated &&
-          <div className="content-wrapper bg-white px-3 py-2 ">
+          <div className="content-wrapper bg-white ">
+            <h2 className='fw-bold fs-4 text-center mb-4'>User Profile</h2>
             <div className="row bg-white">
               <div className="col-12">
                 <div className="card-body " >
-                  <h4 className="card-title pb-4">User Profile </h4>
                   <form className="form-sample">
                     <div className="row">
                       <div className="col-md-9">

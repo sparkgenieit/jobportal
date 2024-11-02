@@ -1,10 +1,7 @@
-import Header from "../../../layouts/superadmin/Header";
-import Footer from "../../../layouts/superadmin/Footer";
-import Sidebar from "../../../layouts/superadmin/Sidebar";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import EditAd from "./edit";
 import http from "../../../helpers/http";
+import { Link } from "react-router-dom";
 
 
 
@@ -65,10 +62,8 @@ function Table() {
             {!showEditAd &&
                 <div class="container-fluid">
                     <div className="content-wrapper bg-white">
-                        <div class="page-header">
-                            <h3 class="page-title">Ads List</h3>
-                        </div>
-                        <div className="card-body bg-white my-5">
+                        <h3 className="fs-4 text-center fw-bold">Ads</h3>
+                        <div className="card-body bg-white">
                             {Msg.show &&
                                 <div className={Msg.class}>
                                     {Msg.message}
@@ -76,16 +71,10 @@ function Table() {
                                 </div>}
 
                             <div className="row">
-                                <div className="pb-4">
-                                    <a type="button" className="btn btn-primary float-end" href="/superadmin/AddForms" style={{ textDecoration: "none", color: "white" }}>Add</a>
+                                <div>
+                                    <Link className="btn btn-primary float-end" to="/superadmin/AddForms" style={{ textDecoration: "none", color: "white" }}>Add</Link>
                                 </div>
                                 <div className="col-12">
-
-
-
-
-
-
                                     <table className="table col-12">
                                         <thead>
                                             <tr>
@@ -112,31 +101,16 @@ function Table() {
                                                         <td>{ads.size}</td>
                                                         <td>{ads.price}</td>
                                                         <td>{ads.noOfClicks}</td>
-
                                                         <td className="text-center"><a type="button" href="#" class="btn btn-gradient-primary" onClick={() => edit(ads)}>Edit</a></td>
                                                         <td className="text-center"><button type="button" class="btn btn-gradient-primary" onClick={() => handleDelete(ads)}>Delete</button></td>
-
-
                                                     </tr>)
-
-
-
                                             })}
                                         </tbody>
-
-
-
-
                                     </table>
-
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
-
                 </div >}
             {showEditAd && <EditAd ad={adEdit} />}
         </>

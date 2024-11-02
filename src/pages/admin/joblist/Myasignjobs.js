@@ -103,9 +103,7 @@ function Myasignjobs() {
         <>
             <div className="container-fluid">
                 <div className="content-wrapper bg-white">
-                    <div className="page-header">
-                        <h3 className="page-title">Assign Jobs</h3>
-                    </div>
+                    <h3 className="fs-4 fw-bold text-center">Assigned Jobs</h3>
                     <div className="row">
                         <div className="col-12">
                             <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} itemsPerPage={itemsPerPage} totalCount={totalItems} fetchItems={fetchAssignJobs} pageNumberToShow={2}>

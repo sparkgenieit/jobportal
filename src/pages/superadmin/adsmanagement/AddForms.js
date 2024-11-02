@@ -308,9 +308,7 @@ function AddForms() {
 
             <div class="container-fluid">
                 <div className="content-wrapper bg-white">
-                    <div class="page-header">
-                        <h3 class="page-title"> Post An Ad</h3>
-                    </div>
+                    <h3 className="fs-4 text-center fw-bold">Post an Ad</h3>
 
                     <div class="card-body bg-white p-5 ">
                         {ErrorMsg && <div className='alert alert-danger' role="alert">

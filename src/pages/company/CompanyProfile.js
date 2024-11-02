@@ -205,6 +205,8 @@ function CompanyProfile() {
       <div class="container-fluid px-0 mt-4 bg-white">
         <div className='container'>
 
+          <h3 className='fs-4 text-center fw-bold '>Company Profile</h3>
+
           {companyBanner && companyBanner.length > 0 &&
             <ImageResizer width={1000} height={250} setImg={setBanner} imgSrc={companyBanner} />
           }

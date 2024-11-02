@@ -54,19 +54,18 @@ function OrdersList() {
     return (
         <>
             <div className="container-fluid mt-4">
-                <div className="bg-white">
-                    <div className="d-flex ">
-                        <h2 className="fw-bold text-center w-100">Transactions</h2>
-                        <div className="d-flex flex-shrink-1" >
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    setShowModal(true)
-                                }}
-                                className="fw-bold btn btn-xs rounded-3 fs-6 btn-primary"
-                            >Refund
-                            </button>
-                        </div>
+                <div className="content-wrapper p-0 bg-white">
+                    <div className="d-flex position-relative ">
+                        <h2 className="fw-bold text-center fs-4 w-100">Transactions</h2>
+
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setShowModal(true)
+                            }}
+                            className="fw-bold btn  rounded-3  btn-primary position-absolute end-0"
+                        >Refund
+                        </button>
                     </div>
 
                     <div className="pt-4  w-100">

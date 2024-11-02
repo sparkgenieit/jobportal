@@ -13,7 +13,7 @@ export default function JobCardList({ jobs, type }) {
 
     return (
         <>
-            {jobs && jobs.length == 0 && <h2 className='m-2 text-center'>No Jobs Found</h2>}
+            {jobs && jobs.length == 0 && <h3 className='m-2 w-100 text-center'>No Jobs Found</h3>}
             {jobs && jobs.length > 0 &&
                 jobs.map((job, index) => {
                     return (

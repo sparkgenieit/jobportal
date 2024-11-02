@@ -111,11 +111,11 @@ export default function RecruiterList() {
 
     return (
         <div className=" mt-4 container-fluid">
-            <div className="d-flex">
-                <h3 className="fw-bold text-center flex-grow-1">Recruiters</h3>
+            <div className="position-relative d-flex my-2">
+                <h3 className="fw-bold fs-4 text-center w-100">Recruiters</h3>
                 <button
                     type="button"
-                    className="btn btn-primary rounded-3"
+                    className="btn btn-primary rounded-3 position-absolute end-0"
                     onClick={() => {
                         setPopup({
                             show: true,
@@ -131,8 +131,8 @@ export default function RecruiterList() {
             <Table className="text-center">
                 <thead>
                     <tr>
-                        <td>Name</td>
-                        <td>Email</td>
+                        <td className="text-start">Name</td>
+                        <td className="text-start">Email</td>
                         <td>Edit</td>
                         <td>Delete</td>
                     </tr>
@@ -142,8 +142,8 @@ export default function RecruiterList() {
                 <tbody>
                     {recruiters?.length > 0 && recruiters.map(recruiter => (
                         <tr key={recruiter._id}>
-                            <td>{recruiter.name}</td>
-                            <td>{recruiter.email}</td>
+                            <td className="text-start" >{recruiter.name}</td>
+                            <td className="text-start">{recruiter.email}</td>
                             <td>
                                 <BsFillPencilFill
                                     role="button"

@@ -175,10 +175,7 @@ function Categories1() {
 
       <div class="container-fluid">
         <div className="content-wrapper bg-white">
-          <div class="page-header">
-            <h3 class="page-title"> Categories </h3>
-          </div>
-
+          <h3 className="fs-4 text-center fw-bold">Add a category</h3>
           <div class="row">
             <div class="col-12">
 
@@ -187,7 +184,6 @@ function Categories1() {
                 <div class="row">
                   <div class="col-12">
                     <div class="card">
-                      <h4 class="card-title px-3 py-4" > Add Category</h4>
                       <div class="card-body py-0">
                         {message.showMsg && <div class={message.msgClass} role="alert">
                           {message.Msg}

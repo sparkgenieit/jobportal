@@ -3,7 +3,7 @@ import Sidebar from "../../../layouts/superadmin/Sidebar";
 import Footer from "../../../layouts/superadmin/Footer";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import http from "../../../helpers/http";
 import { BASE_API_URL } from "../../../helpers/constants";
 function Skills() {
@@ -59,26 +59,23 @@ function Skills() {
 
             <div class="container-fluid">
                 <div className="content-wrapper bg-white">
-                    <div class="page-header">
-                        <h3 class="page-title">Skills</h3>
+
+                    <div className="positon-relative d-flex">
+
+                        <h3 className="fs-4 text-center w-100 fw-bold">Skills</h3>
+                        <Link type="button" className="btn btn-gradient-primary position-absolute end-0" to="/superadmin/AddSkills">Add</Link>
+
                     </div>
-
-                    <div class="row my-5">
-
-
+                    <div class="row">
                         <div class="card-body bg-white  ">
-
                             <div class="col-12">
                                 {Msg.show && <div className={Msg.class}>
                                     {Msg.message}
 
                                 </div>}
 
-
                                 <div class="row col-12 ">
                                     <div className="d-flex justify-content-between">
-                                        <h4 className="card-title pt-2">Skills</h4>
-                                        <a type="button" className="btn btn-gradient-primary" href="/superadmin/AddSkills">Add</a>
                                     </div>
 
                                     <table class="table mt-4  text-center">

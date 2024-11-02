@@ -43,9 +43,9 @@ export default function Transactions() {
         <>
             <div class="container-fluid">
                 <div className="mt-4 bg-white">
-                    <div className="d-flex align-items-center">
-                        <h4 className="flex-grow-1 text-center">Transactions</h4>
-                        <Link to='/company/transactions/download-transactions' className="btn btn-info rounded-4">Download</Link>
+                    <div className="d-flex align-items-center position-relative my-2">
+                        <h4 className="fw-bold fs-4 text-center w-100">Transactions</h4>
+                        <Link to='/company/transactions/download-transactions' className="btn btn-info position-absolute end-0 rounded-4">Download</Link>
                     </div>
                     <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalCount={totalItems} itemsPerPage={itemsPerPage} fetchItems={fetchTransactionDetails} pageNumberToShow={2} >
                         <form>

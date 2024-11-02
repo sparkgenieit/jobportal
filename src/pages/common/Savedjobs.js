@@ -43,18 +43,18 @@ function Savedjobs() {
             <div class="container-fluid page-body-wrapper">
                 <Sidebar />
                 <div class="container-fluid">
-                    <div class="page-header">
-                        <h3 class="page-title">Saved Jobs</h3>
-                    </div>
                     <div class=" row ">
                         <div className="col-9">
                             {loading && <Loader />}
                             {!loading &&
-                                <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} itemsPerPage={itemsPerPage} totalCount={totalItems} pageNumberToShow={2} fetchItems={fetchSavedJobs}>
-                                    <div className="p-2 d-flex flex-column align-items-center">
-                                        <JobCardList jobs={savedJobs} type={"Saved"} />
-                                    </div>
-                                </Pagination>
+                                <>
+                                    <h3 className="fs-4 fw-bold text-center">Saved Jobs</h3>
+                                    <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} itemsPerPage={itemsPerPage} totalCount={totalItems} pageNumberToShow={2} fetchItems={fetchSavedJobs}>
+                                        <div className="p-2 d-flex flex-column align-items-center">
+                                            <JobCardList jobs={savedJobs} type={"Saved"} />
+                                        </div>
+                                    </Pagination>
+                                </>
                             }
                         </div>
                         <section className="col-3">

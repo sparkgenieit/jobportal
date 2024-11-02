@@ -223,9 +223,7 @@ function Postajob({ name }) {
     <>
       <div className="container-fluid">
         <div className="content-wrapper bg-white">
-          <div className="page-header">
-            <h3 className="page-title"> {name} </h3>
-          </div>
+          <h3 className="fs-4 fw-bold text-center"> {name} </h3>
           <div className="row">
             <div className="col-12">
               <div className="card-body bg-white">
@@ -331,39 +329,41 @@ function Postajob({ name }) {
                       </div>
                     </div>
                     <div className="col-md-6">
-                      <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">Amount</label>
-                        <div className="col-sm-8">
-                          <input type="number" className="form-control" name='rateperhour' value={jobData?.rateperhour} onChange={handleForm} />
+                      <div className='border border-secondary mb-3 px-3 py-1 rounded-2'>
+                        <div className="form-group row">
+                          <label className="col-sm-3 col-form-label">Amount</label>
+                          <div className="col-sm-8">
+                            <input type="number" className="form-control" name='rateperhour' value={jobData?.rateperhour} onChange={handleForm} />
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="d-flex align-items-center row">
-                        <label className="col-sm-3 small align-self-start ">Show in jobs page</label>
-                        <div className="col-sm-8 d-flex small gap-1  ">
-                          <div className='d-flex flex-column align-items-center'>
-                            <div className='d-flex gap-1 align-items-center'>
-                              <input type="radio" className="form-check-input m-0" id='per hour' name='salary' checked={jobData?.salary_type === "per hour"} onChange={() => { setJobData({ ...jobData, salary_type: "per hour" }) }} />
-                              <label className='m-0' htmlFor='per hour'>
-                                Rate per hour
+                        <div className="d-flex align-items-center row">
+                          <label className="col-sm-3 small align-self-start ">Show in jobs page</label>
+                          <div className="col-sm-8 d-flex small gap-1  ">
+                            <div className='d-flex flex-column align-items-center'>
+                              <div className='d-flex gap-1 align-items-center'>
+                                <input type="radio" className="form-check-input m-0" id='per hour' name='salary' checked={jobData?.salary_type === "per hour"} onChange={() => { setJobData({ ...jobData, salary_type: "per hour" }) }} />
+                                <label className='m-0' htmlFor='per hour'>
+                                  Rate per hour
+                                </label>
+                              </div>
+                              <p>{jobData?.rateperhour && "$" + jobData.rateperhour}</p>
+                            </div>
+                            <div className='d-flex flex-column  align-items-center'>
+                              <div className='d-flex gap-1 align-items-center'>
+                                <input type="radio" className="form-check-input m-0 " id='per annum' name='salary' checked={jobData?.salary_type === "per annum"} onChange={() => { { setJobData({ ...jobData, salary_type: "per annum" }) } }} />
+                                <label className='m-0' htmlFor="per annum">
+                                  Salary per annum
+                                </label>
+                              </div>
+                              <p>{jobData?.rateperhour && '$' + salaryPerAnnum(jobData?.rateperhour)}</p>
+                            </div>
+                            <div className='d-flex gap-1 align-items-start'>
+                              <input type="radio" id='negotiable' className="form-check-input mt-1" name='salary' checked={jobData?.salary_type === "negotiable"} onChange={() => { setJobData({ ...jobData, salary_type: "negotiable" }) }} />
+                              <label className='m-0' htmlFor="negotiable">
+                                Negotiable
                               </label>
                             </div>
-                            <p>{jobData?.rateperhour && "$" + jobData.rateperhour}</p>
-                          </div>
-                          <div className='d-flex flex-column  align-items-center'>
-                            <div className='d-flex gap-1 align-items-center'>
-                              <input type="radio" className="form-check-input m-0 " id='per annum' name='salary' checked={jobData?.salary_type === "per annum"} onChange={() => { { setJobData({ ...jobData, salary_type: "per annum" }) } }} />
-                              <label className='m-0' htmlFor="per annum">
-                                Salary per annum
-                              </label>
-                            </div>
-                            <p>{jobData?.rateperhour && '$' + salaryPerAnnum(jobData?.rateperhour)}</p>
-                          </div>
-                          <div className='d-flex gap-1 align-items-start'>
-                            <input type="radio" id='negotiable' className="form-check-input mt-1" name='salary' checked={jobData?.salary_type === "negotiable"} onChange={() => { setJobData({ ...jobData, salary_type: "negotiable" }) }} />
-                            <label className='m-0' htmlFor="negotiable">
-                              Negotiable
-                            </label>
                           </div>
                         </div>
                       </div>
