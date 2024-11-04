@@ -1,16 +1,38 @@
 import './nz-map.css'
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ImageMapper from 'react-img-mapper';
 import { JobsContext } from '../helpers/Context';
 
 export default function NZMap() {
     const { setLocationPopup } = useContext(JobsContext);
 
+    const handleWidth = () => {
+        const windowWidth = window.innerWidth
+        let currentWidth;
+        if (windowWidth > 768) {
+            currentWidth = Math.round((55 / 100) * windowWidth)
+        } else {
+            currentWidth = Math.round((90 / 100) * windowWidth)
+        }
+        return currentWidth
+    };
 
-    const windowWidth = window.innerWidth;
+    const [mapWidth, setMapWidth] = useState(handleWidth())
 
+    useEffect(() => {
 
-    const mapWidth = (55 / 100) * windowWidth
+        const handleResize = () => {
+            setMapWidth(handleWidth())
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+
+        };
+    }, []);
+
 
     const mapClick = (e) => {
 

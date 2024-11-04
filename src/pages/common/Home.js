@@ -36,6 +36,10 @@ function Home() {
         document.title = "Working Holiday Jobs New Zealand"
     }, [])
 
+    useEffect(() => {
+
+    }, [])
+
 
     const clearSuggestions = () => {
         setJobSuggestions(null);
@@ -52,86 +56,83 @@ function Home() {
     }
 
     return <>
-        <main id="main">
-            <div className="container-fluid">
+        <main>
 
-                <div style={{ height: "50vh", width: "100%" }} className="banner d-flex justify-content-center align-items-center flex-column ">
-                    <div className='d-flex flex-column align-items-center justify-content-center'>
-                        <h2>Kia ora!</h2>
-                        <h2>Welcome to New Zealand</h2>
-                    </div>
-                    <form autoComplete='off'>
-                        <div className='d-flex flex-column flex-md-row  gap-2'>
-
-
-                            <ComboBox
-                                suggestions={jobSuggestions}
-                                setSuggestions={setJobSuggestions}
-                                onEnter={(suggestion) => {
-                                    setSearchBox({ ...searchBox, jobTitle: suggestion.value })
-                                    clearSuggestions()
-                                }}
-                                label={"value"}
-                                suggestionValue={"value"}
-                                type="text"
-                                className={`transparent w-100 border-white p-1 rounded text-white ${searchButton}`}
-                                value={searchBox.jobTitle}
-                                placeholder="Job Title"
-                                name='jobTitle'
-                                onChange={(e) => handleInput("jobTitle", e)}
-                            />
-
-                            <ComboBox
-                                suggestions={locationSuggestions}
-                                setSuggestions={setLocationSuggestions}
-                                onEnter={(suggestion) => {
-                                    setSearchBox({ ...searchBox, location: suggestion.value })
-                                    clearSuggestions()
-                                }}
-                                label={"value"}
-                                suggestionValue={"value"}
-                                type="text"
-                                className={`transparent w-100 border-white p-1 rounded text-white ${searchButton}`}
-                                value={searchBox.location}
-                                placeholder="Location"
-                                name='location'
-                                onChange={(e) => handleInput("location", e)}
-                            />
-
-                            <div className='d-flex'>
-                                <button type="button" onClick={handleSearch} className='transparent flex-grow-1 hover btn text-white'>
-                                    <IoSearch size="24px" />
-                                </button>
-                                <div>
-                                    <Link type="button" to="/common/jobs" className="transparent hover btn border border-white text-white" >View All Jobs</Link>
-                                </div>
-                            </div>
-
-                        </div>
-                    </form>
+            <div className="banner d-flex justify-content-center align-items-center flex-column gap-2 ">
+                <div className='d-flex flex-column align-items-center justify-content-center fw-bold fs-4 '>
+                    <span>Kia ora!</span>
+                    <span>Welcome to New Zealand</span>
                 </div>
+                <form autoComplete='off' className='d-flex flex-md-row flex-column gap-3'>
+                    <div className='d-flex  flex-md-row  gap-2'>
+
+                        <ComboBox
+                            suggestions={jobSuggestions}
+                            setSuggestions={setJobSuggestions}
+                            onEnter={(suggestion) => {
+                                setSearchBox({ ...searchBox, jobTitle: suggestion.value })
+                                clearSuggestions()
+                            }}
+                            label={"value"}
+                            suggestionValue={"value"}
+                            type="text"
+                            className={`transparent w-100 border-white p-1 rounded text-white ${searchButton}`}
+                            value={searchBox.jobTitle}
+                            placeholder="Job Title"
+                            name='jobTitle'
+                            onChange={(e) => handleInput("jobTitle", e)}
+                        />
+
+                        <ComboBox
+                            suggestions={locationSuggestions}
+                            setSuggestions={setLocationSuggestions}
+                            onEnter={(suggestion) => {
+                                setSearchBox({ ...searchBox, location: suggestion.value })
+                                clearSuggestions()
+                            }}
+                            label={"value"}
+                            suggestionValue={"value"}
+                            type="text"
+                            className={`transparent w-100 border-white p-1 rounded text-white ${searchButton}`}
+                            value={searchBox.location}
+                            placeholder="Location"
+                            name='location'
+                            onChange={(e) => handleInput("location", e)}
+                        />
+
+
+                        <button type="button" onClick={handleSearch} className='transparent flex-grow-1 hover btn text-white'>
+                            <IoSearch size="24px" />
+                        </button>
+
+
+                    </div>
+
+                    <Link type="button" to="/common/jobs" className="transparent hover btn border border-white text-white" >View All Jobs</Link>
+                </form>
             </div>
+
             <div className="container-fluid text-center py-3">
                 <div className='pb-4 pt-2 '>
                     <NZMap />
                     <LocationPopup />
                 </div>
                 <div className='row'>
-                    <section className='col-12 col-md-2'>
+                    <section className='col-12 col-lg-2'>
                         <Ads />
                     </section>
-                    <section className=' d-flex flex-column gap-5 col-12 col-md-8'>
+                    <section className=' d-flex flex-column gap-5 col-12 col-lg-8'>
                         <div>
-                            <iframe className='rounded' width="800" height="400" src="https://www.youtube.com/embed/7r-If5smQ_s?si=zd0NUcT7rsEV7a4k" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen>
+                            <iframe className='rounded youtube-video' src="https://www.youtube.com/embed/7r-If5smQ_s?si=zd0NUcT7rsEV7a4k" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen>
                             </iframe>
                             <div className='fw-bold'>Experience New Zealand with a Working Holiday Visa</div>
                         </div>
                         <div className='mt-5'>
-                            <iframe className='rounded' width="800" height="400" src="https://www.youtube.com/embed/P98SjgerM8g?si=x36wJ4kJRg86288m" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+                            <iframe className='rounded youtube-video' src="https://www.youtube.com/embed/P98SjgerM8g?si=x36wJ4kJRg86288m" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
                             <div className='fw-bold'>Life in New Zealand on a Working Holiday Visa</div>
                         </div>
                     </section>
-                    <section className='col-12 col-md-2'>
+                    <section className='col-12 col-lg-2'>
                         <Ads />
                     </section>
                 </div>

@@ -18,8 +18,7 @@ export default function AdminJob({ jobview, handleApprove, setShow }) {
 
 
     const date = new Date(jobview.creationdate).toLocaleDateString('en-GB')
-    const benefits = getTrueKeys(JSON.parse(jobview.benifits))
-    const bn = (JSON.parse(jobview.benifits))
+
 
     return <>
         {jobview &&
@@ -107,27 +106,27 @@ export default function AdminJob({ jobview, handleApprove, setShow }) {
                                 }
                             </div>
                             <div>
-                                {jobview.benifits && getTrueKeys(JSON.parse(jobview.benifits)).length > 0 &&
+                                {jobview.benifits &&
                                     <div>
-                                        <div className='d-flex'>Benefits:
-                                            {benefits?.includes("Accommodation") &&
+                                        <div className='d-flex'>jobview.benifits:
+                                            {jobview.benifits?.includes("Accommodation") &&
                                                 <span onMouseOver={() => handleTooltip(true, "Accommodation")} onMouseLeave={(e) => handleTooltip(false, "Accommodation")} className='px-1'>
                                                     <FaHome size="18px" />
                                                     {tooltip.Accommodation && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Accommodation</div>}
                                                 </span>
                                             }
-                                            {benefits?.includes("Transport") &&
+                                            {jobview.benifits?.includes("Transport") &&
                                                 <span onMouseOver={() => handleTooltip(true, "transport")} onMouseLeave={(e) => handleTooltip(false, "transport")} className='px-1'>
                                                     <PiTrainFill size="18px" />
                                                     {tooltip.transport && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Transport</div>}
                                                 </span>}
-                                            {benefits?.includes("Food") &&
+                                            {jobview.benifits?.includes("Food") &&
                                                 <span onMouseOver={() => handleTooltip(true, "food")} onMouseLeave={(e) => handleTooltip(false, "food")} className='px-1'>
                                                     <FaBowlFood size="18px" />
                                                     {tooltip.food && <div className='position-absolute bg-secondary mt-2 py-1 px-2 rounded text-white'>Food</div>}
                                                 </span>}
                                         </div>
-                                        {bn.Others && <div>{bn.OthersText}</div>}
+                                        {/* {bn.Others && <div>{bn.OthersText}</div>} */}
                                     </div>}
                             </div>
 

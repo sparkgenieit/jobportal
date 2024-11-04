@@ -30,16 +30,18 @@ function Ads() {
     <>
       {showAdvertisement && (
 
-        <div className="advertisement d-flex flex-column ">
+        <div className="advertisement my-3 ">
           <button className="close-btn" onClick={handleClose}>
             &times;
           </button>
-          <img className='rounded-3 w-100 1h-50' src="https://via.placeholder.com/150" alt="Advertisement" />
-          <div className="advertisement-content">
-            <small>Ads</small>
-            <h2>{ad && ad.title}</h2>
-            <p>{ad && ad.description}</p>
-            <button>Shop Now</button>
+          <div className=' d-flex flex-row flex-lg-column '>
+            <img className='rounded-3 w-100 adv-image ' src="https://via.placeholder.com/150" alt="Advertisement" />
+            <div className="d-flex small flex-column px-3 justify-content-between">
+              <small>Ads</small>
+              <div className='fw-bold'>{ad && ad.title}</div>
+              <div>{ad && ad.description}</div>
+              <button className='btn-xs btn btn-primary'>Shop Now</button>
+            </div>
           </div>
         </div>
 

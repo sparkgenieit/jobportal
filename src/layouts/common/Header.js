@@ -81,7 +81,7 @@ function Header() {
                 </li>
                 <li><Link className="nav-link scrollto mx-3" to="/contact-us">Contact Us</Link></li>
               </ul>
-              <i onClick={() => { setShowSideBar((prev) => !prev) }} className="bi bi-list mobile-nav-toggle d-none"></i>
+              {!showSideBar && <i onClick={() => { setShowSideBar(true) }} className="bi bi-list mobile-nav-toggle d-none"></i>}
               <div style={{ width: "300px" }} className='d-flex justify-content-end' >
                 <input
                   type='text'
