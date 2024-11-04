@@ -36,10 +36,6 @@ function Home() {
         document.title = "Working Holiday Jobs New Zealand"
     }, [])
 
-    useEffect(() => {
-
-    }, [])
-
 
     const clearSuggestions = () => {
         setJobSuggestions(null);
@@ -58,50 +54,54 @@ function Home() {
     return <>
         <main>
 
-            <div className="banner d-flex justify-content-center align-items-center flex-column gap-2 ">
+            <div className="banner d-flex justify-content-center  flex-column gap-2 ">
                 <div className='d-flex flex-column align-items-center justify-content-center fw-bold fs-4 '>
                     <span>Kia ora!</span>
                     <span>Welcome to New Zealand</span>
                 </div>
-                <form autoComplete='off' className='d-flex flex-md-row flex-column gap-3'>
-                    <div className='d-flex  flex-md-row  gap-2'>
+                <form autoComplete='off' className='d-flex flex-md-row flex-column gap-3 search-bar'>
+                    <div className='d-flex  flex-grow-1  gap-2'>
+                        <div className='flex-grow-1'>
+                            <ComboBox
+                                suggestions={jobSuggestions}
+                                setSuggestions={setJobSuggestions}
+                                onEnter={(suggestion) => {
+                                    setSearchBox({ ...searchBox, jobTitle: suggestion.value })
+                                    clearSuggestions()
+                                }}
+                                label={"value"}
+                                suggestionValue={"value"}
+                                type="text"
+                                className={`transparent w-100 border-white p-1 rounded text-white ${searchButton}`}
+                                value={searchBox.jobTitle}
+                                placeholder="Job Title"
+                                name='jobTitle'
+                                onChange={(e) => handleInput("jobTitle", e)}
+                            />
+                        </div>
 
-                        <ComboBox
-                            suggestions={jobSuggestions}
-                            setSuggestions={setJobSuggestions}
-                            onEnter={(suggestion) => {
-                                setSearchBox({ ...searchBox, jobTitle: suggestion.value })
-                                clearSuggestions()
-                            }}
-                            label={"value"}
-                            suggestionValue={"value"}
-                            type="text"
-                            className={`transparent w-100 border-white p-1 rounded text-white ${searchButton}`}
-                            value={searchBox.jobTitle}
-                            placeholder="Job Title"
-                            name='jobTitle'
-                            onChange={(e) => handleInput("jobTitle", e)}
-                        />
+                        <div className='flex-grow-1'>
 
-                        <ComboBox
-                            suggestions={locationSuggestions}
-                            setSuggestions={setLocationSuggestions}
-                            onEnter={(suggestion) => {
-                                setSearchBox({ ...searchBox, location: suggestion.value })
-                                clearSuggestions()
-                            }}
-                            label={"value"}
-                            suggestionValue={"value"}
-                            type="text"
-                            className={`transparent w-100 border-white p-1 rounded text-white ${searchButton}`}
-                            value={searchBox.location}
-                            placeholder="Location"
-                            name='location'
-                            onChange={(e) => handleInput("location", e)}
-                        />
+                            <ComboBox
+                                suggestions={locationSuggestions}
+                                setSuggestions={setLocationSuggestions}
+                                onEnter={(suggestion) => {
+                                    setSearchBox({ ...searchBox, location: suggestion.value })
+                                    clearSuggestions()
+                                }}
+                                label={"value"}
+                                suggestionValue={"value"}
+                                type="text"
+                                className={`transparent w-100 border-white p-1 rounded text-white ${searchButton}`}
+                                value={searchBox.location}
+                                placeholder="Location"
+                                name='location'
+                                onChange={(e) => handleInput("location", e)}
+                            />
+                        </div>
 
 
-                        <button type="button" onClick={handleSearch} className='transparent flex-grow-1 hover btn text-white'>
+                        <button type="button" onClick={handleSearch} className='transparent  hover btn text-white'>
                             <IoSearch size="24px" />
                         </button>
 

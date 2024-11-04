@@ -46,6 +46,10 @@
         margin: auto;
     }
 
+    .search-bar {
+        padding: 0px 50px;
+    }
+
     .youtube-video {
         height: 450px;
     }
