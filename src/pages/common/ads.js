@@ -35,7 +35,7 @@ function Ads() {
             &times;
           </button>
           <div className=' d-flex flex-row flex-lg-column '>
-            <img className='rounded-3 w-100 adv-image ' src="https://via.placeholder.com/150" alt="Advertisement" />
+            <img className='rounded-3  adv-image ' src="https://via.placeholder.com/150" alt="Advertisement" />
             <div className="d-flex small flex-column px-3 justify-content-between">
               <small>Ads</small>
               <div className='fw-bold'>{ad && ad.title}</div>

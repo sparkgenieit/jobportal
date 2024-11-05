@@ -13,55 +13,39 @@
 }
 
 .job-card {
-    height: 37vh;
-    width: 45vw;
+    height: 220px;
+    width: 100%;
 }
 
 .description {
-    overflow: hidden;
-    text-overflow: ellipsis;
     display: -webkit-box;
+    -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     line-clamp: 3;
-    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-@media (max-width: 1200px) {
+
+
+@media (min-width: 1600px) {
     .description {
-        -webkit-line-clamp: 2;
-        line-clamp: 2;
+        -webkit-line-clamp: 10;
+        line-clamp: 10;
+    }
+
+    .job-card {
+        height: 25rem;
     }
 }
 
-
 @media (max-width: 768px) {
-
-    /* Smaller than 768 px devices  */
-    .job-card {
+    .company-logo {
         width: 100%;
         height: 100%;
     }
 
-    .company-logo {
-        width: 100%;
-    }
-
-}
-
-@media (max-width: 576px) {
-    .company-logo {
-        position: absolute;
-        width: 100px;
-        top: 5px;
-        right: 5px;
-    }
-
-    .description {
-        -webkit-line-clamp: 4;
-        line-clamp: 4;
-    }
-
     .job-card {
-        font-size: 0.9rem;
+        height: 280px;
     }
 }

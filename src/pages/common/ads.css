@@ -12,6 +12,7 @@
 
 .adv-image {
   height: 200px;
+  width: min-content;
 }
 
 .advertisement button:hover {
@@ -29,8 +30,9 @@
   color: #999;
 }
 
-@media (min-width: 968px) {
+@media (min-width: 768px) {
   .adv-image {
     height: 100%;
+    width: 100%;
   }
 }

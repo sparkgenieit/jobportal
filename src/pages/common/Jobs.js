@@ -65,16 +65,16 @@ function Jobs() {
 
         try {
             const response = await http.post(`/jobs/filtered-jobs?limit=${itemsPerPage}&skip=${skip}`, currentFilters)
-            setLoading(false)
             setTotalItems(response.data.total);
             setJobs(response.data.jobs)
             ref.current.scrollTo({ top: "0px", behavior: "smooth" })
         }
         catch (error) {
-            setLoading(false)
             setTotalItems(0)
             setJobs([])
             ref.current.scrollTo({ top: "0px", behavior: "smooth" })
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -122,7 +122,7 @@ function Jobs() {
 
                                 </Pagination>
                             </div>
-                            <div className='col-12 col-lg-4  px-0 ps-2'>
+                            <div className='col-12 col-lg-4  px-0 ps-5'>
                                 <Ads />
                             </div>
                         </section >

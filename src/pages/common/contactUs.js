@@ -168,36 +168,36 @@ function ContactUs() {
           <div className='display-6 text-center'>Contact Us</div>
           <div className="col-12 bg-white">
             {/* <div className="card"> */}
-            <div className="card-body p-3">
-              <form className="form-sample rounded border bg-light p-4 ">
+            <div className="card-body ">
+              <form className="form-sample rounded border bg-light p-4 contact-page ">
                 <div className="row">
                   <div className="form-group d-flex flex-column justify-content-center ">
-                    <input type="text" value={subject} onChange={(e) => handleInput("subject", e)} className="form-control p-3  w-100" placeholder='Subject *' />
+                    <input type="text" value={subject} onChange={(e) => handleInput("subject", e)} className="form-control   w-100" placeholder='Subject *' />
                     {errors && errors.subject.show && <span className="text-danger">{errors.subject.text}</span>}
                   </div>
                 </div>
                 <div className="row">
                   <div className="form-group d-flex flex-column justify-content-center ">
-                    <input type="text" value={name} onChange={(e) => handleInput("name", e)} className="form-control p-3  w-100" placeholder='Name *' />
+                    <input type="text" value={name} onChange={(e) => handleInput("name", e)} className="form-control   w-100" placeholder='Name *' />
                     {errors && errors.name.show && <span className="text-danger">{errors.name.text}</span>}
                   </div>
 
                 </div>
                 <div className="row">
                   <div className="form-group d-flex flex-column justify-content-center ">
-                    <input type="text" value={email} onChange={(e) => handleInput("email", e)} className="form-control p-3  w-100" placeholder='Email *' />
+                    <input type="text" value={email} onChange={(e) => handleInput("email", e)} className="form-control   w-100" placeholder='Email *' />
                     {errors && errors.email.show && <span className="text-danger">{errors.email.text}</span>}
                   </div>
                 </div>
                 <div className="row">
                   <div className="form-group d-flex flex-column justify-content-center ">
-                    <input type="text" value={phone} onChange={(e) => handleInput("phone", e)} className="form-control p-3  w-100" placeholder='Phone No. *' />
+                    <input type="text" value={phone} onChange={(e) => handleInput("phone", e)} className="form-control   w-100" placeholder='Phone No. *' />
                     {errors && errors.phone.show && <span className="text-danger">{errors.phone.text}</span>}
                   </div>
                 </div>
                 <div className="row">
                   <div className="form-group d-flex flex-column justify-content-center ">
-                    <input type="text" value={organisation} onChange={(e) => handleInput("organisation", e)} className="form-control  p-3 w-100" placeholder='Organisation *' />
+                    <input type="text" value={organisation} onChange={(e) => handleInput("organisation", e)} className="form-control   w-100" placeholder='Organisation *' />
                     {errors && errors.organisation.show && <span className="text-danger">{errors.organisation.text}</span>}
                   </div>
                 </div>

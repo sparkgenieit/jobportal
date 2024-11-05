@@ -40,9 +40,7 @@ function SingleJob() {
     useEffect(() => {
         setLoading(true)
         Promise.all([getJob(), getUserJobStatus()])
-            .then(res => {
-                setLoading(false)
-            }).catch(e => {
+            .finally(() => {
                 setLoading(false)
             })
     }, [])
@@ -215,8 +213,8 @@ function SingleJob() {
                             {jobview.banner && <img style={{ width: "100%", height: "40vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/banners/${jobview.banner}`} alt={jobview.company} />}
                         </div>
                         <div className=' mb-3 mx-4 d-flex justify-content-between '>
-                            <div style={{ padding: "0" }} className='d-flex align-items-center'>
-                                {jobview.companyLogo && jobview.companyLogo.length > 0 && <img style={{ width: "9vw", height: "12vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
+                            <div style={{ padding: "0" }} className='d-flex align-items-center flex-column flex-md-row'>
+                                {jobview.companyLogo && jobview.companyLogo.length > 0 && <img style={{ width: "9rem", height: "5.5rem" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
                                 <div className='col fw-bold h3' style={{ marginLeft: "30px" }}>
                                     {jobview.info?.length > 0 ?
                                         <>

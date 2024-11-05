@@ -85,7 +85,7 @@ export default function Card({ job }) {
     return (
         <div onClick={() => openInNewTab(job._id)} className='job-card border shadow rounded '>
             <div className='row h-100 px-3 pt-3 pb-1 '>
-                <div className='col-9 h-100 d-flex flex-column justify-content-between'>
+                <div className=' col-7 col-lg-9 h-100 d-flex flex-column justify-content-between'>
                     <div>
                         <div className='fw-bold h5' >
                             {job.jobTitle}
@@ -143,7 +143,7 @@ export default function Card({ job }) {
                     </div>
 
                     <div className='h-100 flex-grow-1 d-flex  pt-3 position-relative flex-column'>
-                        <p className=' text-secondary  flex-grow-1  small'> {markdownToPlainText(job.description, 150)}</p>
+                        <p className=' text-secondary description   small'> {markdownToPlainText(job.description)}</p>
 
                         <div className='small position-absolute d-flex align-items-center bottom-0 '>
                             <span className='pe-3'>{date} ({timeAgo(date)})</span>
@@ -166,7 +166,7 @@ export default function Card({ job }) {
                     </div>
                 </div>
 
-                <div className='col-3 h-100'>
+                <div className='col-5 col-lg-3 h-100'>
                     <div style={{ fontSize: "11px" }} className=' h-100 d-flex flex-column gap-2'>
                         <div className='h-50'>
                             {job.companyLogo.length > 0 && <img className="rounded border company-logo" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
@@ -230,7 +230,7 @@ export default function Card({ job }) {
 
 
                             {job.training?.includes("Yes") &&
-                                <span className='text-nowrap d-flex gap-2'>
+                                <span className='text-nowrap d-flex flex-wrap gap-2'>
                                     <span>
                                         <FaCheckSquare fontSize={13} />
                                     </span>
@@ -241,7 +241,7 @@ export default function Card({ job }) {
                             <div>
                                 {job.benifits.trim() &&
 
-                                    <div className='d-flex gap-2 '>
+                                    <div className='d-flex gap-2 flex-wrap'>
                                         {job.benifits?.includes("Accommodation") &&
                                             <Tooltip tooltipText={"Accommodation"}>
                                                 <span>

@@ -1,0 +1,33 @@
+.contact-page div {
+    font-size: 0.7rem;
+}
+
+.contact-page input,
+textarea {
+    font-size: .7rem;
+    padding: .5rem;
+}
+
+.contact-page input::placeholder,
+textarea::placeholder {
+    font-size: .7rem;
+}
+
+@media (min-width: 768px) {
+
+    .contact-page div {
+        font-size: 1rem;
+    }
+
+    .contact-page input,
+    textarea {
+        font-size: 1rem;
+        padding: 1rem;
+    }
+
+    .contact-page input::placeholder,
+    textarea::placeholder {
+        font-size: 1rem;
+    }
+
+}

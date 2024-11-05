@@ -42,8 +42,8 @@ function Header() {
     <header id="header" className="header" data-scrollto-offset="0">
       <div className='row'>
         <div className="container-fluid d-flex align-items-center justify-content-between">
-          <Link to="/" style={{ "width": "15%" }} className="logo d-flex align-items-center scrollto me-auto me-lg-0">
-            <img src="/assets/images/logo-jp.png"
+          <Link to="/" className=" d-flex align-items-center scrollto me-auto me-lg-0">
+            <img className='logo' src="/assets/images/logo-jp.png"
               alt="logo" />
           </Link>
 
