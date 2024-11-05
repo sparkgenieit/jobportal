@@ -342,27 +342,11 @@ function UserProfile() {
     let isValid = true;
 
 
-    const fieldsToBeValidated = [firstName, lastName, personal, showProfile, visa]
-
-    for (const field of fieldsToBeValidated) {
-      if (!validateIsNotEmpty(field)) {
-        isValid = false
-        setErrors({ ...errors, [field]: `${field} is required` })
-        alert(field)
-        return
-      }
-    }
-
-    if (!isValid) return
-
-
-
     if (!firstName || firstName == "") {
       obj = { ...obj, firstName: true }
       isValid = false;
     } else {
       obj = { ...obj, firstName: false }
-      isValid = true;
     }
 
     if (!firstName || lastName == "") {
@@ -370,11 +354,9 @@ function UserProfile() {
       isValid = false;
     } else {
       obj = { ...obj, lastName: false }
-      if (isValid) { isValid = true; }
+
     }
-    console.log(email);
     if (typeof email === 'undefined' || email == "") {
-      console.log('kkkkkk');
       obj = { ...obj, email: true }
       isValid = false;
     }
@@ -384,7 +366,6 @@ function UserProfile() {
     }
     else {
       obj = { ...obj, email: false }
-      if (isValid) { isValid = true; }
     }
 
 
@@ -394,7 +375,6 @@ function UserProfile() {
     }
     else {
       obj = { ...obj, personal: false }
-      if (isValid) { isValid = true; }
     }
 
 
@@ -402,11 +382,9 @@ function UserProfile() {
     if (showProfile == "") {
       obj = { ...obj, showProfile: true }
       isValid = false;
-
     }
     else {
       obj = { ...obj, showProfile: false }
-      if (isValid) { isValid = true; }
     }
 
     if (visa == "") {
@@ -415,7 +393,6 @@ function UserProfile() {
     }
     else {
       obj = { ...obj, visa: false }
-      if (isValid) { isValid = true; }
     }
 
 
@@ -426,7 +403,6 @@ function UserProfile() {
     }
     else {
       obj = { ...obj, cv: false }
-      if (isValid) { isValid = true; }
     }
 
     if (coverLetter == null) {
@@ -435,7 +411,6 @@ function UserProfile() {
     }
     else {
       obj = { ...obj, coverLetter: false }
-      if (isValid) { isValid = true; }
     }
     if (works.length > 1) {
       works.map((x) => {
@@ -444,7 +419,6 @@ function UserProfile() {
           isValid = false;
         }
       });
-      if (isValid) { isValid = true; }
     }
 
     if (education.length > 1) {
@@ -454,7 +428,6 @@ function UserProfile() {
           isValid = false;
         }
       });
-      if (isValid) { isValid = true; }
     }
 
 
@@ -465,7 +438,6 @@ function UserProfile() {
           isValid = false;
         }
       });
-      if (isValid) { isValid = true; }
     }
 
 
@@ -476,7 +448,6 @@ function UserProfile() {
           isValid = false;
         }
       });
-      if (isValid) { isValid = true; }
     }
     setErrors(obj);
 

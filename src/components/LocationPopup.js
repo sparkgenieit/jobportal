@@ -21,12 +21,12 @@ export default function LocationPopup() {
                             <span className='border border-dark rounded p-2'><RxCross1 size={"18px"} /></span>
                         </a>
                     </div>
-                    <div className='d-flex gap-2 justify-content-between my-3'>
-                        <img style={{ height: "20vh", width: "17%" }} className="rounded" src="https://content.r9cdn.net/rimg/dimg/09/c2/d0aa16e0-city-2575-166c0a657e0.jpg?width=1366&height=768&xhint=1673&yhint=1229&crop=true" />
-                        <img style={{ height: "20vh", width: "17%" }} className="rounded" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQptUYv5XAlbkhMn5MjKP2ZaYdJ-XadHrkEENVzISWgyX1cNMs1lmCbsCpny0uo" />
-                        <img style={{ height: "20vh", width: "17%" }} className="rounded" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRqDexPvTsSD7a1UZ3TxHRw9bE5nD_ZlZZlZAWAQbfGaE-GEszVIkIvsSE-tx6o" />
-                        <img style={{ height: "20vh", width: "17%" }} className="rounded" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRqDexPvTsSD7a1UZ3TxHRw9bE5nD_ZlZZlZAWAQbfGaE-GEszVIkIvsSE-tx6o" />
-                        <img style={{ height: "20vh", width: "17%" }} className="rounded" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRqDexPvTsSD7a1UZ3TxHRw9bE5nD_ZlZZlZAWAQbfGaE-GEszVIkIvsSE-tx6o" />
+                    <div className='d-flex flex-column flex-md-row gap-2 justify-content-between my-3'>
+                        <img style={{ height: "20vh", width: "100%" }} className="rounded" src="https://content.r9cdn.net/rimg/dimg/09/c2/d0aa16e0-city-2575-166c0a657e0.jpg?width=1366&height=768&xhint=1673&yhint=1229&crop=true" />
+                        <img style={{ height: "20vh", width: "100%" }} className="rounded" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQptUYv5XAlbkhMn5MjKP2ZaYdJ-XadHrkEENVzISWgyX1cNMs1lmCbsCpny0uo" />
+                        <img style={{ height: "20vh", width: "100%" }} className="rounded" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRqDexPvTsSD7a1UZ3TxHRw9bE5nD_ZlZZlZAWAQbfGaE-GEszVIkIvsSE-tx6o" />
+                        <img style={{ height: "20vh", width: "100%" }} className="rounded" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRqDexPvTsSD7a1UZ3TxHRw9bE5nD_ZlZZlZAWAQbfGaE-GEszVIkIvsSE-tx6o" />
+                        <img style={{ height: "20vh", width: "100%" }} className="rounded" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRqDexPvTsSD7a1UZ3TxHRw9bE5nD_ZlZZlZAWAQbfGaE-GEszVIkIvsSE-tx6o" />
                     </div>
                     <div>
                         <p><strong>Activities in this region</strong></p>

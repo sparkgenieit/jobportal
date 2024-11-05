@@ -82,8 +82,8 @@ const ViewProfileComponent = forwardRef((props, ref) => {
     <div className="row bg-white" ref={ref}>
       <div className="col-12">
         {/* <div className="card"> */}
-        <div className="card-body p-3" >
-          <div className='row my-4'>
+        <div className="card-body" >
+          <div className=''>
 
             {user && <ViewProfileData user={user} JobTypes={JobTypes} />}
 

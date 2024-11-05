@@ -20,7 +20,7 @@ export default function JobCardList({ jobs, type }) {
                         <div key={index}>
                             {type && job.jobId && job?.jobId?.status &&
                                 <div style={{ width: "45vw" }}>
-                                    <i className="fw-bold">{type} on {type === "Saved" ? job.saved_date : job.applied_date}</i> &nbsp;
+                                    <i className="fw-bold text-nowrap">{type} on {type === "Saved" ? job.saved_date : job.applied_date}</i> &nbsp;
                                     {job?.jobId?.status !== "approved" && <i className="text-secondary small">This job was removed</i>}
                                 </div>
                             }

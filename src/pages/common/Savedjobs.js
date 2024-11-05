@@ -44,7 +44,7 @@ function Savedjobs() {
                 <Sidebar />
                 <div class="container-fluid">
                     <div class=" row ">
-                        <div className="col-9">
+                        <div className="col-12 col-md-9">
                             {loading && <Loader />}
                             {!loading &&
                                 <>
@@ -57,7 +57,7 @@ function Savedjobs() {
                                 </>
                             }
                         </div>
-                        <section className="col-3">
+                        <section className="col-12 col-md-3">
                             <Ads />
                         </section>
                     </div>

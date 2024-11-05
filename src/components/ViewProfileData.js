@@ -26,8 +26,8 @@ export default function ViewProfileData({ user, JobTypes }) {
     };
 
     return <>
-        <form className="form-sample">
-            <div className="row">
+        <form className="form-sample p-0 mt-3">
+            <div className="row p-0">
                 <div className="col-md-9">
                     <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">First Name :</label>
@@ -113,8 +113,8 @@ export default function ViewProfileData({ user, JobTypes }) {
                                                 <td className='px-3'>{x.jobTitle}</td>
                                                 <td className='px-3'>{x.employer}</td>
                                                 <td className='px-3'>{x.location}</td>
-                                                <td className='px-3'>{new Date(x.fromDate).toLocaleDateString('en-GB')}</td>
-                                                <td className='px-3'>{new Date(x.toDate).toLocaleDateString('en-GB')}</td>
+                                                <td className='px-3'>{x.fromDate && new Date(x.fromDate).toLocaleDateString('en-GB')}</td>
+                                                <td className='px-3'>{x.toDate && new Date(x.toDate).toLocaleDateString('en-GB')}</td>
                                                 <td className='px-3'>{x.description}</td>
                                             </tr>
 
@@ -209,8 +209,8 @@ export default function ViewProfileData({ user, JobTypes }) {
                                         <tr className='border-bottom' key={index}>
                                             <td className='px-3' >{x.licenseName}</td>
                                             <td className='px-3' >{x.issuingAuthority}</td>
-                                            <td className='px-3' >{new Date(x.issueDate).toLocaleDateString('en-GB')}</td>
-                                            <td className='px-3' >{new Date(x.expiryDate).toLocaleDateString('en-GB')}</td>
+                                            <td className='px-3' >{x.issueDate && new Date(x.issueDate).toLocaleDateString('en-GB')}</td>
+                                            <td className='px-3' >{x.expiryDate && new Date(x.expiryDate).toLocaleDateString('en-GB')}</td>
                                             <td className='px-3' >{x.validInNZ}</td>
                                             <td className='px-3' >{x.description}</td>
 
@@ -257,8 +257,8 @@ export default function ViewProfileData({ user, JobTypes }) {
                                         <tr className='border-bottom' key={index}>
                                             <td td className='px-3'  >{x.certificateName}</td>
                                             <td className='px-3' >{x.issuingAuthority}</td>
-                                            <td className='px-3' >{new Date(x.issueDate).toLocaleDateString('en-GB')}</td>
-                                            <td className='px-3' >{new Date(x.expiryDate).toLocaleDateString('en-GB')}</td>
+                                            <td className='px-3' >{x.issueDate && new Date(x.issueDate).toLocaleDateString('en-GB')}</td>
+                                            <td className='px-3' >{x.expiryDate && new Date(x.expiryDate).toLocaleDateString('en-GB')}</td>
                                             <td className='px-3' >{x.validInNZ}</td>
                                             <td td className='px-3'  >{x.description}</td>
                                         </tr>
@@ -319,15 +319,11 @@ export default function ViewProfileData({ user, JobTypes }) {
                         {user.preferredJobTypes && user.preferredJobTypes.length > 0 && JobTypes.map((job, index) => {
                             return <li key={index}>{job}</li>
                         })
-
                         }
                     </ul>
 
                 </div>
             </div>
-
-
-
 
             <div className="row">
                 <div className="col-md-9">
@@ -395,8 +391,8 @@ export default function ViewProfileData({ user, JobTypes }) {
 
             <div className="col-md-9">
                 <div class="form-group row">
-                    <label className="col-form-label col-3 fw-bold">Visa Type :</label>
-                    <div className='col-3'>
+                    <label className="col-form-label col-sm-3 fw-bold">Visa Type :</label>
+                    <div className='col-sm-9'>
                         {user.visaType}
                     </div>
                 </div>
@@ -404,11 +400,9 @@ export default function ViewProfileData({ user, JobTypes }) {
 
             <div className="col-md-9">
                 <div className="form-group row">
-                    <label className="col-form-label col-3 fw-bold ">Visa Expiry Date:</label>
-                    <div className="col-3">
+                    <label className="col-form-label col-sm-3 fw-bold ">Visa Expiry Date:</label>
+                    <div className="col-sm-9">
                         {user.visaExpiryDate && new Date(user.visaExpiryDate.slice(0, 10)).toLocaleDateString('en-GB')}
-
-
                     </div>
                 </div>
             </div>

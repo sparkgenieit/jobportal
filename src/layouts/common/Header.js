@@ -27,6 +27,11 @@ function Header() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const handleNavigation = (path) => {
+    setShowSideBar(false)
+    navigate(path)
+  }
+
   const handleSearchButton = (e) => {
     e.preventDefault();
     if (!isExpanded) {
@@ -156,6 +161,49 @@ function Header() {
         <div className='d-flex flex-column gap-4 px-2 fs-5'>
           <div className='d-flex flex-column gap-4 ps-3'>
 
+            {isSignedIn &&
+              <Accordion flush>
+                <Accordion.Item eventKey="2">
+                  <CustomToggle eventKey={"2"}>
+                    <div className='d-flex align-items-center'>
+                      <span className='flex-grow-1'>{fullname}</span>
+                      <CgProfile size={"40px"} />
+                    </div>
+                  </CustomToggle>
+                  <Accordion.Body>
+                    <ul className="list-unstyled d-flex flex-column gap-3">
+                      {role === "user" &&
+                        <>
+                          <li role='button' onClick={() => handleNavigation("/viewprofile")}>My Profile</li>
+                          <li role='button' onClick={() => handleNavigation("/saved-jobs")}>Saved Jobs</li>
+                          <li role='button' onClick={() => handleNavigation("/applied-jobs")}>Applied Jobs</li>
+                        </>
+                      }
+                      {(role === 'employer' || role === "recruiter") &&
+                        <li>
+                          <button type='button' onClick={() => { handleNavigation("/company") }} className="btn btn-secondary w-100" >
+                            Dashboard
+                          </button>
+                        </li>}
+                      {role === 'admin' &&
+                        <li>
+                          <button type='button' onClick={() => { handleNavigation("/admin") }} className="btn btn-secondary w-100" >
+                            Dashboard
+                          </button>
+                        </li>
+                      }
+
+                      <li>
+                        <button type='button' onClick={() => handleLogout()} className="btn btn-primary w-100" >
+                          Logout
+                        </button>
+                      </li>
+
+                    </ul>
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+            }
             <Link to={"/"}>Home</Link>
             <Link to={"/common/jobs"}>Jobs</Link>
           </div>
@@ -165,23 +213,23 @@ function Header() {
               <Accordion.Header className='px-0'>Info</Accordion.Header>
               <Accordion.Body>
                 <ul className='list-unstyled d-flex gap-3  flex-column'>
-                  <li className="ps-3"><Link to="/common/Aboutwhvisa">About WH visa</Link></li>
-                  <li className="ps-3"><Link to="/common/Banking">Banking</Link></li>
-                  <li className="ps-3"><Link to="/common/Tax">Tax</Link></li>
-                  <li className="ps-3"><Link to="/common/Typesofwork">Types of work</Link></li>
-                  <li className="ps-3"><Link to="/common/Usefullinks">Useful Links</Link></li>
-                  <li className="ps-3"><Link to="/common/News">News</Link></li>
+                  <li className="ps-3" role="button" onClick={() => handleNavigation("/common/Aboutwhvisa")}>About WH visa</li>
+                  <li className="ps-3" role="button" onClick={() => handleNavigation("/common/Banking")}>Banking</li>
+                  <li className="ps-3" role="button" onClick={() => handleNavigation("/common/Tax")}>Tax</li>
+                  <li className="ps-3" role="button" onClick={() => handleNavigation("/common/Typesofwork")}>Types of work</li>
+                  <li className="ps-3" role="button" onClick={() => handleNavigation("/common/Usefullinks")}>Useful Links</li>
+                  <li className="ps-3" role="button" onClick={() => handleNavigation("/common/News")}>News</li>
                   <li>
                     <Accordion.Item eventKey="1">
                       <Accordion.Header><small>Travel</small></Accordion.Header>
                       <Accordion.Body>
                         <ul className='list-unstyled d-flex gap-3 flex-column'>
-                          <li><Link to="/common/Transport">Transport</Link></li>
-                          <li><Link to="/common/Accommodation">Accommodation</Link></li>
-                          <li><Link to="/common/Places">Places</Link></li>
-                          <li><Link to="/common/HolidayParks">Holiday Parks</Link></li>
-                          <li><Link to="/common/FreedomCampaining">Freedom Campaining</Link></li>
-                          <li><Link to="/common/Activities">Activities</Link></li>
+                          <li role="button" onClick={() => handleNavigation("/common/Transport")}>Transport</li>
+                          <li role="button" onClick={() => handleNavigation("/common/Accommodation")}>Accommodation</li>
+                          <li role="button" onClick={() => handleNavigation("/common/Places")}>Places</li>
+                          <li role="button" onClick={() => handleNavigation("/common/HolidayParks")}>Holiday Parks</li>
+                          <li role="button" onClick={() => handleNavigation("/common/FreedomCampaining")}>Freedom Campaining</li>
+                          <li role="button" onClick={() => handleNavigation("/common/Activities")}>Activities</li>
                         </ul>
                       </Accordion.Body>
                     </Accordion.Item>
@@ -211,50 +259,20 @@ function Header() {
           </div>
 
           {!isSignedIn &&
-            <button type='button' onClick={() => handleShow()} className="btn btn-primary" >
+            <button
+              type='button'
+              onClick={() => {
+                handleShow();
+                setShowSideBar(false)
+              }}
+              className="btn btn-primary"
+            >
               <span>
                 Login
               </span>
             </button>
           }
 
-          {isSignedIn &&
-            <Accordion flush>
-              <Accordion.Item eventKey="2">
-                <div className='d-flex align-items-center'>
-                  <span className='flex-grow-1'>{fullname}</span>
-                  <CustomToggle eventKey={"2"}>
-                    <CgProfile size={"40px"} />
-                  </CustomToggle>
-                </div>
-                <Accordion.Body>
-                  <ul className="list-unstyled d-flex flex-column gap-3">
-                    {role === "user" && <li><Link to={"/viewprofile"}>My Profile</Link></li>}
-                    {(role === 'employer' || role === "recruiter") &&
-                      <li>
-                        <button type='button' onClick={() => { navigate("/company") }} className="btn btn-secondary w-100" >
-                          Dashboard
-                        </button>
-                      </li>}
-                    {role === 'admin' &&
-                      <li>
-                        <button type='button' onClick={() => { navigate("/admin") }} className="btn btn-secondary w-100" >
-                          Dashboard
-                        </button>
-                      </li>
-                    }
-
-                    <li>
-                      <button type='button' onClick={() => handleLogout()} className="btn btn-primary w-100" >
-                        Logout
-                      </button>
-                    </li>
-
-                  </ul>
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-          }
         </div>
       </Offcanvas.Body>
     </Offcanvas >

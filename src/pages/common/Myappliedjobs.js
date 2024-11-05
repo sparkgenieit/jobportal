@@ -47,10 +47,10 @@ function Myappliedjobs() {
 
 
                     <div className=" row ">
-                        <div className="col-9">
+                        <div className="col-md-9 col-12">
                             {loading && <Loader />}
                             {!loading && <>
-                                <h3 className="fs-4 fw-bold text-center">Applied Jobs</h3>
+                                <h3 className="fs-4 fw-bold text-center ">Applied Jobs</h3>
                                 <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} itemsPerPage={itemsPerPage} totalCount={totalItems} pageNumberToShow={2} fetchItems={fetchAppliedJobs}>
                                     <div className="p-2 d-flex flex-column align-items-center">
                                         <JobCardList jobs={appliedjobs} type={"Applied"} />
@@ -60,7 +60,7 @@ function Myappliedjobs() {
                             }
                         </div>
 
-                        <section className="col-3">
+                        <section className="col-md-3 col-12">
                             <Ads />
                         </section>
                     </div>
