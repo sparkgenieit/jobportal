@@ -339,7 +339,7 @@ function CompanyProfile() {
               <div className="row ">
                 <div className="form-group row d-flex align-items-center">
                   <label className="col-sm-3 col-form-label ">Youtube URL</label>
-                  <div className="col-sm-6 d-flex gap-2  align-items-center " >
+                  <div className="col-sm-6 d-flex flex-column flex-md-row gap-2  align-items-center " >
                     <div className='w-100'>
                       <input type="text" className="form-control" name='youtubeUrl' value={userData.youtubeUrl} onChange={handleInput} />
                     </div>

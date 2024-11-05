@@ -38,7 +38,8 @@ function Header() {
       <nav className="navbar default-layout-navbar col-lg-12 col-12 pt-2 fixed-top d-flex flex-row">
         <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
           <Link to="/">
-            <img src="/assets/images/logo-jp.png"
+            <img style={{ width: "100%" }} src="/assets/images/logo-jp.png"
+
               alt="logo" />
           </Link>
         </div>

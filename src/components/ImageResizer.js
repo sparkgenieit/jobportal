@@ -18,52 +18,48 @@ export default function Input({ width, height, setImg, imgSrc }) {
     }
 
     useEffect(() => {
-        let isMounted = true
 
         const fetchImage = async () => {
 
             const data = await fetch(imgSrc)
 
-            if (isMounted) {
-                const blob = await data.blob()
+            const blob = await data.blob()
 
-                const reader = new FileReader();
-                reader.readAsDataURL(blob);
-                reader.onload = function (e) {
+            const reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onload = function (e) {
 
-                    let image_url = e.target.result
+                let image_url = e.target.result
 
-                    const img = new Image();
+                const img = new Image();
 
-                    img.src = image_url;
+                img.src = image_url;
 
-                    img.onload = function () {
-                        const canvas = document.createElement("canvas");
-                        const ctx = canvas.getContext("2d");
+                img.onload = function () {
+                    const canvas = document.createElement("canvas");
+                    const ctx = canvas.getContext("2d");
 
-                        canvas.width = width
-                        canvas.height = height
+                    canvas.width = width
+                    canvas.height = height
 
-                        // Actual resizing
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    // Actual resizing
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                        const dataurl = canvas.toDataURL("image/jpeg");
+                    const dataurl = canvas.toDataURL("image/jpeg");
 
-                        if (imgRef.current) {
-                            imgRef.current.src = dataurl
-                        }
-
-                        canvas.remove()
+                    if (imgRef.current) {
+                        imgRef.current.src = dataurl
                     }
+                    setOriginalImageUrl(dataurl)
+
+                    canvas.remove()
                 }
             }
+
         }
 
         fetchImage()
 
-        return () => {
-            isMounted = false
-        }
     }, [imgSrc])
 
 
@@ -106,7 +102,6 @@ export default function Input({ width, height, setImg, imgSrc }) {
     }
 
     const handleWidthSliders = (e) => {
-
         const value = Number(e.target.value)
 
         const img = new Image();
@@ -114,7 +109,6 @@ export default function Input({ width, height, setImg, imgSrc }) {
         img.src = originalImageUrl;
 
         img.onload = function () {
-
             const canvas = document.createElement("canvas")
 
             const ctx = canvas.getContext("2d")
