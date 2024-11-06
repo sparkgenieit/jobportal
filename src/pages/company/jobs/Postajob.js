@@ -125,11 +125,14 @@ function Postajob({ name }) {
     let { benifits } = jobData
     const value = e.target.value
 
-    if (benifits.includes(value)) {
+    if (benifits?.includes(value)) {
       benifits = benifits.replace(value, "").trim()
     } else {
       benifits = benifits + value + " "
     }
+
+    console.log(jobData);
+
     setJobData({ ...jobData, benifits: benifits })
   }
 
@@ -225,278 +228,269 @@ function Postajob({ name }) {
         <div className="content-wrapper bg-white">
           <h3 className="fs-4 fw-bold text-center"> {name} </h3>
           <div className="row">
-            <div className="col-12">
-              <div className="card-body bg-white">
-                <form ref={formRef}>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div className="form-group row">
-                        <label className="col-sm-4 col-form-label text-nowrap" >Company Name <span className='text-danger'>*</span></label>
-                        <div className="col-sm-8">
-                          <input type="text" className="form-control" name='company' value={jobData?.company} disabled />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">Close Date</label>
-                        <div className="col-sm-8">
-                          <input type="date" className="form-control" name='closedate' onChange={handleForm} value={jobData?.closedate} />
-                          <span className='text-danger small'>{error.closedate && error.closedate}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group row">
-                        <label className="col-sm-4 col-form-label">Creation Date<span className='text-danger'>*</span></label>
-                        <div className="col-sm-8">
-                          <input type="text" className="form-control" name='creationdate' value={jobData?.creationdate?.toLocaleDateString('en-GB')} disabled />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">Job Type<span className='text-danger'>*</span></label>
-                        <div className="col-sm-8">
-                          <select className='form-select' name='jobtype' value={jobData.jobtype} onChange={handleForm}>
-                            <option value={" "}></option>
-                            <option value={"Full time"}>Full time</option>
-                            <option value={"Part time"}>Part time</option>
-                            <option value={"Freelance"}>Freelance</option>
-                            <option value={"Casual"}>Casual</option>
-                            <option value={"Contract"}>Contract</option>
-                            <option value={"Temporary"}>Temporary</option>
-                          </select>
-                        </div>
-                        <span className='text-danger small'>{error.jobtype && error.jobtype}</span>
+            <div className=" bg-white">
+              <form ref={formRef}>
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group row">
+                      <label className="col-sm-4 col-form-label text-nowrap" >Company Name <span className='text-danger'>*</span></label>
+                      <div className="col-sm-8">
+                        <input type="text" className="form-control" name='company' value={jobData?.company} disabled />
                       </div>
                     </div>
                   </div>
-                  <div className='row'>
-                    <div className="col-md-6">
-                      <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">Location<span className='text-danger'>*</span></label>
-                        <div className="col-sm-8">
-                          <select className="form-select border col-6 " name='location' value={jobData?.location} onChange={handleForm} >
-                            <option value={" "}></option>
-                            {CitiesList.map((city, index) => {
-                              return <option key={index} value={city}>{city}</option>
-                            })}
-                          </select>
-                          <span className='text-danger small'>{error.location && error.location}</span>
-                        </div>
+                  <div className="col-md-6">
+                    <div className="form-group row">
+                      <label className="col-sm-3 col-form-label">Close Date</label>
+                      <div className="col-sm-8">
+                        <input type="date" className="form-control" name='closedate' onChange={handleForm} value={jobData?.closedate} />
+                        <span className='text-danger small'>{error.closedate && error.closedate}</span>
                       </div>
                     </div>
                   </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">Emp job reference</label>
-                        <div className="col-sm-8">
-                          <input type="text" className="form-control" name='employjobreference' value={jobData?.employjobreference} onChange={handleForm} />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">Number of vacancies<span className='text-danger'>*</span></label>
-                        <div className="col-sm-8">
-                          <input type="number" className="form-control" name='numberofvacancies' value={jobData?.numberofvacancies} onChange={handleForm} />
-                        </div>
-                        <span className='text-danger small'>{error.numberofvacancies && error.numberofvacancies}</span>
+                  <div className="col-md-6">
+                    <div className="form-group row">
+                      <label className="col-sm-4 col-form-label">Creation Date<span className='text-danger'>*</span></label>
+                      <div className="col-sm-8">
+                        <input type="text" className="form-control" name='creationdate' value={jobData?.creationdate?.toLocaleDateString('en-GB')} disabled />
                       </div>
                     </div>
                   </div>
+                  <div className="col-md-6">
+                    <div className="form-group row">
+                      <label className="col-sm-3 col-form-label">Job Type<span className='text-danger'>*</span></label>
+                      <div className="col-sm-8">
+                        <select className='form-select' name='jobtype' value={jobData.jobtype} onChange={handleForm}>
+                          <option value={" "}></option>
+                          <option value={"Full time"}>Full time</option>
+                          <option value={"Part time"}>Part time</option>
+                          <option value={"Freelance"}>Freelance</option>
+                          <option value={"Casual"}>Casual</option>
+                          <option value={"Contract"}>Contract</option>
+                          <option value={"Temporary"}>Temporary</option>
+                        </select>
+                      </div>
+                      <span className='text-danger small'>{error.jobtype && error.jobtype}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className='row'>
+                  <div className="col-md-6">
+                    <div className="form-group row">
+                      <label className="col-sm-3 col-form-label">Location<span className='text-danger'>*</span></label>
+                      <div className="col-sm-8">
+                        <select className="form-select border col-6 " name='location' value={jobData?.location} onChange={handleForm} >
+                          <option value={" "}></option>
+                          {CitiesList.map((city, index) => {
+                            return <option key={index} value={city}>{city}</option>
+                          })}
+                        </select>
+                        <span className='text-danger small'>{error.location && error.location}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group row">
+                      <label className="col-sm-3 col-form-label">Emp job reference</label>
+                      <div className="col-sm-8">
+                        <input type="text" className="form-control" name='employjobreference' value={jobData?.employjobreference} onChange={handleForm} />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group row">
+                      <label className="col-sm-3 col-form-label">Number of vacancies<span className='text-danger'>*</span></label>
+                      <div className="col-sm-8">
+                        <input type="number" className="form-control" name='numberofvacancies' value={jobData?.numberofvacancies} onChange={handleForm} />
+                      </div>
+                      <span className='text-danger small'>{error.numberofvacancies && error.numberofvacancies}</span>
+                    </div>
+                  </div>
+                </div>
 
-                  <div className='row'>
-                    <div className='col-md-6'></div>
-                    <div className='col-md-6 d-flex gap-1'>
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group row">
+                      <label className="col-sm-3 col-form-label"> JobTitle<span className='text-danger'>*</span></label>
+                      <div className="col-sm-8">
+                        <input type="text" className="form-control" name='jobTitle' value={jobData?.jobTitle} onChange={handleForm} />
+                      </div>
+                      <span className='text-danger small'>{error.jobTitle && error.jobTitle}</span>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className='d-flex gap-1'>
                       Salary
                       <span role='button' onClick={() => setShowModal({ show: true })}>
                         <BsInfoCircle />
                       </span>
                     </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col-md-6">
+                    <div className='border border-secondary mb-3 px-3 py-1 rounded-2'>
                       <div className="form-group row">
-                        <label className="col-sm-3 col-form-label"> JobTitle<span className='text-danger'>*</span></label>
+                        <label className="col-sm-3 col-form-label">Amount</label>
                         <div className="col-sm-8">
-                          <input type="text" className="form-control" name='jobTitle' value={jobData?.jobTitle} onChange={handleForm} />
+                          <input type="number" className="form-control" name='rateperhour' value={jobData?.rateperhour} onChange={handleForm} />
                         </div>
-                        <span className='text-danger small'>{error.jobTitle && error.jobTitle}</span>
                       </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className='border border-secondary mb-3 px-3 py-1 rounded-2'>
-                        <div className="form-group row">
-                          <label className="col-sm-3 col-form-label">Amount</label>
-                          <div className="col-sm-8">
-                            <input type="number" className="form-control" name='rateperhour' value={jobData?.rateperhour} onChange={handleForm} />
-                          </div>
-                        </div>
 
-                        <div className="d-flex align-items-center row">
-                          <label className="col-sm-3 small align-self-start ">Show in jobs page</label>
-                          <div className="col-sm-8 d-flex small gap-1  ">
-                            <div className='d-flex flex-column align-items-center'>
-                              <div className='d-flex gap-1 align-items-center'>
-                                <input type="radio" className="form-check-input m-0" id='per hour' name='salary' checked={jobData?.salary_type === "per hour"} onChange={() => { setJobData({ ...jobData, salary_type: "per hour" }) }} />
-                                <label className='m-0' htmlFor='per hour'>
-                                  Rate per hour
-                                </label>
-                              </div>
-                              <p>{jobData?.rateperhour && "$" + jobData.rateperhour}</p>
-                            </div>
-                            <div className='d-flex flex-column  align-items-center'>
-                              <div className='d-flex gap-1 align-items-center'>
-                                <input type="radio" className="form-check-input m-0 " id='per annum' name='salary' checked={jobData?.salary_type === "per annum"} onChange={() => { { setJobData({ ...jobData, salary_type: "per annum" }) } }} />
-                                <label className='m-0' htmlFor="per annum">
-                                  Salary per annum
-                                </label>
-                              </div>
-                              <p>{jobData?.rateperhour && '$' + salaryPerAnnum(jobData?.rateperhour)}</p>
-                            </div>
-                            <div className='d-flex gap-1 align-items-start'>
-                              <input type="radio" id='negotiable' className="form-check-input mt-1" name='salary' checked={jobData?.salary_type === "negotiable"} onChange={() => { setJobData({ ...jobData, salary_type: "negotiable" }) }} />
-                              <label className='m-0' htmlFor="negotiable">
-                                Negotiable
+                      <div className="d-flex align-items-center row">
+                        <label className="col-sm-3 small align-self-start  ">Show in jobs page</label>
+                        <div className="col-sm-8 d-flex flex-wrap small gap-1  ">
+                          <div className='d-flex flex-column align-items-center'>
+                            <div className='d-flex gap-1 align-items-center'>
+                              <input type="radio" className="form-check-input m-0" id='per hour' name='salary' checked={jobData?.salary_type === "per hour"} onChange={() => { setJobData({ ...jobData, salary_type: "per hour" }) }} />
+                              <label className='m-0' htmlFor='per hour'>
+                                Rate per hour
                               </label>
                             </div>
+                            <p>{jobData?.rateperhour && "$" + jobData.rateperhour}</p>
+                          </div>
+                          <div className='d-flex flex-column  align-items-center'>
+                            <div className='d-flex gap-1 align-items-center'>
+                              <input type="radio" className="form-check-input m-0 " id='per annum' name='salary' checked={jobData?.salary_type === "per annum"} onChange={() => { { setJobData({ ...jobData, salary_type: "per annum" }) } }} />
+                              <label className='m-0' htmlFor="per annum">
+                                Salary per annum
+                              </label>
+                            </div>
+                            <p>{jobData?.rateperhour && '$' + salaryPerAnnum(jobData?.rateperhour)}</p>
+                          </div>
+                          <div className='d-flex gap-1 align-items-start'>
+                            <input type="radio" id='negotiable' className="form-check-input mt-1" name='salary' checked={jobData?.salary_type === "negotiable"} onChange={() => { setJobData({ ...jobData, salary_type: "negotiable" }) }} />
+                            <label className='m-0' htmlFor="negotiable">
+                              Negotiable
+                            </label>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">JobCategory<span className='text-danger'>*</span></label>
-                        <div className="col-sm-8">
-                          <select name='jobCategory' value={jobData?.jobCategory} onChange={handleForm} className="form-select border col-6 " >
-                            <option value={" "}></option>
-                            {parent && parent.map((p, index) => <option key={index} className="fw-bold" value={p} >{p}</option>)}
-                          </select>
-                        </div>
-                        <span className='text-danger small'>{error.jobCategory && error.jobCategory}</span>
+                </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group row">
+                      <label className="col-sm-3 col-form-label">JobCategory<span className='text-danger'>*</span></label>
+                      <div className="col-sm-8">
+                        <select name='jobCategory' value={jobData?.jobCategory} onChange={handleForm} className="form-select border col-6 " >
+                          <option value={" "}></option>
+                          {parent && parent.map((p, index) => <option key={index} className="fw-bold" value={p} >{p}</option>)}
+                        </select>
+                      </div>
+                      <span className='text-danger small'>{error.jobCategory && error.jobCategory}</span>
 
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">Duration<span className='text-danger'>*</span></label>
-                        <div className="col-sm-8">
-                          <select className="form-select border col-6" name='duration' value={jobData?.duration} onChange={handleForm} >
-                            <option value={" "}></option>
-                            <option className="fw-bold" value="1 Month">1 Month</option>
-                            <option className="fw-bold" value="2 Months">2 Months</option>
-                            <option className="fw-bold" value="3 Months">3 Months</option>
-                            <option className="fw-bold" value="4 Months">4 Months</option>
-                            <option className="fw-bold" value="5 Months">5 Months</option>
-                            <option className="fw-bold" value="6 Months" >6 Months</option>
-                            <option className="fw-bold" value="6+ Months">6+ Months</option>
-                            <option className="fw-bold" value="Permanent">Permanent</option>
-                          </select>
-                        </div>
-                        <span className='text-danger small'>{error.duration && error.duration}</span>
-                      </div>
                     </div>
                   </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">Sub-category<span className='text-danger'>*</span></label>
-                        <div className="col-sm-8">
-                          <select className="form-select border" name='subCategory' value={jobData?.subCategory} onChange={handleForm}>
-                            <option value={" "}></option>
-                            {categoriesList && categoriesList.map((category, index) => {
-                              if (category.parent_id === jobData.jobCategory) {
-                                return <option key={index} value={category.name}>{category.name}</option>
-                              }
-                            })
+                  <div className="col-md-6">
+                    <div className="form-group row">
+                      <label className="col-sm-3 col-form-label">Duration<span className='text-danger'>*</span></label>
+                      <div className="col-sm-8">
+                        <select className="form-select border col-6" name='duration' value={jobData?.duration} onChange={handleForm} >
+                          <option value={" "}></option>
+                          <option className="fw-bold" value="1 Month">1 Month</option>
+                          <option className="fw-bold" value="2 Months">2 Months</option>
+                          <option className="fw-bold" value="3 Months">3 Months</option>
+                          <option className="fw-bold" value="4 Months">4 Months</option>
+                          <option className="fw-bold" value="5 Months">5 Months</option>
+                          <option className="fw-bold" value="6 Months" >6 Months</option>
+                          <option className="fw-bold" value="6+ Months">6+ Months</option>
+                          <option className="fw-bold" value="Permanent">Permanent</option>
+                        </select>
+                      </div>
+                      <span className='text-danger small'>{error.duration && error.duration}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group row">
+                      <label className="col-sm-3 col-form-label">Sub-category<span className='text-danger'>*</span></label>
+                      <div className="col-sm-8">
+                        <select className="form-select border" name='subCategory' value={jobData?.subCategory} onChange={handleForm}>
+                          <option value={" "}></option>
+                          {categoriesList && categoriesList.map((category, index) => {
+                            if (category.parent_id === jobData.jobCategory) {
+                              return <option key={index} value={category.name}>{category.name}</option>
                             }
-                          </select>
-                          <span className='text-danger small'>{error.subCategory && error.subCategory}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">Weekly work hours</label>
-                        <div className="col-sm-8">
-                          <input type="number" className="form-control" name="weeklyperhour" value={jobData?.weeklyperhour} onChange={handleForm} />
-                        </div>
+                          })
+                          }
+                        </select>
+                        <span className='text-danger small'>{error.subCategory && error.subCategory}</span>
                       </div>
                     </div>
                   </div>
+                  <div className="col-md-6">
+                    <div className="form-group row">
+                      <label className="col-sm-3 col-form-label">Weekly work hours</label>
+                      <div className="col-sm-8">
+                        <input type="number" className="form-control" name="weeklyperhour" value={jobData?.weeklyperhour} onChange={handleForm} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className=" form-group">
+
+                  <label className="">Benefits</label>
+
+                  <div className="row">
+                    <div className="col-md-3  col-12">
+                      <div className="form-check">
+                        <input type="checkbox" className="form-check-input" value="Accommodation" checked={jobData?.benifits?.includes("Accommodation")} onChange={handleBenefits} />
+                        Accommodation
+                      </div>
+                    </div>
+                    <div className="col-md-2  col-12" >
+                      <div className="form-check">
+                        <input type="checkbox" className="form-check-input" value="Food" checked={jobData?.benifits?.includes("Food")} onChange={handleBenefits} />
+                        Food
+                      </div>
+                    </div>
+                    <div className="col-md-3  col-12">
+                      <div className="form-check">
+                        <input type="checkbox" className="form-check-input" value="Transport" checked={jobData?.benifits?.includes("Transport")} onChange={handleBenefits} />
+                        Transport
+                      </div>
+                    </div>
+                    <div className="col-md-4  col-12">
+                      <div className="form-check">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          checked={showOthersBenefits}
+                          onChange={() => {
+                            setJobData({ ...jobData, other_benefits: "" })
+                            setShowOthersBenefits(!showOthersBenefits)
+                          }} />
+                        Others
+                        {showOthersBenefits &&
+                          <input type='text' name='other_benefits' value={jobData.other_benefits} onChange={handleForm} className='form-control col-5' />}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
                   <div className="col-md-9">
                     <div className="form-group row">
                       <div>
-                        <label className="col-sm-1 col-form-label">Benefits</label>
+                        <label className="col-sm-3 col-form-label">Training Provided?<span className='text-danger'>*</span></label>
                       </div>
-                      <div className=" row ">
-                        <div className="col-3">
-                          <div className="form-check">
-                            <input type="checkbox" className="form-check-input" value="Accommodation" checked={jobData.benifits?.includes("Accommodation")} onChange={handleBenefits} />
-                            Accommodation
-                          </div>
-                        </div>
-                        <div className="col-2">
-                          <div className="form-check">
-                            <input type="checkbox" className="form-check-input" value="Food" checked={jobData.benifits?.includes("Food")} onChange={handleBenefits} />
-                            Food
-                          </div>
-                        </div>
-                        <div className="col-3">
-                          <div className="form-check">
-                            <input type="checkbox" className="form-check-input" value="Transport" checked={jobData.benifits?.includes("Transport")} onChange={handleBenefits} />
-                            Transport
-                          </div>
-                        </div>
-                        <div className="col-4 ">
-                          <div className="form-check">
-                            <input
-                              type="checkbox"
-                              className="form-check-input"
-                              checked={showOthersBenefits}
-                              onChange={() => {
-                                setJobData({ ...jobData, other_benefits: "" })
-                                setShowOthersBenefits(!showOthersBenefits)
-                              }} />
-                            Others
-                            {showOthersBenefits &&
-                              <input type='text' name='other_benefits' value={jobData.other_benefits} onChange={handleForm} className='form-control col-5' />}
-                          </div>
-                        </div>
+                      <div className=" col-2 form-check mx-3">
+                        <input type="radio" name='training' className="form-check-input" value="No" onChange={handleForm} checked={jobData.training === "No"} />No
+                      </div>
+                      <div className=" col-2 form-check mx-3">
+                        <input type="radio" name='training' className="form-check-input" value="Yes" onChange={handleForm} checked={jobData.training === "Yes"} />Yes
                       </div>
                     </div>
                   </div>
-                  <div className="row">
-                    <div className="col-md-9">
-                      <div className="form-group row">
-                        <div>
-                          <label className="col-sm-3 col-form-label">Training Provided?<span className='text-danger'>*</span></label>
-                        </div>
-                        <div className=" col-2 form-check mx-3">
-                          <input type="radio" name='training' className="form-check-input" value="No" onChange={handleForm} checked={jobData.training === "No"} />No
-                        </div>
-                        <div className=" col-2 form-check mx-3">
-                          <input type="radio" name='training' className="form-check-input" value="Yes" onChange={handleForm} checked={jobData.training === "Yes"} />Yes
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='row'>
-                    <div className="form-group row">
-                      <div className="mb-3">
-                        <label htmlFor="description" className="form-label">Description<span className='text-danger'>*</span></label>
-                        <MdxEditor value={jobData.description} setValue={handleDescription} />
-                        <span className='text-danger small'>{error.description && error.description}</span>
-                      </div>
-                    </div>
-                  </div>
-                  {/* <div className="col-md-12">
+                </div>
+
+                <div className="mb-3 w-100">
+                  <label htmlFor="description" className="form-label">Description<span className='text-danger'>*</span></label>
+                  <MdxEditor value={jobData.description} setValue={handleDescription} />
+                  <span className='text-danger small'>{error.description && error.description}</span>
+                </div>
+
+                {/* <div className="col-md-12">
                     <div className="form-group row">
                       <label className="col-sm-3 col-form-label ">Employer questions</label>
                       <div>
@@ -513,39 +507,38 @@ function Postajob({ name }) {
                       </div>
                     </div>
                   </div> */}
-                  <div className="form-group">
-                    <div className='d-flex justify-content-between py-2 px-5'>
-                      <div>
-                        {name === "Post a Job" && cloneJobId &&
-                          <button
-                            type='button'
-                            className='btn btn-primary'
-                            onClick={discardForm}
-                          >
-                            Discard
-                          </button>
-                        }
-                        {name === "Edit Job" &&
-                          <button
-                            type='button'
-                            className='btn btn-primary'
-                            onClick={handleClone}
-                          >
-                            Duplicate Job
-                          </button>
-                        }
-                      </div>
-                      <button className="btn btn-primary" type="button" onClick={submitJob}>
-                        Submit
-                      </button>
+                <div className="form-group">
+                  <div className='d-flex justify-content-between  gap-2 flex-column flex-sm-row py-2 px-5'>
+                    <div>
+                      {name === "Post a Job" && cloneJobId &&
+                        <button
+                          type='button'
+                          className='btn btn-primary'
+                          onClick={discardForm}
+                        >
+                          Discard
+                        </button>
+                      }
+                      {name === "Edit Job" &&
+                        <button
+                          type='button'
+                          className='btn btn-primary'
+                          onClick={handleClone}
+                        >
+                          Duplicate Job
+                        </button>
+                      }
                     </div>
+                    <button className="btn btn-primary" type="button" onClick={submitJob}>
+                      Submit
+                    </button>
                   </div>
-                </form>
-              </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-      </div >
+      </div>
 
       <MessagePopup modal={showModal} setModal={setShowModal}>
         <div className='small'>

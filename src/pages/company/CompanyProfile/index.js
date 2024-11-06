@@ -31,7 +31,6 @@ const formInitialValues = {
 function CompanyProfile() {
     const { _id: userId } = useCurrentUser()
     const [userData, setUserData] = useState(formInitialValues);
-    const [loader, setLoader] = useState(false);
     const [logo, setLogo] = useState(null);
     const [banner, setBanner] = useState(null);
     const [companyLogo, setCompanyLogo] = useState()

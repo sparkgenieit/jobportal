@@ -19,6 +19,7 @@ export default function DownloadTransactions() {
 
     useEffect(() => {
         fetchTransactions()
+        document.title = "Download Transactions"
     }, [])
 
     const getTransactionsByDate = async () => {
@@ -68,17 +69,19 @@ export default function DownloadTransactions() {
                     <span className="text-secondary small"><em>Select a date range, then click "Apply" or "Download" to export all transactions.</em></span>
                 </div>
 
-                <form className="d-flex gap-5">
-                    <div className="d-flex gap-3 input-group align-items-center">
-                        <label className="fw-bold">From date</label>
+                <form className="d-flex flex-column flex-md-row gap-3">
+                    <div className="d-flex align-items-center gap-2">
+                        <label className="small fw-bold text-nowrap">From date</label>
                         <input
                             value={fromDate}
                             onChange={(e) => { setFromDate(e.target.value) }}
                             type="date"
                             className="form-control"
                         />
+                    </div>
 
-                        <label className="fw-bold">To date</label>
+                    <div className="d-flex align-items-center gap-2">
+                        <label className="small fw-bold text-nowrap">To date</label>
                         <input
                             type="date"
                             className="form-control"
@@ -99,7 +102,7 @@ export default function DownloadTransactions() {
                 {error && <span className="text-danger fw-bold">{error}</span>}
             </div>
 
-            <div className="mt-4 border-top border-2">
+            <div className="mt-4 border-top border-2 table-responsive">
                 <table ref={tableRef} className="w-100 table">
                     <thead >
                         <tr style={{ fontSize: "14px" }} className="text-center">

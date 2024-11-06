@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import Table from "react-bootstrap/Table"
 import Modal from "react-bootstrap/Modal"
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
+import { RxCross1 } from "react-icons/rx";
 
 import http from "../../../helpers/http"
 import RecruiterForm from "./RecruiterForm";
@@ -111,11 +112,12 @@ export default function RecruiterList() {
 
     return (
         <div className=" mt-4 container-fluid">
-            <div className="position-relative d-flex my-2">
-                <h3 className="fw-bold fs-4 text-center w-100">Recruiters</h3>
+            <div className="d-flex flex-column gap-3 flex-sm-row align-items-center my-2">
+                <h3 className="fw-bold fs-4 text-center flex-grow-1">Recruiters</h3>
+
                 <button
                     type="button"
-                    className="btn btn-primary rounded-3 position-absolute end-0"
+                    className="btn btn-primary rounded-3 align-self-end"
                     onClick={() => {
                         setPopup({
                             show: true,
@@ -128,7 +130,7 @@ export default function RecruiterList() {
                     Add Recruiter</button>
             </div>
 
-            <Table className="text-center">
+            <Table responsive className="text-center">
                 <thead>
                     <tr>
                         <td className="text-start">Name</td>
@@ -177,6 +179,8 @@ export default function RecruiterList() {
 
             <Modal show={popup.show} onHide={closePopup} centered>
                 <Modal.Body className="bg-white">
+
+                    <div className="p-0 float-end d-block d-md-none">  <RxCross1 onClick={closePopup} /> </div>
 
                     {(popup.mode === "Edit" || popup.mode === "Add") &&
                         <>

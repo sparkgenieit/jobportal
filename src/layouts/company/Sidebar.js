@@ -1,6 +1,6 @@
 import './Sidebar.css';
 import { useContext, useState } from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { Modal } from "react-bootstrap";
 import { MdSpaceDashboard } from 'react-icons/md';
@@ -27,6 +27,13 @@ function Sidebar() {
   const usedFreeCredit = user.role === 'recruiter' ? user.companyId.usedFreeCredit : user.usedFreeCredit
 
 
+  const handleNavigation = (path) => {
+    if (window.innerWidth < 1024) {
+      setIsSidebarOpen(false)
+    }
+    navigate(path)
+  }
+
 
   const handleModal = () => {
 
@@ -37,7 +44,7 @@ function Sidebar() {
       setShow(true);
     }
     else {
-      navigate('/company/postajob')
+      handleNavigation('/company/postajob')
     }
   }
 
@@ -49,7 +56,7 @@ function Sidebar() {
     <>
       <div className={`border shadow ${isSidebarOpen ? "sidebar-showing" : "sidebar-not-showing"}`} >
         <nav className="sidebar" id="sidebar">
-          <div className="  mt-4 pe-1 d-flex justify-content-end d-none d-md-flex">
+          <div className="  mt-4 pe-1 d-flex justify-content-end d-none d-lg-flex">
             <Tooltip tooltipText={"Menu"}>
               <a className='pe-2' type='button'>
                 <span onClick={() => setIsSidebarOpen(prev => !prev)}><RxHamburgerMenu size="20px" /></span>
@@ -57,70 +64,59 @@ function Sidebar() {
             </Tooltip>
           </div>
           <ul className="nav">
-
             <li className="nav-item">
-              <Link className="nav-link" to="/company">
-                <div className='d-flex justify-content-between w-100'>
-                  <span>Dashboard</span>
-                  <span>
-                    <MdSpaceDashboard size={"20"} />
-                  </span>
-                </div>
-              </Link>
+              <div role='button' onClick={() => handleNavigation("/company")} className='nav-link d-flex justify-content-between w-100'>
+                <span>Dashboard</span>
+                <span>
+                  <MdSpaceDashboard size={"20"} />
+                </span>
+              </div>
             </li>
-
 
             {
               user?.role === "employer" &&
               <li className="nav-item">
-                <Link className="nav-link" to="/company/CompanyProfile">
-                  <div className='d-flex justify-content-between w-100'>
-                    <span>Company Profile</span>
-                    <span>
-                      <ImProfile size={"20"} />
-                    </span>
-                  </div>
-                </Link>
+                <div role='button' onClick={() => handleNavigation("/company/CompanyProfile")} className='nav-link d-flex justify-content-between w-100'>
+                  <span>Company Profile</span>
+                  <span>
+                    <ImProfile size={"20"} />
+                  </span>
+                </div>
               </li>
             }
 
             <li className="nav-item">
               <span role='button' className="nav-link" onClick={() => { handleModal(true) }}>
-                <div className='d-flex justify-content-between w-100'>
+                <span className='d-flex justify-content-between w-100'>
                   <span>Post a Job</span>
                   <span>
                     <BsPostcard size={"20"} />
                   </span>
-                </div>
+                </span>
               </span>
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/company/jobs">
-                <div className='d-flex justify-content-between w-100'>
-                  <span>Posted Jobs</span>
-                  <span>
-                    <BsPostcardFill size={"20"} />
-                  </span>
-                </div>
-              </Link>
+              <div role='button' onClick={() => handleNavigation("/company/jobs")} className='nav-link d-flex justify-content-between w-100'>
+                <span>Posted Jobs</span>
+                <span>
+                  <BsPostcardFill size={"20"} />
+                </span>
+              </div>
             </li>
 
-
             {user?.role === "employer" && <li className="nav-item">
-              <Link className="nav-link" to="/company/recruiters">
-                <div className='d-flex justify-content-between w-100'>
-                  <span>Recruiters</span>
-                  <span>
-                    <BsFillPersonCheckFill size={"20"} />
-                  </span>
-                </div>
-              </Link>
+              <div role='button' onClick={() => handleNavigation("/company/recruiters")} className='d-flex justify-content-between w-100'>
+                <span>Recruiters</span>
+                <span>
+                  <BsFillPersonCheckFill size={"20"} />
+                </span>
+              </div>
             </li>}
 
-            <li className="nav-item">
-              <Link className="nav-link" to="/company/BuyCredits">
-                <div className='d-flex flex-column w-100'>
+            <li className="nav-item ">
+              <div className='nav-link  pt-3 pb-2' >
+                <div role='button' onClick={() => handleNavigation("/company/BuyCredits")} className='d-flex   flex-column w-100'>
                   <div className='d-flex  justify-content-between w-100'>
                     <span>Buy Credits</span>
                     <span>
@@ -128,56 +124,44 @@ function Sidebar() {
                     </span>
                   </div>
                   <div className="text-secondary small">Available Credits: {credits ? credits : 0}</div>
-
                 </div>
-              </Link>
-            </li>
-
-
-
-            <li className="nav-item">
-              <Link className="nav-link" to="/company/transactions">
-                <div className='d-flex justify-content-between align-items-center w-100'>
-                  <span>Transactions</span>
-                  <span>
-                    <PiListDashesFill size={"22"} />
-                  </span>
-                </div>
-              </Link>
-            </li>
-
-
-            <li className="nav-item">
-              <Link className="nav-link" to="/company/inbox">
-                <div className='d-flex justify-content-between align-items-center w-100'>
-                  <span>
-                    Mail
-                    {count > 0 && <span className=' ps-3 text-danger'>{count}</span>}
-                  </span>
-                  <span>
-                    <IoMdMailOpen size={"22"} />
-                  </span>
-                </div>
-              </Link>
+              </div>
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/company/audit">
-                <div className='d-flex justify-content-between align-items-center w-100'>
-                  <span>
-                    Audit Log
-                  </span>
-                  <span>
-                    <HiOutlineDocumentMagnifyingGlass size={"22"} />
-                  </span>
-                </div>
-              </Link>
+              <div role='button' onClick={() => handleNavigation("/company/transactions")} className='d-flex nav-link justify-content-between align-items-center w-100'>
+                <span>Transactions</span>
+                <span>
+                  <PiListDashesFill size={"22"} />
+                </span>
+              </div>
             </li>
 
+            <li className="nav-item">
+              <div role='button' onClick={() => handleNavigation("/company/inbox")} className='d-flex nav-link justify-content-between align-items-center w-100'>
+                <span>
+                  Mail
+                  {count > 0 && <span className=' ps-3 text-danger'>{count}</span>}
+                </span>
+                <span>
+                  <IoMdMailOpen size={"22"} />
+                </span>
+              </div>
+            </li>
+
+            <li className="nav-item">
+              <div role='button' onClick={() => handleNavigation("/company/audit")} className='d-flex nav-link justify-content-between align-items-center w-100'>
+                <span>
+                  Audit Log
+                </span>
+                <span>
+                  <HiOutlineDocumentMagnifyingGlass size={"22"} />
+                </span>
+              </div>
+            </li>
           </ul>
         </nav>
       </div >
-
 
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Body>
@@ -197,7 +181,7 @@ function Sidebar() {
 
 
                 <div className="d-flex justify-content-end">
-                  <button type="button" onClick={() => { handleClose(); navigate('/company/postajob') }} className="btn btn-info">Post a Job</button>
+                  <button type="button" onClick={() => { handleClose(); handleNavigation('/company/postajob') }} className="btn btn-info">Post a Job</button>
                 </div>
               </div>
             </>}
@@ -217,7 +201,7 @@ function Sidebar() {
             </div>
 
               <div className="d-flex justify-content-center">
-                <button type="button" onClick={() => { handleClose(); navigate('/company/BuyCredits') }} className="btn btn-danger rounded-3">Buy Credits</button>
+                <button type="button" onClick={() => { handleClose(); handleNavigation('/company/BuyCredits') }} className="btn btn-danger rounded-3">Buy Credits</button>
               </div></>}
         </Modal.Body>
       </Modal >

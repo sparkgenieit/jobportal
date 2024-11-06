@@ -12,7 +12,8 @@ import { itemsPerPage } from "../../helpers/constants";
 import http from "../../helpers/http";
 import useShowMessage from "../../helpers/Hooks/useShowMessage";
 import { getDate } from "../../helpers/functions/dateFunctions";
-import { downloadCsv, tableToCSV } from "../../helpers/functions/csvFunctions";
+import { downloadCsv } from "../../helpers/functions/csvFunctions";
+import ShowMore from "../../components/common/ShowMore";
 
 const inputValues = {
     toDate: "",
@@ -123,13 +124,13 @@ export default function Audit() {
     return (
         <div className="container-fluid content-wrapper px-0 bg-white">
 
-            <div className="d-flex position-relative align-items-center mb-3">
-                <h2 className="text-center w-100 fw-bold fs-3 " > Audit Log</h2>
-                <button type="button" onClick={() => downloadAllLogs()} className="btn position-absolute end-0 me-2  btn-info rounded-4">Download All</button>
+            <div className="d-flex flex-column flex-md-row gap-3 align-items-center mb-3">
+                <h2 className="text-center w-100 fw-bold fs-3"> Audit Log</h2>
+                <button type="button" onClick={() => downloadAllLogs()} className="btn  text-nowrap  btn-info rounded-4">Download All</button>
             </div>
 
             <div className="container-fluid">
-                <div className="d-flex gap-2 my-3 small">
+                <div className="d-flex flex-column flex-md-row gap-2 my-3 small">
                     <div className="d-flex flex-column align-items-start">
                         <label>From Date</label>
                         <input type="date" name="fromDate" className="form-control" value={filters.fromDate} onChange={handleChange} />
@@ -139,12 +140,12 @@ export default function Audit() {
                         <input type="date" name="toDate" className="form-control" value={filters.toDate} onChange={handleChange} />
                     </div>
 
-                    <div className="d-flex align-self-end flex-grow-1 gap-2">
+                    <div className="d-flex flex-column flex-md-row w-100 align-self-end flex-grow-1 gap-2">
                         <input type="text" placeholder="Job Title" className="form-control " name="jobTitle" value={filters.jobTitle} onChange={handleChange} />
                         <input type="text" placeholder="Employer Reference" className="form-control " name="employerReference" value={filters.employerReference} onChange={handleChange} />
                         <input type="text" placeholder="Job ID" className="form-control" name="jobId" value={filters.jobId} onChange={handleChange} />
 
-                        <div className="d-flex align-items-center gap-3">
+                        <div className="d-flex align-items-center justify-content-end gap-3">
                             <Tooltip tooltipText={"Apply"}>
                                 <span onClick={FetchLogsWithFilters}>
                                     <FaCheck color="green" fontSize={20} />
@@ -174,7 +175,7 @@ export default function Audit() {
                         }
 
                         {!loading && logs.length > 0 &&
-                            <table ref={tableRef} className="text-center my-table mt-2  text-wrap">
+                            <table ref={tableRef} className="text-center my-table w-100 mt-2  text-wrap">
                                 <thead className="small">
                                     <tr>
                                         <th>Date</th>
@@ -202,8 +203,8 @@ export default function Audit() {
                                             <td>{log.email ? log.email : "-"} </td>
                                             <td className="text-capitalize">{log.description ? log.description : "-"} </td>
                                             <td className="text-capitalize">{log.fieldName ? log.fieldName : "-"} </td>
-                                            <td style={{ wordBreak: "break-all" }} className="text-wrap">{log.changedFrom ? log.changedFrom : "-"} </td>
-                                            <td style={{ wordBreak: "break-all" }} className="text-wrap">{log.changedTo ? log.changedTo : "-"} </td>
+                                            <td >{log.changedFrom ? <ShowMore content={log.changedFrom} /> : "-"} </td>
+                                            <td>{log.changedTo ? <ShowMore content={log.changedTo} /> : "-"} </td>
                                         </tr>
                                     ))}
 

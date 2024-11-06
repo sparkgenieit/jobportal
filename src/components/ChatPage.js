@@ -84,23 +84,23 @@ export default function ChatPage({ name }) {
                 <IoMdArrowBack fontSize={16} />
             </button>
 
-            <div className=" mt-3 d-flex align-items-center">
+            <div className=" mt-3 d-flex flex-column flex-md-row gap-3 align-items-center">
                 <h2 className=" flex-grow-1 fw-bold fs-3 ">
                     {query?.subject}
                 </h2>
 
-                <span className="">
-                    <button onClick={() => sendMessage()} disabled={toggleState.showMessageBox} className="btn btn-info rounded-4" type="button">Send Message</button>
+                <span className="align-self-end">
+                    <button onClick={() => sendMessage()} disabled={toggleState.showMessageBox} className="btn btn-info rounded-4 w-100" type="button">Send Message</button>
                 </span>
 
             </div>
 
             <div className=" mt-3 ">
                 {toggleState.showMessageBox &&
-                    <div className="border-bottom  p-3" >
+                    <div className="border-bottom" >
                         <p className={`fw-bold fs-5 ${addMessage.by === "admin" ? "text-primary" : "text-dark"}`}>{addMessage.from}</p>
                         <p>{getDate(addMessage?.date)}</p>
-                        <div className=" w-100 d-flex">
+                        <div className="d-flex flex-wrap">
                             <div className="flex-grow-1">
                                 <MdxEditor value={addMessage.message} setValue={handleMessage} />
                             </div>
