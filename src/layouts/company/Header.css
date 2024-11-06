@@ -18,6 +18,9 @@
     opacity: 0;
 }
 
+.logo {
+    width: 170%;
+}
 
 
 .rejected-notification:hover .rejected-notification-message {
@@ -33,4 +36,10 @@
 ::-webkit-scrollbar-thumb {
     background-color: #ccc;
     border-radius: 5px;
+}
+
+@media (min-width:960px) {
+    .logo {
+        width: 100%;
+    }
 }

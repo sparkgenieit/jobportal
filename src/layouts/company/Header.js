@@ -1,19 +1,21 @@
 import './Header.css';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import http from '../../helpers/http';
 import { Link, useNavigate } from 'react-router-dom';
 import { timeAgoMinutes } from '../../helpers/functions';
 import handleLogout from '../../helpers/functions/handlelogout';
 import Head from './Head';
+import { GeneralContext } from '../../helpers/Context';
+import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 
 function Header() {
-  const [fullname, setFullname] = useState(localStorage.getItem('fullname') || '');
-  const [role, setRole] = useState(localStorage.getItem('role') || '');
-  const [userId, setUserId] = useState(localStorage.getItem('user_id') || '');
+  const { role, first_name, last_name, _id: userId } = useCurrentUser()
+  const fullname = first_name + " " + last_name
   const [showNotifications, setShowNotifications] = useState(false);
   const [notificationList, setNotificationList] = useState(null)
   const navigate = useNavigate()
+  const { setIsSidebarOpen } = useContext(GeneralContext)
 
   useEffect(() => {
     http.get(`/notifications/get/${userId}`)
@@ -38,8 +40,7 @@ function Header() {
       <nav className="navbar default-layout-navbar col-lg-12 col-12 pt-2 fixed-top d-flex flex-row">
         <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
           <Link to="/">
-            <img style={{ width: "100%" }} src="/assets/images/logo-jp.png"
-
+            <img className=" logo" src="/assets/images/logo-jp.png"
               alt="logo" />
           </Link>
         </div>
@@ -82,47 +83,6 @@ function Header() {
                   <path d="M7.293 1.5a1 1 0 0 1 1.414 0L11 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l2.354 2.353a.5.5 0 0 1-.708.708L8 2.207l-5 5V13.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 2 13.5V8.207l-.646.647a.5.5 0 1 1-.708-.708z" />
                 </svg>
               </Link>
-            </li>
-            <li className="nav-item dropdown">
-              <Link className="nav-link count-indicator dropdown-toggle" id="messageDropdown" to="#" data-bs-toggle="dropdown" aria-expanded="false">
-                <i className="mdi mdi-email-outline"></i>
-                <span className="count-symbol bg-warning"></span>
-              </Link>
-              <div className="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
-                <h6 className="p-3 mb-0">Messages</h6>
-                <div className="dropdown-divider"></div>
-                <Link className="dropdown-item preview-item">
-                  <div className="preview-thumbnail">
-                    <img src="/assets/images/faces/face4.jpg" alt="image" className="profile-pic" />
-                  </div>
-                  <div className="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                    <h6 className="preview-subject ellipsis mb-1 font-weight-normal">Mark send you a message</h6>
-                    <p className="text-gray mb-0"> 1 Minutes ago </p>
-                  </div>
-                </Link>
-                <div className="dropdown-divider"></div>
-                <Link className="dropdown-item preview-item">
-                  <div className="preview-thumbnail">
-                    <img src="/assets/images/faces/face2.jpg" alt="image" className="profile-pic" />
-                  </div>
-                  <div className="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                    <h6 className="preview-subject ellipsis mb-1 font-weight-normal">Cregh send you a message</h6>
-                    <p className="text-gray mb-0"> 15 Minutes ago </p>
-                  </div>
-                </Link>
-                <div className="dropdown-divider"></div>
-                <Link className="dropdown-item preview-item">
-                  <div className="preview-thumbnail">
-                    <img src="/assets/images/faces/face3.jpg" alt="image" className="profile-pic" />
-                  </div>
-                  <div className="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                    <h6 className="preview-subject ellipsis mb-1 font-weight-normal">Profile picture updated</h6>
-                    <p className="text-gray mb-0"> 18 Minutes ago </p>
-                  </div>
-                </Link>
-                <div className="dropdown-divider"></div>
-                <h6 className="p-3 mb-0 text-center">4 new messages</h6>
-              </div>
             </li>
             <li className="nav-item dropdown" >
               <a style={{ cursor: "pointer" }} className="nav-link count-indicator dropdown-toggle" onClick={() => setShowNotifications(!showNotifications)} id="notificationDropdown" data-bs-toggle="dropdown">
@@ -171,64 +131,19 @@ function Header() {
                   })}
                 </ul>
               </div>}
-              {/* <div className="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-                <h6 className="p-3 mb-0">Notifications</h6>
-                <div className="dropdown-divider"></div>
-                <Link  className="dropdown-item preview-item">
-                  <div className="preview-thumbnail">
-                    <div className="preview-icon bg-success">
-                      <i className="mdi mdi-calendar"></i>
-                    </div>
-                  </div>
-                  <div className="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                    <h6 className="preview-subject font-weight-normal mb-1">Event today</h6>
-                    <p className="text-gray ellipsis mb-0"> Just a reminder that you have an event today </p>
-                  </div>
-                </Link>
-                <div className="dropdown-divider"></div>
-                <Link  className="dropdown-item preview-item">
-                  <div className="preview-thumbnail">
-                    <div className="preview-icon bg-warning">
-                      <i className="mdi mdi-settings"></i>
-                    </div>
-                  </div>
-                  <div className="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                    <h6 className="preview-subject font-weight-normal mb-1">Settings</h6>
-                    <p className="text-gray ellipsis mb-0"> Update dashboard </p>
-                  </div>
-                </Link>
-                <div className="dropdown-divider"></div>
-                <Link  className="dropdown-item preview-item">
-                  <div className="preview-thumbnail">
-                    <div className="preview-icon bg-info">
-                      <i className="mdi mdi-link-variant"></i>
-                    </div>
-                  </div>
-                  <div className="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                    <h6 className="preview-subject font-weight-normal mb-1">Launch Admin</h6>
-                    <p className="text-gray ellipsis mb-0"> New admin wow! </p>
-                  </div>
-                </Link>
-                <div className="dropdown-divider"></div>
-                <h6 className="p-3 mb-0 text-center">See all notifications</h6>
-              </div> */}
             </li>
 
-            <li className="nav-item nav-logout d-none d-lg-block">
+            <li className="nav-item nav-logout">
               <span role='button' className="nav-link" onClick={handleLogout}>
                 <i className="mdi mdi-power"></i>
               </span>
             </li>
-
-            <li className="nav-item nav-settings d-none d-lg-block">
-              <Link className="nav-link" to="#">
-                <i className="mdi mdi-format-line-spacing"></i>
-              </Link>
+            <li>
+              <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" onClick={() => setIsSidebarOpen(prev => !prev)} type="button">
+                <span className="mdi mdi-menu"></span>
+              </button>
             </li>
           </ul >
-          <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-            <span className="mdi mdi-menu"></span>
-          </button>
         </div >
       </nav >
     </>

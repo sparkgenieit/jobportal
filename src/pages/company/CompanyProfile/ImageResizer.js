@@ -1,4 +1,4 @@
-import "./ImageResizer.css"
+import "./profile.css"
 
 import { useEffect, useRef, useState } from "react";
 
@@ -164,12 +164,12 @@ export default function Input({ width, height, setImg, imgSrc }) {
             <input
                 type="range"
                 name="width"
-                className="slider"
+                className="slider w-100"
                 onChange={(e) => handleWidthSliders(e)}
                 defaultValue={width}
                 min={10}
                 max={width}
-                style={{ width: `${width}px` }}
+                style={{ maxWidth: `${width}px` }}
             />
         </div>
     );

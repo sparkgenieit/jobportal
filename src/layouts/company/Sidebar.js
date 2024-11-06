@@ -26,7 +26,7 @@ function Sidebar() {
   const credits = user.role === 'recruiter' ? user.companyId.credits : user.credits
   const usedFreeCredit = user.role === 'recruiter' ? user.companyId.usedFreeCredit : user.usedFreeCredit
 
-  let sidebarClass = isSidebarOpen ? { marginLeft: "0" } : { marginLeft: "-230px" };
+
 
   const handleModal = () => {
 
@@ -47,9 +47,9 @@ function Sidebar() {
 
   return (
     <>
-      <div style={sidebarClass} className="border shadow">
-        <nav className="sidebar sidebar-offcanvas" id="sidebar">
-          <div className="  mt-4 pe-1 d-flex justify-content-end">
+      <div className={`border shadow ${isSidebarOpen ? "sidebar-showing" : "sidebar-not-showing"}`} >
+        <nav className="sidebar" id="sidebar">
+          <div className="  mt-4 pe-1 d-flex justify-content-end d-none d-md-flex">
             <Tooltip tooltipText={"Menu"}>
               <a className='pe-2' type='button'>
                 <span onClick={() => setIsSidebarOpen(prev => !prev)}><RxHamburgerMenu size="20px" /></span>

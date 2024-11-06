@@ -9,7 +9,6 @@ import Sidebar from './Sidebar';
 import { fetchEmployerUnreadCount } from '../../helpers/slices/mailCountSlice';
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 import CompanyHome from "../../pages/company/Home";
-import CompanyProfile from "../../pages/company/CompanyProfile";
 import Transactions from "../../pages/company/Transactions";
 import Postajob from "../../pages/company/jobs/Postajob";
 import PostedJobList from "../../pages/company/jobs/PostedJobList";
@@ -22,6 +21,7 @@ import RecruiterList from "../../pages/company/Recruiter/RecruiterList";
 import ChatPage from '../../components/ChatPage';
 import NotFound from '../../components/NotFound';
 import Audit from '../../pages/company/Audit-Log';
+import CompanyProfile from '../../pages/company/CompanyProfile';
 
 export default function CompanyLayout() {
     const { role } = useCurrentUser()
