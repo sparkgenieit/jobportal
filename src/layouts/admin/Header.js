@@ -1,26 +1,30 @@
 import './Header.css';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import handleLogout from "../../helpers/functions/handlelogout"
 import Head from './Head';
+import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
+import { GeneralContext } from '../../helpers/Context';
 
 function Heder() {
-  const [fullname, setFullname] = useState(localStorage.getItem('fullname') || '');
+  const { setIsSidebarOpen } = useContext(GeneralContext)
+  const { first_name, last_name } = useCurrentUser()
+  const fullname = first_name + " " + last_name
 
   return (
     <>
       <Head />
       <nav className="navbar default-layout-navbar col-lg-12 col-12 pt-2 fixed-top d-flex flex-row">
         <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <Link to="/"><img style={{ objectFit: "contain" }} src="/assets/images/logo-jp.png"
+          <Link to="/"><img className='logo' src="/assets/images/logo-jp.png"
             alt="logo" /></Link>
         </div>
         <div className="navbar-menu-wrapper d-flex align-items-stretch">
 
           <ul className="navbar-nav navbar-nav-right">
             <li className="nav-item nav-profile dropdown">
-              <Link className="nav-link dropdown-toggle" id="profileDropdown" to="#" data-bs-toggle="dropdown" aria-expanded="false">
+              <Link className="nav-link" to="#" aria-expanded="false">
                 <div className="nav-profile-img">
                   <img src="/assets/images/faces/face1.jpg" alt="image" />
                   <span className="availability-status online"></span>
@@ -29,13 +33,6 @@ function Heder() {
                   <p className="mb-1 text-black">{fullname}</p>
                 </div>
               </Link>
-              <div className="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
-                <Link className="dropdown-item" to="#">
-                  <i className="mdi mdi-cached me-2 text-success"></i> Activity Log </Link>
-                <div className="dropdown-divider"></div>
-                <Link className="dropdown-item" to="#">
-                  <i className="mdi mdi-logout me-2 text-primary"></i> Signout </Link>
-              </div>
             </li>
             <li className="nav-item d-none d-lg-block full-screen-link">
               <Link className="nav-link">
@@ -140,10 +137,12 @@ function Heder() {
                 <i className="mdi mdi-format-line-spacing"></i>
               </Link>
             </li>
+            <li>
+              <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" onClick={() => setIsSidebarOpen(prev => !prev)} type="button">
+                <span className="mdi mdi-menu"></span>
+              </button>
+            </li>
           </ul>
-          <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-            <span className="mdi mdi-menu"></span>
-          </button>
         </div>
       </nav>
     </>

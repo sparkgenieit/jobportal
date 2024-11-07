@@ -10,3 +10,16 @@ body {
 .my-table td {
     padding: 12px 10px;
 }
+
+
+.logo {
+    width: 170%;
+}
+
+
+
+@media (min-width:960px) {
+    .logo {
+        width: 100%;
+    }
+}

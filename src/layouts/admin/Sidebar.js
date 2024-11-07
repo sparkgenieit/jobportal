@@ -1,110 +1,118 @@
 import './Sidebar.css';
 
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux'
+import { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux'
 import { MdSpaceDashboard, MdAssignment, MdOutlineQuestionMark, MdAssignmentTurnedIn, MdAssignmentInd } from "react-icons/md";
 import { HiMiniQueueList, HiOutlineDocumentMagnifyingGlass } from "react-icons/hi2";
 import { GrDocumentTime } from "react-icons/gr";
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { BiUserPin } from "react-icons/bi";
 import { IoMdMailOpen } from 'react-icons/io';
+import { GeneralContext } from '../../helpers/Context';
 
 function Sidebar() {
-  const [showSidebar, setShowSidebar] = useState(true)
-  let sidebarClass = showSidebar ? { marginLeft: "0" } : { marginLeft: "-230px" };
+  const { isSidebarOpen, setIsSidebarOpen } = useContext(GeneralContext)
   const adminMailCount = useSelector((state) => state.mailCount.AdminUnreadCount)
   const employerMailCount = useSelector((state) => state.mailCount.EmployerUnreadCount)
+  const navigate = useNavigate()
+
+  const handleNavigation = (path) => {
+    if (window.innerWidth < 1024) {
+      setIsSidebarOpen(false)
+    }
+    navigate(path)
+  }
 
 
   return (
     <>
-      <div style={sidebarClass}>
-        <nav className="sidebar sidebar-offcanvas" id="sidebar">
-          <div className=" mt-4 pe-0 d-flex justify-content-end">
-            <RxHamburgerMenu role='button' onClick={() => setShowSidebar(prev => !prev)} fontSize={22} />
+      <div className={`border shadow ${isSidebarOpen ? "sidebar-showing" : "sidebar-not-showing"}`} >
+        <nav className="sidebar" id="sidebar">
+          <div className=" mt-4 pe-0 d-lg-flex d-none justify-content-end">
+            <RxHamburgerMenu role='button' onClick={() => setIsSidebarOpen(prev => !prev)} fontSize={22} />
           </div>
 
           <ul className="nav">
             <li className="nav-item">
-              <Link className="nav-link" to="/admin">
+              <div className="nav-link" role="button" onClick={() => handleNavigation("/admin")} >
                 <div className='d-flex justify-content-between w-100'>
                   <span>Dashboard</span>
                   <span>
                     <MdSpaceDashboard size={"20"} />
                   </span>
                 </div>
-              </Link>
+              </div>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/admin/jobqueuelist">
+              <div className="nav-link" role="button" onClick={() => handleNavigation("/admin/jobqueuelist")} >
                 <div className='d-flex justify-content-between w-100'>
                   <span>Jobs Queue List</span>
                   <span>
                     <HiMiniQueueList size={"20"} />
                   </span>
                 </div>
-              </Link>
+              </div>
             </li>
 
 
             <li className="nav-item">
-              <Link className="nav-link" to="/admin/myasignjobs">
+              <div className="nav-link" role="button" onClick={() => handleNavigation("/admin/myasignjobs")} >
                 <div className='d-flex justify-content-between w-100'>
                   <span>Assigned Jobs</span>
                   <span>
                     <MdAssignment size={"20"} />
                   </span>
                 </div>
-              </Link>
-            </li>
+              </div>
+            </li >
 
             <li className="nav-item">
-              <Link className="nav-link" to="/admin/profiles/queue">
+              <div className="nav-link" role="button" onClick={() => handleNavigation("/admin/profiles/queue")} >
                 <div className='d-flex justify-content-between w-100'>
                   <span>Profiles Queue</span>
                   <span>
                     <MdAssignmentInd size={"20"} />
                   </span>
                 </div>
-              </Link>
-            </li>
+              </div>
+            </li >
 
             <li className="nav-item">
-              <Link className="nav-link" to="/admin/profiles/assigned">
+              <div className="nav-link" role="button" onClick={() => handleNavigation("/admin/profiles/assigned")} >
                 <div className='d-flex justify-content-between w-100'>
                   <span>Assigned Profiles</span>
                   <span>
                     <MdAssignmentTurnedIn size={"20"} />
                   </span>
                 </div>
-              </Link>
-            </li>
+              </div>
+            </li >
 
             <li className="nav-item">
-              <Link className="nav-link" to="/admin/employer-queries">
+              <div className="nav-link" role="button" onClick={() => handleNavigation("/admin/employer-queries")} >
                 <div className='d-flex justify-content-between w-100'>
                   <span>Employer Queries</span>
                   <span>
                     <BiUserPin size={"22"} />
                   </span>
                 </div>
-              </Link>
-            </li>
+              </div>
+            </li >
 
             <li className="nav-item">
-              <Link className="nav-link" to="/admin/general-queries">
+              <div className="nav-link" role="button" onClick={() => handleNavigation("/admin/general-queries")}>
                 <div className='d-flex justify-content-between w-100'>
                   <span>General Queries</span>
                   <span>
                     < MdOutlineQuestionMark size={"20"} />
                   </span>
                 </div>
-              </Link>
-            </li>
+              </div>
+            </li >
 
             <li className="nav-item">
-              <Link className="nav-link" to="/admin/inbox">
+              <div className="nav-link" role="button" onClick={() => handleNavigation("/admin/inbox")} >
                 <div className='d-flex align-items-center justify-content-between w-100'>
                   <span className='d-flex gap-3 align-items-center'>
                     <span>Mail</span>
@@ -114,11 +122,11 @@ function Sidebar() {
                   </span>
                   <IoMdMailOpen size={"22"} />
                 </div>
-              </Link>
-            </li>
+              </div>
+            </li >
 
             <li className="nav-item">
-              <Link className="nav-link" to="/admin/admin-inbox">
+              <div className="nav-link" role="button" onClick={() => handleNavigation("/admin/admin-inbox")} >
                 <div className='d-flex align-items-center justify-content-between w-100'>
                   <span className='d-flex gap-3 align-items-center'>
                     <span>Admin Mails</span>
@@ -128,11 +136,11 @@ function Sidebar() {
                   </span>
                   <IoMdMailOpen size={"22"} />
                 </div>
-              </Link>
-            </li>
+              </div>
+            </li >
 
             <li className="nav-item">
-              <Link className="nav-link" to="/admin/audit">
+              <div className="nav-link" role="button" onClick={() => handleNavigation("/admin/audit")} >
                 <div className='d-flex justify-content-between align-items-center w-100'>
                   <span>
                     Audit Log
@@ -141,11 +149,11 @@ function Sidebar() {
                     <HiOutlineDocumentMagnifyingGlass size={"22"} />
                   </span>
                 </div>
-              </Link>
-            </li>
+              </div>
+            </li >
 
             <li className="nav-item">
-              <Link className="nav-link" to="/admin/my-logs">
+              <div className="nav-link" role="button" onClick={() => handleNavigation("/admin/my-logs")} >
                 <div className='d-flex justify-content-between pe-1 align-items-center w-100'>
                   <span>
                     Admin Logs
@@ -154,12 +162,12 @@ function Sidebar() {
                     <GrDocumentTime size={"18"} />
                   </span>
                 </div>
-              </Link>
-            </li>
+              </div>
+            </li >
 
-          </ul>
-        </nav>
-      </div>
+          </ul >
+        </nav >
+      </div >
     </>
   );
 }

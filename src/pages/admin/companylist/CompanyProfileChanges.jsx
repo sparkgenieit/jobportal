@@ -124,13 +124,13 @@ export default function CompanyProfileChanges() {
         if (photo) {
             return (
                 <div className="row" >
-                    <span className="col-3">{label} :</span>
+                    <span className="col-12 col-md-3">{label} :</span>
                     {(profile?.old_profile[field] === profile?.new_profile[field] || !profile?.new_profile[field]) ?
                         <div className="d-flex align-items-center col">
                             <img style={{ height: "8rem", width: "8rem" }} src={`${BASE_API_URL}/uploads/${field}s/${profile?.old_profile[field]}`} className="rounded-3" />
                         </div>
                         :
-                        <div className="d-flex align-items-center col gap-5">
+                        <div className="d-flex col flex-wrap align-items-center gap-4">
                             <img style={{ height: "8rem", width: "8rem" }} src={`${BASE_API_URL}/uploads/${field}s/${profile?.old_profile[field]}`} className=" rounded-3" />
                             <FaArrowRight fontSize={20} />
                             <img style={{ height: "8rem", width: "8rem" }} src={`${BASE_API_URL}/uploads/${field}s/${profile?.new_profile[field]}`} className=" rounded-3" />
@@ -145,14 +145,14 @@ export default function CompanyProfileChanges() {
             case "email":
                 return (
                     <div className="row" >
-                        <span className="col-3">{label} :</span>
+                        <span className="col-12 col-md-3">{label} :</span>
                         <span className="col"> {profile?.old_profile[field]}</span>
                     </div >
                 )
             case "info":
                 return (
                     <div className="row">
-                        {profile?.new_profile[field] && <span className="col-3">{label} :</span>}
+                        {profile?.new_profile[field] && <span className="col-12 col-md-3">{label} :</span>}
                         {profile?.old_profile[field] === profile?.new_profile[field] ?
                             <span className="col small"> {markdownToPlainText(profile?.old_profile[field])}</span>
                             :
@@ -166,7 +166,7 @@ export default function CompanyProfileChanges() {
             default:
                 return (
                     <div className="row" >
-                        {profile?.new_profile[field] && <span className="col-3">{label} :</span>}
+                        {profile?.new_profile[field] && <span className="col-12 col-md-3">{label} :</span>}
                         {profile?.old_profile[field] === profile?.new_profile[field] ?
                             <span className="col"> {profile?.new_profile[field]}</span>
                             :
@@ -192,7 +192,7 @@ export default function CompanyProfileChanges() {
 
             <h1 className="text-center fw-bold fs-4 mb-2">{profile?.old_profile?.name} Profile Changes</h1>
 
-            <div className="d-flex gap-3 justify-content-end mb-3">
+            <div className="d-flex flex-column flex-md-row gap-3 justify-content-end mb-3">
                 <button type="button" className="btn btn-success" disabled={processing} onClick={approve}>Approve</button>
                 <button type="button" className="btn btn-danger" disabled={processing} onClick={reject}>Reject</button>
             </div>

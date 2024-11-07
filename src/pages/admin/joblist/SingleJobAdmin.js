@@ -1,32 +1,32 @@
 import { useEffect, useState } from "react";
-import Footer from "../../../layouts/admin/Footer";
-import Header from "../../../layouts/admin/Header";
-import Sidebar from "../../../layouts/admin/Sidebar";
 import RejectJobMessage from "../../../components/RejectJobMessage";
 import AdminJob from "./AdminJobComponent";
 import http from "../../../helpers/http";
+import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import { useParams } from "react-router-dom";
+import { tryCatch } from "../../../helpers/functions";
 
 function SingleJobAdmin() {
     const params = useParams()
     const [jobview, setJobview] = useState()
     const userId = localStorage.getItem('user_id')
     const [show, setShow] = useState(false)
+    const message = useShowMessage()
+
+    const fetchJob = async () => {
+        const { data, error } = await tryCatch(() => http.get(`/jobs/${params.id}`))
+        if (data) {
+            setJobview(data)
+            document.title = data.jobTitle + " | " + data.company
+        }
+        if (error) {
+            message({ status: "Error", error })
+        }
+    }
+
     useEffect(() => {
-        http.get(`/jobs/${params.id}`)
-            .then((response) => {
-                setJobview(response.data)
-                document.title = response.data.jobTitle + " | " + response.data.company
-            })
-            .catch(err => setJobview(null))
+        fetchJob()
     }, [])
-
-    const [message, setMessage] = useState({
-        showMsg: false,
-        msgclassName: "",
-        Msg: ""
-    })
-
 
     function handleApprove(job) {
         const data = {
@@ -50,11 +50,9 @@ function SingleJobAdmin() {
                 }
             })
             .then(res => {
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000)
+                fetchJob()
             })
-            .catch(err => console.log(err))
+            .catch(err => message({ status: "Error", error: err }))
     }
 
     const handleClose = () => {
@@ -63,11 +61,6 @@ function SingleJobAdmin() {
     return (
         <>
             <div className="container-fluid">
-                {message.showMsg &&
-                    <div className={message.msgclassName}>
-                        {message.Msg}
-                    </div>
-                }
                 {jobview && <AdminJob jobview={jobview} handleApprove={handleApprove} setShow={setShow} />}
 
             </div>

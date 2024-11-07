@@ -15,10 +15,7 @@ export default function AdminJob({ jobview, handleApprove, setShow }) {
         setTooltip({ [name]: value })
     }
 
-
-
     const date = new Date(jobview.creationdate).toLocaleDateString('en-GB')
-
 
     return <>
         {jobview &&

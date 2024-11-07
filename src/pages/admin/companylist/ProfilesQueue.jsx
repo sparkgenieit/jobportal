@@ -49,34 +49,34 @@ export default function ProfilesQueue() {
     return (
         <div className="container-fluid content-wrapper bg-white">
             <h1 className="text-center fw-bold fs-4 mb-3">Profiles Queue</h1>
-
-            <table className="table text-center">
-                <thead>
-                    <tr>
-                        <td>Date</td>
-                        <td>Company Id</td>
-                        <td>
-                            Company Name
-                        </td>
-                        <td></td>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {profilesQueues?.map((profile) => (
+            <div className="table-responsive">
+                <table className="table text-center">
+                    <thead>
                         <tr>
-                            <td>{getDate(profile.created_date)}</td>
-                            <td>{profile.company_id}</td>
+                            <td>Date</td>
+                            <td>Company Id</td>
                             <td>
-                                {profile.old_profile.name}
+                                Company Name
                             </td>
-                            <td>
-                                <button type="button" onClick={() => assignToMe(profile._id)} className="btn btn-info">Assign to me</button>
-                            </td>
+                            <td></td>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {profilesQueues?.map((profile) => (
+                            <tr>
+                                <td>{getDate(profile.created_date)}</td>
+                                <td>{profile.company_id}</td>
+                                <td>
+                                    {profile.old_profile.name}
+                                </td>
+                                <td>
+                                    <button type="button" onClick={() => assignToMe(profile._id)} className="btn btn-info">Assign to me</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }
