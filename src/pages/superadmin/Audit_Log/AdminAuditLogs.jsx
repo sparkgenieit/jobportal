@@ -124,15 +124,15 @@ export default function AdminAuditLogs() {
     }, [])
 
     return (
-        <div className="container-fluid content-wrapper px-0 bg-white">
+        <div className="container-fluid  pt-4 bg-white">
 
-            <div className="d-flex position-relative align-items-center">
+            <div className="d-flex flex-column flex-md-row align-items-center">
                 <h2 className="text-center w-100 fw-bold fs-3 mb-3" > Admin Logs</h2>
-                <button type="button" onClick={() => downloadAllLogs()} className="btn position-absolute end-0 me-2  btn-info rounded-4">Download All</button>
+                <button type="button" onClick={() => downloadAllLogs()} className="btn text-nowrap  btn-info rounded-4">Download All</button>
             </div>
 
             <div className="container-fluid">
-                <div className="d-flex gap-2 my-3 small">
+                <div className="d-flex flex-column flex-md-row gap-2 my-3 small">
                     <div className="d-flex flex-column align-items-start">
                         <label>From Date</label>
                         <input type="date" name="fromDate" className="form-control" value={filters.fromDate} onChange={handleChange} />
@@ -142,12 +142,12 @@ export default function AdminAuditLogs() {
                         <input type="date" name="toDate" className="form-control" value={filters.toDate} onChange={handleChange} />
                     </div>
 
-                    <div className="d-flex align-self-end flex-grow-1 gap-2">
+                    <div className="d-flex flex-column flex-md-row align-self-md-end flex-grow-1 gap-2">
                         <input type="text" placeholder="Job Title" className="form-control " name="jobTitle" value={filters.jobTitle} onChange={handleChange} />
                         <input type="text" placeholder="Employer Reference" className="form-control " name="employerReference" value={filters.employerReference} onChange={handleChange} />
                         <input type="text" placeholder="Job ID" className="form-control" name="jobId" value={filters.jobId} onChange={handleChange} />
 
-                        <div className="d-flex align-items-center gap-3">
+                        <div className="d-flex align-items-center justify-content-evenly gap-3">
                             <Tooltip tooltipText={"Apply"}>
                                 <span onClick={FetchLogsWithFilters}>
                                     <FaCheck color="green" fontSize={20} />

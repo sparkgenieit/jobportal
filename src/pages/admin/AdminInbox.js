@@ -79,7 +79,7 @@ export default function Queries() {
                     />
                 </div>
 
-                <div className='container'>
+                <div className='table-responsive'>
                     {loading && <Loader />}
                     {!loading &&
                         <table className='table text-start table-hover'>

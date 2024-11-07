@@ -145,7 +145,7 @@ export default function Audit() {
                         <input type="text" placeholder="Employer Reference" className="form-control " name="employerReference" value={filters.employerReference} onChange={handleChange} />
                         <input type="text" placeholder="Job ID" className="form-control" name="jobId" value={filters.jobId} onChange={handleChange} />
 
-                        <div className="d-flex align-items-center justify-content-end gap-3">
+                        <div className="d-flex align-items-center justify-content-evenly gap-3">
                             <Tooltip tooltipText={"Apply"}>
                                 <span onClick={FetchLogsWithFilters}>
                                     <FaCheck color="green" fontSize={20} />

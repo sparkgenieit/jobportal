@@ -62,26 +62,26 @@ export default function Inbox() {
     }, [])
 
     return (
-        <div className="content-wrapper bg-white">
-            <div className="container-fluid">
-                <Pagination currentPage={currentPage} totalCount={totalItems} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} pageNumberToShow={2} fetchItems={fetchMails} >
-                    <div className="d-flex position-relative">
-                        <h2 className="text-center flex-grow-1 fw-bold fs-4">Inbox</h2>
-                        <Link to={`/${role}/mail-admin`} className="btn btn-info rounded-4 position-absolute end-0">New Mail</Link>
-                    </div>
+        <div className="container-fluid  pt-3  bg-white">
+            <Pagination currentPage={currentPage} totalCount={totalItems} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} pageNumberToShow={2} fetchItems={fetchMails} >
+                <div className="d-flex flex-column flex-md-row">
+                    <h2 className="text-center flex-grow-1 fw-bold fs-4">Inbox</h2>
+                    <Link to={`/${role}/mail-admin`} className="btn btn-info rounded-4">New Mail</Link>
+                </div>
 
-                    <div className="my-3">
-                        <input
-                            type="search"
-                            className="form-control"
-                            placeholder="Search inbox"
-                            value={searchTerm}
-                            onChange={(e) => handleSearch(e)}
-                        />
-                    </div>
+                <div className="my-3">
+                    <input
+                        type="search"
+                        className="form-control"
+                        placeholder="Search inbox"
+                        value={searchTerm}
+                        onChange={(e) => handleSearch(e)}
+                    />
+                </div>
 
-                    {loading && <Loader />}
-                    {!loading &&
+                {loading && <Loader />}
+                {!loading &&
+                    <div className="table-responsive">
                         <table className='table text-start table-hover mt-3'>
                             <thead>
                                 <tr>
@@ -107,9 +107,9 @@ export default function Inbox() {
                                 ))}
                             </tbody>
                         </table>
-                    }
-                </Pagination>
-            </div>
-        </div >
+                    </div>
+                }
+            </Pagination>
+        </div>
     )
 }

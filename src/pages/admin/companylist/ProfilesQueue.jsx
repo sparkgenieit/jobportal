@@ -70,7 +70,7 @@ export default function ProfilesQueue() {
                                     {profile.old_profile.name}
                                 </td>
                                 <td>
-                                    <button type="button" onClick={() => assignToMe(profile._id)} className="btn btn-info">Assign to me</button>
+                                    <button type="button" onClick={() => assignToMe(profile._id)} className="btn btn-info rounded-4 btn-xs">Assign to me</button>
                                 </td>
                             </tr>
                         ))}
