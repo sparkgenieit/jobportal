@@ -1,7 +1,3 @@
-
-import Header from '../../../layouts/superadmin/Header';
-import Sidebar from '../../../layouts/superadmin/Sidebar';
-import Footer from '../../../layouts/superadmin/Footer';
 import { useState } from 'react';
 import { BtnBold, BtnItalic, Editor, EditorProvider, Toolbar } from 'react-simple-wysiwyg';
 

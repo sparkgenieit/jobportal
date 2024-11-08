@@ -1,20 +1,23 @@
 import './Header.css';
 import Head from './Head'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import handleLogout from '../../helpers/functions/handlelogout';
+import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
+import { useContext } from 'react';
+import { GeneralContext } from '../../helpers/Context';
 
 function Header() {
+  const { first_name, last_name } = useCurrentUser()
+  const fullname = first_name + " " + last_name
 
-  const fullname = localStorage.getItem('fullname') || ""
-
-  const navigate = useNavigate();
+  const { setIsSidebarOpen } = useContext(GeneralContext)
 
   return (
     <>
       <Head />
       <nav className="navbar default-layout-navbar col-lg-12 col-12 pt-2 fixed-top d-flex flex-row">
         <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <Link to="/"><img style={{ objectFit: "contain" }} src="/assets/images/logo-jp.png"
+          <Link to="/"><img className='logo' src="/assets/images/logo-jp.png"
             alt="logo" /></Link>
         </div>
         <div className="navbar-menu-wrapper d-flex align-items-stretch">
@@ -141,10 +144,12 @@ function Header() {
                 <i className="mdi mdi-format-line-spacing"></i>
               </Link>
             </li>
+            <li>
+              <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" onClick={() => setIsSidebarOpen(prev => !prev)} type="button">
+                <span className="mdi mdi-menu"></span>
+              </button>
+            </li>
           </ul>
-          <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-            <span className="mdi mdi-menu"></span>
-          </button>
         </div>
       </nav>
     </>

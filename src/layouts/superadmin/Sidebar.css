@@ -3,9 +3,15 @@
 }
 
 .sidebar-not-showing {
-    margin-left: -290px;
+    margin-left: -265px;
 }
 
 * {
     transition: all 0.5s;
+}
+
+@media (min-width:960px) {
+    .sidebar-not-showing {
+        margin-left: -230px;
+    }
 }

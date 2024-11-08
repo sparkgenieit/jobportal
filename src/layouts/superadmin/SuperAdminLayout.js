@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 
 import Header from './Header';
-import Footer from './Footer';
 import Sidebar from './Sidebar';
 import SuperAdminHome from "../../pages/superadmin/Home";
 import Categories1 from "../../pages/superadmin/categories/Categories1";
@@ -34,6 +33,7 @@ import http from '../../helpers/http';
 import NotFound from '../../components/NotFound';
 import Audit from '../../pages/superadmin/Audit_Log/Audit_Log';
 import AdminAuditLogs from '../../pages/superadmin/Audit_Log/AdminAuditLogs';
+import Footer from '../admin/Footer'; // As same footer for both superadmin and admin
 
 export default function SuperAdminLayout() {
     const dispatch = useDispatch()

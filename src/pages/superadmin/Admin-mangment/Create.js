@@ -1,7 +1,3 @@
-
-import Header from '../../../layouts/superadmin/Header';
-import Sidebar from '../../../layouts/superadmin/Sidebar';
-import Footer from '../../../layouts/superadmin/Footer';
 import { useState } from 'react';
 
 
@@ -124,9 +120,8 @@ function Create() {
 
       <div className="container-scroller">
 
-        <Header />
         <div class="container-fluid page-body-wrapper">
-          <Sidebar />
+
           <div class="container-fluid">
             <div className="content-wrapper bg-white">
               <div className="page-header">
@@ -201,9 +196,6 @@ function Create() {
 
               </div>
             </div>
-            <Footer />
-
-
           </div>
         </div>
       </div>

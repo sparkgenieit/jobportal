@@ -1,8 +1,4 @@
-import Header from "../../../layouts/superadmin/Header";
-import Footer from "../../../layouts/superadmin/Footer";
-import Sidebar from "../../../layouts/superadmin/Sidebar";
-import { useEffect, useState } from "react";
-import http from '../../../helpers/http'
+import { useState } from "react";
 
 function LocationList() {
 

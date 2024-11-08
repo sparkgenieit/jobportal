@@ -1,10 +1,4 @@
-// import Header from '..../../layouts/company/Header';
-// import Footer from '../../layouts/company/Footer';
-// import Sidebar from '../../layouts/company/Sidebar';
-import { useEffect, useState } from 'react';
-import Header from '../../../layouts/superadmin/Header';
-import Sidebar from '../../../layouts/superadmin/Sidebar';
-import Footer from '../../../layouts/superadmin/Footer';
+import { useState } from 'react';
 
 const PagesList = () => {
     const [pages, setPages] = useState([

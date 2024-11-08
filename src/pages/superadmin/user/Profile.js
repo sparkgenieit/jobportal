@@ -1,6 +1,3 @@
-import Header from "../../../layouts/superadmin/Header";
-import Sidebar from "../../../layouts/superadmin/Sidebar";
-import Footer from "../../../layouts/superadmin/Footer";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import http from "../../../helpers/http";

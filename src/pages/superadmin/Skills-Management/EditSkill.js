@@ -1,8 +1,4 @@
 import { useEffect, useState } from "react";
-import Footer from "../../../layouts/superadmin/Footer";
-import Header from "../../../layouts/superadmin/Header";
-import Sidebar from "../../../layouts/superadmin/Sidebar";
-import axios from "axios";
 import { Editor, EditorProvider } from "react-simple-wysiwyg";
 import { useNavigate, useParams } from "react-router-dom";
 import http from "../../../helpers/http";
