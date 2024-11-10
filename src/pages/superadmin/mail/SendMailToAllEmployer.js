@@ -55,18 +55,22 @@ export default function SendMailToAllEmployer() {
 
             <div className="d-flex mt-5 flex-column gap-4">
 
-                <div className="d-flex gap-5 align-items-center">
-                    <label className="form-label">Subject:</label>
-                    <input
-                        name="subject"
-                        className="form-control flex-grow-1"
-                        type="text"
-                        value={subject}
-                        onChange={(e) => {
-                            setSubject(e.target.value)
-                        }}
-                        placeholder="Subject"
-                    />
+                <div className="row">
+                    <div className="col-lg-3">
+                        <label className="form-label">Subject:</label>
+                    </div>
+                    <div className="col-lg-9">
+                        <input
+                            name="subject"
+                            className="form-control"
+                            type="text"
+                            value={subject}
+                            onChange={(e) => {
+                                setSubject(e.target.value)
+                            }}
+                            placeholder="Subject"
+                        />
+                    </div>
                 </div>
 
                 <div className="d-flex flex-column gap-2">

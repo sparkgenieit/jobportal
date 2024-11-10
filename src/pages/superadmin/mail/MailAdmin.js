@@ -86,7 +86,7 @@ export default function MailAdmin() {
     }
 
     return (
-        <div className="content-wrapper bg-white" >
+        <div className="container-fluid pt-4 bg-white" >
             <button onClick={() => message({ path: -1 })} type="button" className="btn p-1 btn-dark btn-xs rounded-circle ">
                 <IoMdArrowBack fontSize={16} />
             </button>
@@ -95,30 +95,38 @@ export default function MailAdmin() {
 
             <div className="d-flex flex-column gap-5">
 
-                <div className="d-flex align-items-center gap-3 mt-2">
-                    <label className="form-label flex-grow-1 w-25 text-nowrap"> Select an admin to message</label>
-                    <select
-                        onChange={handleSelectAdmin}
-                        value={selectedAdmin?._id}
-                        disabled={submitting}
-                        className="form-select flex-grow-1"
-                    >
-                        {admins.length > 0 && admins.map(admin => (
-                            <option key={admin._id} value={admin._id}>{admin.first_name + " " + admin.last_name}</option>
-                        ))}
-                    </select>
+                <div className=" row mt-2">
+                    <div className="col-lg-3">
+                        <label className="form-label"> Select an admin to message</label>
+                    </div>
+                    <div className="col-lg-9">
+                        <select
+                            onChange={handleSelectAdmin}
+                            value={selectedAdmin?._id}
+                            disabled={submitting}
+                            className="form-select"
+                        >
+                            {admins.length > 0 && admins.map(admin => (
+                                <option key={admin._id} value={admin._id}>{admin.first_name + " " + admin.last_name}</option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
 
-                <div className="d-flex align-items-center gap-3 ">
-                    <label className="form-label flex-grow-1 w-25"> Subject</label>
-                    <input
-                        type="text"
-                        className="form-control flex-grow-1"
-                        value={subject}
-                        onChange={(e) => setSubject(e.target.value)}
-                        disabled={submitting}
-                        placeholder="Subject"
-                    />
+                <div className=" row">
+                    <div className="col-lg-3">
+                        <label className="form-label"> Subject</label>
+                    </div>
+                    <div className="col-lg-9">
+                        <input
+                            type="text"
+                            className="form-control"
+                            value={subject}
+                            onChange={(e) => setSubject(e.target.value)}
+                            disabled={submitting}
+                            placeholder="Subject"
+                        />
+                    </div>
                 </div>
 
                 <div className=" ">

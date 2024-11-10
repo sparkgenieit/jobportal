@@ -1,7 +1,9 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import http from "../../../helpers/http";
+import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 
 function EditAd({ ad }) {
 
@@ -18,7 +20,7 @@ function EditAd({ ad }) {
     const [numberofclicks, setNumberOfClicks] = useState(ad.noOfClicks)
     const [Msg, setMsg] = useState(false)
     const [ErrorMsg, setErrorMsg] = useState(false)
-    const [message, setMessage] = useState('')
+    const message = useShowMessage()
 
 
     const [addtitlemsg, setAddTitleMsg] = useState('Please Enter Title');
@@ -56,6 +58,7 @@ function EditAd({ ad }) {
         }
         setPageTOShow(pages)
 
+        document.title = "Edit Ad"
     }, [])
 
 
@@ -294,21 +297,14 @@ function EditAd({ ad }) {
 
             http.put(`/ads/update/${ad._id}`, data)
                 .then((res) => {
-                    setMsg(true)
-                    setMessage("Ad Updated")
+                    message({ status: "success", message: "Ad Updated" })
                     setTimeout(() => {
                         window.location.reload()
                     }, 2000)
                 }
                 )
                 .catch((err) => {
-
-                    setErrorMsg(true)
-                    setMessage(err.code)
-                    setTimeout(() => {
-                        setErrorMsg(false)
-                    }, 5000)
-
+                    message({ status: "error", error: err })
                 })
         }
 
@@ -319,127 +315,110 @@ function EditAd({ ad }) {
 
     return (
         <>
-            <div class="container-fluid">
-                <div className="content-wrapper bg-white">
-                    <h3 className="fs-4 text-center fw-bold">Edit an Ad</h3>
-
-                    <div class="card-body bg-white p-5 ">
-                        {ErrorMsg && <div className='alert alert-danger' role="alert">
-                            {message}
-                        </div>}
-                        {Msg && <div className='alert alert-success' role="alert">
-                            {message}
-                        </div>}
-                        <form>
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Ad Title <span style={{ color: "red" }}>*</span></label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" value={addtitle} onChange={(event) => FormHandle('addtitle', event)} />
-                                            {errors.addtitleError && <div className='text-danger'>{addtitlemsg}</div>}
-                                        </div>
-                                    </div>
+            <div class="container-fluid p-2">
+                <h3 className="fs-4 text-center fw-bold">Edit an Ad</h3>
+                <form>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Ad Title <span style={{ color: "red" }}>*</span></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value={addtitle} onChange={(event) => FormHandle('addtitle', event)} />
+                                    {errors.addtitleError && <div className='text-danger'>{addtitlemsg}</div>}
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Description<span style={{ color: "red" }}>*</span></label>
-                                        <div class="col-sm-9">
-                                            <textarea class="form-control" value={description} onChange={(event) => FormHandle('description', event)}></textarea>
-                                            {errors.descriptionError && <div className='text-danger'>{descriptionmsg}</div>}
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Position<span style={{ color: "red" }}>*</span></label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" value={position} onChange={(event) => FormHandle('position', event)} />
-                                            {errors.positionError && <div className='text-danger'>{positionmsg} </div>}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='row'>
-                                <div class="col-md-7">
-                                    <div class="form-group row">
-                                        <label class="col-sm-3  col-form-label">Size<span style={{ color: "red" }}>*</span></label>
-                                        <div class="col-sm-9">
-                                            <input type="number" class="form-control" value={size} onChange={(event) => FormHandle('size', event)} />
-                                            {errors.sizeError && <div className='text-danger'>Please enter size </div>}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='row'>
-                                <div class="col-md-7">
-                                    <div class="form-group row">
-                                        <label class="col-sm-3  col-form-label pt-4">Page To Show<span style={{ color: "red" }}>*</span></label>
-                                        <div class="col-sm-9 d-flex justify-content-between align-items-center">
-
-
-                                            <span><input type="checkbox" class="form-check-input mx-2" name='about' checked={pagetoshow.about} onChange={handleCheckboxChange} />About</span>
-
-
-
-                                            <span><input type="checkbox" class="form-check-input mx-2" name='home' checked={pagetoshow.home} onChange={handleCheckboxChange} />Home</span>
-
-
-
-                                            <span><input type="checkbox" class="form-check-input mx-2" name="jobs" checked={pagetoshow.jobs} onChange={handleCheckboxChange} />Jobs</span>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            {error && <div style={{ color: "red", paddingLeft: "125px" }}>{error}</div>}
-
-                            <div class="col-md-7">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Price<span style={{ color: "red" }}>*</span></label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" value={price} onChange={(event) => FormHandle('price', event)} />
-                                        {errors.priceError && <div className='text-danger'>{pricemsg}</div>}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-7">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Number of Clicks<span style={{ color: "red" }}>*</span></label>
-                                    <div class="col-sm-9">
-                                        <input type="number" class="form-control" value={numberofclicks} onChange={(event) => FormHandle('numberofclicks', event)} />
-                                        {errors.numberError && <div className='text-danger'>Please enter number of clicks</div>}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className='form-group'>
-                                <div className='col-11 p-3'>
-                                    <button type='button' className='btn btn-primary float-end' onClick={() => SubmitBtn()}>Save</button>
-
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Description<span style={{ color: "red" }}>*</span></label>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control" value={description} onChange={(event) => FormHandle('description', event)}></textarea>
+                                    {errors.descriptionError && <div className='text-danger'>{descriptionmsg}</div>}
                                 </div>
 
                             </div>
-                        </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Position<span style={{ color: "red" }}>*</span></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value={position} onChange={(event) => FormHandle('position', event)} />
+                                    {errors.positionError && <div className='text-danger'>{positionmsg} </div>}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-sm-3  col-form-label">Size<span style={{ color: "red" }}>*</span></label>
+                                <div class="col-sm-9">
+                                    <input type="number" class="form-control" value={size} onChange={(event) => FormHandle('size', event)} />
+                                    {errors.sizeError && <div className='text-danger'>Please enter size </div>}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-sm-3  col-form-label pt-4">Page To Show<span style={{ color: "red" }}>*</span></label>
+                                <div class="col-sm-9 d-flex justify-content-between align-items-center">
+
+
+                                    <span><input type="checkbox" class="form-check-input mx-2" name='about' checked={pagetoshow.about} onChange={handleCheckboxChange} />About</span>
+
+
+
+                                    <span><input type="checkbox" class="form-check-input mx-2" name='home' checked={pagetoshow.home} onChange={handleCheckboxChange} />Home</span>
+
+
+
+                                    <span><input type="checkbox" class="form-check-input mx-2" name="jobs" checked={pagetoshow.jobs} onChange={handleCheckboxChange} />Jobs</span>
+
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                </div>
+
+                    {error && <div style={{ color: "red", paddingLeft: "125px" }}>{error}</div>}
+
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Price<span style={{ color: "red" }}>*</span></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" value={price} onChange={(event) => FormHandle('price', event)} />
+                                {errors.priceError && <div className='text-danger'>{pricemsg}</div>}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Number of Clicks<span style={{ color: "red" }}>*</span></label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control" value={numberofclicks} onChange={(event) => FormHandle('numberofclicks', event)} />
+                                {errors.numberError && <div className='text-danger'>Please enter number of clicks</div>}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='form-group'>
+                        <div className='col-12 p-3'>
+                            <button type='button' className='btn btn-primary float-end' onClick={() => SubmitBtn()}>Save</button>
+
+                        </div>
+
+                    </div>
+                </form>
             </div>
         </>
     )
-
-
-
-
-
 }
 export default EditAd;

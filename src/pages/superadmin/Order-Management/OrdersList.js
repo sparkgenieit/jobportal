@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import { RxDownload } from "react-icons/rx";
-import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
 import Modal from 'react-bootstrap/Modal';
 
 import http from '../../../helpers/http'
@@ -53,9 +52,9 @@ function OrdersList() {
 
     return (
         <>
-            <div className="container-fluid mt-4">
-                <div className="content-wrapper p-0 bg-white">
-                    <div className="d-flex position-relative ">
+            <div className="container-fluid pt-4">
+                <div className="bg-white">
+                    <div className="d-flex flex-column flex-md-row align-items-center">
                         <h2 className="fw-bold text-center fs-4 w-100">Transactions</h2>
 
                         <button
@@ -63,23 +62,17 @@ function OrdersList() {
                             onClick={() => {
                                 setShowModal(true)
                             }}
-                            className="fw-bold btn  rounded-3  btn-primary position-absolute end-0"
+                            className="fw-bold btn  rounded-3  btn-primary align-self-end"
                         >Refund
                         </button>
                     </div>
 
-                    <div className="pt-4  w-100">
-                        <table className="w-100 text-center">
+                    <div className="pt-4  w-100 table-responsive" >
+                        <table className="table text-center">
                             <thead >
-                                <tr style={{ fontSize: "14px" }}>
-
+                                <tr>
                                     <th className="d-flex justify-content-center">
                                         <span>Date</span>
-                                        {/* {
-                                                    sort === "desc" ?
-                                                        <span role="button" onClick={() => { setSort("asc") }}><BiSolidDownArrow /></span> :
-                                                        <span role="button" onClick={() => { setSort("desc") }}><BiSolidUpArrow /></span>
-                                                } */}
                                     </th>
                                     <th>Company Name</th>
                                     <th className="text-start">Description</th>

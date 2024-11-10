@@ -1,8 +1,9 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import http from "../../../helpers/http";
 
+import http from "../../../helpers/http";
+import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 
 function Create() {
   const [fname, setFname] = useState('');
@@ -13,11 +14,12 @@ function Create() {
   const [lastnameError, setLastnameError] = useState("Please Enter Last Name")
   const [emailError, setEmailError] = useState("Please Enter Email ")
   const [passwordError, setPasswordError] = useState("Please Enter Password")
-  const [msg, setMsg] = useState(false);
-  const [errorMsg, setErrorMsg] = useState(false);
-  const [CreateError, setCreateError] = useState('');
+  const message = useShowMessage()
 
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "Create an Admin"
+  }, [])
 
   const [errors, setErrors] = useState({
     fname: false,
@@ -132,111 +134,75 @@ function Create() {
       }
 
       http.post("/users/register", data)
-        .then((response) => {
-          if (response && response.status) {
-            setErrorMsg(false)
-            setMsg(true)
-            setTimeout(() => {
-              navigate("/superadmin/admins/List")
-            }, 2000)
-
-          }
+        .then(() => {
+          message({ status: "Success", message: "Admin Created ", path: "/superadmin/admins/List" })
         })
         .catch((e) => {
-          setErrorMsg(true)
-          setCreateError(e.response.data.message)
-        }
-        )
+          message({ status: "Error", error: e })
+        })
     }
   }
   return (
     <>
+      <div class="container-fluid pt-4 bg-white">
+        <h3 className="fs-4 text-center fw-bold">Create Admin</h3>
+        <form class="form-sample">
+          <div className='row'>
+            <div className="col-md-12">
+              <div className="form-group row">
+                <label className="col-sm-4 col-form-label">FirstName</label>
+                <div className="col-sm-8">
 
+                  <input type="text" value={fname} onChange={(event) => handleInput('fname', event)} className="form-control" />
 
-      <div class="container-fluid">
-        <div className="content-wrapper bg-white">
-          <h3 className="fs-4 text-center fw-bold">Create Admin</h3>
-          <div className="row ">
-            <div className="col-12 bg-white my-5 m-3">
-              {/* <div className="card"> */}
-              <div className="card-body">
-                <h4 className="card-title">Create Admin </h4>
-                <form class="form-sample">
-                  <div className='row'>
-                    <div className="col-md-12">
-                      {msg && <div class="alert alert-success" role="alert">
-                        Admin Created SuccessFully
-                      </div>}
-                      {errorMsg && <div class="alert alert-danger" role="alert">
-                        {CreateError}
-                      </div>}
-                      <div className="form-group row">
-                        <label className="col-sm-4 col-form-label">FirstName</label>
-                        <div className="col-sm-8">
-
-                          <input type="text" value={fname} onChange={(event) => handleInput('fname', event)} className="form-control" />
-
-                          {errors && errors.fname && <div className=' text-danger'>{firstnameError}</div>}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='row'>
-                    <div className="col-md-12">
-                      <div className="form-group row">
-                        <label className="col-sm-4 col-form-label">LastName</label>
-                        <div class="col-sm-8">
-                          <input type="text" value={lname} onChange={(event) => handleInput('lname', event)} className="form-control" />
-
-                          {errors && errors.lname && <div className="text-danger">{lastnameError} </div>}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='row'>
-                    <div className="col-md-12">
-                      <div className="form-group row">
-                        <label className="col-sm-4 col-form-label">Email</label>
-                        <div className="col-sm-8">
-                          <input type="text" value={email} onChange={(event) => handleInput('email', event)} className="form-control" />
-                          {errors && errors.email && <div className="error text-danger">{emailError}</div>}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className='row'>
-                    <div className="col-md-12">
-                      <div className="form-group row">
-                        <label className="col-sm-4 col-form-label">Password</label>
-                        <div className="col-sm-8">
-                          <input type="password" value={password} onChange={(event) => handleInput('password', event)} className="form-control" />
-                          {errors && errors.password && <div className="error text-danger">{passwordError}</div>}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-9 mt-3 row">
-                    <div className="col-md-12  ">
-                      <button type="button" className="btn btn-gradient-primary me-2 float-end" onClick={() => submitData()} >Submit</button>
-                    </div>
-                  </div>
-
-                </form>
+                  {errors && errors.fname && <div className=' text-danger'>{firstnameError}</div>}
+                </div>
               </div>
-              {/* </div> */}
             </div>
-
-
-
-
-
           </div>
-        </div>
-      </div>
+          <div className='row'>
+            <div className="col-md-12">
+              <div className="form-group row">
+                <label className="col-sm-4 col-form-label">LastName</label>
+                <div class="col-sm-8">
+                  <input type="text" value={lname} onChange={(event) => handleInput('lname', event)} className="form-control" />
 
+                  {errors && errors.lname && <div className="text-danger">{lastnameError} </div>}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className='row'>
+            <div className="col-md-12">
+              <div className="form-group row">
+                <label className="col-sm-4 col-form-label">Email</label>
+                <div className="col-sm-8">
+                  <input type="text" value={email} onChange={(event) => handleInput('email', event)} className="form-control" />
+                  {errors && errors.email && <div className="error text-danger">{emailError}</div>}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className='row'>
+            <div className="col-md-12">
+              <div className="form-group row">
+                <label className="col-sm-4 col-form-label">Password</label>
+                <div className="col-sm-8">
+                  <input type="password" value={password} onChange={(event) => handleInput('password', event)} className="form-control" />
+                  {errors && errors.password && <div className="error text-danger">{passwordError}</div>}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-9 mt-3 row">
+            <div className="col-md-12  ">
+              <button type="button" className="btn btn-gradient-primary me-2 float-end" onClick={() => submitData()} >Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </>
   )
-
 }
 export default Create;

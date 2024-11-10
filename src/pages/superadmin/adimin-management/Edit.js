@@ -150,90 +150,68 @@ function AdminEdit({ currentAdmin }) {
     }
     return (
         <>
+            <div class="container-fluid bg-white">
+                <h3 className="fs-4 text-center fw-bold">Edit Admin</h3>
+                <div className='row'>
+                    <div className="col-md-12">
+                        {msg && <div class="alert alert-success" role="alert">
+                            Admin Edited SuccessFully
+                        </div>}
+                        {errorMsg && <div class="alert alert-danger" role="alert">
+                            {CreateError}
+                        </div>}
+                        <div className="form-group row">
+                            <label className="col-sm-4 col-form-label">FirstName</label>
+                            <div className="col-sm-8">
 
+                                <input type="text" value={fname} onChange={(event) => handleInput('fname', event)} className="form-control" />
 
-            <div class="container-fluid">
-                <div className="content-wrapper bg-white">
-                    <h3 className="fs-4 text-center fw-bold">Edit Admin</h3>
-
-
-                    <div className="row ">
-                        <div className="col-12 bg-white my-2 ">
-                            {/* <div className="card"> */}
-                            <div className="card-body">
-                                <h4 className="card-title">Edit Admin </h4>
-                                <form class="form-sample">
-                                    <div className='row'>
-                                        <div className="col-md-12">
-                                            {msg && <div class="alert alert-success" role="alert">
-                                                Admin Edited SuccessFully
-                                            </div>}
-                                            {errorMsg && <div class="alert alert-danger" role="alert">
-                                                {CreateError}
-                                            </div>}
-                                            <div className="form-group row">
-                                                <label className="col-sm-4 col-form-label">FirstName</label>
-                                                <div className="col-sm-8">
-
-                                                    <input type="text" value={fname} onChange={(event) => handleInput('fname', event)} className="form-control" />
-
-                                                    {errors && errors.fname && <div className=' text-danger'>{firstnameError}</div>}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className='row'>
-                                        <div className="col-md-12">
-                                            <div className="form-group row">
-                                                <label className="col-sm-4 col-form-label">LastName</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" value={lname} onChange={(event) => handleInput('lname', event)} className="form-control" />
-
-                                                    {errors && errors.lname && <div className="text-danger">{lastnameError} </div>}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className='row'>
-                                        <div className="col-md-12">
-                                            <div className="form-group row">
-                                                <label className="col-sm-4 col-form-label">Email</label>
-                                                <div className="col-sm-8">
-                                                    <input type="text" value={email} onChange={(event) => handleInput('email', event)} className="form-control" disabled />
-                                                    {errors && errors.email && <div className="error text-danger">{emailError}</div>}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className='row'>
-                                        <div className="col-md-12">
-                                            <div className="form-group row">
-                                                <label className="col-sm-4 col-form-label"> Reset Password</label>
-                                                <div className="col-sm-8">
-                                                    <input type="password" value={password} onChange={(event) => handleInput('password', event)} className="form-control" />
-                                                    {errors && errors.password && <div className="error text-danger">{passwordError}</div>}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-9 mt-3 row">
-                                        <div className="col-md-12  ">
-                                            <button type="button" className="btn btn-gradient-primary me-2 float-end" onClick={() => submitData()} >Submit</button>
-                                        </div>
-                                    </div>
-
-                                </form>
+                                {errors && errors.fname && <div className=' text-danger'>{firstnameError}</div>}
                             </div>
-                            {/* </div> */}
                         </div>
-
-
                     </div>
-
                 </div>
-            </div>
+                <div className='row'>
+                    <div className="col-md-12">
+                        <div className="form-group row">
+                            <label className="col-sm-4 col-form-label">LastName</label>
+                            <div class="col-sm-8">
+                                <input type="text" value={lname} onChange={(event) => handleInput('lname', event)} className="form-control" />
 
+                                {errors && errors.lname && <div className="text-danger">{lastnameError} </div>}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className="col-md-12">
+                        <div className="form-group row">
+                            <label className="col-sm-4 col-form-label">Email</label>
+                            <div className="col-sm-8">
+                                <input type="text" value={email} onChange={(event) => handleInput('email', event)} className="form-control" disabled />
+                                {errors && errors.email && <div className="error text-danger">{emailError}</div>}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className='row'>
+                    <div className="col-md-12">
+                        <div className="form-group row">
+                            <label className="col-sm-4 col-form-label"> Reset Password</label>
+                            <div className="col-sm-8">
+                                <input type="password" value={password} onChange={(event) => handleInput('password', event)} className="form-control" />
+                                {errors && errors.password && <div className="error text-danger">{passwordError}</div>}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-9 mt-3 row">
+                    <div className="col-md-12  ">
+                        <button type="button" className="btn btn-gradient-primary me-2 float-end" onClick={() => submitData()} >Submit</button>
+                    </div>
+                </div>
+            </div >
         </>
     )
 

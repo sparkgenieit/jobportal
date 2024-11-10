@@ -17,6 +17,11 @@ body {
 }
 
 
+.hide-scrollbar::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
 
 @media (min-width:960px) {
     .logo {

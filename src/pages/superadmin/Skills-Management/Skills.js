@@ -15,6 +15,8 @@ function Skills() {
             .then((res) => {
                 setSkillsList(res.data)
             })
+
+        document.title = "Skills"
     }, [])
 
     const handleDelete = (skill) => {
@@ -51,65 +53,38 @@ function Skills() {
     }
     return (
         <>
-
-
-            <div class="container-fluid">
-                <div className="content-wrapper bg-white">
-
-                    <div className="positon-relative d-flex">
-
-                        <h3 className="fs-4 text-center w-100 fw-bold">Skills</h3>
-                        <Link type="button" className="btn btn-gradient-primary position-absolute end-0" to="/superadmin/AddSkills">Add</Link>
-
-                    </div>
-                    <div class="row">
-                        <div class="card-body bg-white  ">
-                            <div class="col-12">
-                                {Msg.show && <div className={Msg.class}>
-                                    {Msg.message}
-
-                                </div>}
-
-                                <div class="row col-12 ">
-                                    <div className="d-flex justify-content-between">
-                                    </div>
-
-                                    <table class="table mt-4  text-center">
-                                        <thead>
-                                            <tr>
-                                                <th >Skill</th>
-                                                <th> Skill Domain </th>
-                                                <th >Photo</th>
-                                                <th></th>
-                                                <th></th>
-
-                                            </tr>
-
-                                            {skillsList && skillsList.map((skill, index) => {
-                                                return <tr key={index}>
-                                                    <td>{skill.skill_name}</td>
-                                                    <td>{skill.skill_dmain}</td>
-                                                    <td><img src={`${BASE_API_URL}/uploads/skillPhoto/${skill.photo}`} /></td>
-                                                    <td><button onClick={() => handleEdit(skill)} type="button" class="btn btn-gradient-primary">Edit</button></td>
-                                                    <td><button onClick={() => handleDelete(skill)} type="button" class="btn btn-gradient-primary">Delete</button></td>
-                                                </tr>
-                                            })
-
-                                            }
-
-
-                                        </thead>
-                                    </table>
-
-                                </div>
-
-
-
-                            </div>
-                        </div>
-                    </div>
+            <div class="container-fluid pt-4">
+                <div className="d-flex flex-column flex-md-row">
+                    <h3 className="fs-4 text-center w-100 fw-bold">Skills</h3>
+                    <Link type="button" className="btn btn-gradient-primary" to="/superadmin/AddSkills">Add</Link>
                 </div>
+                {Msg.show && <div className={Msg.class}>
+                    {Msg.message}
 
+                </div>}
+                <div class="table-responsive">
+                    <table class="table mt-4  text-center">
+                        <thead>
+                            <tr>
+                                <th >Skill</th>
+                                <th> Skill Domain </th>
+                                <th >Photo</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            {skillsList && skillsList.map((skill, index) => {
+                                return <tr key={index}>
+                                    <td>{skill.skill_name}</td>
+                                    <td>{skill.skill_dmain}</td>
+                                    <td><img src={`${BASE_API_URL}/uploads/skillPhoto/${skill.photo}`} /></td>
+                                    <td><button onClick={() => handleEdit(skill)} type="button" class="btn btn-gradient-primary">Edit</button></td>
+                                    <td><button onClick={() => handleDelete(skill)} type="button" class="btn btn-gradient-primary">Delete</button></td>
+                                </tr>
+                            })
+                            }
+                        </thead>
+                    </table>
+                </div>
             </div>
         </>
     )

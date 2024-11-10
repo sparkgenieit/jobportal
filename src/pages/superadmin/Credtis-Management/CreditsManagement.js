@@ -133,12 +133,12 @@ export default function CreditsManagement() {
     }
 
     return (
-        <div className="container-fluid">
-            <div className="content-wrapper bg-white">
+        <div className="container-fluid pt-4">
+            <div className=" bg-white">
                 <h2 className="text-center fw-bold fs-4">Credits Management</h2>
                 <div className="d-flex flex-column gap-4 mt-4">
-                    <div className="d-flex gap-5 ">
-                        <div className="d-flex flex-grow-1 flex-column">
+                    <div className="row g-3">
+                        <div className="col-lg-6">
                             <label className="form-label">Company Name</label>
                             <ComboBox
                                 suggestions={companiesSuggestions}
@@ -153,14 +153,14 @@ export default function CreditsManagement() {
                             />
                         </div>
 
-                        <div className="d-flex flex-column w-50">
+                        <div className="col-lg-6">
                             <label className="form-label"> Company ID</label>
                             <input type="text" className="form-control" value={selectedCompany?._id || ""} disabled readOnly />
                         </div>
                     </div>
 
-                    <div className="d-flex gap-5 ">
-                        <div className="d-flex flex-grow-1 flex-column">
+                    <div className="row g-3 ">
+                        <div className="col-lg-6">
                             <label className="form-label"> Enter the no. of credits</label>
                             <input
                                 type="text"
@@ -170,7 +170,7 @@ export default function CreditsManagement() {
                             />
                         </div>
 
-                        <div className="d-flex flex-column w-50">
+                        <div className=" col-lg-6 ">
                             <label className="form-label">Type</label>
                             <select value={type} onChange={(e) => setType(e.target.value)} className="form-select">
                                 <option value={"Refund"}>Refund</option>
@@ -179,15 +179,15 @@ export default function CreditsManagement() {
                         </div>
                     </div>
 
-                    <div className="d-flex gap-5 ">
-                        <div className="d-flex flex-grow-1 flex-column gap-3">
+                    <div className="row g-3 ">
+                        <div className="col-lg-9">
                             <div>Description</div>
                             <div>
                                 <p className="form-control">{`Credits ${type}`}</p>
                             </div>
 
                         </div>
-                        <div className="d-flex  flex-column gap-3 w-25">
+                        <div className="col-lg-3">
                             <div>Current Credits</div>
                             <div>
                                 <input type="number" className="form-control" value={selectedCompany?.credits || 0} disabled readOnly />
@@ -215,8 +215,8 @@ export default function CreditsManagement() {
                         </button>
                     </div>
                 </div>
-            </div>
+            </div >
 
-        </div>
+        </div >
     )
 }

@@ -146,103 +146,72 @@ function Addskills() {
                     }, 5000);
                 }
                 )
-
-
-
-
-
             window.scrollTo({ top: 40, behavior: "smooth" })
         }
-
     }
-
-
     return (
         <>
-
-
-            <div class="container-fluid">
-                <div className="content-wrapper bg-white">
-                    <h3 className="fs-4 text-center fw-bold">Add a skill</h3>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card-body bg-white ">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="card">
-                                            <div class="card-body py-0">
-                                                {showMsg && <div class={msgClass} role="alert">
-                                                    {message}
-                                                </div>}
-                                                <form class="form-sample">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group row">
-                                                            <label class="col-sm-3 col-form-label">Skill Name<span className="text-danger">*</span></label>
-                                                            <div class="col-sm-9">
-                                                                <input type="text" value={skillname} onChange={(e) => handleInput("name", e)} class="form-control" />
-                                                                {error.skillname && <div className="text-danger">Please type the Skill Name</div>}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group row">
-                                                            <label class="col-sm-3 col-form-label">Skill Domain<span className="text-danger">*</span></label>
-                                                            <div class="col-sm-9">
-                                                                <input type="text" value={skillDomain} onChange={(e) => handleInput("domain", e)} class="form-control" />
-                                                                {error.skillDomain && <div className="text-danger">Please type the Skill Domain</div>}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group row">
-                                                            <label class="col-sm-3 col-form-label">Description<span className="text-danger">*</span></label>
-                                                            <div class="col-sm-9">
-                                                                <EditorProvider>
-                                                                    <Editor value={description} onChange={(e) => handleInput("description", e)} />
-
-                                                                </EditorProvider>
-                                                                {error.description && <div className="text-danger">Please type the Description</div>}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group row">
-                                                            <label class="col-sm-3 col-form-label" for="photo "> Photo<span className="text-danger">*</span> </label>
-                                                            <div class="col-sm-9">
-                                                                <input type="file" id="photo" onChange={(e) => PreviewImage(e)} class="form-control w-40" />
-                                                                {error.image && <div className="text-danger">Please Upload the Image</div>}
-                                                                {imagePreview.show && <img src={imagePreview.src} height="150px" width="180px" />}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-
-
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <button type="button" onClick={handleSubmit} class="btn btn-gradient-primary ">Submit</button>
-                                                            <button type="button" class="btn btn-light float-end">Cancel</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+            <div class="container-md pt-4">
+                <h3 className="fw-bold text-center fs-4">Add a Skill</h3>
+                {showMsg && <div class={msgClass} role="alert">
+                    {message}
+                </div>}
+                <form class="form-sample pt-3">
+                    <div class="col-md-9">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Skill Name<span className="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="text" value={skillname} onChange={(e) => handleInput("name", e)} class="form-control" />
+                                {error.skillname && <div className="text-danger">Please type the Skill Name</div>}
                             </div>
                         </div>
                     </div>
 
-                </div>
+                    <div class="col-md-9">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Skill Domain<span className="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="text" value={skillDomain} onChange={(e) => handleInput("domain", e)} class="form-control" />
+                                {error.skillDomain && <div className="text-danger">Please type the Skill Domain</div>}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-9">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Description<span className="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <EditorProvider>
+                                    <Editor value={description} onChange={(e) => handleInput("description", e)} />
+
+                                </EditorProvider>
+                                {error.description && <div className="text-danger">Please type the Description</div>}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-9">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="photo "> Photo<span className="text-danger">*</span> </label>
+                            <div class="col-sm-9">
+                                <input type="file" id="photo" onChange={(e) => PreviewImage(e)} class="form-control w-40" />
+                                {error.image && <div className="text-danger">Please Upload the Image</div>}
+                                {imagePreview.show && <img src={imagePreview.src} height="150px" width="180px" />}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-9">
+                            <button type="button" onClick={handleSubmit} class="btn btn-gradient-primary ">Submit</button>
+                            <button type="button" class="btn btn-light float-end">Cancel</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-
         </>)
-
 }
 
 export default Addskills;
