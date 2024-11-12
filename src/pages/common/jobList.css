@@ -7,6 +7,10 @@
     width: 300px;
 }
 
+.job-list {
+    padding-left: 15px;
+}
+
 
 @media (max-width: 768px) {
     .filter {
@@ -20,12 +24,14 @@
 }
 
 
-
-
 @media (min-width: 1400px) {
 
     /* Devices with higher than 1440px width */
     .filter {
         width: 100%;
+    }
+
+    .job-list {
+        padding: 0px 50px;
     }
 }

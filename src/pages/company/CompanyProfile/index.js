@@ -10,7 +10,7 @@ import http from '../../../helpers/http';
 import { BsInfoCircle } from 'react-icons/bs';
 import { getYoutubeVideoId } from '../../../helpers/functions';
 import MdxEditor from '../../../components/MdxEditor';
-import ConfirmDialog from '../../../components/ConfirmDialog';
+import ConfirmDialog from '../../../components/common/ConfirmDialog';
 import ImageResizer from './ImageResizer';
 import { Modal } from 'react-bootstrap';
 import useCurrentUser from '../../../helpers/Hooks/useCurrentUser';

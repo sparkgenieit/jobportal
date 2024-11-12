@@ -4,7 +4,7 @@ import http from '../../../helpers/http';
 import { Modal } from 'react-bootstrap';
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import { downloadCsv } from "../../../helpers/functions/csvFunctions";
-import ConfirmDialog from "../../../components/ConfirmDialog";
+import ConfirmDialog from "../../../components/common/ConfirmDialog";
 import { RxCross1 } from "react-icons/rx";
 
 

@@ -13,11 +13,13 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import CustomToggle from '../../components/CustomToggle';
 import RecruiterLogin from '../../pages/company/Recruiter/RecruiterLogin';
 import handleLogout from '../../helpers/functions/handlelogout';
+import { BsList } from 'react-icons/bs';
+import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 
-function Header() {
-  const [isSignedIn, setIsSignedIn] = useState(localStorage.getItem('isSignedIn') || '');
-  const [fullname, setFullname] = useState(localStorage.getItem('fullname') || '');
-  const [role, setRole] = useState(localStorage.getItem('role') || '');
+export default function Header() {
+  const [isSignedIn] = useState(localStorage.getItem('isSignedIn') || '');
+  const { role, first_name, last_name } = useCurrentUser()
+  const fullname = first_name + " " + last_name
   const [isExpanded, setIsExpanded] = useState(false)
   const [searchCity, setSearchCity] = useState("")
   const [showSideBar, setShowSideBar] = useState(false)
@@ -31,6 +33,8 @@ function Header() {
     setShowSideBar(false)
     navigate(path)
   }
+
+  const teet = 23;
 
   const handleSearchButton = (e) => {
     e.preventDefault();
@@ -87,7 +91,7 @@ function Header() {
                 <li><Link className="nav-link scrollto mx-3" to="/contact-us">Contact Us</Link></li>
               </ul>
 
-              {!showSideBar && <i onClick={() => { setShowSideBar(true) }} className="bi bi-list mobile-nav-toggle d-none"></i>}
+              {/* {!showSideBar && <i onClick={() => { setShowSideBar(true) }} className="bi bi-list mobile-nav-toggle d-none"></i>} */}
 
               <div style={{ width: "300px" }} className='d-flex justify-content-end' >
                 <input
@@ -143,6 +147,7 @@ function Header() {
                 }
               </div>
             </nav>
+            {!showSideBar && <BsList onClick={() => { setShowSideBar(true) }} className='d-flex d-xl-none position-absolute end-0 mx-2' fontSize={25} />}
           </div>
         </div>
       </div>
@@ -315,4 +320,3 @@ function Header() {
   </>
 }
 
-export default Header;

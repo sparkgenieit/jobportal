@@ -7,7 +7,7 @@ import DescriptionBox from '../../components/DescriptionBox';
 import { Hourglass } from "react-loader-spinner";
 import useShowMessage from '../../helpers/Hooks/useShowMessage';
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
-import { validateEmailAddress, validateIsNotEmpty } from '../../helpers/functions/textFunctions';
+import { validateEmailAddress } from '../../helpers/functions/textFunctions';
 
 function UserProfile() {
   const user = useCurrentUser()
@@ -149,14 +149,22 @@ function UserProfile() {
   const onFileChange = (event) => {
     const name = event.target.id;
 
-    if (name == 'cv') {
-      setCv(event.target.files[0]);
+    const file = event.target.files[0]
+    const fileExtension = file.name.split('.').pop().toLowerCase();
+
+    const acceptedExtensions = ["pdf", 'docx', "doc"]
+
+    if (!acceptedExtensions.includes(fileExtension)) {
+      message({ status: "error", error: { message: "Resume and cover letter should only be pdf,doc,docx format" } })
+      return
     }
 
-
+    if (name == 'cv') {
+      setCv(file);
+    }
 
     if (name == 'coverLetter') {
-      setCoverLetter(event.target.files[0]);
+      setCoverLetter(file);
     }
 
   };
