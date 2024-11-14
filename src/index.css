@@ -27,11 +27,21 @@ body {
     background: transparent;
 }
 
+.btn-responsive {
+    padding: 2px;
+    font-size: small !important;
+}
+
 
 @media (min-width:960px) {
     .logo {
         width: 100%;
     }
+
+    .btn-responsive {
+        font-size: medium !important;
+    }
+
 
     .responsive-font,
     .responsive-font * {

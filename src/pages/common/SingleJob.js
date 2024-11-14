@@ -5,7 +5,7 @@ import http from '../../helpers/http';
 import Ads from './ads';
 import { Modal } from "react-bootstrap";
 import { BASE_API_URL, BASE_APP_URL } from '../../helpers/constants';
-import { getTrueKeys, getUserID, getYoutubeVideoId, timeAgo } from '../../helpers/functions';
+import { getUserID, getYoutubeVideoId, timeAgo } from '../../helpers/functions';
 import { FaDollarSign, FaRegClock, FaShare, FaYoutube } from 'react-icons/fa6';
 import { PiBookmarkSimpleBold, PiBookmarkSimpleFill, PiCarProfileThin } from "react-icons/pi";
 import { MdOutlineLocationOn, MdOutlinePeopleOutline } from "react-icons/md";
@@ -17,10 +17,9 @@ import LocationPopup from '../../components/LocationPopup';
 import Tooltip from '../../components/Tooltip';
 import { JobsContext } from '../../helpers/Context';
 import useShowMessage from '../../helpers/Hooks/useShowMessage';
-import { markdownToText, parseString, salaryPerAnnum } from '../../helpers/functions/textFunctions';
+import { markdownToText, salaryPerAnnum } from '../../helpers/functions/textFunctions';
 import { BsBriefcase, BsCalendar3 } from "react-icons/bs";
 import InfoPopup from "../../components/InfoPopup";
-import useCurrentUser from "../../helpers/Hooks/useCurrentUser";
 
 function SingleJob() {
     const [isJobApplied, setIsJobApplied] = useState(false)
@@ -146,8 +145,7 @@ function SingleJob() {
                 applied: true
             }
             http.post("/jobs/apply", data)
-                .then((response) => {
-
+                .then(() => {
                     message({
                         status: "Success",
                         message: "Applied Successfully"
@@ -178,8 +176,7 @@ function SingleJob() {
             }
 
             http.post("/jobs/save", data)
-                .then((response) => {
-
+                .then(() => {
                     message({
                         status: "Success",
                         message: "Job Saved Successfully"
@@ -202,65 +199,71 @@ function SingleJob() {
         }
     }
 
+    const handleInfo = (e) => {
+        setInfo({
+            show: true,
+            info: jobview.info,
+            job: jobview
+        });
+        e.stopPropagation();
+    }
 
     return (
         <>
             {loading && <Loader />}
             {!loading && jobview && jobview.status === "approved" &&
-                <div className='row mt-3 '>
-                    <div style={{ paddingLeft: "100px" }} className={`col-md-9 job-details-box`}>
+                <div className='m-0 p-0 row mt-3'>
+                    <div className={`col-md-9 job-details-box`}>
                         <div className='mb-3 mx-4'>
                             {jobview.banner && <img style={{ width: "100%", height: "40vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/banners/${jobview.banner}`} alt={jobview.company} />}
                         </div>
-                        <div className=' mb-3 mx-4 d-flex justify-content-between '>
-                            <div style={{ padding: "0" }} className='d-flex align-items-center flex-column flex-md-row'>
-                                {jobview.companyLogo && jobview.companyLogo.length > 0 && <img style={{ width: "9rem", height: "5.5rem" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
-                                <div className='col fw-bold h3' style={{ marginLeft: "30px" }}>
+                        <div className=' mb-3 mx-4  '>
+                            <div className='d-flex align-items-center'>
+                                {jobview.companyLogo && jobview.companyLogo.length > 0 && <img style={{ width: "5rem" }} className="rounded  border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
+
+                                <div className='fw-bold fs-4'>
                                     {jobview.info?.length > 0 ?
-                                        <>
-                                            <Tooltip tooltipText={"View Company Info"} size={12}>
-                                                <span
-                                                    className='text-decoration-underline text-primary'
-                                                    onClick={(e) => {
-                                                        setInfo({
-                                                            show: true,
-                                                            info: jobview.info,
-                                                            job: jobview
-                                                        });
-                                                        e.stopPropagation();
-                                                    }}
-                                                >
-                                                    {jobview.company}
-                                                </span>
-                                            </Tooltip>
-                                        </>
+                                        <Tooltip tooltipText={"View Company Info"} size={12}>
+                                            <span className='text-decoration-underline text-primary' onClick={handleInfo}>
+                                                {jobview.company}
+                                            </span>
+                                        </Tooltip>
                                         :
-                                        <span className=''>
-                                            {jobview.company}
-                                        </span>
+                                        jobview.company
                                     }
                                 </div>
                             </div>
-                            <div>
 
-                                {jobview.youtubeUrl && <div className='position-relative'  >
+                            {jobview.youtubeUrl &&
+                                <div className='position-relative d-none'  >
                                     <iframe
                                         ref={youtubeRef}
-                                        className='rounded no-scrollbar'
-                                        width="150px"
-                                        height="90px"
+                                        hidden
                                         src={`https://www.youtube.com/embed/${getYoutubeVideoId(jobview.youtubeUrl)}`}
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     />
-                                    <span role='button' onClick={() => { youtubeRef.current.requestFullscreen() }} style={{ right: "40px", top: "11px" }} className='position-absolute'>
+
+                                    {/* <img
+                                        width="150px"
+                                        height="90px"
+                                        src={`http://img.youtube.com/vi/${getYoutubeVideoId(jobview.youtubeUrl)}/default.jpg`}
+                                        className="rounded"
+                                    /> */}
+
+                                    <span role='button'
+                                        onClick={() => {
+                                            youtubeRef.current.removeAttribute("hidden")
+                                            youtubeRef.current.requestFullscreen();
+                                        }}
+                                        style={{ right: "40px", top: "11px" }}
+                                        className='position-absolute '
+                                    >
                                         <FaYoutube fontSize={70} fill="#FF3D00" />
                                     </span>
                                 </div>}
-
-                            </div>
                         </div>
 
-                        <div className='row border border-success rounded mx-4 p-3'>
+                        <div className='row border border-success rounded mx-4 p-3 responsive-font'>
                             <div className='col-md-8 col-12'>
                                 <div className='h4'>
                                     {jobview.jobTitle}
@@ -269,36 +272,30 @@ function SingleJob() {
                                     {jobview.jobCategory}/{jobview.subCategory}
                                 </div>
                                 <div role='button' onClick={() => { setLocationPopup({ show: true, city: jobview.location }) }}>
-                                    <span className='pe-1 '><MdOutlineLocationOn size="20px" /></span>
+                                    <MdOutlineLocationOn fontSize={20} />
                                     <span className='text-decoration-underline text-primary'>
                                         {jobview.location}
                                     </span>
                                 </div>
-                                <div>
+                                <div className="d-none d-md-block">
                                     {new Date(jobview.creationdate).toLocaleDateString('en-GB')} ({timeAgo(new Date(jobview.creationdate).toLocaleDateString('en-GB'))})
                                 </div>
-                                <div className='d-flex gap-4  mt-3 align-items-center'>
+                                <div className='d-flex gap-3 d-none d-md-flex mt-3 align-items-center responsive-font'>
                                     {isJobApplied ?
-                                        <button type='button' disabled className='btn btn-primary text-white'>Applied</button>
+                                        <button type='button' disabled className='btn btn-primary btn-responsive text-white'>Applied</button>
                                         :
-                                        <button type='button' onClick={handleApply} className='btn btn-primary text-white'>Apply</button>
+                                        <button type='button' onClick={handleApply} className='btn btn-primary btn-responsive  text-white'>Apply</button>
                                     }
 
                                     <Tooltip tooltipText={"Share"}>
-                                        <a className='pe-2' type='button' onClick={() => { handleShare() }}>
-                                            <span><FaShare size="20px" /></span>
-                                        </a>
+                                        <FaShare fontSize={20} onClick={handleShare} />
                                     </Tooltip>
 
                                     {isJobSaved ?
-                                        <a type='button'>
-                                            <span><PiBookmarkSimpleFill size="25px" /></span>
-                                        </a>
+                                        <PiBookmarkSimpleFill fontSize={20} />
                                         :
                                         <Tooltip tooltipText={"Save"}>
-                                            <a type='button' onClick={handleSave}>
-                                                <span><PiBookmarkSimpleBold size="25px" /></span>
-                                            </a>
+                                            <PiBookmarkSimpleBold fontSize={25} onClick={handleSave} />
                                         </Tooltip>
 
                                     }
@@ -385,14 +382,40 @@ function SingleJob() {
                                         </span>
                                     </div>
                                 }
+
+
+
+                                <div className="d-block mt-3 d-md-none">
+                                    {new Date(jobview.creationdate).toLocaleDateString('en-GB')} ({timeAgo(new Date(jobview.creationdate).toLocaleDateString('en-GB'))})
+                                </div>
+                                <div className='d-flex gap-3 d-block d-md-none mt-2  align-items-center responsive-font'>
+                                    {isJobApplied ?
+                                        <button type='button' disabled className='btn btn-primary btn-responsive text-white'>Applied</button>
+                                        :
+                                        <button type='button' onClick={handleApply} className='btn btn-primary btn-responsive  text-white'>Apply</button>
+                                    }
+
+                                    <Tooltip tooltipText={"Share"}>
+                                        <FaShare fontSize={20} onClick={handleShare} />
+                                    </Tooltip>
+
+                                    {isJobSaved ?
+                                        <PiBookmarkSimpleFill fontSize={20} />
+                                        :
+                                        <Tooltip tooltipText={"Save"}>
+                                            <PiBookmarkSimpleBold fontSize={25} onClick={handleSave} />
+                                        </Tooltip>
+
+                                    }
+                                </div>
                             </div>
                         </div>
 
-                        <div className='row border border-success rounded  m-4 p-3'>
-                            <div>
-                                <div>{markdownToText(jobview.description)}</div>
+                        <div className='row  responsive-font border border-success rounded  m-4 p-3'>
 
-                                {/* {parseString(jobview.employerquestions).some(question => question.value !== "") &&
+                            <div>{markdownToText(jobview.description)}</div>
+
+                            {/* {parseString(jobview.employerquestions).some(question => question.value !== "") &&
                                     <p className='fw-bold'>Employer Questions</p>}
                                 <ul className='list-unstyled d-flex flex-column gap-3'>
                                     {parseString(jobview.employerquestions).map((question, i) => {
@@ -403,36 +426,30 @@ function SingleJob() {
                                         }
                                     })}
                                 </ul> */}
+                            <div className='d-flex  justify-content-between align-items-center'>
+                                <div className="d-flex gap-3 align-items-center">
 
-                            </div>
-                            <div className='d-flex justify-content-between'>
-                                <div className='d-flex gap-4  mt-2 align-items-center'>
                                     {isJobApplied ?
-                                        <button type='button' disabled className='btn btn-primary text-white'>Applied</button>
+                                        <button type='button' disabled className='btn btn-responsive btn-primary text-white '>Applied</button>
                                         :
-                                        <button type='button' onClick={handleApply} className='btn btn-primary text-white'>Apply</button>
+                                        <button type='button' onClick={handleApply} className='btn btn-responsive btn-primary text-white  '>Apply</button>
                                     }
 
-                                    <Tooltip tooltipText={"Share"}>
-                                        <a className='pe-2' type='button' onClick={() => { handleShare() }}>
-                                            <span><FaShare size="20px" /></span>
-                                        </a>
+                                    <Tooltip tooltipText={"Share"} size={11}>
+                                        <FaShare fontSize={25} onClick={handleShare} />
                                     </Tooltip>
 
                                     {isJobSaved ?
-                                        <a type='button'>
-                                            <span><PiBookmarkSimpleFill size="25px" /></span>
-                                        </a>
+                                        <PiBookmarkSimpleFill fontSize={25} />
                                         :
-                                        <Tooltip tooltipText={"Save"}>
-                                            <a type='button' onClick={handleSave}>
-                                                <span><PiBookmarkSimpleBold size="25px" /></span>
-                                            </a>
+                                        <Tooltip tooltipText={"Save"} size={11}>
+                                            <PiBookmarkSimpleBold fontSize={25} onClick={handleSave} />
                                         </Tooltip>
                                     }
+
                                 </div>
                                 <div>
-                                    <button type='button' className='btn btn-danger' onClick={() => setShowReport(true)}>Report</button>
+                                    <button type='button' className='btn btn-responsive btn-danger' onClick={() => setShowReport(true)}>Report</button>
                                 </div>
                             </div>
                         </div>
@@ -441,16 +458,16 @@ function SingleJob() {
                     <div className='col-md-3'>
                         <Ads />
                     </div>
-                </div>
+                </div >
 
             }
-            {!loading && !jobview || jobview.status !== "approved" && <h3>Job Not Found</h3>}
+            {(!loading && !jobview) || jobview.status !== "approved" && <h3>Job Not Found</h3>}
 
             <LocationPopup />
             <InfoPopup />
 
             <Modal size="md" show={showReport} onHide={handleClose} centered>
-                <Modal.Body>
+                <Modal.Body className="responsive-font">
                     {userId &&
                         <>
                             <div>
