@@ -16,6 +16,11 @@ body {
     width: 170%;
 }
 
+.responsive-font,
+.responsive-font * {
+    font-size: small;
+}
+
 
 .hide-scrollbar::-webkit-scrollbar {
     width: 0px;
@@ -26,5 +31,10 @@ body {
 @media (min-width:960px) {
     .logo {
         width: 100%;
+    }
+
+    .responsive-font,
+    .responsive-font * {
+        font-size: medium;
     }
 }

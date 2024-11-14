@@ -12,12 +12,14 @@ export default function InfoPopup() {
 
         <Modal size='lg' show={info.show} onHide={() => { setInfo({ show: false }) }} centered>
             <Modal.Body>
-                <div className="d-flex justify-content-end d-lg-none rounded float-end border border-1 p-1"><RxCross1 onClick={() => setInfo({ show: false })} /></div>
-                <div className='d-flex align-items-center  flex-wrap justify-content-between mb-4'>
+                <div className="d-flex justify-content-end d-lg-none mb-2">
+                    <RxCross1 onClick={() => setInfo({ show: false })} fontSize={25} className="p-1 rounded border border-1" />
+                </div>
+                <div className='d-flex align-items-center  flex-wrap justify-content-between mb-4 responsive-font'>
                     <h3>{info.job?.company}</h3>
                     {info.job?.companyLogo.length > 0 && <img className="company-logo rounded border" src={`${BASE_API_URL}/uploads/logos/${info.job?.companyLogo}`} alt={info.job?.company} />}
                 </div>
-                {info.info && <p>{parse(marked(info.info))}</p>}
+                {info.info && <p className="responsive-font">{parse(marked(info.info))}</p>}
             </Modal.Body>
         </Modal>
     )

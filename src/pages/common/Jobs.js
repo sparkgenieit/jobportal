@@ -67,13 +67,14 @@ function Jobs() {
             const response = await http.post(`/jobs/filtered-jobs?limit=${itemsPerPage}&skip=${skip}`, currentFilters)
             setTotalItems(response.data.total);
             setJobs(response.data.jobs)
+            ref.current.scrollTo({ top: "0px", behavior: "smooth" })
         }
         catch (error) {
             setTotalItems(0)
             setJobs([])
+            ref.current.scrollTo({ top: "0px", behavior: "smooth" })
         } finally {
             setLoading(false)
-            ref?.current?.scrollTo({ top: "0px", behavior: "smooth" })
         }
     }
 
@@ -86,7 +87,6 @@ function Jobs() {
     }
 
     return <>
-
         <main className="container-fluid">
             <div className='row'>
                 <div className='col-5'></div>
@@ -99,8 +99,8 @@ function Jobs() {
                     </select>
                 </div>
             </div>
-            <div className='d-md-flex '>
-                <div>
+            <div className='d-md-flex justify-content-end'>
+                <div style={{ width: "97vw" }}>
                     <div className='row'>
                         <section className='col-12 filter col-lg-3 w-full d-lg-flex p-0 justify-content-end '>
                             <Filter filterFields={filterFields} setFilterFields={setFilterFields} setRefresh={setRefresh} />
@@ -114,7 +114,7 @@ function Jobs() {
                                     <div className="mb-3">
                                         {loading && <Loader />}
                                         {!loading &&
-                                            <div className='job-list'>
+                                            <div style={{ paddingLeft: "15px" }}>
                                                 <JobCardList jobs={jobs} />
                                             </div>
                                         }
