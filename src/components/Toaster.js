@@ -10,7 +10,7 @@ export default function Toaster({ message, setMessage }) {
 
     return <>
         <Modal size="sm" show={message.show} onHide={handleClose} centered>
-            <Modal.Body className="bg-white p-2">
+            <Modal.Body className="bg-white p-2 responsive-font rounded">
                 <div className=" d-flex align-items-center  gap-3">
                     <div>
                         {message.type === "success" &&
@@ -29,7 +29,7 @@ export default function Toaster({ message, setMessage }) {
                     </div>
                 </div>
                 <div className="d-flex justify-content-center pt-3">
-                    <button type="button" className={buttonType} onClick={handleClose}>
+                    <button type="button" className={`${buttonType} btn-responsive`} onClick={handleClose}>
                         Ok
                     </button>
                 </div>

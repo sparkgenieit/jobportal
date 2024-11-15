@@ -45,6 +45,6 @@ body {
 
     .responsive-font,
     .responsive-font * {
-        font-size: medium;
+        font-size: inherit;
     }
 }

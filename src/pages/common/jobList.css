@@ -9,10 +9,15 @@
 
 
 
-@media (max-width: 1024px) {
+
+@media (max-width: 992px) {
     .filter {
         width: 100%;
         margin-bottom: 6px;
+    }
+
+    .filter-hide {
+        display: none;
     }
 
     .scrollbar {
@@ -21,9 +26,9 @@
 }
 
 
-@media (min-width: 1400px) {
+@media (min-width: 1200px) {
 
-    /* Devices with higher than 1440px width */
+    /* Devices with higher than 1200px width */
     .filter {
         width: 100%;
     }

@@ -22,9 +22,15 @@ import { markdownToPlainText, salaryPerAnnum } from '../../helpers/functions/tex
 export default function Card2({ job }) {
     const savedJobIds = JSON.parse(sessionStorage.getItem('savedJobIds'))
     const [isJobSaved, setIsJobSaved] = useState(savedJobIds?.includes(job?._id) || false)
+    const [isDetailsShowing, setIsDetailsShowing] = useState(false)
     const { _id: user_id, role } = useCurrentUser()
     const message = useShowMessage()
     const { setInfo, setLocationPopup } = useContext(JobsContext)
+
+    const handleShowDetails = (e) => {
+        e.stopPropagation()
+        setIsDetailsShowing(prev => !prev)
+    }
 
     function handleSave(e) {
         if (user_id && role === "user") {
@@ -104,12 +110,12 @@ export default function Card2({ job }) {
         <div onClick={openInNewTab} className='job-card  border rounded  m-0 row p-1 pt-2'>
             <div className=' col-lg-9 d-flex flex-column h-100 gap-1'>
 
-                <div className=' d-block d-lg-none'>
+                <div className=' d-block d-lg-none mb-2'>
                     {job.companyLogo.length > 0 && <img className="rounded border company-logo" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                 </div>
 
 
-                <h3 className='fw-bold fs-4'>{job.jobTitle}</h3>
+                <h3 className='fw-bold fs-4 '>{job.jobTitle}</h3>
 
                 <div className='d-flex'>
                     <Tooltip tooltipText={"View All Jobs"} size={12}>
@@ -141,17 +147,20 @@ export default function Card2({ job }) {
 
                 <div className='d-flex gap-2 small align-items-center'>
                     {date} ({timeAgo(date)})
-                    <Tooltip tooltipText={"Share"} size={10} >
-                        <FaShare fontSize={20} onClick={handleShare} />
-                    </Tooltip>
 
-                    <Tooltip tooltipText={isJobSaved ? "Saved" : "Save"} size={10} >
-                        {isJobSaved ?
-                            <IoBookmark fontSize={20} />
-                            :
-                            <CiBookmark fontSize={22} onClick={handleSave} />
-                        }
-                    </Tooltip>
+                    <div className='d-none d-lg-flex gap-2'>
+                        <Tooltip tooltipText={"Share"} size={10} className="d-none" >
+                            <FaShare fontSize={20} onClick={handleShare} />
+                        </Tooltip>
+
+                        <Tooltip tooltipText={isJobSaved ? "Saved" : "Save"} size={10} >
+                            {isJobSaved ?
+                                <IoBookmark fontSize={20} />
+                                :
+                                <CiBookmark fontSize={22} onClick={handleSave} />
+                            }
+                        </Tooltip>
+                    </div>
                 </div>
             </div>
 
@@ -162,11 +171,24 @@ export default function Card2({ job }) {
                 </div>
 
                 <div className=' mobile-card'>
-                    <div className='d-flex d-lg-none justify-content-end py-1'>
-                        <BsInfoCircleFill onClick={handleInfo} fontSize={17} />
+                    <div className='d-flex gap-3 d-lg-none justify-content-end py-1'>
+                        <Tooltip tooltipText={"Share"} size={10} className="d-none" >
+                            <FaShare fontSize={17} onClick={handleShare} />
+                        </Tooltip>
+
+                        <Tooltip tooltipText={isJobSaved ? "Saved" : "Save"} size={10} >
+                            {isJobSaved ?
+                                <IoBookmark fontSize={17} />
+                                :
+                                <CiBookmark fontSize={17} onClick={handleSave} />
+                            }
+                        </Tooltip>
+
+                        <BsInfoCircleFill onClick={handleShowDetails} fontSize={17} />
+
                     </div>
 
-                    <div className='job-details'>
+                    <div className={isDetailsShowing ? 'job-details' : 'job-details-not-showing'}>
                         {job.rateperhour &&
                             <Tooltip tooltipText={"Approximate salary"}>
                                 <span className='d-flex gap-1 align-items-center'>
@@ -257,6 +279,6 @@ export default function Card2({ job }) {
                     </div>
                 </div>
             </div >
-        </div>
+        </div >
     )
 }

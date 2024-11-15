@@ -10,6 +10,7 @@ import Ads from './ads';
 import Filter from '../../components/Filter';
 import JobCardList from '../../components/JobCardsList';
 import Loader from '../../components/Loader';
+import { BsFilter } from 'react-icons/bs';
 
 const initialValues = {
     company: "",
@@ -35,6 +36,7 @@ function Jobs() {
     const [loading, setLoading] = useState(false)
     const filter = JSON.parse(sessionStorage.getItem("filter"))
     const [filterFields, setFilterFields] = useState(filter || initialValues)
+    const [showFilter, setShowFilter] = useState(false)
 
     const location = searchParams.get("location")
     const keyword = searchParams.get("keyword")
@@ -89,20 +91,23 @@ function Jobs() {
     return <>
         <main className="container-fluid">
             <div className='row'>
-                <div className='col-5'></div>
-                <div className='col-5 mb-2 ps-5 d-flex justify-content-center align-items-end'>
-                    <label style={{ paddingBottom: "1px" }} className='small px-2'>Sort by:</label>
-                    <select className='rounded border-0 px-2' value={filterFields.sort} onChange={(e) => { handleSort(e) }}>
-                        <option value="creationdate">Date posted</option>
-                        <option value="rateperhour">Rate per hour</option>
-                        <option value="weeklyperhour">Weekly hours</option>
-                    </select>
+                <div className='col-lg-9  mb-2  d-flex align-items-center'>
+                    <BsFilter onClick={() => setShowFilter(prev => !prev)} className='d-lg-none' fontSize={20} />
+
+                    <div className='flex-grow-1 d-flex justify-content-end align-items-center responsive-font'>
+                        <label style={{ paddingBottom: "1px" }} className='small text-nowrap px-2'>Sort by:</label>
+                        <select className='rounded border-0 px-2' value={filterFields.sort} onChange={(e) => { handleSort(e) }}>
+                            <option value="creationdate">Date posted</option>
+                            <option value="rateperhour">Rate per hour</option>
+                            <option value="weeklyperhour">Weekly hours</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div className='d-md-flex justify-content-end'>
                 <div style={{ width: "97vw" }}>
                     <div className='row'>
-                        <section className='col-12 filter col-lg-3 w-full d-lg-flex p-0 justify-content-end '>
+                        <section className={`${showFilter ? "" : "filter-hide"} col-12 filter col-lg-3 w-full d-lg-flex p-0 justify-content-end responsive-font`}>
                             <Filter filterFields={filterFields} setFilterFields={setFilterFields} setRefresh={setRefresh} />
                         </section>
 

@@ -117,7 +117,7 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
         setRefresh(prev => !prev)
     }
 
-    return <div className='p-3 filter hide-scrollbar rounded border shadow scrollbar'>
+    return <div className='p-3 filter hide-scrollbar rounded border  scrollbar'>
         <form autoComplete="off">
             <div className="fw-bold mb-2">Search By</div>
             <div className="border rounded px-2 py-3 mb-4 d-flex gap-4 flex-column">
@@ -264,8 +264,8 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
             </div> */}
 
             <div className='d-flex justify-content-end gap-2'>
-                <button type='button' onClick={handleFilter} className='btn border-dark btn-primary'>Apply</button>
-                <button type='button' onClick={ResetFilter} className='btn btn-outline-light text-dark border-success'>Clear</button>
+                <button type='button' onClick={handleFilter} className='btn border-dark btn-primary btn-responsive'>Apply</button>
+                <button type='button' onClick={ResetFilter} className='btn btn-outline-light text-dark border-success btn-responsive'>Clear</button>
             </div>
         </form >
 

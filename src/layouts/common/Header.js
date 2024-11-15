@@ -153,11 +153,11 @@ export default function Header() {
       </div>
     </header>
 
-    <Offcanvas show={showSideBar} onHide={() => { setShowSideBar(false) }}>
+    <Offcanvas show={showSideBar} onHide={() => { setShowSideBar(false) }} className="responsive-font">
       <Offcanvas.Header closeButton>
         <Offcanvas.Title>
-          <Link to="/" style={{ "width": "15%" }} className="logo d-flex align-items-center scrollto me-auto me-lg-0">
-            <img src="/assets/images/logo-jp.png"
+          <Link to="/" className="logo d-flex align-items-center scrollto me-auto me-lg-0">
+            <img src="/assets/images/logo-jp.png" className='logo'
               alt="logo" />
           </Link>
         </Offcanvas.Title>
@@ -186,20 +186,20 @@ export default function Header() {
                       }
                       {(role === 'employer' || role === "recruiter") &&
                         <li>
-                          <button type='button' onClick={() => { handleNavigation("/company") }} className="btn btn-secondary w-100" >
+                          <button type='button' onClick={() => { handleNavigation("/company") }} className="btn btn-responsive btn-secondary w-100" >
                             Dashboard
                           </button>
                         </li>}
                       {role === 'admin' &&
                         <li>
-                          <button type='button' onClick={() => { handleNavigation("/admin") }} className="btn btn-secondary w-100" >
+                          <button type='button' onClick={() => { handleNavigation("/admin") }} className="btn btn-responsive btn-secondary w-100" >
                             Dashboard
                           </button>
                         </li>
                       }
 
                       <li>
-                        <button type='button' onClick={() => handleLogout()} className="btn btn-primary w-100" >
+                        <button type='button' onClick={() => handleLogout()} className="btn btn-responsive btn-primary w-100" >
                           Logout
                         </button>
                       </li>
