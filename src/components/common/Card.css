@@ -16,6 +16,9 @@
 
 }
 
+.job-title {
+    font-size: x-large;
+}
 
 
 .job-card {
@@ -54,13 +57,18 @@
 
     .mobile-card {
         position: absolute;
-        top: 1rem;
+        top: .1rem;
         right: 1.5rem;
         margin: 0;
+
     }
 
     .job-details-not-showing {
         display: none;
+    }
+
+    .job-title {
+        font-size: medium;
     }
 
 
@@ -68,6 +76,9 @@
         padding: .2rem;
         border: 1px solid #8a898873;
         border-radius: 5px;
+        align-self: flex-end;
+        z-index: 100;
+        background-color: white;
     }
 
     .company-logo {

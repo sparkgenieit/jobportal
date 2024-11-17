@@ -217,28 +217,28 @@ function SingleJob() {
                         <div className='mb-3 mx-4'>
                             {jobview.banner && <img style={{ width: "100%", height: "40vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/banners/${jobview.banner}`} alt={jobview.company} />}
                         </div>
-                        <div className=' mb-3 mx-4  '>
-                            <div className='d-flex align-items-center'>
-                                {jobview.companyLogo && jobview.companyLogo.length > 0 && <img style={{ width: "5rem" }} className="rounded  border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
+                        <div className=' mb-3 mx-4 d-flex align-items-center justify-content-between logo-youtube-container    '>
+                            <div className='d-flex align-items-center gap-3 '>
+                                {jobview.companyLogo && jobview.companyLogo.length > 0 && <img className="rounded  border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
 
-                                <div className='fw-bold fs-4'>
-                                    {jobview.info?.length > 0 ?
-                                        <Tooltip tooltipText={"View Company Info"} size={12}>
-                                            <span className='text-decoration-underline text-primary' onClick={handleInfo}>
-                                                {jobview.company}
-                                            </span>
-                                        </Tooltip>
-                                        :
-                                        jobview.company
-                                    }
-                                </div>
+
+                                {jobview.info?.length > 0 ?
+                                    <Tooltip tooltipText={"View Company Info"} size={12}>
+                                        <span className='text-decoration-underline text-primary fw-bold fs-4' onClick={handleInfo}>
+                                            {jobview.company}
+                                        </span>
+                                    </Tooltip>
+                                    :
+                                    jobview.company
+                                }
+
                             </div>
 
                             {jobview.youtubeUrl &&
-                                <div className='position-relative d-none'  >
+                                <div className='position-relative'  >
                                     <iframe
                                         ref={youtubeRef}
-                                        hidden
+                                        className="rounded"
                                         src={`https://www.youtube.com/embed/${getYoutubeVideoId(jobview.youtubeUrl)}`}
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     />
@@ -255,8 +255,7 @@ function SingleJob() {
                                             youtubeRef.current.removeAttribute("hidden")
                                             youtubeRef.current.requestFullscreen();
                                         }}
-                                        style={{ right: "40px", top: "11px" }}
-                                        className='position-absolute '
+                                        className=' youtube-play-button '
                                     >
                                         <FaYoutube fontSize={70} fill="#FF3D00" />
                                     </span>

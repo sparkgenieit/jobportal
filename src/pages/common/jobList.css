@@ -10,6 +10,7 @@
 
 
 
+
 @media (max-width: 992px) {
     .filter {
         width: 100%;
@@ -22,6 +23,16 @@
 
     .scrollbar {
         height: fit-content;
+    }
+
+    .show-sort-menu {
+        position: fixed;
+        z-index: 200;
+        top: 0;
+        background-color: white;
+        height: 4rem;
+        box-shadow: 1px 1px 5px grey;
+        transition: top 1s;
     }
 }
 

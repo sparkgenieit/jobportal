@@ -27,6 +27,8 @@ const initialValues = {
     salaryType: "per hour"
 }
 
+let prevScrollpos = 0;
+
 function Jobs() {
     const [jobs, setJobs] = useState(null)
     const [searchParams] = useSearchParams()
@@ -42,7 +44,36 @@ function Jobs() {
     const keyword = searchParams.get("keyword")
     const company = searchParams.get("company")
 
-    const ref = useRef(null)
+    const sortRef = useRef(null)
+
+    useEffect(() => {
+        function handleScroll() {
+            if (window.innerWidth > 992) return  // screen is big no need to do anything 
+
+            let currentScrollPos = window.scrollY;
+
+            if (currentScrollPos < 100) {
+                sortRef.current.classList.remove("show-sort-menu")
+                return
+            }
+
+            if (prevScrollpos > currentScrollPos) {
+                sortRef.current.classList.add("show-sort-menu") // Scrolling Down
+            } else {
+                sortRef.current.classList.remove("show-sort-menu") // Scrolling Up
+            }
+            prevScrollpos = currentScrollPos;
+        }
+
+
+        document.addEventListener('scroll', handleScroll);
+
+        return () => {
+            document.removeEventListener('scroll', handleScroll);
+        }
+
+    }, [])
+
 
     useEffect(() => {
         document.title = "Jobs"
@@ -69,15 +100,20 @@ function Jobs() {
             const response = await http.post(`/jobs/filtered-jobs?limit=${itemsPerPage}&skip=${skip}`, currentFilters)
             setTotalItems(response.data.total);
             setJobs(response.data.jobs)
-            ref.current.scrollTo({ top: "0px", behavior: "smooth" })
+            window.scrollTo({ top: "0px", behavior: "smooth" })
         }
         catch (error) {
             setTotalItems(0)
             setJobs([])
-            ref.current.scrollTo({ top: "0px", behavior: "smooth" })
+            window.scrollTo({ top: "0px", behavior: "smooth" })
         } finally {
             setLoading(false)
         }
+    }
+
+    const handleShowFilter = () => {
+        setShowFilter(prev => !prev)
+        window.scrollTo({ top: "0px", behavior: "smooth" })
     }
 
     const handleSort = (e) => {
@@ -86,13 +122,14 @@ function Jobs() {
         setFilterFields(filters);
         sessionStorage.setItem("filter", JSON.stringify(filters))
         setRefresh(!refresh)
+        window.scrollTo({ top: "0px", behavior: "smooth" })
     }
 
     return <>
         <main className="container-fluid">
             <div className='row'>
-                <div className='col-lg-9  mb-2  d-flex align-items-center'>
-                    <BsFilter onClick={() => setShowFilter(prev => !prev)} className='d-lg-none' fontSize={20} />
+                <div ref={sortRef} className='col-lg-9  mb-2  d-flex align-items-center'>
+                    <BsFilter onClick={handleShowFilter} className='d-lg-none' fontSize={20} />
 
                     <div className='flex-grow-1 d-flex justify-content-end align-items-center responsive-font'>
                         <label style={{ paddingBottom: "1px" }} className='small text-nowrap px-2'>Sort by:</label>
@@ -111,7 +148,7 @@ function Jobs() {
                             <Filter filterFields={filterFields} setFilterFields={setFilterFields} setRefresh={setRefresh} />
                         </section>
 
-                        <section ref={ref} className="col-12 col-lg-9 row container-fluid scrollbar  hide-scrollbar ">
+                        <section className="col-12 col-lg-9 row container-fluid scrollbar  hide-scrollbar ">
 
                             <div className="col-12 col-lg-8 w-full p-0">
                                 <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} itemsPerPage={itemsPerPage} totalCount={totalItems} fetchItems={fetchJobs} pageNumberToShow={2}>

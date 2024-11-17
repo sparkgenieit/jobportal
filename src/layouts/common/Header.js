@@ -14,6 +14,7 @@ import CustomToggle from '../../components/CustomToggle';
 import RecruiterLogin from '../../pages/company/Recruiter/RecruiterLogin';
 import handleLogout from '../../helpers/functions/handlelogout';
 import { BsList } from 'react-icons/bs';
+import { RxCross1 } from "react-icons/rx";
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 
 export default function Header() {
@@ -209,8 +210,8 @@ export default function Header() {
                 </Accordion.Item>
               </Accordion>
             }
-            <Link to={"/"}>Home</Link>
-            <Link to={"/common/jobs"}>Jobs</Link>
+            <span onClick={() => handleNavigation("/")} >Home</span>
+            <span onClick={() => handleNavigation("/common/jobs")}>Jobs</span>
           </div>
 
           <Accordion defaultActiveKey={[]} alwaysOpen flush>
@@ -284,7 +285,10 @@ export default function Header() {
 
 
     <Modal show={show} onHide={handleClose}>
-      <Modal.Body>
+      <Modal.Body className='responsive-font'>
+
+        <div className='d-flex d-lg-none justify-content-end mb-2'><RxCross1 onClick={handleClose} /></div>
+
 
         <Tabs justify className="mb-3">
           <Tab eventKey="login" title="Login">
