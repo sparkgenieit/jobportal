@@ -22,15 +22,9 @@ import { markdownToPlainText, salaryPerAnnum } from '../../helpers/functions/tex
 export default function Card2({ job }) {
     const savedJobIds = JSON.parse(sessionStorage.getItem('savedJobIds'))
     const [isJobSaved, setIsJobSaved] = useState(savedJobIds?.includes(job?._id) || false)
-    const [isDetailsShowing, setIsDetailsShowing] = useState(false)
     const { _id: user_id, role } = useCurrentUser()
     const message = useShowMessage()
     const { setInfo, setLocationPopup } = useContext(JobsContext)
-
-    const handleShowDetails = (e) => {
-        e.stopPropagation()
-        setIsDetailsShowing(prev => !prev)
-    }
 
     function handleSave(e) {
         if (user_id && role === "user") {
@@ -110,7 +104,26 @@ export default function Card2({ job }) {
         <div onClick={openInNewTab} className='job-card  border rounded  m-0 row p-1 pt-2'>
             <div className=' col-lg-9 d-flex flex-column h-100 gap-1'>
 
-                <div className=' d-block d-lg-none mb-2 mt-4'>
+                <div className='d-flex d-lg-none align-items-center  gap-3'>
+
+                    {date} ({timeAgo(date)})
+
+                    <div className='d-flex gap-3 d-lg-none justify-content-end align-items-center py-1'>
+                        <Tooltip tooltipText={"Share"} size={10} className="d-none" >
+                            <FaShare fontSize={16} onClick={handleShare} />
+                        </Tooltip>
+
+                        <Tooltip tooltipText={isJobSaved ? "Saved" : "Save"} size={10} >
+                            {isJobSaved ?
+                                <IoBookmark fontSize={16} />
+                                :
+                                <CiBookmark fontSize={16} onClick={handleSave} />
+                            }
+                        </Tooltip>
+                    </div>
+                </div>
+
+                <div className=' d-block d-lg-none mb-2'>
                     {job.companyLogo.length > 0 && <img className="rounded border company-logo" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                 </div>
 
@@ -170,27 +183,9 @@ export default function Card2({ job }) {
                     {job.companyLogo.length > 0 && <img className="rounded border company-logo" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                 </div>
 
-                <div className=' mobile-card d-flex flex-column'>
-                    <div className='d-flex d-lg-none align-items-center gap-2'>
+                <div className=' mobile-card d-flex'>
 
-                        {date} ({timeAgo(date)})
-
-                        <div className='d-flex gap-3 d-lg-none justify-content-end align-items-center py-1'>
-                            <Tooltip tooltipText={"Share"} size={10} className="d-none" >
-                                <FaShare fontSize={15} onClick={handleShare} />
-                            </Tooltip>
-
-                            <Tooltip tooltipText={isJobSaved ? "Saved" : "Save"} size={10} >
-                                {isJobSaved ?
-                                    <IoBookmark fontSize={15} />
-                                    :
-                                    <CiBookmark fontSize={15} onClick={handleSave} />
-                                }
-                            </Tooltip>
-                            <BsInfoCircleFill onClick={handleShowDetails} fontSize={14} />
-                        </div>
-                    </div>
-                    <div className={isDetailsShowing ? 'job-details' : 'job-details-not-showing'}>
+                    <div className={'job-details'}>
                         {job.rateperhour &&
                             <Tooltip tooltipText={"Approximate salary"}>
                                 <span className='d-flex gap-1 align-items-center'>

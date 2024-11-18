@@ -218,7 +218,7 @@ function SingleJob() {
                             {jobview.banner && <img style={{ width: "100%", height: "40vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/banners/${jobview.banner}`} alt={jobview.company} />}
                         </div>
                         <div className=' mb-3 mx-4 d-flex align-items-center justify-content-between logo-youtube-container    '>
-                            <div className='d-flex align-items-center gap-3 '>
+                            <div className='d-flex align-items-center  gap-3 w-100 justify-content-between justify-content-lg-start  '>
                                 {jobview.companyLogo && jobview.companyLogo.length > 0 && <img className="rounded  border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
 
 
@@ -235,20 +235,13 @@ function SingleJob() {
                             </div>
 
                             {jobview.youtubeUrl &&
-                                <div className='position-relative'  >
+                                <div className='position-relative d-none d-lg-block'>
                                     <iframe
                                         ref={youtubeRef}
                                         className="rounded"
                                         src={`https://www.youtube.com/embed/${getYoutubeVideoId(jobview.youtubeUrl)}`}
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     />
-
-                                    {/* <img
-                                        width="150px"
-                                        height="90px"
-                                        src={`http://img.youtube.com/vi/${getYoutubeVideoId(jobview.youtubeUrl)}/default.jpg`}
-                                        className="rounded"
-                                    /> */}
 
                                     <span role='button'
                                         onClick={() => {
@@ -451,6 +444,18 @@ function SingleJob() {
                                     <button type='button' className='btn btn-responsive btn-danger' onClick={() => setShowReport(true)}>Report</button>
                                 </div>
                             </div>
+
+
+
+                        </div>
+
+                        <div className="d-block d-lg-none position-relative mx-4">
+                            <iframe
+                                className="rounded"
+                                id="youtube-video"
+                                src={`https://www.youtube.com/embed/${getYoutubeVideoId(jobview.youtubeUrl)}`}
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            />
                         </div>
                     </div>
 

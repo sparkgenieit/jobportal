@@ -13,15 +13,24 @@ export function timeAgo(dateString) { // This function takes the take string in 
     const months = Math.floor(days / 30);
     const years = Math.floor(months / 12);
 
+    // let timeAgoString;
+    // if (hours < 24) {
+    //     timeAgoString = "Posted Today";
+    // } else if (days < 30) {
+    //     timeAgoString = days + " day" + (days > 1 ? "s" : "") + " ago";
+    // } else if (months < 12) {
+    //     timeAgoString = months + " month" + (months > 1 ? "s" : "") + " ago";
+    // } else {
+    //     timeAgoString = years + " year" + (years > 1 ? "s" : "") + " ago";
+    // }
+
     let timeAgoString;
     if (hours < 24) {
         timeAgoString = "Posted Today";
-    } else if (days < 30) {
-        timeAgoString = days + " day" + (days > 1 ? "s" : "") + " ago";
-    } else if (months < 12) {
-        timeAgoString = months + " month" + (months > 1 ? "s" : "") + " ago";
+    } else if (days < 365) {
+        timeAgoString = days + "d";
     } else {
-        timeAgoString = years + " year" + (years > 1 ? "s" : "") + " ago";
+        timeAgoString = years + "y"
     }
 
     return timeAgoString;
