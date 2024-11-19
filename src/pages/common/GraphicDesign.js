@@ -1,10 +1,8 @@
-import Header from "../../layouts/common/Header";
-import Footer from "../../layouts/common/Footer";
 import Ads from "./ads";
 function GraphicDesign() {
     return (
         <>
-            <Header />
+
             <div className="row">
                 <div className="col-9">
 
@@ -13,7 +11,6 @@ function GraphicDesign() {
                     <Ads />
                 </div>
             </div>
-            <Footer />
         </>
     )
 }

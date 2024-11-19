@@ -1,10 +1,7 @@
-import Header from "../../layouts/common/Header";
-import Footer from "../../layouts/common/Footer";
 import Ads from "./ads";
 function Marketing() {
     return (
         <>
-            <Header />
             <div className="row">
                 <div className="col-9">
 
@@ -13,7 +10,6 @@ function Marketing() {
                     <Ads />
                 </div>
             </div>
-            <Footer />
         </>
     )
 }

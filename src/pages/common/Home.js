@@ -47,7 +47,7 @@ function Home() {
         if (searchBox.location.trim() === "" && searchBox.jobTitle.trim() === "") {
             setSearchButton("border border-2 border-danger")
         } else {
-            navigate(`/common/Jobs?location=${searchBox.location}&keyword=${searchBox.jobTitle}`)
+            navigate(`/jobs?location=${searchBox.location}&keyword=${searchBox.jobTitle}`)
         }
     }
 
@@ -108,7 +108,7 @@ function Home() {
 
                     </div>
 
-                    <Link type="button" to="/common/jobs" className="transparent hover btn border border-white text-white" >View All Jobs</Link>
+                    <Link type="button" to="/jobs" className="transparent hover btn border border-white text-white" >View All Jobs</Link>
                 </form>
             </div>
 

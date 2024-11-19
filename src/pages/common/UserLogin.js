@@ -1,6 +1,5 @@
 import './UserLogin.css';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import userService from '../../services/common/user.service';
 
 import { Hourglass } from "react-loader-spinner";

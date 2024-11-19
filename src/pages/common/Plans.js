@@ -1,9 +1,5 @@
-import Header from "../../layouts/common/Header";
-import Footer from "../../layouts/common/Footer";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import http from "../../helpers/http";
 import { plans } from "../../helpers/constants";
 
 function Plans() {
@@ -68,7 +64,6 @@ function Plans() {
     return (
         <>
 
-            <Header />
 
             <div className="container p-3">
                 {msg.view && <div className={msg.class}>
@@ -129,13 +124,6 @@ function Plans() {
                     </div>
                 </div>
             </div>
-
-
-            <Footer />
-
-
-
-
         </>
     )
 }

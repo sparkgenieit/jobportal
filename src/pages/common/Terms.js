@@ -1,6 +1,3 @@
-import Header from '../../layouts/common/Header';
-import Footer from '../../layouts/common/Footer';
-import Sidebar from '../../layouts/common/Sidebar';
 
 function Terms() {
 

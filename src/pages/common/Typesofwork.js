@@ -1,6 +1,3 @@
-import Head from "../../layouts/common/Head";
-import Footer from "../../layouts/common/Footer";
-import Header from "../../layouts/common/Header";
 import Ads from "./ads";
 
 function Typesofwork() {

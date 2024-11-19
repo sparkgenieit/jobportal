@@ -46,11 +46,11 @@ function Footer() {
             <div className="col-lg-3 col-md-6 footer-links">
               <h4>Our Services</h4>
               <ul>
-                <li><i className="bi bi-chevron-right"></i> <a href="/common/WebDesign">Web Design</a></li>
-                <li><i className="bi bi-chevron-right"></i> <a href="/common/WebDevelopment">Web Development</a></li>
-                <li><i className="bi bi-chevron-right"></i> <a href="/common/ProductManagement">Product Management</a></li>
-                <li><i className="bi bi-chevron-right"></i> <a href="/common/Marketing">Marketing</a></li>
-                <li><i className="bi bi-chevron-right"></i> <a href="/common/GraphicDesign">Graphic Design</a></li>
+                <li><i className="bi bi-chevron-right"></i> <a href="/web-design">Web Design</a></li>
+                <li><i className="bi bi-chevron-right"></i> <a href="/web-development">Web Development</a></li>
+                <li><i className="bi bi-chevron-right"></i> <a href="/product-management">Product Management</a></li>
+                <li><i className="bi bi-chevron-right"></i> <a href="/marketing">Marketing</a></li>
+                <li><i className="bi bi-chevron-right"></i> <a href="/graphic-design">Graphic Design</a></li>
               </ul>
             </div>
 

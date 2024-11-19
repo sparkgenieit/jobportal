@@ -3,7 +3,7 @@ import './Card.css';
 import { useContext, useState } from 'react';
 
 import { FaCheckSquare, FaDollarSign, FaRegClock, FaShare } from "react-icons/fa";
-import { BsBriefcase, BsCalendar3, BsInfoCircleFill } from 'react-icons/bs';
+import { BsBriefcase, BsCalendar3 } from 'react-icons/bs';
 import { CiBookmark, CiViewList } from "react-icons/ci";
 import { MdOutlineLocationOn, MdOutlinePeopleOutline } from 'react-icons/md';
 import { IoBookmark, IoHomeOutline } from 'react-icons/io5';
@@ -62,12 +62,12 @@ export default function Card2({ job }) {
 
 
     const openInNewTab = () => {
-        const url = `${BASE_APP_URL}/common/SingleJob/${job._id}`
+        const url = `${BASE_APP_URL}/jobs/${job._id}`
         window.open(url, '_blank', 'noopener,noreferrer')
     }
 
     const handleShare = (event) => {
-        navigator.clipboard.writeText(`${BASE_APP_URL}/common/SingleJob/${job._id}`)
+        navigator.clipboard.writeText(`${BASE_APP_URL}/jobs/${job._id}`)
         message({
             status: "success",
             message: "Link Copied"
@@ -93,7 +93,7 @@ export default function Card2({ job }) {
     }
 
     const getJobsbyCompany = (e) => {
-        window.location.href = `/common/jobs?company=${job.company}`;
+        window.location.href = `/jobs?company=${job.company}`;
         e.stopPropagation();
     }
 

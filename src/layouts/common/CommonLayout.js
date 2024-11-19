@@ -74,20 +74,20 @@ export default function CommonLayout() {
                     <Route path="terms-conditions" element={<Terms />} />
                     <Route path="privacy-policy" element={<Privacy />} />
                     <Route path="contact-us" element={<ContactUs />} />
-                    <Route path="common/Aboutwhvisa" element={<Aboutwhvisa />} />
-                    <Route path="common/Banking" element={<Banking />} />
-                    <Route path="/common/SingleJob/:id" element={<SingleJob />} />
-                    <Route path="/common/Typesofwork" element={<Typesofwork />} />
-                    <Route path="/common/Usefullinks" element={<Usefullinks />} />
-                    <Route path="/common/Places" element={<Places />} />
-                    <Route path="/common/Transport" element={<Transport />} />
-                    <Route path="/common/News" element={<News />} />
-                    <Route path="/common/Tax" element={<Tax />} />
-                    <Route path="/common/Accommodation" element={<Accommodation />} />
-                    <Route path="/common/HolidayParks" element={<HolidayParks />} />
-                    <Route path="/common/FreedomCampaining" element={<FreedomCampaining />} />
-                    <Route path="/common/Activities" element={<Activities />} />
-                    <Route path="/common/Jobs" element={<Jobs />} />
+                    <Route path="/about-wh-visa" element={<Aboutwhvisa />} />
+                    <Route path="/banking" element={<Banking />} />
+                    <Route path="/types-of-work" element={<Typesofwork />} />
+                    <Route path="/useful-links" element={<Usefullinks />} />
+                    <Route path="/places" element={<Places />} />
+                    <Route path="/transport" element={<Transport />} />
+                    <Route path="/news" element={<News />} />
+                    <Route path="/tax" element={<Tax />} />
+                    <Route path="/accommodation" element={<Accommodation />} />
+                    <Route path="/holiday-parks" element={<HolidayParks />} />
+                    <Route path="/freedom-campaining" element={<FreedomCampaining />} />
+                    <Route path="/activities" element={<Activities />} />
+                    <Route path="/jobs" element={<Jobs />} />
+                    <Route path="/jobs/:id" element={<SingleJob />} />
                     <Route path="/cities/:city" element={<City />} />
                     <Route path="/forgotPassword" element={<ForgetPassword />} />
                     <Route path="/reset-password" element={<ResetPassword />} />

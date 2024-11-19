@@ -1,10 +1,7 @@
-import Header from "../../layouts/common/Header";
-import Footer from "../../layouts/common/Footer";
 import Ads from "./ads";
 function ProductManagement() {
     return (
         <>
-            <Header />
             <div className="row">
                 <div className="col-9">
 
@@ -13,11 +10,6 @@ function ProductManagement() {
                     <Ads />
                 </div>
             </div>
-
-
-
-            <Footer />
-
         </>
     )
 }

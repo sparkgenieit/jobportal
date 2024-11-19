@@ -129,7 +129,7 @@ function SingleJob() {
     }
 
     const handleShare = () => {
-        navigator.clipboard.writeText(`${BASE_APP_URL}/common/SingleJob/${jobview._id}`)
+        navigator.clipboard.writeText(`${BASE_APP_URL}/jobs/${jobview._id}`)
         message({
             status: "Success",
             message: "Link Copied"

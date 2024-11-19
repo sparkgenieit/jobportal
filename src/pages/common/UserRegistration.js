@@ -1,10 +1,6 @@
 import './Home.css';
 import './UserRegistration.css';
-
-import Head from "../../layouts/common/Head";
-import Heder from '../../layouts/common/Header';
-import Footer from '../../layouts/common/Footer';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import userService from '../../services/common/user.service';
 

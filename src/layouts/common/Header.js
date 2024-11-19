@@ -63,28 +63,28 @@ export default function Header() {
 
                 <li><Link className="nav-link scrollto mx-3" to="/">Home</Link></li>
 
-                <li><Link className="nav-link scrollto mx-3" to="/common/Jobs">Jobs</Link></li>
+                <li><Link className="nav-link scrollto mx-3" to="/jobs">Jobs</Link></li>
 
                 <li className="dropdown">
                   <Link to="#" className="menu-item first-item expand-btn">Info</Link>
                   <ul className="dropdown-menu sample bg-white">
-                    <li><Link to="/common/Aboutwhvisa">About WH visa</Link></li>
-                    <li><Link to="/common/Banking">Banking</Link></li>
-                    <li><Link to="/common/Tax">Tax</Link></li>
-                    <li><Link to="/common/Typesofwork">Types of work</Link></li>
-                    <li><Link to="/common/Usefullinks">Useful Links</Link></li>
-                    <li><Link to="/common/News">News</Link></li>
+                    <li><Link to="/about-wh-visa">About WH visa</Link></li>
+                    <li><Link to="/banking">Banking</Link></li>
+                    <li><Link to="/tax">Tax</Link></li>
+                    <li><Link to="/types-of-work">Types of work</Link></li>
+                    <li><Link to="/useful-links">Useful Links</Link></li>
+                    <li><Link to="/news">News</Link></li>
                     <li className="dropdown dropdown-right">
                       <Link to="#" className="menu-item expand-btn">
                         Travel
                       </Link>
                       <ul className="menu-right  menu-left sample bg-white">
-                        <li><Link to="/common/Transport">Transport</Link></li>
-                        <li><Link to="/common/Accommodation">Accommodation</Link></li>
-                        <li><Link to="/common/Places">Places</Link></li>
-                        <li><Link to="/common/HolidayParks">Holiday Parks</Link></li>
-                        <li><Link to="/common/FreedomCampaining">Freedom Campaining</Link></li>
-                        <li><Link to="/common/Activities">Activities</Link></li>
+                        <li><Link to="/transport">Transport</Link></li>
+                        <li><Link to="/accommodation">Accommodation</Link></li>
+                        <li><Link to="/places">Places</Link></li>
+                        <li><Link to="/holiday-parks">Holiday Parks</Link></li>
+                        <li><Link to="/freedom-campaining">Freedom Campaining</Link></li>
+                        <li><Link to="/activities">Activities</Link></li>
                       </ul>
                     </li>
                   </ul>
@@ -211,7 +211,7 @@ export default function Header() {
               </Accordion>
             }
             <span onClick={() => handleNavigation("/")} >Home</span>
-            <span onClick={() => handleNavigation("/common/jobs")}>Jobs</span>
+            <span onClick={() => handleNavigation("/jobs")}>Jobs</span>
           </div>
 
           <Accordion defaultActiveKey={[]} alwaysOpen flush>
@@ -219,23 +219,23 @@ export default function Header() {
               <Accordion.Header className='px-0'>Info</Accordion.Header>
               <Accordion.Body>
                 <ul className='list-unstyled d-flex gap-3  flex-column'>
-                  <li className="ps-3" role="button" onClick={() => handleNavigation("/common/Aboutwhvisa")}>About WH visa</li>
-                  <li className="ps-3" role="button" onClick={() => handleNavigation("/common/Banking")}>Banking</li>
-                  <li className="ps-3" role="button" onClick={() => handleNavigation("/common/Tax")}>Tax</li>
-                  <li className="ps-3" role="button" onClick={() => handleNavigation("/common/Typesofwork")}>Types of work</li>
-                  <li className="ps-3" role="button" onClick={() => handleNavigation("/common/Usefullinks")}>Useful Links</li>
-                  <li className="ps-3" role="button" onClick={() => handleNavigation("/common/News")}>News</li>
+                  <li className="ps-3" role="button" onClick={() => handleNavigation("/about-wh-visa")}>About WH visa</li>
+                  <li className="ps-3" role="button" onClick={() => handleNavigation("/banking")}>Banking</li>
+                  <li className="ps-3" role="button" onClick={() => handleNavigation("/tax")}>Tax</li>
+                  <li className="ps-3" role="button" onClick={() => handleNavigation("/types-o-fwork")}>Types of work</li>
+                  <li className="ps-3" role="button" onClick={() => handleNavigation("/useful-links")}>Useful Links</li>
+                  <li className="ps-3" role="button" onClick={() => handleNavigation("/news")}>News</li>
                   <li>
                     <Accordion.Item eventKey="1">
                       <Accordion.Header><small>Travel</small></Accordion.Header>
                       <Accordion.Body>
                         <ul className='list-unstyled d-flex gap-3 flex-column'>
-                          <li role="button" onClick={() => handleNavigation("/common/Transport")}>Transport</li>
-                          <li role="button" onClick={() => handleNavigation("/common/Accommodation")}>Accommodation</li>
-                          <li role="button" onClick={() => handleNavigation("/common/Places")}>Places</li>
-                          <li role="button" onClick={() => handleNavigation("/common/HolidayParks")}>Holiday Parks</li>
-                          <li role="button" onClick={() => handleNavigation("/common/FreedomCampaining")}>Freedom Campaining</li>
-                          <li role="button" onClick={() => handleNavigation("/common/Activities")}>Activities</li>
+                          <li role="button" onClick={() => handleNavigation("/transport")}>Transport</li>
+                          <li role="button" onClick={() => handleNavigation("/accommodation")}>Accommodation</li>
+                          <li role="button" onClick={() => handleNavigation("/places")}>Places</li>
+                          <li role="button" onClick={() => handleNavigation("/holiday-parks")}>Holiday Parks</li>
+                          <li role="button" onClick={() => handleNavigation("/freedom-campaining")}>Freedom Campaining</li>
+                          <li role="button" onClick={() => handleNavigation("/activities")}>Activities</li>
                         </ul>
                       </Accordion.Body>
                     </Accordion.Item>
