@@ -125,9 +125,9 @@ function Jobs() {
         window.scrollTo({ top: "0px", behavior: "smooth" })
     }
 
-    return <>
-        <main className="container-fluid">
-            <div className='row'>
+    return (
+        <main>
+            <div className='row m-0'>
                 <div ref={sortRef} className='col-lg-9  mb-2  d-flex align-items-center'>
                     <BsFilter onClick={handleShowFilter} className='d-lg-none' fontSize={20} />
 
@@ -141,39 +141,34 @@ function Jobs() {
                     </div>
                 </div>
             </div>
-            <div className='d-md-flex justify-content-end'>
-                <div style={{ width: "97vw" }}>
-                    <div className='row'>
-                        <section className={`${showFilter ? "" : "filter-hide"} col-12 filter col-lg-3 w-full d-lg-flex p-0 justify-content-end responsive-font`}>
-                            <Filter filterFields={filterFields} setFilterFields={setFilterFields} setRefresh={setRefresh} />
-                        </section>
+            <div className='row'>
+                <section className={`${showFilter ? "" : "filter-hide"} col-12  col-lg-3 w-full d-lg-flex p-0 justify-content-end responsive-font`}>
+                    <Filter filterFields={filterFields} setFilterFields={setFilterFields} setRefresh={setRefresh} />
+                </section>
 
-                        <section className="col-12 col-lg-9 row container-fluid scrollbar  hide-scrollbar ">
+                <section className="col-12 col-lg-9 row container-fluid scrollbar  hide-scrollbar ">
 
-                            <div className="col-12 col-lg-8 w-full p-0">
-                                <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} itemsPerPage={itemsPerPage} totalCount={totalItems} fetchItems={fetchJobs} pageNumberToShow={2}>
+                    <div className="col-12 col-lg-8 w-full p-0">
+                        <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} itemsPerPage={itemsPerPage} totalCount={totalItems} fetchItems={fetchJobs} pageNumberToShow={2}>
 
-                                    <div className="mb-3">
-                                        {loading && <Loader />}
-                                        {!loading &&
-                                            <div style={{ paddingLeft: "15px" }}>
-                                                <JobCardList jobs={jobs} />
-                                            </div>
-                                        }
+                            <div className="mb-3">
+                                {loading && <Loader />}
+                                {!loading &&
+                                    <div className='jobs-list'>
+                                        <JobCardList jobs={jobs} />
                                     </div>
+                                }
+                            </div>
 
-                                </Pagination>
-                            </div>
-                            <div className='col-12 col-lg-4  px-0 ps-5'>
-                                <Ads />
-                            </div>
-                        </section >
+                        </Pagination>
                     </div>
-                </div >
-            </div >
-
+                    <div className='col-12 col-lg-4  px-0 ps-5'>
+                        <Ads />
+                    </div>
+                </section >
+            </div>
         </main >
-    </>
+    )
 }
 
 export default Jobs;

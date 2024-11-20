@@ -7,13 +7,18 @@
     width: 300px;
 }
 
+.jobs-list {
+    padding-left: 15px;
+}
 
 
 
 
+/* Tablet Screens and below  */
 @media (max-width: 992px) {
     .filter {
-        width: 100%;
+        width: 99vw;
+        margin: auto;
         margin-bottom: 6px;
     }
 
@@ -24,6 +29,8 @@
     .scrollbar {
         height: fit-content;
     }
+
+
 
     .show-sort-menu {
         position: fixed;
@@ -37,10 +44,10 @@
 }
 
 
-@media (min-width: 1200px) {
+@media (min-width: 1921px) {
 
     /* Devices with higher than 1200px width */
     .filter {
-        width: 100%;
+        width: 400px;
     }
 }

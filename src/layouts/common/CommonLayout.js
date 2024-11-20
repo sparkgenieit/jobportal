@@ -98,10 +98,10 @@ export default function CommonLayout() {
 
                     {/* User Protected Routes */}
 
-                    <Route path="profile" element={(role == 'user') ? <UserProfile /> : <Navigate to="/" />} />
-                    <Route path="viewprofile" element={(role == 'user') ? <ViewProfile /> : <Navigate to="/" />} />
-                    <Route path="applied-jobs" element={(role == 'user') ? <Myappliedjobs /> : <Navigate to="/" />} />
-                    <Route path="saved-jobs" element={(role == 'user') ? <Savedjobs /> : <Navigate to="/" />} />
+                    <Route path="profile" element={(role === 'user') ? <UserProfile /> : <Navigate to="/" />} />
+                    <Route path="viewprofile" element={(role === 'user') ? <ViewProfile /> : <Navigate to="/" />} />
+                    <Route path="applied-jobs" element={(role === 'user') ? <Myappliedjobs /> : <Navigate to="/" />} />
+                    <Route path="saved-jobs" element={(role === 'user') ? <Savedjobs /> : <Navigate to="/" />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
                 <Footer />

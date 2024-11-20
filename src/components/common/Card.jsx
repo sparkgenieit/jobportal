@@ -101,10 +101,10 @@ export default function Card2({ job }) {
     const date = new Date(job?.creationdate).toLocaleDateString('en-GB')
 
     return (
-        <div onClick={openInNewTab} className='job-card  border rounded  m-0 row p-1 pt-2'>
-            <div className=' col-lg-9 d-flex flex-column h-100 gap-1'>
+        <div onClick={openInNewTab} className='job-card  border rounded m-0 row'>
+            <div className=' col-lg-9 d-flex flex-column  gap-1'>
 
-                <div className='d-flex d-lg-none align-items-center  gap-3'>
+                <div className='d-flex d-lg-none align-items-center small  gap-3'>
 
                     {date} ({timeAgo(date)})
 
@@ -123,7 +123,7 @@ export default function Card2({ job }) {
                     </div>
                 </div>
 
-                <div className=' d-block d-lg-none mb-2'>
+                <div style={{ width: "125px" }} className=' d-block d-lg-none mb-2'>
                     {job.companyLogo.length > 0 && <img className="rounded border company-logo" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                 </div>
 
@@ -178,12 +178,12 @@ export default function Card2({ job }) {
             </div>
 
 
-            <div className='col-lg-3 m-0 p-0 d-flex flex-column  px-3'>
-                <div className=' d-none d-lg-block'>
+            <div className='col-lg-3 d-flex flex-column'>
+                <div className=' d-none d-lg-block align-self-end align-self-xxl-start'>
                     {job.companyLogo.length > 0 && <img className="rounded border company-logo" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                 </div>
 
-                <div className=' mobile-card d-flex'>
+                <div className=' mobile-card d-flex align-self-center align-self-xxl-start '>
 
                     <div className={'job-details'}>
                         {job.rateperhour &&

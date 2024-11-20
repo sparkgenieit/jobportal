@@ -34,7 +34,7 @@ function Ads() {
           <button className="close-btn" onClick={handleClose}>
             &times;
           </button>
-          <div className=' d-flex flex-row flex-lg-column '>
+          <div className=' d-flex flex-row flex-lg-column flex-wrap '>
             <img className='rounded-3  adv-image ' src="https://via.placeholder.com/150" alt="Advertisement" />
             <div className="d-flex small flex-column px-3 justify-content-between">
               <small>Ads</small>
