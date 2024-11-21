@@ -1,13 +1,14 @@
 import './Header.css';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import http from '../../helpers/http';
 import { Link, useNavigate } from 'react-router-dom';
 import { timeAgoMinutes } from '../../helpers/functions';
 import handleLogout from '../../helpers/functions/handlelogout';
 import Head from './Head';
-import { GeneralContext } from '../../helpers/Context';
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
+import { useDispatch } from 'react-redux';
+import { setIsSidebarOpen } from '../../helpers/slices/generalSlice';
 
 function Header() {
   const { role, first_name, last_name, _id: userId } = useCurrentUser()
@@ -15,7 +16,7 @@ function Header() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notificationList, setNotificationList] = useState(null)
   const navigate = useNavigate()
-  const { setIsSidebarOpen } = useContext(GeneralContext)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     http.get(`/notifications/get/${userId}`)
@@ -55,7 +56,7 @@ function Header() {
           <ul className="navbar-nav navbar-nav-right">
             <li className="nav-item nav-profile dropdown">
               <Link className="nav-link dropdown-toggle" id="profileDropdown" to="#" data-bs-toggle="dropdown" aria-expanded="false">
-                <div className="nav-profile-img">
+                <div className="nav-profile-img d-none d-md-inline">
                   <img src="/assets/images/faces/face1.jpg" alt="image" />
                   <span className="availability-status online"></span>
                 </div>
@@ -139,7 +140,7 @@ function Header() {
               </span>
             </li>
             <li>
-              <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" onClick={() => setIsSidebarOpen(prev => !prev)} type="button">
+              <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" onClick={() => dispatch(setIsSidebarOpen())} type="button">
                 <span className="mdi mdi-menu"></span>
               </button>
             </li>

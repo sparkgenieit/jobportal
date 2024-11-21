@@ -7,6 +7,10 @@
     height: 75vh;
 }
 
+.banner :first-child>span {
+    font-size: large;
+}
+
 .transparent {
     background-color: transparent;
 }
@@ -41,9 +45,9 @@
 
 
 @media (min-width: 1440px) {
-    main {
-        width: 80vw;
-        margin: auto;
+
+    .banner :first-child>span {
+        font-size: larger;
     }
 
     .search-bar {
@@ -56,8 +60,13 @@
 }
 
 
-@media (min-width: 2000px) {
+@media (min-width: 1920px) {
     .youtube-video {
-        height: 600px;
+        height: 800px;
+    }
+
+    .banner>form {
+        width: 1500px;
+        margin: 0 auto;
     }
 }

@@ -1,13 +1,7 @@
-import LocationPopup from "./LocationPopup"
-import Toaster from "./Toaster"
-import { useContext } from 'react';
-import { JobsContext } from '../helpers/Context';
 import Card from './common/Card';
-import InfoPopup from './InfoPopup';
 
 export default function JobCardList({ jobs, type }) {
 
-    const { info, setInfo, message, setMessage } = useContext(JobsContext)
 
     return (
         <>
@@ -34,10 +28,6 @@ export default function JobCardList({ jobs, type }) {
                         </ div >
                     )
                 })}
-
-            <LocationPopup />
-            <Toaster message={message} setMessage={setMessage} />
-            <InfoPopup />
         </>
     )
 }

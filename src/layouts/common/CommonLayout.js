@@ -1,9 +1,8 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import Header from './Header';
 import Footer from './Footer';
-import { JobsContext } from '../../helpers/Context';
 import http from '../../helpers/http';
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 import Home from '../../pages/common/Home';
@@ -36,11 +35,10 @@ import City from "../../pages/common/city";
 import ContactUs from "../../pages/common/contactUs";
 import PaymentStatus from '../../pages/billing/PaymentStatus';
 import NotFound from '../../components/NotFound';
+import LocationPopup from '../../components/LocationPopup';
+import InfoPopup from '../../components/InfoPopup';
 
 export default function CommonLayout() {
-    const [info, setInfo] = useState({})
-    const [message, setMessage] = useState({})
-    const [locationPopup, setLocationPopup] = useState({})
     const { role } = useCurrentUser()
 
     useEffect(() => {
@@ -65,47 +63,48 @@ export default function CommonLayout() {
 
     return (
         <>
-            <JobsContext.Provider value={{ info, setInfo, message, setMessage, locationPopup, setLocationPopup }}>
-                <Header />
-                <Routes>
-                    <Route index element={<Home />} />
-                    <Route path="aboutus" element={<AboutUs />} />
-                    <Route path="services" element={<Services />} />
-                    <Route path="terms-conditions" element={<Terms />} />
-                    <Route path="privacy-policy" element={<Privacy />} />
-                    <Route path="contact-us" element={<ContactUs />} />
-                    <Route path="/about-wh-visa" element={<Aboutwhvisa />} />
-                    <Route path="/banking" element={<Banking />} />
-                    <Route path="/types-of-work" element={<Typesofwork />} />
-                    <Route path="/useful-links" element={<Usefullinks />} />
-                    <Route path="/places" element={<Places />} />
-                    <Route path="/transport" element={<Transport />} />
-                    <Route path="/news" element={<News />} />
-                    <Route path="/tax" element={<Tax />} />
-                    <Route path="/accommodation" element={<Accommodation />} />
-                    <Route path="/holiday-parks" element={<HolidayParks />} />
-                    <Route path="/freedom-campaining" element={<FreedomCampaining />} />
-                    <Route path="/activities" element={<Activities />} />
-                    <Route path="/jobs" element={<Jobs />} />
-                    <Route path="/jobs/:id" element={<SingleJob />} />
-                    <Route path="/cities/:city" element={<City />} />
-                    <Route path="/forgotPassword" element={<ForgetPassword />} />
-                    <Route path="/reset-password" element={<ResetPassword />} />
-                    <Route path="/activate-account" element={<ActivateAccount />} />
+            <Header />
+            <Routes>
+                <Route index element={<Home />} />
+                <Route path="aboutus" element={<AboutUs />} />
+                <Route path="services" element={<Services />} />
+                <Route path="terms-conditions" element={<Terms />} />
+                <Route path="privacy-policy" element={<Privacy />} />
+                <Route path="contact-us" element={<ContactUs />} />
+                <Route path="/about-wh-visa" element={<Aboutwhvisa />} />
+                <Route path="/banking" element={<Banking />} />
+                <Route path="/types-of-work" element={<Typesofwork />} />
+                <Route path="/useful-links" element={<Usefullinks />} />
+                <Route path="/places" element={<Places />} />
+                <Route path="/transport" element={<Transport />} />
+                <Route path="/news" element={<News />} />
+                <Route path="/tax" element={<Tax />} />
+                <Route path="/accommodation" element={<Accommodation />} />
+                <Route path="/holiday-parks" element={<HolidayParks />} />
+                <Route path="/freedom-campaining" element={<FreedomCampaining />} />
+                <Route path="/activities" element={<Activities />} />
+                <Route path="/jobs" element={<Jobs />} />
+                <Route path="/jobs/:id" element={<SingleJob />} />
+                <Route path="/cities/:city" element={<City />} />
+                <Route path="/forgotPassword" element={<ForgetPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/activate-account" element={<ActivateAccount />} />
 
-                    {/* Company Protected Route */}
-                    <Route path="/payment-status" element={(role === "employer" || role === "recruiter") ? <PaymentStatus /> : <Navigate to="/" />} />
+                {/* Company Protected Route */}
+                <Route path="/payment-status" element={(role === "employer" || role === "recruiter") ? <PaymentStatus /> : <Navigate to="/" />} />
 
-                    {/* User Protected Routes */}
+                {/* User Protected Routes */}
 
-                    <Route path="profile" element={(role === 'user') ? <UserProfile /> : <Navigate to="/" />} />
-                    <Route path="viewprofile" element={(role === 'user') ? <ViewProfile /> : <Navigate to="/" />} />
-                    <Route path="applied-jobs" element={(role === 'user') ? <Myappliedjobs /> : <Navigate to="/" />} />
-                    <Route path="saved-jobs" element={(role === 'user') ? <Savedjobs /> : <Navigate to="/" />} />
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
-                <Footer />
-            </JobsContext.Provider>
+                <Route path="profile" element={(role === 'user') ? <UserProfile /> : <Navigate to="/" />} />
+                <Route path="viewprofile" element={(role === 'user') ? <ViewProfile /> : <Navigate to="/" />} />
+                <Route path="applied-jobs" element={(role === 'user') ? <Myappliedjobs /> : <Navigate to="/" />} />
+                <Route path="saved-jobs" element={(role === 'user') ? <Savedjobs /> : <Navigate to="/" />} />
+                <Route path="*" element={<NotFound />} />
+
+            </Routes>
+            <InfoPopup />
+            <LocationPopup />
+            <Footer />
         </>
     )
 }

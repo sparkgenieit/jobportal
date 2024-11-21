@@ -1,7 +1,6 @@
 import styles from './postedJobs.module.css';
 
-
-import { Fragment, useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
 import Table from 'react-bootstrap/Table';
@@ -18,11 +17,13 @@ import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import Pagination from '../../../components/Pagination';
 import Loader from '../../../components/Loader';
 import MessagePopup from "./MessagePopup";
-import { GeneralContext } from "../../../helpers/Context";
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentJob } from '../../../helpers/slices/generalSlice';
 
 function PostedJobList() {
     const [totalItems, setTotalItems] = useState(0)
     const [searchParams] = useSearchParams();
+    const isSidebarOpen = useSelector((state) => state.general.isSidebarOpen)
     const [pgNumber, setPgNumber] = useState(+searchParams.get("page") || 1)
     const [name, setName] = useState("")
     const [modal, setModal] = useState({});
@@ -30,8 +31,8 @@ function PostedJobList() {
     const [isTableCollapsed, setIsTableCollapsed] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
     const userId = localStorage.getItem('user_id');
-    const { setCurrentJob, isSidebarOpen } = useContext(GeneralContext)
     const message = useShowMessage()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         document.title = "Posted Jobs"
@@ -39,7 +40,7 @@ function PostedJobList() {
     }, [name])
 
     const handleDuplicate = (job) => {
-        setCurrentJob({ ...job })
+        dispatch(setCurrentJob({ ...job }))
         message({ path: `/company/postajob?c=${job._id}` })
     }
 

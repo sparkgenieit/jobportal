@@ -1,36 +1,39 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { GeneralContext } from "../Context";
+import { useDispatch } from "react-redux";
+import { setToaster } from "../slices/generalSlice";
 
 export default function useShowMessage() {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
-    const { setShowToaster } = useContext(GeneralContext)
+    let toaster = {}
 
     const handleMessage = ({ status, message, path, error }) => {
         if (status && status?.toLowerCase() === "success") {
-            setShowToaster({
+            toaster = {
                 show: true,
                 type: "success",
                 text: message
-            })
+            }
         }
 
         else if (status && status?.toLowerCase() === "error") {
-            setShowToaster({
+            toaster = {
                 show: true,
                 type: "error",
                 text: error.response?.data?.message || error.message
-            })
+            }
         }
 
         else if (message) {
-            setShowToaster({
+            toaster = {
                 show: true,
                 type: "",
                 text: message
-            })
+            }
         }
+
+        dispatch(setToaster(toaster))
 
         if (path) {
             navigate(path)

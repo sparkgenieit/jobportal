@@ -1,23 +1,25 @@
 import { RxCross1 } from 'react-icons/rx';
 import './location-popup.css'
 import { Modal } from "react-bootstrap";
-import { useContext } from 'react';
-import { JobsContext } from '../helpers/Context';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLocation } from '../helpers/slices/generalSlice';
 
 
 export default function LocationPopup() {
+    const dispatch = useDispatch()
+    const locationPopup = useSelector((state) => state.general.location)
 
-    const { locationPopup, setLocationPopup } = useContext(JobsContext);
+    const handleClose = () => {
+        dispatch(setLocation({ show: false }))
+    }
 
     return <>
-        <Modal size="xl" show={locationPopup.show} onHide={() => { setLocationPopup({ show: false }) }} centered>
+        <Modal size="xl" show={locationPopup.show} onHide={handleClose} centered>
             <Modal.Body>
                 <div>
                     <div className='d-flex justify-content-between my-3'>
                         <h2>{locationPopup.city}</h2>
-                        <a type="button" onClick={() => {
-                            setLocationPopup({ show: false })
-                        }}>
+                        <a type="button" onClick={handleClose}>
                             <span className='border border-dark rounded p-2'><RxCross1 size={"18px"} /></span>
                         </a>
                     </div>

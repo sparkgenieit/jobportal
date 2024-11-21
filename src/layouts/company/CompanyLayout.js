@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux'
 
 import Header from './Header';
-import Footer from './Footer';
+import Footer from "../admin/Footer"
 import Sidebar from './Sidebar';
 import { fetchEmployerUnreadCount } from '../../helpers/slices/mailCountSlice';
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';

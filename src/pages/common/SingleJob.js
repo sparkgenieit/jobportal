@@ -1,5 +1,5 @@
 import "./SingleJob.css"
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from "react-router-dom";
 import http from '../../helpers/http';
 import Ads from './ads';
@@ -13,19 +13,19 @@ import { FaCheckSquare } from 'react-icons/fa';
 import { GiHotMeal } from "react-icons/gi";
 import { IoHomeOutline } from "react-icons/io5";
 import Loader from '../../components/Loader';
-import LocationPopup from '../../components/LocationPopup';
 import Tooltip from '../../components/Tooltip';
-import { JobsContext } from '../../helpers/Context';
 import useShowMessage from '../../helpers/Hooks/useShowMessage';
 import { markdownToText, salaryPerAnnum } from '../../helpers/functions/textFunctions';
 import { BsBriefcase, BsCalendar3 } from "react-icons/bs";
-import InfoPopup from "../../components/InfoPopup";
+
+import { useDispatch } from "react-redux";
+import { setInfo, setLocation } from "../../helpers/slices/generalSlice";
 
 function SingleJob() {
     const [isJobApplied, setIsJobApplied] = useState(false)
     const [isJobSaved, setIsJobSaved] = useState(false)
     const [jobview, setJobview] = useState()
-    const { setLocationPopup, setInfo } = useContext(JobsContext);
+    const dispatch = useDispatch()
     const params = useParams();
     const role = localStorage.getItem('role')
     const userId = getUserID()
@@ -200,11 +200,11 @@ function SingleJob() {
     }
 
     const handleInfo = (e) => {
-        setInfo({
+        dispatch(setInfo({
             show: true,
             info: jobview.info,
             job: jobview
-        });
+        }))
         e.stopPropagation();
     }
 
@@ -263,7 +263,7 @@ function SingleJob() {
                                 <div>
                                     {jobview.jobCategory}/{jobview.subCategory}
                                 </div>
-                                <div role='button' onClick={() => { setLocationPopup({ show: true, city: jobview.location }) }}>
+                                <div role='button' onClick={() => { dispatch(setLocation({ show: true, city: jobview.location })) }}>
                                     <MdOutlineLocationOn fontSize={20} />
                                     <span className='text-decoration-underline text-primary'>
                                         {jobview.location}
@@ -466,9 +466,6 @@ function SingleJob() {
 
             }
             {(!loading && !jobview) || jobview.status !== "approved" && <h3>Job Not Found</h3>}
-
-            <LocationPopup />
-            <InfoPopup />
 
             <Modal size="md" show={showReport} onHide={handleClose} centered>
                 <Modal.Body className="responsive-font">

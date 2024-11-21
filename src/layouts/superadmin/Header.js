@@ -3,14 +3,14 @@ import Head from './Head'
 import { Link } from 'react-router-dom';
 import handleLogout from '../../helpers/functions/handlelogout';
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
-import { useContext } from 'react';
-import { GeneralContext } from '../../helpers/Context';
+import { useDispatch } from 'react-redux';
+import { setIsSidebarOpen } from '../../helpers/slices/generalSlice';
 
 function Header() {
   const { first_name, last_name } = useCurrentUser()
   const fullname = first_name + " " + last_name
 
-  const { setIsSidebarOpen } = useContext(GeneralContext)
+  const dispatch = useDispatch()
 
   return (
     <>
@@ -145,7 +145,7 @@ function Header() {
               </Link>
             </li>
             <li>
-              <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" onClick={() => setIsSidebarOpen(prev => !prev)} type="button">
+              <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" onClick={() => dispatch(setIsSidebarOpen())} type="button">
                 <span className="mdi mdi-menu"></span>
               </button>
             </li>

@@ -7,7 +7,7 @@ function Home() {
   }, [])
 
   return <>
-    <div class="container-fluid">
+    <div class="container-fluid responsive-font" >
       <div class="content-wrapper bg-white">
         <div class="page-header">
           <h3 class="page-title">

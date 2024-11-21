@@ -1,25 +1,25 @@
 import './Sidebar.css';
 
-import { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
 import { MdSpaceDashboard, MdAssignment, MdOutlineQuestionMark, MdAssignmentTurnedIn, MdAssignmentInd } from "react-icons/md";
 import { HiMiniQueueList, HiOutlineDocumentMagnifyingGlass } from "react-icons/hi2";
 import { GrDocumentTime } from "react-icons/gr";
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { BiUserPin } from "react-icons/bi";
 import { IoMdMailOpen } from 'react-icons/io';
-import { GeneralContext } from '../../helpers/Context';
+import { setIsSidebarOpen } from '../../helpers/slices/generalSlice';
 
 function Sidebar() {
-  const { isSidebarOpen, setIsSidebarOpen } = useContext(GeneralContext)
+  const isSidebarOpen = useSelector((state) => state.general.isSidebarOpen)
   const adminMailCount = useSelector((state) => state.mailCount.AdminUnreadCount)
   const employerMailCount = useSelector((state) => state.mailCount.EmployerUnreadCount)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleNavigation = (path) => {
     if (window.innerWidth < 1024) {
-      setIsSidebarOpen(false)
+      dispatch(setIsSidebarOpen(false))
     }
     navigate(path)
   }
@@ -30,7 +30,7 @@ function Sidebar() {
       <div className={`border shadow ${isSidebarOpen ? "sidebar-showing" : "sidebar-not-showing"}`} >
         <nav className="sidebar" id="sidebar">
           <div className=" mt-4 pe-0 d-lg-flex d-none justify-content-end">
-            <RxHamburgerMenu role='button' onClick={() => setIsSidebarOpen(prev => !prev)} fontSize={22} />
+            <RxHamburgerMenu role='button' onClick={() => dispatch(setIsSidebarOpen())} fontSize={22} />
           </div>
 
           <ul className="nav">

@@ -1,14 +1,14 @@
 import './Header.css';
 import { Link } from 'react-router-dom';
-import { useContext, useState } from 'react';
 
 import handleLogout from "../../helpers/functions/handlelogout"
 import Head from './Head';
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
-import { GeneralContext } from '../../helpers/Context';
+import { useDispatch } from 'react-redux';
+import { setIsSidebarOpen } from '../../helpers/slices/generalSlice';
 
 function Heder() {
-  const { setIsSidebarOpen } = useContext(GeneralContext)
+  const dispatch = useDispatch()
   const { first_name, last_name } = useCurrentUser()
   const fullname = first_name + " " + last_name
 
@@ -25,7 +25,7 @@ function Heder() {
           <ul className="navbar-nav navbar-nav-right">
             <li className="nav-item nav-profile dropdown">
               <Link className="nav-link" to="#" aria-expanded="false">
-                <div className="nav-profile-img">
+                <div className="nav-profile-img d-none d-md-inline">
                   <img src="/assets/images/faces/face1.jpg" alt="image" />
                   <span className="availability-status online"></span>
                 </div>
@@ -138,7 +138,7 @@ function Heder() {
               </Link>
             </li>
             <li>
-              <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" onClick={() => setIsSidebarOpen(prev => !prev)} type="button">
+              <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" onClick={() => dispatch(setIsSidebarOpen())} type="button">
                 <span className="mdi mdi-menu"></span>
               </button>
             </li>

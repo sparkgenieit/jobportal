@@ -1,6 +1,6 @@
 import './Card.css';
 
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 
 import { FaCheckSquare, FaDollarSign, FaRegClock, FaShare } from "react-icons/fa";
 import { BsBriefcase, BsCalendar3 } from 'react-icons/bs';
@@ -10,7 +10,6 @@ import { IoBookmark, IoHomeOutline } from 'react-icons/io5';
 import { GiHotMeal } from 'react-icons/gi';
 import { PiCarProfileThin } from 'react-icons/pi';
 
-import { JobsContext } from '../../helpers/Context';
 import { timeAgo } from "../../helpers/functions";
 import { BASE_API_URL, BASE_APP_URL } from "../../helpers/constants"
 import Tooltip from '../Tooltip';
@@ -18,13 +17,15 @@ import http from '../../helpers/http';
 import useShowMessage from '../../helpers/Hooks/useShowMessage';
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 import { markdownToPlainText, salaryPerAnnum } from '../../helpers/functions/textFunctions';
+import { useDispatch } from 'react-redux';
+import { setInfo, setLocation } from '../../helpers/slices/generalSlice';
 
 export default function Card2({ job }) {
     const savedJobIds = JSON.parse(sessionStorage.getItem('savedJobIds'))
     const [isJobSaved, setIsJobSaved] = useState(savedJobIds?.includes(job?._id) || false)
     const { _id: user_id, role } = useCurrentUser()
     const message = useShowMessage()
-    const { setInfo, setLocationPopup } = useContext(JobsContext)
+    const dispath = useDispatch()
 
     function handleSave(e) {
         if (user_id && role === "user") {
@@ -76,19 +77,19 @@ export default function Card2({ job }) {
     }
 
     const handleLocation = (e) => {
-        setLocationPopup({
+        dispath(setLocation({
             show: true,
             city: job.location
-        });
+        }))
         e.stopPropagation();
     }
 
     const handleInfo = (e) => {
-        setInfo({
+        dispath(setInfo({
             show: true,
             info: job.info,
             job: job
-        });
+        }));
         e.stopPropagation();
     }
 

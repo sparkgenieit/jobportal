@@ -1,18 +1,18 @@
-import { useState, useEffect, useRef, useContext } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { CitiesList } from '../../../helpers/constants';
 import MdxEditor from '../../../components/MdxEditor';
 import { editJob, fetchCategories, fetchCompanyInfo, fetchJobForEditing, postJob } from './postAndEditJob.service';
 import { getCloseDate } from '../../../helpers/functions';
-import { GeneralContext } from '../../../helpers/Context';
 import { fetchUser } from '../../../helpers/slices/userSlice';
-import { useDispatch } from 'react-redux';
 import { BsInfoCircle } from 'react-icons/bs';
 import MessagePopup from './MessagePopup';
 import { salaryPerAnnum } from '../../../helpers/functions/textFunctions';
 import useCurrentUser from '../../../helpers/Hooks/useCurrentUser';
 import useShowMessage from '../../../helpers/Hooks/useShowMessage';
+import { setCurrentJob } from '../../../helpers/slices/generalSlice';
 
 const initialValues = {
   company: "",
@@ -33,6 +33,7 @@ const initialValues = {
 }
 
 function Postajob({ name }) {
+  const currentJob = useSelector((state) => state.general.currentJob)
   const [jobData, setJobData] = useState(initialValues)
   const [error, setError] = useState({});
   // const [employerquestions, setEmployerQuestions] = useState([{ value: "" }])
@@ -41,7 +42,6 @@ function Postajob({ name }) {
   const [showModal, setShowModal] = useState({ show: false })
   const [showOthersBenefits, setShowOthersBenefits] = useState(false)
 
-  const { currentJob, setCurrentJob } = useContext(GeneralContext)
 
   const formRef = useRef(null)
 
@@ -116,7 +116,7 @@ function Postajob({ name }) {
   }
 
   const handleClone = () => {
-    setCurrentJob({ ...jobData })
+    dispatch(setCurrentJob({ ...jobData }))
     message({ path: `/company/postajob?c=${jobData._id}` })
     window.scrollTo({ top: 20, behavior: "smooth" })
   }

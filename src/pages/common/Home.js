@@ -7,7 +7,6 @@ import { IoSearch } from "react-icons/io5";
 import http from '../../helpers/http';
 import Ads from './ads';
 import NZMap from '../../components/NZMap';
-import LocationPopup from '../../components/LocationPopup';
 import ComboBox from '../../components/ComboBox';
 
 function Home() {
@@ -52,10 +51,9 @@ function Home() {
     }
 
     return <>
-        <main>
-
+        <main className='container-fluid m-0  p-0' >
             <div className="banner d-flex justify-content-center  flex-column gap-2 ">
-                <div className='d-flex flex-column align-items-center justify-content-center fw-bold fs-4 '>
+                <div className='d-flex flex-column  align-items-center justify-content-center fw-bold fs-4 '>
                     <span>Kia ora!</span>
                     <span>Welcome to New Zealand</span>
                 </div>
@@ -115,7 +113,6 @@ function Home() {
             <div className="container-fluid text-center py-3">
                 <div className='pb-4 pt-2 '>
                     <NZMap />
-                    <LocationPopup />
                 </div>
                 <div className='row'>
                     <section className='col-12 col-lg-2'>

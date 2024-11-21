@@ -1,5 +1,5 @@
 import './Sidebar.css';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import { Modal } from "react-bootstrap";
@@ -10,26 +10,24 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { ImProfile } from "react-icons/im";
 import { IoMdMailOpen } from "react-icons/io";
 import { HiOutlineDocumentMagnifyingGlass } from "react-icons/hi2";
-
-
-import { GeneralContext } from '../../helpers/Context';
 import Tooltip from '../../components/Tooltip';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
+import { setIsSidebarOpen } from '../../helpers/slices/generalSlice';
 
 function Sidebar() {
-  const { isSidebarOpen, setIsSidebarOpen } = useContext(GeneralContext)
+  const isSidebarOpen = useSelector((state) => state.general.isSidebarOpen)
+  const count = useSelector((state) => state.mailCount.EmployerUnreadCount)
   const [show, setShow] = useState(false);
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const user = useCurrentUser()
-  const count = useSelector((state) => state.mailCount.EmployerUnreadCount)
   const credits = user.role === 'recruiter' ? user.companyId.credits : user.credits
   const usedFreeCredit = user.role === 'recruiter' ? user.companyId.usedFreeCredit : user.usedFreeCredit
 
-
   const handleNavigation = (path) => {
     if (window.innerWidth < 1024) {
-      setIsSidebarOpen(false)
+      dispatch(setIsSidebarOpen(false))
     }
     navigate(path)
   }
@@ -59,7 +57,7 @@ function Sidebar() {
           <div className="  mt-4 pe-1 d-flex justify-content-end d-none d-lg-flex">
             <Tooltip tooltipText={"Menu"}>
               <a className='pe-2' type='button'>
-                <span onClick={() => setIsSidebarOpen(prev => !prev)}><RxHamburgerMenu size="20px" /></span>
+                <span onClick={() => dispatch(setIsSidebarOpen())}><RxHamburgerMenu size="20px" /></span>
               </a>
             </Tooltip>
           </div>
