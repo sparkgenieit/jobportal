@@ -507,38 +507,39 @@ function Postajob({ name }) {
                       </div>
                     </div>
                   </div> */}
-                <div className="form-group">
-                  <div className='d-flex justify-content-between  gap-2 flex-column flex-sm-row py-2 px-5'>
-                    <div>
-                      {name === "Post a Job" && cloneJobId &&
-                        <button
-                          type='button'
-                          className='btn btn-primary'
-                          onClick={discardForm}
-                        >
-                          Discard
-                        </button>
-                      }
-                      {name === "Edit Job" &&
-                        <button
-                          type='button'
-                          className='btn btn-primary'
-                          onClick={handleClone}
-                        >
-                          Duplicate Job
-                        </button>
-                      }
-                    </div>
-                    <button className="btn btn-primary" type="button" onClick={submitJob}>
-                      Submit
-                    </button>
+
+                <div className='d-flex justify-content-between  gap-2 flex-column flex-sm-row'>
+                  <div>
+                    {name === "Post a Job" && cloneJobId &&
+                      <button
+                        type='button'
+                        className='btn btn-primary w-100'
+                        onClick={discardForm}
+                      >
+                        Discard
+                      </button>
+                    }
+                    {name === "Edit Job" &&
+                      <button
+                        type='button'
+                        className='btn btn-primary w-100'
+                        onClick={handleClone}
+                      >
+                        Duplicate Job
+                      </button>
+                    }
                   </div>
+
+                  <button className="btn btn-primary" type="button" onClick={submitJob}>
+                    Submit
+                  </button>
+
                 </div>
               </form>
             </div>
           </div>
-        </div>
-      </div>
+        </div >
+      </div >
 
       <MessagePopup modal={showModal} setModal={setShowModal}>
         <div className='small'>

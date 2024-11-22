@@ -11,8 +11,8 @@
 }
 
 .adv-image {
-  height: 200px;
-  width: min-content;
+  max-height: 150px;
+  max-width: 150px;
 }
 
 .advertisement button:hover {
@@ -32,7 +32,7 @@
 
 @media (min-width: 768px) {
   .adv-image {
-    height: 100%;
+    height: 200px;
     width: 100%;
   }
 }

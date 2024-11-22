@@ -51,7 +51,7 @@ function Home() {
     }
 
     return <>
-        <main className='container-fluid m-0  p-0' >
+        <main className='container-fluid m-0  p-0 responsive-font mb-4' >
             <div className="banner d-flex justify-content-center  flex-column gap-2 ">
                 <div className='d-flex flex-column  align-items-center justify-content-center fw-bold fs-4 '>
                     <span>Kia ora!</span>
@@ -118,13 +118,13 @@ function Home() {
                     <section className='col-12 col-lg-2'>
                         <Ads />
                     </section>
-                    <section className=' d-flex flex-column gap-5 col-12 col-lg-8'>
-                        <div>
+                    <section className=' d-flex flex-column gap-5 col-lg-8'>
+                        <div className='d-flex flex-column'>
                             <iframe className='rounded youtube-video' src="https://www.youtube.com/embed/7r-If5smQ_s?si=zd0NUcT7rsEV7a4k" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen>
                             </iframe>
                             <div className='fw-bold'>Experience New Zealand with a Working Holiday Visa</div>
                         </div>
-                        <div className='mt-5'>
+                        <div className='d-flex flex-column'>
                             <iframe className='rounded youtube-video' src="https://www.youtube.com/embed/P98SjgerM8g?si=x36wJ4kJRg86288m" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
                             <div className='fw-bold'>Life in New Zealand on a Working Holiday Visa</div>
                         </div>
