@@ -3,8 +3,7 @@
 }
 
 
-.logo-youtube-container img,
-iframe {
+.logo-youtube {
     height: 5rem;
     width: 8rem;
 }
@@ -20,8 +19,7 @@ iframe {
 
 @media (max-width: 768px) {
 
-    .logo-youtube-container img,
-    iframe {
+    .logo-youtube {
         height: 3rem;
         width: 5rem;
     }

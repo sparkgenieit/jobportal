@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './contactUs.css';
 import http from '../../helpers/http';
 import useShowMessage from '../../helpers/Hooks/useShowMessage';
-
+import ReCAPTCHA from 'react-google-recaptcha';
 
 function ContactUs() {
   const [subject, setSubject] = useState("");
@@ -11,7 +11,12 @@ function ContactUs() {
   const [name, setName] = useState("");
   const [organisation, setOrganisation] = useState("");
   const [message, setMessage] = useState("");
+  const [token, setToken] = useState("");
   const showMessage = useShowMessage()
+
+  useEffect(() => {
+    document.title = "Contact-Us"
+  }, [])
 
 
   const [errors, setErrors] = useState({
@@ -102,6 +107,8 @@ function ContactUs() {
   }
 
   const handleSubmit = () => {
+
+
     let isValid = true;
     let obj = { ...errors }
     if (subject.trim() == "") {
@@ -148,7 +155,7 @@ function ContactUs() {
         participants: ["Visitor"],
         readBy: []
       }
-      http.post('/mails/contact-us', data)
+      http.post(`/mails/contact-us?recaptcha_token=${token}`, data)
         .then((res) => {
           setErrors({ ...errors, sentMessage: true, errorMessage: false })
           showMessage({ status: "success", message: "Form submitted", path: "/" })
@@ -208,9 +215,15 @@ function ContactUs() {
                   </div>
                 </div>
 
-                <div className="row">
-                  <div className="col-md-12">
-                    <button type="button" onClick={() => { handleSubmit() }} className="btn btn-primary w-100">Send</button>
+
+                <div className='d-flex flex-column flex-md-row gap-2 justify-content-between align-items-center'>
+
+                  <ReCAPTCHA sitekey='6LdnnokqAAAAALmIBO7sKmIJp1FvI5zt2bvhBwPL' onChange={(value) => setToken(value)} />
+
+                  <div className="row">
+                    <div className="col-md-12">
+                      <button disabled={!token} type="button" onClick={() => { handleSubmit() }} className="btn btn-primary w-100">Send</button>
+                    </div>
                   </div>
                 </div>
               </form>

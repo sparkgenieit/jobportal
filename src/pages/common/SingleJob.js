@@ -219,7 +219,7 @@ function SingleJob() {
                         </div>
                         <div className=' mb-3 mx-4 d-flex align-items-center justify-content-between logo-youtube-container    '>
                             <div className='d-flex align-items-center  gap-3 w-100 justify-content-between justify-content-lg-start  '>
-                                {jobview.companyLogo && jobview.companyLogo.length > 0 && <img className="rounded  border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
+                                {jobview.companyLogo && jobview.companyLogo.length > 0 && <img className="rounded logo-youtube border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
 
 
                                 {jobview.info?.length > 0 ?
@@ -238,7 +238,7 @@ function SingleJob() {
                                 <div className='position-relative d-none d-lg-block'>
                                     <iframe
                                         ref={youtubeRef}
-                                        className="rounded"
+                                        className="rounded logo-youtube"
                                         src={`https://www.youtube.com/embed/${getYoutubeVideoId(jobview.youtubeUrl)}`}
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     />
