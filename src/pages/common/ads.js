@@ -1,8 +1,8 @@
 // import logo from './logo.svg';
-import axios from 'axios';
 import './ads.css';
 import { useEffect, useState } from 'react';
 import http from '../../helpers/http';
+import { RxCross1 } from 'react-icons/rx'
 
 function Ads() {
   const [showAdvertisement, setShowAdvertisement] = useState(true);
@@ -29,22 +29,19 @@ function Ads() {
   return (
     <>
       {showAdvertisement && (
-        <div className="advertisement my-3 ">
-          <button className="close-btn" onClick={handleClose}>
-            &times;
-          </button>
-          <div className=' d-flex flex-row flex-wrap  justify-content-between  '>
-            <img className='rounded-3  adv-image ' src="https://via.placeholder.com/150" alt="Advertisement" />
-            <div className="d-flex small flex-column px-3 justify-content-between">
-              <small>Ads</small>
-              <div className='fw-bold'>{ad && ad.title}</div>
-              <div>{ad && ad.description}</div>
-              <button className='btn-xs btn btn-primary'>Shop Now</button>
-            </div>
+        <div className="bg-light rounded-3 p-2  d-flex flex-column gap-3">
+          <div className='d-flex justify-content-end'>
+            <RxCross1 role='button' onClick={handleClose} />
           </div>
-        </div>
-
-      )}
+          <img className='rounded-3  adv-image ' src="/assets/demo-ad.jpg" alt="Advertisement" />
+          <div className="d-flex small flex-column px-3 gap-3">
+            <small>Ads</small>
+            {ad && ad.title && <div className='fw-bold'>{ad.title}</div>}
+            {ad && ad.description && <div>{ad.description}</div>}
+          </div>
+        </div >
+      )
+      }
 
     </>
   );

@@ -21,6 +21,10 @@ body {
     font-size: small;
 }
 
+body::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
 
 .hide-scrollbar::-webkit-scrollbar {
     width: 0px;
