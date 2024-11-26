@@ -44,15 +44,13 @@ function Myappliedjobs() {
             <div className="container-fluid page-body-wrapper">
                 <Sidebar />
                 <div className="container-fluid">
-
-
-                    <div className=" row ">
-                        <div className="col-md-9 col-12">
+                    <div className=" row m-0    p-0 ">
+                        <div className="col-md-9 col-12 p-0">
                             {loading && <Loader />}
                             {!loading && <>
                                 <h3 className="fs-4 fw-bold text-center ">Applied Jobs</h3>
                                 <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} itemsPerPage={itemsPerPage} totalCount={totalItems} pageNumberToShow={2} fetchItems={fetchAppliedJobs}>
-                                    <div className="p-2 d-flex flex-column align-items-center">
+                                    <div className=" d-flex flex-column align-items-center">
                                         <JobCardList jobs={appliedjobs} type={"Applied"} />
                                     </div>
                                 </Pagination>
