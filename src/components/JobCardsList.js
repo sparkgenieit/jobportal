@@ -1,7 +1,15 @@
+import Ads from '../pages/common/ads';
 import Card from './common/Card';
 
 export default function JobCardList({ jobs, type }) {
 
+    const shouldAdsRender = index => {
+        if ((index + 1) % 4 !== 0) {
+            return false
+        } else {
+            return true
+        }
+    }
 
     return (
         <>
@@ -24,6 +32,8 @@ export default function JobCardList({ jobs, type }) {
                                 {!type &&
                                     <Card job={job} />
                                 }
+
+                                {shouldAdsRender(index) && <Ads type='short' />}
                             </div>
                         </ div >
                     )

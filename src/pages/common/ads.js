@@ -1,11 +1,8 @@
-// import logo from './logo.svg';
 import './ads.css';
 import { useEffect, useState } from 'react';
 import http from '../../helpers/http';
-import { RxCross1 } from 'react-icons/rx'
 
-function Ads() {
-  const [showAdvertisement, setShowAdvertisement] = useState(true);
+function Ads({ type = "long" }) {
   const [ad, setAd] = useState(null)
 
   useEffect(() => {
@@ -17,32 +14,18 @@ function Ads() {
       }
       )
       .catch(err => console.log(err))
-
-
   }, [])
-
-
-  const handleClose = () => {
-    setShowAdvertisement(false);
-  };
 
   return (
     <>
-      {showAdvertisement && (
-        <div className="bg-light rounded-3 p-2  d-flex flex-column gap-3">
-          <div className='d-flex justify-content-end'>
-            <RxCross1 role='button' onClick={handleClose} />
-          </div>
-          <img className='rounded-3  adv-image ' src="/assets/demo-ad.jpg" alt="Advertisement" />
-          <div className="d-flex small flex-column px-3 gap-3">
-            <small>Ads</small>
-            {ad && ad.title && <div className='fw-bold'>{ad.title}</div>}
-            {ad && ad.description && <div>{ad.description}</div>}
-          </div>
-        </div >
-      )
-      }
-
+      <div className={`bg-light rounded-3 p-2  d-flex ${type === "short" ? "flex-row" : "flex-column"} gap-3 ad-container`}>
+        <img className={`rounded-3 ${type === "short" ? "short-ad " : "long-ad"}`} src="/assets/demo-ad.jpg" alt="Advertisement" />
+        <div className="d-flex small flex-column px-3 gap-3">
+          <small>Ads</small>
+          {ad && ad.title && <div className='fw-bold'>{ad.title}</div>}
+          {ad && ad.description && <div>{ad.description}</div>}
+        </div>
+      </div >
     </>
   );
 }

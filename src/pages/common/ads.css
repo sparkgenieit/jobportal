@@ -1,4 +1,20 @@
-.adv-image {
+.ad-container {
+  width: fit-content;
+}
+
+.long-ad {
   min-height: 600px;
-  width: 100%;
+  max-width: 200px;
+}
+
+.short-ad {
+  width: 400px;
+  height: 200px;
+}
+
+
+@media (max-width : 768px) {
+  .short-ad {
+    width: 50vw;
+  }
 }
