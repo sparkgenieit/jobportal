@@ -42,7 +42,7 @@ function Sidebar() {
             </div>
 
             <li className="nav-item">
-              <div className="nav-link" role='button' onClick={() => handleNavigation("/superadmin/Table")}>
+              <div className="nav-link" role='button' onClick={() => handleNavigation("/superadmin/ads")}>
                 <div className='d-flex justify-content-between w-100'>
                   <span>Ads Management</span>
                   <span>

@@ -13,7 +13,7 @@ function ViewProfile() {
   });
 
   useEffect(() => {
-    document.title = "Profile"
+    document.title = "User Profile"
   }, [])
 
   return <>

@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Modal } from 'react-bootstrap'
 
-import EditAd from "./edit";
+import EditAd from "./EditAd";
 import http from "../../../helpers/http";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import { tryCatch } from "../../../helpers/functions";
 import { RxCross1 } from "react-icons/rx";
 
-function Table() {
+export default function AdsList() {
     const [adsList, setAdsList] = useState(null)
     const [showEditAd, setShowEditAd] = useState(false)
     const [adEdit, setAdEdit] = useState(null)
@@ -44,13 +44,16 @@ function Table() {
         setShowEditAd(true)
     }
 
+    const onHide = () => {
+        setShowEditAd(false)
+    }
     return (
         <>
 
             <div class="container-fluid bg-white pt-4">
                 <h3 className="fs-4 text-center fw-bold">Ads</h3>
                 <div className="d-flex justify-content-end">
-                    <Link className="btn btn-primary" to="/superadmin/AddForms" style={{ textDecoration: "none", color: "white" }}>Add</Link>
+                    <Link className="btn btn-primary" to="/superadmin/post-ad" style={{ textDecoration: "none", color: "white" }}>Add</Link>
                 </div>
 
                 <div className="table-responsive">
@@ -58,25 +61,18 @@ function Table() {
                         <thead>
                             <tr>
                                 <th>Ad Title</th>
-                                <th>Pages</th>
-                                <th>Position</th>
-                                <th>Size</th>
-                                <th>Price</th>
-                                <th>Number of Clicks</th>
-                                <th colSpan="2"></th>
+                                <th>Type</th>
+                                <th colSpan={3}>Image</th>
                             </tr>
                         </thead>
                         <tbody>
                             {adsList && adsList.map((ads, index) => {
                                 return (
-                                    <tr>
+                                    <tr key={ads._id}>
                                         <td>{ads.title}</td>
-                                        <td>{ads.pages}</td>
-                                        <td>{ads.position}</td>
-                                        <td>{ads.size}</td>
-                                        <td>{ads.price}</td>
-                                        <td>{ads.noOfClicks}</td>
-                                        <td className="text-center"><a type="button" href="#" class="btn btn-gradient-primary" onClick={() => edit(ads)}>Edit</a></td>
+                                        <td>{ads.ad_type}</td>
+                                        <td><img src={ads.ad_image_url} alt={ads.title} /></td>
+                                        <td className="text-center"><a type="button" class="btn btn-gradient-primary" onClick={() => edit(ads)}>Edit</a></td>
                                         <td className="text-center"><button type="button" class="btn btn-gradient-primary" onClick={() => handleDelete(ads)}>Delete</button></td>
                                     </tr>)
                             })}
@@ -85,18 +81,12 @@ function Table() {
                 </div>
             </div >
 
-            <Modal show={showEditAd} onHide={() => setShowEditAd(false)}>
+            <Modal show={showEditAd} onHide={onHide}>
                 <Modal.Body className="p-2 bg-white">
-                    <div className="p-0 float-end d-block d-md-none">  <RxCross1 onClick={() => setShowEditAd(false)} /> </div>
-                    <EditAd ad={adEdit} />
+                    <div className="p-0 float-end d-block d-md-none">  <RxCross1 onClick={onHide} /> </div>
+                    <EditAd ad={adEdit} onHide={onHide} />
                 </Modal.Body>
             </Modal>
         </>
     )
-
-
-
-
-
 }
-export default Table;

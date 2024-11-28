@@ -9,8 +9,6 @@ import Categories1 from "../../pages/superadmin/categories/Categories1";
 import Categorieslist1 from "../../pages/superadmin/categories/Categorieslist1"
 import Create from "../../pages/superadmin/adimin-management/Create";
 import List from "../../pages/superadmin/adimin-management/List";
-import AddForms from "../../pages/superadmin/adsmanagement/AddForms";
-import Table from "../../pages/superadmin/adsmanagement/Table";
 import UserList from "../../pages/superadmin/user/UserList";
 import OrdersList from "../../pages/superadmin/Order-Management/OrdersList";
 import Addpage from "../../pages/superadmin/Pages-Management/AddPages";
@@ -34,6 +32,8 @@ import NotFound from '../../components/NotFound';
 import Audit from '../../pages/superadmin/Audit_Log/Audit_Log';
 import AdminAuditLogs from '../../pages/superadmin/Audit_Log/AdminAuditLogs';
 import Footer from '../admin/Footer'; // As same footer for both superadmin and admin
+import PostAd from '../../pages/superadmin/adsmanagement/PostAd';
+import AdsList from '../../pages/superadmin/adsmanagement/AdsList';
 
 export default function SuperAdminLayout() {
     const dispatch = useDispatch()
@@ -67,8 +67,8 @@ export default function SuperAdminLayout() {
                         <Route path="locations" element={<LocationList />} />
                         <Route path="admins/Create" element={<Create />} />
                         <Route path="admins/List" element={<List />} />
-                        <Route path="AddForms" element={<AddForms />} />
-                        <Route path="Table" element={<Table />} />
+                        <Route path="post-ad" element={<PostAd />} />
+                        <Route path="ads" element={<AdsList />} />
                         <Route path="Skills" element={<Skills />} />
                         <Route path="users" element={<UserList />} />
                         <Route path="Skills/:id" element={<EditSkill />} />

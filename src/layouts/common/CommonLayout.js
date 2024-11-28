@@ -6,7 +6,6 @@ import Footer from './Footer';
 import http from '../../helpers/http';
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 import Home from '../../pages/common/Home';
-import UserProfile from "../../pages/common/UserProfile";
 import ViewProfile from "../../pages/common/ViewProfile";
 import Aboutwhvisa from "../../pages/common/Aboutwhvisa";
 import Banking from "../../pages/common/Banking";
@@ -37,6 +36,7 @@ import PaymentStatus from '../../pages/billing/PaymentStatus';
 import NotFound from '../../components/NotFound';
 import LocationPopup from '../../components/LocationPopup';
 import InfoPopup from '../../components/InfoPopup';
+import UserProfile from '../../pages/common/UserProfile';
 
 export default function CommonLayout() {
     const { role } = useCurrentUser()
@@ -94,7 +94,6 @@ export default function CommonLayout() {
                 <Route path="/payment-status" element={(role === "employer" || role === "recruiter") ? <PaymentStatus /> : <Navigate to="/" />} />
 
                 {/* User Protected Routes */}
-
                 <Route path="profile" element={(role === 'user') ? <UserProfile /> : <Navigate to="/" />} />
                 <Route path="viewprofile" element={(role === 'user') ? <ViewProfile /> : <Navigate to="/" />} />
                 <Route path="applied-jobs" element={(role === 'user') ? <Myappliedjobs /> : <Navigate to="/" />} />
