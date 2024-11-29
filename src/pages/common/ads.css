@@ -4,12 +4,19 @@
 
 .long-ad {
   min-height: 600px;
-  max-width: 200px;
+  aspect-ratio: 4 / 5;
+  width: 100%;
+}
+
+.ad-image {
+  width: 100%;
+  height: 100%;
 }
 
 .short-ad {
-  width: 400px;
-  height: 200px;
+  aspect-ratio: 1.91 / 1;
+  min-width: 600px;
+  height: 100%;
 }
 
 

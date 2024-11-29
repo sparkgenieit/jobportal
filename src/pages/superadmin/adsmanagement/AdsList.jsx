@@ -70,7 +70,7 @@ export default function AdsList() {
                                 return (
                                     <tr key={ads._id}>
                                         <td>{ads.title}</td>
-                                        <td>{ads.ad_type}</td>
+                                        <td className="text-capitalize">{ads.ad_type}</td>
                                         <td><img src={ads.ad_image_url} alt={ads.title} /></td>
                                         <td className="text-center"><a type="button" class="btn btn-gradient-primary" onClick={() => edit(ads)}>Edit</a></td>
                                         <td className="text-center"><button type="button" class="btn btn-gradient-primary" onClick={() => handleDelete(ads)}>Delete</button></td>
@@ -84,7 +84,13 @@ export default function AdsList() {
             <Modal show={showEditAd} onHide={onHide}>
                 <Modal.Body className="p-2 bg-white">
                     <div className="p-0 float-end d-block d-md-none">  <RxCross1 onClick={onHide} /> </div>
-                    <EditAd ad={adEdit} onHide={onHide} />
+                    <EditAd
+                        ad={adEdit}
+                        onSuccess={() => {
+                            onHide()
+                            fetchAds()
+                        }}
+                    />
                 </Modal.Body>
             </Modal>
         </>

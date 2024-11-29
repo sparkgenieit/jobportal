@@ -7,23 +7,18 @@ function Ads({ type = "long" }) {
 
   useEffect(() => {
     http.get(`/ads/show-ad?type=${type}`)
-      .then((response) => {
-        setAd(response.data)
-      }
-      )
-      .catch(err => console.log(err))
+      .then((response) => setAd(response.data))
+      .catch(() => { })
   }, [])
 
   return (
-    <>
-      <div className={`bg-light rounded-3 p-2  d-flex ${type === "short" ? "flex-row" : "flex-column"} gap-3 ad-container`}>
-        <img className={`rounded-3 ${type === "short" ? "short-ad " : "long-ad"}`} src={ad?.ad_image_url ? ad?.ad_image_url : "/assets/demo-ad.jpg"} alt="Advertisement" />
-        <div className="d-flex small flex-column px-3 gap-1">
-          {ad && ad.title && <div className='fw-bold'>{ad.title}</div>}
-          {ad && ad.description && <div>{ad.description}</div>}
-        </div>
-      </div >
-    </>
+    <a href={ad?.redirect_url} target='blank' className={`bg-light rounded-3 p-2  d-flex ${type === "short" ? "flex-row short-ad" : "flex-column long-ad"} gap-3 ad-container`}>
+      <img className={`rounded-3 ad-image`} src={ad?.ad_image_url ? ad?.ad_image_url : "/assets/demo-ad.jpg"} alt="Advertisement" />
+      <div className="d-flex small flex-column px-3 gap-1">
+        {ad && ad.title && <div className='fw-bold'>{ad.title}</div>}
+        {ad && ad.description && <div>{ad.description}</div>}
+      </div>
+    </a >
   );
 }
 

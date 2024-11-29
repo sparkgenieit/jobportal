@@ -8,7 +8,8 @@ const initialValues = {
     title: "",
     description: "",
     ad_image_url: "",
-    ad_type: ""
+    ad_type: "",
+    redirect_url: ""
 }
 
 function PostAd() {
@@ -73,8 +74,8 @@ function PostAd() {
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Ad Title <span className="text-danger">*</span></label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" value={adForm.title} name="title" onChange={handleForm} required />
-                                        {formErrors.title && <div className=' small text-danger'>{formErrors.title}</div>}
+                                        <input type="text" class="form-control" value={adForm?.title} name="title" onChange={handleForm} required />
+                                        {formErrors?.title && <div className=' small text-danger'>{formErrors?.title}</div>}
                                     </div>
                                 </div>
                             </div>
@@ -84,8 +85,8 @@ function PostAd() {
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Description<span className="text-danger">*</span></label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" value={adForm.description} name="description" onChange={handleForm} required />
-                                        {formErrors.description && <div className='small text-danger'>{formErrors.description}</div>}
+                                        <textarea class="form-control" value={adForm?.description} name="description" onChange={handleForm} required />
+                                        {formErrors?.description && <div className='small text-danger'>{formErrors?.description}</div>}
                                     </div>
 
                                 </div>
@@ -96,21 +97,34 @@ function PostAd() {
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Ad Type<span className="text-danger">*</span></label>
                                     <div class="col-sm-9">
-                                        <select className="form-select" name="ad_type" value={adForm.ad_type} onChange={handleForm}>
-                                            <option value="short">Short</option>
-                                            <option value="long">Long</option>
+                                        <select className="form-select" name="ad_type" value={adForm?.ad_type} onChange={handleForm}>
+                                            <option value="short">Short (min 600 pixels width)</option>
+                                            <option value="long">Long (min 600 pixels height)</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Redirect URL<span className="text-danger">*</span></label>
+                                    <div class="col-sm-9">
+                                        <input type="url" class="form-control" value={adForm?.redirect_url} name="redirect_url" onChange={handleForm} required />
+                                        {formErrors?.redirect_url && <div className='small text-danger'>{formErrors?.redirect_url} </div>}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div className='row'>
                             <div class="col-md-7">
                                 <div class="form-group row">
-                                    <label class="col-sm-3  col-form-label">Ad Image Url<span className="text-danger">*</span></label>
+                                    <label class="col-sm-3  col-form-label">Ad Image URL<span className="text-danger">*</span></label>
                                     <div class="col-sm-9">
-                                        <input type="url" class="form-control" value={adForm.ad_image_url} name="ad_image_url" onChange={handleForm} required />
-                                        {formErrors.ad_image_url && <div className='small text-danger'>{formErrors.ad_image_url} </div>}
+                                        <input type="url" class="form-control" value={adForm?.ad_image_url} name="ad_image_url" onChange={handleForm} required />
+                                        {formErrors?.ad_image_url && <div className='small text-danger'>{formErrors?.ad_image_url} </div>}
                                     </div>
                                 </div>
                             </div>

@@ -4,16 +4,18 @@ import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import { tryCatch } from "../../../helpers/functions";
 import { validateIsNotEmpty } from "../../../helpers/functions/textFunctions";
 
-function EditAd({ ad, onHide }) {
+function EditAd({ ad, onSuccess }) {
     const initialValues = {
-        title: ad.title,
-        description: ad.description,
-        ad_image_url: ad.ad_image_url,
-        ad_type: ad.ad_type
+        title: ad?.title,
+        description: ad?.description,
+        ad_image_url: ad?.ad_image_url,
+        ad_type: ad?.ad_type,
+        redirect_url: ad?.redirect_url
     }
 
     const [adForm, setAdForm] = useState(initialValues)
     const [formErrors, setFormErrors] = useState({})
+    const [formStatus, setFormStatus] = useState("idle")
     const message = useShowMessage()
 
     const handleForm = (e) => {
@@ -25,6 +27,7 @@ function EditAd({ ad, onHide }) {
 
     const SubmitBtn = async (event) => {
         event.preventDefault()
+        setFormStatus("submitting")
         let isValid = true;
 
         let obj = {};
@@ -43,6 +46,8 @@ function EditAd({ ad, onHide }) {
         if (isValid) {
             const { error } = await tryCatch(() => http.put(`/ads/update/${ad._id}`, adForm))
 
+            setFormStatus("idle")
+
             if (error) {
                 message({
                     status: "error",
@@ -50,7 +55,7 @@ function EditAd({ ad, onHide }) {
                 })
                 return
             }
-            onHide()
+            onSuccess()
             message({
                 status: "Success",
                 message: "Ad Edited Successfully",
@@ -68,7 +73,7 @@ function EditAd({ ad, onHide }) {
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Ad Title <span className="text-danger">*</span></label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" value={adForm.title} name="title" onChange={handleForm} required />
+                                    <input type="text" class="form-control" value={adForm?.title} name="title" onChange={handleForm} required />
                                     {formErrors?.title && <div className=' small text-danger'>{formErrors?.title}</div>}
                                 </div>
                             </div>
@@ -77,7 +82,7 @@ function EditAd({ ad, onHide }) {
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Description<span className="text-danger">*</span></label>
                                 <div class="col-sm-9">
-                                    <textarea class="form-control" value={adForm.description} name="description" onChange={handleForm} required />
+                                    <textarea class="form-control" value={adForm?.description} name="description" onChange={handleForm} required />
                                     {formErrors?.description && <div className='small text-danger'>{formErrors?.description}</div>}
                                 </div>
 
@@ -87,18 +92,29 @@ function EditAd({ ad, onHide }) {
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Ad Type<span className="text-danger">*</span></label>
                                 <div class="col-sm-9">
-                                    <select className="form-select" name="ad_type" value={adForm.ad_type} onChange={handleForm}>
-                                        <option value="short">Short</option>
-                                        <option value="long">Long</option>
+                                    <select className="form-select" name="ad_type" value={adForm?.ad_type} onChange={handleForm}>
+                                        <option value="short">Short (min 600 pixels width)</option>
+                                        <option value="long">Long (min 600 pixels height)</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Redirect URL<span className="text-danger">*</span></label>
+                                <div class="col-sm-9">
+                                    <input type="url" class="form-control" value={adForm?.redirect_url} name="redirect_url" onChange={handleForm} required />
+                                    {formErrors?.redirect_url && <div className='small text-danger'>{formErrors?.redirect_url} </div>}
+                                </div>
+                            </div>
+                        </div>
+
                         <div className='row'>
                             <div class="form-group row">
-                                <label class="col-sm-3  col-form-label">Ad Image Url<span className="text-danger">*</span></label>
+                                <label class="col-sm-3  col-form-label">Ad Image URL<span className="text-danger">*</span></label>
                                 <div class="col-sm-9">
-                                    <input type="url" class="form-control" value={adForm.ad_image_url} name="ad_image_url" onChange={handleForm} required />
+                                    <input type="url" class="form-control" value={adForm?.ad_image_url} name="ad_image_url" onChange={handleForm} required />
                                     {formErrors?.ad_image_url && <div className='small text-danger'>{formErrors?.ad_image_url} </div>}
                                 </div>
                             </div>
@@ -141,10 +157,14 @@ function EditAd({ ad, onHide }) {
                             </div>
                         </div> */}
 
-                        <div className='form-group'>
-                            <div className='col-11 d-flex justify-content-end'>
-                                <button type='submit' className='btn btn-primary'>Save</button>
-                            </div>
+                        <div className='col-11 d-flex justify-content-end'>
+                            <button
+                                type='submit'
+                                disabled={formStatus === "submitting"}
+                                className='btn btn-primary'
+                            >
+                                {formStatus === "submitting" ? "Updating" : "Save"}
+                            </button>
                         </div>
                     </form>
                 </div>
