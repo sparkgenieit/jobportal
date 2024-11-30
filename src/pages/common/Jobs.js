@@ -162,7 +162,7 @@ function Jobs() {
 
                         </Pagination>
                     </div>
-                    <div className='col-12 col-lg-4  px-0 ps-5'>
+                    <div className='col-12 col-lg-4  ps-1'>
                         <Ads />
                     </div>
                 </section >
