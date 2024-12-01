@@ -110,15 +110,23 @@ function Home() {
                 </form>
             </div>
 
-            <div className="container-fluid text-center py-3">
-                <div className='pb-4 pt-2 '>
-                    <NZMap />
+            <div className="container-xxl text-center py-3 px-0">
+                <div className='row mb-3'>
+                    <div className='col-lg-3'>
+                        <Ads />
+                    </div>
+                    <div className='col-lg-6'>
+                        <NZMap />
+                    </div>
+                    <div className='col-lg-3'>
+                        <Ads />
+                    </div>
                 </div>
                 <div className='row'>
-                    <section className='col-12 col-lg-2'>
+                    <section className='col-lg-3'>
                         <Ads />
                     </section>
-                    <section className=' d-flex flex-column gap-5 col-lg-8'>
+                    <section className=' d-flex flex-column gap-5 col-lg-6'>
                         <div className='d-flex flex-column'>
                             <iframe className='rounded youtube-video' src="https://www.youtube.com/embed/7r-If5smQ_s?si=zd0NUcT7rsEV7a4k" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen>
                             </iframe>
@@ -129,7 +137,7 @@ function Home() {
                             <div className='fw-bold'>Life in New Zealand on a Working Holiday Visa</div>
                         </div>
                     </section>
-                    <section className='col-12 col-lg-2'>
+                    <section className='col-lg-3'>
                         <Ads />
                     </section>
                 </div>

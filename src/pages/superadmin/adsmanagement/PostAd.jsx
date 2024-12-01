@@ -109,7 +109,11 @@ function PostAd() {
                         <div class="row">
                             <div class="col-md-7">
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Redirect URL<span className="text-danger">*</span></label>
+                                    <label class="col-sm-3 col-form-label">
+                                        Ad Webiste URL <span className="text-danger">*</span>
+                                        <br />
+                                        <small style={{ fontSize: "10px" }}>(URL of the website when the user click on the ad)</small>
+                                    </label>
                                     <div class="col-sm-9">
                                         <input type="url" class="form-control" value={adForm?.redirect_url} name="redirect_url" onChange={handleForm} required />
                                         {formErrors?.redirect_url && <div className='small text-danger'>{formErrors?.redirect_url} </div>}
@@ -121,7 +125,11 @@ function PostAd() {
                         <div className='row'>
                             <div class="col-md-7">
                                 <div class="form-group row">
-                                    <label class="col-sm-3  col-form-label">Ad Image URL<span className="text-danger">*</span></label>
+                                    <label class="col-sm-3  col-form-label">
+                                        Ad Image URL<span className="text-danger">*</span>
+                                        <br />
+                                        <small style={{ fontSize: "10px" }}>(URL of the image to be displayed on the ad)</small>
+                                    </label>
                                     <div class="col-sm-9">
                                         <input type="url" class="form-control" value={adForm?.ad_image_url} name="ad_image_url" onChange={handleForm} required />
                                         {formErrors?.ad_image_url && <div className='small text-danger'>{formErrors?.ad_image_url} </div>}

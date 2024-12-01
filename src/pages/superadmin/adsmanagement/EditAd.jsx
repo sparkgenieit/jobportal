@@ -102,7 +102,7 @@ function EditAd({ ad, onSuccess }) {
 
                         <div class="row">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Redirect URL<span className="text-danger">*</span></label>
+                                <label class="col-sm-3 col-form-label">Ad Webiste URL<span className="text-danger">*</span></label>
                                 <div class="col-sm-9">
                                     <input type="url" class="form-control" value={adForm?.redirect_url} name="redirect_url" onChange={handleForm} required />
                                     {formErrors?.redirect_url && <div className='small text-danger'>{formErrors?.redirect_url} </div>}
@@ -157,15 +157,21 @@ function EditAd({ ad, onSuccess }) {
                             </div>
                         </div> */}
 
-                        <div className='col-11 d-flex justify-content-end'>
-                            <button
-                                type='submit'
-                                disabled={formStatus === "submitting"}
-                                className='btn btn-primary'
-                            >
-                                {formStatus === "submitting" ? "Updating" : "Save"}
-                            </button>
+
+                        <div class="row">
+                            <div class="form-group row">
+                                <div className="col-sm-12 d-flex justify-content-end">
+                                    <button
+                                        type='submit'
+                                        disabled={formStatus === "submitting"}
+                                        className='btn btn-primary'
+                                    >
+                                        {formStatus === "submitting" ? "Updating" : "Save"}
+                                    </button>
+                                </div>
+                            </div>
                         </div>
+
                     </form>
                 </div>
 

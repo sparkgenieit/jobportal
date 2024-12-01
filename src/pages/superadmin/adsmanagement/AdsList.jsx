@@ -49,7 +49,6 @@ export default function AdsList() {
     }
     return (
         <>
-
             <div class="container-fluid bg-white pt-4">
                 <h3 className="fs-4 text-center fw-bold">Ads</h3>
                 <div className="d-flex justify-content-end">
@@ -81,9 +80,9 @@ export default function AdsList() {
                 </div>
             </div >
 
-            <Modal show={showEditAd} onHide={onHide}>
+            <Modal size="lg" show={showEditAd} onHide={onHide}>
                 <Modal.Body className="p-2 bg-white">
-                    <div className="p-0 float-end d-block d-md-none">  <RxCross1 onClick={onHide} /> </div>
+                    <div className="p-0 float-end">  <RxCross1 role="button" onClick={onHide} /> </div>
                     <EditAd
                         ad={adEdit}
                         onSuccess={() => {

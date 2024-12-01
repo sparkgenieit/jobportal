@@ -25,21 +25,22 @@
 }
 
 .youtube-video {
-    height: 100%;
-    width: 100%;
+    aspect-ratio: 4/5;
+    max-height: 300px;
+    margin: 0px 10px;
 }
 
 @media (max-width: 562px) {
+
     .youtube-video {
-        height: 15rem;
+        aspect-ratio: 4/5;
+        max-height: 200px;
     }
 }
 
 
 @media (min-width: 768px) {
-    .youtube-video {
-        height: 400px;
-    }
+
 
     .banner {
         height: 50vh;
@@ -57,18 +58,10 @@
     .search-bar {
         padding: 0px 50px;
     }
-
-    .youtube-video {
-        height: 450px;
-    }
 }
 
 
 @media (min-width: 1920px) {
-    .youtube-video {
-        height: 800px;
-    }
-
     .banner>form {
         width: 1500px;
         margin: 0 auto;

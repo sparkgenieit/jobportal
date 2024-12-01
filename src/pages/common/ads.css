@@ -4,22 +4,22 @@
 
 .long-ad {
   height: 600px;
-  max-width: 480px;
+  width: 300px;
 }
 
-.ad-image {
-  width: 100%;
-  height: 100%;
-}
 
 .short-ad {
   width: 600px;
-  max-height: 314px;
+  height: 314px;
 }
 
 
 @media (max-width:962px) {
   .short-ad {
-    width: 60vw;
+    width: 100%;
+  }
+
+  .long-ad {
+    width: 100%;
   }
 }
