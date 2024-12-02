@@ -206,8 +206,8 @@ function PostedJobList() {
                                                             <td id="jobRef" className="text-start">{job.employjobreference}</td>
                                                             <td id="Posteddate">{new Date(job.creationdate).toLocaleDateString('en-GB')}</td>
                                                             <td id="expirydate">
-                                                                {(job.status === 'closed' || job.status === "expired") && <span>{new Date(job.closedate).toLocaleDateString('en-GB')}</span>}
-                                                                {job.status === 'approved' && <span>{getExpiry(job.closedate)} left</span>}
+                                                                <span>{new Date(job.closedate).toLocaleDateString('en-GB')}</span>
+                                                                {(job.status !== "closed" && job.status !== "expired") && <> ({getExpiry(job.closedate)}) </>}
                                                             </td>
                                                             <td id="status" className="text-center">
                                                                 {job.status === "queue" || job.status === "review" ? <span>In Review</span> : null}

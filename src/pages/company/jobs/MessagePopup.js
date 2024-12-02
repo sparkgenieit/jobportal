@@ -157,7 +157,7 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob, 
                     <div className="py-3 px-1">
                         <h4>Premature Job Closure</h4>
 
-                        <p>You are attempting to close a job that is still active and has not yet reached its expiry date of <strong>{getExpiryDate(modal.clickedJob.creationdate)}</strong>. Please note that closing the job now will result in the forfeiture of any remaining advertising period. Additionally, please be aware that no credit or refund will be issued for the unused portion of the job posting period.</p>
+                        <p>You are attempting to close a job that is still active and has not yet reached its expiry date of <strong>{new Date(modal.clickedJob.closedate).toLocaleDateString("en-GB")}</strong>. Please note that closing the job now will result in the forfeiture of any remaining advertising period. Additionally, please be aware that no credit or refund will be issued for the unused portion of the job posting period.</p>
 
                         <p>If you are certain you wish to proceed with closing the job early, please confirm. Otherwise, consider allowing the job to run its full course to maximize your recruitment efforts.</p>
 
