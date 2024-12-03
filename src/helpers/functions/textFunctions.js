@@ -48,6 +48,14 @@ export const parseString = (string) => {
     return JSON.parse(string)
 }
 
+export function getFileName(name) {
+    const originalName = name.split("_ON_").pop()
+    if (originalName) {
+        return originalName
+    }
+    return name
+}
+
 export function capitalize(txt) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
 }

@@ -1,4 +1,5 @@
 import { BASE_API_URL } from "../helpers/constants";
+import { getFileName } from "../helpers/functions/textFunctions";
 
 export default function ViewProfileData({ user, JobTypes }) {
     const handleDownload = (event, path, file) => {
@@ -80,10 +81,7 @@ export default function ViewProfileData({ user, JobTypes }) {
                         <div className="col-sm-12">
                             <div className=' p-2'>
                                 {user.profile_summary}
-
                             </div>
-
-
                         </div>
                     </div>
                 </div>
@@ -271,19 +269,13 @@ export default function ViewProfileData({ user, JobTypes }) {
                 </div>
             </div>
 
-            <div className="row">
+            <div className="row mt-3">
                 <div className="col-md-9">
                     <div className="form-group row">
-                        <label className="col-sm-3 col-form-label fw-bold h3 mt-3">Skills :</label>
-                        <div className="col-sm-12">
-                            <ul>
-                                {user.skills && user.skills.length > 0 && user.skills.map((x, index) => {
-                                    return <li key={index}>{x}</li>
-                                }
-                                )
+                        <label className="col-sm-3 col-form-label fw-bold">Skills :</label>
+                        <div className="col-sm-9">
+                            {user.skills}
 
-                                }
-                            </ul>
                         </div>
                     </div>
                 </div>
@@ -293,7 +285,7 @@ export default function ViewProfileData({ user, JobTypes }) {
                     <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Availability:</label>
                         <div className="col-sm-9">
-                            {user.availability == "true" ? 'Yes' : "No"}
+                            {user.availability ? 'Yes' : "No"}
                         </div>
                     </div>
                 </div>
@@ -311,35 +303,23 @@ export default function ViewProfileData({ user, JobTypes }) {
                 </div>
             </div>
 
-
-            <p className="card-description mt-3 fw-bold">Preferred Job Types : </p>
             <div className="row">
-                <div className="col-md-12">
-                    <ul>
-                        {user.preferredJobTypes && user.preferredJobTypes.length > 0 && JobTypes.map((job, index) => {
-                            return <li key={index}>{job}</li>
-                        })
-                        }
-                    </ul>
-
+                <div className="col-md-9">
+                    <div className="form-group row">
+                        <label className="col-sm-3 col-form-label fw-bold">Preferred Job Types :</label>
+                        <div className="col-sm-9">
+                            {user.preferredJobTypes}
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div className="row">
                 <div className="col-md-9">
                     <div className="form-group row">
-                        <label className="col-sm-6 col-form-label fw-bold">Preferred Locations :</label>
-                        <div className="col-sm-12">
-                            <ul>
-                                {user.preferredJobLocations && user.preferredJobLocations.length > 0 &&
-                                    user.preferredJobLocations.map((x, index) => {
-                                        return <li key={index}>{x}</li>
-                                    }
-                                    )
-
-                                }
-                            </ul>
-
+                        <label className="col-sm-3 col-form-label fw-bold">Preferred Locations :</label>
+                        <div className="col-sm-9">
+                            {user.preferredJobLocations}
                         </div>
                     </div>
                 </div>
@@ -347,16 +327,9 @@ export default function ViewProfileData({ user, JobTypes }) {
             <div className="row">
                 <div className="col-md-9">
                     <div className="form-group row">
-                        <label className="col-sm-6  col-form-label fw-bold">Preferred Jobcategorys :</label>
-                        <div className="col-sm-12">
-                            <ul>
-                                {user.preferredJobCategories && user.preferredJobCategories.length > 0 && user.preferredJobCategories.map((x, index) => {
-                                    return <li key={index}>{x}</li>
-                                }
-                                )
-
-                                }
-                            </ul>
+                        <label className="col-sm-3 col-form-label fw-bold">Preferred Jobcategorys :</label>
+                        <div className="col-sm-9">
+                            {user.preferredJobCategories}
                         </div>
                     </div>
                 </div>
@@ -368,26 +341,22 @@ export default function ViewProfileData({ user, JobTypes }) {
                         <label className="col-sm-3 col-form-label fw-bold">Expected rate Per hour : </label>
                         <div className="col-sm-9">
                             <div>{user.expectedRatePerHour}</div>
-
                         </div>
                     </div>
                 </div>
             </div>
 
 
-            <div className="row">
+            {/* <div className="row">
                 <div className="col-md-9">
                     <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Profile is Visible to others:</label>
                         <div className="col-sm-9">
-                            {/* {user.showProfile} */}
+                            {user.showProfile}
                         </div>
                     </div>
                 </div>
-            </div>
-
-
-
+            </div> */}
 
             <div className="col-md-9">
                 <div class="form-group row">
@@ -413,7 +382,7 @@ export default function ViewProfileData({ user, JobTypes }) {
                     <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Upload CV :  </label>
                         <div className="col-sm-9">
-                            {user.cv && <a style={{ "textDecoration": "underline" }} href="/" onClick={(event) => handleDownload(event, 'cvs', user.cv)}>{user.cv}</a>}
+                            {user.cv && <a style={{ "textDecoration": "underline" }} href="/" onClick={(event) => handleDownload(event, 'cvs', user.cv)}>{getFileName(user.cv)}</a>}
                             {/* {user.uploadCV} */}
                         </div>
                     </div>
@@ -425,7 +394,7 @@ export default function ViewProfileData({ user, JobTypes }) {
                     <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Upload Cover Letter :  </label>
                         <div className="col-sm-9">
-                            {user.coverLetter && <a style={{ "textDecoration": "underline" }} href="/" onClick={(event) => handleDownload(event, 'coverletters', user.coverLetter)}>{user.coverLetter}</a>}
+                            {user.coverLetter && <a style={{ "textDecoration": "underline" }} href="/" onClick={(event) => handleDownload(event, 'coverletters', user.coverLetter)}>{getFileName(user.coverLetter)}</a>}
                         </div>
                     </div>
                 </div>
@@ -437,7 +406,7 @@ export default function ViewProfileData({ user, JobTypes }) {
 
 
 
-        </form>
+        </form >
 
     </>
 }

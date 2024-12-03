@@ -128,11 +128,8 @@ function Postajob({ name }) {
     if (benifits?.includes(value)) {
       benifits = benifits.replace(value, "").trim()
     } else {
-      benifits = benifits + value + " "
+      benifits = benifits + " " + value
     }
-
-    console.log(jobData);
-
     setJobData({ ...jobData, benifits: benifits })
   }
 
