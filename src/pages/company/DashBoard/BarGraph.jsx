@@ -1,81 +1,86 @@
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
+import { getData } from './BarGraphData.service';
 
-const data = [
+const mydata = [
     {
         name: 'Jan',
-        uv: 4000,
-        pv: 2400,
-        amt: 2400,
+        2023: 4000,
+        2024: 2400,
+
     },
     {
         name: 'Feb',
-        uv: 3000,
-        pv: 1398,
-        amt: 2210,
+        2023: 3000,
+        2024: 1398,
+
     },
     {
         name: 'Mar',
-        uv: 2000,
-        pv: 9800,
-        amt: 2290,
+        2023: 2000,
+        2024: 9800,
+
     },
     {
         name: 'Apr',
-        uv: 2780,
-        pv: 3908,
-        amt: 2000,
+        2023: 2780,
+        2024: 3908,
+
     },
     {
         name: 'May',
-        uv: 1890,
-        pv: 4800,
-        amt: 2181,
+        2023: 1890,
+        2024: 4800,
+
     },
     {
         name: 'Jun',
-        uv: 2390,
-        pv: 3800,
-        amt: 2500,
+        2023: 2390,
+        2024: 3800,
+
     },
     {
         name: 'Jul',
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
+        2023: 3490,
+        2024: 4300,
+
     },
     {
         name: 'Aug',
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
+        2023: 3490,
+        2024: 4300,
+
     },
     {
         name: 'Sep',
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
+        2023: 3490,
+        2024: 4300,
+
     },
     {
         name: 'Oct',
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
+        2023: 3490,
+        2024: 4300,
+
     },
     {
         name: 'Nov',
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
+        2023: 3490,
+        2024: 4300,
+
     },
     {
         name: 'Dec',
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
+        2023: 3490,
+        2024: 4300,
     },
 ];
 
-export default function BarGraph({ name }) {
+const BarGraph = ({ name, data }) => {
+
+    const { years, graphData } = getData(data, name)
+
+
+
     return (
 
         <div style={{ fontSize: 11 }} className='border p-2  d-flex flex-column gap-3 rounded  position-relative '>
@@ -83,9 +88,9 @@ export default function BarGraph({ name }) {
                 {name}
             </div>
             <BarChart
-                width={350}
+                width={450}
                 height={200}
-                data={data}
+                data={graphData}
                 margin={{
                     right: 30,
                 }}
@@ -94,10 +99,12 @@ export default function BarGraph({ name }) {
                 <YAxis />
 
                 <Legend />
-                <Bar dataKey="pv" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-                <Bar dataKey="uv" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+                <Bar dataKey={years[0]} fill="#999bff" />
+                <Bar dataKey={years[1]} fill="#002db3" />
             </BarChart>
         </div>
 
     );
 }
+
+export default BarGraph;
