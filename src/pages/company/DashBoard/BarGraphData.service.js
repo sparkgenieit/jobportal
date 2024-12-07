@@ -30,7 +30,7 @@ const getPostedJobsData = (data) => {
 
     const getPostedGraphData = (year, month) => {
         const item = data.find(item => item.year === year && item.month === month)
-        return item?.count || 0
+        return Math.ceil(item?.count) || 0
     }
 
     const graphData = months.map((month, index) => {
@@ -46,9 +46,7 @@ const getPostedJobsData = (data) => {
 }
 
 const getViewsData = (data) => {
-
-
-
+    return getPostedJobsData(data)
 }
 
 

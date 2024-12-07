@@ -1,85 +1,8 @@
-import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Legend, Tooltip } from 'recharts';
 import { getData } from './BarGraphData.service';
 
-const mydata = [
-    {
-        name: 'Jan',
-        2023: 4000,
-        2024: 2400,
-
-    },
-    {
-        name: 'Feb',
-        2023: 3000,
-        2024: 1398,
-
-    },
-    {
-        name: 'Mar',
-        2023: 2000,
-        2024: 9800,
-
-    },
-    {
-        name: 'Apr',
-        2023: 2780,
-        2024: 3908,
-
-    },
-    {
-        name: 'May',
-        2023: 1890,
-        2024: 4800,
-
-    },
-    {
-        name: 'Jun',
-        2023: 2390,
-        2024: 3800,
-
-    },
-    {
-        name: 'Jul',
-        2023: 3490,
-        2024: 4300,
-
-    },
-    {
-        name: 'Aug',
-        2023: 3490,
-        2024: 4300,
-
-    },
-    {
-        name: 'Sep',
-        2023: 3490,
-        2024: 4300,
-
-    },
-    {
-        name: 'Oct',
-        2023: 3490,
-        2024: 4300,
-
-    },
-    {
-        name: 'Nov',
-        2023: 3490,
-        2024: 4300,
-
-    },
-    {
-        name: 'Dec',
-        2023: 3490,
-        2024: 4300,
-    },
-];
-
 const BarGraph = ({ name, data }) => {
-
     const { years, graphData } = getData(data, name)
-
-
 
     return (
 
@@ -88,7 +11,7 @@ const BarGraph = ({ name, data }) => {
                 {name}
             </div>
             <BarChart
-                width={450}
+                width={300}
                 height={200}
                 data={graphData}
                 margin={{
@@ -97,7 +20,7 @@ const BarGraph = ({ name, data }) => {
             >
                 <XAxis textAnchor='end' angle={-90} dataKey="name" />
                 <YAxis />
-
+                <Tooltip />
                 <Legend />
                 <Bar dataKey={years[0]} fill="#999bff" />
                 <Bar dataKey={years[1]} fill="#002db3" />
