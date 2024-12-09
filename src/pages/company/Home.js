@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import BarGraph from "./DashBoard/BarGraph";
 import http from "../../helpers/http";
 import GuageMeter from "./DashBoard/GaugeMeter";
+import { getApplicationCountPerMonth, getApplicationCountPerYear } from "./DashBoard/BarGraphData.service";
 
 
 function Home() {
@@ -12,6 +13,7 @@ function Home() {
       const { data } = await http.get("/charts/company")
       setGraphsData(data)
     } catch (error) {
+
 
     }
 
@@ -36,18 +38,18 @@ function Home() {
       <div className="d-flex flex-wrap gap-5 py-4">
         <GuageMeter value={graphsData?.activeJobs || 0} name="Active Jobs" />
         <GuageMeter value={graphsData?.postedJobsByYear || 0} name="YTD Jobs Posted" />
-        <GuageMeter value={graphsData?.activeJobs || 0} name="Active Jobs" />
+        <GuageMeter value={getApplicationCountPerYear(graphsData?.avgJobsByYear, 2023) || 0} name="YTD Applications" />
         <GuageMeter value={graphsData?.postedJobsByMonth || 0} name="MTD Jobs Posted" />
-        <GuageMeter value={graphsData?.activeJobs || 0} name="Active Jobs" />
+        <GuageMeter value={getApplicationCountPerMonth(graphsData?.avgJobsByYear, 10, 2024) || 0} name="MTD Applications" />
       </div>
 
       {
         graphsData &&
 
-        <div className="d-flex flex-wrap gap-3 mt-3">
+        <div className="d-flex flex-wrap gap-3 my-3">
           <BarGraph name={"Job Posted"} data={graphsData?.posted_jobs} />
           <BarGraph name={"Average Views Per Job"} data={graphsData?.avgViews} />
-          {/* <BarGraph name={"Average Applications Per Job"} data={graphsData?.applications} /> */}
+          <BarGraph name={"Average Applications Per Job"} data={graphsData?.avgJobsByYear} />
         </div>
       }
     </div>

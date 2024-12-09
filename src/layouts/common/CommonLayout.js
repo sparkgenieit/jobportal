@@ -39,7 +39,7 @@ import InfoPopup from '../../components/InfoPopup';
 import UserProfile from '../../pages/common/UserProfile';
 
 export default function CommonLayout() {
-    const { role } = useCurrentUser()
+    const { role, _id } = useCurrentUser()
 
     useEffect(() => {
         fetchSavedJobsByUser()
@@ -47,11 +47,9 @@ export default function CommonLayout() {
 
     const fetchSavedJobsByUser = async () => {
         if (sessionStorage.getItem('savedJobIds')) return
-        const role = localStorage.getItem('role')
         if (role === "user") {
-            const user_id = localStorage.getItem("user_id")
             try {
-                const res = await http.get(`/users/get-saved-jobs/${user_id}`)
+                const res = await http.get(`/users/get-saved-jobs/${_id}`)
                 let savedJobsIds = []
                 res.data?.map(item => savedJobsIds.push(item.jobId))
                 sessionStorage.setItem("savedJobIds", JSON.stringify(savedJobsIds))

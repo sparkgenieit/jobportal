@@ -11,8 +11,8 @@ const BarGraph = ({ name, data }) => {
                 {name}
             </div>
             <BarChart
-                width={300}
-                height={200}
+                width={370}
+                height={220}
                 data={graphData}
                 margin={{
                     right: 30,
