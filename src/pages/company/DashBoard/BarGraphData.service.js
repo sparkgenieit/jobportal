@@ -1,6 +1,6 @@
 
 
-const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+export const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 export const getData = (data, name) => {
     switch (name) {
@@ -50,11 +50,21 @@ const getViewsData = (data) => {
 }
 
 export const getApplicationCountPerMonth = (data, month, year) => {
+
+    month = +(month ? month : new Date().getMonth()) + 1
+
+    year = +(year ? year : new Date().getFullYear())
+
     const application = data?.find(item => item.year === year && item.month === month)
+
+
     return application?.totalApplications || 0
 }
 
 export const getApplicationCountPerYear = (data, year) => {
+
+    year = +(year ? year : new Date().getFullYear())
+
     const applications = data?.filter(item => item.year === year)
 
     let totalApplications = 0

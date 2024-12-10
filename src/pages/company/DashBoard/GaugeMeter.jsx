@@ -5,9 +5,6 @@ export default function GuageMeter({ value, name }) {
 
     const maxValue = value > 200 ? value : 200
 
-
-
-
     return (
         <div>
             <h3 className="fs-5 fw-bold text-center">
@@ -25,7 +22,7 @@ export default function GuageMeter({ value, name }) {
                 maxValue={maxValue}
                 width={200}
                 height={150}
-                value={value}
+                value={value ? value : 0}
                 needleHeightRatio={0.8}
             />
 
