@@ -1,5 +1,4 @@
 import './Header.css';
-import 'aos/dist/aos.css';
 import { Modal, Tabs, Tab, Offcanvas, Accordion } from "react-bootstrap";
 import { CgProfile } from "react-icons/cg";
 import { useState } from 'react';

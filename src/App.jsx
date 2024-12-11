@@ -1,7 +1,7 @@
+import "./App.css"
 import { lazy, Suspense, useLayoutEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import 'aos/dist/aos.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Login from "./pages/admin/login";
