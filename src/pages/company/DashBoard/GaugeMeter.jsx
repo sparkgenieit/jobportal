@@ -25,20 +25,6 @@ export default function GuageMeter({ value, name }) {
                 value={value ? value : 0}
                 needleHeightRatio={0.8}
             />
-
-            {/* <ReactSpeedometer
-                forceRender={true}
-                minValue={0}
-                maxValue={value > 200 ? value : 200}
-                value={value}
-                width={250}
-                height={180}
-                customSegmentStops={[0, value]}
-                maxSegmentLabels={1}
-                segments={5555}
-                textColor={"black"}
-                needleColor="black"
-            /> */}
         </div>
     )
 }

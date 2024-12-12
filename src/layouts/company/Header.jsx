@@ -11,8 +11,8 @@ import { useDispatch } from 'react-redux';
 import { setIsSidebarOpen } from '../../helpers/slices/generalSlice';
 
 function Header() {
-  const { role, first_name, last_name, _id: userId } = useCurrentUser()
-  const fullname = first_name + " " + last_name
+  const { name, role, first_name, last_name, _id: userId } = useCurrentUser()
+  const fullname = role === "recruiter" ? name : first_name + " " + last_name
   const [showNotifications, setShowNotifications] = useState(false);
   const [notificationList, setNotificationList] = useState(null)
   const navigate = useNavigate()

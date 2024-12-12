@@ -18,8 +18,8 @@ import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 
 export default function Header() {
   const [isSignedIn] = useState(localStorage.getItem('isSignedIn') || '');
-  const { role, first_name, last_name } = useCurrentUser()
-  const fullname = first_name + " " + last_name
+  const { name, role, first_name, last_name } = useCurrentUser()
+  const fullname = role === "recruiter" ? name : first_name + " " + last_name
   const [isExpanded, setIsExpanded] = useState(false)
   const [searchCity, setSearchCity] = useState("")
   const [showSideBar, setShowSideBar] = useState(false)

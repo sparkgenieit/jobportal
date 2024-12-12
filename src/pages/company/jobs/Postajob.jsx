@@ -29,6 +29,7 @@ const initialValues = {
   employjobreference: "",
   rateperhour: "",
   weeklyperhour: "",
+  benifits: "",
   salary_type: "per hour"
 }
 
@@ -108,7 +109,7 @@ function Postajob({ name }) {
 
   const handleForm = (e) => {
     setJobData({ ...jobData, [e.target.name]: e.target.value })
-    setError({ ...error, [e.target.name]: e.target.value?.trim() === "" ? `Please enter ${e.target.name}` : "" })
+    setError({ ...error, [e.target.name]: e.target.value?.trim() === "" ? "This field is required" : "" })
   }
 
   const invalidInput = (name) => {
@@ -196,6 +197,7 @@ function Postajob({ name }) {
         other_benefits,
         employer: localStorage.getItem("fullname"),
         companyId: company_id,
+        posted_by: user._id
       }
       if (name === "Post a Job") {
         await postJob(data, message)

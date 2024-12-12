@@ -1,25 +1,34 @@
 import { useEffect, useState } from "react";
 import BarGraph from "./DashBoard/BarGraph";
-import http from "../../helpers/http";
 import GuageMeter from "./DashBoard/GaugeMeter";
 import { getApplicationCountPerMonth, getApplicationCountPerYear, months } from "./DashBoard/BarGraphData.service";
 import useShowMessage from "../../helpers/Hooks/useShowMessage";
+import RecruitersService from "../../services/company/Recruiters.service";
+import useCurrentUser from "../../helpers/Hooks/useCurrentUser";
+import ChartsService from "../../services/company/Charts.service";
 
 const today = new Date()
 const currentYear = today.getFullYear()
 const yearOptions = [currentYear - 3, currentYear - 2, currentYear - 1, currentYear]
 
 function Home() {
+  const user = useCurrentUser()
   const [graphsData, setGraphsData] = useState(null)
   const [month, setMonth] = useState(today.getMonth())
   const [year, setYear] = useState(today.getFullYear())
   const [recruiters, setRecruiters] = useState(null)
+  const [selectedRecruiter, setSelectedRecruiter] = useState(user.role === "recruiter" ? user._id : "")
   const message = useShowMessage()
 
   const getCompanyCharts = async () => {
     try {
-      const form = { month, year }
-      const { data } = await http.post("/charts/company", form)
+      const form = {
+        month,
+        year,
+        recruiterId: selectedRecruiter
+      }
+
+      const { data } = await ChartsService.getCharts(form)
       setGraphsData(data)
     } catch (error) {
       message({
@@ -38,7 +47,7 @@ function Home() {
 
     const fetchRecruiters = async () => {
       try {
-        const response = await http.get(`/companies/recruiters`)
+        const response = await RecruitersService.getRecruiters()
         setRecruiters(response.data)
       } catch (error) {
         message({
@@ -53,7 +62,7 @@ function Home() {
 
   useEffect(() => {
     getCompanyCharts()
-  }, [year, month])
+  }, [year, month, selectedRecruiter])
 
   return <>
     <div className="container-fluid responsive-font mt-4" >
@@ -63,8 +72,8 @@ function Home() {
           <label>Year</label>
           <select className="form-select" value={year} onChange={handleForm(setYear)} name="year" >
             <option value={""}></option>
-            {yearOptions.map(year => (
-              <option value={year}>{year}</option>
+            {yearOptions.map((year, index) => (
+              <option key={index} value={year}>{year}</option>
             ))}
           </select>
         </div>
@@ -74,22 +83,24 @@ function Home() {
           <select className="form-select" value={month} onChange={handleForm(setMonth)} name="month">
             <option value={""}></option>
             {months.map((month, index) => (
-              <option value={index}>{month}</option>
+              <option key={month} value={index}>{month}</option>
             ))}
           </select>
         </div>
 
-        {/* <div className="d-flex gap-3 align-items-center">
-          <label>Recruiter</label>
-          <select className="form-select">
-            <option value={""}></option>
-            {
-              recruiters?.map(recruiter => (
-                <option value={recruiter.value}>{recruiter.name}</option>
-              ))
-            }
-          </select>
-        </div> */}
+        {user.role !== "recruiter" &&
+          <div className="d-flex gap-3 align-items-center">
+            <label>Recruiter</label>
+            <select className="form-select" value={selectedRecruiter} onChange={handleForm(setSelectedRecruiter)} name="recruiter">
+              <option value={""}></option>
+              {
+                recruiters?.map(recruiter => (
+                  <option value={recruiter._id}>{recruiter.name}</option>
+                ))
+              }
+            </select>
+          </div>
+        }
       </div>
 
       {
