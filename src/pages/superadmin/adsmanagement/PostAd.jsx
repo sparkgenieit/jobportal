@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import http from "../../../helpers/http";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
+import useCurrentUser from "../../../helpers/Hooks/useCurrentUser";
 import { tryCatch } from "../../../helpers/functions";
 import { validateIsNotEmpty } from "../../../helpers/functions/textFunctions";
 
@@ -13,7 +14,8 @@ const initialValues = {
 }
 
 function PostAd() {
-    const [adForm, setAdForm] = useState({ ...initialValues, ad_type: "short" })
+    const user = useCurrentUser()
+    const [adForm, setAdForm] = useState({ ...initialValues, ad_type: "short", posted_by: user._id })
     const [formErrors, setFormErrors] = useState(initialValues)
     const message = useShowMessage()
 

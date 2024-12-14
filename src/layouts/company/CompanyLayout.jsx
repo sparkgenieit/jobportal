@@ -22,6 +22,7 @@ import ChatPage from '../../components/ChatPage';
 import NotFound from '../../components/NotFound';
 import Audit from '../../pages/company/Audit-Log';
 import CompanyProfile from '../../pages/company/CompanyProfile';
+import AdsList from '../../pages/company/Ads/AdsList';
 
 export default function CompanyLayout() {
     const { role } = useCurrentUser()
@@ -50,6 +51,7 @@ export default function CompanyLayout() {
                         <Route path="audit" element={<Audit />} />
                         <Route path="transactions" element={<Transactions />} />
                         <Route path="BuyCredits" element={<BuyCredits />} />
+                        <Route path="ads" element={<AdsList />} />
 
                         {/* Company only Routes */}
                         <Route path="CompanyProfile" element={role == 'employer' ? <CompanyProfile /> : <CompanyHome />} />

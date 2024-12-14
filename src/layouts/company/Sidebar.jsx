@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import { MdSpaceDashboard } from 'react-icons/md';
 import { BsPostcard, BsPostcardFill, BsCreditCard, BsFillPersonCheckFill } from "react-icons/bs";
+import { RiAdvertisementFill } from "react-icons/ri";
 import { PiListDashesFill } from "react-icons/pi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { ImProfile } from "react-icons/im";
@@ -99,6 +100,15 @@ function Sidebar() {
                 <span>Posted Jobs</span>
                 <span>
                   <BsPostcardFill size={"20"} />
+                </span>
+              </div>
+            </li>
+
+            <li className="nav-item">
+              <div role='button' onClick={() => handleNavigation("/company/ads")} className='nav-link d-flex justify-content-between w-100'>
+                <span>Ads</span>
+                <span>
+                  <RiAdvertisementFill size={"20"} />
                 </span>
               </div>
             </li>
