@@ -37,6 +37,8 @@ import NotFound from '../../components/NotFound';
 import LocationPopup from '../../components/LocationPopup';
 import InfoPopup from '../../components/InfoPopup';
 import UserProfile from '../../pages/common/UserProfile';
+import { commonUrls } from '../../services/common/urls/commonUrls.service';
+
 
 export default function CommonLayout() {
     const { role, _id } = useCurrentUser()
@@ -64,38 +66,41 @@ export default function CommonLayout() {
             <Header />
             <Routes>
                 <Route index element={<Home />} />
-                <Route path="aboutus" element={<AboutUs />} />
-                <Route path="services" element={<Services />} />
-                <Route path="terms-conditions" element={<Terms />} />
-                <Route path="privacy-policy" element={<Privacy />} />
-                <Route path="contact-us" element={<ContactUs />} />
-                <Route path="/about-wh-visa" element={<Aboutwhvisa />} />
-                <Route path="/banking" element={<Banking />} />
-                <Route path="/types-of-work" element={<Typesofwork />} />
-                <Route path="/useful-links" element={<Usefullinks />} />
-                <Route path="/places" element={<Places />} />
-                <Route path="/transport" element={<Transport />} />
-                <Route path="/news" element={<News />} />
-                <Route path="/tax" element={<Tax />} />
-                <Route path="/accommodation" element={<Accommodation />} />
-                <Route path="/holiday-parks" element={<HolidayParks />} />
-                <Route path="/freedom-campaining" element={<FreedomCampaining />} />
-                <Route path="/activities" element={<Activities />} />
-                <Route path="/jobs" element={<Jobs />} />
-                <Route path="/jobs/:id" element={<SingleJob />} />
-                <Route path="/cities/:city" element={<City />} />
-                <Route path="/forgotPassword" element={<ForgetPassword />} />
-                <Route path="/reset-password" element={<ResetPassword />} />
-                <Route path="/activate-account" element={<ActivateAccount />} />
+
+                {/* The Urls for all the path is defined in the common url class */}
+
+                <Route path={commonUrls.aboutUs} element={<AboutUs />} />
+                <Route path={commonUrls.services} element={<Services />} />
+                <Route path={commonUrls.termConditions} element={<Terms />} />
+                <Route path={commonUrls.privacyPolicy} element={<Privacy />} />
+                <Route path={commonUrls.contactUs} element={<ContactUs />} />
+                <Route path={commonUrls.aboutWhVisa} element={<Aboutwhvisa />} />
+                <Route path={commonUrls.banking} element={<Banking />} />
+                <Route path={commonUrls.typesOfWork} element={<Typesofwork />} />
+                <Route path={commonUrls.usefulLinks} element={<Usefullinks />} />
+                <Route path={commonUrls.places} element={<Places />} />
+                <Route path={commonUrls.transport} element={<Transport />} />
+                <Route path={commonUrls.news} element={<News />} />
+                <Route path={commonUrls.tax} element={<Tax />} />
+                <Route path={commonUrls.accommodation} element={<Accommodation />} />
+                <Route path={commonUrls.holidayParks} element={<HolidayParks />} />
+                <Route path={commonUrls.freedomCampaining} element={<FreedomCampaining />} />
+                <Route path={commonUrls.activities} element={<Activities />} />
+                <Route path={commonUrls.jobs} element={<Jobs />} />
+                <Route path={commonUrls.singleJob} element={<SingleJob />} />
+                <Route path={commonUrls.city} element={<City />} />
+                <Route path={commonUrls.forgotPassword} element={<ForgetPassword />} />
+                <Route path={commonUrls.resetPassword} element={<ResetPassword />} />
+                <Route path={commonUrls.activateAccount} element={<ActivateAccount />} />
 
                 {/* Company Protected Route */}
-                <Route path="/payment-status" element={(role === "employer" || role === "recruiter") ? <PaymentStatus /> : <Navigate to="/" />} />
+                <Route path={commonUrls.paymentStatus} element={(role === "employer" || role === "recruiter") ? <PaymentStatus /> : <Navigate to="/" />} />
 
                 {/* User Protected Routes */}
-                <Route path="profile" element={(role === 'user') ? <UserProfile /> : <Navigate to="/" />} />
-                <Route path="viewprofile" element={(role === 'user') ? <ViewProfile /> : <Navigate to="/" />} />
-                <Route path="applied-jobs" element={(role === 'user') ? <Myappliedjobs /> : <Navigate to="/" />} />
-                <Route path="saved-jobs" element={(role === 'user') ? <Savedjobs /> : <Navigate to="/" />} />
+                <Route path={commonUrls.profile} element={(role === 'user') ? <UserProfile /> : <Navigate to="/" />} />
+                <Route path={commonUrls.viewProfile} element={(role === 'user') ? <ViewProfile /> : <Navigate to="/" />} />
+                <Route path={commonUrls.appliedJobs} element={(role === 'user') ? <Myappliedjobs /> : <Navigate to="/" />} />
+                <Route path={commonUrls.savedJobs} element={(role === 'user') ? <Savedjobs /> : <Navigate to="/" />} />
                 <Route path="*" element={<NotFound />} />
 
             </Routes>

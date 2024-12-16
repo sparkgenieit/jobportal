@@ -23,6 +23,7 @@ import NotFound from '../../components/NotFound';
 import Audit from '../../pages/company/Audit-Log';
 import CompanyProfile from '../../pages/company/CompanyProfile';
 import AdsList from '../../pages/company/Ads/AdsList';
+import { companyUrls } from '../../services/common/urls/companyUrls.service';
 
 export default function CompanyLayout() {
     const { role } = useCurrentUser()
@@ -38,24 +39,24 @@ export default function CompanyLayout() {
                 <div className="container-fluid page-body-wrapper">
                     <Sidebar />
                     <Routes>
-                        {/* Company and Recruiter shared Routes */}
+                        {/* Company and Recruiter shared Routes and the pathnames are defined in the companyUrl class */}
                         <Route index element={<CompanyHome />} />
-                        <Route path="postajob" element={<Postajob name={"Post a Job"} />} />
-                        <Route path="editjob/:id" element={<Postajob name={"Edit Job"} />} />
-                        <Route path="jobs" element={<PostedJobList />} />
-                        <Route path="applied-users/:id" element={<AppliedUsers />} />
-                        <Route path="applied-user-profile/:userId" element={<AppliedUserProfile />} />
-                        <Route path="contact-us" element={<EmployerContactUs />} />
-                        <Route path="inbox" element={<Inbox />} />
-                        <Route path="inbox/details/:id" element={<ChatPage name={"Enquirer"} />} />
-                        <Route path="audit" element={<Audit />} />
-                        <Route path="transactions" element={<Transactions />} />
-                        <Route path="BuyCredits" element={<BuyCredits />} />
-                        <Route path="ads" element={<AdsList />} />
+                        <Route path={companyUrls.postJob} element={<Postajob name={"Post a Job"} />} />
+                        <Route path={companyUrls.editJob} element={<Postajob name={"Edit Job"} />} />
+                        <Route path={companyUrls.postedJobs} element={<PostedJobList />} />
+                        <Route path={companyUrls.appliedUsers} element={<AppliedUsers />} />
+                        <Route path={companyUrls.appliedUserProfile} element={<AppliedUserProfile />} />
+                        <Route path={companyUrls.companyContact} element={<EmployerContactUs />} />
+                        <Route path={companyUrls.inbox} element={<Inbox />} />
+                        <Route path={companyUrls.inboxDetails} element={<ChatPage name={"Enquirer"} />} />
+                        <Route path={companyUrls.audit} element={<Audit />} />
+                        <Route path={companyUrls.transactions} element={<Transactions />} />
+                        <Route path={companyUrls.buyCredits} element={<BuyCredits />} />
+                        <Route path={companyUrls.ads} element={<AdsList />} />
 
                         {/* Company only Routes */}
-                        <Route path="CompanyProfile" element={role == 'employer' ? <CompanyProfile /> : <CompanyHome />} />
-                        <Route path="recruiters" element={role == 'employer' ? <RecruiterList /> : <CompanyHome />} />
+                        <Route path={companyUrls.companyProfile} element={role == 'employer' ? <CompanyProfile /> : <CompanyHome />} />
+                        <Route path={companyUrls.recruiters} element={role == 'employer' ? <RecruiterList /> : <CompanyHome />} />
 
                         <Route path="*" element={<NotFound />} />
                     </Routes>

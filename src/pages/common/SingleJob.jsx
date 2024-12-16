@@ -239,13 +239,14 @@ function SingleJob() {
                                     <iframe
                                         ref={youtubeRef}
                                         className="rounded logo-youtube"
+                                        title="YouTube video player"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin"
                                         src={`https://www.youtube.com/embed/${getYoutubeVideoId(jobview.youtubeUrl)}`}
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
                                     />
 
                                     <span role='button'
                                         onClick={() => {
-                                            youtubeRef.current.removeAttribute("hidden")
                                             youtubeRef.current.requestFullscreen();
                                         }}
                                         className=' youtube-play-button '
@@ -407,17 +408,6 @@ function SingleJob() {
 
                             <div>{markdownToText(jobview.description)}</div>
 
-                            {/* {parseString(jobview.employerquestions).some(question => question.value !== "") &&
-                                    <p className='fw-bold'>Employer Questions</p>}
-                                <ul className='list-unstyled d-flex flex-column gap-3'>
-                                    {parseString(jobview.employerquestions).map((question, i) => {
-                                        if (question.value) {
-                                            return (
-                                                <li key={question.value}>Q{i + 1}. {question.value}</li>
-                                            )
-                                        }
-                                    })}
-                                </ul> */}
                             <div className='d-flex  justify-content-between align-items-center'>
                                 <div className="d-flex gap-3 align-items-center">
 
@@ -454,7 +444,10 @@ function SingleJob() {
                                 className="rounded"
                                 id="youtube-video"
                                 src={`https://www.youtube.com/embed/${getYoutubeVideoId(jobview.youtubeUrl)}`}
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                title="YouTube video player"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerPolicy="strict-origin-when-cross-origin"
+                                allowFullScreen
                             />
                         </div>
                     </div>

@@ -34,6 +34,7 @@ import AdminAuditLogs from '../../pages/superadmin/Audit_Log/AdminAuditLogs';
 import Footer from '../admin/Footer'; // As same footer for both superadmin and admin
 import PostAd from '../../pages/superadmin/adsmanagement/PostAd';
 import AdsList from '../../pages/superadmin/adsmanagement/AdsList';
+import { superAdminUrl } from '../../services/common/urls/superAdminUrl.service';
 
 export default function SuperAdminLayout() {
     const dispatch = useDispatch()
@@ -58,32 +59,34 @@ export default function SuperAdminLayout() {
                 <div className="container-fluid page-body-wrapper">
                     <Sidebar />
                     <Routes>
+                        {/* The Path name are defined in the superAdminUrl class */}
+
                         <Route index element={<SuperAdminHome />} />
-                        <Route path="Categories1" element={<Categories1 />} />
-                        <Route path="AddSkills" element={<Addskills />} />
-                        <Route path="Categorieslist1" element={<Categorieslist1 />} />
-                        <Route path="Categories/:id" element={<EditCategory />} />
-                        <Route path="view-profile/:user/:userId" element={<Profile />} />
-                        <Route path="locations" element={<LocationList />} />
-                        <Route path="admins/Create" element={<Create />} />
-                        <Route path="admins/List" element={<List />} />
-                        <Route path="post-ad" element={<PostAd />} />
-                        <Route path="ads" element={<AdsList />} />
-                        <Route path="Skills" element={<Skills />} />
-                        <Route path="users" element={<UserList />} />
-                        <Route path="Skills/:id" element={<EditSkill />} />
-                        <Route path="orders" element={<OrdersList />} />
-                        <Route path="credits-management" element={<CreditsManagement />} />
-                        <Route path="mail" element={< SendMailToAllEmployer />} />
-                        <Route path="mail-admin" element={< MailAdmin />} />
-                        <Route path="admin-inbox" element={< SuperAdminInbox />} />
-                        <Route path="admin-inbox/details/:id" element={< Chat />} />
-                        <Route path="add-page" element={<Addpage />} />
-                        <Route path="pages" element={<PagesList />} />
-                        <Route path="jobs" element={<JobsListSuperAdmin />} />
-                        <Route path="jobs/:id" element={<JobSuperAdmin />} />
-                        <Route path="audit" element={<Audit />} />
-                        <Route path="audit/admin" element={<AdminAuditLogs />} />
+                        <Route path={superAdminUrl.addCategory} element={<Categories1 />} />
+                        <Route path={superAdminUrl.addSkills} element={<Addskills />} />
+                        <Route path={superAdminUrl.categoriesList} element={<Categorieslist1 />} />
+                        <Route path={superAdminUrl.editCategory} element={<EditCategory />} />
+                        <Route path={superAdminUrl.viewProfile} element={<Profile />} />
+                        <Route path={superAdminUrl.locations} element={<LocationList />} />
+                        <Route path={superAdminUrl.createAdmin} element={<Create />} />
+                        <Route path={superAdminUrl.adminList} element={<List />} />
+                        <Route path={superAdminUrl.postAd} element={<PostAd />} />
+                        <Route path={superAdminUrl.adsList} element={<AdsList />} />
+                        <Route path={superAdminUrl.skillsList} element={<Skills />} />
+                        <Route path={superAdminUrl.users} element={<UserList />} />
+                        <Route path={superAdminUrl.editSkills} element={<EditSkill />} />
+                        <Route path={superAdminUrl.orders} element={<OrdersList />} />
+                        <Route path={superAdminUrl.creditsManagement} element={<CreditsManagement />} />
+                        <Route path={superAdminUrl.mail} element={< SendMailToAllEmployer />} />
+                        <Route path={superAdminUrl.adminMail} element={< MailAdmin />} />
+                        <Route path={superAdminUrl.adminInbox} element={< SuperAdminInbox />} />
+                        <Route path={superAdminUrl.inboxDetails} element={< Chat />} />
+                        <Route path={superAdminUrl.addPage} element={<Addpage />} />
+                        <Route path={superAdminUrl.pages} element={<PagesList />} />
+                        <Route path={superAdminUrl.jobs} element={<JobsListSuperAdmin />} />
+                        <Route path={superAdminUrl.viewJob} element={<JobSuperAdmin />} />
+                        <Route path={superAdminUrl.audit} element={<Audit />} />
+                        <Route path={superAdminUrl.adminAudit} element={<AdminAuditLogs />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </div>

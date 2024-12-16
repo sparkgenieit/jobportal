@@ -24,6 +24,7 @@ import AdminAuditLogs from '../../pages/superadmin/Audit_Log/AdminAuditLogs';
 import ProfilesQueue from '../../pages/admin/companylist/ProfilesQueue';
 import CompanyProfileChanges from '../../pages/admin/companylist/CompanyProfileChanges';
 import AssignedProfiles from '../../pages/admin/companylist/AssigendProfiles';
+import { adminUrls } from '../../services/common/urls/adminUrls.service';
 
 export default function AdminLayout() {
     const dispatch = useDispatch()
@@ -49,21 +50,21 @@ export default function AdminLayout() {
                     <Sidebar />
                     <Routes>
                         <Route index element={<AdminHome />} />
-                        <Route path="jobqueuelist" element={<Jobqueuelist />} />
-                        <Route path="employer-queries" element={<UnAssignedQueries />} />
-                        <Route path="general-queries" element={<GeneralQueries />} />
-                        <Route path="inbox" element={<AdminInbox />} />
-                        <Route path="inbox/details/:id" element={<ChatPage name={"Admin"} />} />
-                        <Route path="Myasignjobs" element={<Myasignjobs />} />
-                        <Route path="view-job/:id" element={<SingleJobAdmin />} />
-                        <Route path="admin-inbox" element={<SuperAdminInbox />} />
-                        <Route path="mail-admin" element={< MailAdmin />} />
-                        <Route path="admin-inbox/details/:id" element={< Chat />} />
-                        <Route path="audit" element={< Audit />} />
-                        <Route path="my-logs" element={< AdminAuditLogs />} />
-                        <Route path="profiles/queue" element={< ProfilesQueue />} />
-                        <Route path="profiles/assigned" element={< AssignedProfiles />} />
-                        <Route path="profiles/profile/:id" element={< CompanyProfileChanges />} />
+                        <Route path={adminUrls.jobQueueList} element={<Jobqueuelist />} />
+                        <Route path={adminUrls.employerQueries} element={<UnAssignedQueries />} />
+                        <Route path={adminUrls.generalQueries} element={<GeneralQueries />} />
+                        <Route path={adminUrls.inbox} element={<AdminInbox />} />
+                        <Route path={adminUrls.inboxDetails} element={<ChatPage name={"Admin"} />} />
+                        <Route path={adminUrls.assignedJobs} element={<Myasignjobs />} />
+                        <Route path={adminUrls.viewJob} element={<SingleJobAdmin />} />
+                        <Route path={adminUrls.adminInbox} element={<SuperAdminInbox />} />
+                        <Route path={adminUrls.adminMail} element={< MailAdmin />} />
+                        <Route path={adminUrls.adminInboxDetails} element={< Chat />} />
+                        <Route path={adminUrls.audit} element={< Audit />} />
+                        <Route path={adminUrls.logs} element={< AdminAuditLogs />} />
+                        <Route path={adminUrls.queueProfiles} element={< ProfilesQueue />} />
+                        <Route path={adminUrls.assignedJobs} element={< AssignedProfiles />} />
+                        <Route path={adminUrls.companyProfile} element={< CompanyProfileChanges />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </div>
