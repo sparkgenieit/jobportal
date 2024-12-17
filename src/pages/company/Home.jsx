@@ -65,9 +65,9 @@ function Home() {
   }, [year, month, selectedRecruiter])
 
   return <>
-    <div className="container-fluid responsive-font mt-4" >
+    <div className="px-3 responsive-font mt-4" >
       <h3 className="text-center fw-bold fs-4">Jobs Dashboard</h3>
-      <div className="d-flex gap-3 my-4">
+      <div className="d-flex flex-column flex-md-row gap-3 my-4">
         <div className="d-flex gap-3 align-items-center">
           <label>Year</label>
           <select className="form-select" value={year} onChange={handleForm(setYear)} name="year" >
@@ -95,7 +95,7 @@ function Home() {
               <option value={""}></option>
               {
                 recruiters?.map(recruiter => (
-                  <option value={recruiter._id}>{recruiter.name}</option>
+                  <option key={recruiter._id} value={recruiter._id}>{recruiter.name}</option>
                 ))
               }
             </select>
