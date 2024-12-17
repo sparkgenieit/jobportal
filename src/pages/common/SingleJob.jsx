@@ -63,7 +63,7 @@ function SingleJob() {
                 setJobview(response.data)
                 document.title = response.data.jobTitle + " | " + response.data.company
             })
-            .catch(err => setJobview())
+            .catch(err => setJobview({}))
     }
 
     const increaseView = async (id) => {
@@ -240,7 +240,8 @@ function SingleJob() {
                                         ref={youtubeRef}
                                         className="rounded logo-youtube"
                                         title="YouTube video player"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        referrerPolicy="strict-origin-when-cross-origin"
                                         src={`https://www.youtube.com/embed/${getYoutubeVideoId(jobview.youtubeUrl)}`}
                                         allowFullScreen
                                     />
@@ -434,9 +435,6 @@ function SingleJob() {
                                     <button type='button' className='btn btn-responsive btn-danger' onClick={() => setShowReport(true)}>Report</button>
                                 </div>
                             </div>
-
-
-
                         </div>
 
                         <div className="d-block d-lg-none position-relative mx-4">

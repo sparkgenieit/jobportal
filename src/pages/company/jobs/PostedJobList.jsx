@@ -241,13 +241,8 @@ function PostedJobList() {
                                                             </td>
                                                             <td id="shortlistedCount">
                                                                 {job.shortlistedUsers > 0 &&
-                                                                    <button
-                                                                        type="button"
-                                                                        className="btn btn-xs"
-                                                                        onClick={() => { message({ path: `/company/applied-users/${job._id}?s=true` }) }}
-                                                                    >
-
-                                                                        <span className="text-success text-decoration-underline">{job.shortlistedUsers}</span>
+                                                                    <button type="button" className="border-0 bg-white text-success fw-bold text-decoration-underline " disabled={isLoading} onClick={() => { message({ path: `/company/applied-users/${job._id}?s=true` }) }}>
+                                                                        {job.shortlistedUsers}
                                                                     </button>
                                                                 }
                                                             </td>

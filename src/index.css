@@ -11,6 +11,10 @@ body {
     padding: 12px 10px;
 }
 
+th,
+td {
+    font-size: smaller !important;
+}
 
 .logo {
     width: 170%;
