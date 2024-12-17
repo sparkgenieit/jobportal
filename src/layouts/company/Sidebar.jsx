@@ -2,7 +2,7 @@ import './Sidebar.css';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-import { Modal } from "react-bootstrap";
+import { Accordion, Modal } from "react-bootstrap";
 import { MdSpaceDashboard } from 'react-icons/md';
 import { BsPostcard, BsPostcardFill, BsCreditCard, BsFillPersonCheckFill } from "react-icons/bs";
 import { RiAdvertisementFill } from "react-icons/ri";
@@ -84,66 +84,15 @@ function Sidebar() {
               </li>
             }
 
-            <li className="nav-item">
-              <span role='button' className="nav-link" onClick={() => { handleModal(true) }}>
-                <span className='d-flex justify-content-between w-100'>
-                  <span>Post a Job</span>
-                  <span>
-                    <BsPostcard size={"20"} />
-                  </span>
-                </span>
-              </span>
-            </li>
-
-            <li className="nav-item">
-              <div role='button' onClick={() => handleNavigation("/company/jobs")} className='nav-link d-flex justify-content-between w-100'>
-                <span>Posted Jobs</span>
-                <span>
-                  <BsPostcardFill size={"20"} />
-                </span>
-              </div>
-            </li>
-
-            {/* <li className="nav-item">
-              <div role='button' onClick={() => handleNavigation("/company/ads")} className='nav-link d-flex justify-content-between w-100'>
-                <span>Ads</span>
-                <span>
-                  <RiAdvertisementFill size={"20"} />
-                </span>
-              </div>
-            </li> */}
-
             {user?.role === "employer" && <li className="nav-item">
               <div role='button' onClick={() => handleNavigation("/company/recruiters")} className='d-flex nav-link justify-content-between w-100'>
-                <span>Recruiters</span>
+                <span>Staff</span>
                 <span>
                   <BsFillPersonCheckFill size={"20"} />
                 </span>
               </div>
             </li>}
 
-            <li className="nav-item ">
-              <div className='nav-link  pt-3 pb-2' >
-                <div role='button' onClick={() => handleNavigation("/company/BuyCredits")} className='d-flex   flex-column w-100'>
-                  <div className='d-flex  justify-content-between w-100'>
-                    <span>Buy Credits</span>
-                    <span>
-                      <BsCreditCard size={"20"} />
-                    </span>
-                  </div>
-                  <div className="text-secondary small">Available Credits: {credits ? credits : 0}</div>
-                </div>
-              </div>
-            </li>
-
-            <li className="nav-item">
-              <div role='button' onClick={() => handleNavigation("/company/transactions")} className='d-flex nav-link justify-content-between align-items-center w-100'>
-                <span>Transactions</span>
-                <span>
-                  <PiListDashesFill size={"22"} />
-                </span>
-              </div>
-            </li>
 
             <li className="nav-item">
               <div role='button' onClick={() => handleNavigation("/company/inbox")} className='d-flex nav-link justify-content-between align-items-center w-100'>
@@ -157,16 +106,144 @@ function Sidebar() {
               </div>
             </li>
 
-            <li className="nav-item">
-              <div role='button' onClick={() => handleNavigation("/company/audit")} className='d-flex nav-link justify-content-between align-items-center w-100'>
+            <Accordion alwaysOpen>
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>
+                  <span className='ps-2 fst-normal'>Jobs</span>
+                </Accordion.Header>
+                <Accordion.Body>
+
+                  <ul className='list-unstyled d-flex flex-column gap-3'>
+
+                    <li role='button' onClick={() => { handleModal(true) }}>
+                      <span className='d-flex justify-content-between w-100'>
+                        <span>Post a Job</span>
+                        <span>
+                          <BsPostcard size={"20"} />
+                        </span>
+                      </span>
+                    </li>
+
+                    <li>
+                      <div role='button' onClick={() => handleNavigation("/company/jobs")} className='d-flex justify-content-between w-100'>
+                        <span>Posted Jobs</span>
+                        <span>
+                          <BsPostcardFill size={"20"} />
+                        </span>
+                      </div>
+                    </li>
+
+                    <li>
+                      <div role='button' onClick={() => handleNavigation("/company/BuyCredits")} className='d-flex   flex-column w-100'>
+                        <div className='d-flex  justify-content-between w-100'>
+                          <span>Buy Credits</span>
+                          <span>
+                            <BsCreditCard size={"20"} />
+                          </span>
+                        </div>
+                        <div className="text-secondary small">Available Credits: {credits ? credits : 0}</div>
+                      </div>
+
+                    </li>
+
+                    <li >
+                      <div role='button' onClick={() => handleNavigation("/company/transactions")} className='d-flex  justify-content-between align-items-center w-100'>
+                        <span>Transactions</span>
+                        <span>
+                          <PiListDashesFill size={"22"} />
+                        </span>
+                      </div>
+                    </li>
+
+                    <li >
+                      <div role='button' onClick={() => handleNavigation("/company/audit")} className='d-flex justify-content-between align-items-center w-100'>
+                        <span>
+                          Audit Log
+                        </span>
+                        <span>
+                          <HiOutlineDocumentMagnifyingGlass size={"22"} />
+                        </span>
+                      </div>
+                    </li>
+                  </ul>
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="1">
+                <Accordion.Header>
+                  <span className='ps-2'>Advertisements</span>
+                </Accordion.Header>
+                <Accordion.Body>
+                  <ul className='list-unstyled d-flex flex-column gap-3'>
+                    <li role='button'>
+                      <span className='d-flex justify-content-between w-100'>
+                        <span>Post an Ad</span>
+                        <span>
+                          <RiAdvertisementFill size={"20"} />
+                        </span>
+                      </span>
+                    </li>
+
+                    <li>
+                      <div role='button' onClick={() => handleNavigation("/company")} className='d-flex justify-content-between w-100'>
+                        <span>Posted Ads</span>
+                        <span>
+                          <RiAdvertisementFill size={"20"} />
+                        </span>
+                      </div>
+                    </li>
+
+                    <li>
+                      <div role='button' onClick={() => handleNavigation("/company")} className='d-flex   flex-column w-100'>
+                        <div className='d-flex  justify-content-between w-100'>
+                          <span>Ad Credits</span>
+                          <span>
+                            <BsCreditCard size={"20"} />
+                          </span>
+                        </div>
+                        <div className="text-secondary small">Available Credits: {0}</div>
+                      </div>
+
+                    </li>
+
+                    <li >
+                      <div role='button' onClick={() => handleNavigation("/company")} className='d-flex  justify-content-between align-items-center w-100'>
+                        <span>Ad Transactions</span>
+                        <span>
+                          <PiListDashesFill size={"22"} />
+                        </span>
+                      </div>
+                    </li>
+
+                    <li >
+                      <div role='button' onClick={() => handleNavigation("/company")} className='d-flex justify-content-between align-items-center w-100'>
+                        <span>
+                          Ad Audit Log
+                        </span>
+                        <span>
+                          <HiOutlineDocumentMagnifyingGlass size={"22"} />
+                        </span>
+                      </div>
+                    </li>
+                  </ul>
+                </Accordion.Body>
+              </Accordion.Item>
+
+            </Accordion>
+
+
+
+            {/* <li className="nav-item">
+              <div role='button' onClick={() => handleNavigation("/company/ads")} className='nav-link d-flex justify-content-between w-100'>
+                <span>Ads</span>
                 <span>
-                  Audit Log
-                </span>
-                <span>
-                  <HiOutlineDocumentMagnifyingGlass size={"22"} />
+                  <RiAdvertisementFill size={"20"} />
                 </span>
               </div>
-            </li>
+            </li> */}
+
+
+
+
           </ul>
         </nav>
       </div >

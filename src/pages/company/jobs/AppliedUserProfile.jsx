@@ -57,7 +57,7 @@ export default function AppliedUserProfile() {
             value
         }
         try {
-            const res = await http.patch("/companies/shortlist-candidate", data)
+            await http.patch("/companies/shortlist-candidate", data)
             fetchStatus()
         }
         catch (err) {
@@ -88,9 +88,7 @@ export default function AppliedUserProfile() {
         }
     }
 
-    const goBack = () => {
-        navigate(-1)
-    }
+    const goBack = () => navigate(-1)
 
     return (
         <div className="my-4 responsive-font  container-md">
