@@ -3,7 +3,7 @@ import http from "../../helpers/http";
 class RecruiterService {
 
     async getRecruiters() {
-        return await http.get(`/companies/recruiters`)
+        return  http.get(`/companies/recruiters`)
     }
 
 

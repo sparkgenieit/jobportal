@@ -104,14 +104,14 @@ function Sidebar() {
               </div>
             </li>
 
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <div role='button' onClick={() => handleNavigation("/company/ads")} className='nav-link d-flex justify-content-between w-100'>
                 <span>Ads</span>
                 <span>
                   <RiAdvertisementFill size={"20"} />
                 </span>
               </div>
-            </li>
+            </li> */}
 
             {user?.role === "employer" && <li className="nav-item">
               <div role='button' onClick={() => handleNavigation("/company/recruiters")} className='d-flex nav-link justify-content-between w-100'>

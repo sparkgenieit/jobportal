@@ -1,22 +1,22 @@
 class AdminUrls {
 
     constructor() {
-        this.admin = "/admin"
-        this.jobQueueList = "/admin/jobqueuelist"
-        this.employerQueries = "/admin/employer-queries"
-        this.generalQueries = "/admin/general-queries"
-        this.inbox = "/admin/inbox"
-        this.inboxDetails = "/admin/inbox/details/:id"
-        this.assignedJobs = "/admin/Myasignjobs"
-        this.viewJob = "/admin/view-job/:id"
-        this.adminInbox = "/admin/admin-inbox"
-        this.adminMail = "/admin/mail-admin"
-        this.adminInboxDetails = "/admin/admin-inbox/details/:id"
-        this.audit = "/admin/audit"
-        this.logs = "/admin/my-logs"
-        this.queueProfiles = "/admin/profiles/queue"
-        this.assignedProfiles = "/admin/profiles/assigned"
-        this.companyProfile = "/admin/profiles/profile/:id"
+        this.admin = "/"
+        this.jobQueueList = "/jobqueuelist"
+        this.employerQueries = "/employer-queries"
+        this.generalQueries = "/general-queries"
+        this.inbox = "/inbox"
+        this.inboxDetails = "/inbox/details/:id"
+        this.assignedJobs = "/Myasignjobs"
+        this.viewJob = "/view-job/:id"
+        this.adminInbox = "/admin-inbox"
+        this.adminMail = "/mail-admin"
+        this.adminInboxDetails = "/admin-inbox/details/:id"
+        this.audit = "/audit"
+        this.logs = "/my-logs"
+        this.queueProfiles = "/profiles/queue"
+        this.assignedProfiles = "/profiles/assigned"
+        this.companyProfile = "/profiles/profile/:id"
     }
 
     getViewJobUrl(id) {

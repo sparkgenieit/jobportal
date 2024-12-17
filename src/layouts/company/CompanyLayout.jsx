@@ -52,7 +52,7 @@ export default function CompanyLayout() {
                         <Route path={companyUrls.audit} element={<Audit />} />
                         <Route path={companyUrls.transactions} element={<Transactions />} />
                         <Route path={companyUrls.buyCredits} element={<BuyCredits />} />
-                        <Route path={companyUrls.ads} element={<AdsList />} />
+                        {/* <Route path={companyUrls.ads} element={<AdsList />} /> */}
 
                         {/* Company only Routes */}
                         <Route path={companyUrls.companyProfile} element={role == 'employer' ? <CompanyProfile /> : <CompanyHome />} />

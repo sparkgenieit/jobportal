@@ -1,21 +1,21 @@
 class CompanyUrls {
 
     constructor() {
-        this.home = "/company"
-        this.postJob = "/company/postajob"
-        this.editJob = "/company/editjob/:id"
-        this.postedJobs = "/company/jobs"
-        this.appliedUsers = "/company/applied-users/:id"
-        this.appliedUserProfile = "/company/applied-user-profile/:userId"
-        this.companyContact = "/company/contact-us"
-        this.inbox = "/company/inbox"
-        this.inboxDetails = "/company/inbox/details/:id"
-        this.audit = "/company/audit"
-        this.transactions = "/company/transactions"
-        this.buyCredits = "/company/BuyCredits"
-        this.ads = "/company/ads"
-        this.companyProfile = "/company/CompanyProfile"
-        this.recruiters = "/company/recruiters"
+        this.home = "/"
+        this.postJob = "/postajob"
+        this.editJob = "/editjob/:id"
+        this.postedJobs = "/jobs"
+        this.appliedUsers = "/applied-users/:id"
+        this.appliedUserProfile = "/applied-user-profile/:userId"
+        this.companyContact = "/contact-us"
+        this.inbox = "/inbox"
+        this.inboxDetails = "/inbox/details/:id"
+        this.audit = "/audit"
+        this.transactions = "/transactions"
+        this.buyCredits = "/BuyCredits"
+        this.ads = "/ads"
+        this.companyProfile = "/CompanyProfile"
+        this.recruiters = "/recruiters"
     }
 
     getEditJobUrl(id) {
