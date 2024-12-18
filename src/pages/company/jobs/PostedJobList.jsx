@@ -39,6 +39,8 @@ function PostedJobList() {
         showJobsList(pgNumber)
     }, [name])
 
+
+
     const handleDuplicate = (job) => {
         dispatch(setCurrentJob({ ...job }))
         message({ path: `/company/postajob?c=${job._id}` })

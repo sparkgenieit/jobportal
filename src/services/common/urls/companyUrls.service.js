@@ -1,7 +1,7 @@
 class CompanyUrls {
 
     constructor() {
-        this.home = "/"
+        this.home = "/company"
         this.postJob = "/postajob"
         this.editJob = "/editjob/:id"
         this.postedJobs = "/jobs"

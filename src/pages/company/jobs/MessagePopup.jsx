@@ -76,6 +76,8 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob, 
                 }
                 await http.post('/mails/employer/create', mailData)
                 setError({ status: "Submitted" })
+
+
                 showMessage({ status: "success", message: "Support Request Sent", path: "/company/inbox" })
                 setModal({ show: false })
             } catch (error) {

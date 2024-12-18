@@ -15,6 +15,7 @@ import Tooltip from '../../components/Tooltip';
 import { useDispatch, useSelector } from 'react-redux';
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 import { setIsSidebarOpen } from '../../helpers/slices/generalSlice';
+import { companyUrls } from '../../services/common/urls/companyUrls.service';
 
 function Sidebar() {
   const isSidebarOpen = useSelector((state) => state.general.isSidebarOpen)
@@ -23,14 +24,14 @@ function Sidebar() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const user = useCurrentUser()
-  const credits = user.role === 'recruiter' ? user?.companyId?.credits : user?.credits
-  const usedFreeCredit = user.role === 'recruiter' ? user?.companyId?.usedFreeCredit : user?.usedFreeCredit
+  const credits = user?.credits
+  const usedFreeCredit = user?.usedFreeCredit
 
-  const handleNavigation = (path) => {
+  const handleNavigation = (path = "") => {
     if (window.innerWidth < 1024) {
       dispatch(setIsSidebarOpen(false))
     }
-    navigate(path)
+    navigate(companyUrls.home + path)
   }
 
 
@@ -43,7 +44,7 @@ function Sidebar() {
       setShow(true);
     }
     else {
-      handleNavigation('/company/postajob')
+      handleNavigation('/postajob')
     }
   }
 
@@ -64,7 +65,7 @@ function Sidebar() {
           </div>
           <ul className="nav">
             <li className="nav-item">
-              <div role='button' onClick={() => handleNavigation("/company")} className='nav-link d-flex justify-content-between w-100'>
+              <div role='button' onClick={() => handleNavigation()} className='nav-link d-flex justify-content-between w-100'>
                 <span>Dashboard</span>
                 <span>
                   <MdSpaceDashboard size={"20"} />
@@ -72,30 +73,29 @@ function Sidebar() {
               </div>
             </li>
 
-            {
-              user?.role === "employer" &&
-              <li className="nav-item">
-                <div role='button' onClick={() => handleNavigation("/company/CompanyProfile")} className='nav-link d-flex justify-content-between w-100'>
-                  <span>Company Profile</span>
-                  <span>
-                    <ImProfile size={"20"} />
-                  </span>
-                </div>
-              </li>
-            }
 
-            {user?.role === "employer" && <li className="nav-item">
-              <div role='button' onClick={() => handleNavigation("/company/recruiters")} className='d-flex nav-link justify-content-between w-100'>
+            <li className="nav-item">
+              <div role='button' onClick={() => handleNavigation("/CompanyProfile")} className='nav-link d-flex justify-content-between w-100'>
+                <span>Company Profile</span>
+                <span>
+                  <ImProfile size={"20"} />
+                </span>
+              </div>
+            </li>
+
+
+            <li className="nav-item">
+              <div role='button' onClick={() => handleNavigation("/recruiters")} className='d-flex nav-link justify-content-between w-100'>
                 <span>Staff</span>
                 <span>
                   <BsFillPersonCheckFill size={"20"} />
                 </span>
               </div>
-            </li>}
+            </li>
 
 
             <li className="nav-item">
-              <div role='button' onClick={() => handleNavigation("/company/inbox")} className='d-flex nav-link justify-content-between align-items-center w-100'>
+              <div role='button' onClick={() => handleNavigation("/inbox")} className='d-flex nav-link justify-content-between align-items-center w-100'>
                 <span>
                   Mail
                   {count > 0 && <span className=' ps-3 text-danger'>{count}</span>}
@@ -125,7 +125,7 @@ function Sidebar() {
                     </li>
 
                     <li>
-                      <div role='button' onClick={() => handleNavigation("/company/jobs")} className='d-flex justify-content-between w-100'>
+                      <div role='button' onClick={() => handleNavigation("/jobs")} className='d-flex justify-content-between w-100'>
                         <span>Posted Jobs</span>
                         <span>
                           <BsPostcardFill size={"20"} />
@@ -134,7 +134,7 @@ function Sidebar() {
                     </li>
 
                     <li>
-                      <div role='button' onClick={() => handleNavigation("/company/BuyCredits")} className='d-flex   flex-column w-100'>
+                      <div role='button' onClick={() => handleNavigation("/BuyCredits")} className='d-flex   flex-column w-100'>
                         <div className='d-flex  justify-content-between w-100'>
                           <span>Buy Credits</span>
                           <span>
@@ -147,7 +147,7 @@ function Sidebar() {
                     </li>
 
                     <li >
-                      <div role='button' onClick={() => handleNavigation("/company/transactions")} className='d-flex  justify-content-between align-items-center w-100'>
+                      <div role='button' onClick={() => handleNavigation("/transactions")} className='d-flex  justify-content-between align-items-center w-100'>
                         <span>Transactions</span>
                         <span>
                           <PiListDashesFill size={"22"} />
@@ -156,7 +156,7 @@ function Sidebar() {
                     </li>
 
                     <li >
-                      <div role='button' onClick={() => handleNavigation("/company/audit")} className='d-flex justify-content-between align-items-center w-100'>
+                      <div role='button' onClick={() => handleNavigation("/audit")} className='d-flex justify-content-between align-items-center w-100'>
                         <span>
                           Audit Log
                         </span>
@@ -184,7 +184,7 @@ function Sidebar() {
                     </li>
 
                     <li>
-                      <div role='button' onClick={() => handleNavigation("/company")} className='d-flex justify-content-between w-100'>
+                      <div role='button' onClick={() => handleNavigation()} className='d-flex justify-content-between w-100'>
                         <span>Posted Ads</span>
                         <span>
                           <RiAdvertisementFill size={"20"} />
@@ -193,7 +193,7 @@ function Sidebar() {
                     </li>
 
                     <li>
-                      <div role='button' onClick={() => handleNavigation("/company")} className='d-flex   flex-column w-100'>
+                      <div role='button' onClick={() => handleNavigation()} className='d-flex   flex-column w-100'>
                         <div className='d-flex  justify-content-between w-100'>
                           <span>Ad Credits</span>
                           <span>
@@ -206,7 +206,7 @@ function Sidebar() {
                     </li>
 
                     <li >
-                      <div role='button' onClick={() => handleNavigation("/company")} className='d-flex  justify-content-between align-items-center w-100'>
+                      <div role='button' onClick={() => handleNavigation()} className='d-flex  justify-content-between align-items-center w-100'>
                         <span>Ad Transactions</span>
                         <span>
                           <PiListDashesFill size={"22"} />
@@ -215,7 +215,7 @@ function Sidebar() {
                     </li>
 
                     <li >
-                      <div role='button' onClick={() => handleNavigation("/company")} className='d-flex justify-content-between align-items-center w-100'>
+                      <div role='button' onClick={() => handleNavigation()} className='d-flex justify-content-between align-items-center w-100'>
                         <span>
                           Ad Audit Log
                         </span>
@@ -233,7 +233,7 @@ function Sidebar() {
 
 
             {/* <li className="nav-item">
-              <div role='button' onClick={() => handleNavigation("/company/ads")} className='nav-link d-flex justify-content-between w-100'>
+              <div role='button' onClick={() => handleNavigation("/ads")} className='nav-link d-flex justify-content-between w-100'>
                 <span>Ads</span>
                 <span>
                   <RiAdvertisementFill size={"20"} />
@@ -266,7 +266,7 @@ function Sidebar() {
 
 
                 <div className="d-flex justify-content-end">
-                  <button type="button" onClick={() => { handleClose(); handleNavigation('/company/postajob') }} className="btn btn-info">Post a Job</button>
+                  <button type="button" onClick={() => { handleClose(); handleNavigation('/postajob') }} className="btn btn-info">Post a Job</button>
                 </div>
               </div>
             </>}
@@ -286,7 +286,7 @@ function Sidebar() {
             </div>
 
               <div className="d-flex justify-content-center">
-                <button type="button" onClick={() => { handleClose(); handleNavigation('/company/BuyCredits') }} className="btn btn-danger rounded-3">Buy Credits</button>
+                <button type="button" onClick={() => { handleClose(); handleNavigation('/BuyCredits') }} className="btn btn-danger rounded-3">Buy Credits</button>
               </div></>}
         </Modal.Body>
       </Modal >

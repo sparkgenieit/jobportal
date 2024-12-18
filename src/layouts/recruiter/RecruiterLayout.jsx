@@ -18,6 +18,7 @@ import Header from '../company/Header';
 import { recruiterUrl } from '../../services/common/urls/recruiterUrls.service';
 import Sidebar from './Sidebar';
 import RecruiterHome from '../../pages/recruiter/Home';
+import RecruiterContactUs from '../../pages/recruiter/RecruiterContactUs';
 
 export default function RecruiterLayout() {
     const dispatch = useDispatch()
@@ -32,13 +33,14 @@ export default function RecruiterLayout() {
                 <div className="container-fluid page-body-wrapper">
                     <Sidebar />
                     <Routes>
+
                         <Route index element={<RecruiterHome />} />
                         <Route path={recruiterUrl.postJob} element={<Postajob name={"Post a Job"} />} />
                         <Route path={recruiterUrl.editJob} element={<Postajob name={"Edit Job"} />} />
                         <Route path={recruiterUrl.postedJobs} element={<PostedJobList />} />
                         <Route path={recruiterUrl.appliedUsers} element={<AppliedUsers />} />
                         <Route path={recruiterUrl.appliedUserProfile} element={<AppliedUserProfile />} />
-                        <Route path={recruiterUrl.companyContact} element={<EmployerContactUs />} />
+                        <Route path={recruiterUrl.companyContact} element={<RecruiterContactUs />} />
                         <Route path={recruiterUrl.inbox} element={<Inbox />} />
                         <Route path={recruiterUrl.inboxDetails} element={<ChatPage name={"Enquirer"} />} />
                         <Route path={recruiterUrl.audit} element={<Audit />} />

@@ -118,6 +118,8 @@ function Postajob({ name }) {
 
   const handleClone = () => {
     dispatch(setCurrentJob({ ...jobData }))
+
+
     message({ path: `/company/postajob?c=${jobData._id}` })
     window.scrollTo({ top: 20, behavior: "smooth" })
   }
