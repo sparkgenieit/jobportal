@@ -10,6 +10,8 @@ export const getData = (data, name) => {
             return getViewsData(data)
         case "Average Applications Per Job":
             return getApplicationData(data)
+        default:
+            return null
     }
 }
 

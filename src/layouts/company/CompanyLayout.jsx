@@ -26,7 +26,6 @@ import AdsList from '../../pages/company/Ads/AdsList';
 import { companyUrls } from '../../services/common/urls/companyUrls.service';
 
 export default function CompanyLayout() {
-    const { role } = useCurrentUser()
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -39,7 +38,7 @@ export default function CompanyLayout() {
                 <div className="container-fluid page-body-wrapper">
                     <Sidebar />
                     <Routes>
-                        {/* Company and Recruiter shared Routes and the pathnames are defined in the companyUrl class */}
+
                         <Route index element={<CompanyHome />} />
                         <Route path={companyUrls.postJob} element={<Postajob name={"Post a Job"} />} />
                         <Route path={companyUrls.editJob} element={<Postajob name={"Edit Job"} />} />
@@ -52,11 +51,9 @@ export default function CompanyLayout() {
                         <Route path={companyUrls.audit} element={<Audit />} />
                         <Route path={companyUrls.transactions} element={<Transactions />} />
                         <Route path={companyUrls.buyCredits} element={<BuyCredits />} />
+                        <Route path={companyUrls.companyProfile} element={<CompanyProfile />} />
+                        <Route path={companyUrls.recruiters} element={<RecruiterList />} />
                         {/* <Route path={companyUrls.ads} element={<AdsList />} /> */}
-
-                        {/* Company only Routes */}
-                        <Route path={companyUrls.companyProfile} element={role == 'employer' ? <CompanyProfile /> : <CompanyHome />} />
-                        <Route path={companyUrls.recruiters} element={role == 'employer' ? <RecruiterList /> : <CompanyHome />} />
 
                         <Route path="*" element={<NotFound />} />
                     </Routes>

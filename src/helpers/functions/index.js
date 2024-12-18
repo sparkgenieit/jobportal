@@ -1,5 +1,3 @@
-import http from "../http";
-
 export function timeAgo(dateString) { // This function takes the take string in dd/mm/yyyy format
     const now = Date.now();
     const parts = dateString.split("/");

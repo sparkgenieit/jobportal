@@ -12,12 +12,14 @@ import { fetchUser } from "./helpers/slices/userSlice";
 import useCurrentUser from "./helpers/Hooks/useCurrentUser";
 import Loader from "./components/Loader";
 import Toaster from "./components/Toaster";
+import { Roles } from "./services/common/Roles.service";
 
 // Layouts
 const CompanyLayout = lazy(() => import("./layouts/company/CompanyLayout"))
 const AdminLayout = lazy(() => import("./layouts/admin/AdminLayout"))
 const SuperAdminLayout = lazy(() => import("./layouts/superadmin/SuperAdminLayout"))
 const CommonLayout = lazy(() => import("./layouts/common/CommonLayout"))
+const RecruiterLayout = lazy(() => import("./layouts/recruiter/RecruiterLayout"))
 
 const DownloadTransactions = lazy(() => import("./pages/company/DownloadTransactions"));
 
@@ -38,7 +40,7 @@ function App() {
         <Route
           path="/company/transactions/download-transactions"
           element={
-            (role === 'employer' || role === "recruiter") ?
+            (role === Roles.Company || role === Roles.Recruiter) ?
               <Suspense fallback={<Loader />}>
                 < DownloadTransactions />
               </Suspense>
@@ -50,7 +52,7 @@ function App() {
         <Route
           path="/company/*"
           element={
-            (role == 'employer' || role === "recruiter") ?
+            (role == Roles.Company) ?
               <Suspense fallback={<Loader />}>
                 <CompanyLayout />
               </Suspense>
@@ -60,9 +62,21 @@ function App() {
         />
 
         <Route
+          path="/recruiter/*"
+          element={
+            (role === Roles.Recruiter) ?
+              <Suspense fallback={<Loader />}>
+                <RecruiterLayout />
+              </Suspense>
+              :
+              <Navigate to="/" />
+          }
+        />
+
+        <Route
           path="/admin/*"
           element={
-            (role == 'admin') ?
+            (role == Roles.Admin) ?
               <Suspense fallback={<Loader />}>
                 <AdminLayout />
               </Suspense>
@@ -74,7 +88,7 @@ function App() {
         <Route
           path="/superadmin/*"
           element={
-            (role == 'superadmin') ?
+            (role == Roles.SuperAdmin) ?
               <Suspense fallback={<Loader />}>
                 <SuperAdminLayout />
               </Suspense>

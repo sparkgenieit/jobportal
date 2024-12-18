@@ -1,42 +1,21 @@
 import { useEffect, useState } from "react";
-import BarGraph from "./DashBoard/BarGraph";
-import GuageMeter from "./DashBoard/GaugeMeter";
-import { getApplicationCountPerMonth, getApplicationCountPerYear, months } from "./DashBoard/BarGraphData.service";
+import { months } from "../../services/company/BarGraphData.service";
 import useShowMessage from "../../helpers/Hooks/useShowMessage";
 import RecruitersService from "../../services/company/Recruiters.service";
-import useCurrentUser from "../../helpers/Hooks/useCurrentUser";
 import ChartsService from "../../services/company/Charts.service";
+import GraphsAndMeters from "../../components/company/GraphsAndMeters";
 
 const today = new Date()
 const currentYear = today.getFullYear()
 const yearOptions = [currentYear - 3, currentYear - 2, currentYear - 1, currentYear]
 
 function Home() {
-  const user = useCurrentUser()
   const [graphsData, setGraphsData] = useState(null)
   const [month, setMonth] = useState(today.getMonth())
   const [year, setYear] = useState(today.getFullYear())
   const [recruiters, setRecruiters] = useState(null)
-  const [selectedRecruiter, setSelectedRecruiter] = useState(user.role === "recruiter" ? user._id : "")
+  const [selectedRecruiter, setSelectedRecruiter] = useState("")
   const message = useShowMessage()
-
-  const getCompanyCharts = async () => {
-    try {
-      const form = {
-        month,
-        year,
-        recruiterId: selectedRecruiter
-      }
-
-      const { data } = await ChartsService.getCharts(form)
-      setGraphsData(data)
-    } catch (error) {
-      message({
-        status: "error",
-        error
-      })
-    }
-  }
 
   const handleForm = setFn => {
     return (e) => setFn(e.target.value)
@@ -51,16 +30,32 @@ function Home() {
         setRecruiters(response.data)
       } catch (error) {
         message({
+          status: "Error",
+          error: { message: "Failed to get recruiters" }
+        })
+      }
+    }
+    fetchRecruiters()
+  }, [])
+
+  useEffect(() => {
+    const getCompanyCharts = async () => {
+      try {
+        const form = {
+          month,
+          year,
+          recruiterId: selectedRecruiter
+        }
+        const { data } = await ChartsService.getCompanyGraphs(form)
+        setGraphsData(data)
+      } catch (error) {
+        message({
           status: "error",
           error
         })
       }
     }
 
-    fetchRecruiters()
-  }, [])
-
-  useEffect(() => {
     getCompanyCharts()
   }, [year, month, selectedRecruiter])
 
@@ -88,40 +83,21 @@ function Home() {
           </select>
         </div>
 
-        {user.role !== "recruiter" &&
-          <div className="d-flex gap-3 align-items-center">
-            <label>Recruiter</label>
-            <select className="form-select" value={selectedRecruiter} onChange={handleForm(setSelectedRecruiter)} name="recruiter">
-              <option value={""}></option>
-              {
-                recruiters?.map(recruiter => (
-                  <option key={recruiter._id} value={recruiter._id}>{recruiter.name}</option>
-                ))
-              }
-            </select>
-          </div>
-        }
+        <div className="d-flex gap-3 align-items-center">
+          <label>Recruiter</label>
+          <select className="form-select" value={selectedRecruiter} onChange={handleForm(setSelectedRecruiter)} name="recruiter">
+            <option value={""}></option>
+            {
+              recruiters?.map(recruiter => (
+                <option key={recruiter._id} value={recruiter._id}>{recruiter.name}</option>
+              ))
+            }
+          </select>
+        </div>
+
       </div>
 
-      {
-        graphsData &&
-        <div className="d-flex flex-wrap gap-5 py-4">
-          <GuageMeter value={graphsData?.activeJobs || 0} name="Active Jobs" />
-          <GuageMeter value={graphsData?.postedJobsByYear || 0} name="YTD Jobs Posted" />
-          <GuageMeter value={getApplicationCountPerYear(graphsData?.avgJobsByYear, year) || 0} name="YTD Applications" />
-          <GuageMeter value={graphsData?.postedJobsByMonth || 0} name="MTD Jobs Posted" />
-          <GuageMeter value={getApplicationCountPerMonth(graphsData?.avgJobsByYear, month, year) || 0} name="MTD Applications" />
-        </div>
-      }
-
-      {
-        graphsData &&
-        <div className="d-flex flex-wrap gap-3 my-3">
-          <BarGraph name={"Job Posted"} data={graphsData?.posted_jobs} />
-          <BarGraph name={"Average Views Per Job"} data={graphsData?.avgViews} />
-          <BarGraph name={"Average Applications Per Job"} data={graphsData?.avgJobsByYear} />
-        </div>
-      }
+      <GraphsAndMeters graphsData={graphsData} year={year} month={month} />
     </div>
   </>
 }

@@ -32,12 +32,13 @@ import ResetPassword from "../../pages/common/ResetPassword";
 import ActivateAccount from "../../pages/common/ActivateAccount";
 import City from "../../pages/common/city";
 import ContactUs from "../../pages/common/contactUs";
-import PaymentStatus from '../../pages/billing/PaymentStatus';
+import PaymentStatus from '../../pages/company/PaymentStatus';
 import NotFound from '../../components/NotFound';
 import LocationPopup from '../../components/LocationPopup';
 import InfoPopup from '../../components/InfoPopup';
 import UserProfile from '../../pages/common/UserProfile';
 import { commonUrls } from '../../services/common/urls/commonUrls.service';
+import { Roles } from '../../services/common/Roles.service';
 
 
 export default function CommonLayout() {
@@ -94,13 +95,13 @@ export default function CommonLayout() {
                 <Route path={commonUrls.activateAccount} element={<ActivateAccount />} />
 
                 {/* Company Protected Route */}
-                <Route path={commonUrls.paymentStatus} element={(role === "employer" || role === "recruiter") ? <PaymentStatus /> : <Navigate to="/" />} />
+                <Route path={commonUrls.paymentStatus} element={(role === Roles.Company || role === Roles.Recruiter) ? <PaymentStatus /> : <Navigate to="/" />} />
 
                 {/* User Protected Routes */}
-                <Route path={commonUrls.profile} element={(role === 'user') ? <UserProfile /> : <Navigate to="/" />} />
-                <Route path={commonUrls.viewProfile} element={(role === 'user') ? <ViewProfile /> : <Navigate to="/" />} />
-                <Route path={commonUrls.appliedJobs} element={(role === 'user') ? <Myappliedjobs /> : <Navigate to="/" />} />
-                <Route path={commonUrls.savedJobs} element={(role === 'user') ? <Savedjobs /> : <Navigate to="/" />} />
+                <Route path={commonUrls.profile} element={(role === Roles.User) ? <UserProfile /> : <Navigate to="/" />} />
+                <Route path={commonUrls.viewProfile} element={(role === Roles.User) ? <ViewProfile /> : <Navigate to="/" />} />
+                <Route path={commonUrls.appliedJobs} element={(role === Roles.User) ? <Myappliedjobs /> : <Navigate to="/" />} />
+                <Route path={commonUrls.savedJobs} element={(role === Roles.User) ? <Savedjobs /> : <Navigate to="/" />} />
                 <Route path="*" element={<NotFound />} />
 
             </Routes>

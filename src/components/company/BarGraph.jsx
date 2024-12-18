@@ -1,5 +1,5 @@
 import { BarChart, Bar, XAxis, YAxis, Legend, Tooltip } from 'recharts';
-import { getData } from './BarGraphData.service';
+import { getData } from '../../services/company/BarGraphData.service';
 
 const BarGraph = ({ name, data }) => {
     const { years, graphData } = getData(data, name)

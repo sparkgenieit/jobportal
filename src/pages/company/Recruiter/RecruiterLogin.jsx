@@ -43,13 +43,14 @@ export default function RecruiterLogin() {
                 localStorage.setItem("user_id", response.data.companyId._id)
                 localStorage.setItem("role", "recruiter")
                 localStorage.setItem("fullname", response.data.name)
+                message({ path: "/recruiter" })
             } else {
                 localStorage.setItem("user_id", response.data._id)
                 localStorage.setItem("role", "employer")
                 localStorage.setItem('fullname', response.data.first_name + " " + response.data.last_name)
+                message({ path: `/company` })
             }
             localStorage.setItem("isSignedIn", stringify(true))
-            message({ path: `/company` })
         } catch (e) {
             setError({ ...error, loginError: e.response.data.message || e.message })
         } finally {

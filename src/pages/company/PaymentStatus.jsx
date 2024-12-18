@@ -17,38 +17,37 @@ export default function PaymentStatus() {
     const dispatch = useDispatch()
 
     useEffect(() => {
+        const fetchPaymentStatus = async () => {
+            if (session_id && success === "true") {
+                try {
+                    const res = await http.get(`/payment/session-complete/${session_id}`)
+                    if (res.data.status === "complete") {
+                        setAmount(res.data.metadata.total)
+                        setStatus("Payment Completed")
+                        setCredits(res.data.metadata.credits);
+                        setLoading(false)
+                    }
+                    dispatch(fetchUser())
+                } catch (error) {
+                    setLoading(false)
+                    setStatus("Unable to verify the payment status")
+                }
+            }
+            if (success === "false") {
+                setLoading(false)
+                setStatus("Payment was Interrupted")
+            }
+        }
+
         fetchPaymentStatus();
 
         document.title = "Payment-Status"
     }, [])
 
-    const fetchPaymentStatus = async () => {
-        if (session_id && success === "true") {
-            try {
-                const res = await http.get(`/payment/session-complete/${session_id}`)
-                if (res.data.status === "complete") {
-                    setAmount(res.data.metadata.total)
-                    setStatus("Payment Completed")
-                    setCredits(res.data.metadata.credits);
-                    setLoading(false)
-                }
-                dispatch(fetchUser())
-            } catch (error) {
-                setLoading(false)
-                setStatus("Unable to verify the payment status")
-            }
-        }
-        if (success === "false") {
-            setLoading(false)
-            setStatus("Payment was Interrupted")
-        }
-    }
-
-
-
     const PostJob = async () => {
         navigate('/company')
     }
+
     const myStyles = {
         margin: "auto",
         height: "50vh",

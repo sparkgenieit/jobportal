@@ -2,8 +2,12 @@ import http from "../../helpers/http";
 
 class ChartsService {
 
-    async getCharts(data) {
+    async getCompanyGraphs(data) {
         return http.post("/charts/company", data)
+    }
+
+    async getRecruiterGraphs(data) {
+        return http.post("/charts/recruiter", data)
     }
 
 
