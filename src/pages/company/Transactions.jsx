@@ -8,6 +8,9 @@ import { BASE_API_URL, itemsPerPage } from "../../helpers/constants";
 import Pagination from "../../components/Pagination";
 import Loader from "../../components/Loader";
 import useCurrentUser from "../../helpers/Hooks/useCurrentUser";
+import { companyUrls } from "../../services/common/urls/companyUrls.service";
+import { recruiterUrl } from "../../services/common/urls/recruiterUrls.service";
+import { Roles } from "../../services/common/Roles.service";
 
 export default function Transactions() {
     const [transactionDetails, setTransactionDetails] = useState(null)
@@ -19,6 +22,11 @@ export default function Transactions() {
     const [currentPage, setCurrentPage] = useState(+searchParams.get('page') || 1)
     const user = useCurrentUser()
     const userId = user.role === 'recruiter' ? user.companyId._id : user._id
+
+    const getUrl = () => {
+        const pathName = user.role === Roles.Recruiter ? recruiterUrl.home : companyUrls.home
+        return pathName + companyUrls.transactions
+    }
 
     useEffect(() => {
         document.title = "Transactions"
@@ -55,7 +63,7 @@ export default function Transactions() {
                                     value={searchTerm}
                                     onChange={(e) => {
                                         setCurrentPage(1)
-                                        window.history.replaceState(null, null, '/company/transactions')
+                                        window.history.replaceState(null, null, getUrl())
                                         setSearchTerm(e.target.value);
                                     }}
                                     className="form-control"

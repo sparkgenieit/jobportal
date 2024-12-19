@@ -1,22 +1,27 @@
-import { getCloseDate } from "../../../helpers/functions";
-import http from "../../../helpers/http";
-import companyService from "../../../services/common/company.service";
+import { getCloseDate } from "../../helpers/functions";
+import http from "../../helpers/http";
+import companyService from "../common/company.service";
 
-export const postJob = async (data, setMsg) => {
-    try {
-        const response = await http.post('/jobs/create', data)
-        setMsg({
-            status: "Success",
-            message: "Job Posted Successfully"
-        })
-    }
-    catch (err) {
-        setMsg({
-            status: "error",
-            error: err,
-        })
-    }
+export const initialValues = {
+    company: "",
+    jobtype: "",
+    jobTitle: "",
+    closedate: getCloseDate(new Date().toString()),
+    jobCategory: "",
+    subCategory: "",
+    numberofvacancies: "",
+    location: "",
+    description: "",
+    duration: "",
+    creationdate: new Date(),
+    employjobreference: "",
+    rateperhour: "",
+    weeklyperhour: "",
+    benifits: "",
+    salary_type: "per hour"
 }
+
+
 export const fetchCategories = async (setCategoriesList, setParent) => {
     try {
         const res = await http.get("/categories/all")
@@ -58,19 +63,3 @@ export const fetchJobForEditing = async (id, setJobData, isReposting = false) =>
     }
 }
 
-export const editJob = async (jobID, data, setMsg) => {
-    try {
-        const response = await http.put(`/jobs/update/${jobID}`, data)
-        if (response && response.status) {
-            setMsg({
-                status: "Success",
-                message: "Updated Successfully"
-            })
-        }
-    } catch (err) {
-        setMsg({
-            status: "error",
-            error: err,
-        })
-    }
-}

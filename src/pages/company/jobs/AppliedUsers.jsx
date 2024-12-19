@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import http from "../../../helpers/http";
+import useCurrentUser from "../../../helpers/Hooks/useCurrentUser";
 import Pagination from '../../../components/Pagination';
 import { itemsPerPage } from "../../../helpers/constants";
 import { FaEye, FaRegCircleCheck } from "react-icons/fa6";
 import Loader from "../../../components/Loader";
+import { Roles } from "../../../services/common/Roles.service";
+import { recruiterUrl } from "../../../services/common/urls/recruiterUrls.service";
+import { companyUrls } from "../../../services/common/urls/companyUrls.service";
 
 export default function AppliedUsers() {
   const params = useParams()
@@ -14,7 +18,7 @@ export default function AppliedUsers() {
   const [pgNumber, setPgNumber] = useState(+searchParams.get("page") || 1)
   const [appliedUsers, setAppliedUsers] = useState(null)
   const [jobName, setJobName] = useState("")
-
+  const user = useCurrentUser()
   const isShortListedOnly = searchParams.get("s")
   const navigate = useNavigate()
 
@@ -42,7 +46,12 @@ export default function AppliedUsers() {
   }
 
   const goToUserProfile = (userId, jobId) => {
-    navigate(`/company/applied-user-profile/${userId}?j=${jobId}`)
+
+    const pathName = user.role === Roles.Recruiter ? recruiterUrl.home : companyUrls.home
+
+    const url = `${pathName}/applied-user-profile/${userId}?j=${jobId}`
+
+    navigate(url)
   }
 
   const goBack = () => {

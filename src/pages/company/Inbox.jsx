@@ -13,6 +13,9 @@ import useShowMessage from "../../helpers/Hooks/useShowMessage";
 import useCurrentUser from "../../helpers/Hooks/useCurrentUser";
 import { decrementEmployerUnreadCount } from "../../helpers/slices/mailCountSlice";
 import { useDispatch } from "react-redux";
+import { Roles } from "../../services/common/Roles.service";
+import { recruiterUrl } from "../../services/common/urls/recruiterUrls.service";
+import { companyUrls } from "../../services/common/urls/companyUrls.service";
 
 export default function Inbox() {
     const [queries, setQueries] = useState(null)
@@ -38,6 +41,13 @@ export default function Inbox() {
         message({ path: `details/${mail._id}` })
     }
 
+    const getUrl = () => {
+        if (user.role === Roles.Recruiter) {
+            return recruiterUrl.home + recruiterUrl.companyContact
+        } else {
+            return companyUrls.home + companyUrls.companyContact
+        }
+    }
 
     const handleSearch = (e) => {
         setSearchTerm(e.target.value)
@@ -69,7 +79,7 @@ export default function Inbox() {
         <div className=" mt-4 container-fluid">
             <div className="d-flex flex-column flex-md-row align-items-center  my-2" >
                 <h2 className="text-center fw-bold flex-grow-1  fs-4">Inbox</h2>
-                <Link className="btn btn-info align-items-center align-self-end d-flex gap-3 rounded-4" to={"/company/contact-us"}>
+                <Link className="btn btn-info align-items-center align-self-end d-flex gap-3 rounded-4" to={getUrl()}>
                     New Mail <FaRegMessage fontSize={20} />
                 </Link>
             </div>

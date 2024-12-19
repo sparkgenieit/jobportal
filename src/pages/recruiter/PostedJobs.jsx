@@ -1,26 +1,26 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-
-import http from "../../../helpers/http";
-import { itemsPerPage } from "../../../helpers/constants";
-import useShowMessage from "../../../helpers/Hooks/useShowMessage";
-import Pagination from '../../../components/Pagination';
-import Loader from '../../../components/Loader';
+import http from "../../helpers/http";
+import { itemsPerPage } from "../../helpers/constants";
+import useShowMessage from "../../helpers/Hooks/useShowMessage";
+import Pagination from '../../components/Pagination';
+import Loader from '../../components/Loader';
 
 import { useDispatch } from 'react-redux';
-import { setCurrentJob } from '../../../helpers/slices/generalSlice';
-import PostedJobTable from '../../../components/company/PostedJobsTable';
-import useCurrentUser from '../../../helpers/Hooks/useCurrentUser';
+import { setCurrentJob } from '../../helpers/slices/generalSlice';
+import PostedJobTable from '../../components/company/PostedJobsTable';
+import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 
-function PostedJobList() {
+function PostedJobs() {
     const [totalItems, setTotalItems] = useState(0)
     const [jobs, setJobs] = useState(null)
     const [searchParams] = useSearchParams();
     const [pgNumber, setPgNumber] = useState(+searchParams.get("page") || 1)
     const [name, setName] = useState("")
     const [isLoading, setIsLoading] = useState(false)
-    const { _id: userId } = useCurrentUser()
+    const user = useCurrentUser()
+    const companyId = user.companyId._id
     const message = useShowMessage()
 
     const dispatch = useDispatch()
@@ -32,14 +32,14 @@ function PostedJobList() {
 
     const handleDuplicate = (job) => {
         dispatch(setCurrentJob({ ...job }))
-        message({ path: `/company/postajob?c=${job._id}` })
+        message({ path: `/recruiter/postajob?c=${job._id}` })
     }
 
     const showJobsList = async (page) => {
         setIsLoading(true)
         const skip = (page - 1) * itemsPerPage
         try {
-            const { data } = await http.get(`/companies/postedJobs/${userId}?limit=${itemsPerPage}&skip=${skip}&name=${name}`)
+            const { data } = await http.get(`/companies/postedJobs/${companyId}?limit=${itemsPerPage}&skip=${skip}&name=${name}`)
             setTotalItems(data.total)
             setJobs(data.jobs)
         } catch (error) {
@@ -55,13 +55,13 @@ function PostedJobList() {
     }
 
     const goToEdit = (job) => {
-        const url = `/company/editjob/${job._id}`
+        const url = `/recruiter/editjob/${job._id}`
 
         message({ path: url })
     }
 
     const getAppliedUsers = (job, isShortlisted) => {
-        let url = `/company/applied-users/${job._id}`
+        let url = `/recruiter/applied-users/${job._id}`
         if (isShortlisted) {
             url = url + '?s=true'
         }
@@ -92,11 +92,9 @@ function PostedJobList() {
         }
     }
 
-
-
     const closeJob = async (job) => {
         const data = {
-            userId,
+            userId: companyId,
             jobId: job._id
         }
         try {
@@ -130,7 +128,7 @@ function PostedJobList() {
                                 onChange={(e) => {
                                     setName(e.target.value)
                                     setPgNumber(1)
-                                    window.history.replaceState(null, null, '/company/jobs')
+                                    window.history.replaceState(null, null, '/recruiter/jobs')
                                 }}
                             />
                             {isLoading && <Loader />}
@@ -143,4 +141,4 @@ function PostedJobList() {
         </>
     )
 }
-export default PostedJobList;
+export default PostedJobs;

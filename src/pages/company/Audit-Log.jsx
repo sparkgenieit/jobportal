@@ -14,6 +14,10 @@ import useShowMessage from "../../helpers/Hooks/useShowMessage";
 import { getDate } from "../../helpers/functions/dateFunctions";
 import { downloadCsv } from "../../helpers/functions/csvFunctions";
 import ShowMore from "../../components/common/ShowMore";
+import { companyUrls } from "../../services/common/urls/companyUrls.service";
+import { recruiterUrl } from "../../services/common/urls/recruiterUrls.service";
+import useCurrentUser from "../../helpers/Hooks/useCurrentUser";
+import { Roles } from "../../services/common/Roles.service";
 
 const inputValues = {
     toDate: "",
@@ -32,6 +36,7 @@ export default function Audit() {
     const message = useShowMessage()
     const [loading, setLoading] = useState(false)
     const tableRef = useRef(null)
+    const user = useCurrentUser()
 
     const fetchLogs = async (page) => {
         const skip = (page - 1) * itemsPerPage
@@ -71,7 +76,13 @@ export default function Audit() {
             message({ message: "From date can't be more than to date" })
             return
         }
-        window.history.replaceState(null, null, '/company/audit')
+
+        const getUrl = () => {
+            const pathName = user.role === Roles.Recruiter ? recruiterUrl.home : companyUrls.home
+            return pathName + companyUrls.audit
+        }
+
+        window.history.replaceState(null, null, getUrl())
         fetchLogs(1)
     }
 

@@ -1,19 +1,18 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import { fetchJobForEditing } from '../../../services/company/postAndEditJob.service';
+import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
+import useShowMessage from '../../helpers/Hooks/useShowMessage';
+import { setCurrentJob } from '../../helpers/slices/generalSlice';
+import PostjobForm from '../../components/company/PostJobForm';
+import { companyUrls } from '../../services/common/urls/companyUrls.service';
+import http from '../../helpers/http';
+import { fetchJobForEditing } from '../../services/company/postAndEditJob.service';
+import { fetchUser } from '../../helpers/slices/userSlice';
 
-import { fetchUser } from '../../../helpers/slices/userSlice';
-import useCurrentUser from '../../../helpers/Hooks/useCurrentUser';
-import useShowMessage from '../../../helpers/Hooks/useShowMessage';
-import { setCurrentJob } from '../../../helpers/slices/generalSlice';
-import PostjobForm from '../../../components/company/PostJobForm';
-import { companyUrls } from '../../../services/common/urls/companyUrls.service';
-import http from '../../../helpers/http';
 
-
-function EditJob() {
+export default function RecruiterEditJob() {
     const [jobData, setJobData] = useState(null)
     // const [employerquestions, setEmployerQuestions] = useState([{ value: "" }])
     const params = useParams()
@@ -21,7 +20,6 @@ function EditJob() {
     const dispatch = useDispatch()
     const user = useCurrentUser()
     const message = useShowMessage()
-    const company_id = user._id
 
     useEffect(() => {
         document.title = "Edit Job"
@@ -41,9 +39,9 @@ function EditJob() {
     }
 
     const submitJob = async (data) => {
-        data.employer = localStorage.getItem("fullname")
-        data.companyId = company_id
-        data.posted_by = company_id
+        data.employer = user.name
+        data.companyId = user.companyId._id
+        data.posted_by = user._id
         try {
             const response = await http.put(`/jobs/update/${params.id}`, data)
             if (response && response.status) {
@@ -77,4 +75,3 @@ function EditJob() {
         </div >
     )
 }
-export default EditJob;

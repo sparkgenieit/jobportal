@@ -22,6 +22,10 @@ class CompanyUrls {
         return `/company/editjob/${id}`
     }
 
+    getUrl(path) {  // As the company is not appended in the path of the pages by using this the company will be appended
+        return this.home + path
+    }
+
     getAppliedUsersUrl(id) {
         return `/company/applied-users/${id}`
     }

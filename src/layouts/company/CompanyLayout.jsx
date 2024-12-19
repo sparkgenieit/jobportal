@@ -24,6 +24,7 @@ import Audit from '../../pages/company/Audit-Log';
 import CompanyProfile from '../../pages/company/CompanyProfile';
 import AdsList from '../../pages/company/Ads/AdsList';
 import { companyUrls } from '../../services/common/urls/companyUrls.service';
+import EditJob from '../../pages/company/jobs/EditJob';
 
 export default function CompanyLayout() {
     const dispatch = useDispatch()
@@ -40,8 +41,8 @@ export default function CompanyLayout() {
                     <Routes>
 
                         <Route index element={<CompanyHome />} />
-                        <Route path={companyUrls.postJob} element={<Postajob name={"Post a Job"} />} />
-                        <Route path={companyUrls.editJob} element={<Postajob name={"Edit Job"} />} />
+                        <Route path={companyUrls.postJob} element={<Postajob />} />
+                        <Route path={companyUrls.editJob} element={<EditJob />} />
                         <Route path={companyUrls.postedJobs} element={<PostedJobList />} />
                         <Route path={companyUrls.appliedUsers} element={<AppliedUsers />} />
                         <Route path={companyUrls.appliedUserProfile} element={<AppliedUserProfile />} />

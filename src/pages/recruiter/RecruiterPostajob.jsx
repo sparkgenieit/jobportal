@@ -2,25 +2,25 @@ import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchCompanyInfo, initialValues } from '../../../services/company/postAndEditJob.service';
-import { getCloseDate } from '../../../helpers/functions';
-import { fetchUser } from '../../../helpers/slices/userSlice';
-import useCurrentUser from '../../../helpers/Hooks/useCurrentUser';
-import useShowMessage from '../../../helpers/Hooks/useShowMessage';
-import PostjobForm from '../../../components/company/PostJobForm';
-import http from '../../../helpers/http';
-import { companyUrls } from '../../../services/common/urls/companyUrls.service';
+import { fetchCompanyInfo, initialValues } from '../../services/company/postAndEditJob.service';
+import { getCloseDate } from '../../helpers/functions';
+import { fetchUser } from '../../helpers/slices/userSlice';
+import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
+import useShowMessage from '../../helpers/Hooks/useShowMessage';
+import PostjobForm from '../../components/company/PostJobForm';
+import http from '../../helpers/http';
+import { companyUrls } from '../../services/common/urls/companyUrls.service';
 
 
-function Postajob() {
+export default function RecruiterPostajob() {
 
   const currentJob = useSelector((state) => state.general.currentJob)
   const [searchParams] = useSearchParams()
   const [jobData, setJobData] = useState(null)
   const dispatch = useDispatch()
   const user = useCurrentUser()
+  const company_id = user.companyId._id
   const message = useShowMessage()
-  const company_id = user._id
   const cloneJobId = searchParams.get("c")
 
   useEffect(() => {
@@ -45,9 +45,9 @@ function Postajob() {
 
     // This data only gives us the input fields we need to add the company id and posted id 
 
-    data.employer = localStorage.getItem("fullname")
+    data.employer = user.name
     data.companyId = company_id
-    data.posted_by = company_id
+    data.posted_by = user._id
 
     try {
       await http.post('/jobs/create', data)
@@ -82,5 +82,4 @@ function Postajob() {
       </div >
     </>
   )
-}
-export default Postajob;
+} 

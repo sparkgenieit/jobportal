@@ -4,12 +4,9 @@ import { useDispatch } from 'react-redux'
 import Footer from "../admin/Footer"
 import { fetchEmployerUnreadCount } from '../../helpers/slices/mailCountSlice';
 import Transactions from "../../pages/company/Transactions";
-import Postajob from "../../pages/company/jobs/Postajob";
-import PostedJobList from "../../pages/company/jobs/PostedJobList";
 import BuyCredits from "../../pages/company/jobs/BuyCredits";
 import AppliedUsers from "../../pages/company/jobs/AppliedUsers";
 import AppliedUserProfile from "../../pages/company/jobs/AppliedUserProfile";
-import EmployerContactUs from "../../pages/company/Contact-Us";
 import Inbox from "../../pages/company/Inbox";
 import ChatPage from '../../components/ChatPage';
 import NotFound from '../../components/NotFound';
@@ -19,6 +16,9 @@ import { recruiterUrl } from '../../services/common/urls/recruiterUrls.service';
 import Sidebar from './Sidebar';
 import RecruiterHome from '../../pages/recruiter/Home';
 import RecruiterContactUs from '../../pages/recruiter/RecruiterContactUs';
+import RecruiterPostajob from '../../pages/recruiter/RecruiterPostajob';
+import RecruiterEditJob from '../../pages/recruiter/RecruiterEditJob';
+import PostedJobs from '../../pages/recruiter/PostedJobs';
 
 export default function RecruiterLayout() {
     const dispatch = useDispatch()
@@ -35,9 +35,9 @@ export default function RecruiterLayout() {
                     <Routes>
 
                         <Route index element={<RecruiterHome />} />
-                        <Route path={recruiterUrl.postJob} element={<Postajob name={"Post a Job"} />} />
-                        <Route path={recruiterUrl.editJob} element={<Postajob name={"Edit Job"} />} />
-                        <Route path={recruiterUrl.postedJobs} element={<PostedJobList />} />
+                        <Route path={recruiterUrl.postJob} element={<RecruiterPostajob />} />
+                        <Route path={recruiterUrl.editJob} element={<RecruiterEditJob />} />
+                        <Route path={recruiterUrl.postedJobs} element={<PostedJobs />} />
                         <Route path={recruiterUrl.appliedUsers} element={<AppliedUsers />} />
                         <Route path={recruiterUrl.appliedUserProfile} element={<AppliedUserProfile />} />
                         <Route path={recruiterUrl.companyContact} element={<RecruiterContactUs />} />
