@@ -15,6 +15,10 @@ import handleLogout from '../../helpers/functions/handlelogout';
 import { BsList } from 'react-icons/bs';
 import { RxCross1 } from "react-icons/rx";
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
+import { Roles } from '../../services/common/Roles.service';
+import { recruiterUrl } from '../../services/common/urls/recruiterUrls.service';
+
+
 
 export default function Header() {
   const [isSignedIn] = useState(localStorage.getItem('isSignedIn') || '');
@@ -122,7 +126,7 @@ export default function Header() {
                       <Link to="#" className="menu-item first-item expand-btn"><CgProfile size={"40px"} /></Link>
                       <ul className="dropdown-menu menu-left  sample bg-white">
                         {role === "user" && <li><Link to={"/viewprofile"}>My Profile</Link></li>}
-                        {(role === 'employer' || role === "recruiter") &&
+                        {role === 'employer' &&
                           <li className='px-4 pb-2'>
                             <button type='button' onClick={() => { navigate("/company") }} className="btn btn-secondary w-100" >
                               Dashboard
@@ -131,6 +135,13 @@ export default function Header() {
                         {role === 'admin' &&
                           <li className='px-4 pb-2'>
                             <button type='button' onClick={() => { navigate("/admin") }} className="btn btn-secondary w-100" >
+                              Dashboard
+                            </button>
+                          </li>
+                        }
+                        {role === Roles.Recruiter &&
+                          <li className='px-4 pb-2'>
+                            <button type='button' onClick={() => navigate(recruiterUrl.home)} className="btn btn-secondary w-100" >
                               Dashboard
                             </button>
                           </li>
@@ -184,7 +195,7 @@ export default function Header() {
                           <li role='button' onClick={() => handleNavigation("/applied-jobs")}>Applied Jobs</li>
                         </>
                       }
-                      {(role === 'employer' || role === "recruiter") &&
+                      {(role === 'employer') &&
                         <li>
                           <button type='button' onClick={() => { handleNavigation("/company") }} className="btn btn-responsive btn-secondary w-100" >
                             Dashboard
@@ -193,6 +204,13 @@ export default function Header() {
                       {role === 'admin' &&
                         <li>
                           <button type='button' onClick={() => { handleNavigation("/admin") }} className="btn btn-responsive btn-secondary w-100" >
+                            Dashboard
+                          </button>
+                        </li>
+                      }
+                      {role === Roles &&
+                        <li>
+                          <button type='button' onClick={() => { handleNavigation(recruiterUrl.home) }} className="btn btn-responsive btn-secondary w-100" >
                             Dashboard
                           </button>
                         </li>
