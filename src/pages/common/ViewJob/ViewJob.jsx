@@ -1,38 +1,39 @@
-import "./SingleJob.css"
+import "./view-job.css"
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from "react-router-dom";
-import http from '../../helpers/http';
-import Ads from './ads';
+import http from '../../../helpers/http';
+import Ads from '../ads';
 import { Modal } from "react-bootstrap";
-import { BASE_API_URL, BASE_APP_URL } from '../../helpers/constants';
-import { getUserID, getYoutubeVideoId, timeAgo } from '../../helpers/functions';
+import { BASE_API_URL, BASE_APP_URL } from '../../../helpers/constants';
+import { getUserID, getYoutubeVideoId, timeAgo } from '../../../helpers/functions';
 import { FaDollarSign, FaRegClock, FaShare, FaYoutube } from 'react-icons/fa6';
 import { PiBookmarkSimpleBold, PiBookmarkSimpleFill, PiCarProfileThin } from "react-icons/pi";
 import { MdOutlineLocationOn, MdOutlinePeopleOutline } from "react-icons/md";
 import { FaCheckSquare } from 'react-icons/fa';
 import { GiHotMeal } from "react-icons/gi";
 import { IoHomeOutline } from "react-icons/io5";
-import Loader from '../../components/Loader';
-import Tooltip from '../../components/Tooltip';
-import useShowMessage from '../../helpers/Hooks/useShowMessage';
-import { markdownToText, salaryPerAnnum } from '../../helpers/functions/textFunctions';
+import Loader from '../../../components/Loader';
+import Tooltip from '../../../components/Tooltip';
+import useShowMessage from '../../../helpers/Hooks/useShowMessage';
+import { markdownToText, salaryPerAnnum } from '../../../helpers/functions/textFunctions';
 import { BsBriefcase, BsCalendar3 } from "react-icons/bs";
 
 import { useDispatch } from "react-redux";
-import { setInfo, setLocation } from "../../helpers/slices/generalSlice";
+import { setInfo, setLocation } from "../../../helpers/slices/generalSlice";
+import useCurrentUser from "../../../helpers/Hooks/useCurrentUser";
+import { Roles } from "../../../services/common/Roles.service";
+import ReportJob from "./ReportJob";
+import UploadDocs from "./UploadDocs";
 
-function SingleJob() {
+export default function ViewJob() {
     const [isJobApplied, setIsJobApplied] = useState(false)
     const [isJobSaved, setIsJobSaved] = useState(false)
     const [jobview, setJobview] = useState()
     const dispatch = useDispatch()
-    const params = useParams();
-    const role = localStorage.getItem('role')
-    const userId = getUserID()
+    const params = useParams()
+    const { _id: userId, role } = useCurrentUser()
     const [loading, setLoading] = useState(false)
-    const [showReport, setShowReport] = useState(false)
-    const [reportReason, setReportReason] = useState("")
-    const [reportError, setReportError] = useState(false)
+    const [showModal, setShowModal] = useState({ show: false })
     const youtubeRef = useRef(null)
     const message = useShowMessage()
 
@@ -67,7 +68,7 @@ function SingleJob() {
     }
 
     const increaseView = async (id) => {
-        if (!role || role === "user") {
+        if (!role || role === Roles.User) {
             try {
                 await http.patch(`/jobs/increase-view-count/${id}`)
             } catch (error) {
@@ -94,26 +95,22 @@ function SingleJob() {
         }
     }
 
-    const handleReportReason = (e) => {
-        setReportReason(e.target.value)
-    }
-
     const handleClose = () => {
-        setShowReport(false)
-        setReportReason("")
-        setReportError(false)
+        setShowModal({
+            show: false
+        })
     }
 
-    const ReportJob = async () => {
+    const onReportJob = async (reason) => {
+        handleClose()
         try {
-            if (userId && role == "user") {
+            if (userId && role === Roles.User) {
                 const data = {
                     userId,
                     jobId: jobview._id,
-                    reportReason
+                    reportReason: reason
                 }
-                await http.post("jobs/report", data)
-                handleClose();
+                await http.post("/jobs/report", data)
                 message({
                     status: "Success",
                     message: "Reported Successfully",
@@ -121,10 +118,13 @@ function SingleJob() {
                 })
             }
             else {
-                throw new Error
+                throw new Error("Something went wrong")
             }
         } catch (error) {
-            setReportError(true)
+            message({
+                status: "error",
+                error
+            })
         }
     }
 
@@ -137,6 +137,7 @@ function SingleJob() {
     }
 
     function handleApply() {
+
         if (userId && role === "user") {
             const data = {
                 applied_date: new Date().toLocaleDateString('en-GB'),
@@ -144,20 +145,22 @@ function SingleJob() {
                 jobId: jobview._id,
                 applied: true
             }
-            http.post("/jobs/apply", data)
-                .then(() => {
-                    message({
-                        status: "Success",
-                        message: "Applied Successfully"
-                    })
-                    setIsJobApplied(true)
-                })
-                .catch((e) => {
-                    message({
-                        status: "Error",
-                        error: e
-                    })
-                })
+
+            setShowModal({ show: true, type: "apply" })
+            // http.post("/jobs/apply", data)
+            //     .then(() => {
+            //         message({
+            //             status: "Success",
+            //             message: "Applied Successfully"
+            //         })
+            //         setIsJobApplied(true)
+            //     })
+            //     .catch((e) => {
+            //         message({
+            //             status: "Error",
+            //             error: e
+            //         })
+            //     })
 
         } else {
             message({
@@ -432,7 +435,7 @@ function SingleJob() {
 
                                 </div>
                                 <div>
-                                    <button type='button' className='btn btn-responsive btn-danger' onClick={() => setShowReport(true)}>Report</button>
+                                    <button type='button' className='btn btn-responsive btn-danger' onClick={() => setShowModal({ show: true, type: "report" })}>Report</button>
                                 </div>
                             </div>
                         </div>
@@ -458,46 +461,15 @@ function SingleJob() {
             }
             {(!loading && !jobview) || jobview.status !== "approved" && <h3>Job Not Found</h3>}
 
-            <Modal size="md" show={showReport} onHide={handleClose} centered>
+            <Modal size="md" show={showModal.show} onHide={handleClose} centered>
                 <Modal.Body className="responsive-font">
-                    {userId &&
-                        <>
-                            <div>
-                                <h5>Report Job</h5>
-                            </div>
-                            <form className=' d-flex flex-column gap-3 p-2'>
-                                <div className='d-flex align-items-center'>
-                                    <input type='radio' id="discriminatory-content" name='report-job' value="Contains Discriminatory Content" className='form-check-input' onChange={handleReportReason} />
-                                    <label for='discriminatory-content' className='form-check-label ps-3' >Contains Discriminatory Content</label>
-                                </div>
-                                <div className='d-flex align-items-center'>
-                                    <input type='radio' id="fake-job" name='report-job' value="Fake Job/Scam" className='form-check-input' onChange={handleReportReason} />
-                                    <label for='fake-job' className='form-check-label ps-3' >Fake Job/Scam</label>
-                                </div>
-                                <div className='d-flex align-items-center'>
-                                    <input type='radio' id="inaccurate-information" name='report-job' value="Inaccurate Information" className='form-check-input' onChange={handleReportReason} />
-                                    <label for='inaccurate-information' className='form-check-label ps-3' >Inaccurate Information</label>
-                                </div>
-                                <div className='d-flex align-items-center'>
-                                    <input type='radio' id="offensive-language" name='report-job' value="Offensive Language" className='form-check-input' onChange={handleReportReason} />
-                                    <label for='offensive-language' className='form-check-label ps-3' >Offensive Language</label>
-                                </div>
-                                <div className='d-flex justify-content-end'>
-                                    <button type='button' disabled={reportReason === "" ? true : false} onClick={ReportJob} className='btn btn-danger'>Report this job</button>
-                                </div>
-                                {reportError && <div className='text-danger text-center'><em>There has been an error reporting this job, Please try again</em></div>}
-                            </form>
-                        </>
-                    }
-                    {
-                        !userId && <>
-                            <h3 className='text-center p-5'>Please Login to report the job</h3>
-                        </>
-                    }
+
+                    {showModal.type === "report" && <ReportJob onReportJob={onReportJob} />}
+
+                    {showModal.type === "apply" && <UploadDocs job_id={params.id} />}
+
                 </Modal.Body>
             </Modal>
         </>
     );
 }
-
-export default SingleJob;

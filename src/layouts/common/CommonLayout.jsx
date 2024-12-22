@@ -21,7 +21,6 @@ import Accommodation from "../../pages/common/Accommodation";
 import HolidayParks from "../../pages/common/HolidayParks";
 import FreedomCampaining from "../../pages/common/FreedomCamping";
 import Activities from "../../pages/common/Activities";
-import SingleJob from "../../pages/common/SingleJob";
 import Terms from "../../pages/common/Terms";
 import Privacy from "../../pages/common/Privacy";
 import Jobs from "../../pages/common/Jobs";
@@ -39,6 +38,7 @@ import InfoPopup from '../../components/InfoPopup';
 import UserProfile from '../../pages/common/UserProfile';
 import { commonUrls } from '../../services/common/urls/commonUrls.service';
 import { Roles } from '../../services/common/Roles.service';
+import ViewJob from '../../pages/common/ViewJob/ViewJob';
 
 
 export default function CommonLayout() {
@@ -88,7 +88,7 @@ export default function CommonLayout() {
                 <Route path={commonUrls.freedomCampaining} element={<FreedomCampaining />} />
                 <Route path={commonUrls.activities} element={<Activities />} />
                 <Route path={commonUrls.jobs} element={<Jobs />} />
-                <Route path={commonUrls.singleJob} element={<SingleJob />} />
+                <Route path={commonUrls.singleJob} element={<ViewJob />} />
                 <Route path={commonUrls.city} element={<City />} />
                 <Route path={commonUrls.forgotPassword} element={<ForgetPassword />} />
                 <Route path={commonUrls.resetPassword} element={<ResetPassword />} />
