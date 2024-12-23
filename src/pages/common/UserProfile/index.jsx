@@ -76,10 +76,10 @@ function UserProfile() {
         const file = event.target.files[0]
         const fileExtension = file.name.split('.').pop().toLowerCase();
 
-        const acceptedExtensions = ["pdf", 'docx', "doc"]
+        const acceptedExtensions = ["pdf"]
 
         if (!acceptedExtensions.includes(fileExtension)) {
-            message({ status: "error", error: { message: "Resume and cover letter should only be pdf,doc,docx format" } })
+            message({ status: "error", error: { message: "Resume and cover letter should only be in pdf format" } })
             return
         }
 
@@ -94,8 +94,6 @@ function UserProfile() {
             setErrors({ ...errors, coverLetter: null })
             setCoverLetter(file);
         }
-
-        console.log(cv);
 
     };
 
