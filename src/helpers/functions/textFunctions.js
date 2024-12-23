@@ -50,7 +50,7 @@ export const parseString = (string) => {
 }
 
 export function getFileName(name) {
-    const originalName = name.split("_ON_").pop()
+    const originalName = name?.split("_ON_")?.pop()
     if (originalName) {
         return originalName
     }

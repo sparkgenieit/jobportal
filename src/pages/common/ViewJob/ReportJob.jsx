@@ -1,17 +1,15 @@
 import { useState } from "react";
-import useCurrentUser from "../../../helpers/Hooks/useCurrentUser";
 import { Roles } from "../../../services/common/Roles.service";
 
 
-const ReportJob = ({ onReportJob }) => {
-    const user = useCurrentUser()
+const ReportJob = ({ onReportJob, role }) => {
     const [reportReason, setReportReason] = useState("")
 
     const handleReportReason = (e) => {
         setReportReason(e.target.value)
     }
 
-    if (!user || user.role !== Roles.User) {
+    if (role !== Roles.User) {
         return <h3 className='text-center p-5'>Please Login as user to report the job</h3>
     }
 

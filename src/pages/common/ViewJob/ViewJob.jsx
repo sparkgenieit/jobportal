@@ -136,32 +136,29 @@ export default function ViewJob() {
         })
     }
 
+    async function onApply(data) {
+
+        setShowModal({ show: false })
+        try {
+            await http.post("/jobs/apply", data)
+            message({
+                status: "Success",
+                message: "Applied Successfully"
+            })
+            setIsJobApplied(true)
+
+        } catch (error) {
+            message({
+                status: "Error",
+                error: e
+            })
+        }
+    }
+
+
     function handleApply() {
-
         if (userId && role === "user") {
-            const data = {
-                applied_date: new Date().toLocaleDateString('en-GB'),
-                userId: userId,
-                jobId: jobview._id,
-                applied: true
-            }
-
             setShowModal({ show: true, type: "apply" })
-            // http.post("/jobs/apply", data)
-            //     .then(() => {
-            //         message({
-            //             status: "Success",
-            //             message: "Applied Successfully"
-            //         })
-            //         setIsJobApplied(true)
-            //     })
-            //     .catch((e) => {
-            //         message({
-            //             status: "Error",
-            //             error: e
-            //         })
-            //     })
-
         } else {
             message({
                 status: "Error",
@@ -169,6 +166,7 @@ export default function ViewJob() {
             })
         }
     }
+
     function handleSave() {
         if (userId && role === "user") {
             const data = {
@@ -464,9 +462,9 @@ export default function ViewJob() {
             <Modal size="md" show={showModal.show} onHide={handleClose} centered>
                 <Modal.Body className="responsive-font">
 
-                    {showModal.type === "report" && <ReportJob onReportJob={onReportJob} />}
+                    {showModal.type === "report" && <ReportJob onReportJob={onReportJob} role={role} />}
 
-                    {showModal.type === "apply" && <UploadDocs job_id={params.id} />}
+                    {showModal.type === "apply" && <UploadDocs job_id={params.id} user_id={userId} onApply={onApply} />}
 
                 </Modal.Body>
             </Modal>

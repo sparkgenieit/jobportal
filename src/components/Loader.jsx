@@ -1,13 +1,13 @@
 import { RotatingLines } from 'react-loader-spinner';
 
-function Loader() {
+function Loader({ height = 96, width = 96, color = "green" }) {
     return (
-        <div style={{ height: "60vh" }} className="d-flex w-full justify-content-center align-items-center">
+        <div className="d-flex w-full justify-content-center align-items-center">
             <RotatingLines
                 visible={true}
-                height="96"
-                width="96"
-                color="grey"
+                height={height}
+                width={width}
+                strokeColor={color}
                 strokeWidth="5"
                 animationDuration="0.75"
                 ariaLabel="rotating-lines-loading"
