@@ -2,7 +2,7 @@ import http from "../../helpers/http";
 import httpUpload from "../../helpers/httpUpload";
 
 class UserService {
-    
+
   getAll() {
     return http.get("/user");
   }
@@ -40,12 +40,30 @@ class UserService {
   }
 
 
-  uploadCV(data) {
-    return httpUpload.post(`/upload/cvs?path=cvs`, data);
+  async uploadCV(data) {
+
+    const res = await httpUpload.post(`/upload/cvs?path=cvs`, data);
+
+    const uploadFileData = {
+      filename: res.data.filename,
+      originalname: res.data.originalname,
+      uploaddate: new Date()
+    }
+
+    return uploadFileData;
   }
 
-  uploadCoverLetter(data) {
-    return httpUpload.post(`/upload/coverLetters?path=coverletters`, data);
+  async uploadCoverLetter(data) {
+
+    const res = await httpUpload.post(`/upload/coverLetters?path=coverletters`, data);
+
+    const uploadFileData = {
+      filename: res.data.filename,
+      originalname: res.data.originalname,
+      uploaddate: new Date()
+    }
+    return uploadFileData;
+
   }
 
   changePassword(id, data) {
@@ -60,7 +78,7 @@ class UserService {
     return http.delete(`/locations`);
   }
 
-  
+
 }
 
 export default new UserService();

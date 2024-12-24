@@ -53,12 +53,10 @@ function UserProfile() {
 
                 if (response.data.cv) {
                     setisCvUploaded(true)
-                    setCv(response.data.cv)
                 }
 
                 if (response.data.coverLetter) {
                     setisCoverUploaded(true)
-                    setCoverLetter(response.data.coverLetter)
                 }
 
             })
@@ -122,11 +120,8 @@ function UserProfile() {
     const handleEducation = (key, value, edu, index) => {
         const educa = education;
         edu[key] = value;
-
         educa[index] = edu;
         setEducation([...educa]);
-
-
     }
 
     const handleLicenses = (key, value, licence, index) => {
@@ -210,16 +205,16 @@ function UserProfile() {
                 if (cv) {
                     const cvFile = new FormData();
                     cvFile.append('file', cv);
-                    const res = await userService.uploadCV(cvFile)
-                    UserProfile.cv = res.data.filename;
+                    const uploadedFile = await userService.uploadCV(cvFile)
+                    UserProfile.cv = uploadedFile;
                 }
 
                 // IF COVERLETTER IS UPLAODED
                 if (coverLetter) {
                     const coverFile = new FormData();
                     coverFile.append('file', coverLetter)
-                    const { data } = await userService.uploadCoverLetter(coverFile)
-                    UserProfile.coverLetter = data.filename
+                    const uploadedCoverLetter = await userService.uploadCoverLetter(coverFile)
+                    UserProfile.coverLetter = uploadedCoverLetter
                 }
 
                 await userService.update(user._id, UserProfile)

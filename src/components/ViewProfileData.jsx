@@ -1,10 +1,9 @@
 import { BASE_API_URL } from "../helpers/constants";
-import { getFileName } from "../helpers/functions/textFunctions";
 
 export default function ViewProfileData({ user, JobTypes }) {
     const handleDownload = (event, path, file) => {
         event.preventDefault();
-        fetch(`${BASE_API_URL}/upload/file/?path=` + path + "&file=" + file, {
+        fetch(`${BASE_API_URL}/uploads/${path}/${file}`, {
             responseType: "blob",
         })
             .then((response) => response.blob())
@@ -382,7 +381,7 @@ export default function ViewProfileData({ user, JobTypes }) {
                     <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Upload CV :  </label>
                         <div className="col-sm-9">
-                            {user.cv && <a style={{ "textDecoration": "underline" }} href="/" onClick={(event) => handleDownload(event, 'cvs', user.cv)}>{getFileName(user.cv)}</a>}
+                            {user.cv && <a style={{ "textDecoration": "underline" }} href="/" onClick={(event) => handleDownload(event, 'cvs', user?.cv?.filename)}>{user?.cv?.originalname}</a>}
                             {/* {user.uploadCV} */}
                         </div>
                     </div>
@@ -394,7 +393,7 @@ export default function ViewProfileData({ user, JobTypes }) {
                     <div className="form-group row">
                         <label className="col-sm-3 col-form-label fw-bold">Upload Cover Letter :  </label>
                         <div className="col-sm-9">
-                            {user.coverLetter && <a style={{ "textDecoration": "underline" }} href="/" onClick={(event) => handleDownload(event, 'coverletters', user.coverLetter)}>{getFileName(user.coverLetter)}</a>}
+                            {user.coverLetter && <a style={{ "textDecoration": "underline" }} href="/" onClick={(event) => handleDownload(event, 'coverletters', user?.coverLetter?.filename)}>{user?.coverLetter?.originalname}</a>}
                         </div>
                     </div>
                 </div>

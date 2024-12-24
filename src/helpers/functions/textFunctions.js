@@ -34,7 +34,7 @@ export const validateEmailAddress = (emailAddress) => {
 }
 
 export const validateIsNotEmpty = (value) => {
-    value = value.toString()
+    value = value?.toString()
     if (!value || !value.trim()) {
         return false
     }

@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import userService from "../../../services/common/user.service";
-import { getFileName } from "../../../helpers/functions/textFunctions";
+import { getDate } from "../../../helpers/functions/dateFunctions";
+import { FaRegCircleCheck } from "react-icons/fa6";
+
+
+const Tick = () => {
+    return <FaRegCircleCheck className="text-success" />
+}
 
 
 const UploadDocs = ({ job_id, user_id, onApply, message }) => {
@@ -26,6 +32,11 @@ const UploadDocs = ({ job_id, user_id, onApply, message }) => {
 
     const handleApply = async () => {
 
+        if (!user) {
+            message({ status: "error", error: { message: "Unable to fetch user details" } })
+            return
+        }
+
         const applyData = {
             applied_date: new Date().toLocaleDateString('en-GB'),
             userId: user_id,
@@ -37,9 +48,9 @@ const UploadDocs = ({ job_id, user_id, onApply, message }) => {
             const formData = new FormData();
             formData.append("file", cv);
             try {
-                const { data } = await userService.uploadCV(formData);
+                const uploadedCv = await userService.uploadCV(formData);
 
-                applyData.cv = data.filename;
+                applyData.cv = uploadedCv;
             } catch (error) {
                 message({ status: "error", error })
             }
@@ -51,8 +62,8 @@ const UploadDocs = ({ job_id, user_id, onApply, message }) => {
             const formData = new FormData();
             formData.append("file", coverLetter);
             try {
-                const { data } = await userService.uploadCoverLetter(formData);
-                applyData.coverLetter = data.filename;
+                const uploadedCover = await userService.uploadCoverLetter(formData);
+                applyData.coverLetter = uploadedCover;
             } catch (error) {
                 message({ status: "error", error })
             }
@@ -93,11 +104,18 @@ const UploadDocs = ({ job_id, user_id, onApply, message }) => {
 
 
                 <div className="d-flex flex-column  align-items-center">
-                    <label className="btn btn-primary d-flex gap-2 align-items-center" htmlFor="cv">Upload Resume  </label>
+                    <div className="d-flex gap-2 align-items-center">
+                        <label className="btn btn-primary " htmlFor="cv">Upload Resume</label>
+                        <span>{cv && <Tick />}</span>
+                    </div>
                     {cv && <span className="small text-center text-success">{cv.name}</span>}
                 </div>
                 <div className="d-flex flex-column  align-items-center">
-                    <label className="btn btn-primary d-flex gap-2 align-items-center" htmlFor="coverLetter">Upload Cover Letter</label>
+
+                    <div className="d-flex gap-2 align-items-center">
+                        <label className="btn btn-primary " htmlFor="coverLetter">Upload Cover Letter</label>
+                        <span>{coverLetter && <Tick />}</span>
+                    </div>
                     {coverLetter && <span className="small text-center text-success">{coverLetter.name}</span>}
                 </div>
             </div>
@@ -112,14 +130,25 @@ const UploadDocs = ({ job_id, user_id, onApply, message }) => {
             <div className="d-flex flex-column gap-3 justify-content-center">
 
                 <div className="d-flex flex-column  align-items-center">
-                    <button type="button" onClick={() => setCv(null)} disabled={!user} className="btn btn-gradient-primary"> Use Uploaded Resume</button>
-                    {user && <span className="small">{getFileName(user?.cv)}</span>}
+
+
+                    <div className="d-flex gap-2 align-items-center">
+                        <button type="button" onClick={() => setCv(null)} disabled={!user} className="btn btn-gradient-primary"> Use Uploaded Resume</button>
+                        <span>{user?.cv && !cv && <Tick />}</span>
+                    </div>
+
+                    {user && <span className="small">{user?.cv?.originalname} - {getDate(user?.cv?.uploaddate)}</span>}
                 </div>
 
 
                 <div className="d-flex flex-column  align-items-center">
-                    <button type="button" onClick={() => setCoverLetter(null)} disabled={!user} className="btn btn-gradient-primary"> Use Uploaded Cover Letter</button>
-                    {user && <span className="small">{getFileName(user?.coverLetter)}</span>}
+
+                    <div className="d-flex gap-2 align-items-center">
+                        <button type="button" onClick={() => setCoverLetter(null)} disabled={!user} className="btn btn-gradient-primary"> Use Uploaded Cover Letter</button>
+                        <span>{user?.coverLetter && !coverLetter && <Tick />}</span>
+                    </div>
+
+                    {user && <span className="small">{user?.coverLetter?.originalname} - {getDate(user?.coverLetter?.uploaddate)} </span>}
                 </div>
             </div>
 

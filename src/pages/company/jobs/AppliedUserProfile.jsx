@@ -11,7 +11,7 @@ export default function AppliedUserProfile() {
     const jobId = searchParams.get("j")
     const [user, setUser] = useState(null)
     const [jobTypes, setJobTypes] = useState(null)
-    const [isShorlisted, setIsShorlisted] = useState(false)
+    const [userJobStatus, setUserJobStatus] = useState(null)
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -44,9 +44,9 @@ export default function AppliedUserProfile() {
     const fetchStatus = async () => {
         try {
             const { data } = await http.get(`/jobs/user-job-status/${params.userId}?jobId=${jobId}`)
-            setIsShorlisted(data.shortlisted)
+            setUserJobStatus(data)
         } catch (error) {
-            setIsShorlisted(false)
+            setUserJobStatus(null)
         }
     }
 
@@ -92,18 +92,18 @@ export default function AppliedUserProfile() {
 
     return (
         <div className="my-4 responsive-font  container-md">
-            <div class="d-flex position-relative">
+            <div className="d-flex position-relative">
                 <a onClick={goBack} className="position-absolute start-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="black" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="black" className="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
                         <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
                     </svg>
                 </a>
-                <h3 class="text-center fs-4 fw-bold flex-grow-1 mb-3">Resume</h3>
+                <h3 className="text-center fs-4 fw-bold flex-grow-1 mb-3">Resume</h3>
             </div>
 
             <div className="d-flex justify-content-end">
-                <button onClick={() => { handleShortListButton(isShorlisted ? false : true) }} className="btn btn-success rounded">
-                    {isShorlisted ? "Unshortlist" : "Shortlist Candidate"}
+                <button onClick={() => { handleShortListButton(userJobStatus?.shortlisted ? false : true) }} className="btn btn-success rounded">
+                    {userJobStatus?.shortlisted ? "Unshortlist" : "Shortlist Candidate"}
                 </button>
             </div>
 
@@ -168,18 +168,18 @@ export default function AppliedUserProfile() {
 
                         <div className="row ">
                             <label className="fw-bold col-3">Uploaded CV</label>
-                            {user.cv &&
-                                <a className="col" type="button" onClick={handleDownload(user.cv, "cvs")}>
-                                    {getFileName(user.cv)}
+                            {userJobStatus?.cv &&
+                                <a className="col" type="button" onClick={handleDownload(userJobStatus?.cv?.filename, "cvs")}>
+                                    {userJobStatus?.cv?.originalname}
                                 </a>
                             }
                         </div>
 
                         <div className="row">
                             <label className="fw-bold col-3">Uploaded Cover Letter</label>
-                            {user.coverLetter &&
-                                <a className="col" type="button" onClick={handleDownload(user.coverLetter, "coverletters")}>
-                                    {getFileName(user.coverLetter)}
+                            {userJobStatus?.coverLetter &&
+                                <a className="col" type="button" onClick={handleDownload(userJobStatus?.coverLetter?.filename, "coverletters")}>
+                                    {userJobStatus?.coverLetter?.originalname}
                                 </a>
                             }
                         </div>
@@ -193,8 +193,8 @@ export default function AppliedUserProfile() {
                         <div className="col-md-6">
                             <label className="fw-bold py-2">Work History</label>
 
-                            {user.work_history?.map(work => (
-                                <div className="py-2">
+                            {user.work_history?.map((work, index) => (
+                                <div className="py-2" key={index}>
                                     <div className="row">
                                         <label className="fw-bold col-3">Job Title</label>
                                         <div className="col-6">{work.jobTitle}</div>
