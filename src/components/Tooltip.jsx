@@ -2,7 +2,7 @@ import { useState } from "react"
 
 
 export default function Tooltip({ tooltipText, size, rightAlign, children }) {
-    const [tooltip, setTooltip] = useState()
+    const [tooltip, setTooltip] = useState(false)
 
     const handleTooltip = (value, name) => {
         setTooltip(value)

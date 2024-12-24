@@ -1,0 +1,10 @@
+.adcontainer {
+    max-height: 1200px;
+    width: 800px;
+    border-radius: 5px;
+}
+
+.adblock {
+    height: 40px;
+    width: 40px;
+}
