@@ -63,7 +63,7 @@ export default function AdminLayout() {
                         <Route path={adminUrls.audit} element={< Audit />} />
                         <Route path={adminUrls.logs} element={< AdminAuditLogs />} />
                         <Route path={adminUrls.queueProfiles} element={< ProfilesQueue />} />
-                        <Route path={adminUrls.assignedJobs} element={< AssignedProfiles />} />
+                        <Route path={adminUrls.assignedProfiles} element={< AssignedProfiles />} />
                         <Route path={adminUrls.companyProfile} element={< CompanyProfileChanges />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>

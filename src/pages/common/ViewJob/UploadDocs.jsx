@@ -3,7 +3,7 @@ import userService from "../../../services/common/user.service";
 import { getFileName } from "../../../helpers/functions/textFunctions";
 
 
-const UploadDocs = ({ job_id, user_id, onApply }) => {
+const UploadDocs = ({ job_id, user_id, onApply, message }) => {
 
     const [cv, setCv] = useState(null);
     const [coverLetter, setCoverLetter] = useState(null);
@@ -38,9 +38,10 @@ const UploadDocs = ({ job_id, user_id, onApply }) => {
             formData.append("file", cv);
             try {
                 const { data } = await userService.uploadCV(formData);
+
                 applyData.cv = data.filename;
             } catch (error) {
-                applyData.cv = user.cv
+                message({ status: "error", error })
             }
         } else {
             applyData.cv = user.cv
@@ -53,7 +54,7 @@ const UploadDocs = ({ job_id, user_id, onApply }) => {
                 const { data } = await userService.uploadCoverLetter(formData);
                 applyData.coverLetter = data.filename;
             } catch (error) {
-                applyData.coverLetter = user.coverLetter
+                message({ status: "error", error })
             }
         } else {
             applyData.coverLetter = user.coverLetter
@@ -62,8 +63,17 @@ const UploadDocs = ({ job_id, user_id, onApply }) => {
         onApply(applyData)
     }
 
-    const handleUpload = async (e) => {
+    const handleUpload = (e) => {
         const file = e.target.files[0];
+
+        const fileExtension = file.name?.split('.')?.pop().toLowerCase();
+
+        const acceptedExtensions = ["pdf"]
+
+        if (!acceptedExtensions.includes(fileExtension)) {
+            message({ status: "error", error: { message: "Resume and cover letter should only be in pdf format" } })
+            return
+        }
 
         if (e.target.id === "cv") {
             setCv(file);

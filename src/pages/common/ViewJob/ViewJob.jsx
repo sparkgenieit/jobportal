@@ -464,7 +464,7 @@ export default function ViewJob() {
 
                     {showModal.type === "report" && <ReportJob onReportJob={onReportJob} role={role} />}
 
-                    {showModal.type === "apply" && <UploadDocs job_id={params.id} user_id={userId} onApply={onApply} />}
+                    {showModal.type === "apply" && <UploadDocs job_id={params.id} user_id={userId} onApply={onApply} message={message} />}
 
                 </Modal.Body>
             </Modal>
