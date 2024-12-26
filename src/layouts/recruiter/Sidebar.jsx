@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 
 import { Accordion, Modal } from "react-bootstrap";
 import { MdSpaceDashboard } from 'react-icons/md';
-import { BsPostcard, BsPostcardFill, BsCreditCard, BsFillPersonCheckFill } from "react-icons/bs";
+import { BsPostcard, BsPostcardFill, BsCreditCard } from "react-icons/bs";
 import { RiAdvertisementFill } from "react-icons/ri";
 import { PiListDashesFill } from "react-icons/pi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdMailOpen } from "react-icons/io";
 import { HiOutlineDocumentMagnifyingGlass } from "react-icons/hi2";
-import Tooltip from '../../components/Tooltip';
+import Tooltip from "../../components/ToolTip";
 import { useDispatch, useSelector } from 'react-redux';
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 import { setIsSidebarOpen } from '../../helpers/slices/generalSlice';
@@ -94,6 +94,20 @@ function Sidebar() {
 
                   <ul className='list-unstyled d-flex flex-column gap-3'>
 
+
+                    <li>
+                      <div role='button' onClick={() => handleNavigation(recruiterUrl.buyCredits)} className='d-flex   flex-column w-100'>
+                        <div className='d-flex  justify-content-between w-100'>
+                          <span>Buy Credits</span>
+                          <span>
+                            <BsCreditCard size={"20"} />
+                          </span>
+                        </div>
+                        <div className="text-secondary small">Available Credits: {credits ? credits : 0}</div>
+                      </div>
+
+                    </li>
+
                     <li role='button' onClick={() => { handleModal(true) }}>
                       <span className='d-flex justify-content-between w-100'>
                         <span>Post a Job</span>
@@ -112,18 +126,7 @@ function Sidebar() {
                       </div>
                     </li>
 
-                    <li>
-                      <div role='button' onClick={() => handleNavigation(recruiterUrl.buyCredits)} className='d-flex   flex-column w-100'>
-                        <div className='d-flex  justify-content-between w-100'>
-                          <span>Buy Credits</span>
-                          <span>
-                            <BsCreditCard size={"20"} />
-                          </span>
-                        </div>
-                        <div className="text-secondary small">Available Credits: {credits ? credits : 0}</div>
-                      </div>
 
-                    </li>
 
                     <li >
                       <div role='button' onClick={() => handleNavigation(recruiterUrl.transactions)} className='d-flex  justify-content-between align-items-center w-100'>
@@ -153,6 +156,19 @@ function Sidebar() {
                 </Accordion.Header>
                 <Accordion.Body>
                   <ul className='list-unstyled d-flex flex-column gap-3'>
+
+                    <li>
+                      <div role='button' onClick={() => handleNavigation()} className='d-flex   flex-column w-100'>
+                        <div className='d-flex  justify-content-between w-100'>
+                          <span>Ad Credits</span>
+                          <span>
+                            <BsCreditCard size={"20"} />
+                          </span>
+                        </div>
+                        <div className="text-secondary small">Available Credits: {0}</div>
+                      </div>
+                    </li>
+
                     <li role='button'>
                       <span className='d-flex justify-content-between w-100'>
                         <span>Post an Ad</span>
@@ -171,18 +187,6 @@ function Sidebar() {
                       </div>
                     </li>
 
-                    <li>
-                      <div role='button' onClick={() => handleNavigation()} className='d-flex   flex-column w-100'>
-                        <div className='d-flex  justify-content-between w-100'>
-                          <span>Ad Credits</span>
-                          <span>
-                            <BsCreditCard size={"20"} />
-                          </span>
-                        </div>
-                        <div className="text-secondary small">Available Credits: {0}</div>
-                      </div>
-
-                    </li>
 
                     <li >
                       <div role='button' onClick={() => handleNavigation()} className='d-flex  justify-content-between align-items-center w-100'>

@@ -11,11 +11,11 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { ImProfile } from "react-icons/im";
 import { IoMdMailOpen } from "react-icons/io";
 import { HiOutlineDocumentMagnifyingGlass } from "react-icons/hi2";
-import Tooltip from '../../components/Tooltip';
 import { useDispatch, useSelector } from 'react-redux';
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 import { setIsSidebarOpen } from '../../helpers/slices/generalSlice';
 import { companyUrls } from '../../services/common/urls/companyUrls.service';
+import Tooltip from '../../components/ToolTip';
 
 function Sidebar() {
   const isSidebarOpen = useSelector((state) => state.general.isSidebarOpen)
@@ -115,6 +115,21 @@ function Sidebar() {
 
                   <ul className='list-unstyled d-flex flex-column gap-3'>
 
+                    <li>
+                      <div role='button' onClick={() => handleNavigation("/BuyCredits")} className='d-flex   flex-column w-100'>
+                        <div className='d-flex  justify-content-between w-100'>
+                          <span>Buy Credits</span>
+                          <span>
+                            <BsCreditCard size={"20"} />
+                          </span>
+                        </div>
+                        <div className="text-secondary small">Available Credits: {credits ? credits : 0}</div>
+                      </div>
+
+                    </li>
+
+
+
                     <li role='button' onClick={() => { handleModal(true) }}>
                       <span className='d-flex justify-content-between w-100'>
                         <span>Post a Job</span>
@@ -133,18 +148,6 @@ function Sidebar() {
                       </div>
                     </li>
 
-                    <li>
-                      <div role='button' onClick={() => handleNavigation("/BuyCredits")} className='d-flex   flex-column w-100'>
-                        <div className='d-flex  justify-content-between w-100'>
-                          <span>Buy Credits</span>
-                          <span>
-                            <BsCreditCard size={"20"} />
-                          </span>
-                        </div>
-                        <div className="text-secondary small">Available Credits: {credits ? credits : 0}</div>
-                      </div>
-
-                    </li>
 
                     <li >
                       <div role='button' onClick={() => handleNavigation("/transactions")} className='d-flex  justify-content-between align-items-center w-100'>
@@ -174,24 +177,6 @@ function Sidebar() {
                 </Accordion.Header>
                 <Accordion.Body>
                   <ul className='list-unstyled d-flex flex-column gap-3'>
-                    <li role='button'>
-                      <span className='d-flex justify-content-between w-100'>
-                        <span>Post an Ad</span>
-                        <span>
-                          <RiAdvertisementFill size={"20"} />
-                        </span>
-                      </span>
-                    </li>
-
-                    <li>
-                      <div role='button' onClick={() => handleNavigation()} className='d-flex justify-content-between w-100'>
-                        <span>Posted Ads</span>
-                        <span>
-                          <RiAdvertisementFill size={"20"} />
-                        </span>
-                      </div>
-                    </li>
-
                     <li>
                       <div role='button' onClick={() => handleNavigation()} className='d-flex   flex-column w-100'>
                         <div className='d-flex  justify-content-between w-100'>
@@ -202,8 +187,26 @@ function Sidebar() {
                         </div>
                         <div className="text-secondary small">Available Credits: {0}</div>
                       </div>
-
                     </li>
+
+                    <li role='button' onClick={() => handleNavigation(companyUrls.postAd)}>
+                      <span className='d-flex justify-content-between w-100'>
+                        <span>Post an Ad</span>
+                        <span>
+                          <RiAdvertisementFill size={"20"} />
+                        </span>
+                      </span>
+                    </li>
+
+                    <li>
+                      <div role='button' onClick={() => handleNavigation(companyUrls.ads)} className='d-flex justify-content-between w-100'>
+                        <span>Posted Ads</span>
+                        <span>
+                          <RiAdvertisementFill size={"20"} />
+                        </span>
+                      </div>
+                    </li>
+
 
                     <li >
                       <div role='button' onClick={() => handleNavigation()} className='d-flex  justify-content-between align-items-center w-100'>
