@@ -4,7 +4,7 @@ import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import useCurrentUser from "../../../helpers/Hooks/useCurrentUser";
 import { tryCatch } from "../../../helpers/functions";
 import AdsForm from "../../../components/company/AdsForm";
-import { adServive, initialAdFormValues } from "../../../services/company/Ads.service";
+import { adService, initialAdFormValues } from "../../../services/company/Ads.service";
 
 function PostAd() {
     const user = useCurrentUser()
@@ -17,7 +17,7 @@ function PostAd() {
 
     const postAd = async (data) => {
 
-        const { error } = await tryCatch(() => adServive.postAd(data))
+        const { error } = await tryCatch(() => adService.postAd(data))
 
         if (error) {
             message({

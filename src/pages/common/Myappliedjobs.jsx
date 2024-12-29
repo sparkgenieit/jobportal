@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../../layouts/common/Sidebar";
 import http from "../../helpers/http";
-import Ads from './ads';
+import Ads from './Ads/Ads';
 import { useSearchParams } from "react-router-dom";
 import { itemsPerPage } from "../../helpers/constants";
 import Pagination from "../../components/Pagination";

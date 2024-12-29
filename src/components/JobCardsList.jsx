@@ -1,4 +1,4 @@
-import Ads from '../pages/common/ads';
+import Ads from '../pages/common/Ads/Ads';
 import Card from './common/Card';
 
 export default function JobCardList({ jobs, type }) {

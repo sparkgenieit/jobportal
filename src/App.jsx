@@ -13,6 +13,8 @@ import useCurrentUser from "./helpers/Hooks/useCurrentUser";
 import Loader from "./components/Loader";
 import Toaster from "./components/Toaster";
 import { Roles } from "./services/common/Roles.service";
+import LandingPageAdvert from "./pages/common/Ads/LandingPageAdvert";
+
 
 // Layouts
 const CompanyLayout = lazy(() => import("./layouts/company/CompanyLayout"))
@@ -108,6 +110,7 @@ function App() {
 
       </Routes>
       <Toaster />
+      <LandingPageAdvert />
     </BrowserRouter >
   )
 }

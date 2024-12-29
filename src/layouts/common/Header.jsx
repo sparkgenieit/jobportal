@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Head from './Head';
 import UserLogin from '../../pages/common/UserLogin';
-import Tooltip from '../../components/Tooltip';
 import UserRegistration from '../../pages/common/UserRegistration';
 import CompanyRegistration from '../../pages/common/CompanyRegistration';
 import { FaMagnifyingGlass } from "react-icons/fa6";
@@ -17,8 +16,8 @@ import { RxCross1 } from "react-icons/rx";
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 import { Roles } from '../../services/common/Roles.service';
 import { recruiterUrl } from '../../services/common/urls/recruiterUrls.service';
-
-
+import Tooltip from '../../components/ToolTip';
+import HomePageBanner from '../../pages/common/Ads/HomePageBanner';
 
 export default function Header() {
   const [isSignedIn] = useState(localStorage.getItem('isSignedIn') || '');
@@ -29,6 +28,12 @@ export default function Header() {
   const [showSideBar, setShowSideBar] = useState(false)
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
+  let isHomePage = false
+  const currentUrl = window.location.pathname
+
+  if (currentUrl === "/") {
+    isHomePage = true
+  }
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -37,8 +42,6 @@ export default function Header() {
     setShowSideBar(false)
     navigate(path)
   }
-
-  const teet = 23;
 
   const handleSearchButton = (e) => {
     e.preventDefault();
@@ -51,6 +54,8 @@ export default function Header() {
 
   return <>
     <Head />
+
+    {isHomePage && <HomePageBanner />}
 
     <header id="header" className="header" data-scrollto-offset="0">
       <div className='row'>
@@ -94,7 +99,6 @@ export default function Header() {
                 </li>
                 <li><Link className="nav-link scrollto mx-3" to="/contact-us">Contact Us</Link></li>
               </ul>
-
               {/* {!showSideBar && <i onClick={() => { setShowSideBar(true) }} className="bi bi-list mobile-nav-toggle d-none"></i>} */}
 
               <div style={{ width: "300px" }} className='d-flex justify-content-end' >

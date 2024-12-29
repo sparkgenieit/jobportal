@@ -26,6 +26,7 @@ import AdsList from '../../pages/company/Ads/AdsList';
 import { companyUrls } from '../../services/common/urls/companyUrls.service';
 import EditJob from '../../pages/company/jobs/EditJob';
 import PostAd from '../../pages/company/Ads/PostAd';
+import SelectAdType from '../../pages/company/Ads/SelectAdType';
 
 export default function CompanyLayout() {
     const dispatch = useDispatch()
@@ -56,7 +57,7 @@ export default function CompanyLayout() {
                         <Route path={companyUrls.companyProfile} element={<CompanyProfile />} />
                         <Route path={companyUrls.recruiters} element={<RecruiterList />} />
                         <Route path={companyUrls.ads} element={<AdsList />} />
-                        <Route path={companyUrls.postAd} element={<PostAd />} />
+                        <Route path={companyUrls.postAd} element={<SelectAdType />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </div>

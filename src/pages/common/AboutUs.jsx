@@ -1,5 +1,5 @@
 
-import Ads from "./ads";
+import Ads from "./Ads/Ads";
 function AboutUs() {
     return (
         <>

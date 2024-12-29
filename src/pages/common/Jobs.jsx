@@ -6,7 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 import http from '../../helpers/http';
 import { itemsPerPage } from '../../helpers/constants';
 import Pagination from '../../components/Pagination';
-import Ads from './ads';
+import Ads from './Ads/Ads';
 import Filter from '../../components/Filter';
 import JobCardList from '../../components/JobCardsList';
 import Loader from '../../components/Loader';

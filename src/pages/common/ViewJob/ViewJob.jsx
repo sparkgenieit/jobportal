@@ -2,7 +2,7 @@ import "./view-job.css"
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from "react-router-dom";
 import http from '../../../helpers/http';
-import Ads from '../ads';
+import Ads from '../Ads/Ads';
 import { Modal } from "react-bootstrap";
 import { BASE_API_URL, BASE_APP_URL } from '../../../helpers/constants';
 import { getUserID, getYoutubeVideoId, timeAgo } from '../../../helpers/functions';

@@ -1,6 +1,6 @@
 import './ads.css';
 import { useEffect, useState } from 'react';
-import http from '../../helpers/http';
+import http from '../../../helpers/http';
 
 function Ads({ type = "long" }) {
   const [ad, setAd] = useState(null)

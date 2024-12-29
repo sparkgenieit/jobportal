@@ -18,6 +18,11 @@ class AdService {
         return http.get("/ads/company")
     }
 
+    showAds(type) {
+        return http.get('/ads/show-ad', { params: { type } })
+    }
+
+
 }
 
-export const adServive = new AdService();
+export const adService = new AdService();

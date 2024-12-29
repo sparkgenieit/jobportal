@@ -5,7 +5,7 @@ import http from "../../helpers/http";
 import Pagination from "../../components/Pagination";
 import { useSearchParams } from "react-router-dom";
 import { itemsPerPage } from "../../helpers/constants";
-import Ads from "./ads";
+import Ads from "./Ads/Ads";
 import Loader from "../../components/Loader";
 import JobCardList from "../../components/JobCardsList";
 

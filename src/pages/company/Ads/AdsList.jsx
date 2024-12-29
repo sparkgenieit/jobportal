@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import AdsTable from "./AdsTable"
-import { adServive } from "../../../services/company/Ads.service"
+import { adService } from "../../../services/company/Ads.service"
 import useShowMessage from "../../../helpers/Hooks/useShowMessage"
 import { tryCatch } from "../../../helpers/functions/index"
 
@@ -15,7 +15,7 @@ export default function AdsList() {
 
     useEffect(() => {
         const fetchAds = async () => {
-            const { data, error } = await tryCatch(() => adServive.getAds())
+            const { data, error } = await tryCatch(() => adService.getAds())
 
             if (data) {
                 setAds(data)

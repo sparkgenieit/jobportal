@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { IoSearch } from "react-icons/io5";
 
 import http from '../../helpers/http';
-import Ads from './ads';
+import Ads from './Ads/Ads';
 import NZMap from '../../components/NZMap';
 import ComboBox from '../../components/ComboBox';
 import DisplayAdBlocks from '../../components/common/DisplayAdBlocks';
