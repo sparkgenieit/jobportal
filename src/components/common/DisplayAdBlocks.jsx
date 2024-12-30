@@ -1,5 +1,5 @@
 import styles from './DisplayAds.module.css';
-import ToolTip from '../ToolTip';
+import ToolTip from '../Tooltip';
 
 
 const AdBlock = () => {
