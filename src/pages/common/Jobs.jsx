@@ -65,7 +65,6 @@ function Jobs() {
             prevScrollpos = currentScrollPos;
         }
 
-
         document.addEventListener('scroll', handleScroll);
 
         return () => {

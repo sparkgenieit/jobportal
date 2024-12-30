@@ -17,9 +17,11 @@
 @media (max-width:962px) {
   .short-ad {
     width: 100%;
+    height: 200px;
   }
 
   .long-ad {
     width: 100%;
+    height: 400px;
   }
 }
