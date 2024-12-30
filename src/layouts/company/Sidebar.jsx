@@ -15,7 +15,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 import { setIsSidebarOpen } from '../../helpers/slices/generalSlice';
 import { companyUrls } from '../../services/common/urls/companyUrls.service';
-import Tooltip from '../../components/ToolTip';
+import Tooltip from '../../components/Tooltip';
+
 
 function Sidebar() {
   const isSidebarOpen = useSelector((state) => state.general.isSidebarOpen)

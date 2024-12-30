@@ -10,7 +10,7 @@ import { PiListDashesFill } from "react-icons/pi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdMailOpen } from "react-icons/io";
 import { HiOutlineDocumentMagnifyingGlass } from "react-icons/hi2";
-import Tooltip from "../../components/ToolTip";
+import Tooltip from "../../components/Tooltip";
 import { useDispatch, useSelector } from 'react-redux';
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 import { setIsSidebarOpen } from '../../helpers/slices/generalSlice';

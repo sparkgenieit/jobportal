@@ -16,8 +16,8 @@ import { RxCross1 } from "react-icons/rx";
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 import { Roles } from '../../services/common/Roles.service';
 import { recruiterUrl } from '../../services/common/urls/recruiterUrls.service';
-import Tooltip from '../../components/ToolTip';
 import HomePageBanner from '../../pages/common/Ads/HomePageBanner';
+import Tooltip from '../../components/Tooltip';
 
 export default function Header() {
   const [isSignedIn] = useState(localStorage.getItem('isSignedIn') || '');

@@ -8,7 +8,7 @@ import http from '../../helpers/http';
 import Ads from './Ads/Ads';
 import NZMap from '../../components/NZMap';
 import ComboBox from '../../components/ComboBox';
-import DisplayAdBlocks from '../../components/common/DisplayAdBlocks';
+
 
 function Home() {
     const [searchBox, setSearchBox] = useState({
@@ -111,14 +111,8 @@ function Home() {
                 </form>
             </div>
 
-            {/* <div className='d-flex justify-content-center py-3'>
-                <DisplayAdBlocks />
-            </div> */}
 
             <div className="container-xxl text-center py-3 px-0">
-
-
-
                 <div className='row mb-3'>
                     <div className='col-lg-3'>
                         <Ads />
