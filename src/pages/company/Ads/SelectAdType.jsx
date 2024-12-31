@@ -1,17 +1,19 @@
+import { useNavigate } from "react-router-dom";
+import { adTypes } from "../../../services/company/Ads.service";
 
 
 const AdType = ({ type }) => {
+    const navigate = useNavigate()
     return (
         <div className="col">
-            <button type="button" className="d-flex btn w-100 bg-primary text-white text-nowrap text-center fw-bold rounded-4 p-4">
-                {type}
+            <button type="button" onClick={() => navigate(`/company/ads/post/${type.slugName}`)} className="d-flex btn w-100 bg-primary text-white text-nowrap text-center fw-bold rounded-4 p-4">
+                {type.name}
             </button>
         </div >
     )
 }
 
 export default function SelectAdType() {
-    const adTypes = ["Landing Page Popup", "Home Page Banner", "Home Page Pixel", "Home Page Map Left", "Home Page Map Right", "Specific Page", "B2B"];
 
     return (
         <div className="mt-4 container-md">

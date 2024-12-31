@@ -1,18 +1,20 @@
 import { useEffect } from "react";
-import http from "../../../helpers/http";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import useCurrentUser from "../../../helpers/Hooks/useCurrentUser";
 import { tryCatch } from "../../../helpers/functions";
 import AdsForm from "../../../components/company/AdsForm";
 import { adService, initialAdFormValues } from "../../../services/company/Ads.service";
+import { useParams } from "react-router-dom";
 
 function PostAd() {
     const user = useCurrentUser()
     const adForm = { ...initialAdFormValues, posted_by: user._id, company_id: user._id }
+    const { type } = useParams()
+
     const message = useShowMessage()
 
     useEffect(() => {
-        document.title = "Post an ad"
+        document.title = "Post an ad "
     }, [])
 
     const postAd = async (data) => {

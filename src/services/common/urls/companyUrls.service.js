@@ -14,7 +14,8 @@ class CompanyUrls {
         this.transactions = "/transactions"
         this.buyCredits = "/BuyCredits"
         this.ads = "/ads"
-        this.postAd = "/ads/post"
+        this.selectAdType = "/ads/post"
+        this.postAd = "/ads/post/:type"
         this.companyProfile = "/CompanyProfile"
         this.recruiters = "/recruiters"
     }

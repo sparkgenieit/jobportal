@@ -57,7 +57,8 @@ export default function CompanyLayout() {
                         <Route path={companyUrls.companyProfile} element={<CompanyProfile />} />
                         <Route path={companyUrls.recruiters} element={<RecruiterList />} />
                         <Route path={companyUrls.ads} element={<AdsList />} />
-                        <Route path={companyUrls.postAd} element={<SelectAdType />} />
+                        <Route path={companyUrls.selectAdType} element={<SelectAdType />} />
+                        <Route path={companyUrls.postAd} element={<PostAd />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </div>
