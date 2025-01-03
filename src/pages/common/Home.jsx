@@ -71,7 +71,7 @@ function Home() {
                                 label={"value"}
                                 suggestionValue={"value"}
                                 type="text"
-                                className={`transparent w-100 border-white p-1 rounded text-white ${searchButton}`}
+                                className={`transparent focus:border-2 border-white w-100  p-1 rounded text-white ${searchButton}`}
                                 value={searchBox.jobTitle}
                                 placeholder="Job Title"
                                 name='jobTitle'
@@ -80,7 +80,6 @@ function Home() {
                         </div>
 
                         <div className='flex-grow-1'>
-
                             <ComboBox
                                 suggestions={locationSuggestions}
                                 setSuggestions={setLocationSuggestions}
@@ -91,7 +90,7 @@ function Home() {
                                 label={"value"}
                                 suggestionValue={"value"}
                                 type="text"
-                                className={`transparent w-100 border-white p-1 rounded text-white ${searchButton}`}
+                                className={`transparent w-100 focus:border-2 border-white p-1 rounded text-white ${searchButton}`}
                                 value={searchBox.location}
                                 placeholder="Location"
                                 name='location'
@@ -100,7 +99,7 @@ function Home() {
                         </div>
 
 
-                        <button type="button" onClick={handleSearch} className='transparent  hover btn text-white'>
+                        <button type="button" onClick={handleSearch} className='transparent focus:scale-110 hover:scale-110 btn text-white'>
                             <IoSearch size="24px" />
                         </button>
 
@@ -110,7 +109,6 @@ function Home() {
                     <Link type="button" to="/jobs" className="transparent hover btn border border-white text-white" >View All Jobs</Link>
                 </form>
             </div>
-
 
             <div className="container-xxl text-center py-3 px-0">
                 <div className='row mb-3'>
