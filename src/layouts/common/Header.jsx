@@ -12,12 +12,34 @@ import CustomToggle from '../../components/CustomToggle';
 import RecruiterLogin from '../../pages/company/Recruiter/RecruiterLogin';
 import handleLogout from '../../helpers/functions/handlelogout';
 import { BsList } from 'react-icons/bs';
-import { RxCross1 } from "react-icons/rx";
+import { RxCross1, RxHamburgerMenu } from "react-icons/rx";
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 import { Roles } from '../../services/common/Roles.service';
 import { recruiterUrl } from '../../services/common/urls/recruiterUrls.service';
 import HomePageBanner from '../../pages/common/Ads/HomePageBanner';
 import Tooltip from '../../components/Tooltip';
+import { activities, b2B, entertainment, events, places, regions, services, shopping, stay, travels } from './navbarItems';
+
+
+
+
+const NavItem = ({ title, path }) => {
+  return (
+    <Link to={path} className="no-underline lg:block hidden text-black">{title}</Link>
+  )
+}
+
+
+const NavDropdownItem = ({ title, rightAlign, children }) => {
+  return (
+    <div className="group lg:block hidden text-black relative">
+      {title}
+      <div className={`scale-0 rounded-md z-50 absolute bg-white group-hover:scale-100 transition-all duration-300  ${rightAlign ? ' right-0' : ''}`}>
+        {children}
+      </div>
+    </div>
+  )
+}
 
 export default function Header() {
   const [isSignedIn] = useState(localStorage.getItem('isSignedIn') || '');
@@ -34,6 +56,7 @@ export default function Header() {
   if (currentUrl === "/") {
     isHomePage = true
   }
+
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -53,125 +76,120 @@ export default function Header() {
   }
 
   return <>
-    <Head />
-
     {isHomePage && <HomePageBanner />}
 
-    <header id="header" className="header" data-scrollto-offset="0">
-      <div className='row'>
-        <div className="container-fluid d-flex align-items-center justify-content-between">
-          <Link to="/" className=" d-flex align-items-center scrollto me-auto me-lg-0">
-            <img className='logo' src="/assets/images/logo-jp.png"
-              alt="logo" />
-          </Link>
+    <header className='bg-white flex items-center py-4 justify-between px-2  gap-2'>
 
-          <div className="d-flex" style={{ "width": "100%" }}>
-            <nav id="navbar" style={{ "width": "100%" }} className="navbar d-flex ">
-              <ul>
+      <Link to="/">
+        <img className='h-14' src="/assets/images/logo-jp.png" alt="logo" />
+      </Link>
 
-                <li><Link className="nav-link scrollto mx-3" to="/">Home</Link></li>
+      <NavItem title="Jobs" path="/jobs" />
 
-                <li><Link className="nav-link scrollto mx-3" to="/jobs">Jobs</Link></li>
-
-                <li className="dropdown">
-                  <Link to="#" className="menu-item first-item expand-btn">Info</Link>
-                  <ul className="dropdown-menu sample bg-white">
-                    <li><Link to="/about-wh-visa">About WH visa</Link></li>
-                    <li><Link to="/banking">Banking</Link></li>
-                    <li><Link to="/tax">Tax</Link></li>
-                    <li><Link to="/types-of-work">Types of work</Link></li>
-                    <li><Link to="/useful-links">Useful Links</Link></li>
-                    <li><Link to="/news">News</Link></li>
-                    <li className="dropdown dropdown-right">
-                      <Link to="#" className="menu-item expand-btn">
-                        Travel
-                      </Link>
-                      <ul className="menu-right  menu-left sample bg-white">
-                        <li><Link to="/transport">Transport</Link></li>
-                        <li><Link to="/accommodation">Accommodation</Link></li>
-                        <li><Link to="/places">Places</Link></li>
-                        <li><Link to="/holiday-parks">Holiday Parks</Link></li>
-                        <li><Link to="/freedom-campaining">Freedom Campaining</Link></li>
-                        <li><Link to="/activities">Activities</Link></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-                <li><Link className="nav-link scrollto mx-3" to="/contact-us">Contact Us</Link></li>
-              </ul>
-              {/* {!showSideBar && <i onClick={() => { setShowSideBar(true) }} className="bi bi-list mobile-nav-toggle d-none"></i>} */}
-
-              <div style={{ width: "300px" }} className='d-flex justify-content-end' >
-                <input
-                  type='text'
-                  value={searchCity}
-                  onChange={(e) => { setSearchCity(e.target.value) }}
-                  className={`shadow px-2 search-city-input ${isExpanded ? "expanded-searchbar" : "hidden-searchbar"}`}
-                  required />
-                <Tooltip tooltipText={"Search cities to view there activities"}>
-                  <button
-                    type='button'
-                    onClick={handleSearchButton}
-                    className='btn btn-light '
-                  >
-                    <FaMagnifyingGlass />
-                  </button>
-                </Tooltip>
-              </div>
-              <div className=' col-auto d-flex me-4'>
-                {!isSignedIn && <> <button type='button' onClick={() => handleShow()} className="btn btn-primary me-3 py-0" ><Link to="#" >
-                  Login
-                </Link></button>
-                </>}
-                {isSignedIn && <>
-                  <span className=' d-flex align-items-center fw-bold'> {fullname}</span>
-                  <ul className='list-unstyled'>
-                    <li className="dropdown dropdown-right">
-                      <Link to="#" className="menu-item first-item expand-btn"><CgProfile size={"40px"} /></Link>
-                      <ul className="dropdown-menu menu-left  sample bg-white">
-                        {role === "user" && <li><Link to={"/viewprofile"}>My Profile</Link></li>}
-                        {role === 'employer' &&
-                          <li className='px-4 pb-2'>
-                            <button type='button' onClick={() => { navigate("/company") }} className="btn btn-secondary w-100" >
-                              Dashboard
-                            </button>
-                          </li>}
-                        {role === 'admin' &&
-                          <li className='px-4 pb-2'>
-                            <button type='button' onClick={() => { navigate("/admin") }} className="btn btn-secondary w-100" >
-                              Dashboard
-                            </button>
-                          </li>
-                        }
-                        {role === Roles.Recruiter &&
-                          <li className='px-4 pb-2'>
-                            <button type='button' onClick={() => navigate(recruiterUrl.home)} className="btn btn-secondary w-100" >
-                              Dashboard
-                            </button>
-                          </li>
-                        }
-                        <li className='px-4 pb-1'>
-                          <button type='button' onClick={() => handleLogout()} className="btn btn-primary w-100" >
-                            Logout
-                          </button>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </>
-                }
-              </div>
-            </nav>
-            {!showSideBar && <BsList onClick={() => { setShowSideBar(true) }} className='d-flex d-xl-none position-absolute end-0 mx-2' fontSize={25} />}
-          </div>
+      <NavDropdownItem title="Places">
+        <div className='grid grid-cols-2 gap-3  text-sm w-80 p-3'>
+          {places.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
         </div>
-      </div>
+      </NavDropdownItem>
+
+      <NavDropdownItem title="Regions">
+        <div className='grid grid-cols-2 gap-3  text-sm w-80 p-3'>
+          {regions.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+        </div>
+      </NavDropdownItem>
+
+      <NavDropdownItem title="Activities">
+        <div className='grid grid-cols-4 gap-3 text-sm w-[600px] p-3'>
+          {activities.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+        </div>
+      </NavDropdownItem>
+
+      <NavDropdownItem title="Travel">
+        <div className=' flex flex-col gap-3 text-sm w-60 p-3'>
+          {travels.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+        </div>
+      </NavDropdownItem>
+
+      <NavDropdownItem title="Stay">
+        <div className=' flex flex-col gap-3 text-sm w-60 p-3'>
+          {stay.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+        </div>
+      </NavDropdownItem>
+
+      <NavDropdownItem title="Events">
+        <div className=' flex flex-col gap-3 text-sm w-60 p-3'>
+          {events.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+        </div>
+      </NavDropdownItem>
+
+      <NavDropdownItem title="Shopping">
+        <div className=' flex flex-col gap-3 text-sm w-60 p-3'>
+          {shopping.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+        </div>
+      </NavDropdownItem>
+
+      <NavDropdownItem title="Entertainment">
+        <div className=' flex flex-col gap-3 text-sm w-60 p-3'>
+          {entertainment.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+        </div>
+      </NavDropdownItem>
+
+      <NavDropdownItem title="Services">
+        <div className=' flex flex-col gap-3 text-sm w-60 p-3'>
+          {services.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+        </div>
+      </NavDropdownItem>
+
+      <NavDropdownItem title="B2B" rightAlign >
+        <div className=' grid grid-cols-4 gap-3 text-sm w-[600px] p-3'>
+          {b2B.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+        </div>
+      </NavDropdownItem>
+
+      {!isSignedIn ?
+        <button type='button' onClick={() => handleShow()} className="bg-blue-500 active:bg-blue-600 text-white  py-2 px-4 rounded" >
+          Login
+        </button> :
+
+        <NavDropdownItem title={<CgProfile size={"40px"} />} rightAlign >
+          <div className='w-36 flex flex-col p-2 gap-2'>
+            {role === "user" && <Link className='btn btn-secondary' to={"/viewprofile"}>My Profile</Link>}
+
+            {role === 'employer' &&
+              <button type='button' onClick={() => { navigate("/company") }} className="btn btn-secondary" >
+                Dashboard
+              </button>
+            }
+
+            {role === 'admin' &&
+              <button type='button' onClick={() => { navigate("/admin") }} className="btn btn-secondary w-100" >
+                Dashboard
+              </button>
+            }
+
+            {role === Roles.Recruiter &&
+              <button type='button' onClick={() => navigate(recruiterUrl.home)} className="btn btn-secondary w-100" >
+                Dashboard
+              </button>
+            }
+
+            <button type='button' onClick={() => handleLogout()} className="bg-blue-500 active:bg-blue-600 text-white  py-2 px-4 rounded" >
+              Logout
+            </button>
+          </div>
+        </NavDropdownItem>
+      }
+
+      <button type='button' onClick={() => setShowSideBar(!showSideBar)} className=" lg:hidden block" >
+        <RxHamburgerMenu />
+      </button>
+
     </header>
 
     <Offcanvas show={showSideBar} onHide={() => { setShowSideBar(false) }} className="responsive-font">
       <Offcanvas.Header closeButton>
         <Offcanvas.Title>
-          <Link to="/" className="logo d-flex align-items-center scrollto me-auto me-lg-0">
+          <Link to="/" className="h-32">
             <img src="/assets/images/logo-jp.png" className='logo'
               alt="logo" />
           </Link>
