@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './Footer.css';
+import { Link } from 'react-router-dom';
 
 function Footer() {
 
@@ -12,7 +13,7 @@ function Footer() {
   }, [])
 
   return <>
-    <footer id="footer" className="footer" style={{ 'padding': '0px' }}>
+    <footer id="footer" className="footer">
 
       <div className="footer-content">
         <div className="container">
@@ -34,32 +35,32 @@ function Footer() {
 
             <div className="col-lg-2 col-md-6 footer-links">
               <h4>Useful Links</h4>
-              <ul>
-                <li><i className="bi bi-chevron-right"></i> <a href="/">Home</a></li>
-                <li><i className="bi bi-chevron-right"></i> <a href="/aboutus">About us</a></li>
-                <li><i className="bi bi-chevron-right"></i> <a href="/services">Services</a></li>
-                <li><i className="bi bi-chevron-right"></i> <a href="/termsofservice">Terms of service</a></li>
-                <li><i className="bi bi-chevron-right"></i> <a href="/privacypolicy">Privacy policy</a></li>
+              <ul className='list-unstyled no-underline text-black'>
+                <li> <Link to="/">Home</Link></li>
+                <li> <Link to="/aboutus">About us</Link></li>
+                <li> <Link to="/services">Services</Link></li>
+                <li> <Link to="/termsofservice">Terms of service</Link></li>
+                <li> <Link to="/privacypolicy">Privacy policy</Link></li>
               </ul>
             </div>
 
             <div className="col-lg-3 col-md-6 footer-links">
               <h4>Our Services</h4>
-              <ul>
-                <li><i className="bi bi-chevron-right"></i> <a href="/web-design">Web Design</a></li>
-                <li><i className="bi bi-chevron-right"></i> <a href="/web-development">Web Development</a></li>
-                <li><i className="bi bi-chevron-right"></i> <a href="/product-management">Product Management</a></li>
-                <li><i className="bi bi-chevron-right"></i> <a href="/marketing">Marketing</a></li>
-                <li><i className="bi bi-chevron-right"></i> <a href="/graphic-design">Graphic Design</a></li>
+              <ul className='list-unstyled'>
+                <li><Link to="/web-design">Web Design</Link></li>
+                <li> <Link to="/web-development">Web Development</Link></li>
+                <li> <Link to="/product-management">Product Management</Link></li>
+                <li> <Link to="/marketing">Marketing</Link></li>
+                <li> <Link to="/graphic-design">Graphic Design</Link></li>
               </ul>
             </div>
 
             <div className="col-lg-4 col-md-6 footer-newsletter">
               <h4>Our Newsletter</h4>
               <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
-              <form action="" method="post">
-                <input type="email" name="email" />
-                <input type="submit" value="Subscribe" />
+              <form className='flex gap-2'>
+                <input type="email" name="email" className='form-control' />
+                <input type="button" value="Subscribe" className='btn' />
               </form>
 
 
@@ -80,16 +81,16 @@ function Footer() {
             </div>
             <div className="credits">
 
-              Designed by <a href="https://sparkgenieit.com/">Spark Genie IT Solutions</a>
+              Designed by <Link to="https://sparkgenieit.com/">Spark Genie IT Solutions</Link>
             </div>
           </div>
 
           <div className="social-links order-first order-lg-last mb-3 mb-lg-0">
-            <a href="#" className="twitter"><i className="bi bi-twitter"></i></a>
-            <a href="#" className="facebook"><i className="bi bi-facebook"></i></a>
-            <a href="#" className="instagram"><i className="bi bi-instagram"></i></a>
-            <a href="#" className="google-plus"><i className="bi bi-skype"></i></a>
-            <a href="#" className="linkedin"><i className="bi bi-linkedin"></i></a>
+            <Link to="#" className="twitter"><i className="bi bi-twitter"></i></Link>
+            <Link to="#" className="facebook"><i className="bi bi-facebook"></i></Link>
+            <Link to="#" className="instagram"><i className="bi bi-instagram"></i></Link>
+            <Link to="#" className="google-plus"><i className="bi bi-skype"></i></Link>
+            <Link to="#" className="linkedin"><i className="bi bi-linkedin"></i></Link>
           </div>
 
         </div>
@@ -98,8 +99,8 @@ function Footer() {
     </footer>
 
 
-    <a href="#" className="scroll-top d-flex align-items-center justify-content-center"><i
-      className="bi bi-arrow-up-short"></i></a>
+    <Link to="#" className="scroll-top d-flex align-items-center justify-content-center"><i
+      className="bi bi-arrow-up-short"></i></Link>
 
     {loader && <div id="preloader"></div>}
 

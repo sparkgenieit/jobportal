@@ -17,15 +17,11 @@ import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 import { Roles } from '../../services/common/Roles.service';
 import { recruiterUrl } from '../../services/common/urls/recruiterUrls.service';
 import HomePageBanner from '../../pages/common/Ads/HomePageBanner';
-import Tooltip from '../../components/Tooltip';
-import { activities, b2B, entertainment, events, places, regions, services, shopping, stay, travels } from './navbarItems';
-
-
-
+import { activities, b2B, entertainment, events, info, places, regions, services, shopping, stay, travels } from './navbarItems';
 
 const NavItem = ({ title, path }) => {
   return (
-    <Link to={path} className="no-underline lg:block hidden text-black">{title}</Link>
+    <Link to={path} className="no-underline hover:underline lg:block hidden  text-black">{title}</Link>
   )
 }
 
@@ -34,7 +30,7 @@ const NavDropdownItem = ({ title, rightAlign, children }) => {
   return (
     <div className="group lg:block hidden text-black relative">
       {title}
-      <div className={`scale-0 rounded-md z-50 absolute bg-white group-hover:scale-100 transition-all duration-300  ${rightAlign ? ' right-0' : ''}`}>
+      <div className={`scale-0 rounded-md z-50 absolute bg-white group-hover:scale-100 transition-all duration-300  ${rightAlign ? ' -right-1' : ''}`}>
         {children}
       </div>
     </div>
@@ -99,7 +95,7 @@ export default function Header() {
       </NavDropdownItem>
 
       <NavDropdownItem title="Activities">
-        <div className='grid grid-cols-4 gap-3 text-sm w-[600px] p-3'>
+        <div className='grid grid-cols-5 gap-3 text-sm w-[800px] p-3'>
           {activities.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
         </div>
       </NavDropdownItem>
@@ -141,8 +137,19 @@ export default function Header() {
       </NavDropdownItem>
 
       <NavDropdownItem title="B2B" rightAlign >
-        <div className=' grid grid-cols-4 gap-3 text-sm w-[600px] p-3'>
-          {b2B.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+        <div className=' grid grid-cols-6 gap-3 text-sm w-[950px] p-3'>
+          {b2B.map(item => (
+            <div key={item.heading} className='text-[13px]'>
+              <div className='font-bold py-1 text-nowrap '>{item.heading}</div>
+              {item.links.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+            </div>
+          ))}
+        </div>
+      </NavDropdownItem>
+
+      <NavDropdownItem title="Info" rightAlign >
+        <div className=' flex flex-col gap-3 text-sm w-60 p-3'>
+          {info.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
         </div>
       </NavDropdownItem>
 
@@ -152,7 +159,7 @@ export default function Header() {
         </button> :
 
         <NavDropdownItem title={<CgProfile size={"40px"} />} rightAlign >
-          <div className='w-36 flex flex-col p-2 gap-2'>
+          <div className='w-36 flex flex-col p-2 mt-3 gap-2'>
             {role === "user" && <Link className='btn btn-secondary' to={"/viewprofile"}>My Profile</Link>}
 
             {role === 'employer' &&
@@ -184,7 +191,7 @@ export default function Header() {
         <RxHamburgerMenu />
       </button>
 
-    </header>
+    </header >
 
     <Offcanvas show={showSideBar} onHide={() => { setShowSideBar(false) }} className="responsive-font">
       <Offcanvas.Header closeButton>

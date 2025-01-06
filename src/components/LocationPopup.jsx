@@ -17,10 +17,10 @@ export default function LocationPopup() {
         <Modal size="xl" show={locationPopup.show} onHide={handleClose} centered>
             <Modal.Body>
                 <div>
-                    <div className='d-flex justify-content-between my-3'>
+                    <div className='d-flex justify-content-between '>
                         <h2>{locationPopup.city}</h2>
-                        <a type="button" onClick={handleClose}>
-                            <span className='border border-dark rounded p-2'><RxCross1 size={"18px"} /></span>
+                        <a type="button" className='p-2' onClick={handleClose}>
+                            <RxCross1 size={"18px"} />
                         </a>
                     </div>
                     <div style={{ overflowX: "auto" }} className='d-flex gap-2 justify-content-between my-3'>

@@ -71,7 +71,7 @@ function Home() {
                                 label={"value"}
                                 suggestionValue={"value"}
                                 type="text"
-                                className={`transparent focus:border-2 border-white w-100  p-1 rounded text-white ${searchButton}`}
+                                className={`transparent border  border-white w-100  p-2 rounded text-white ${searchButton}`}
                                 value={searchBox.jobTitle}
                                 placeholder="Job Title"
                                 name='jobTitle'
@@ -90,7 +90,7 @@ function Home() {
                                 label={"value"}
                                 suggestionValue={"value"}
                                 type="text"
-                                className={`transparent w-100 focus:border-2 border-white p-1 rounded text-white ${searchButton}`}
+                                className={`transparent w-100   border border-white p-2 rounded text-white ${searchButton}`}
                                 value={searchBox.location}
                                 placeholder="Location"
                                 name='location'

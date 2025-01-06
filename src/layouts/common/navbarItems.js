@@ -86,55 +86,102 @@ export const services = [
     { title: "Banking", path: "#" }
 ]
 
+
+
 export const b2B = [
-    { title: "Booking Systems", path: "#" },
-    { title: "Property Management Software", path: "#" },
-    { title: "Group Booking Services", path: "#" },
-    { title: "Rental Property Management", path: "#" },
-    { title: "Charter Vehicles", path: "#" },
-    { title: "Rental Cars", path: "#" },
-    { title: "Tour Buses", path: "#" },
-    { title: "Airport Transfers", path: "#" },
-    { title: "Vehicle Fleet Management", path: "#" },
-    { title: "CRM Software", path: "#" },
-    { title: "Booking Platforms", path: "#" },
-    { title: "AR/VR Tools", path: "#" },
-    { title: "IT Support", path: "#" },
-    { title: "Software Development", path: "#" },
-    { title: "Promotional Materials", path: "#" },
-    { title: "Digital Ads", path: "#" },
-    { title: "Destination Marketing", path: "#" },
-    { title: "SEO and Content Creation", path: "#" },
-    { title: "Hotel Linens", path: "#" },
-    { title: "Toiletries", path: "#" },
-    { title: "Cleaning Products", path: "#" },
-    { title: "Maintenance Services", path: "#" },
-    { title: "Catering for Large Groups", path: "#" },
-    { title: "Maps", path: "#" },
-    { title: "Audio Guide Devices", path: "#" },
-    { title: "Guided Tours", path: "#" },
-    { title: "Activity Coordination", path: "#" },
-    { title: "Travel Insurance Packages", path: "#" },
-    { title: "Foreign Exchange Tools", path: "#" },
-    { title: "Insurance Processing", path: "#" },
-    { title: "Financial Consultancy", path: "#" },
-    { title: "E-learning Modules", path: "#" },
-    { title: "Language Training Kits", path: "#" },
-    { title: "Staff Training Programs", path: "#" },
-    { title: "Certification Courses", path: "#" },
-    { title: "Event Props", path: "#" },
-    { title: "Audiovisual Equipment", path: "#" },
-    { title: "Venue Coordination", path: "#" },
-    { title: "Event Management", path: "#" },
-    { title: "Regulatory Guides", path: "#" },
-    { title: "Visa Document Templates", path: "#" },
-    { title: "Compliance Consultancy", path: "#" },
-    { title: "Visa Processing", path: "#" },
-    { title: "Travel Brochures", path: "#" },
-    { title: "Professional Cameras", path: "#" },
-    { title: "Photography", path: "#" },
-    { title: "Videography", path: "#" },
-    { title: "Content Creation", path: "#" }
+    {
+        heading: "Accommodation", links: [
+            { title: "Booking Systems", path: "#" },
+            { title: "Property Management Software", path: "#" },
+            { title: "Group Booking Services", path: "#" },
+            { title: "Rental Property Management", path: "#" },
+            { title: "Booking Systems", path: "#" }
+        ]
+    },
+    {
+        heading: "Transportation", links: [
+            { title: "Charter Vehicles", path: "#" },
+            { title: "Rental Cars", path: "#" },
+            { title: "Tour Buses", path: "#" },
+            { title: "Airport Transfers", path: "#" },
+            { title: "Vehicle Fleet Management", path: "#" }
+        ]
+    },
+    {
+        heading: "Technology", links: [
+            { title: "CRM Software", path: "#" },
+            { title: "Booking Platforms", path: "#" },
+            { title: "AR/VR Tools", path: "#" },
+            { title: "IT Support", path: "#" },
+            { title: "Software Development for Travel Solutions", path: "#" }
+        ]
+    },
+    {
+        heading: "Marketing", links: [
+            { title: "Promotional Materials", path: "#" },
+            { title: "Digital Ads", path: "#" },
+            { title: "Destination Marketing", path: "#" },
+            { title: "SEO and Content Creation", path: "#" }
+        ]
+    },
+    {
+        heading: "Hospitality Supplies", links: [
+            { title: "Hotel Linens", path: "#" },
+            { title: "Toiletries", path: "#" },
+            { title: "Cleaning Products", path: "#" },
+            { title: "Maintenance Services", path: "#" },
+            { title: "Catering for Large Groups", path: "#" }
+        ]
+    },
+    {
+        heading: "Guiding and Activities", links: [
+            { title: "Maps", path: "#" },
+            { title: "Audio Guide Devices", path: "#" },
+            { title: "Guided Tours", path: "#" },
+            { title: "Activity Coordination", path: "#" }
+        ]
+    },
+    {
+        heading: "Financial Services", links: [
+            { title: "Travel Insurance Packages", path: "#" },
+            { title: "Foreign Exchange Tools", path: "#" },
+            { title: "Insurance Processing", path: "#" },
+            { title: "Financial Consultancy", path: "#" }
+        ]
+    },
+    {
+        heading: "Education and Training", links: [
+            { title: "E-learning Modules", path: "#" },
+            { title: "Language Training Kits", path: "#" },
+            { title: "Staff Training Programs", path: "#" },
+            { title: "Certification Courses", path: "#" }
+        ]
+    },
+    {
+        heading: "Event Planning", links: [
+            { title: "Event Props", path: "#" },
+            { title: "Audiovisual Equipment", path: "#" },
+            { title: "Venue Coordination", path: "#" },
+            { title: "Event Management", path: "#" }
+        ]
+    },
+    {
+        heading: "Legal and Compliance", links: [
+            { title: "Regulatory Guides", path: "#" },
+            { title: "Visa Document Templates", path: "#" },
+            { title: "Compliance Consultancy", path: "#" },
+            { title: "Visa Processing", path: "#" }
+        ]
+    },
+    {
+        heading: "Media Production", links: [
+            { title: "Travel Brochures", path: "#" },
+            { title: "Professional Cameras", path: "#" },
+            { title: "Photography", path: "#" },
+            { title: "Videography", path: "#" },
+            { title: "Content Creation", path: "#" }
+        ]
+    }
 ]
 
 export const info = [
