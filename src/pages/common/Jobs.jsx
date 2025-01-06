@@ -141,13 +141,13 @@ function Jobs() {
                 </div>
             </div>
             <div className='row'>
-                <section className={`${showFilter ? "" : "filter-hide"} col-12  col-lg-3 w-full d-lg-flex p-0 justify-content-end responsive-font`}>
+                <section className={`${showFilter ? "" : "filter-hide"} col-12  col-lg-3  d-lg-flex p-0 justify-content-end responsive-font`}>
                     <Filter filterFields={filterFields} setFilterFields={setFilterFields} setRefresh={setRefresh} />
                 </section>
 
                 <section className="col-12 col-lg-9 row container-fluid scrollbar  hide-scrollbar ">
 
-                    <div className="col-12 col-lg-8 w-full p-0">
+                    <div className="col-12 col-lg-8  p-0">
                         <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} itemsPerPage={itemsPerPage} totalCount={totalItems} fetchItems={fetchJobs} pageNumberToShow={2}>
 
                             <div className="mb-3">
