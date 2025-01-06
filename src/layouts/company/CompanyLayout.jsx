@@ -27,6 +27,7 @@ import { companyUrls } from '../../services/common/urls/companyUrls.service';
 import EditJob from '../../pages/company/jobs/EditJob';
 import PostAd from '../../pages/company/Ads/PostAd';
 import SelectAdType from '../../pages/company/Ads/SelectAdType';
+import PageDeciderBasedOnType from '../../pages/company/Ads/PageDeciderBasedOnType';
 
 export default function CompanyLayout() {
     const dispatch = useDispatch()
@@ -58,7 +59,7 @@ export default function CompanyLayout() {
                         <Route path={companyUrls.recruiters} element={<RecruiterList />} />
                         <Route path={companyUrls.ads} element={<AdsList />} />
                         <Route path={companyUrls.selectAdType} element={<SelectAdType />} />
-                        <Route path={companyUrls.postAd} element={<PostAd />} />
+                        <Route path={companyUrls.postAd} element={<PageDeciderBasedOnType />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </div>

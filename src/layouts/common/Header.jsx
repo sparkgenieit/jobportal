@@ -21,7 +21,7 @@ import { activities, b2B, entertainment, events, info, places, regions, services
 
 const NavItem = ({ title, path }) => {
   return (
-    <Link to={path} className="no-underline hover:underline lg:block hidden  text-black">{title}</Link>
+    <Link to={path} className="no-underline  hover:text-blue-700 hover:underline transition-none text-gray-900   lg:block hidden ">{title}</Link>
   )
 }
 
@@ -29,7 +29,7 @@ const NavItem = ({ title, path }) => {
 const NavDropdownItem = ({ title, rightAlign, children }) => {
   return (
     <div className="group lg:block hidden text-black relative">
-      {title}
+      <span className='group-hover:text-blue-700 cursor-pointer '>{title}</span>
       <div className={`scale-0 rounded-md z-50 absolute bg-white group-hover:scale-100 transition-all duration-300  ${rightAlign ? ' -right-1' : ''}`}>
         {children}
       </div>
@@ -95,7 +95,7 @@ export default function Header() {
       </NavDropdownItem>
 
       <NavDropdownItem title="Activities">
-        <div className='grid grid-cols-5 gap-3 text-sm w-[800px] p-3'>
+        <div className='grid grid-cols-5 gap-y-3 gap-x-[20px]  text-sm w-[800px] p-3'>
           {activities.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
         </div>
       </NavDropdownItem>
@@ -137,7 +137,7 @@ export default function Header() {
       </NavDropdownItem>
 
       <NavDropdownItem title="B2B" rightAlign >
-        <div className=' grid grid-cols-6 gap-3 text-sm w-[950px] p-3'>
+        <div className=' grid grid-cols-6 gap-y-3 gap-x-[20px] text-sm w-[950px] p-3'>
           {b2B.map(item => (
             <div key={item.heading} className='text-[13px]'>
               <div className='font-bold py-1 text-nowrap '>{item.heading}</div>

@@ -39,6 +39,10 @@ class CompanyUrls {
     getInboxDetailsUrl(id) {
         return `/company/inbox/details/${id}`
     }
+
+    goTopostAd(type) {
+        return `/company/ads/post/${type}`
+    }
 }
 
 export const companyUrls = new CompanyUrls()

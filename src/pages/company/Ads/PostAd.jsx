@@ -8,8 +8,9 @@ import { useParams } from "react-router-dom";
 
 function PostAd() {
     const user = useCurrentUser()
-    const adForm = { ...initialAdFormValues, posted_by: user._id, company_id: user._id }
     const { type } = useParams()
+
+    const adForm = { ...initialAdFormValues, ad_type: type }
 
     const message = useShowMessage()
 
@@ -18,6 +19,10 @@ function PostAd() {
     }, [])
 
     const postAd = async (data) => {
+
+        // As this is posted by company both the posted_by and company_id will be same
+        data.posted_by = user._id
+        data.company_id = user._id
 
         const { error } = await tryCatch(() => adService.postAd(data))
 
@@ -43,7 +48,6 @@ function PostAd() {
                     <h3 className="fs-4 text-center fw-bold">Post an Ad</h3>
                     <AdsForm initialValues={adForm} onFormValid={postAd} />
                 </div>
-
             </div>
         </>
     )

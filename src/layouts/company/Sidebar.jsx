@@ -190,7 +190,7 @@ function Sidebar() {
                       </div>
                     </li>
 
-                    <li role='button' onClick={() => handleNavigation(companyUrls.postAd)}>
+                    <li role='button' onClick={() => handleNavigation(companyUrls.selectAdType)}>
                       <span className='d-flex justify-content-between w-100'>
                         <span>Post an Ad</span>
                         <span>

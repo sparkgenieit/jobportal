@@ -58,19 +58,6 @@ const AdsForm = ({ initialValues, onFormValid }) => {
                     </div>
                 </div>
             </div>
-            <div className="row">
-                <div className="col-md-7">
-                    <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">Ad Type<span className="text-danger">*</span></label>
-                        <div className="col-sm-9">
-                            <select className="form-select" name="ad_type" value={adForm?.ad_type} onChange={handleForm}>
-                                <option value="short">Short (min 600 pixels width)</option>
-                                <option value="long">Long (min 600 pixels height)</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <div className="row">
                 <div className="col-md-7">
