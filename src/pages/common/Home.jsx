@@ -51,8 +51,8 @@ function Home() {
         }
     }
 
-    return <>
-        <main className='m-0  p-0 responsive-font mb-4' >
+    return (
+        <main className='m-0  p-0 text-sm md:text-base mb-4' >
             <div className="banner flex justify-center  flex-col gap-2 ">
                 <div className='flex flex-col  items-center justify-center font-bold text-xl '>
                     <span>Kia ora!</span>
@@ -108,40 +108,36 @@ function Home() {
                 </form>
             </div>
 
-            <div className="container-xxl  text-center py-3 px-0">
-                <div className='row mb-3'>
-                    <div className='col-lg-3'>
-                        <Ads />
-                    </div>
-                    <div className='col-lg-6'>
+            <div className="2xl:container 2xl:mx-auto text-center py-3">
+                <div className='grid  grid-cols-1 lg:grid-cols-4 mb-3 gap-3'>
+
+                    <Ads />
+
+                    <div className='lg:col-span-2'>
                         <NZMap />
                     </div>
-                    <div className='col-lg-3'>
-                        <Ads />
-                    </div>
-                </div>
-                <div className='row'>
-                    <section className='col-lg-3'>
-                        <Ads />
-                    </section>
-                    <section className=' d-flex flex-column gap-5 col-lg-6'>
-                        <div className='d-flex flex-column'>
+
+                    <Ads />
+
+                    <Ads />
+
+                    <section className='flex flex-col gap-5 lg:col-span-2'>
+                        <div className='flex flex-col'>
                             <iframe className='rounded youtube-video' src="https://www.youtube.com/embed/7r-If5smQ_s?si=zd0NUcT7rsEV7a4k" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen>
                             </iframe>
-                            <div className='fw-bold'>Experience New Zealand with a Working Holiday Visa</div>
+                            <div className='font-bold'>Experience New Zealand with a Working Holiday Visa</div>
                         </div>
-                        <div className='d-flex flex-column'>
+                        <div className='flex flex-col'>
                             <iframe className='rounded youtube-video' src="https://www.youtube.com/embed/P98SjgerM8g?si=x36wJ4kJRg86288m" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
-                            <div className='fw-bold'>Life in New Zealand on a Working Holiday Visa</div>
+                            <div className='font-bold'>Life in New Zealand on a Working Holiday Visa</div>
                         </div>
                     </section>
-                    <section className='col-lg-3'>
-                        <Ads />
-                    </section>
+
+                    <Ads />
                 </div>
             </div>
         </main >
-    </>
+    )
 }
 
 export default Home;
