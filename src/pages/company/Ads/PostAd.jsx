@@ -42,14 +42,12 @@ function PostAd() {
     }
 
     return (
-        <>
-            <div className="container-md pt-4 ">
-                <div className="bg-white">
-                    <h3 className="fs-4 text-center fw-bold">Post an Ad</h3>
-                    <AdsForm initialValues={adForm} onFormValid={postAd} />
-                </div>
+        <div className="container-md pt-4 ">
+            <div className="bg-white">
+                <h3 className="fs-4 text-center fw-bold">Post an Ad</h3>
+                <AdsForm initialValues={adForm} onFormValid={postAd} />
             </div>
-        </>
+        </div>
     )
 }
 export default PostAd;

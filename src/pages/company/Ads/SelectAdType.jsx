@@ -21,7 +21,7 @@ export default function SelectAdType() {
     return (
         <div className="mt-4 lg:mx-auto flex flex-col gap-3">
             <h3 className="font-bold text-2xl text-center">Select Ad type</h3>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-y-12 gap-x-3">
                 {adTypes.map((type, index) => <AdType key={index} type={type} navigate={navigate} />)}
             </div>
         </div>

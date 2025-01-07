@@ -16,10 +16,10 @@ function Ads({ type = "long" }) {
   }
 
   return (
-    <a href={ad?.redirect_url} target='blank' className={`bg-light rounded-3 p-2  d-flex ${type === "short" ? "flex-row " : "flex-column "} gap-3 ad-container`}>
+    <a href={ad?.redirect_url} target='blank' className={`bg-light rounded-3 p-2  d-flex ${type === "short" ? "flex-row " : "flex-column "} gap-3 ad-container no-underline`}>
       <img className={`rounded-3   ${type === "short" ? "short-ad" : " long-ad"}`} src={ad?.ad_image_url} alt="Advertisement" />
       <div className="d-flex small flex-column px-3 gap-1">
-        {ad && ad.title && <div className='fw-bold'>{ad.title}</div>}
+        {ad && ad.title && <div className='font-bold text-black '>{ad.title}</div>}
         {ad && ad.description && <div>{ad.description}</div>}
       </div>
     </a >

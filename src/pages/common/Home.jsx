@@ -45,22 +45,22 @@ function Home() {
     const handleSearch = () => {
         // checking if the user has enter any one of the fields and trim is used because the user can enter a space and the condition will satisfy
         if (searchBox.location.trim() === "" && searchBox.jobTitle.trim() === "") {
-            setSearchButton("border border-2 border-danger")
+            setSearchButton("border border-2")
         } else {
             navigate(`/jobs?location=${searchBox.location}&keyword=${searchBox.jobTitle}`)
         }
     }
 
     return <>
-        <main className='container-fluid m-0  p-0 responsive-font mb-4' >
-            <div className="banner d-flex justify-content-center  flex-column gap-2 ">
-                <div className='d-flex flex-column  align-items-center justify-content-center fw-bold fs-4 '>
+        <main className='m-0  p-0 responsive-font mb-4' >
+            <div className="banner flex justify-center  flex-col gap-2 ">
+                <div className='flex flex-col  items-center justify-center font-bold text-xl '>
                     <span>Kia ora!</span>
                     <span>Welcome to New Zealand</span>
                 </div>
-                <form autoComplete='off' className='d-flex flex-md-row flex-column gap-3 search-bar'>
-                    <div className='d-flex  flex-grow-1  gap-2'>
-                        <div className='flex-grow-1'>
+                <form autoComplete='off' className='flex md:flex-row flex-col gap-3 search-bar'>
+                    <div className='flex grow gap-2'>
+                        <div className='grow'>
                             <ComboBox
                                 suggestions={jobSuggestions}
                                 setSuggestions={setJobSuggestions}
@@ -71,7 +71,7 @@ function Home() {
                                 label={"value"}
                                 suggestionValue={"value"}
                                 type="text"
-                                className={`transparent border  border-white w-100  p-2 rounded text-white ${searchButton}`}
+                                className={`bg-transparent border  border-white placeholder:text-white w-full p-2 rounded text-white ${searchButton}`}
                                 value={searchBox.jobTitle}
                                 placeholder="Job Title"
                                 name='jobTitle'
@@ -79,7 +79,7 @@ function Home() {
                             />
                         </div>
 
-                        <div className='flex-grow-1'>
+                        <div className='grow'>
                             <ComboBox
                                 suggestions={locationSuggestions}
                                 setSuggestions={setLocationSuggestions}
@@ -90,7 +90,7 @@ function Home() {
                                 label={"value"}
                                 suggestionValue={"value"}
                                 type="text"
-                                className={`transparent w-100   border border-white p-2 rounded text-white ${searchButton}`}
+                                className={`bg-transparent  w-full border placeholder:text-white border-white p-2 rounded text-white ${searchButton}`}
                                 value={searchBox.location}
                                 placeholder="Location"
                                 name='location'
@@ -99,18 +99,16 @@ function Home() {
                         </div>
 
 
-                        <button type="button" onClick={handleSearch} className='transparent focus:scale-110 hover:scale-110 btn text-white'>
+                        <button type="button" onClick={handleSearch} className='bg-transparent p-2 focus:scale-110 hover:scale-110 text-white'>
                             <IoSearch size="24px" />
                         </button>
-
-
                     </div>
 
-                    <Link type="button" to="/jobs" className="transparent hover btn border border-white text-white" >View All Jobs</Link>
+                    <Link type="button" to="/jobs" className="bg-transparent flex items-center justify-center p-2  no-underline rounded border border-white text-white" >View All Jobs</Link>
                 </form>
             </div>
 
-            <div className="container-xxl text-center py-3 px-0">
+            <div className="container-xxl  text-center py-3 px-0">
                 <div className='row mb-3'>
                     <div className='col-lg-3'>
                         <Ads />
