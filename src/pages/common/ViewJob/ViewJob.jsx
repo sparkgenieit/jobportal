@@ -209,258 +209,276 @@ export default function ViewJob() {
         e.stopPropagation();
     }
 
-    return (
+
+    if (loading) {
+        return <Loader />
+    }
+
+    if (!loading && jobview && jobview.status !== "approved") {
+        // When the job is not approved
+        return <div className="h-screen font-bold flex justify-center items-center">Job Not Found</div>
+    }
+
+    if (jobview && jobview.status === "approved") return (  // Requested job is approved
         <>
-            {loading && <Loader />}
-            {!loading && jobview && jobview.status === "approved" &&
-                <div className='m-0 p-0 row mt-3'>
-                    <div className={`col-md-9 job-details-box`}>
-                        <div className='mb-3 mx-4'>
-                            {jobview.banner && <img style={{ width: "100%", height: "40vh" }} className="rounded border border-secondary" src={`${BASE_API_URL}/uploads/banners/${jobview.banner}`} alt={jobview.company} />}
+            <div className='m-0 p-0 grid md:grid-cols-3  mt-3'>
+                <div className={`md:col-span-2 job-details-box`}>
+
+                    {/* Banner */}
+                    <div className='mb-3 mx-4'>
+                        {jobview.banner && <img className="rounded border border-slate-200 w-full h-[40vh]" src={`${BASE_API_URL}/uploads/banners/${jobview.banner}`} alt={jobview.company} />}
+                    </div>
+
+                    {/* Logo and Company Name */}
+                    <div className=' mb-3 mx-4 flex items-center justify-between logo-youtube-container '>
+
+                        {/* Logo */}
+                        <div className='flex items-center  gap-3 w-full justify-between lg:justify-start'>
+                            {jobview.companyLogo && jobview.companyLogo.length > 0 && <img className="rounded logo-youtube border border-slate-200" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
+
+                            {jobview.info?.length > 0 ?
+                                <Tooltip tooltipText={"View Company Info"} size={12}>
+                                    <span className='underline text-blue-500 font-semibold text-lg' onClick={handleInfo}>
+                                        {jobview.company}
+                                    </span>
+                                </Tooltip>
+                                :
+                                jobview.company
+                            }
+
                         </div>
-                        <div className=' mb-3 mx-4 d-flex align-items-center justify-content-between logo-youtube-container    '>
-                            <div className='d-flex align-items-center  gap-3 w-100 justify-content-between justify-content-lg-start  '>
-                                {jobview.companyLogo && jobview.companyLogo.length > 0 && <img className="rounded logo-youtube border border-secondary" src={`${BASE_API_URL}/uploads/logos/${jobview.companyLogo}`} alt={jobview.company} />}
 
+                        {/* Youtube Iframe */}
+                        {jobview.youtubeUrl &&
+                            <div className='relative hidden lg:block'>
+                                <iframe
+                                    ref={youtubeRef}
+                                    className="rounded logo-youtube"
+                                    title="YouTube video player"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerPolicy="strict-origin-when-cross-origin"
+                                    src={`https://www.youtube.com/embed/${getYoutubeVideoId(jobview.youtubeUrl)}`}
+                                    allowFullScreen
+                                />
 
-                                {jobview.info?.length > 0 ?
-                                    <Tooltip tooltipText={"View Company Info"} size={12}>
-                                        <span className='text-decoration-underline text-primary fw-bold fs-4' onClick={handleInfo}>
-                                            {jobview.company}
-                                        </span>
-                                    </Tooltip>
+                                <span role='button'
+                                    onClick={() => {
+                                        youtubeRef.current.requestFullscreen();
+                                    }}
+                                    className=' youtube-play-button '
+                                >
+                                    <FaYoutube fontSize={70} fill="#FF3D00" />
+                                </span>
+                            </div>}
+                    </div>
+
+                    {/* Job Details */}
+                    <div className='grid md:grid-cols-3 border-2  border-green-300 rounded mx-4 p-3 text-sm lg:text-base'>
+
+                        {/* One Side of details */}
+                        <div className='md:col-span-2'>
+                            <div className='font-bold text-xl'>
+                                {jobview.jobTitle}
+                            </div>
+
+                            {jobview.jobCategory}/{jobview.subCategory}
+
+                            <div role='button' onClick={() => { dispatch(setLocation({ show: true, city: jobview.location })) }}>
+                                <MdOutlineLocationOn fontSize={20} />
+                                <span className='underline text-blue-600'>
+                                    {jobview.location}
+                                </span>
+                            </div>
+                            <div className="hidden md:block">
+                                {new Date(jobview.creationdate).toLocaleDateString('en-GB')} ({timeAgo(new Date(jobview.creationdate).toLocaleDateString('en-GB'))})
+                            </div>
+                            <div className=' gap-3 hidden md:flex mt-3 items-center text-sm lg:text-base'>
+                                {isJobApplied ?
+                                    <button type='button' disabled className='bg-blue-600 p-2 rounded-md  text-white'>Applied</button>
                                     :
-                                    jobview.company
+                                    <button type='button' onClick={handleApply} className='bg-blue-600 p-2 rounded-md hover:bg-blue-500  text-white'>Apply</button>
                                 }
 
-                            </div>
+                                <Tooltip tooltipText={"Share"}>
+                                    <FaShare fontSize={20} onClick={handleShare} />
+                                </Tooltip>
 
-                            {jobview.youtubeUrl &&
-                                <div className='position-relative d-none d-lg-block'>
-                                    <iframe
-                                        ref={youtubeRef}
-                                        className="rounded logo-youtube"
-                                        title="YouTube video player"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                        referrerPolicy="strict-origin-when-cross-origin"
-                                        src={`https://www.youtube.com/embed/${getYoutubeVideoId(jobview.youtubeUrl)}`}
-                                        allowFullScreen
-                                    />
-
-                                    <span role='button'
-                                        onClick={() => {
-                                            youtubeRef.current.requestFullscreen();
-                                        }}
-                                        className=' youtube-play-button '
-                                    >
-                                        <FaYoutube fontSize={70} fill="#FF3D00" />
-                                    </span>
-                                </div>}
-                        </div>
-
-                        <div className='row border border-success rounded mx-4 p-3 responsive-font'>
-                            <div className='col-md-8 col-12'>
-                                <div className='h4'>
-                                    {jobview.jobTitle}
-                                </div>
-                                <div>
-                                    {jobview.jobCategory}/{jobview.subCategory}
-                                </div>
-                                <div role='button' onClick={() => { dispatch(setLocation({ show: true, city: jobview.location })) }}>
-                                    <MdOutlineLocationOn fontSize={20} />
-                                    <span className='text-decoration-underline text-primary'>
-                                        {jobview.location}
-                                    </span>
-                                </div>
-                                <div className="d-none d-md-block">
-                                    {new Date(jobview.creationdate).toLocaleDateString('en-GB')} ({timeAgo(new Date(jobview.creationdate).toLocaleDateString('en-GB'))})
-                                </div>
-                                <div className='d-flex gap-3 d-none d-md-flex mt-3 align-items-center responsive-font'>
-                                    {isJobApplied ?
-                                        <button type='button' disabled className='btn btn-primary btn-responsive text-white'>Applied</button>
-                                        :
-                                        <button type='button' onClick={handleApply} className='btn btn-primary btn-responsive  text-white'>Apply</button>
-                                    }
-
-                                    <Tooltip tooltipText={"Share"}>
-                                        <FaShare fontSize={20} onClick={handleShare} />
+                                {isJobSaved ?
+                                    <PiBookmarkSimpleFill fontSize={20} />
+                                    :
+                                    <Tooltip tooltipText={"Save"}>
+                                        <PiBookmarkSimpleBold fontSize={25} onClick={handleSave} />
                                     </Tooltip>
 
-                                    {isJobSaved ?
-                                        <PiBookmarkSimpleFill fontSize={20} />
-                                        :
-                                        <Tooltip tooltipText={"Save"}>
-                                            <PiBookmarkSimpleBold fontSize={25} onClick={handleSave} />
-                                        </Tooltip>
-
-                                    }
-                                </div>
-                            </div>
-
-                            <div className='col-md-4 col-12'>
-                                <div className="d-flex gap-2" >
-                                    <span><FaDollarSign fontSize={16} /></span>
-                                    {jobview.salary_type === "negotiable" ?
-                                        <span>Negotiable</span>
-                                        :
-                                        < span className=''>
-                                            {jobview.salary_type === "per annum" ? salaryPerAnnum(jobview.rateperhour) : jobview.rateperhour} {jobview.salary_type}
-                                        </span>
-                                    }
-                                </div>
-                                <div className='d-flex gap-2'>
-                                    <span><BsBriefcase fontSize={16} /></span>
-                                    <span>
-                                        {jobview.jobtype}
-                                    </span>
-                                </div>
-                                <div className="d-flex gap-2">
-                                    <span><BsCalendar3 fontSize={16} /></span>
-                                    <span>
-                                        {jobview.duration}
-                                    </span>
-                                </div>
-                                <div className="d-flex gap-2" >
-                                    <span><FaRegClock fontSize={16} /></span>
-                                    <span>
-                                        {jobview.weeklyperhour} hours per week
-                                    </span>
-                                </div>
-
-                                {jobview.numberofvacancies > 1 &&
-                                    <div className="d-flex gap-2">
-                                        <span><MdOutlinePeopleOutline fontSize={16} /></span>
-                                        <span>{jobview.numberofvacancies} Vacancies </span>
-                                    </div>
                                 }
-
-                                {jobview.training?.includes("Yes") &&
-                                    <div className='d-flex gap-2'>
-                                        <span>
-                                            <FaCheckSquare fontSize={16} />
-                                        </span>
-                                        <span>
-                                            Training provided
-                                        </span>
-                                    </div>
-                                }
-
-
-                                {jobview.benifits &&
-
-                                    <div className='d-flex  align-items-center gap-2'>
-                                        {jobview.benifits?.includes("Accommodation") &&
-                                            <Tooltip tooltipText={"Accommodation"}>
-                                                <span>
-                                                    <IoHomeOutline fontSize={16} />
-                                                </span>
-                                            </Tooltip>
-                                        }
-
-                                        {jobview.benifits?.includes("Food") &&
-                                            <Tooltip tooltipText={"Food"}>
-                                                <span >
-                                                    <GiHotMeal fontSize={16} />
-                                                </span>
-                                            </Tooltip>
-                                        }
-
-                                        {jobview.benifits?.includes("Transport") &&
-                                            <Tooltip tooltipText={"Transport"}>
-                                                <span>
-                                                    <PiCarProfileThin fontSize={17} />
-                                                </span>
-                                            </Tooltip>
-                                        }
-                                        <span style={{ paddingTop: '2px' }} >
-                                            Benefits
-                                        </span>
-                                    </div>
-                                }
-
-
-
-                                <div className="d-block mt-3 d-md-none">
-                                    {new Date(jobview.creationdate).toLocaleDateString('en-GB')} ({timeAgo(new Date(jobview.creationdate).toLocaleDateString('en-GB'))})
-                                </div>
-                                <div className='d-flex gap-3 d-block d-md-none mt-2  align-items-center responsive-font'>
-                                    {isJobApplied ?
-                                        <button type='button' disabled className='btn btn-primary btn-responsive text-white'>Applied</button>
-                                        :
-                                        <button type='button' onClick={handleApply} className='btn btn-primary btn-responsive  text-white'>Apply</button>
-                                    }
-
-                                    <Tooltip tooltipText={"Share"}>
-                                        <FaShare fontSize={20} onClick={handleShare} />
-                                    </Tooltip>
-
-                                    {isJobSaved ?
-                                        <PiBookmarkSimpleFill fontSize={20} />
-                                        :
-                                        <Tooltip tooltipText={"Save"}>
-                                            <PiBookmarkSimpleBold fontSize={25} onClick={handleSave} />
-                                        </Tooltip>
-
-                                    }
-                                </div>
                             </div>
                         </div>
 
-                        <div className='row  responsive-font border border-success rounded  m-4 p-3'>
+                        <div className=''>
+                            <div className="flex gap-2" >
+                                <span><FaDollarSign fontSize={16} /></span>
+                                {jobview.salary_type === "negotiable" ?
+                                    <span>Negotiable</span>
+                                    :
+                                    < span className=''>
+                                        {jobview.salary_type === "per annum" ? salaryPerAnnum(jobview.rateperhour) : jobview.rateperhour} {jobview.salary_type}
+                                    </span>
+                                }
+                            </div>
+                            <div className='flex gap-2'>
+                                <span><BsBriefcase fontSize={16} /></span>
+                                <span>
+                                    {jobview.jobtype}
+                                </span>
+                            </div>
+                            <div className="flex gap-2">
+                                <span><BsCalendar3 fontSize={16} /></span>
+                                <span>
+                                    {jobview.duration}
+                                </span>
+                            </div>
+                            <div className="flex gap-2" >
+                                <span><FaRegClock fontSize={16} /></span>
+                                <span>
+                                    {jobview.weeklyperhour} hours per week
+                                </span>
+                            </div>
 
-                            <div>{markdownToText(jobview.description)}</div>
+                            {jobview.numberofvacancies > 1 &&
+                                <div className="flex gap-2">
+                                    <span><MdOutlinePeopleOutline fontSize={16} /></span>
+                                    <span>{jobview.numberofvacancies} Vacancies </span>
+                                </div>
+                            }
 
-                            <div className='d-flex  justify-content-between align-items-center'>
-                                <div className="d-flex gap-3 align-items-center">
+                            {jobview.training?.includes("Yes") &&
+                                <div className='flex gap-2'>
+                                    <span>
+                                        <FaCheckSquare fontSize={16} />
+                                    </span>
+                                    <span>
+                                        Training provided
+                                    </span>
+                                </div>
+                            }
 
-                                    {isJobApplied ?
-                                        <button type='button' disabled className='btn btn-responsive btn-primary text-white '>Applied</button>
-                                        :
-                                        <button type='button' onClick={handleApply} className='btn btn-responsive btn-primary text-white  '>Apply</button>
-                                    }
 
-                                    <Tooltip tooltipText={"Share"} size={11}>
-                                        <FaShare fontSize={25} onClick={handleShare} />
-                                    </Tooltip>
+                            {jobview.benifits &&
 
-                                    {isJobSaved ?
-                                        <PiBookmarkSimpleFill fontSize={25} />
-                                        :
-                                        <Tooltip tooltipText={"Save"} size={11}>
-                                            <PiBookmarkSimpleBold fontSize={25} onClick={handleSave} />
+                                <div className='flex items-center gap-2'>
+                                    {jobview.benifits?.includes("Accommodation") &&
+                                        <Tooltip tooltipText={"Accommodation"}>
+                                            <span>
+                                                <IoHomeOutline fontSize={16} />
+                                            </span>
                                         </Tooltip>
                                     }
 
-                                </div>
-                                <div>
-                                    <button type='button' className='btn btn-responsive btn-danger' onClick={() => setShowModal({ show: true, type: "report" })}>Report</button>
-                                </div>
-                            </div>
-                        </div>
+                                    {jobview.benifits?.includes("Food") &&
+                                        <Tooltip tooltipText={"Food"}>
+                                            <span >
+                                                <GiHotMeal fontSize={16} />
+                                            </span>
+                                        </Tooltip>
+                                    }
 
-                        <div className="d-block d-lg-none position-relative mx-4">
-                            <iframe
-                                className="rounded"
-                                id="youtube-video"
-                                src={`https://www.youtube.com/embed/${getYoutubeVideoId(jobview.youtubeUrl)}`}
-                                title="YouTube video player"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                referrerPolicy="strict-origin-when-cross-origin"
-                                allowFullScreen
-                            />
+                                    {jobview.benifits?.includes("Transport") &&
+                                        <Tooltip tooltipText={"Transport"}>
+                                            <span>
+                                                <PiCarProfileThin fontSize={17} />
+                                            </span>
+                                        </Tooltip>
+                                    }
+                                    <span style={{ paddingTop: '2px' }} >
+                                        Benefits
+                                    </span>
+                                </div>
+                            }
+
+
+
+                            <div className="block mt-3 md:hidden">
+                                {new Date(jobview.creationdate).toLocaleDateString('en-GB')} ({timeAgo(new Date(jobview.creationdate).toLocaleDateString('en-GB'))})
+                            </div>
+                            <div className='flex gap-3  md:hidden mt-2 items-center text-sm lg:text-base'>
+                                {isJobApplied ?
+                                    <button type='button' disabled className='bg-blue-600 p-2 rounded-md text-white'>Applied</button>
+                                    :
+                                    <button type='button' onClick={handleApply} className='bg-blue-600 p-2 rounded-md hover:bg-blue-500  text-white'>Apply</button>
+                                }
+
+                                <Tooltip tooltipText={"Share"}>
+                                    <FaShare fontSize={20} onClick={handleShare} />
+                                </Tooltip>
+
+                                {isJobSaved ?
+                                    <PiBookmarkSimpleFill fontSize={20} />
+                                    :
+                                    <Tooltip tooltipText={"Save"}>
+                                        <PiBookmarkSimpleBold fontSize={25} onClick={handleSave} />
+                                    </Tooltip>
+
+                                }
+                            </div>
                         </div>
                     </div>
 
-                    <div className='col-md-3'>
-                        <Ads />
-                    </div>
-                </div >
+                    {/* Description Box */}
 
-            }
-            {(!loading && !jobview) || jobview.status !== "approved" && <h3>Job Not Found</h3>}
+                    <div className=' text-sm lg:text-base border-2  border-green-300 rounded  m-4 p-3'>
+
+                        <div>{markdownToText(jobview.description)}</div>
+
+                        <div className='flex  justify-between items-center'>
+                            <div className="flex gap-3 items-center">
+
+                                {isJobApplied ?
+                                    <button type='button' disabled className='bg-blue-600 p-2 rounded-md  text-white '>Applied</button>
+                                    :
+                                    <button type='button' onClick={handleApply} className='bg-blue-600 p-2 rounded-md hover:bg-blue-500 text-white  '>Apply</button>
+                                }
+
+                                <Tooltip tooltipText={"Share"} size={11}>
+                                    <FaShare fontSize={25} onClick={handleShare} />
+                                </Tooltip>
+
+                                {isJobSaved ?
+                                    <PiBookmarkSimpleFill fontSize={25} />
+                                    :
+                                    <Tooltip tooltipText={"Save"} size={11}>
+                                        <PiBookmarkSimpleBold fontSize={25} onClick={handleSave} />
+                                    </Tooltip>
+                                }
+
+                            </div>
+                            <div>
+                                <button type='button' className='bg-red-600 p-2 rounded-md text-white ' onClick={() => setShowModal({ show: true, type: "report" })}>Report</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Youtube iframe when the user in mobile view */}
+                    <div className="block lg:hidden relative mx-4">
+                        <iframe
+                            className="rounded"
+                            id="youtube-video"
+                            src={`https://www.youtube.com/embed/${getYoutubeVideoId(jobview.youtubeUrl)}`}
+                            title="YouTube video player"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerPolicy="strict-origin-when-cross-origin"
+                            allowFullScreen
+                        />
+                    </div>
+                </div>
+
+                {/* Ads Slot */}
+                <div>
+                    <Ads />
+                </div>
+            </div >
 
             <Modal size="md" show={showModal.show} onHide={handleClose} centered>
-                <Modal.Body className="responsive-font">
+                <Modal.Body className="text-sm lg:text-base">
 
                     {showModal.type === "report" && <ReportJob onReportJob={onReportJob} role={role} />}
 
@@ -469,5 +487,5 @@ export default function ViewJob() {
                 </Modal.Body>
             </Modal>
         </>
-    );
+    )
 }

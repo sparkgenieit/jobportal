@@ -126,12 +126,13 @@ function Jobs() {
 
     return (
         <main>
-            <div className='row m-0'>
-                <div ref={sortRef} className='col-lg-9  mb-2  d-flex align-items-center'>
-                    <BsFilter onClick={handleShowFilter} className='d-lg-none' fontSize={20} />
+            <div className='grid  lg:grid-cols-4 m-0'>
+                {/* Sort by  */}
+                <div ref={sortRef} className='lg:col-span-3 w-full  mb-2 flex items-center'>
+                    <BsFilter onClick={handleShowFilter} className='lg:hidden' fontSize={20} />
 
-                    <div className='flex-grow-1 d-flex justify-content-end align-items-center responsive-font'>
-                        <label style={{ paddingBottom: "1px" }} className='small text-nowrap px-2'>Sort by:</label>
+                    <div className='grow flex justify-end items-center text-sm lg:text-base'>
+                        <label className='text-sm text-nowrap pb-[1px] px-2'>Sort by:</label>
                         <select className='rounded border-0 px-2' value={filterFields.sort} onChange={(e) => { handleSort(e) }}>
                             <option value="creationdate">Date posted</option>
                             <option value="rateperhour">Rate per hour</option>
@@ -140,16 +141,15 @@ function Jobs() {
                     </div>
                 </div>
             </div>
-            <div className='row'>
-                <section className={`${showFilter ? "" : "filter-hide"} col-12  col-lg-3  d-lg-flex p-0 justify-content-end responsive-font`}>
+            <div className='grid lg:grid-cols-4'>
+                <section className={`${showFilter ? "" : "filter-hide"}   lg:flex p-0 justify-end`}>
                     <Filter filterFields={filterFields} setFilterFields={setFilterFields} setRefresh={setRefresh} />
                 </section>
 
-                <section className="col-12 col-lg-9 row container-fluid scrollbar  hide-scrollbar ">
+                <section className="lg:col-span-3 grid lg:grid-cols-3 lg:gap-2  scrollbar  hide-scrollbar ">
 
-                    <div className="col-12 col-lg-8  p-0">
+                    <div className="lg:col-span-2 p-0">
                         <Pagination currentPage={pgNumber} setCurrentPage={setPgNumber} itemsPerPage={itemsPerPage} totalCount={totalItems} fetchItems={fetchJobs} pageNumberToShow={2}>
-
                             <div className="mb-3">
                                 {loading && <Loader />}
                                 {!loading &&
@@ -158,14 +158,13 @@ function Jobs() {
                                     </div>
                                 }
                             </div>
-
                         </Pagination>
                     </div>
-                    <div className='col-12 col-lg-4  ps-1'>
+                    <div>
                         <Ads />
                     </div>
                 </section >
-            </div>
+            </div >
         </main >
     )
 }

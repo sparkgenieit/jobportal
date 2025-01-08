@@ -102,15 +102,16 @@ export default function Card2({ job }) {
     const date = new Date(job?.creationdate).toLocaleDateString('en-GB')
 
     return (
-        <div onClick={openInNewTab} className='job-card  border rounded m-0 row'>
-            <div className=' col-lg-9 d-flex flex-column  gap-1'>
+        <div onClick={openInNewTab} className='job-card px-3 py-2 border border-slate-300 rounded m-0 grid lg:grid-cols-4'>
 
-                <div className='d-flex d-lg-none align-items-center small  gap-3'>
+            {/* Left Side of Card */}
+            <div className=' lg:col-span-3 flex flex-col  gap-1'>
+                <div className='flex lg:hidden items-center text-sm  gap-3'>
 
                     {date} ({timeAgo(date)})
 
-                    <div className='d-flex gap-3 d-lg-none justify-content-end align-items-center py-1'>
-                        <Tooltip tooltipText={"Share"} size={10} className="d-none" >
+                    <div className='flex gap-3 lg:hidden justify-end items-center py-1'>
+                        <Tooltip tooltipText={"Share"} size={10}  >
                             <FaShare fontSize={16} onClick={handleShare} />
                         </Tooltip>
 
@@ -124,21 +125,21 @@ export default function Card2({ job }) {
                     </div>
                 </div>
 
-                <div style={{ width: "125px" }} className=' d-block d-lg-none mb-2'>
+                <div className='  lg:hidden mb-2 w-[125px]'>
                     {job.companyLogo.length > 0 && <img className="rounded border company-logo" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                 </div>
 
 
-                <h3 className='fw-bold job-title'>{job.jobTitle}</h3>
+                <h3 className='font-bold job-title'>{job.jobTitle}</h3>
 
-                <div className='d-flex'>
+                <div className='flex'>
                     <Tooltip tooltipText={"View All Jobs"} size={12}>
                         <CiViewList fontSize={22} onClick={(e) => { getJobsbyCompany(e) }} />
                     </Tooltip>
 
                     {job.info?.length > 0 ?
                         <Tooltip tooltipText={"View Company Info"} size={12}>
-                            <span className='text-decoration-underline text-primary' onClick={handleInfo}>
+                            <span className='underline text-blue-600' onClick={handleInfo}>
                                 {job.company}
                             </span>
                         </Tooltip>
@@ -146,24 +147,24 @@ export default function Card2({ job }) {
                         job.company}
                 </div>
 
-                <div className='d-flex'>
+                <div className='flex'>
                     <MdOutlineLocationOn size="22px" />
                     <Tooltip tooltipText={"View Activities"} size={12}>
-                        <span onClick={handleLocation} className='text-decoration-underline text-primary'>
+                        <span onClick={handleLocation} className='underline text-blue-600'>
                             {job.location}
                         </span>
                     </Tooltip>
                 </div>
 
-                <div className='flex-grow-1 mt-1'>
-                    <p className='text-secondary small   description'> {markdownToPlainText(job.description)}</p>
+                <div className='grow mt-1'>
+                    <p className='text-slate-400 text-sm description'> {markdownToPlainText(job.description)}</p>
                 </div>
 
-                <div className='d-none d-lg-flex gap-2 small align-items-center'>
+                <div className='hidden lg:flex gap-2 text-sm items-center'>
                     {date} ({timeAgo(date)})
 
-                    <div className='d-flex gap-2'>
-                        <Tooltip tooltipText={"Share"} size={10} className="d-none" >
+                    <div className='flex gap-2'>
+                        <Tooltip tooltipText={"Share"} size={10} >
                             <FaShare fontSize={20} onClick={handleShare} />
                         </Tooltip>
 
@@ -179,17 +180,18 @@ export default function Card2({ job }) {
             </div>
 
 
-            <div className='col-lg-3 d-flex flex-column'>
-                <div className=' d-none d-lg-block align-self-end align-self-xxl-start'>
-                    {job.companyLogo.length > 0 && <img className="rounded border company-logo" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
+            {/* Right Side of Card */}
+            <div className='flex flex-col'>
+                <div className=' hidden lg:block'>
+                    {job.companyLogo.length > 0 && <img className="rounded border border-slate-300 company-logo" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                 </div>
 
-                <div className=' mobile-card d-flex align-self-center align-self-xxl-start '>
+                <div className=' mobile-card flex'>
 
                     <div className={'job-details'}>
                         {job.rateperhour &&
                             <Tooltip tooltipText={"Approximate salary"}>
-                                <span className='d-flex gap-1 align-items-center'>
+                                <span className='flex gap-1 items-center'>
                                     <FaDollarSign fontSize={13} />
                                     {job.salary_type === "negotiable" ?
                                         "Negotiable"
@@ -203,7 +205,7 @@ export default function Card2({ job }) {
                         }
 
                         <Tooltip tooltipText={"Job Type"}>
-                            <span className='d-flex gap-1 align-items-center'>
+                            <span className='flex gap-1 items-center'>
                                 <BsBriefcase fontSize={13} />
                                 {job.jobtype}
                             </span>
@@ -211,15 +213,15 @@ export default function Card2({ job }) {
 
 
                         <Tooltip tooltipText={"Duration"}>
-                            <span className='d-flex gap-1 align-items-center'>
+                            <span className='flex gap-1 items-center'>
                                 <BsCalendar3 fontSize={13} />
                                 {job.duration}
                             </span>
                         </Tooltip>
 
                         {job.weeklyperhour > 0 &&
-                            <Tooltip tooltipText={"Weekly Hours"} className="d-flex gap-2">
-                                <span className='d-flex gap-1 align-items-center'>
+                            <Tooltip tooltipText={"Weekly Hours"} className="flex gap-2">
+                                <span className='flex gap-1 items-center'>
                                     <FaRegClock fontSize={13} />
                                     {job.weeklyperhour} hours per week
                                 </span>
@@ -229,7 +231,7 @@ export default function Card2({ job }) {
 
                         {job.numberofvacancies > 1 &&
                             <Tooltip tooltipText={"Vacancies"}>
-                                <span className='d-flex gap-1 align-items-center'>
+                                <span className='flex gap-1 items-center'>
                                     <MdOutlinePeopleOutline fontSize={16} />
                                     {job.numberofvacancies} Vacancies
                                 </span>
@@ -237,7 +239,7 @@ export default function Card2({ job }) {
                         }
 
                         {job.training?.includes("Yes") &&
-                            <span className=' d-flex  gap-1'>
+                            <span className=' flex  gap-1'>
                                 <FaCheckSquare fontSize={13} />
                                 Training provided
                             </span>
@@ -245,7 +247,7 @@ export default function Card2({ job }) {
 
                         {job.benifits &&
 
-                            <ul className='d-flex gap-2 m-0  small align-items-center list-unstyled '>
+                            <ul className='flex gap-2 m-0 p-0  text-[12px] items-center list-none '>
                                 {job.benifits?.includes("Accommodation") &&
                                     <li>
                                         <Tooltip tooltipText={"Accommodation"}>

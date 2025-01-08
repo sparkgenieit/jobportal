@@ -108,8 +108,9 @@ function Home() {
                 </form>
             </div>
 
+
             <div className="2xl:container 2xl:mx-auto text-center py-3">
-                <div className='grid  grid-cols-1 lg:grid-cols-4 mb-3 gap-3'>
+                <div className='grid  lg:grid-cols-4 mb-3 gap-3'>
 
                     <Ads />
 

@@ -117,10 +117,10 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
         setRefresh(prev => !prev)
     }
 
-    return <div className='p-3 filter hide-scrollbar rounded border  scrollbar'>
+    return <div className='p-3 filter hide-scrollbar rounded border border-slate-200  scrollbar'>
         <form autoComplete="off">
             <div className="fw-bold mb-2">Search By</div>
-            <div className="border rounded px-2 py-3 mb-4 d-flex gap-4 flex-column">
+            <div className="border border-slate-100 rounded px-2 py-3 mb-4 flex gap-4 flex-col">
 
                 <ComboBox
                     suggestions={jobSuggestions}
@@ -135,9 +135,9 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
                     value={filterFields.jobTitle}
                     name='jobTitle'
                     onChange={(e) => handleInput(e)}
-                    className='form-input d-block w-100 rounded shadow-sm p-2 border-0'
+                    className='w-full rounded shadow-sm p-2 border-0'
                     placeholder='Job Title'
-                    onFocusClasses="border border-dark"
+                    onFocusClasses="border border-gray-900"
                 />
 
                 <ComboBox
@@ -153,9 +153,9 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
                     value={filterFields.location}
                     name='location'
                     onChange={(e) => handleInput(e)}
-                    className='form-input d-block w-100 rounded shadow-sm p-2 border-0'
+                    className=' w-full rounded shadow-sm p-2 border-0'
                     placeholder='Location'
-                    onFocusClasses="border border-dark"
+                    onFocusClasses="border border-gray-900"
                 />
 
                 <ComboBox
@@ -171,24 +171,24 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
                     value={filterFields.company}
                     name='company'
                     onChange={(e) => handleInput(e)}
-                    className='form-input d-block w-100 rounded shadow-sm p-2 border-0'
+                    className=' w-full rounded shadow-sm p-2 border-0'
                     placeholder='Company'
-                    onFocusClasses="border border-dark"
+                    onFocusClasses=" border border-gray-900"
                 />
 
             </div>
 
             <div className='mb-2'>
-                <div className='d-flex  small'>
-                    <div className='fw-bold text-nowrap'>
+                <div className='flex text-sm'>
+                    <div className='font-semibold text-nowrap'>
                         Minimum Salary
                     </div>
-                    <div style={{ fontSize: "10px" }} className="d-flex flex-grow-1  ps-2 align-items-center gap-2">
-                        <div className="d-flex align-items-center">
+                    <div className="flex text-[10px] grow  ps-2 items-center gap-2">
+                        <div className="flex items-center">
                             <input type="radio" name="salary" id="per annum" checked={filterFields.salaryType === "per annum"} onChange={() => { setFilterFields({ ...filterFields, rateperhour: PER_ANNUM_VALUES[PER_HOUR_VALUES.indexOf(filterFields.rateperhour)] || PER_ANNUM_VALUES[16], salaryType: "per annum" }) }} />
                             <label className="ms-1" htmlFor="per annum">Yearly</label>
                         </div>
-                        <div className="d-flex align-items-center ">
+                        <div className="flex items-center ">
                             <input type="radio" name="salary" id="per hour" checked={filterFields.salaryType === "per hour"} onChange={() => { setFilterFields({ ...filterFields, rateperhour: PER_HOUR_VALUES[PER_ANNUM_VALUES.indexOf(filterFields.rateperhour)], salaryType: "per hour" }) }} />
                             <label className="ms-1" htmlFor="per hour">Hourly</label>
                         </div>
@@ -200,36 +200,36 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
                     </span>
 
                 </div>
-                {filterFields.salaryType === "per hour" && < input type='range' name='rateperhour' value={PER_HOUR_VALUES.indexOf(filterFields.rateperhour)} min={0} max={24} onChange={(e) => { handleRanges("rateperhour", e) }} className='form-range' />}
-                {filterFields.salaryType === "per annum" && <input type='range' name='rateperhour' value={PER_ANNUM_VALUES.indexOf(filterFields.rateperhour)} min={0} max={17} onChange={(e) => { handleRanges("rateperhour", e) }} className='form-range' />}
+                {filterFields.salaryType === "per hour" && < input type='range' name='rateperhour' value={PER_HOUR_VALUES.indexOf(filterFields.rateperhour)} min={0} max={24} onChange={(e) => { handleRanges("rateperhour", e) }} className='w-full ' />}
+                {filterFields.salaryType === "per annum" && <input type='range' name='rateperhour' value={PER_ANNUM_VALUES.indexOf(filterFields.rateperhour)} min={0} max={17} onChange={(e) => { handleRanges("rateperhour", e) }} className='w-full' />}
             </div>
 
             <div className='mb-2'>
-                <div className='d-flex justify-content-between'>
-                    <span className='fw-bold'>Duration  </span>
+                <div className='flex justify-between'>
+                    <span className='font-bold'>Duration  </span>
                     <span >{filterFields.duration ? filterFields.duration : "Any"}</span>
                 </div>
-                <input type='range' className='form-range' min="1" max="9" defaultValue="9" onChange={(e) => { handleRanges("duration", e) }} />
+                <input type='range' className='w-full' min="1" max="9" defaultValue="9" onChange={(e) => { handleRanges("duration", e) }} />
             </div>
 
             <div className='mb-2'>
-                <div className='d-flex justify-content-between'>
-                    <span className='fw-bold'>Date Posted  </span>
+                <div className='flex justify-between'>
+                    <span className='font-bold'>Date Posted  </span>
                     <span>{filterFields.date ? `${filterFields.date}d ago` : "Any "}</span>
                 </div>
-                <input type='range' className='form-range' min="0" max="5" defaultValue="5" onChange={(e) => { handleRanges("date", e) }} />
+                <input type='range' className='w-full' min="0" max="5" defaultValue="5" onChange={(e) => { handleRanges("date", e) }} />
             </div>
 
             <div className='mb-2'>
-                <div className='d-flex justify-content-between'>
-                    <span className='fw-bold'>Weekly Hours  </span>
+                <div className='flex justify-between'>
+                    <span className='font-bold'>Weekly Hours  </span>
                     <span>{filterFields.weeklyperhour ? `${filterFields.weeklyperhour} Hours` : "Any "}</span>
                 </div>
-                <input type='range' className='form-range' value={filterFields.weeklyperhour} min="40" max="50" onChange={(e) => { handleRanges("weeklyperhour", e) }} />
+                <input type='range' className='w-full' value={filterFields.weeklyperhour} min="40" max="50" onChange={(e) => { handleRanges("weeklyperhour", e) }} />
             </div>
             <div className='mb-4'>
-                <label className='fw-bold form-label '>Job Type</label>
-                <select className='form-select d-block' value={filterFields.jobtype} onChange={(e) => { setFilterFields({ ...filterFields, jobtype: e.target.value }) }}>
+                <label className='font-bold '>Job Type</label>
+                <select className='block p-2 w-full border rounded-md' value={filterFields.jobtype} onChange={(e) => { setFilterFields({ ...filterFields, jobtype: e.target.value }) }}>
                     <option value="">Any</option>
                     <option value="Full Time">Full Time</option>
                     <option value="Part Time">Part Time</option>
@@ -241,8 +241,8 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
             </div>
 
             <div className='mb-4'>
-                <label className='fw-bold form-label' >Job Category</label>
-                <select className='form-select d-block' value={filterFields.jobCategory} onChange={(e) => { setFilterFields({ ...filterFields, jobCategory: e.target.value }) }}>
+                <label className='font-bold ' >Job Category</label>
+                <select className='block p-2 w-full border rounded-md' value={filterFields.jobCategory} onChange={(e) => { setFilterFields({ ...filterFields, jobCategory: e.target.value }) }}>
                     <option value="">Any</option>
                     {parent && parent.map((p, index) => <option key={index} className="fw-bold" value={p}>{p}</option>)}
                 </select>
@@ -263,9 +263,9 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
 
             </div> */}
 
-            <div className='d-flex justify-content-end gap-2'>
-                <button type='button' onClick={handleFilter} className='btn border-dark btn-primary btn-responsive'>Apply</button>
-                <button type='button' onClick={ResetFilter} className='btn btn-outline-light text-dark border-success btn-responsive'>Clear</button>
+            <div className='flex justify-end gap-2'>
+                <button type='button' onClick={handleFilter} className='text-white p-2 active:bg-blue-500   bg-blue-600 rounded-md'>Apply</button>
+                <button type='button' onClick={ResetFilter} className='text-black p-2  border-[1px] border-green-500 rounded-md'>Clear</button>
             </div>
         </form >
 
