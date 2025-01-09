@@ -68,7 +68,7 @@ export default function NZMap() {
     }
 
     return (
-        <div className=' d-flex justify-content-center'>
+        <div className=' flex justify-center'>
             <ImageMapper
                 src="/Nz-map/NZRegionsMapFinalVersion_files/image051.gif"
                 map={{ name: "Nz-Map", areas }}

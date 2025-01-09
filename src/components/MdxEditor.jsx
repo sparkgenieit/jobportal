@@ -12,7 +12,7 @@ export default function MdxEditor({ value = "", setValue }) {
         setValue(currentMarkdown);
     }
     return (
-        <div style={{ minHeight: "30vh" }} className='border border-secondary border-top-0 rounded '>
+        <div style={{ minHeight: "30vh" }} className='border border-slate-300 border-t-0 rounded-lg '>
             <MDXEditor
                 markdown=""
                 ref={editorRef}

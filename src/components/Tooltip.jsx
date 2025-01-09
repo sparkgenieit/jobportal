@@ -12,12 +12,12 @@ export default function Tooltip({ tooltipText, size, rightAlign, children }) {
 
         <div
             role="button"
-            className="position-relative"
+            className="relative"
             onMouseOver={() => handleTooltip(true)}
             onMouseLeave={() => handleTooltip(false)}
         >
             {children}
-            {tooltip && <div style={{ fontSize: size ? `${size}px` : "inherit", zIndex: 1000 }} className={`text-nowrap fw-normal  position-absolute ${rightAlign ? "end-0" : ""} bg-secondary mt-1 py-1 px-2 rounded text-white`}>{tooltipText}</div>}
+            {tooltip && <div style={{ fontSize: size ? `${size}px` : "inherit", zIndex: 1000 }} className={`text-nowrap font-normal  absolute ${rightAlign ? "end-0" : ""} bg-slate-600 mt-1 py-1 px-2 rounded-lg text-white`}>{tooltipText}</div>}
         </div>
 
 

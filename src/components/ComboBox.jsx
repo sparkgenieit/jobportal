@@ -46,15 +46,15 @@ export default function ComboBox({ suggestions, setSuggestions, label, suggestio
         }
     }
     return (
-        <div ref={comboBoxRef} className="position-relative">
+        <div ref={comboBoxRef} className="relative">
             <input onKeyDown={handleKeyDown} {...inputProps} />
-            <ul className="suggestions rounded-2 position-absolute z-3 w-100 bg-light list-unstyled">
+            <ul className="suggestions rounded-md absolute z-3 w-100 p-0 left-0 list-none">
                 {suggestions?.length > 0 && suggestions.map((suggestion, i) => (
                     <li
                         key={suggestionValue ? suggestion[suggestionValue] : suggestion}
                         role='button'
                         onClick={() => onEnter(suggestion)}
-                        className={` rounded-2 px-1 py-2 text-dark ${current === i ? onFocusClasses : "bg-light"} `}
+                        className={` rounded-md px-1 py-2 text-black ${current === i ? onFocusClasses : "bg-white"} `}
                     >
                         {label ? suggestion[label] : suggestion}
                     </li>

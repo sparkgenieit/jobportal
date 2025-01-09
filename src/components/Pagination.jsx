@@ -25,11 +25,11 @@ function Pagination({ currentPage, setCurrentPage, totalCount, itemsPerPage, fet
     }
 
     return (
-        <div className="d-flex flex-column justify-content-between">
-            <div className="container-fluid p-0">
+        <div className="flex flex-col justify-between">
+            <div className="w-full p-0">
                 {children}
             </div>
-            <div className='d-flex justify-content-center align-items-center mt-3 gap-3 '>
+            <div className='flex justify-center items-center mt-3 gap-3 '>
                 <div className="text-center">
                     {total?.length > 1 && currentPage !== 1 && <button type="button" onClick={() => NextPreviousButton("previous")} className="btn btn-xs rounded"><IoIosArrowBack size={"20px"} /> </button>}
                 </div>

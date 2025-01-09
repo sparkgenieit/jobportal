@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { validateIsNotEmpty } from "../../helpers/functions/textFunctions"
 
+
+
 const AdsForm = ({ initialValues, onFormValid }) => {
     const [adForm, setAdForm] = useState(initialValues)
     const [formErrors, setFormErrors] = useState({})
@@ -34,106 +36,55 @@ const AdsForm = ({ initialValues, onFormValid }) => {
     }
 
     return (
-        <form onSubmit={SubmitBtn} className="d-flex mt-3 flex-column justify-content-md-center w-100">
-            <div className="row">
-                <div className="col-md-7">
-                    <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">Ad Title <span className="text-danger">*</span></label>
-                        <div className="col-sm-9">
-                            <input type="text" className="form-control" value={adForm?.title} name="title" onChange={handleForm} required />
-                            {formErrors?.title && <div className=' small text-danger'>{formErrors?.title}</div>}
-                        </div>
+        <form onSubmit={SubmitBtn} className="flex mt-3 flex-col md:justify-center w-full">
+
+            <div className="container flex flex-col gap-4 p-3">
+
+                <div className="grid  md:grid-cols-3">
+                    <label className="">Ad Title <span className="text-red-600">*</span> </label>
+                    <div className="md:col-span-2">
+                        <input className="px-3 py-2 w-full shadow-sm " value={adForm?.title} name="title" onChange={handleForm} required />
+                        {formErrors?.title && <span className='text-red-600 text-sm'>{formErrors?.title}</span>}
                     </div>
                 </div>
-            </div>
-            <div className="row">
-                <div className="col-md-7">
-                    <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">Description<span className="text-danger">*</span></label>
-                        <div className="col-sm-9">
-                            <textarea className="form-control" value={adForm?.description} name="description" onChange={handleForm} required />
-                            {formErrors?.description && <div className='small text-danger'>{formErrors?.description}</div>}
-                        </div>
 
+                <div className="grid  md:grid-cols-3">
+                    <label className="">Ad Description <span className="text-red-600">*</span> </label>
+                    <div className="md:col-span-2">
+                        <textarea className="px-3 py-2 w-full shadow-sm " value={adForm?.description} name="description" onChange={handleForm} required />
+                        {formErrors?.description && <span className='text-red-600 text-sm'>{formErrors?.description}</span>}
                     </div>
                 </div>
-            </div>
 
-            <div className="row">
-                <div className="col-md-7">
-                    <div className="form-group row">
-                        <label className="col-sm-3 col-form-label">
-                            Ad Webiste URL <span className="text-danger">*</span>
-                            <br />
-                            <small style={{ fontSize: "10px" }}>(URL of the website when the user click on the ad)</small>
-                        </label>
-                        <div className="col-sm-9">
-                            <input type="url" className="form-control" value={adForm?.redirect_url} name="redirect_url" onChange={handleForm} required />
-                            {formErrors?.redirect_url && <div className='small text-danger'>{formErrors?.redirect_url} </div>}
-                        </div>
+                <div className="grid  md:grid-cols-3">
+                    <label>
+                        Ad Webiste URL  <span className="text-red-600">*</span>
+                        <br />
+                        <small style={{ fontSize: "10px" }}>(URL of the website when the user click on the ad)</small>
+                    </label>
+                    <div className="md:col-span-2">
+                        <input type="url" className="px-3 py-2 w-full shadow-sm " value={adForm?.redirect_url} name="redirect_url" onChange={handleForm} required />
+                        {formErrors?.redirect_url && <div className='text-sm text-red-600'>{formErrors?.redirect_url} </div>}
                     </div>
                 </div>
-            </div>
 
-            <div className='row'>
-                <div className="col-md-7">
-                    <div className="form-group row">
-                        <label className="col-sm-3  col-form-label">
-                            Ad Image URL<span className="text-danger">*</span>
-                            <br />
-                            <small style={{ fontSize: "10px" }}>(URL of the image to be displayed on the ad)</small>
-                        </label>
-                        <div className="col-sm-9">
-                            <input type="url" className="form-control" value={adForm?.ad_image_url} name="ad_image_url" onChange={handleForm} required />
-                            {formErrors?.ad_image_url && <div className='small text-danger'>{formErrors?.ad_image_url} </div>}
-                        </div>
+                <div className="grid  md:grid-cols-3">
+                    <label>
+                        Ad Image URL<span className="text-red-600">*</span>
+                        <br />
+                        <small style={{ fontSize: "10px" }}>(URL of the image to be displayed on the ad)</small>
+                    </label>
+                    <div className="md:col-span-2">
+                        <input type="url" className="px-3 py-2 w-full shadow-sm " value={adForm?.ad_image_url} name="ad_image_url" onChange={handleForm} required />
+                        {formErrors?.ad_image_url && <div className='text-sm  text-red-600'>{formErrors?.ad_image_url} </div>}
                     </div>
                 </div>
-            </div>
-            {/* <div className='row'>
-            <div className="col-md-7">
-                <div className="form-group row">
-                    <label className="col-sm-3  col-form-label pt-4">Page To Show<span className="text-danger">*</span></label>
-                    <div className="col-sm-9 d-flex justify-content-between align-items-center">
-                        <span><input type="checkbox" className="form-check-input mx-2" name='about' checked={pagetoshow.about} onChange={handleCheckboxChange} />About</span>
 
-                        <span><input type="checkbox" className="form-check-input mx-2" name='home' checked={pagetoshow.home} onChange={handleCheckboxChange} />Home</span>
-
-                        <span><input type="checkbox" className="form-check-input mx-2" name="jobs" checked={pagetoshow.jobs} onChange={handleCheckboxChange} />Jobs</span>
-                    </div>
+                <div className='flex justify-end'>
+                    <button type="button" class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-semibold rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
                 </div>
             </div>
-        </div>
-
-
-        {error && <div className="text-danger">{error}</div>}
-
-        <div className="col-md-7">
-            <div className="form-group row">
-                <label className="col-sm-3 col-form-label">Price<span className="text-danger">*</span></label>
-                <div className="col-sm-9">
-                    <input type="text" className="form-control" value={price} onChange={(event) => FormHandle('price', event)} />
-                    {errors.priceError && <div className='text-danger'>{pricemsg}</div>}
-                </div>
-            </div>
-        </div>
-
-        <div className="col-md-7">
-            <div className="form-group row">
-                <label className="col-sm-3 col-form-label">Number of Clicks<span className="text-danger">*</span></label>
-                <div className="col-sm-9">
-                    <input type="number" className="form-control" value={numberofclicks} onChange={(event) => FormHandle('numberofclicks', event)} />
-                    {errors.numberError && <div className='text-danger'>Please enter number of clicks</div>}
-                </div>
-            </div>
-        </div> */}
-
-            <div className='form-group'>
-                <div className='col-11 p-3 d-flex justify-content-end'>
-                    <button type='submit' className='btn btn-primary'>Submit</button>
-                </div>
-            </div>
-        </form>)
+        </form >)
 }
 
 export default AdsForm;

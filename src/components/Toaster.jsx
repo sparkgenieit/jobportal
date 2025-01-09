@@ -12,12 +12,12 @@ export default function Toaster() {
         dispatch(setToaster({ show: false }))
     }
 
-    const buttonType = `btn ${toaster.type === "success" ? " btn-success" : toaster.type === "error" ? "btn-danger" : "btn-info"}`
+    const buttonType = `px-3 py-2 text-white rounded-lg ${toaster.type === "success" ? " bg-green-700" : toaster.type === "error" ? "bg-red-600" : "bg-blue-400"}`
 
     return <>
         <Modal size="sm" show={toaster.show} onHide={handleClose} centered>
-            <Modal.Body className="bg-white p-2 responsive-font rounded">
-                <div className=" d-flex align-items-center  gap-3">
+            <Modal.Body className="bg-white p-2 text-sm lg:text-base rounded-lg">
+                <div className=" flex items-center  gap-3">
                     <div>
                         {toaster.type === "success" &&
                             <div>
@@ -30,12 +30,12 @@ export default function Toaster() {
                             </div>
                         }
                     </div>
-                    <div className="fw-bold flex-grow-1">
+                    <div className="font-bold grow">
                         {toaster.text}
                     </div>
                 </div>
-                <div className="d-flex justify-content-center pt-3">
-                    <button type="button" className={`${buttonType} btn-responsive`} onClick={handleClose}>
+                <div className="flex justify-center pt-3">
+                    <button type="button" className={buttonType} onClick={handleClose}>
                         Ok
                     </button>
                 </div>

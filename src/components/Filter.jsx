@@ -119,7 +119,7 @@ export default function Filter({ filterFields, setFilterFields, setRefresh }) {
 
     return <div className='p-3 filter hide-scrollbar rounded border border-slate-200  scrollbar'>
         <form autoComplete="off">
-            <div className="fw-bold mb-2">Search By</div>
+            <div className="font-bold mb-2">Search By</div>
             <div className="border border-slate-100 rounded px-2 py-3 mb-4 flex gap-4 flex-col">
 
                 <ComboBox

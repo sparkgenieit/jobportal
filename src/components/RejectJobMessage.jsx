@@ -11,7 +11,7 @@ export default function RejectJobMessage({ handleClose, job, userId }) {
     function handleMessage(e) {
         setMessage(e.target.value)
         if (e.target.value == "") {
-            setErrorClass("border border-danger")
+            setErrorClass("border border-red-500")
         }
         else {
             setErrorClass("")
@@ -48,22 +48,21 @@ export default function RejectJobMessage({ handleClose, job, userId }) {
                 })
                 .catch(err => console.log(err))
         } else {
-            setErrorClass("border border-danger")
+            setErrorClass("border border-red-500")
         }
     }
     return <>
-        <div className='border p-3 bg-light shadow rounded'>
+        <div className='border p-3 bg-white shadow-sm rounded-lg'>
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Body>
-                    <label className='col-form-label d-block h5 text-danger text-center'>Mention why this job was rejected</label>
+                    <label className='font-bold text-center'>Mention why this job was rejected</label>
                     <div>
                         <textarea className={'textarea w-100 shadow-sm ' + errorClass} value={message} onChange={(e) => { handleMessage(e) }} rows="5" placeholder='Type Here'></textarea>
                     </div>
-                    <div className='px-5 d-flex justify-content-between py-2'>
+                    <div className='px-5 flex justify-between py-2'>
                         <button className='my-button button-reject' onClick={() => handleReject(job)} >Reject</button>
                         <button className='my-button button-cancel' onClick={handleClose}>Cancel</button>
                     </div>
-
                 </Modal.Body>
             </Modal>
         </div >

@@ -79,43 +79,43 @@ export default function ChatPage({ name }) {
     }, [])
 
     return (
-        <div className=" mt-3 container-fluid">
-            <button onClick={() => message({ path: -1 })} type="button" className="btn p-1 btn-dark btn-xs rounded-circle ">
+        <div className="mt-3 container">
+            <button onClick={() => message({ path: -1 })} type="button" className=" bg-gray-600 active:bg-gray-300 text-white font-semibold p-2 rounded-full ">
                 <IoMdArrowBack fontSize={16} />
             </button>
 
-            <div className=" mt-3 d-flex flex-column flex-md-row gap-3 align-items-center">
-                <h2 className=" flex-grow-1 fw-bold fs-3 ">
+            <div className=" mt-3 flex flex-col md:flex-row gap-3 items-center">
+                <h2 className=" grow font-bold text-xl ">
                     {query?.subject}
                 </h2>
 
-                <span className="align-self-end">
-                    <button onClick={() => sendMessage()} disabled={toggleState.showMessageBox} className="btn btn-info rounded-4 w-100" type="button">Send Message</button>
+                <span className="self-end">
+                    <button onClick={() => sendMessage()} disabled={toggleState.showMessageBox} className="bg-blue-500 rounded-lg px-3 py-2 active:bg-blue-300 text-white" type="button">Send Message</button>
                 </span>
 
             </div>
 
             <div className=" mt-3 ">
                 {toggleState.showMessageBox &&
-                    <div className="border-bottom" >
-                        <p className={`fw-bold fs-5 ${addMessage.by === "admin" ? "text-primary" : "text-dark"}`}>{addMessage.from}</p>
+                    <div >
+                        <p className={`font-bold text-lg ${addMessage.by === "admin" ? "text-blue-600" : "text-black"}`}>{addMessage.from}</p>
                         <p>{getDate(addMessage?.date)}</p>
-                        <div className="d-flex flex-wrap">
-                            <div className="flex-grow-1">
+                        <div className="flex flex-wrap">
+                            <div className="grow">
                                 <MdxEditor value={addMessage.message} setValue={handleMessage} />
                             </div>
-                            <button type="button" disabled={toggleState.sendingReply} onClick={postReply} className="btn btn-success align-self-end rounded p-2">
+                            <button type="button" disabled={toggleState.sendingReply} onClick={postReply} className="bg-emerald-400  active:bg-emerald-200 text-white  self-end rounded-lg p-2">
                                 <RxDoubleArrowRight fontSize={20} />
                             </button>
                         </div>
-                        {toggleState.errorInPostingReply && <small className="text-danger">{toggleState.errorInPostingReply}</small>}
+                        {toggleState.errorInPostingReply && <small className="text-red-600">{toggleState.errorInPostingReply}</small>}
                     </div>
                 }
 
                 {query?.chat &&
                     reverseArray(query?.chat)?.map((msg, i) => {
-                        return <div className=" border-bottom  p-3" key={i} >
-                            <p className={`fw-bold fs-5 ${msg.by === "admin" ? "text-primary" : "text-dark"}`}>{msg.from}</p>
+                        return <div className=" border-b p-3" key={i} >
+                            <p className={`fw-bold text-lg ${msg.by === "admin" ? "text-blue-600" : "text-black"}`}>{msg.from}</p>
                             <p>{getDate(msg?.date)} ({timeAgoMinutes(new Date(msg?.date).toISOString())})</p>
                             <div className="text-wrap">{markdownToText(msg.message)}</div>
                         </div>

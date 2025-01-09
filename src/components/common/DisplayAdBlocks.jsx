@@ -20,11 +20,10 @@ export default function DisplayAdBlocks() {
 
     return (
         <div className="ad-container">
-            <div className='d-flex flex-wrap'>
-                {
-                    ads?.map((ad, index) => (
-                        <AdBlock key={index} />
-                    ))
+            <div className='flex flex-wrap'>
+                {ads?.map((ad, index) => (
+                    <AdBlock key={index} />
+                ))
                 }
             </div>
         </div>

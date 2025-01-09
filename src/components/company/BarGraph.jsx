@@ -6,8 +6,8 @@ const BarGraph = ({ name, data }) => {
 
     return (
 
-        <div style={{ fontSize: 11 }} className='border p-2  d-flex flex-column gap-3 rounded  position-relative '>
-            <div className='fw-bold fs-5 text-center '>
+        <div style={{ fontSize: 11 }} className=' p-2  flex flex-col gap-3 rounded  relative '>
+            <div className='font-bold text-lg text-center '>
                 {name}
             </div>
             <BarChart

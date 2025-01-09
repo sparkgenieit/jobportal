@@ -7,7 +7,7 @@ export default function GuageMeter({ value, name }) {
 
     return (
         <div>
-            <h3 className="fs-5 fw-bold text-center">
+            <h3 className="text-lg font-bold text-center">
                 {name}
             </h3>
 

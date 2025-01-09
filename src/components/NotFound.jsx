@@ -7,8 +7,8 @@ export default function NotFound() {
     }, [])
 
     return (
-        <div className="container-fluid">
-            <div className="content-wrapper bg-white">
+        <div className="container mt-5">
+            <div className="flex justify-center items-center bg-white">
                 <h1 className="text-center">Page not found</h1>
             </div>
         </div>
