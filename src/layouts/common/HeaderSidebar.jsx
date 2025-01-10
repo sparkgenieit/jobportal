@@ -6,7 +6,7 @@ import CustomToggle from '../../components/CustomToggle'
 import { Roles } from '../../services/common/Roles.service'
 import { CgProfile } from 'react-icons/cg'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
-import { activities, b2B, entertainment, events, info, places, regions, services, shopping, stay, travels } from './navbarItems'
+import NavbarInfo from './navbarItems'
 import { NavItem } from './Header'
 import handleLogout from '../../helpers/functions/handlelogout'
 
@@ -101,69 +101,67 @@ export default function HeaderSidebar({ showSideBar, setShowSideBar, handleNavig
 
                             <MobileNavDropdownItem title={<Title title={"Places"} />} eventKey={"0"}>
                                 <div className='flex flex-col gap-3  text-sm'>
-                                    {places.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+                                    {NavbarInfo.places.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
                                 </div>
                             </MobileNavDropdownItem>
 
                             <MobileNavDropdownItem title={<Title title={"Regions"} />} eventKey={"1"}>
                                 <div className='flex flex-col gap-3  text-sm'>
-                                    {regions.map((region, index) => <NavItem key={index} title={region.title} path={region.path} />)}
+                                    {NavbarInfo.regions.map((region, index) => <NavItem key={index} title={region.title} path={region.path} />)}
                                 </div>
                             </MobileNavDropdownItem>
 
                             <MobileNavDropdownItem title={<Title title={"Activities"} />} eventKey={"10"}>
                                 <div className='flex flex-col gap-3  text-sm'>
-                                    {activities.map((activity, index) => <NavItem key={index} title={activity.title} path={activity.path} />)}
+                                    {NavbarInfo.activities.map((activity, index) => <NavItem key={index} title={activity.title} path={activity.path} />)}
                                 </div>
                             </MobileNavDropdownItem>
 
                             <MobileNavDropdownItem title={<Title title={"Travel"} />} eventKey={"2"}>
                                 <div className='flex flex-col gap-3  text-sm'>
-                                    {travels.map((travel, index) => <NavItem key={index} title={travel.title} path={travel.path} />)}
+                                    {NavbarInfo.travels.map((travel, index) => <NavItem key={index} title={travel.title} path={travel.path} />)}
                                 </div>
                             </MobileNavDropdownItem>
 
-
                             <MobileNavDropdownItem title={<Title title={"Stay"} />} eventKey={"7"}>
                                 <div className='flex flex-col gap-3  text-sm'>
-                                    {stay.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+                                    {NavbarInfo.stay.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
                                 </div>
                             </MobileNavDropdownItem>
 
                             <MobileNavDropdownItem title={<Title title={"Events"} />} eventKey={"3"}>
                                 <div className='flex flex-col gap-3  text-sm'>
-                                    {events.map((event, index) => <NavItem key={index} title={event.title} path={event.path} />)}
+                                    {NavbarInfo.events.map((event, index) => <NavItem key={index} title={event.title} path={event.path} />)}
                                 </div>
                             </MobileNavDropdownItem>
 
                             <MobileNavDropdownItem title={<Title title={"Shopping"} />} eventKey={"4"}>
                                 <div className='flex flex-col gap-3  text-sm'>
-                                    {shopping.map((shop, index) => <NavItem key={index} title={shop.title} path={shop.path} />)}
+                                    {NavbarInfo.shopping.map((shop, index) => <NavItem key={index} title={shop.title} path={shop.path} />)}
                                 </div>
                             </MobileNavDropdownItem>
 
                             <MobileNavDropdownItem title={<Title title={"Entertainment"} />} eventKey={"5"}>
                                 <div className='flex flex-col gap-3  text-sm'>
-                                    {entertainment.map((entertain, index) => <NavItem key={index} title={entertain.title} path={entertain.path} />)}
+                                    {NavbarInfo.entertainment.map((entertain, index) => <NavItem key={index} title={entertain.title} path={entertain.path} />)}
                                 </div>
                             </MobileNavDropdownItem>
 
                             <MobileNavDropdownItem title={<Title title={"Services"} />} eventKey={"6"}>
                                 <div className='flex flex-col gap-3  text-sm'>
-                                    {services.map((service, index) => <NavItem key={index} title={service.title} path={service.path} />)}
+                                    {NavbarInfo.services.map((service, index) => <NavItem key={index} title={service.title} path={service.path} />)}
                                 </div>
                             </MobileNavDropdownItem>
 
-
                             <MobileNavDropdownItem title={<Title title={"Info"} />} eventKey={"9"}>
                                 <div className='flex flex-col gap-3  text-sm'>
-                                    {info.map((information, index) => <NavItem key={index} title={information.title} path={information.path} />)}
+                                    {NavbarInfo.info.map((information, index) => <NavItem key={index} title={information.title} path={information.path} />)}
                                 </div>
                             </MobileNavDropdownItem>
 
                             <MobileNavDropdownItem title={<Title title={"B2B"} />} eventKey={"11"}>
                                 <div className='flex flex-col gap-3  text-sm'>
-                                    {b2B.map(category => (
+                                    {NavbarInfo.b2B.map(category => (
                                         <div key={category.heading} className='flex flex-col gap-2'>
                                             <strong className='text-sm font-semibold'>{category.heading}</strong>
                                             <div className='flex flex-col gap-2'>

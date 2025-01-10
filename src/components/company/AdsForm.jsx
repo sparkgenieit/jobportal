@@ -38,7 +38,7 @@ const AdsForm = ({ initialValues, onFormValid }) => {
     return (
         <form onSubmit={SubmitBtn} className="flex mt-3 flex-col md:justify-center w-full">
 
-            <div className="container flex flex-col gap-4 p-3">
+            <div className=" flex flex-col gap-4 ">
 
                 <div className="grid  md:grid-cols-3">
                     <label className="">Ad Title <span className="text-red-600">*</span> </label>
@@ -81,7 +81,7 @@ const AdsForm = ({ initialValues, onFormValid }) => {
                 </div>
 
                 <div className='flex justify-end'>
-                    <button type="button" class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-semibold rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
+                    <button type="button" className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-semibold rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
                 </div>
             </div>
         </form >)

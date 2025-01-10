@@ -17,7 +17,7 @@ import { Roles } from '../../services/common/Roles.service';
 import { recruiterUrl } from '../../services/common/urls/recruiterUrls.service';
 import HomePageBanner from '../../pages/common/Ads/HomePageBanner';
 
-import { activities, b2B, entertainment, events, info, places, regions, services, shopping, stay, travels } from './navbarItems';
+import NavbarInfo from './navbarItems';
 import HeaderSidebar from './HeaderSidebar';
 
 export const NavItem = ({ title, path, className }) => {
@@ -45,7 +45,6 @@ export default function Header() {
   const [isSignedIn] = useState(localStorage.getItem('isSignedIn') || '');
   const { name, role, first_name, last_name } = useCurrentUser()
   const fullname = role === "recruiter" ? name : first_name + " " + last_name
-  const [isExpanded, setIsExpanded] = useState(false)
   const [showSideBar, setShowSideBar] = useState(false)
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
@@ -77,67 +76,67 @@ export default function Header() {
 
       <NavDropdownItem title="Places">
         <div className='grid grid-cols-2 gap-3  text-sm w-80 p-3'>
-          {places.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+          {NavbarInfo.places.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
         </div>
       </NavDropdownItem>
 
       <NavDropdownItem title="Regions">
         <div className='grid grid-cols-2 gap-3  text-sm w-80 p-3'>
-          {regions.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+          {NavbarInfo.regions.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
         </div>
       </NavDropdownItem>
 
       <NavDropdownItem title="Activities">
         <div className='grid grid-cols-5 gap-y-3 gap-x-[20px]  text-sm w-[800px] p-3'>
-          {activities.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+          {NavbarInfo.activities.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
         </div>
       </NavDropdownItem>
 
       <NavDropdownItem title="Travel">
         <div className=' flex flex-col gap-3 text-sm w-60 p-3'>
-          {travels.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+          {NavbarInfo.travels.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
         </div>
       </NavDropdownItem>
 
       <NavDropdownItem title="Stay">
         <div className=' flex flex-col gap-3 text-sm w-60 p-3'>
-          {stay.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+          {NavbarInfo.stay.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
         </div>
       </NavDropdownItem>
 
       <NavDropdownItem title="Events">
         <div className=' flex flex-col gap-3 text-sm w-60 p-3'>
-          {events.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+          {NavbarInfo.events.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
         </div>
       </NavDropdownItem>
 
       <NavDropdownItem title="Shopping">
         <div className=' flex flex-col gap-3 text-sm w-60 p-3'>
-          {shopping.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+          {NavbarInfo.shopping.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
         </div>
       </NavDropdownItem>
 
       <NavDropdownItem title="Entertainment">
         <div className=' flex flex-col gap-3 text-sm w-60 p-3'>
-          {entertainment.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+          {NavbarInfo.entertainment.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
         </div>
       </NavDropdownItem>
 
       <NavDropdownItem title="Services">
         <div className=' flex flex-col gap-3 text-sm w-60 p-3'>
-          {services.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+          {NavbarInfo.services.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
         </div>
       </NavDropdownItem>
 
       <NavDropdownItem title="Info" rightAlign >
         <div className=' flex flex-col gap-3 text-sm w-60 p-3'>
-          {info.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+          {NavbarInfo.info.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
         </div>
       </NavDropdownItem>
 
       <NavDropdownItem title="B2B" rightAlign >
         <div className=' grid grid-cols-6 gap-y-3 gap-x-[20px] text-sm w-[950px] p-3' >
-          {b2B.map(item => (
+          {NavbarInfo.b2B.map(item => (
             <div key={item.heading} className='text-[13px]'>
               <div className='font-bold py-1 text-nowrap '>{item.heading}</div>
               <div className='flex flex-col'>

@@ -39,6 +39,7 @@ import UserProfile from '../../pages/common/UserProfile';
 import { commonUrls } from '../../services/common/urls/commonUrls.service';
 import { Roles } from '../../services/common/Roles.service';
 import ViewJob from '../../pages/common/ViewJob/ViewJob';
+import MainContent from '../../pages/common/NavbarItemPages/MainContent';
 
 
 export default function CommonLayout() {
@@ -93,6 +94,7 @@ export default function CommonLayout() {
                 <Route path={commonUrls.forgotPassword} element={<ForgetPassword />} />
                 <Route path={commonUrls.resetPassword} element={<ResetPassword />} />
                 <Route path={commonUrls.activateAccount} element={<ActivateAccount />} />
+                <Route path={commonUrls.navBarCategories} element={<MainContent />} />
 
                 {/* Company Protected Route */}
                 <Route path={commonUrls.paymentStatus} element={(role === Roles.Company || role === Roles.Recruiter) ? <PaymentStatus /> : <Navigate to="/" />} />
@@ -103,7 +105,6 @@ export default function CommonLayout() {
                 <Route path={commonUrls.appliedJobs} element={(role === Roles.User) ? <Myappliedjobs /> : <Navigate to="/" />} />
                 <Route path={commonUrls.savedJobs} element={(role === Roles.User) ? <Savedjobs /> : <Navigate to="/" />} />
                 <Route path="*" element={<NotFound />} />
-
             </Routes>
             <InfoPopup />
             <LocationPopup />

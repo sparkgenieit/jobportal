@@ -30,6 +30,7 @@ class CommonUrls {
         this.viewProfile = "/viewprofile"
         this.appliedJobs = "/applied-jobs"
         this.savedJobs = "/saved-jobs"
+        this.navBarCategories = "/categories/:name/:topic"
     }
 
     getJobUrl(id) {
