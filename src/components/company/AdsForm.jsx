@@ -81,7 +81,7 @@ const AdsForm = ({ initialValues, onFormValid }) => {
                 </div>
 
                 <div className='flex justify-end'>
-                    <button type="button" className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-semibold rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
+                    <button type="submit" className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-semibold rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
                 </div>
             </div>
         </form >)

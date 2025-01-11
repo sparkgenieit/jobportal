@@ -8,7 +8,7 @@ export default function MainContent() {
 
     return (
         <>
-            <CategorySpecifyAd />
+            <CategorySpecifyAd page={params.topic} />
             <div className='min-h-[70vh]' >MainContent</div>
         </>
     )
