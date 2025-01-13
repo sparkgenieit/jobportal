@@ -128,6 +128,12 @@ export default function Header() {
         </div>
       </NavDropdownItem>
 
+      <NavDropdownItem title="Dining">
+        <div className=' flex flex-col gap-3 text-sm w-60 p-3'>
+          {NavbarInfo.dining.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}
+        </div>
+      </NavDropdownItem>
+
       <NavDropdownItem title="Info" rightAlign >
         <div className=' flex flex-col gap-3 text-sm w-60 p-3'>
           {NavbarInfo.info.map((place, index) => <NavItem key={index} title={place.title} path={place.path} />)}

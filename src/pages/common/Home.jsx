@@ -112,15 +112,22 @@ function Home() {
             <div className="2xl:container 2xl:mx-auto text-center py-3">
                 <div className='grid  lg:grid-cols-4 mb-3 gap-3'>
 
-                    <Ads />
+
+                    <div>
+                        <Ads />
+                    </div>
 
                     <div className='lg:col-span-2'>
                         <NZMap />
                     </div>
 
-                    <Ads />
+                    <div>
+                        <Ads />
+                    </div>
 
-                    <Ads />
+                    <div>
+                        <Ads />
+                    </div>
 
                     <section className='flex flex-col gap-5 lg:col-span-2'>
                         <div className='flex flex-col'>
@@ -134,7 +141,9 @@ function Home() {
                         </div>
                     </section>
 
-                    <Ads />
+                    <div>
+                        <Ads />
+                    </div>
                 </div>
             </div>
         </main >

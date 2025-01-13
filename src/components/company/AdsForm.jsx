@@ -1,9 +1,9 @@
-import { useState } from "react"
+import { Children, useState } from "react"
 import { validateIsNotEmpty } from "../../helpers/functions/textFunctions"
 
 
 
-const AdsForm = ({ initialValues, onFormValid }) => {
+const AdsForm = ({ initialValues, onFormValid, children }) => {
     const [adForm, setAdForm] = useState(initialValues)
     const [formErrors, setFormErrors] = useState({})
 
@@ -79,6 +79,10 @@ const AdsForm = ({ initialValues, onFormValid }) => {
                         {formErrors?.ad_image_url && <div className='text-sm  text-red-600'>{formErrors?.ad_image_url} </div>}
                     </div>
                 </div>
+
+
+                {children}
+
 
                 <div className='flex justify-end'>
                     <button type="submit" className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-semibold rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
