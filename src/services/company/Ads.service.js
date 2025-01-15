@@ -1,4 +1,5 @@
 import http from "../../helpers/http";
+import httpUpload from "../../helpers/httpUpload";
 
 export const initialAdFormValues = {
     title: "",
@@ -54,6 +55,10 @@ class AdService {
 
     showAds(type) {
         return http.get('/ads/show-ad', { params: { type } })
+    }
+
+    uploadAdPhoto(data) {
+        return httpUpload.post(`/upload/ad-photo?path=ads`, data);
     }
 
 
