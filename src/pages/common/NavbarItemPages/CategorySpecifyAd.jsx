@@ -6,7 +6,7 @@ import { MdOutlineLocationOn } from 'react-icons/md';
 
 export const SpecificPageAd = ({ ad }) => (
     <div className='h-[280px] w-[250px] text-sm rounded-md flex flex-col gap-2 justify-between border border-slate-800 shadow-md p-2'>
-        {ad.ad_image_url && <img src={ad?.ad_image_url} className='h-[100px] w-[250px] rounded-md' />}
+        {ad.ad_image_url && <img src={ad?.image} className='h-[100px] w-[250px] rounded-md' />}
         <h4 className='text-xl p-0 m-0 font-bold '>{ad?.title}</h4>
 
         <p className='text-slate-700 overflow-hidden p-0 m-0 grow text-ellipsis'>{ad?.description}</p>
