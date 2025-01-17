@@ -43,7 +43,7 @@ export const adTypes = [
 class AdService {
 
     postAd(data) {
-        return http.post("/ads/company", data)
+        return httpUpload.post("/ads/company", data)
     }
 
     getAds() {

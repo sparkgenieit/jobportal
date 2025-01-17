@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import PostAd from './PostAd'
 import PostSpecificPageAd from './PostSpecificPageAd'
 
 export default function PageDeciderBasedOnType() {
     const { type } = useParams()
+
+    useEffect(() => {
+        document.title = "Post Ad"
+    }, [])
+
     switch (type) {
         case 'specific-page':
             return <PostSpecificPageAd />

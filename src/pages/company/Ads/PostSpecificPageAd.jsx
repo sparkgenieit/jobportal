@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import NavBarInfo from '../../../layouts/common/navbarItems'
 import useShowMessage from '../../../helpers/Hooks/useShowMessage'
 import useCurrentUser from '../../../helpers/Hooks/useCurrentUser'
@@ -30,33 +30,18 @@ export default function PostSpecificPageAd() {
         location: CitiesList[0],
         description: "",
         title: "",
-        image: "",
         redirect_url: "",
         end_date: getEndDate(noOfMonths),
     })
+
     const [category, setCategory] = useState(Object.keys(Categories)[0])
-    const [page, setPage] = useState(Categories[category][0].title)
+    const [page, setPage] = useState(getValue(Categories[category][0].path))
     const message = useShowMessage()
     const user = useCurrentUser()
     const [imageUrl, setImageUrl] = useState(null)
     const [adImage, setAdImage] = useState(null)
+    const adFormRef = useRef(null)
 
-    const onFormValid = async (data) => {
-        const { error } = await tryCatch(() => adService.postAd(data))
-
-        if (error) {
-            return message({
-                status: "error",
-                error
-            })
-        }
-
-        message({
-            status: "Success",
-            message: "Ad Posted Successfully",
-            path: "/company/ads"
-        })
-    }
 
     const onSubmit = async (e) => {
         e.preventDefault()
@@ -77,29 +62,31 @@ export default function PostSpecificPageAd() {
             error: { message: "Please upload an image" }
         })
 
-        const upload = new FormData()
-        upload.append("file", adImage)
+        const formData = new FormData(adFormRef.current)
 
-        const { data, error } = await tryCatch(() => adService.uploadAdPhoto(upload))
+        formData.append("company_id", user._id)
+        formData.append("type", "specific-page")
+        formData.append("show_on_pages", page)
+        formData.append("created_by", user._id)
+        formData.append("end_date", adData.end_date)
+        formData.append("image", adImage)
+        formData.delete("page")
+
+        const { data, error } = await tryCatch(() => adService.postAd(formData))
+
 
         if (error) {
-            return message({ status: "Error", error: { message: "There was an error uploading the image" } })
+            return message({
+                status: "error",
+                error
+            })
         }
 
-        const dataToSend = {
-            title: adData.title,
-            description: adData.description,
-            location: adData.location,
-            redirect_url: adData.redirect_url,
-            end_date: adData.end_date,
-            image: data.filename,
-            type: "specific-page",
-            show_on_pages: [page],
-            created_by: user._id,
-            company_id: user._id
-        }
-
-        onFormValid(dataToSend)
+        message({
+            status: "Success",
+            message: "Ad Posted Successfully",
+            path: "/company/ads"
+        })
     }
 
     const handleForm = (e) => {
@@ -128,28 +115,28 @@ export default function PostSpecificPageAd() {
         <div className='my-4 container'>
             <h3 className='text-center w-full font-bold'>Post Specific Page Ad</h3>
 
-            <form onSubmit={onSubmit} className=' flex flex-col gap-3'>
+            <form encType='multipart/form-data' ref={adFormRef} onSubmit={onSubmit} className=' flex flex-col gap-3'>
 
                 <div className='self-end flex items-center gap-3'>
                     <label>Date</label>
-                    <input type='date' value={adData.date} disabled className='border  border-slate-600 rounded-md w-full px-3 py-2' />
+                    <input type='date' name='date' value={adData.date} disabled className='border  border-slate-600 rounded-md w-full px-3 py-2' />
                 </div>
 
                 <div className='grid lg:grid-cols-4 items-center'>
                     <label htmlFor='title' className='text-nowrap'  >Ad Title</label>
-                    <input type='text' id='title' value={adData.title} onChange={handleForm} className='border lg:col-span-3  border-slate-600 rounded-md w-full px-3 py-2' placeholder='Ad Title' />
+                    <input type='text' id='title' name='title' value={adData.title} onChange={handleForm} className='border lg:col-span-3  border-slate-600 rounded-md w-full px-3 py-2' placeholder='Ad Title' />
                 </div>
 
 
                 <div className='grid lg:grid-cols-4'>
                     <label htmlFor='description'>Ad Description</label>
-                    <textarea id='description' value={adData.description} onChange={handleForm} className='col-span-3 border border-slate-600 rounded-md px-3 py-2' rows={5} />
+                    <textarea id='description' name='description' value={adData.description} onChange={handleForm} className='col-span-3 border border-slate-600 rounded-md px-3 py-2' rows={5} />
                 </div>
 
 
                 <div className='grid lg:grid-cols-4 items-center'>
                     <label htmlFor='location' className='text-nowrap' >Location</label>
-                    <select id='location' value={adData.location} onChange={handleForm} className='border border-slate-600 rounded-md px-3 py-2'>
+                    <select id='location' name='location' value={adData.location} onChange={handleForm} className='border border-slate-600 rounded-md px-3 py-2'>
                         {CitiesList.map((city, index) => <option key={index}>{city}</option>)}
                     </select>
                 </div>
@@ -178,7 +165,7 @@ export default function PostSpecificPageAd() {
                         <select className='border capitalize border-slate-600 rounded-md px-3 py-2' value={category} onChange={(e) => setCategory(e.target.value)}>
                             {Object.keys(Categories).map((title, index) => <option className='capitalize' key={index}>{title}</option>)}
                         </select>
-                        <select value={page} onChange={(e) => setPage(e.target.value)} className='border border-slate-600 rounded-md px-3 py-2'>
+                        <select value={page} name='page' onChange={(e) => setPage(e.target.value)} className='border border-slate-600 rounded-md px-3 py-2'>
                             {Categories[category].map((page, index) => <option key={index} value={getValue(page.path)}>{page.title}</option>)}
                         </select>
                     </div>
@@ -186,13 +173,13 @@ export default function PostSpecificPageAd() {
 
                 <div className='grid lg:grid-cols-4 items-center'>
                     <label htmlFor='redirect_url' className='text-nowrap' >Google Trace Link</label>
-                    <input type='text' id='redirect_url' value={adData.redirect_url} onChange={handleForm} className='border border-slate-600 rounded-md px-3 py-2' />
+                    <input type='text' id='redirect_url' name='redirect_url' value={adData.redirect_url} onChange={handleForm} className='border border-slate-600 rounded-md px-3 py-2' />
                 </div>
 
                 <div className='flex justify-between  py-3 w-full'>
                     <div>
-                        <label htmlFor='ad_image' className='text-nowrap mb-3 bg-slate-800 p-2 text-white rounded-md' >Upload Image</label>
-                        <input type='file' accept="image/*" onChange={onUploadImage} hidden id='ad_image' className='border border-slate-600 rounded-md px-3 py-2' />
+                        <label htmlFor='image' className='text-nowrap mb-3 bg-slate-800 p-2 text-white rounded-md' >Upload Image</label>
+                        <input type='file' accept="image/*" onChange={onUploadImage} hidden id='image' className='border border-slate-600 rounded-md px-3 py-2' />
                         {imageUrl && <ImageResizer width={250} height={100} setImg={onImageResize} imgSrc={imageUrl} />}
                     </div>
 
