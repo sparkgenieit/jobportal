@@ -21,7 +21,7 @@ export default function useShowMessage() {
             toaster = {
                 show: true,
                 type: "error",
-                text: Array.isArray(error.response.data.message) ? error.response.data.message[0] : error.response.data.message || error.message
+                text: Array.isArray(error?.response?.data?.message) ? error?.response?.data?.message[0] : error?.response?.data?.message || error.message
             }
         }
 

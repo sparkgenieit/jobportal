@@ -72,7 +72,7 @@ export default function PostSpecificPageAd() {
         formData.append("image", adImage)
         formData.delete("page")
 
-        const { data, error } = await tryCatch(() => adService.postAd(formData))
+        const { error } = await tryCatch(() => adService.postAd(formData))
 
 
         if (error) {
@@ -173,7 +173,7 @@ export default function PostSpecificPageAd() {
 
                 <div className='grid lg:grid-cols-4 items-center'>
                     <label htmlFor='redirect_url' className='text-nowrap' >Google Trace Link</label>
-                    <input type='text' id='redirect_url' name='redirect_url' value={adData.redirect_url} onChange={handleForm} className='border border-slate-600 rounded-md px-3 py-2' />
+                    <input type='url' id='redirect_url' name='redirect_url' value={adData.redirect_url} onChange={handleForm} className='border border-slate-600 rounded-md px-3 py-2' />
                 </div>
 
                 <div className='flex justify-between  py-3 w-full'>
@@ -185,7 +185,7 @@ export default function PostSpecificPageAd() {
 
                     <div className='self-end -z-10'>
                         <p className='font-bold m-0 mb-3'>Preview</p>
-                        <SpecificPageAd ad={adData} />
+                        <SpecificPageAd ad={adData} mode='preview' />
                     </div>
                 </div>
 
