@@ -88,7 +88,28 @@ function Sidebar() {
                 </div>
               </div>
             </li >
+            <li className="nav-item">
+              <div className="nav-link" role="button" onClick={() => handleNavigation("/admin/adsqueuelist")} >
+                <div className='d-flex justify-content-between w-100'>
+                  <span>Ads Queue List</span>
+                  <span>
+                    <HiMiniQueueList size={"20"} />
+                  </span>
+                </div>
+              </div>
+            </li>
 
+
+            <li className="nav-item">
+              <div className="nav-link" role="button" onClick={() => handleNavigation("/admin/myasignads")} >
+                <div className='d-flex justify-content-between w-100'>
+                  <span>Assigned Ads</span>
+                  <span>
+                    <MdAssignment size={"20"} />
+                  </span>
+                </div>
+              </div>
+            </li >
             <li className="nav-item">
               <div className="nav-link" role="button" onClick={() => handleNavigation("/admin/employer-queries")} >
                 <div className='d-flex justify-content-between w-100'>

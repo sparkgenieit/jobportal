@@ -50,7 +50,7 @@ class AdService {
         return http.get("/ads/company")
     }
     getPageSpecificAds(page) {
-        return http.get("/ads/specific-ad", { params: { page } })
+        return http.get("/ads/specific-ad-live", { params: { page } })
     }
 
     showAds(type) {

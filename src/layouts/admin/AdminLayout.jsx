@@ -3,6 +3,10 @@ import { Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import Jobqueuelist from "../../pages/admin/joblist/Jobqueuelist";
+import Adsqueuelist from "../../pages/admin/adslist/Adsqueuelist";
+import Myasignads from "../../pages/admin/adslist/Myasignads";
+
+
 import SingleJobAdmin from "../../pages/admin/joblist/SingleJobAdmin";
 import AdminHome from "../../pages/admin/Home";
 import Myasignjobs from "../../pages/admin/joblist/Myasignjobs";
@@ -51,11 +55,13 @@ export default function AdminLayout() {
                     <Routes>
                         <Route index element={<AdminHome />} />
                         <Route path={adminUrls.jobQueueList} element={<Jobqueuelist />} />
+                        <Route path={adminUrls.adsQueueList} element={<Adsqueuelist />} />
                         <Route path={adminUrls.employerQueries} element={<UnAssignedQueries />} />
                         <Route path={adminUrls.generalQueries} element={<GeneralQueries />} />
                         <Route path={adminUrls.inbox} element={<AdminInbox />} />
                         <Route path={adminUrls.inboxDetails} element={<ChatPage name={"Admin"} />} />
                         <Route path={adminUrls.assignedJobs} element={<Myasignjobs />} />
+                        <Route path={adminUrls.assignedAds} element={<Myasignads />} />
                         <Route path={adminUrls.viewJob} element={<SingleJobAdmin />} />
                         <Route path={adminUrls.adminInbox} element={<SuperAdminInbox />} />
                         <Route path={adminUrls.adminMail} element={< MailAdmin />} />

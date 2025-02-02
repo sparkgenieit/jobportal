@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import RejectJobMessage from "../../../components/RejectJobMessage";
+import RejectJobMessage from "../../../components/RejectAdMessage";
 import AdminJob from "./AdminJobComponent";
 import http from "../../../helpers/http";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";

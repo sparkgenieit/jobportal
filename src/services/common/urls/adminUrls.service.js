@@ -3,6 +3,8 @@ class AdminUrls {
     constructor() {
         this.admin = "/"
         this.jobQueueList = "/jobqueuelist"
+        this.adsQueueList = "/adsqueuelist"
+        this.assignedAds = "/Myasignads"
         this.employerQueries = "/employer-queries"
         this.generalQueries = "/general-queries"
         this.inbox = "/inbox"

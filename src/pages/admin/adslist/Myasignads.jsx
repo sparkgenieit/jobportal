@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { itemsPerPage } from "../../../helpers/constants";
 import http from "../../../helpers/http";
 import Pagination from "../../../components/Pagination";
-//import RejectAdMessage from "../../../components/RejectAdMessage";
+import RejectAdMessage from "../../../components/RejectAdMessage";
 import Loader from "../../../components/Loader";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import useCurrentUser from "../../../helpers/Hooks/useCurrentUser";
@@ -88,7 +88,7 @@ function Myasignads() {
             .then((response) => {
                 if (response && response.status) {
                     setTimeout(() => {
-                        navigate("/admin/Adqueuelist");
+                        navigate("/admin/adsqueuelist");
                     }, 500)
                 }
             })
@@ -164,7 +164,7 @@ function Myasignads() {
                     </Pagination>
                 </div >
             </div >
-           
+            {show && <RejectAdMessage handleClose={handleClose} ad={adData} userId={userId} />}
           
         </>
     )
