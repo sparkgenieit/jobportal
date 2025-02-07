@@ -12,7 +12,9 @@ export default function PageDeciderBasedOnType() {
 
     switch (type) {
         case 'specific-page':
-            return <PostSpecificPageAd />
+            return <PostSpecificPageAd  pageType='specific-page'/>
+            case 'b2b':
+                return <PostSpecificPageAd  pageType='b2b'/>
         case 'edit':
             return null
         case 'view':

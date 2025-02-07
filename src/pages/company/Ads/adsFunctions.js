@@ -5,8 +5,9 @@ export const validateAdForm = (form) => {
     if (!form.title?.trim()) return [false, "Please provide the title"];
 
     if (!form.description?.trim()) return [false, "Please provide the description"];
+   
 
-    if (!form.location?.trim()) return [false, "Please provide the location"];
+   // if (!form.location?.trim()) return [false, "Please provide the location"];
 
     if (!form.redirect_url?.trim()) return [false, "Please provide the trace link"];
 

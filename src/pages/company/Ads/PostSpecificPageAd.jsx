@@ -9,12 +9,7 @@ import ImageResizer from '../CompanyProfile/ImageResizer'
 import { SpecificPageAd } from '../../common/NavbarItemPages/CategorySpecifyAd'
 import { getValue, validateAdForm } from './adsFunctions'
 
-const Categories = { ...NavBarInfo }
-const keysToRemove = ["places", "regions", "info", "b2B"]
 
-keysToRemove.forEach(key => {
-    delete Categories[key];
-});
 
 
 function getEndDate(numberOfMonths = 1) {
@@ -23,7 +18,34 @@ function getEndDate(numberOfMonths = 1) {
     return today.toISOString().slice(0, 10);
 }
 
-export default function PostSpecificPageAd() {
+export default function PostSpecificPageAd({pageType}) {
+    const Categories = { ...NavBarInfo }
+    let pageCategories;
+
+    if(pageType == 'b2b' ){
+        
+        const transformData = (data) => {
+            console.log('ffffff',data);
+            return data.reduce((acc, item) => {
+                acc[item.heading] = [...item.links];
+              return acc;
+            }, {});
+          };
+          pageCategories =transformData(Categories['b2B']);
+       
+        }
+        else{
+            const keysToRemove = ["places", "regions", "info", "b2B"]
+
+            keysToRemove.forEach(key => {
+                delete Categories[key];
+            });
+            pageCategories = Categories;
+        }
+    console.log(pageType);
+    const [category, setCategory] = useState(Object.keys(pageCategories)[0])
+    const [page, setPage] = useState(getValue(pageCategories[category][0].path))
+    const pageTitle = (pageType)?'Post B2B Ad':'Post Specific Page Ad';
     const [noOfMonths, setNoOfMonths] = useState(1)
     const [adData, setAdData] = useState({
         date: new Date().toISOString().slice(0, 10),
@@ -31,11 +53,11 @@ export default function PostSpecificPageAd() {
         description: "",
         title: "",
         redirect_url: "",
+        type:"",
         end_date: getEndDate(noOfMonths),
     })
 
-    const [category, setCategory] = useState(Object.keys(Categories)[0])
-    const [page, setPage] = useState(getValue(Categories[category][0].path))
+
     const message = useShowMessage()
     const user = useCurrentUser()
     const [imageUrl, setImageUrl] = useState(null)
@@ -65,7 +87,8 @@ export default function PostSpecificPageAd() {
         const formData = new FormData(adFormRef.current)
 
         formData.append("company_id", user._id)
-        formData.append("type", "specific-page")
+        
+        
         formData.append("show_on_pages", page)
         formData.append("created_by", user._id)
         formData.append("end_date", adData.end_date)
@@ -113,12 +136,13 @@ export default function PostSpecificPageAd() {
 
     return (
         <div className='my-4 container'>
-            <h3 className='text-center w-full font-bold'>Post Specific Page Ad</h3>
+            <h3 className='text-center w-full font-bold'>{pageTitle}</h3>
 
             <form encType='multipart/form-data' ref={adFormRef} onSubmit={onSubmit} className=' flex flex-col gap-3'>
 
                 <div className='self-end flex items-center gap-3'>
                     <label>Date</label>
+                    <input type="hidden" name="type" value={pageType} />
                     <input type='date' name='date' value={adData.date} disabled className='border  border-slate-600 rounded-md w-full px-3 py-2' />
                 </div>
 
@@ -133,14 +157,17 @@ export default function PostSpecificPageAd() {
                     <textarea id='description' name='description' value={adData.description} onChange={handleForm} className='col-span-3 border border-slate-600 rounded-md px-3 py-2' rows={5} />
                 </div>
 
-
+                {pageType === 'b2b' &&    
+                <input type="hidden" name="location" value='b2b location' />
+                }
+{pageType !== 'b2b' && 
                 <div className='grid lg:grid-cols-4 items-center'>
                     <label htmlFor='location' className='text-nowrap' >Location</label>
                     <select id='location' name='location' value={adData.location} onChange={handleForm} className='border border-slate-600 rounded-md px-3 py-2'>
                         {CitiesList.map((city, index) => <option key={index}>{city}</option>)}
                     </select>
                 </div>
-
+}
 
                 <div className='grid lg:grid-cols-4'>
                     <label htmlFor='noOfMonths' className='text-nowrap' >Number of months</label>
@@ -160,15 +187,15 @@ export default function PostSpecificPageAd() {
 
 
                 <div className='grid lg:grid-cols-4'>
-                    <label>Select Page</label>
+                <label>Select Page</label>
                     <div className='lg:col-span-3 flex gap-3'>
                         <select className='border capitalize border-slate-600 rounded-md px-3 py-2' value={category} onChange={(e) => setCategory(e.target.value)}>
-                            {Object.keys(Categories).map((title, index) => <option className='capitalize' key={index}>{title}</option>)}
+                            {Object.keys(pageCategories).map((title, index) => <option className='capitalize' key={index}>{title}</option>)}
                         </select>
                         <select value={page} name='page' onChange={(e) => setPage(e.target.value)} className='border border-slate-600 rounded-md px-3 py-2'>
-                            {Categories[category].map((page, index) => <option key={index} value={getValue(page.path)}>{page.title}</option>)}
+                            {pageCategories[category].map((page, index) => <option key={index} value={getValue(page.path)}>{page.title}</option>)}
                         </select>
-                    </div>
+                    </div>                  
                 </div>
 
                 <div className='grid lg:grid-cols-4 items-center'>
