@@ -9,14 +9,24 @@ import ImageResizer from '../CompanyProfile/ImageResizer'
 import { SpecificPageAd } from '../../common/NavbarItemPages/CategorySpecifyAd'
 import { getValue, validateAdForm } from './adsFunctions'
 
+const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-based, so we add 1
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
 
-
-
-function getEndDate(numberOfMonths = 1) {
-    const today = new Date();
-    today.setMonth(today.getMonth() + numberOfMonths);
-    return today.toISOString().slice(0, 10);
+  
+  function getEndDate(MonthNumber) {
+    const currentDateObj = new Date();
+    console.log('getMonth',currentDateObj.toString());
+    console.log('numberOfMonths KKKK',MonthNumber);
+    currentDateObj.setMonth(currentDateObj.getMonth() + MonthNumber);
+    
+    return formatDate(currentDateObj);
+    
 }
+
 
 export default function PostSpecificPageAd({pageType}) {
     const Categories = { ...NavBarInfo }
@@ -43,21 +53,23 @@ export default function PostSpecificPageAd({pageType}) {
             pageCategories = Categories;
         }
     console.log(pageType);
+    const [currentDate, setCurrentDate] = useState(formatDate(new Date()))
+    
     const [category, setCategory] = useState(Object.keys(pageCategories)[0])
     const [page, setPage] = useState(getValue(pageCategories[category][0].path))
     const pageTitle = (pageType)?'Post B2B Ad':'Post Specific Page Ad';
     const [noOfMonths, setNoOfMonths] = useState(1)
+    const [endDate, setEndDate] = useState(getEndDate(new Date().getMonth()));
+
+    
     const [adData, setAdData] = useState({
-        date: new Date().toISOString().slice(0, 10),
         location: CitiesList[0],
         description: "",
         title: "",
         redirect_url: "",
-        type:"",
-        end_date: getEndDate(noOfMonths),
+        type:""
+      
     })
-
-
     const message = useShowMessage()
     const user = useCurrentUser()
     const [imageUrl, setImageUrl] = useState(null)
@@ -65,6 +77,10 @@ export default function PostSpecificPageAd({pageType}) {
     const adFormRef = useRef(null)
 
 
+
+
+
+  
     const onSubmit = async (e) => {
         e.preventDefault()
 
@@ -91,7 +107,7 @@ export default function PostSpecificPageAd({pageType}) {
         
         formData.append("show_on_pages", page)
         formData.append("created_by", user._id)
-        formData.append("end_date", adData.end_date)
+        formData.append("end_date", endDate)
         formData.append("image", adImage)
         formData.delete("page")
 
@@ -124,8 +140,11 @@ export default function PostSpecificPageAd({pageType}) {
     }
 
     const onMonthsChange = (e) => {
-        setNoOfMonths(e.target.value)
-        setAdData({ ...adData, end_date: getEndDate(e.target.value) })
+        const monthsToAdd = Number(e.target.value);
+        console.log("MONTH NUMBER",e.target.value );
+        setNoOfMonths(monthsToAdd)
+        setEndDate(getEndDate(monthsToAdd));
+        
     }
 
     const onUploadImage = (e) => {
@@ -143,7 +162,7 @@ export default function PostSpecificPageAd({pageType}) {
                 <div className='self-end flex items-center gap-3'>
                     <label>Date</label>
                     <input type="hidden" name="type" value={pageType} />
-                    <input type='date' name='date' value={adData.date} disabled className='border  border-slate-600 rounded-md w-full px-3 py-2' />
+                    <input type='date' name='date' value={currentDate} disabled className='border  border-slate-600 rounded-md w-full px-3 py-2' />
                 </div>
 
                 <div className='grid lg:grid-cols-4 items-center'>
@@ -173,14 +192,19 @@ export default function PostSpecificPageAd({pageType}) {
                     <label htmlFor='noOfMonths' className='text-nowrap' >Number of months</label>
                     <div className='lg:col-span-3 flex gap-3'>
                         <select id='noOfMonths' value={noOfMonths} onChange={onMonthsChange} className='border w-1/3 border-slate-600  rounded-md px-3 py-2'>
-                            {new Array(12).fill(0).map((_, index) => <option key={index}>{index + 1}</option>)}
+                        {[...Array(12)].map((_, index) => (
+            <option key={index} value={index+1}>
+              {index + 1} Month{index === 0 ? '' : 's'}
+            </option>
+          ))}
+                          
                         </select>
 
                         <div className='flex gap-2 items-center'>
                             <label className='text-nowrap'>Start Date</label>
-                            <input type='date' value={adData.date} disabled className='border  border-slate-600 rounded-md  px-3 py-2' />
+                            <input type='date' value={currentDate} disabled className='border  border-slate-600 rounded-md  px-3 py-2' />
                             <label className='text-nowrap'>End Date</label>
-                            <input type='date' disabled value={adData.end_date} className='border  border-slate-600 rounded-md  px-3 py-2' />
+                            <input type='date' name="endDate" disabled value={endDate} className='border  border-slate-600 rounded-md  px-3 py-2' />
                         </div>
                     </div>
                 </div>
