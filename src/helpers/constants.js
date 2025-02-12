@@ -108,3 +108,27 @@ export const CitiesList = ["Alexandra",
     "Winton",
     "Woodville"
 ]
+
+export const jobColumns = [
+    "Support",
+    "Job Title",
+    "Job Reference",
+    "Posted Date",
+    "End Date",
+    "Status",
+    "Views",
+    "Applications",
+    "Shortlisted",
+    "Actions"
+]
+
+
+export const adColumns = [
+    "Support",
+    "AD Title",
+    "Posted Date",
+    "End Date",
+    "Status",
+    "Views",
+    "Actions"
+]
