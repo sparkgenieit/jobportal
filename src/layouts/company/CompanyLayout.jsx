@@ -12,7 +12,7 @@ import CompanyHome from "../../pages/company/Home";
 import Transactions from "../../pages/company/Transactions";
 import Postajob from "../../pages/company/jobs/Postajob";
 import PostedJobList from "../../pages/company/jobs/PostedJobList";
-import BuyCredits from "../../pages/company/jobs/BuyCredits";
+import BuyCredits from "../../pages/company/common/BuyCredits";
 import AppliedUsers from "../../pages/company/jobs/AppliedUsers";
 import AppliedUserProfile from "../../pages/company/jobs/AppliedUserProfile";
 import EmployerContactUs from "../../pages/company/Contact-Us";
@@ -53,14 +53,18 @@ export default function CompanyLayout() {
                         <Route path={companyUrls.inbox} element={<Inbox />} />
                         <Route path={companyUrls.inboxDetails} element={<ChatPage name={"Enquirer"} />} />
                         <Route path={companyUrls.audit} element={<Audit />} />
-                        <Route path={companyUrls.transactions} element={<Transactions />} />
-                        <Route path={companyUrls.buyCredits} element={<BuyCredits />} />
+                        <Route path={companyUrls.adTransactions} element={<Transactions type='Ad' />} />
+                        <Route path={companyUrls.jobTransactions} element={<Transactions  type='Job' />} />
+                        <Route path={companyUrls.buyAdCredits} element={<BuyCredits type='Ad' />} />
+                        <Route path={companyUrls.buyJobCredits} element={<BuyCredits  type='Job' />} />
+                        
+
                         <Route path={companyUrls.companyProfile} element={<CompanyProfile />} />
                         <Route path={companyUrls.recruiters} element={<RecruiterList />} />
                         <Route path={companyUrls.ads} element={<AdsList />} />
                         <Route path={companyUrls.selectAdType} element={<SelectAdType />} />
                         <Route path={companyUrls.postAd} element={<PageDeciderBasedOnType />} />
-                        <Route path="*" element={<NotFound />} />
+                        <Route path="//" element={<NotFound />} />
                     </Routes>
                 </div>
                 <Footer />

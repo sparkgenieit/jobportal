@@ -10,6 +10,7 @@ export default function PaymentStatus() {
     const navigate = useNavigate()
     const [amount, setAmount] = useState(0);
     const [credits, setCredits] = useState(0);
+
     const [status, setStatus] = useState("");
     const [loading, setLoading] = useState(true)
     const session_id = searchParams.get('session_id')
@@ -21,10 +22,11 @@ export default function PaymentStatus() {
             if (session_id && success === "true") {
                 try {
                     const res = await http.get(`/payment/session-complete/${session_id}`)
+                    console.log(res.data);
                     if (res.data.status === "complete") {
                         setAmount(res.data.metadata.total)
                         setStatus("Payment Completed")
-                        setCredits(res.data.metadata.credits);
+                        setCredits( res.data.metadata.credits);
                         setLoading(false)
                     }
                     dispatch(fetchUser())

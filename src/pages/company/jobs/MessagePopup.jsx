@@ -175,11 +175,19 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob, 
                         <h4>Inquiry - Support Request</h4>
                         <form onSubmit={handleSubmitForInquiry}>
                             <div className="pt-3 d-flex flex-column justify-content-between gap-3 ">
+                            {modal.clickedJob.jobTitle &&
+                                    <div>
+                                       Title: {modal.clickedJob.jobTitle}
+                                    </div>
+                                }
+                                {modal.clickedJob.title &&
+                                    <div>
+                                       Title: {modal.clickedJob.title}
+                                    </div>
+                                }
+                              
                                 <div>
-                                    Job Title: {modal.clickedJob.jobTitle}
-                                </div>
-                                <div>
-                                    Job ID : {modal.clickedJob._id}
+                                    ID : {modal.clickedJob._id}
                                 </div>
 
                                 {modal.clickedJob.employjobreference &&

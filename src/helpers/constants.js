@@ -1,8 +1,18 @@
 
 export const itemsPerPage = 10;
 
-export const plans = [{ name: 'Basic', price: 2.99, credits: 5 }, { name: 'Standard', price: 4.99, credits: 10 }, { name: 'Premium', price: 7.99, credits: 15 }];
-
+export const plans = {
+    'Ad': [
+      { name: 'Basic', price: 4.99, credits: 5 },
+      { name: 'Standard', price: 8.99, credits: 10 },
+      { name: 'Premium', price: 11.99, credits: 15 }
+    ],
+    'Job': [
+      { name: 'Basic', price: 2.99, credits: 5 },
+      { name: 'Standard', price: 4.99, credits: 10 },
+      { name: 'Premium', price: 7.99, credits: 15 }
+    ]
+  };
 export const BASE_APP_URL = 'http://localhost:3000';
 
 export const BASE_API_URL = 'http://localhost:8080';
@@ -107,4 +117,28 @@ export const CitiesList = ["Alexandra",
     "Whangārei",
     "Winton",
     "Woodville"
+]
+
+export const jobColumns = [
+    "Support",
+    "Job Title",
+    "Job Reference",
+    "Posted Date",
+    "End Date",
+    "Status",
+    "Views",
+    "Applications",
+    "Shortlisted",
+    "Actions"
+]
+
+
+export const adColumns = [
+    "Support",
+    "AD Title",
+    "Posted Date",
+    "End Date",
+    "Status",
+    "Views",
+    "Actions"
 ]

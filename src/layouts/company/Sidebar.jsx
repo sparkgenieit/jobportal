@@ -25,7 +25,8 @@ function Sidebar() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const user = useCurrentUser()
-  const credits = user?.credits
+  const job_credits = user?.job_credits
+  const ad_credits = user?.ad_credits
   const usedFreeCredit = user?.usedFreeCredit
 
   const handleNavigation = (path = "") => {
@@ -38,10 +39,10 @@ function Sidebar() {
 
   const handleModal = () => {
 
-    if (credits === 0 && !usedFreeCredit) {
+    if (job_credits === 0 && !usedFreeCredit) {
       setShow(true);
     }
-    else if (credits === 0 && usedFreeCredit) {
+    else if (job_credits === 0 && usedFreeCredit) {
       setShow(true);
     }
     else {
@@ -117,14 +118,14 @@ function Sidebar() {
                   <ul className='list-unstyled d-flex flex-column gap-3'>
 
                     <li>
-                      <div role='button' onClick={() => handleNavigation("/BuyCredits")} className='d-flex   flex-column w-100'>
+                      <div role='button' onClick={() => handleNavigation("/BuyJobCredits")} className='d-flex   flex-column w-100'>
                         <div className='d-flex  justify-content-between w-100'>
                           <span>Buy Credits</span>
                           <span>
                             <BsCreditCard size={"20"} />
                           </span>
                         </div>
-                        <div className="text-secondary small">Available Credits: {credits ? credits : 0}</div>
+                        <div className="text-secondary small">Available Credits: {job_credits ? job_credits : 0}</div>
                       </div>
 
                     </li>
@@ -151,7 +152,7 @@ function Sidebar() {
 
 
                     <li >
-                      <div role='button' onClick={() => handleNavigation("/transactions")} className='d-flex  justify-content-between align-items-center w-100'>
+                      <div role='button' onClick={() => handleNavigation("/JobTransactions")} className='d-flex  justify-content-between align-items-center w-100'>
                         <span>Transactions</span>
                         <span>
                           <PiListDashesFill size={"22"} />
@@ -179,14 +180,14 @@ function Sidebar() {
                 <Accordion.Body>
                   <ul className='list-unstyled d-flex flex-column gap-3'>
                     <li>
-                      <div role='button' onClick={() => handleNavigation()} className='d-flex   flex-column w-100'>
+                      <div role='button' onClick={() => handleNavigation("/BuyAdCredits")} className='d-flex   flex-column w-100'>
                         <div className='d-flex  justify-content-between w-100'>
                           <span>Ad Credits</span>
                           <span>
                             <BsCreditCard size={"20"} />
                           </span>
                         </div>
-                        <div className="text-secondary small">Available Credits: {0}</div>
+                        <div className="text-secondary small">Available Credits: {ad_credits ? ad_credits : 0}</div>
                       </div>
                     </li>
 
@@ -210,7 +211,7 @@ function Sidebar() {
 
 
                     <li >
-                      <div role='button' onClick={() => handleNavigation()} className='d-flex  justify-content-between align-items-center w-100'>
+                      <div role='button' onClick={() =>  handleNavigation("/AdTransactions")} className='d-flex  justify-content-between align-items-center w-100'>
                         <span>Ad Transactions</span>
                         <span>
                           <PiListDashesFill size={"22"} />
@@ -254,7 +255,7 @@ function Sidebar() {
 
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Body>
-          {credits === 0 && !usedFreeCredit &&
+          {job_credits === 0 && !usedFreeCredit &&
             <>
               <div className='d-flex flex-column align-items-center gap-2 p-2'>
                 <h3>POST A JOB FOR FREE</h3>
@@ -275,7 +276,7 @@ function Sidebar() {
               </div>
             </>}
 
-          {credits === 0 && usedFreeCredit &&
+          {job_credits === 0 && usedFreeCredit &&
             <><div className="form-row ml-5">
               <div className="form-group">
                 <div className="form-group">
@@ -290,7 +291,7 @@ function Sidebar() {
             </div>
 
               <div className="d-flex justify-content-center">
-                <button type="button" onClick={() => { handleClose(); handleNavigation('/BuyCredits') }} className="btn btn-danger rounded-3">Buy Credits</button>
+                <button type="button" onClick={() => { handleClose(); handleNavigation('/BuyJobCredits') }} className="btn btn-danger rounded-3">Buy Credits</button>
               </div></>}
         </Modal.Body>
       </Modal >

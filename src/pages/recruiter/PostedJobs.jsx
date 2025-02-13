@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import http from "../../helpers/http";
-import { itemsPerPage } from "../../helpers/constants";
+import { itemsPerPage,jobColumns } from "../../helpers/constants";
 import useShowMessage from "../../helpers/Hooks/useShowMessage";
 import Pagination from '../../components/Pagination';
 import Loader from '../../components/Loader';
 
 import { useDispatch } from 'react-redux';
 import { setCurrentJob } from '../../helpers/slices/generalSlice';
-import PostedJobTable from '../../components/company/PostedJobsTable';
+import DataTable from '../company/common/DataTable';
 import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 
 function PostedJobs() {
@@ -133,7 +133,7 @@ function PostedJobs() {
                             />
                             {isLoading && <Loader />}
 
-                            {!isLoading && jobs && <PostedJobTable jobs={jobs} handleDuplicate={handleDuplicate} closeJob={closeJob} handleDelete={handleDelete} getAppliedUsers={getAppliedUsers} goToEdit={goToEdit} />}
+                            {!isLoading && jobs && <DataTable jobs={jobs} handleDuplicate={handleDuplicate} closeJob={closeJob} handleDelete={handleDelete} getAppliedUsers={getAppliedUsers} goToEdit={goToEdit} />}
                         </div>
                     </Pagination>
                 </div>
