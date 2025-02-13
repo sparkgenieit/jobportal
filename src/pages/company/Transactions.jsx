@@ -12,7 +12,7 @@ import { companyUrls } from "../../services/common/urls/companyUrls.service";
 import { recruiterUrl } from "../../services/common/urls/recruiterUrls.service";
 import { Roles } from "../../services/common/Roles.service";
 
-export default function Transactions() {
+export default function Transactions({type}) {
     const [transactionDetails, setTransactionDetails] = useState(null)
     const [totalItems, setTotalItems] = useState(0)
     const [loading, setLoading] = useState(false)
@@ -37,7 +37,7 @@ export default function Transactions() {
         setLoading(true)
         const skip = (page - 1) * itemsPerPage
         try {
-            const res = await http.get(`/orders/get/${userId}?limit=${itemsPerPage}&skip=${skip}&searchTerm=${searchTerm}&sort=${sort}`)
+            const res = await http.get(`/orders/get/${userId}?limit=${itemsPerPage}&skip=${skip}&searchTerm=${searchTerm}&sort=${sort}&type=${type.toLowerCase()}`)
             setTransactionDetails(res.data.details)
             setTotalItems(res.data.total)
             setLoading(false)

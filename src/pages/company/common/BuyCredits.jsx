@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
+import { useSearchParams } from "react-router-dom";
 
 import http from "../../../helpers/http";
 import { plans } from "../../../helpers/constants";
@@ -60,15 +61,16 @@ const PaymentModal = ({ show, onHide, loading, paymentDetails }) => (
     </Modal>
 );
 
-function BuyCredits() {
+function BuyCredits({type}) {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [paymentDetails, setPaymentDetails] = useState({});
     const user = useCurrentUser();
     const message = useShowMessage();
+    
 
     useEffect(() => {
-        document.title = "Buy Credits";
+        document.title = `Buy ${type} Credits`;
     }, []);
 
     const choosePlan = (plan) => {
@@ -81,7 +83,8 @@ function BuyCredits() {
                 plan: plan.name,
                 credits: plan.credits,
                 price: plan.price,
-                user_id
+                user_id,
+                creditType:type.toLowerCase()
             })
                 .then(res => {
                     localStorage.setItem("placedOrder", "false");
@@ -113,7 +116,7 @@ function BuyCredits() {
             <div className="content-wrapper p-0 pt-4 bg-white">
                 <h3 className="fs-4 text-center fw-bold">Buy Credits</h3>
                 <div className="d-flex flex-wrap gap-3 w-100 pb-3">
-                    {plans.map((plan, index) => (
+                    {plans[type].map((plan, index) => (
                         <PlanCard key={index} plan={plan} onSelect={choosePlan} />
                     ))}
                 </div>
