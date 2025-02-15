@@ -16,18 +16,23 @@ import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
 import { setIsSidebarOpen } from '../../helpers/slices/generalSlice';
 import { companyUrls } from '../../services/common/urls/companyUrls.service';
 import Tooltip from '../../components/Tooltip';
+import CustomCreditModal from '../../components/company/common/CustomCreditModal';
 
 
 function Sidebar() {
   const isSidebarOpen = useSelector((state) => state.general.isSidebarOpen)
   const count = useSelector((state) => state.mailCount.EmployerUnreadCount)
   const [show, setShow] = useState(false);
+  const [showJobCredit, setShowJobCredit] = useState(false);
+  const [showAdCredit, setShowAdCredit] = useState(false);
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const user = useCurrentUser()
   const job_credits = user?.job_credits
   const ad_credits = user?.ad_credits
-  const usedFreeCredit = user?.usedFreeCredit
+  const usedFreeJobCredit = user?.usedFreeJobCredit
+  const usedFreeAdCredit = user?.usedFreeAdCredit
 
   const handleNavigation = (path = "") => {
     if (window.innerWidth < 1024) {
@@ -37,21 +42,34 @@ function Sidebar() {
   }
 
 
-  const handleModal = () => {
+  const handleJobCreditModal = () => {
+    if (job_credits === 0 && !usedFreeJobCredit) {
+      setShowJobCredit(true);
+    } else if (job_credits === 0 && usedFreeJobCredit) {
+      setShowJobCredit(true);
+    } else {
+      handleNavigation('/postajob');
+    }
+  };
+  
+  const handleAdCreditModal = () => {
+    if (ad_credits === 0 && !usedFreeAdCredit) {
+      setShowAdCredit(true);
+    } else if (ad_credits === 0 && usedFreeAdCredit) {
+      setShowAdCredit(true);
+    } else {
+      handleNavigation(companyUrls.selectAdType)
+    }
+  };
 
-    if (job_credits === 0 && !usedFreeCredit) {
-      setShow(true);
-    }
-    else if (job_credits === 0 && usedFreeCredit) {
-      setShow(true);
-    }
-    else {
-      handleNavigation('/postajob')
-    }
+ 
+  
+  const handleJobClose = () => {
+    setShowJobCredit(false)
   }
 
-  const handleClose = () => {
-    setShow(false)
+  const handleAdClose = () => {
+    setShowAdCredit(false)
   }
 
   return (
@@ -131,8 +149,7 @@ function Sidebar() {
                     </li>
 
 
-
-                    <li role='button' onClick={() => { handleModal(true) }}>
+                    <li role='button' onClick={() => handleJobCreditModal("job")}>
                       <span className='d-flex justify-content-between w-100'>
                         <span>Post a Job</span>
                         <span>
@@ -191,7 +208,7 @@ function Sidebar() {
                       </div>
                     </li>
 
-                    <li role='button' onClick={() => handleNavigation(companyUrls.selectAdType)}>
+                    <li role='button' onClick={() => handleAdCreditModal("ad")}>
                       <span className='d-flex justify-content-between w-100'>
                         <span>Post an Ad</span>
                         <span>
@@ -252,49 +269,24 @@ function Sidebar() {
           </ul>
         </nav>
       </div >
+      <CustomCreditModal
+  show={showJobCredit}
+  handleClose={handleJobClose}
+  handleNavigation={handleNavigation}
+  type="job"
+  credits={job_credits}
+  usedFreeCredit={usedFreeJobCredit}
+/>
 
-      <Modal show={show} onHide={handleClose} centered>
-        <Modal.Body>
-          {job_credits === 0 && !usedFreeCredit &&
-            <>
-              <div className='d-flex flex-column align-items-center gap-2 p-2'>
-                <h3>POST A JOB FOR FREE</h3>
-                <div>
-                  <img style={{ width: "200px" }} src="/assets/images/free-job.gif" alt='free-job'></img>
-                </div>
-
-                <div className='d-flex flex-column align-items-center'>
-                  <p> You can post the first job for free</p>
-
-                  <p> For your next job you need to buy credits</p>
-                </div>
-
-
-                <div className="d-flex justify-content-end">
-                  <button type="button" onClick={() => { handleClose(); handleNavigation('/postajob') }} className="btn btn-info">Post a Job</button>
-                </div>
-              </div>
-            </>}
-
-          {job_credits === 0 && usedFreeCredit &&
-            <><div className="form-row ml-5">
-              <div className="form-group">
-                <div className="form-group">
-                  <div className="form-check ml-2">
-                    <label className="form-check-label">
-                      <span>Not Enough Credits</span>
-                    </label>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-              <div className="d-flex justify-content-center">
-                <button type="button" onClick={() => { handleClose(); handleNavigation('/BuyJobCredits') }} className="btn btn-danger rounded-3">Buy Credits</button>
-              </div></>}
-        </Modal.Body>
-      </Modal >
+<CustomCreditModal
+  show={showAdCredit}
+  handleClose={handleAdClose}
+  handleNavigation={handleNavigation}
+  type="ad"
+  credits={ad_credits}
+  usedFreeCredit={usedFreeAdCredit}
+/>
+      
     </>
   );
 }
