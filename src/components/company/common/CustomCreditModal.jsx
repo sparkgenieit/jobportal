@@ -14,7 +14,7 @@ const CustomCreditModal = ({ show, handleClose, handleNavigation, type, credits,
             <div>
               <img
                 style={{ width: "200px" }}
-                src={isJob ? "/assets/images/free-job.gif" : "/assets/images/free-ad.gif"}
+                src="/assets/images/free-gift.gif"
                 alt={isJob ? "free-job" : "free-ad"}
               />
             </div>
