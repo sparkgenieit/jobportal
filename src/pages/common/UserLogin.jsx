@@ -102,8 +102,10 @@ function UserLogin() {
           localStorage.setItem('fullname', response.data.first_name + " " + response.data.last_name)
           localStorage.setItem('role', response.data.role)
           if (response.data.role === 'employer') {
-            localStorage.setItem('credits', response.data.credits);
-            localStorage.setItem('usedFreeCredit', response.data.usedFreeCredit);
+            localStorage.setItem('job_credits', response.data.job_credits);
+            localStorage.setItem('ad_credits', response.data.ad_credits);
+            localStorage.setItem('usedFreeJobCredit', response.data.usedFreeJobCredit);
+            localStorage.setItem('usedFreeAdCredit', response.data.usedFreeAdCredit);
             message({ path: "/company" })
           } else if (response.data.role === 'user') {
             window.location.reload()

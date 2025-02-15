@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useSearchParams } from "react-router-dom";
+
 import { IoMdArrowBack } from "react-icons/io";
 
 import http from "../../helpers/http";
@@ -7,6 +8,8 @@ import useCurrentUser from "../../helpers/Hooks/useCurrentUser";
 import { tableToCSV } from "../../helpers/functions/csvFunctions";
 
 export default function DownloadTransactions() {
+    const [searchParams] = useSearchParams();
+    const type = searchParams.get("type"); // Get the 'type' parameter from URL
     const user = useCurrentUser()
     const user_id = user.role === 'recruiter' ? user.companyId._id : user._id
     const [transactionDetails, setTransactionDetails] = useState([])
@@ -14,8 +17,11 @@ export default function DownloadTransactions() {
     const [error, setError] = useState("")
     const [toDate, setToDate] = useState("")
     const [fromDate, setFromDate] = useState("")
+    const [currentType, setcurrentType] = useState(type)
     const tableRef = useRef(null)
     const navigate = useNavigate()
+
+
 
     useEffect(() => {
         fetchTransactions()
@@ -23,6 +29,7 @@ export default function DownloadTransactions() {
     }, [])
 
     const getTransactionsByDate = async () => {
+        setcurrentType(currentType);
         setDownloading(true)
         if (!fromDate) {
             setError('From date is required')
@@ -51,8 +58,9 @@ export default function DownloadTransactions() {
 
     const fetchTransactions = async () => {
         try {
-            const response = await http.get(`/orders/download-transactions/${user_id}?from=${fromDate}&to=${toDate}`)
-            setTransactionDetails(response.data)
+            const response = await http.get(`/orders/download-transactions/${user_id}?from=${fromDate}&to=${toDate}&type=${currentType.toLowerCase()}`)
+           console.log('Response',response.data);
+            setTransactionDetails(response.data);
         } catch (error) {
             setTransactionDetails([])
         }

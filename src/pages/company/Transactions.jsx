@@ -20,6 +20,7 @@ export default function Transactions({type}) {
     const [searchTerm, setSearchTerm] = useState("")
     const [sort, setSort] = useState("desc")
     const [currentPage, setCurrentPage] = useState(+searchParams.get('page') || 1)
+    const [currentType, setCurrentType] = useState(type)
     const user = useCurrentUser()
     const userId = user.role === 'recruiter' ? user.companyId._id : user._id
 
@@ -35,9 +36,9 @@ export default function Transactions({type}) {
 
     const fetchTransactionDetails = async (page) => {
         setLoading(true)
-        const skip = (page - 1) * itemsPerPage
+        const skip = (page - 1) * itemsPerPage ;
         try {
-            const res = await http.get(`/orders/get/${userId}?limit=${itemsPerPage}&skip=${skip}&searchTerm=${searchTerm}&sort=${sort}&type=${type.toLowerCase()}`)
+            const res = await http.get(`/orders/get/${userId}?limit=${itemsPerPage}&skip=${skip}&searchTerm=${searchTerm}&sort=${sort}&type=${currentType.toLowerCase()}`)
             setTransactionDetails(res.data.details)
             setTotalItems(res.data.total)
             setLoading(false)
@@ -53,7 +54,7 @@ export default function Transactions({type}) {
                 <div className="mt-4 bg-white">
                     <div className="d-flex flex-column gap-3 flex-sm-row align-items-center my-2">
                         <h3 className="fw-bold fs-4 text-center flex-grow-1">Transactions</h3>
-                        <Link to='/company/transactions/download-transactions' className="btn btn-info align-self-end rounded-4">Download</Link>
+                        <Link to={`/company/transactions/download-transactions?type=${currentType}`} className="btn btn-info align-self-end rounded-4">Download</Link>
                     </div>
                     <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalCount={totalItems} itemsPerPage={itemsPerPage} fetchItems={fetchTransactionDetails} pageNumberToShow={2} >
                         <form>
