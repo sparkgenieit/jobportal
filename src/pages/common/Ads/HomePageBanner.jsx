@@ -42,7 +42,7 @@ export default function HomePageBanner() {
     }, []);
 
     useEffect(() => {
-        adService.showAds("short")
+        adService.showAds("above-menu")
             .then((res) => setAdData(res.data))
             .catch(() => setAdData(null));
     }, []);
@@ -50,10 +50,10 @@ export default function HomePageBanner() {
     if (!adData) return null;
 
     return (
-        <div style={bannerStyles}>
+        <div className="bg-white-500 text-center py-1">
             <img
                 src={adData.ad_image_url}
-                style={{ width: "100%", height: "30vh" }}
+                style={{ width: "100%", height: "250px" }}
                 alt={adData.title}
             />
         </div>

@@ -22,7 +22,7 @@ import ChatPage from '../../components/ChatPage';
 import NotFound from '../../components/NotFound';
 import Audit from '../../pages/company/Audit-Log';
 import CompanyProfile from '../../pages/company/CompanyProfile';
-import AdsList from '../../pages/company/Ads/AdsList';
+import AdsList from '../../pages/company/common/AdsList';
 import { companyUrls } from '../../services/common/urls/companyUrls.service';
 import EditJob from '../../pages/company/jobs/EditJob';
 import PostAd from '../../pages/company/Ads/PostAd';
@@ -61,7 +61,7 @@ export default function CompanyLayout() {
 
                         <Route path={companyUrls.companyProfile} element={<CompanyProfile />} />
                         <Route path={companyUrls.recruiters} element={<RecruiterList />} />
-                        <Route path={companyUrls.ads} element={<AdsList />} />
+                        <Route path={companyUrls.ads} element={<AdsList role="CompanyAdmin" />} />
                         <Route path={companyUrls.selectAdType} element={<SelectAdType />} />
                         <Route path={companyUrls.postAd} element={<PageDeciderBasedOnType />} />
                         <Route path="//" element={<NotFound />} />

@@ -1,5 +1,7 @@
 import './Sidebar.css';
 import { useNavigate } from 'react-router-dom';
+import {  useState } from "react"
+
 
 import { FaUserCircle, FaCogs, FaListUl, FaDollarSign } from "react-icons/fa";
 import { IoDocuments } from "react-icons/io5";
@@ -18,6 +20,7 @@ import { setIsSidebarOpen } from '../../helpers/slices/generalSlice';
 function Sidebar() {
   const isSidebarOpen = useSelector((state) => state.general.isSidebarOpen)
   const adminMailCount = useSelector((state) => state.mailCount.AdminUnreadCount)
+  const [isAdsOpen, setIsAdsOpen] = useState(false); // State for toggling Ads Management submenu
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -41,16 +44,34 @@ function Sidebar() {
               <RxHamburgerMenu role='button' onClick={() => dispatch(setIsSidebarOpen())} fontSize={22} />
             </div>
 
-            <li className="nav-item">
-              <div className="nav-link" role='button' onClick={() => handleNavigation("/superadmin/ads")}>
-                <div className='d-flex justify-content-between w-100'>
-                  <span>Ads Management</span>
-                  <span>
-                    <RiAdvertisementFill size={"22"} />
-                  </span>
-                </div>
+             {/* Ads Management - Clickable Parent */}
+          <li className="nav-item">
+            <div className="nav-link" role="button" onClick={() => setIsAdsOpen(!isAdsOpen)}>
+              <div className="d-flex justify-content-between w-100">
+                <span>Ads Management</span>
+                <span>
+                  <RiAdvertisementFill size={"22"} />
+                  <span className={`ms-2 ${isAdsOpen ? "rotate-icon" : ""}`}>▼</span>
+                </span>
               </div>
-            </li>
+            </div>
+
+            {/* Submenu - Visible only if isAdsOpen is true */}
+            {isAdsOpen && (
+              <ul className="nav flex-column ms-3">
+                <li className="nav-item">
+                  <div className="nav-link" role="button" onClick={() => handleNavigation("/superadmin/admin-ads")}>
+                    <span>Admin Ads</span>
+                  </div>
+                </li>
+                <li className="nav-item">
+                  <div className="nav-link" role="button" onClick={() => handleNavigation("/superadmin/company-ads")}>
+                    <span>Company Ads</span>
+                  </div>
+                </li>
+              </ul>
+            )}
+          </li>
             <li className="nav-item">
               <div className="nav-link" role='button' onClick={() => handleNavigation("/superadmin/admins/List")} >
                 <div className='d-flex justify-content-between w-100'>

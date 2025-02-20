@@ -11,7 +11,9 @@ class SuperAdminUrl {
         this.createAdmin = "/admins/Create"
         this.adminList = "/admins/List"
         this.postAd = "/post-ad"
-        this.adsList = "/ads"
+        this.adsList = "/admin-ads"
+        this.companyAdsList = "/company-ads"
+        
         this.skillsList = "/Skills"
         this.users = "/users"
         this.editSkills = "/Skills/:id"

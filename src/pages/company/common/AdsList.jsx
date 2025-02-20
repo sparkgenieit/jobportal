@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import http from "../../../helpers/http";
-import { itemsPerPage,jobColumns } from "../../../helpers/constants";
+import { itemsPerPage, adColumns } from "../../../helpers/constants";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import useCurrentUser from "../../../helpers/Hooks/useCurrentUser";
 
@@ -22,78 +22,78 @@ function SearchInput({ name, setName, setPgNumber }) {
             onChange={(e) => {
                 setName(e.target.value);
                 setPgNumber(1);
-                window.history.replaceState(null, null, '/company/jobs');
+                window.history.replaceState(null, null, '/ads');
             }}
         />
     );
 }
 
-
-function PostedJobList() {
+function AdsList({ role }) {
+    console.log(role);
     const [totalItems, setTotalItems] = useState(0);
-    const [jobs, setJobs] = useState(null);
+    const [ads, setAds] = useState(null);
     const [searchParams] = useSearchParams();
     const [pgNumber, setPgNumber] = useState(+searchParams.get("page") || 1);
     const [name, setName] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    
     const { _id: userId } = useCurrentUser();
     const message = useShowMessage();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        document.title = "Posted Jobs";
-        fetchJobs(pgNumber);
-    }, [name]);
+        document.title = "Posted Ads";
+        fetchAds(pgNumber);
+    }, [name, pgNumber]);
 
-    const fetchJobs = async (page) => {
+    const fetchAds = async (page) => {
         setIsLoading(true);
         const skip = (page - 1) * itemsPerPage;
+        
+        let endpoint = role === "SuperAdmin"
+            ? `/companies/postedAds/all?limit=${itemsPerPage}&skip=${skip}&name=${name}`
+            : `/companies/postedAds/${userId}?limit=${itemsPerPage}&skip=${skip}&name=${name}`;
+        
         try {
-            const { data } = await http.get(`/companies/postedJobs/${userId}?limit=${itemsPerPage}&skip=${skip}&name=${name}`);
+            const { data } = await http.get(endpoint);
             setTotalItems(data.total);
-            console.log('data1231123',data)
-            setJobs(data.jobs);
+            setAds(data.ads);
         } catch (error) {
             console.error(error);
-            setJobs([]);
+            setAds([]);
             message({ status: "error", error });
         } finally {
             setIsLoading(false);
         }
     };
 
-    const handleDuplicate = (job) => {
-        dispatch(setCurrentJob({ ...job }));
-        message({ path: `/company/postajob?c=${job._id}` });
+    const handleDuplicate = (ad) => {
+        dispatch(setCurrentJob({ ...ad }));
+        message({ path: `/company/postajob?c=${ad._id}` });
     };
 
-    const goToEdit = (job) => {
-        message({ path: `/company/editjob/${job._id}` });
+    const goToEdit = (ad) => {
+        message({ path: `/company/editad/${ad._id}` });
     };
 
-    const getAppliedUsers = (job, isShortlisted) => {
-        const url = isShortlisted ? `/company/applied-users/${job._id}?s=true` : `/company/applied-users/${job._id}`;
-        message({ path: url });
-    };
-
-    const handleDelete = async (job) => {
+    const handleDelete = async (ad) => {
         setIsLoading(true);
         try {
-            await http.delete(`jobs/delete/${job._id}`);
-            message({ status: "success", message: "Job deleted" });
-            fetchJobs(pgNumber);
+            await http.delete(`/ads/delete/${ad._id}`);
+            message({ status: "success", message: "Ad deleted successfully" });
+            fetchAds(pgNumber);
         } catch (err) {
-            message({ status: "error", error: { message: "Failed to delete the job, Please try again later" } });
+            message({ status: "error", error: { message: "Failed to delete the ad, please try again" } });
         } finally {
             setIsLoading(false);
         }
     };
 
-    const closeJob = async (job) => {
+    const closeAd = async (ad) => {
         try {
-            await http.patch('/jobs/close', { userId, jobId: job._id });
-            message({ status: "success", message: "Job Closed" });
-            fetchJobs(pgNumber);
+            await http.patch('/ads/ad', { userId, adId: ad._id });
+            message({ status: "success", message: "Ad Closed" });
+            fetchAds(pgNumber);
         } catch (error) {
             console.error(error);
         } finally {
@@ -104,31 +104,27 @@ function PostedJobList() {
     return (
         <div className="container-fluid">
             <div className="content-wrapper px-0 bg-white">
-                <h4 className="text-center fs-4 fw-bold">List of Posted Jobs</h4>
+                <h4 className="text-center fs-4 fw-bold">List of Posted Ads</h4>
                 <Pagination 
                     itemsPerPage={itemsPerPage} 
                     currentPage={pgNumber} 
                     setCurrentPage={setPgNumber} 
                     totalCount={totalItems} 
-                    fetchItems={fetchJobs} 
+                    fetchItems={fetchAds} 
                     pageNumberToShow={2}
                 >
                     <div className="bg-white rounded">
                         <SearchInput name={name} setName={setName} setPgNumber={setPgNumber} />
-                        {isLoading ? <Loader /> : 
-                          jobs ? (
-                        <DataTable 
-                        items={jobs} 
-                        handleDuplicate={handleDuplicate} 
-                        closeAction={closeJob} 
-                        handleDelete={handleDelete} 
-                        getAppliedUsers={getAppliedUsers} 
-                        goToEdit={goToEdit} 
-                        columns={jobColumns}
-                    />
-                 ) : null
-                    }
-                        
+                        {isLoading ? <Loader /> : ads ? (
+                            <DataTable 
+                                items={ads} 
+                                handleDuplicate={handleDuplicate} 
+                                closeAction={role !== "SuperAdmin" ? closeAd : null} 
+                                handleDelete={role !== "SuperAdmin" ? handleDelete : null} 
+                                goToEdit={goToEdit} 
+                                columns={adColumns}
+                            />
+                        ) : null}
                     </div>
                 </Pagination>
             </div>
@@ -136,4 +132,4 @@ function PostedJobList() {
     );
 }
 
-export default PostedJobList;
+export default AdsList;

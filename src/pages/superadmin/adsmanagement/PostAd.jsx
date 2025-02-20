@@ -17,6 +17,8 @@ function PostAd() {
     const user = useCurrentUser()
     const [adForm, setAdForm] = useState({ ...initialValues, ad_type: "short", posted_by: user._id })
     const [formErrors, setFormErrors] = useState(initialValues)
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const message = useShowMessage()
 
     useEffect(() => {
@@ -35,7 +37,7 @@ function PostAd() {
         let isValid = true;
 
         let obj = {};
-
+    
         Object.keys(adForm).forEach(key => {
             const value = adForm[key]
             if (!validateIsNotEmpty(value)) {
@@ -57,11 +59,13 @@ function PostAd() {
                 })
                 return
             }
-
+            if (isSubmitting) return; // Prevent double submission
+            setIsSubmitting(true); // Disable button
+    
             message({
                 status: "Success",
                 message: "Ad Posted Successfully",
-                path: "/superadmin/ads"
+                path: "/superadmin/admin-ads"
             })
         }
     }
@@ -102,6 +106,8 @@ function PostAd() {
                                         <select className="form-select" name="ad_type" value={adForm?.ad_type} onChange={handleForm}>
                                             <option value="short">Short (min 600 pixels width)</option>
                                             <option value="long">Long (min 600 pixels height)</option>
+                                            <option value="above-menu">Above Menu (min 900 pixels width)</option>
+                                            <option value="landing-page">Landing Page (min 900 pixels width)</option>
                                         </select>
                                     </div>
                                 </div>
@@ -179,7 +185,9 @@ function PostAd() {
 
                         <div className='form-group'>
                             <div className='col-11 p-3 d-flex justify-content-end'>
-                                <button type='submit' className='btn btn-primary'>Submit</button>
+                                <button type='submit' className='btn btn-primary' disabled={isSubmitting}>
+                                       {isSubmitting ? "Submitting..." : "Submit Ad"}
+                                </button>
                             </div>
                         </div>
                     </form>

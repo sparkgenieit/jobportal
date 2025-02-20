@@ -33,7 +33,10 @@ import Audit from '../../pages/superadmin/Audit_Log/Audit_Log';
 import AdminAuditLogs from '../../pages/superadmin/Audit_Log/AdminAuditLogs';
 import Footer from '../admin/Footer'; // As same footer for both superadmin and admin
 import PostAd from '../../pages/superadmin/adsmanagement/PostAd';
-import AdsList from '../../pages/superadmin/adsmanagement/AdsList';
+import AdminAdsList from '../../pages/superadmin/adsmanagement/AdminAdsList';
+import AdsList from '../../pages/company/common/AdsList';
+
+
 import { superAdminUrl } from '../../services/common/urls/superAdminUrl.service';
 
 export default function SuperAdminLayout() {
@@ -71,7 +74,8 @@ export default function SuperAdminLayout() {
                         <Route path={superAdminUrl.createAdmin} element={<Create />} />
                         <Route path={superAdminUrl.adminList} element={<List />} />
                         <Route path={superAdminUrl.postAd} element={<PostAd />} />
-                        <Route path={superAdminUrl.adsList} element={<AdsList />} />
+                        <Route path={superAdminUrl.adsList} element={<AdminAdsList />} />
+                        <Route path={superAdminUrl.companyAdsList} element={<AdsList role="SuperAdmin" />} />
                         <Route path={superAdminUrl.skillsList} element={<Skills />} />
                         <Route path={superAdminUrl.users} element={<UserList />} />
                         <Route path={superAdminUrl.editSkills} element={<EditSkill />} />

@@ -1,6 +1,6 @@
 import "./App.css"
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { lazy, Suspense, useLayoutEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -15,87 +15,99 @@ import Toaster from "./components/Toaster";
 import { Roles } from "./services/common/Roles.service";
 import LandingPageAdvert from "./pages/common/Ads/LandingPageAdvert";
 
-
 // Layouts
-const CompanyLayout = lazy(() => import("./layouts/company/CompanyLayout"))
-const AdminLayout = lazy(() => import("./layouts/admin/AdminLayout"))
-const SuperAdminLayout = lazy(() => import("./layouts/superadmin/SuperAdminLayout"))
-const CommonLayout = lazy(() => import("./layouts/common/CommonLayout"))
-const RecruiterLayout = lazy(() => import("./layouts/recruiter/RecruiterLayout"))
-
+const CompanyLayout = lazy(() => import("./layouts/company/CompanyLayout"));
+const AdminLayout = lazy(() => import("./layouts/admin/AdminLayout"));
+const SuperAdminLayout = lazy(() => import("./layouts/superadmin/SuperAdminLayout"));
+const CommonLayout = lazy(() => import("./layouts/common/CommonLayout"));
+const RecruiterLayout = lazy(() => import("./layouts/recruiter/RecruiterLayout"));
 const DownloadTransactions = lazy(() => import("./pages/company/DownloadTransactions"));
 
 function App() {
-  const { role } = useCurrentUser()
-  const dispatch = useDispatch()
+  const { role } = useCurrentUser();
+  const dispatch = useDispatch();
 
   useLayoutEffect(() => {
     if (localStorage.getItem("isSignedIn")) {
-      dispatch(fetchUser())
+      dispatch(fetchUser());
     }
-  }, [])
+  }, []);
 
   return (
     <BrowserRouter>
-      <Routes>
+      <AppContent role={role} />
+    </BrowserRouter>
+  );
+}
 
+function AppContent({ role }) {
+  const location = useLocation(); // ✅ Now inside BrowserRouter
+
+  return (
+    <>
+      <Routes>
         <Route
           path="/company/transactions/download-transactions"
           element={
-            (role === Roles.Company || role === Roles.Recruiter) ?
+            role === Roles.Company || role === Roles.Recruiter ? (
               <Suspense fallback={<Loader />}>
-                < DownloadTransactions />
+                <DownloadTransactions />
               </Suspense>
-              :
+            ) : (
               <Navigate to="/" />
+            )
           }
         />
 
         <Route
           path="/company/*"
           element={
-            (role == Roles.Company) ?
+            role === Roles.Company ? (
               <Suspense fallback={<Loader />}>
                 <CompanyLayout />
               </Suspense>
-              :
+            ) : (
               <Navigate to="/" />
+            )
           }
         />
 
         <Route
           path="/recruiter/*"
           element={
-            (role === Roles.Recruiter) ?
+            role === Roles.Recruiter ? (
               <Suspense fallback={<Loader />}>
                 <RecruiterLayout />
               </Suspense>
-              :
+            ) : (
               <Navigate to="/" />
+            )
           }
         />
 
         <Route
           path="/admin/*"
           element={
-            (role == Roles.Admin) ?
+            role === Roles.Admin ? (
               <Suspense fallback={<Loader />}>
                 <AdminLayout />
               </Suspense>
-              :
+            ) : (
               <Login />
+            )
           }
         />
 
         <Route
           path="/superadmin/*"
           element={
-            (role == Roles.SuperAdmin) ?
+            role === Roles.SuperAdmin ? (
               <Suspense fallback={<Loader />}>
                 <SuperAdminLayout />
               </Suspense>
-              :
+            ) : (
               <SuperAdminLogin />
+            )
           }
         />
 
@@ -107,12 +119,14 @@ function App() {
             </Suspense>
           }
         />
-
       </Routes>
+
       <Toaster />
-      <LandingPageAdvert />
-    </BrowserRouter >
-  )
+
+      {/* ✅ Show LandingPageAdvert ONLY on Home Page */}
+      {location.pathname === "/" && <LandingPageAdvert />}
+    </>
+  );
 }
 
 export default App;

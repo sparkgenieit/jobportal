@@ -31,7 +31,7 @@ const formatDate = (date) => {
 export default function PostSpecificPageAd({pageType}) {
     const Categories = { ...NavBarInfo }
     let pageCategories;
-
+console.log(Categories);
     if(pageType == 'b2b' ){
         
         const transformData = (data) => {

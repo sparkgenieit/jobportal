@@ -10,7 +10,7 @@ export default function LandingPageAdvert() {
     const closeModal = () => setModalVisible(false);
 
     useEffect(() => {
-        adService.showAds('short')
+        adService.showAds('shorts')
             .then(response => setAdvertisement(response.data))
             .catch(() => setAdvertisement(null));
     }, []);
@@ -37,6 +37,7 @@ export default function LandingPageAdvert() {
                         rel="noopener noreferrer"
                         href={advertisement?.redirect_url}
                         className="btn btn-info rounded-4"
+                        
                     >
                         Learn More
                     </a>

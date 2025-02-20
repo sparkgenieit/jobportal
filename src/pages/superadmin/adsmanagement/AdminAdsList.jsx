@@ -8,14 +8,14 @@ import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import { tryCatch } from "../../../helpers/functions";
 import { RxCross1 } from "react-icons/rx";
 
-export default function AdsList() {
+export default function AdminAdsList() {
     const [adsList, setAdsList] = useState(null)
     const [showEditAd, setShowEditAd] = useState(false)
     const [adEdit, setAdEdit] = useState(null)
     const message = useShowMessage()
 
     const fetchAds = async () => {
-        const { data, error } = await tryCatch(() => http.get("/ads/all"))
+        const { data, error } = await tryCatch(() => http.get("/ads/adminads"))
         setAdsList(data)
 
         if (error) {
@@ -29,7 +29,7 @@ export default function AdsList() {
     }, [])
 
     const handleDelete = (ads) => {
-        http.delete(`ads/delete/${ads._id}`)
+        http.delete(`ads/delete-admin/${ads._id}`)
             .then((res) => {
                 message({ status: "Success", message: "Ad Deleted" })
                 fetchAds()

@@ -37,7 +37,7 @@ function PostAd() {
         message({
             status: "Success",
             message: "Ad Posted Successfully",
-            path: "/company/ads"
+            path: "/company/admin-ads"
         })
     }
 

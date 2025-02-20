@@ -59,7 +59,7 @@ function EditAd({ ad, onSuccess }) {
             message({
                 status: "Success",
                 message: "Ad Edited Successfully",
-                path: "/superadmin/ads"
+                path: "/superadmin/admin-ads"
             })
         }
     }

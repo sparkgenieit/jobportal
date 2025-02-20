@@ -133,7 +133,7 @@ function PostedJobs() {
                             />
                             {isLoading && <Loader />}
 
-                            {!isLoading && jobs && <DataTable jobs={jobs} handleDuplicate={handleDuplicate} closeJob={closeJob} handleDelete={handleDelete} getAppliedUsers={getAppliedUsers} goToEdit={goToEdit} />}
+                            {!isLoading && jobs && <DataTable jobs={jobs} handleDuplicate={handleDuplicate} closeAction={closeJob} handleDelete={handleDelete} getAppliedUsers={getAppliedUsers} goToEdit={goToEdit} />}
                         </div>
                     </Pagination>
                 </div>

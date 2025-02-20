@@ -107,7 +107,7 @@ const TableRow = ({ data, setModal, getAppliedUsers, isTableCollapsed, goToEdit,
     </tr>
 );
 
-function DataTable({ items, handleDuplicate, closeJob, getAppliedUsers, handleDelete, goToEdit,columns }) {
+function DataTable({ items, handleDuplicate, closeAction, getAppliedUsers, handleDelete, goToEdit,columns }) {
     const isSidebarOpen = useSelector(state => state.general.isSidebarOpen);
     const [modal, setModal] = useState({});
     const [isTableCollapsed, setIsTableCollapsed] = useState(false);
@@ -144,7 +144,7 @@ console.log('ads',items);
                     </tbody>
                 </Table>
             </div>
-            <MessagePopup modal={modal} setModal={setModal} handleDelete={handleDelete} closeJob={closeJob} />
+            <MessagePopup modal={modal} setModal={setModal} handleDelete={handleDelete} closeAction={closeAction} />
         </>
     );
 }

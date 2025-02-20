@@ -1,7 +1,7 @@
 import './Header.css';
 import { Modal, Tabs, Tab } from "react-bootstrap";
 import { CgProfile } from "react-icons/cg";
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { RxCross1, RxHamburgerMenu } from "react-icons/rx";
 
@@ -48,13 +48,13 @@ export default function Header() {
   const [showSideBar, setShowSideBar] = useState(false)
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
-  let isHomePage = false
   const currentUrl = window.location.pathname
+  
+  
+  let isAboveMenuBanner = !/^\/(company|admin|superadmin)/.test(currentUrl);
 
-  if (currentUrl === "/") {
-    isHomePage = true
-  }
 
+  
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -63,13 +63,38 @@ export default function Header() {
     setShowSideBar(false)
     navigate(path)
   }
+  const [isFixed, setIsFixed] = useState(false);
+  const [isBannerVisible, setIsBannerVisible] = useState(true);
+
+  // Handle scroll event
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsFixed(true); // Fix header after scroll
+      } else {
+        setIsFixed(false); // Reset header position when scrolling back up
+      }
+
+      if (window.scrollY > 300) { // Adjust value based on when you want the banner to hide
+        setIsBannerVisible(false);
+      } else {
+        setIsBannerVisible(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
 
   return <>
-    {isHomePage && <HomePageBanner />}
-
-    <header className='bg-white flex items-center py-4 justify-between px-2  gap-2'>
-
+    {isAboveMenuBanner && isBannerVisible && <HomePageBanner />}
+    
+     <header className={`bg-white flex items-center py-4 justify-between px-2 gap-2 ${isFixed ? 'fixed-header' : ''}`}>
+    
       <Link to="/">
         <img className='h-14' src="/assets/images/logo-jp.png" alt="logo" />
       </Link>
