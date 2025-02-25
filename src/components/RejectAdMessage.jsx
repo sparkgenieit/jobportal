@@ -24,7 +24,7 @@ export default function RejectAdMessage({ handleClose, ad, userId }) {
             const data = {
                 adminId: userId,
                 adId: ad._id,
-                adsDto: ad
+                companyAdsDto: ad
             }
             http.post("/ads/reject", data)
                 .then((response) => {

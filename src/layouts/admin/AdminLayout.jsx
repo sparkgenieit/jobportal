@@ -8,6 +8,7 @@ import Myasignads from "../../pages/admin/adslist/Myasignads";
 
 
 import SingleJobAdmin from "../../pages/admin/joblist/SingleJobAdmin";
+import SingleAdAdmin from "../../pages/admin/adslist/SingleAdAdmin";
 import AdminHome from "../../pages/admin/Home";
 import Myasignjobs from "../../pages/admin/joblist/Myasignjobs";
 import AdminInbox from "../../pages/admin/AdminInbox";
@@ -63,6 +64,7 @@ export default function AdminLayout() {
                         <Route path={adminUrls.assignedJobs} element={<Myasignjobs />} />
                         <Route path={adminUrls.assignedAds} element={<Myasignads />} />
                         <Route path={adminUrls.viewJob} element={<SingleJobAdmin />} />
+                        <Route path={adminUrls.viewAd} element={<SingleAdAdmin />} /> 
                         <Route path={adminUrls.adminInbox} element={<SuperAdminInbox />} />
                         <Route path={adminUrls.adminMail} element={< MailAdmin />} />
                         <Route path={adminUrls.adminInboxDetails} element={< Chat />} />

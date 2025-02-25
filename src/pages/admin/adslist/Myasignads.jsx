@@ -48,7 +48,7 @@ function Myasignads() {
         const data = {
             adminId: userId,
             adId: ad._id,
-            adsDto: ad
+            companyAdsDto: ad
         }
         http.post("/ads/approve", data)
             .then((response) => {
@@ -82,7 +82,7 @@ function Myasignads() {
         const data = {
             adminId: userId,
             adId: ad._id,
-            adsDto: ad
+            companyAdsDto: ad
         }
         http.post("/ads/release", data)
             .then((response) => {

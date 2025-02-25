@@ -43,7 +43,7 @@ const Adsqueuelist = () => {
         const data = {
             adminId: userId,
             adId: ad._id,
-            adsDto: ad
+            companyAdsDto: ad
         }
         const { error } = await tryCatch(() => http.post("/ads/assign", data))
 
