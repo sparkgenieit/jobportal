@@ -11,6 +11,7 @@ class AdminUrls {
         this.inboxDetails = "/inbox/details/:id"
         this.assignedJobs = "/Myasignjobs"
         this.viewJob = "/view-job/:id"
+        this.viewAd = "/view-ad/:id"
         this.adminInbox = "/admin-inbox"
         this.adminMail = "/mail-admin"
         this.adminInboxDetails = "/admin-inbox/details/:id"

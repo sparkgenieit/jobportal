@@ -67,6 +67,7 @@ function Sidebar() {
                 <li className="nav-item">
                   <div className="nav-link" role="button" onClick={() => handleNavigation("/superadmin/company-ads")}>
                     <span>Company Ads</span>
+                    
                   </div>
                 </li>
               </ul>

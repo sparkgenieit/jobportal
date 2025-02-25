@@ -39,6 +39,8 @@ export default function Transactions({type}) {
         const skip = (page - 1) * itemsPerPage ;
         try {
             const res = await http.get(`/orders/get/${userId}?limit=${itemsPerPage}&skip=${skip}&searchTerm=${searchTerm}&sort=${sort}&type=${currentType.toLowerCase()}`)
+            console.log(res.data.details);
+            
             setTransactionDetails(res.data.details)
             setTotalItems(res.data.total)
             setLoading(false)
