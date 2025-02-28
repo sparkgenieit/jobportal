@@ -5,13 +5,21 @@ import { IoIosFlag } from "react-icons/io";
 import { MdOutlineLocationOn } from 'react-icons/md';
 import { BASE_API_URL } from '../../../helpers/constants';
 
-export const SpecificPageAd = ({ ad, mode = "livead" }) => {
-
-    if (mode === "livead") ad = { ...ad, image: `${BASE_API_URL}/uploads/ads/${ad?.image}` }  // If the ad is live then it will have an image from server
+export const SpecificPageAd = ({ imageUrl,ad, mode = "livead" }) => {
+console.log('adddd',ad);
+  //  if (mode === "livead") ad = { ...ad, image: `${BASE_API_URL}/uploads/ads/${ad?.image}` }  // If the ad is live then it will have an image from server
+  const imgSrc = (imageUrl && imageUrl.includes('blob')) ? imageUrl : `${BASE_API_URL}/uploads/ads/${ad.image}`;
 
     return (
         <div className='h-[280px] w-[250px] text-sm rounded-md flex flex-col gap-2 justify-between border border-slate-800 shadow-md p-2'>
-            {ad.image && <img src={ad?.image} className='h-[100px] w-[250px] rounded-md' />}
+            {imgSrc && (
+                            <img
+                                style={{ maxWidth: "300px", maxHeight: "200px" }}
+                                className="rounded border border-secondary me-md-3 mb-3 mb-md-0"
+                                src={imgSrc}
+                                alt={ad.title}
+                            />
+                        )}
             <h4 className='text-xl p-0 m-0 font-bold '>{ad?.title}</h4>
             <p className='text-slate-700 overflow-hidden p-0 m-0 grow text-ellipsis'>{ad?.description}</p>
 

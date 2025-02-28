@@ -25,7 +25,7 @@ import CompanyProfile from '../../pages/company/CompanyProfile';
 import AdsList from '../../pages/company/common/AdsList';
 import { companyUrls } from '../../services/common/urls/companyUrls.service';
 import EditJob from '../../pages/company/jobs/EditJob';
-import PostAd from '../../pages/company/Ads/PostAd';
+import EditAd from '../../pages/company/Ads/EditAd';
 import SelectAdType from '../../pages/company/Ads/SelectAdType';
 import PageDeciderBasedOnType from '../../pages/company/Ads/PageDeciderBasedOnType';
 
@@ -64,6 +64,8 @@ export default function CompanyLayout() {
                         <Route path={companyUrls.ads} element={<AdsList role="CompanyAdmin" />} />
                         <Route path={companyUrls.selectAdType} element={<SelectAdType />} />
                         <Route path={companyUrls.postAd} element={<PageDeciderBasedOnType />} />
+                        <Route path={companyUrls.editAd} element={<EditAd />} />
+
                         <Route path="//" element={<NotFound />} />
                     </Routes>
                 </div>

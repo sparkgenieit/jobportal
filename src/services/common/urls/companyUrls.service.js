@@ -19,6 +19,7 @@ class CompanyUrls {
         this.ads = "/ads"
         this.selectAdType = "/ads/post"
         this.postAd = "/ads/post/:type"
+        this.editAd = "/ads/editad/:id"; // Remove /company
         this.companyProfile = "/CompanyProfile"
         this.recruiters = "/recruiters"
     }
