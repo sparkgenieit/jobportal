@@ -1,158 +1,179 @@
-import { useRef, useState } from 'react'
-import NavBarInfo from '../../../layouts/common/navbarItems'
-import useShowMessage from '../../../helpers/Hooks/useShowMessage'
-import useCurrentUser from '../../../helpers/Hooks/useCurrentUser'
-import { adService } from '../../../services/company/Ads.service'
-import { tryCatch } from '../../../helpers/functions'
-import { CitiesList } from '../../../helpers/constants'
-import ImageResizer from '../CompanyProfile/ImageResizer'
-import { SpecificPageAd } from '../../common/NavbarItemPages/CategorySpecifyAd'
-import { getValue, validateAdForm } from './adsFunctions'
+import { useRef, useState, useEffect } from 'react';
+import NavBarInfo from '../../../layouts/common/navbarItems';
+import useShowMessage from '../../../helpers/Hooks/useShowMessage';
+import useCurrentUser from '../../../helpers/Hooks/useCurrentUser';
+import { adService } from '../../../services/company/Ads.service';
+import { tryCatch } from '../../../helpers/functions';
+import { CitiesList } from '../../../helpers/constants';
+import ImageResizer from '../CompanyProfile/ImageResizer';
+import { SpecificPageAd } from '../../common/NavbarItemPages/CategorySpecifyAd';
+import { getValue, validateAdForm } from './adsFunctions';
 
 const formatDate = (date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-based, so we add 1
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 
-  
-  function getEndDate(MonthNumber) {
-    const currentDateObj = new Date();
-    console.log('getMonth',currentDateObj.toString());
-    console.log('numberOfMonths KKKK',MonthNumber);
-    currentDateObj.setMonth(currentDateObj.getMonth() + MonthNumber);
-    
-    return formatDate(currentDateObj);
-    
+function getEndDate(MonthNumber) {
+  const currentDateObj = new Date();
+  currentDateObj.setMonth(currentDateObj.getMonth() + MonthNumber);
+  return formatDate(currentDateObj);
 }
+    
 
-
-export default function PostSpecificPageAd({pageType}) {
-    const Categories = { ...NavBarInfo }
+export default function PostSpecificPageAd({ pageType, existingAd }) {
+    console.log('PostSpecificPageAd',existingAd);
+    const Categories = { ...NavBarInfo };
     let pageCategories;
-console.log(Categories);
-    if(pageType == 'b2b' ){
-        
-        const transformData = (data) => {
-            console.log('ffffff',data);
-            return data.reduce((acc, item) => {
-                acc[item.heading] = [...item.links];
-              return acc;
-            }, {});
-          };
-          pageCategories =transformData(Categories['b2B']);
-       
-        }
-        else{
-            const keysToRemove = ["places", "regions", "info", "b2B"]
-
-            keysToRemove.forEach(key => {
-                delete Categories[key];
-            });
-            pageCategories = Categories;
-        }
-    console.log(pageType);
-    const [currentDate, setCurrentDate] = useState(formatDate(new Date()))
-    
-    const [category, setCategory] = useState(Object.keys(pageCategories)[0])
-    const [page, setPage] = useState(getValue(pageCategories[category][0].path))
-    const pageTitle = (pageType)?'Post B2B Ad':'Post Specific Page Ad';
-    const [noOfMonths, setNoOfMonths] = useState(1)
-    const [endDate, setEndDate] = useState(getEndDate(new Date().getMonth()));
-
-    
-    const [adData, setAdData] = useState({
-        location: CitiesList[0],
-        description: "",
-        title: "",
-        redirect_url: "",
-        type:""
-      
-    })
-    const message = useShowMessage()
-    const user = useCurrentUser()
-    const [imageUrl, setImageUrl] = useState(null)
-    const [adImage, setAdImage] = useState(null)
-    const adFormRef = useRef(null)
-
-
-
-
-
   
-    const onSubmit = async (e) => {
-        e.preventDefault()
+    if (pageType === 'b2b') {
+      const transformData = (data) => {
+        return data.reduce((acc, item) => {
+          acc[item.heading] = [...item.links];
+          return acc;
+        }, {});
+      };
+      pageCategories = transformData(Categories['b2B']);
+    } else {
+      const keysToRemove = ['places', 'regions', 'info', 'b2B'];
+      keysToRemove.forEach((key) => {
+        delete Categories[key];
+      });
+      pageCategories = Categories;
+    }
 
-        if (!category || !page) return message({ status: "Error", error: { message: "Please select category and page" } })
-
-        const [isValid, errorMessage] = validateAdForm(adData)
-
-        if (!isValid) return message({
-            status: "Error",
-            error: {
-                message: errorMessage
+    console.log('pageCategories',pageCategories);
+  
+    const [currentDate, setCurrentDate] = useState(formatDate(new Date()));
+    const [category, setCategory] = useState('Select Category');
+    const [page, setPage] = useState('Select Page');
+    const [selectedPages, setSelectedPages] = useState({});
+    const pageTitle = pageType ? 'Post B2B Ad' : 'Post Specific Page Ad';
+    const [noOfMonths, setNoOfMonths] = useState(1);
+    const [endDate, setEndDate] = useState(getEndDate(noOfMonths));
+    const [adData, setAdData] = useState({
+      location: CitiesList[0],
+      description: '',
+      title: '',
+      redirect_url: '',
+      type: '',
+      image: ''
+    });
+    const message = useShowMessage();
+    const user = useCurrentUser();
+    const [imageUrl, setImageUrl] = useState(null);
+    const [adImage, setAdImage] = useState(null);
+    const adFormRef = useRef(null);
+  
+    useEffect(() => {
+      if (existingAd) {
+        setAdData({
+          location: existingAd.location,
+          description: existingAd.description,
+          title: existingAd.title,
+          redirect_url: existingAd.redirect_url,
+          type: existingAd.type,
+          image: existingAd.image,
+        });
+        setImageUrl(existingAd.image);
+        setAdImage(existingAd.image);
+        setNoOfMonths(existingAd.noOfMonths || 1);
+        setEndDate(getEndDate(existingAd.noOfMonths || 1));
+        if (existingAd.show_on_pages) {
+            try {
+              setSelectedPages(JSON.parse(existingAd.show_on_pages));
+            } catch (e) {
+              console.error('Failed to parse show_on_pages:', e);
             }
-        })
+          }
+      }
+    }, [existingAd]);
+  
+    const addSelectedPage = (e) => {
+        const selectedPage = e.target.value;
+        if(selectedPage == 'Select Page' || category == 'Select Category')
+            return;
+        setSelectedPages((prev) => {
+          const newPages = { ...prev };
+          if (!newPages[category]) {
+            newPages[category] = [];
+          }
+          if (!newPages[category].includes(selectedPage)) {
+            newPages[category] = [selectedPage, ...newPages[category]];            
+          }
+          return newPages;
+        });
+      };
 
-        if (!adImage) return message({
-            status: "Error",
-            error: { message: "Please upload an image" }
-        })
+      const removeSelectedPage = (cat, page) => {
+        setSelectedPages((prev) => {
+          const newPages = { ...prev };
+          newPages[cat] = newPages[cat].filter((p) => p !== page);
+          if (newPages[cat].length === 0) {
+            delete newPages[cat];
+          }
+          return newPages;
+        });
+      };
 
-        const formData = new FormData(adFormRef.current)
-
-        formData.append("company_id", user._id)
-        
-        
-        formData.append("show_on_pages", page)
-        formData.append("created_by", user._id)
-        formData.append("end_date", endDate)
-        formData.append("image", adImage)
-        formData.delete("page")
-
-        const { error } = await tryCatch(() => adService.postAd(formData))
-
-
-        if (error) {
-            return message({
-                status: "error",
-                error
-            })
-        }
-
-        message({
-            status: "Success",
-            message: "Ad Posted Successfully",
-            path: "/company/ads"
-        })
-    }
-
+    console.log('page begore',page);
+    const onSubmit = async (e) => {
+        console.log('page after',page);
+      e.preventDefault();
+  console.log('existingAd',typeof existingAd);
+  console.log('adImage',  adImage);
+      if (!category || !page) return message({ status: 'Error', error: { message: 'Please select category and page' } });
+  
+      const [isValid, errorMessage] = validateAdForm(adData);
+  
+      if (!isValid) return message({ status: 'Error', error: { message: errorMessage } });
+  
+      if (!existingAd && !adImage ) return message({ status: 'Error', error: { message: 'Please upload an image' } });
+  
+      const formData = new FormData(adFormRef.current);
+      formData.append('company_id', user._id);
+      formData.append('show_on_pages', JSON.stringify(selectedPages));
+      formData.append('noOfMonths', noOfMonths);
+      
+      formData.append('created_by', user._id);
+      formData.append('end_date', endDate);
+      formData.append('image', adImage);
+      formData.delete('page');
+  
+      const request = existingAd ? adService.updateAd(existingAd._id, formData) : adService.postAd(formData);
+      const { error } = await tryCatch(() => request);
+  
+      if (error) return message({ status: 'Error', error });
+  
+      message({ status: 'Success', message: `Ad ${existingAd ? 'Updated' : 'Posted'} Successfully`, path: '/company/ads' });
+    };
+  
+  
     const handleForm = (e) => {
-        const name = e.target.id
-        const value = e.target.value
-        setAdData({ ...adData, [name]: value })
-    }
-
+      const { id, value } = e.target;
+      setAdData({ ...adData, [id]: value });
+    };
+  
     const onImageResize = (blob) => {
-        setAdData({ ...adData, image: URL.createObjectURL(blob) })
-        setAdImage(blob)
-    }
-
+      setAdData({ ...adData, image: URL.createObjectURL(blob) });
+      setAdImage(blob);
+    };
+  
     const onMonthsChange = (e) => {
-        const monthsToAdd = Number(e.target.value);
-        console.log("MONTH NUMBER",e.target.value );
-        setNoOfMonths(monthsToAdd)
-        setEndDate(getEndDate(monthsToAdd));
-        
-    }
-
+      const monthsToAdd = Number(e.target.value);
+      setNoOfMonths(monthsToAdd);
+      setEndDate(getEndDate(monthsToAdd));
+    };
+  
     const onUploadImage = (e) => {
-        setAdData({ ...adData, image: URL.createObjectURL(e.target.files[0]) })
-        setImageUrl(URL.createObjectURL(e.target.files[0]))
-        setAdImage(e.target.files[0])
-    }
+      setImageUrl(URL.createObjectURL(e.target.files[0]));
+      setAdImage(e.target.files[0]);
+    };
 
+    
+  console.log('selectedPages',selectedPages);
     return (
         <div className='my-4 container'>
             <h3 className='text-center w-full font-bold'>{pageTitle}</h3>
@@ -210,17 +231,39 @@ console.log(Categories);
                 </div>
 
 
-                <div className='grid lg:grid-cols-4'>
-                <label>Select Page</label>
-                    <div className='lg:col-span-3 flex gap-3'>
-                        <select className='border capitalize border-slate-600 rounded-md px-3 py-2' value={category} onChange={(e) => setCategory(e.target.value)}>
-                            {Object.keys(pageCategories).map((title, index) => <option className='capitalize' key={index}>{title}</option>)}
-                        </select>
-                        <select value={page} name='page' onChange={(e) => setPage(e.target.value)} className='border border-slate-600 rounded-md px-3 py-2'>
-                            {pageCategories[category].map((page, index) => <option key={index} value={getValue(page.path)}>{page.title}</option>)}
-                        </select>
-                    </div>                  
+                 <div className='grid lg:grid-cols-4'>
+          <label>Select Page</label>
+          <div className='lg:col-span-3 flex gap-3'>
+          <select className='border capitalize border-slate-600 rounded-md px-3 py-2' value={category} onChange={(e) => setCategory(e.target.value)}>
+              <option value='Select Category'>Select Category</option>
+              {Object.keys(pageCategories).map((title, index) => <option className='capitalize' key={index}>{title}</option>)}
+            </select>
+            <select value={page} name='page' onChange={(e) => { setPage(e.target.value); addSelectedPage(e); }} className='border border-slate-600 rounded-md px-3 py-2'>
+              <option  value='Select Page'>Select Page</option>
+              {pageCategories[category]?.map((page, index) => <option key={index} value={getValue(page.path)}>{page.title}</option>)}
+            </select>
+          </div>
+        </div>
+        <div className='selected-pages grid grid-cols-4 gap-4'>
+        {Object.keys(selectedPages).map((cat) => (
+          <div key={cat} className='border p-2 rounded-md'>
+            <div className='font-bold mb-2'>{cat}</div>
+            <div className='grid gap-2'>
+              {selectedPages[cat].map((pg, index) => (
+                <div key={index} className='border p-2 rounded-md flex justify-between items-center'>
+                  <span>{pg}</span>
+                  <a
+                    className='text-red-500 cursor-pointer no-underline'
+                    onClick={() => removeSelectedPage(cat, pg)}
+                  >
+                    ✖
+                  </a>
                 </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
 
                 <div className='grid lg:grid-cols-4 items-center'>
                     <label htmlFor='redirect_url' className='text-nowrap' >Google Trace Link</label>
@@ -236,7 +279,7 @@ console.log(Categories);
 
                     <div className='self-end -z-10'>
                         <p className='font-bold m-0 mb-3'>Preview</p>
-                        <SpecificPageAd ad={adData} mode='preview' />
+                        <SpecificPageAd imageUrl = {imageUrl} ad={adData} mode='livead' />
                     </div>
                 </div>
 

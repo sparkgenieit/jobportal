@@ -73,7 +73,8 @@ function AdsList({ role }) {
     };
 
     const goToEdit = (ad) => {
-        message({ path: `/company/editad/${ad._id}` });
+        console.log(ad);
+        message({ path: `/company/ads/editad/${ad._id}` });
     };
 
     const handleDelete = async (ad) => {

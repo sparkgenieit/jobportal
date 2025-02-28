@@ -46,8 +46,16 @@ class AdService {
         return httpUpload.post("/ads/company", data)
     }
 
+    updateAd(id,data) {
+        return httpUpload.put(`/ads/company/${id}`, data)
+    }
+
     getAds() {
         return http.get("/ads/company")
+    }
+
+    getAdById(id) {
+        return http.get(`/ads/details/${id}`)
     }
     getPageSpecificAds(page) {
         return http.get("/ads/specific-ad-live", { params: { page } })

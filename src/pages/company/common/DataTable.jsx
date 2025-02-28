@@ -28,6 +28,22 @@ const TableStatus = ({ data, setModal }) => {
             return "Expired";
         case "closed":
             return "Closed";
+        case "LIVE":
+            return "Live";
+        case "REJECTED":
+            return (
+                <span
+                    role="button"
+                    onClick={() => setModal({ show: true, type: "rejectedMessage", clickedJob: data })}
+                    className='text-red-600 flex items-center justify-center underline'
+                >
+                    <CiBellOn /> Revise
+                </span>
+            );
+        case "QUEUE":
+            return "In Queue";
+        case "REVIEW":
+            return "In Review";
         default:
             return "In Review";
     }
