@@ -57,6 +57,11 @@ class AdService {
     getAdById(id) {
         return http.get(`/ads/details/${id}`)
     }
+
+    getBlockedDates(id) {
+        return http.get(`/ads/blocked-dates/${id ? id : ''}`);
+    }
+
     getPageSpecificAds(page) {
         return http.get("/ads/specific-ad-live", { params: { page } })
     }

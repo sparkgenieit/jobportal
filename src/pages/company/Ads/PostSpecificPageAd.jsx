@@ -8,6 +8,7 @@ import { CitiesList } from '../../../helpers/constants';
 import ImageResizer from '../CompanyProfile/ImageResizer';
 import { SpecificPageAd } from '../../common/NavbarItemPages/CategorySpecifyAd';
 import { getValue, validateAdForm } from './adsFunctions';
+import DatePickerComponent from "../common/DatePickerComponent"; // Adjust the path accordingly
 
 const formatDate = (date) => {
   const year = date.getFullYear();
@@ -22,6 +23,13 @@ function getEndDate(MonthNumber) {
   return formatDate(currentDateObj);
 }
     
+const safeParse = (data) => {
+  try {
+      return JSON.parse(data);
+  } catch {
+      return [];
+  }
+};
 
 export default function PostSpecificPageAd({ pageType, existingAd }) {
     console.log('PostSpecificPageAd',existingAd);
@@ -53,6 +61,13 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
     const pageTitle = pageType ? 'Post B2B Ad' : 'Post Specific Page Ad';
     const [noOfMonths, setNoOfMonths] = useState(1);
     const [endDate, setEndDate] = useState(getEndDate(noOfMonths));
+    const [userBookedDates, setUserBookedDates] = useState([]);
+
+    const [blockedDates, setBlockedDates] = useState([]);
+
+  
+
+
     const [adData, setAdData] = useState({
       location: CitiesList[0],
       description: '',
@@ -68,6 +83,29 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
     const adFormRef = useRef(null);
   
     useEffect(() => {
+      async function fetchBlockedDates() {
+        console.log('fetchBlockedDates');
+
+    try{
+      
+      const result = await adService.getBlockedDates(existingAd?._id);
+      console.log('result.data', result.data);
+      
+      const blocked_dates = [
+        ...new Set(result.data.flatMap(date => safeParse(date)))
+      ];
+      
+      console.log('Blocked Dates:', blocked_dates);
+      
+      setBlockedDates(blocked_dates.map(date => new Date(date)));
+    } catch (err) {
+        console.log("Error fetching bloked ads:", err);
+        setError("Failed to fetch ad details.");
+    }                
+      }
+  
+      fetchBlockedDates();
+
       if (existingAd) {
         setAdData({
           location: existingAd.location,
@@ -88,8 +126,11 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
               console.error('Failed to parse show_on_pages:', e);
             }
           }
+          setUserBookedDates(safeParse(existingAd.booked_dates).map(date => new Date(date)));
+
       }
     }, [existingAd]);
+    
   
     const addSelectedPage = (e) => {
         const selectedPage = e.target.value;
@@ -136,6 +177,8 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
       formData.append('company_id', user._id);
       formData.append('show_on_pages', JSON.stringify(selectedPages));
       formData.append('noOfMonths', noOfMonths);
+      formData.append('booked_dates',  JSON.stringify(userBookedDates));
+      formData.append('name', 'kiran');
       
       formData.append('created_by', user._id);
       formData.append('end_date', endDate);
@@ -154,6 +197,11 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
     const handleForm = (e) => {
       const { id, value } = e.target;
       setAdData({ ...adData, [id]: value });
+    };
+  
+    const handleDateUpdate = (updatedBookedDates) => {
+      console.log('updatedBookedDates',updatedBookedDates);
+      setUserBookedDates(updatedBookedDates);
     };
   
     const onImageResize = (blob) => {
@@ -210,23 +258,17 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
 }
 
                 <div className='grid lg:grid-cols-4'>
-                    <label htmlFor='noOfMonths' className='text-nowrap' >Number of months</label>
-                    <div className='lg:col-span-3 flex gap-3'>
-                        <select id='noOfMonths' value={noOfMonths} onChange={onMonthsChange} className='border w-1/3 border-slate-600  rounded-md px-3 py-2'>
-                        {[...Array(12)].map((_, index) => (
-            <option key={index} value={index+1}>
-              {index + 1} Month{index === 0 ? '' : 's'}
-            </option>
-          ))}
-                          
-                        </select>
+                    <label htmlFor='noOfMonths' className='text-nowrap' >Booking Dates</label>
 
-                        <div className='flex gap-2 items-center'>
-                            <label className='text-nowrap'>Start Date</label>
-                            <input type='date' value={currentDate} disabled className='border  border-slate-600 rounded-md  px-3 py-2' />
-                            <label className='text-nowrap'>End Date</label>
-                            <input type='date' name="endDate" disabled value={endDate} className='border  border-slate-600 rounded-md  px-3 py-2' />
-                        </div>
+                    <div className='lg:col-span-3 flex gap-3'>
+                    <DatePickerComponent
+  userBookedDates={userBookedDates}
+  blockedDates={blockedDates}
+  onDateUpdate={handleDateUpdate} 
+/>
+                    
+
+                     
                     </div>
                 </div>
 
