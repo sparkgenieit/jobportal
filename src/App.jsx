@@ -26,6 +26,8 @@ const DownloadTransactions = lazy(() => import("./pages/company/DownloadTransact
 function App() {
   const { role } = useCurrentUser();
   const dispatch = useDispatch();
+  console.log('App Loaded');
+
 
   useLayoutEffect(() => {
     if (localStorage.getItem("isSignedIn")) {
