@@ -1,135 +1,129 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const DatePickerComponent = ({
-  userBookedDates,
-  blockedDates,
-  onDateUpdate,
+const DatePickerComponent = ({ 
+  userBookedDates = [], 
+  blockedDates = [], 
+  onDateUpdate, 
+  selectSingleDay = false, 
+  noOfMonths = 0 
 }) => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [startDate, setStartDate] = useState(null);
-  const [hoverDate, setHoverDate] = useState(null);
+  const [selectedDates, setSelectedDates] = useState([]);
 
-  const isBlocked = (date) => {
-    return blockedDates.some(
-      (blockedDate) => date.toDateString() === blockedDate.toDateString()
-    );
-  };
+  const isSingleDayMode = selectSingleDay;
 
-  const isBooked = (date) => {
-    return userBookedDates.some(
-      (bookedDate) => date.toDateString() === bookedDate.toDateString()
-    );
-  };
-
-  const getDatesInRange = (startDate, endDate) => {
-    let dates = [];
-    let currentDate = new Date(startDate);
-    while (currentDate <= endDate) {
-      if (!isBlocked(currentDate) && !isBooked(currentDate)) {
-        dates.push(new Date(currentDate));
-      }
-      currentDate.setDate(currentDate.getDate() + 1);
+  const formatDate = (date) => {
+    if (!(date instanceof Date)) {
+        date = new Date(date); // Convert it to a Date object if it's not
     }
-    return dates;
-  };
+
+    if (isNaN(date.getTime())) {
+        console.error("Invalid date:", date);
+        return ""; // Handle invalid date properly
+    }
+
+    return date.toISOString().split("T")[0];
+};
+  // Memoized sets for fast lookup
+  const blockedSet = useMemo(() => new Set(blockedDates.map(formatDate)), [blockedDates]);
+  const bookedSet = useMemo(() => new Set(userBookedDates.map(formatDate)), [userBookedDates]);
+
+  const isBlocked = (date) => blockedSet.has(formatDate(date));
+  const isBooked = (date) => bookedSet.has(formatDate(date));
+
+  // Prefill booked dates
+  useEffect(() => {
+    setSelectedDates(userBookedDates);
+    if (isSingleDayMode && userBookedDates.length > 0) {
+      setStartDate(userBookedDates[0]); // Auto-select first booked date
+    }
+  }, [userBookedDates, isSingleDayMode]);
 
   const handleDateChange = (date) => {
     if (isBlocked(date) || date < new Date()) return;
 
-    if (startDate && hoverDate) {
-      const newDates = getDatesInRange(startDate, date);
-      onDateUpdate([...userBookedDates, ...newDates]);
-      setStartDate(null);
-      setHoverDate(null);
-      setRefreshKey((prevKey) => prevKey + 1);
+    if (isSingleDayMode) {
+      setStartDate(date);
+      setSelectedDates([date]);
+      onDateUpdate([date]);
     } else {
+      let updatedDates;
       if (isBooked(date)) {
-        const updatedDates = userBookedDates.filter(
-          (d) => d.toDateString() !== date.toDateString()
-        );
-        onDateUpdate(updatedDates);
-        setRefreshKey((prevKey) => prevKey + 1);
+        updatedDates = selectedDates.filter((d) => formatDate(d) !== formatDate(date));
       } else {
-        setStartDate(date);
-        onDateUpdate([...userBookedDates, date]);
-        setRefreshKey((prevKey) => prevKey + 1);
+        updatedDates = [...selectedDates, date];
       }
+      setSelectedDates(updatedDates);
+      onDateUpdate(updatedDates);
     }
-  };
 
-  const handleMouseEnter = (date) => {
-    if (startDate && !isBlocked(date) && date >= startDate) {
-      setHoverDate(date);
-    }
-  };
-
-  const resetBookings = () => {
-    setStartDate(null);
-    setHoverDate(null);
     setRefreshKey((prevKey) => prevKey + 1);
-    onDateUpdate([]); // Reset all booked dates
   };
 
   const getDayClass = (date) => {
     if (isBlocked(date)) return "blocked";
     if (isBooked(date)) return "booked";
-    if (startDate && hoverDate && date >= startDate && date <= hoverDate)
-      return "hovered-green"; // Highlight the range in green
-    return "available"; // Available dates
+    if (isSingleDayMode && startDate && formatDate(date) === formatDate(startDate)) return "single-day-selected";
+    return "available";
   };
 
+  const endDate = startDate && noOfMonths > 0 
+    ? new Date(startDate.getFullYear(), startDate.getMonth() + noOfMonths, startDate.getDate() - 1) 
+    : null;
+
   return (
-    <div className="container p-1">
+    <div className="container p-2">
       <DatePicker
         key={refreshKey}
-        selected={null}
+        selected={isSingleDayMode ? startDate : null}
         onChange={handleDateChange}
         inline
         filterDate={(date) => !isBlocked(date) && date >= new Date()}
         dayClassName={getDayClass}
-        onDayMouseEnter={handleMouseEnter}
         minDate={new Date()}
-        onClickOutside={() => {}}
+        highlightDates={selectedDates}
       />
-      <div className="text-left mt-4"> 
-        <button
-          className="p-2 bg-red-500 text-white rounded"
-          onClick={resetBookings}
-        >
-          Reset Bookings
-        </button>
-      </div>
-    {/*  <div className="mt-6">
-        {userBookedDates.length > 0 && (
-          <p className="text-lg">
-            User Booked Dates:{" "}
-            {userBookedDates.map((d) => d.toDateString()).join(", ")}
-          </p>
-        )}
-      </div>  */}
 
-      {/* Inline Styles */}
+      {isSingleDayMode && startDate && noOfMonths > 0 && (
+        <div className="mt-4 p-2 bg-gray-200 rounded">
+          <strong>Ad booked from {startDate.toDateString()} to {endDate.toDateString()}</strong>
+        </div>
+      )}
+
+      {!isSingleDayMode && (
+        <div className="text-left mt-4">
+          <button 
+            type="button" 
+            className={`p-2 text-white rounded ${selectedDates.length ? "bg-red-500" : "bg-gray-400 cursor-not-allowed"}`}
+            onClick={() => {
+              setSelectedDates([]);
+              onDateUpdate([]);
+            }}
+            disabled={!selectedDates.length}
+          >
+            Reset Bookings
+          </button>
+        </div>
+      )}
+
       <style jsx>{`
-        .hovered-green {
-          background-color: #28a745; /* Green color */
-          color: white;
+        .single-day-selected {
+          background-color: green !important;
+          color: white !important;
         }
-
         .booked {
           background-color: green;
           color: #fff;
         }
-
         .blocked {
           background-color: #dc3545;
           color: #fff;
         }
-
-        .available {
-          background-color: #fff;
-          color: #000;
+        .available:hover {
+          background-color: #f0f0f0;
         }
       `}</style>
     </div>
