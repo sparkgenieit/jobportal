@@ -20,6 +20,6 @@ export default function PageDeciderBasedOnType() {
         case 'view':
             return null
         default:
-            return <PostAd />
+            return <PostAd pageType={type}/>
     }
 }

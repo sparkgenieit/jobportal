@@ -62,6 +62,7 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
     const [noOfMonths, setNoOfMonths] = useState(1);
     const [endDate, setEndDate] = useState(getEndDate(noOfMonths));
     const [userBookedDates, setUserBookedDates] = useState([]);
+    const [selectSingleDay, setSelectSingleDay] = useState(true);
 
     const [blockedDates, setBlockedDates] = useState([]);
 
@@ -84,7 +85,7 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
   
     useEffect(() => {
       async function fetchBlockedDates() {
-        console.log('fetchBlockedDates');
+        
 
     try{
       
@@ -199,10 +200,25 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
       setAdData({ ...adData, [id]: value });
     };
   
-    const handleDateUpdate = (updatedBookedDates) => {
-      console.log('updatedBookedDates',updatedBookedDates);
-      setUserBookedDates(updatedBookedDates);
+    const handleDateUpdate = (dates) => {
+      setUserBookedDates(dates);
+  
+      if (selectSingleDay && dates.length > 0) {
+        const selectedDate = dates[0];
+        if (noOfMonths > 0) {
+          const calculatedEndDate = selectedDate && noOfMonths > 0 
+          ? new Date(selectedDate.getFullYear(), selectedDate.getMonth() + noOfMonths, selectedDate.getDate() - 1) 
+          : null;
+        
+          setEndDate(calculatedEndDate);
+        } else {
+          setEndDate(null);
+        }
+      } else {
+        setEndDate(null);
+      }
     };
+  
   
     const onImageResize = (blob) => {
       setAdData({ ...adData, image: URL.createObjectURL(blob) });
@@ -257,21 +273,23 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
                 </div>
 }
 
-                <div className='grid lg:grid-cols-4'>
-                    <label htmlFor='noOfMonths' className='text-nowrap' >Booking Dates</label>
-
-                    <div className='lg:col-span-3 flex gap-3'>
-                    <DatePickerComponent
-  userBookedDates={userBookedDates}
-  blockedDates={blockedDates}
-  onDateUpdate={handleDateUpdate} 
-/>
-                    
-
-                     
-                    </div>
-                </div>
-
+                {/* No. of Months, Start Date, and End Date in a Single Row */}
+      <div className='grid lg:grid-cols-4 items-center gap-3'>
+        <label htmlFor='noOfMonths' className='text-nowrap'>NO of Months</label>
+        <select id='noOfMonths' value={noOfMonths} onChange={onMonthsChange} className='border border-slate-600 rounded-md px-3 py-2'>
+          {[...Array(12)].map((_, index) => (
+            <option key={index} value={index + 1}>{index + 1} Month{index === 0 ? '' : 's'}</option>
+          ))}
+        </select>
+        <DatePickerComponent
+          selectSingleDay={selectSingleDay}
+          userBookedDates={userBookedDates}
+          blockedDates={blockedDates}
+          onDateUpdate={handleDateUpdate}
+          noOfMonths={noOfMonths}
+        />
+        <input type='hidden' name='endDate' disabled value={endDate} className='border border-slate-600 rounded-md px-3 py-2' />
+      </div>
 
                  <div className='grid lg:grid-cols-4'>
           <label>Select Page</label>
