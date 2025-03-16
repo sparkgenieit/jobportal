@@ -15,7 +15,7 @@ const DatePickerComponent = ({
 
   const isSingleDayMode = selectSingleDay;
 
-  const formatDate = (date) => {
+const formatDate = (date) => {
     if (!(date instanceof Date)) {
         date = new Date(date); // Convert it to a Date object if it's not
     }

@@ -49,8 +49,17 @@ export default function CategorySpecifyAd({ page,category }) {
             const { data: pageData, error: pageError } = await tryCatch(() => adService.getPageSpecificAds(page));
             console.log("Page Data:", pageData);
     
-            if (pageData && pageData.length > 0) {
-                setAds(pageData);  // ✅ Corrected assignment
+            const today = new Date();
+    
+            // Filter ads where today falls within the start_date and end_date
+            const validAds = pageData?.filter(ad => {
+                const startDate = new Date(ad.start_date);
+                const endDate = new Date(ad.end_date);
+                return today >= startDate && today <= endDate;
+            });
+    
+            if (validAds && validAds.length > 0) {
+                setAds(validAds);  // ✅ Set only valid ads
             } else {
                 const { data: categoryData, error: categoryError } = await tryCatch(() => adService.getCategorySpecificAds(category));
                 if (categoryData) {
@@ -60,7 +69,8 @@ export default function CategorySpecifyAd({ page,category }) {
         };
     
         fetchPageSpecificAds();
-    }, [page, category])
+    }, [page, category]); 
+    
 
     return (
 

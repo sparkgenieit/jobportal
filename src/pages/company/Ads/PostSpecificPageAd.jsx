@@ -60,6 +60,7 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
     const [selectedPages, setSelectedPages] = useState({});
     const pageTitle = pageType ? 'Post B2B Ad' : 'Post Specific Page Ad';
     const [noOfMonths, setNoOfMonths] = useState(1);
+    const [startDate, setStartDate] = useState(formatDate(new Date()));
     const [endDate, setEndDate] = useState(getEndDate(noOfMonths));
     const [userBookedDates, setUserBookedDates] = useState([]);
     const [selectSingleDay, setSelectSingleDay] = useState(true);
@@ -119,7 +120,8 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
         setImageUrl(existingAd.image);
         setAdImage(existingAd.image);
         setNoOfMonths(existingAd.noOfMonths || 1);
-        setEndDate(getEndDate(existingAd.noOfMonths || 1));
+        setStartDate(existingAd.start_date || 1);
+        setEndDate(existingAd.end_date || 1);
         if (existingAd.show_on_pages) {
             try {
               setSelectedPages(JSON.parse(existingAd.show_on_pages));
@@ -182,7 +184,8 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
       formData.append('name', 'kiran');
       
       formData.append('created_by', user._id);
-      formData.append('end_date', endDate);
+      formData.append('start_date', formatDate(startDate));
+      formData.append('end_date', formatDate(endDate));
       formData.append('image', adImage);
       formData.delete('page');
   
@@ -209,12 +212,14 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
           const calculatedEndDate = selectedDate && noOfMonths > 0 
           ? new Date(selectedDate.getFullYear(), selectedDate.getMonth() + noOfMonths, selectedDate.getDate() - 1) 
           : null;
-        
+          setStartDate(new Date(selectedDate));
           setEndDate(calculatedEndDate);
         } else {
+          setStartDate(null);
           setEndDate(null);
         }
       } else {
+        setStartDate(null);
         setEndDate(null);
       }
     };
@@ -284,7 +289,7 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
         <DatePickerComponent
           selectSingleDay={selectSingleDay}
           userBookedDates={userBookedDates}
-          blockedDates={blockedDates}
+          blockedDates={[]}
           onDateUpdate={handleDateUpdate}
           noOfMonths={noOfMonths}
         />
