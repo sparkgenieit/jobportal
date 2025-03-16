@@ -5,12 +5,12 @@ import { useParams } from 'react-router-dom'
 
 export default function MainContent() {
     const params = useParams()
-
+console.log(params);
     return (
         <div className='grid lg:grid-cols-4'>
 
             <div className='lg:col-span-3 text-sm'>
-                <CategorySpecifyAd page={params.topic} />
+                <CategorySpecifyAd page={params.topic} category= {params.name}/>
                 <div className='min-h-[70vh] py-6 px-3' >
                     <h1>The Thrill of Bungy Jumping: Conquering Fear, One Leap at a Time</h1>
                     <p>Imagine standing on the edge of a towering bridge, overlooking a breathtaking gorge, with the world stretching out beneath your feet. The wind rushes past, and your heart pounds as you prepare to take a leap of faith. This is bungy jumping—an adrenaline-pumping adventure that’s as much about confronting your fears as it is about the exhilarating freefall.</p>
