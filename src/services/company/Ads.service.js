@@ -66,6 +66,10 @@ class AdService {
         return http.get("/ads/specific-ad-live", { params: { page } })
     }
 
+    getCategorySpecificAds(category) {
+        return http.get("/ads/category-ad", { params: { category } })
+    }
+
     showAds(type) {
         return http.get('/ads/show-ad', { params: { type } })
     }

@@ -5,7 +5,7 @@ import { IoIosFlag } from "react-icons/io";
 import { MdOutlineLocationOn } from 'react-icons/md';
 import { BASE_API_URL } from '../../../helpers/constants';
 
-export const SpecificPageAd = ({ imageUrl,ad, mode = "livead" }) => {
+export const SpecificPageAd = ({ imageUrl,ad}) => {
 console.log('adddd',ad);
   //  if (mode === "livead") ad = { ...ad, image: `${BASE_API_URL}/uploads/ads/${ad?.image}` }  // If the ad is live then it will have an image from server
   const imgSrc = (imageUrl && imageUrl.includes('blob')) ? imageUrl : `${BASE_API_URL}/uploads/ads/${ad.image}`;
@@ -41,19 +41,26 @@ console.log('adddd',ad);
         </div>
     )
 }
-export default function CategorySpecifyAd({ page }) {
+export default function CategorySpecifyAd({ page,category }) {
     const [ads, setAds] = useState(null)
 
     useEffect(() => {
         const fetchPageSpecificAds = async () => {
-            const { data, error } = await tryCatch(() => adService.getPageSpecificAds(page))
-            if (data) {
-                setAds(data)
+            const { data: pageData, error: pageError } = await tryCatch(() => adService.getPageSpecificAds(page));
+            console.log("Page Data:", pageData);
+    
+            if (pageData && pageData.length > 0) {
+                setAds(pageData);  // ✅ Corrected assignment
+            } else {
+                const { data: categoryData, error: categoryError } = await tryCatch(() => adService.getCategorySpecificAds(category));
+                if (categoryData) {
+                    setAds(categoryData);
+                }
             }
-        }
-
-        fetchPageSpecificAds()
-    }, [page])
+        };
+    
+        fetchPageSpecificAds();
+    }, [page, category])
 
     return (
 

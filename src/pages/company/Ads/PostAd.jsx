@@ -41,9 +41,7 @@ export default function AdForm({ pageType, existingAd = null, onSuccess }) {
     const [category, setCategory] = useState(
         existingAd?.category || Object.keys(pageCategories)?.[0] || ""
     );
-    const [page, setPage] = useState(
-        existingAd?.show_on_pages ? JSON.parse(existingAd.show_on_pages) : getValue(pageCategories[category]?.[0]?.path)
-    );
+  
     const [noOfMonths, setNoOfMonths] = useState(
         existingAd ? Math.round((new Date(existingAd.end_date) - new Date()) / (30 * 24 * 60 * 60 * 1000)) : 1
     );
@@ -77,14 +75,13 @@ console.log('adData',adData);
 console.log('userBookedDates',userBookedDates);
     const onSubmit = async (e) => {
         e.preventDefault();
-        if (!category || !page) return message({ status: "Error", error: { message: "Please select category and page" } });
+        if (!category ) return message({ status: "Error", error: { message: "Please select category" } });
 
         const [isValid, errorMessage] = validateAdForm(adData);
         if (!isValid) return message({ status: "Error", error: { message: errorMessage } });
 
         const formData = new FormData();
         formData.append("company_id", user._id);
-        formData.append("show_on_pages", JSON.stringify(page));
         formData.append("category", category);
         formData.append("created_by", user._id);
         formData.append("end_date", '');
