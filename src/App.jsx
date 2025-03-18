@@ -1,4 +1,5 @@
 import "./App.css"
+import {  useState,useRef } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { lazy, Suspense, useLayoutEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -14,6 +15,8 @@ import Loader from "./components/Loader";
 import Toaster from "./components/Toaster";
 import { Roles } from "./services/common/Roles.service";
 import LandingPageAdvert from "./pages/common/Ads/LandingPageAdvert";
+
+
 
 // Layouts
 const CompanyLayout = lazy(() => import("./layouts/company/CompanyLayout"));
@@ -44,6 +47,12 @@ function App() {
 
 function AppContent({ role }) {
   const location = useLocation(); // ✅ Now inside BrowserRouter
+  const isFirstLoad = useRef(true); // Track first load across renders
+
+  // Show ad only if it's the first page load
+  const [showLandingAd] = useState(isFirstLoad.current);
+  isFirstLoad.current = false; // Prevent showing it again on navigation  
+
 
   return (
     <>
@@ -126,7 +135,7 @@ function AppContent({ role }) {
       <Toaster />
 
       {/* ✅ Show LandingPageAdvert ONLY on Home Page */}
-      {location.pathname === "/" && <LandingPageAdvert />}
+      {showLandingAd && <LandingPageAdvert />}
     </>
   );
 }

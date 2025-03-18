@@ -106,8 +106,8 @@ function PostAd() {
                                         <select className="form-select" name="ad_type" value={adForm?.ad_type} onChange={handleForm}>
                                             <option value="short">Short (min 600 pixels width)</option>
                                             <option value="long">Long (min 600 pixels height)</option>
-                                            <option value="above-menu">Above Menu (min 900 pixels width)</option>
-                                            <option value="landing-page">Landing Page (min 900 pixels width)</option>
+                                            <option value="home-page-banner">Home Page Banner(min 900 pixels width)</option>
+                                            <option value="landing-page-popup">Landing Page (min 900 pixels width)</option>
                                         </select>
                                     </div>
                                 </div>

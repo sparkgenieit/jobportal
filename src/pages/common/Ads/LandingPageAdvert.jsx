@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { Modal } from 'react-bootstrap';
 import { RxCross1 } from 'react-icons/rx';
 import { adService } from '../../../services/company/Ads.service';
+import { BASE_API_URL } from '../../../helpers/constants';
+
 
 export default function LandingPageAdvert() {
     const [isModalVisible, setModalVisible] = useState(true);
@@ -10,12 +12,17 @@ export default function LandingPageAdvert() {
     const closeModal = () => setModalVisible(false);
 
     useEffect(() => {
-        adService.showAds('shorts')
+        adService.showAds('landing-page-popup')
             .then(response => setAdvertisement(response.data))
             .catch(() => setAdvertisement(null));
     }, []);
 
     if (!advertisement) return null;
+
+    const imgSrc = advertisement?.company_id 
+    ? `${BASE_API_URL}/uploads/ads/${advertisement.image}` 
+    : advertisement?.ad_image_url || '';
+      
 
     return (
         <Modal show={isModalVisible} onHide={() => { }} centered>
@@ -26,7 +33,7 @@ export default function LandingPageAdvert() {
                 <div className="d-flex flex-column align-items-center justify-content-evenly h-100">
                     <h2>{advertisement?.title}</h2>
                     <img
-                        src={advertisement?.ad_image_url}
+                        src={imgSrc}
                         alt={advertisement?.title}
                         style={{ width: "100%", height: "50vh" }}
                     />

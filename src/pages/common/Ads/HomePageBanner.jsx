@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { adService } from "../../../services/company/Ads.service";
+import { BASE_API_URL } from '../../../helpers/constants';
 
 const bannerShowStyles = {  // Styles for the banner to show when scrolling
     position: "fixed",
@@ -42,17 +43,20 @@ export default function HomePageBanner() {
     }, []);
 
     useEffect(() => {
-        adService.showAds("above-menu")
+        adService.showAds("home-page-banner")
             .then((res) => setAdData(res.data))
             .catch(() => setAdData(null));
     }, []);
 
     if (!adData) return null;
 
+    const imgSrc = adData?.company_id 
+    ? `${BASE_API_URL}/uploads/ads/${adData.image}` 
+    : adData?.ad_image_url || '';
     return (
         <div className="bg-white-500 text-center py-1">
             <img
-                src={adData.ad_image_url}
+                src={imgSrc}
                 style={{ width: "100%", height: "250px" }}
                 alt={adData.title}
             />
