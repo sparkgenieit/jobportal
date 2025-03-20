@@ -1,97 +1,137 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Modal } from 'react-bootstrap'
+import { Modal } from "react-bootstrap";
 
-import EditAd from "./EditAd";
+import AdForm from "./AdForm";
 import http from "../../../helpers/http";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import { tryCatch } from "../../../helpers/functions";
 import { RxCross1 } from "react-icons/rx";
+import { FaPencilAlt, FaTrash } from "react-icons/fa";
+
 
 export default function AdminAdsList() {
-    const [adsList, setAdsList] = useState(null)
-    const [showEditAd, setShowEditAd] = useState(false)
-    const [adEdit, setAdEdit] = useState(null)
-    const message = useShowMessage()
+    const [adsList, setAdsList] = useState(null);
+    const [showEditAd, setShowEditAd] = useState(false);
+    const [adEdit, setAdEdit] = useState(null);
+    const message = useShowMessage();
 
     const fetchAds = async () => {
-        const { data, error } = await tryCatch(() => http.get("/ads/adminads"))
-        setAdsList(data)
-
+        const { data, error } = await tryCatch(() => http.get("/ads/adminads"));
         if (error) {
-            message({ status: "Error", error })
+            message({ status: "Error", error });
+        } else {
+            setAdsList(data);
         }
-    }
+    };
 
     useEffect(() => {
-        document.title = "Ads List"
-        fetchAds()
-    }, [])
+        document.title = "Ads List";
+        fetchAds();
+    }, []);
 
-    const handleDelete = (ads) => {
-        http.delete(`ads/delete-admin/${ads._id}`)
-            .then((res) => {
-                message({ status: "Success", message: "Ad Deleted" })
-                fetchAds()
-            })
-            .catch((err) => {
-                message({ status: "Error", error: err })
-            })
-    }
+    const handleDelete = async (ad) => {
+        const confirmDelete = window.confirm(`Are you sure you want to delete "${ad.title}"?`);
+        if (!confirmDelete) return;
+
+        const { error } = await tryCatch(() => http.delete(`/ads/delete-admin/${ad._id}`));
+
+        if (error) {
+            message({ status: "Error", error });
+        } else {
+            message({ status: "Success", message: "Ad Deleted Successfully" });
+            fetchAds();
+        }
+    };
 
     const edit = (ad) => {
-        setAdEdit(ad)
-        setShowEditAd(true)
-    }
+        setAdEdit(ad);
+        setShowEditAd(true);
+    };
 
     const onHide = () => {
-        setShowEditAd(false)
-    }
+        setShowEditAd(false);
+        setAdEdit(null);
+    };
+
     return (
         <>
-            <div class="container-fluid bg-white pt-4">
+            <div className="container-fluid bg-white pt-4">
                 <h3 className="fs-4 text-center fw-bold">Ads</h3>
-                <div className="d-flex justify-content-end">
-                    <Link className="btn btn-primary" to="/superadmin/post-ad" style={{ textDecoration: "none", color: "white" }}>Add</Link>
+                <div className="d-flex justify-content-end mb-3">
+                    <Link className="btn btn-primary" to="/superadmin/post-ad">
+                        Add New Ad
+                    </Link>
                 </div>
 
                 <div className="table-responsive">
-                    <table className="table">
+                    <table className="table table-striped">
                         <thead>
                             <tr>
                                 <th>Ad Title</th>
                                 <th>Type</th>
-                                <th colSpan={3}>Image</th>
+                                <th>Image</th>
+                                <th className="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {adsList && adsList.map((ads, index) => {
-                                return (
-                                    <tr key={ads._id}>
-                                        <td>{ads.title}</td>
-                                        <td className="text-capitalize">{ads.ad_type}</td>
-                                        <td><img src={ads.ad_image_url} alt={ads.title} /></td>
-                                        <td className="text-center"><a type="button" class="btn btn-gradient-primary" onClick={() => edit(ads)}>Edit</a></td>
-                                        <td className="text-center"><button type="button" class="btn btn-gradient-primary" onClick={() => handleDelete(ads)}>Delete</button></td>
-                                    </tr>)
-                            })}
+                            {adsList && adsList.length > 0 ? (
+                                adsList.map((ad) => (
+                                    <tr key={ad._id}>
+                                        <td>{ad.title}</td>
+                                        <td className="text-capitalize">{ad.ad_type}</td>
+                                        <td>
+                                            {ad.ad_image_url ? (
+                                                <img
+                                                    src={ad.ad_image_url}
+                                                    alt={ad.title}
+                                                    width="100"
+                                                    height="50"
+                                                    className="img-thumbnail"
+                                                />
+                                            ) : (
+                                                <span className="text-muted">No Image</span>
+                                            )}
+                                        </td>
+                                        <td className="text-center">
+                                            <button className="btn btn-white btn-xs border m-1" onClick={() => edit(ad)}>
+                                                <FaPencilAlt />
+                                            </button>
+                                            <button className="btn btn-danger btn-xs border m-1" onClick={() => handleDelete(ad)}>
+                                                <FaTrash />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="4" className="text-center text-muted">
+                                        No ads found.
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>
-            </div >
+            </div>
 
+            {/* Edit Modal */}
             <Modal size="lg" show={showEditAd} onHide={onHide}>
-                <Modal.Body className="p-2 bg-white">
-                    <div className="p-0 float-end">  <RxCross1 role="button" onClick={onHide} /> </div>
-                    <EditAd
+                <Modal.Body className="p-3 bg-white">
+                    <div className="d-flex justify-content-between align-items-center">
+                        <h5 className="m-0">{adEdit ? "Edit Ad" : "Create Ad"}</h5>
+                        <RxCross1 role="button" onClick={onHide} />
+                    </div>
+                    <hr />
+                    <AdForm
                         ad={adEdit}
                         onSuccess={() => {
-                            onHide()
-                            fetchAds()
+                            onHide(); // Close the modal
+                            fetchAds(); // Refresh the list
                         }}
                     />
                 </Modal.Body>
             </Modal>
         </>
-    )
+    );
 }
