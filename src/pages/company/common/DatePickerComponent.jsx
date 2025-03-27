@@ -25,7 +25,11 @@ const formatDate = (date) => {
         return ""; // Handle invalid date properly
     }
 
-    return date.toISOString().split("T")[0];
+return date.toLocaleDateString("en-NZ", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+}).split("/").reverse().join("-"); // Convert DD/MM/YYYY to YYYY-MM-DD
 };
   // Memoized sets for fast lookup
   const blockedSet = useMemo(() => new Set(blockedDates.map(formatDate)), [blockedDates]);
@@ -34,6 +38,7 @@ const formatDate = (date) => {
   const isBlocked = (date) => blockedSet.has(formatDate(date));
   const isBooked = (date) => bookedSet.has(formatDate(date));
 
+  
   // Prefill booked dates
   useEffect(() => {
     setSelectedDates(userBookedDates);
@@ -64,6 +69,8 @@ const formatDate = (date) => {
   };
 
   const getDayClass = (date) => {
+   
+    
     if (isBlocked(date)) return "blocked";
     if (isBooked(date)) return "booked";
     if (isSingleDayMode && startDate && formatDate(date) === formatDate(startDate)) return "single-day-selected";

@@ -9,8 +9,12 @@ import ImageResizer from "../CompanyProfile/ImageResizer";
 import { getValue, validateAdForm } from "./adsFunctions";
 import DatePickerComponent from "../common/DatePickerComponent";
 import { BASE_API_URL } from '../../../helpers/constants';
+import TimePicker from "react-time-picker";
+import "react-time-picker/dist/TimePicker.css";
 
 const formatDate = (date) => date.toISOString().split("T")[0];
+
+
 
 const getEndDate = (monthsToAdd) => {
     const currentDateObj = new Date();
@@ -51,15 +55,41 @@ export default function AdForm({ pageType, existingAd = null, onSuccess }) {
         existingAd?.booked_dates ? JSON.parse(existingAd.booked_dates) : []
     );
     
+    console.log('edituserBookedDates',userBookedDates);
     const [blockedDates, setBlockedDates] = useState([]);
 
+      useEffect(() => {
+           async function fetchBlockedDates(pageType) {
+             
+     
+         try{
+           
+           const result = await adService.getBlockedDates(pageType,existingAd?._id);
+           console.log('result.data', result.data);
+           
+           const blocked_dates = [
+             ...new Set(result.data.flatMap(date => JSON.parse(date)))
+           ];
+           
+           console.log('Blocked Dates:', blocked_dates);
+           
+           setBlockedDates(blocked_dates.map(date => new Date(date)));
+         } catch (err) {
+             console.log("Error fetching bloked ads:", err);
+             setError("Failed to fetch ad details.");
+         }                
+           }
+           fetchBlockedDates(pageType);
+        }, []);        
+           
+console.log('blockedDates',blockedDates);
     const [adData, setAdData] = useState({
         location: existingAd?.location || category,
         description: existingAd?.description || "",
         title: existingAd?.title || "",
         redirect_url: existingAd?.redirect_url || "",
         type: existingAd?.type || pageType,
-        image: existingAd?.image || null,
+        image: existingAd?.image || null,        
     });
 
     
@@ -71,14 +101,28 @@ export default function AdForm({ pageType, existingAd = null, onSuccess }) {
     const handleDateUpdate = (dates) => {
         setUserBookedDates(dates);    
     };
+ 
+
+
 console.log('adData',adData);
-console.log('userBookedDates',userBookedDates);
+console.log('userBookedDates123',userBookedDates);
+console.log(new Date());
+
+const formattedDates = userBookedDates.map(dateStr => {
+    const date = new Date(dateStr); // Convert string to Date object
+    return date.toLocaleDateString("en-CA"); // Format as YYYY-MM-DD
+});
+console.log('userBookedDatesJSON',formattedDates);
+
+
+
     const onSubmit = async (e) => {
         e.preventDefault();
         if (!category ) return message({ status: "Error", error: { message: "Please select category" } });
 
         const [isValid, errorMessage] = validateAdForm(adData);
         if (!isValid) return message({ status: "Error", error: { message: errorMessage } });
+
 
         const formData = new FormData();
         formData.append("company_id", user._id);
@@ -91,7 +135,9 @@ console.log('userBookedDates',userBookedDates);
         formData.append("description", adData.description);
         formData.append("redirect_url", adData.redirect_url);
         formData.append("type", adData.type); // If this field is necessary
-        formData.append('booked_dates',  JSON.stringify(userBookedDates));
+        formData.append('booked_dates',  JSON.stringify(formattedDates));
+        
+
 
 
         if (adData.image && typeof adData.image !== "string") formData.append("image", adData.image);
@@ -175,7 +221,7 @@ console.log('userBookedDates',userBookedDates);
                     <label className="w-1/3 text-gray-700 font-medium">Select Dates</label>
                     <DatePickerComponent selectSingleDay={selectSingleDay} userBookedDates={userBookedDates} blockedDates={blockedDates} onDateUpdate={handleDateUpdate} noOfMonths={noOfMonths} />
                 </div>
-
+                
                {/* Upload Image */}
                <div className="flex flex-col gap-2 col-span-2">
                     <label className="text-gray-700 font-medium">Upload Image</label>

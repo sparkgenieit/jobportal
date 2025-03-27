@@ -58,8 +58,8 @@ class AdService {
         return http.get(`/ads/details/${id}`)
     }
 
-    getBlockedDates(id) {
-        return http.get(`/ads/blocked-dates/${id ? id : ''}`);
+    getBlockedDates(type,id) {
+        return http.get(`/ads/blocked-dates/${id ? id : ''}?type=${type}`);
     }
 
     getPageSpecificAds(page) {
