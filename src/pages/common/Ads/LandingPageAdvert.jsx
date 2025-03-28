@@ -5,11 +5,10 @@ import { adService } from '../../../services/company/Ads.service';
 import { BASE_API_URL } from '../../../helpers/constants';
 
 export default function LandingPageAdvert() {
-    const [isModalVisible, setModalVisible] = useState(true);
+    const [isModalVisible, setModalVisible] = useState(false);
     const [advertisement, setAdvertisement] = useState(null);
     const [isHidden, setIsHidden] = useState(false);
 
-    // Handle path blocking inside useEffect (for React rules)
     useEffect(() => {
         if (typeof window !== "undefined") {
             const currentPath = window.location.pathname;
@@ -20,14 +19,40 @@ export default function LandingPageAdvert() {
     }, []);
 
     useEffect(() => {
+        // Prevent showing on refresh by checking sessionStorage
+        if (sessionStorage.getItem("landingPopupShown")) return;
+
         adService.showAds('landing-page-popup')
-            .then(response => setAdvertisement(response.data))
+            .then(response => {
+                if (response.data) {
+                    setAdvertisement(response.data);
+                    setTimeout(() => {
+                        setModalVisible(true);
+                        sessionStorage.setItem("landingPopupShown", "true"); // Prevent showing again in the session
+                    }, 10000); // Show after 10 seconds
+                }
+            })
             .catch(() => setAdvertisement(null));
     }, []);
 
-    if (isHidden || !advertisement) return null; // Ensures hooks run correctly
+    useEffect(() => {
+        // Detect exit intent (Mouse moves toward close button)
+        const handleExitIntent = (event) => {
+            if (!sessionStorage.getItem("landingPopupShown") && event.clientY < 10) {
+                setModalVisible(true);
+                sessionStorage.setItem("landingPopupShown", "true");
+            }
+        };
+        document.addEventListener("mousemove", handleExitIntent);
+        return () => document.removeEventListener("mousemove", handleExitIntent);
+    }, []);
 
-    const closeModal = () => setModalVisible(false);
+    if (isHidden || !advertisement) return null;
+
+    const closeModal = () => {
+        setModalVisible(false);
+        sessionStorage.setItem("landingPopupShown", "true"); // Ensure it doesn't reopen
+    };
 
     const imgSrc = advertisement?.company_id
         ? `${BASE_API_URL}/uploads/ads/${advertisement.image}`

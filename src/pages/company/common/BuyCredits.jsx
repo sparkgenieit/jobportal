@@ -11,13 +11,17 @@ import Loader from "../../../components/Loader";
 const PlanCard = ({ plan, onSelect }) => (
     <div className="flex-grow-1">
         <div className="card shadow">
-            <div className="card-header text-center text-white fw-bold fs-2 bg-success py-5  text-nowrap">
-                {plan.name}
+        <div
+    className="card-header text-center text-white fw-bold bg-success py-5 text-nowrap"
+    style={{
+        fontSize: `clamp(1rem, ${Math.max(2 - plan.name.length * 0.05, 1)}rem, 2rem)`
+    }}
+>     {plan.name}
             </div>
             <div className="card-body d-flex flex-column justify-content-center">
                 <div className="card bg-dark text-light text-center p-3 h3 opacity-50">${plan.price}</div>
                 <ul className="d-flex flex-column gap-3 mt-3">
-                    <li className="text-nowrap">&#9989; Buy {plan.credits} Credits</li>
+                    {plan.credits > 0 && <li className="text-nowrap">&#9989; Buy {plan.credits} Credits</li>}
                     <li className="text-nowrap"> &#10060; Other Text Title</li>
                     <li className="text-nowrap"> &#10060; Text Space Goes Here</li>
                     <li className="text-nowrap"> &#10060; Description Space </li>
@@ -116,10 +120,13 @@ function BuyCredits({type}) {
             <div className="content-wrapper p-0 pt-4 bg-white">
                 <h3 className="fs-4 text-center fw-bold">Buy Credits</h3>
                 <div className="d-flex flex-wrap gap-3 w-100 pb-3">
-                    {plans[type].map((plan, index) => (
-                        <PlanCard key={index} plan={plan} onSelect={choosePlan} />
-                    ))}
-                </div>
+    {plans[type].slice(0, 6).map((plan, index) => (
+        <div key={index} style={{ width: "23%" }}> {/* 6 items = 100%/6 ≈ 16% each */}
+            <PlanCard plan={plan} onSelect={choosePlan} />
+        </div>
+    ))}
+</div>
+
             </div>
             <PaymentModal show={show} onHide={() => setShow(false)} loading={loading} paymentDetails={paymentDetails} />
         </div>

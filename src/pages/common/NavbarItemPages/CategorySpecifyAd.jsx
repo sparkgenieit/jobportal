@@ -60,11 +60,6 @@ export default function CategorySpecifyAd({ page,category }) {
     
             if (validAds && validAds.length > 0) {
                 setAds(validAds);  // ✅ Set only valid ads
-            } else {
-                const { data: categoryData, error: categoryError } = await tryCatch(() => adService.getCategorySpecificAds(category));
-                if (categoryData) {
-                    setAds(categoryData);
-                }
             }
         };
     

@@ -5,7 +5,9 @@ export const plans = {
     'Ad': [
       { name: 'Basic', price: 4.99, credits: 5 },
       { name: 'Standard', price: 8.99, credits: 10 },
-      { name: 'Premium', price: 11.99, credits: 15 }
+      { name: 'Premium', price: 11.99, credits: 15 },
+      { name: 'Landing Page Ad', price: 1000, credits: 1 },
+      { name: 'Banner Ad', price: 1000, credits: 1 }
     ],
     'Job': [
       { name: 'Basic', price: 2.99, credits: 5 },

@@ -9,41 +9,32 @@ const DatePickerComponent = ({
   selectSingleDay = false, 
   noOfMonths = 0 
 }) => {
-  const [refreshKey, setRefreshKey] = useState(0);
   const [startDate, setStartDate] = useState(null);
   const [selectedDates, setSelectedDates] = useState([]);
 
   const isSingleDayMode = selectSingleDay;
 
-const formatDate = (date) => {
+  const formatDate = (date) => {
     if (!(date instanceof Date)) {
-        date = new Date(date); // Convert it to a Date object if it's not
+      date = new Date(date);
     }
+    return date.toLocaleDateString("en-NZ", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).split("/").reverse().join("-");
+  };
 
-    if (isNaN(date.getTime())) {
-        console.error("Invalid date:", date);
-        return ""; // Handle invalid date properly
-    }
-
-return date.toLocaleDateString("en-NZ", {
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-}).split("/").reverse().join("-"); // Convert DD/MM/YYYY to YYYY-MM-DD
-};
-  // Memoized sets for fast lookup
   const blockedSet = useMemo(() => new Set(blockedDates.map(formatDate)), [blockedDates]);
   const bookedSet = useMemo(() => new Set(userBookedDates.map(formatDate)), [userBookedDates]);
 
   const isBlocked = (date) => blockedSet.has(formatDate(date));
   const isBooked = (date) => bookedSet.has(formatDate(date));
 
-  
-  // Prefill booked dates
   useEffect(() => {
     setSelectedDates(userBookedDates);
     if (isSingleDayMode && userBookedDates.length > 0) {
-      setStartDate(userBookedDates[0]); // Auto-select first booked date
+      setStartDate(userBookedDates[0]);
     }
   }, [userBookedDates, isSingleDayMode]);
 
@@ -55,22 +46,17 @@ return date.toLocaleDateString("en-NZ", {
       setSelectedDates([date]);
       onDateUpdate([date]);
     } else {
-      let updatedDates;
-      if (isBooked(date)) {
-        updatedDates = selectedDates.filter((d) => formatDate(d) !== formatDate(date));
-      } else {
-        updatedDates = [...selectedDates, date];
-      }
+      let updatedDates = isBooked(date)
+        ? selectedDates.filter((d) => formatDate(d) !== formatDate(date))
+        : [...selectedDates, date];
+
       setSelectedDates(updatedDates);
       onDateUpdate(updatedDates);
     }
-
-    setRefreshKey((prevKey) => prevKey + 1);
   };
 
   const getDayClass = (date) => {
-   
-    
+    if (date < new Date()) return ""; // No background for past dates
     if (isBlocked(date)) return "blocked";
     if (isBooked(date)) return "booked";
     if (isSingleDayMode && startDate && formatDate(date) === formatDate(startDate)) return "single-day-selected";
@@ -84,7 +70,6 @@ return date.toLocaleDateString("en-NZ", {
   return (
     <div className="container p-2">
       <DatePicker
-        key={refreshKey}
         selected={isSingleDayMode ? startDate : null}
         onChange={handleDateChange}
         inline
