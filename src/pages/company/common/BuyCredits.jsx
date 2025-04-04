@@ -8,29 +8,67 @@ import useCurrentUser from "../../../helpers/Hooks/useCurrentUser";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import Loader from "../../../components/Loader";
 
-const PlanCard = ({ plan, onSelect }) => (
-    <div className="flex-grow-1">
-        <div className="card shadow">
-        <div
-    className="card-header text-center text-white fw-bold bg-success py-5 text-nowrap"
-    style={{
-        fontSize: `clamp(1rem, ${Math.max(2 - plan.name.length * 0.05, 1)}rem, 2rem)`
-    }}
->     {plan.name}
-            </div>
-            <div className="card-body d-flex flex-column justify-content-center">
-                <div className="card bg-dark text-light text-center p-3 h3 opacity-50">${plan.price}</div>
-                <ul className="d-flex flex-column gap-3 mt-3">
-                    {plan.credits > 0 && <li className="text-nowrap">&#9989; Buy {plan.credits} Credits</li>}
-                    <li className="text-nowrap"> &#10060; Other Text Title</li>
-                    <li className="text-nowrap"> &#10060; Text Space Goes Here</li>
-                    <li className="text-nowrap"> &#10060; Description Space </li>
-                </ul>
-                <button type="button" className="btn btn-success mt-3 p-3" onClick={() => onSelect(plan)}>SELECT PACKAGE</button>
+const PlanCard = ({ plan, onSelect }) => {
+    const [selectedDays, setSelectedDays] = useState(1);
+
+    const handleDaysChange = (e) => {
+        const days = Math.max(1, Number(event.target.value)); // Ensure at least 1 day
+        
+        setSelectedDays(days);
+        
+    };
+
+    return (
+        <div className="flex-grow-1">
+            <div className="card shadow">
+                <div
+                    className="card-header text-center text-white fw-bold bg-success py-5 text-nowrap"
+                    style={{
+                        fontSize: `clamp(1rem, ${Math.max(2 - plan.name.length * 0.05, 1)}rem, 2rem)`
+                    }}
+                >
+                    {plan.name}
+                </div>
+                <div className="card-body d-flex flex-column justify-content-center">
+                <div className="card bg-dark text-light text-center p-3 h3 opacity-50">
+                        ${plan.perDayAd ? (selectedDays * plan.price).toFixed(2) : plan.price}
+                    </div>
+                    <ul className="d-flex flex-column gap-3 mt-3">
+                        {plan.perDayAd ? (
+                            <li className="text-nowrap">
+                                📅 Select No. of Days:
+                                <select 
+                                    value={selectedDays} 
+                                    onChange={handleDaysChange} 
+                                    className="form-select mt-2"
+                                >
+                                    {[...Array(30).keys()].map(day => (
+                                        <option key={day + 1} value={day + 1}>
+                                            {day + 1} Days
+                                        </option>
+                                    ))}
+                                </select>
+                            </li>
+                        ) : (
+                            plan.credits > 0 && <li className="text-nowrap">✅ Buy {plan.credits} Credits</li>
+                        )}
+                        <li className="text-nowrap">❌ Other Text Title</li>
+                        <li className="text-nowrap">❌ Text Space Goes Here</li>
+                        <li className="text-nowrap">❌ Description Space</li>
+                    </ul>
+                    <button 
+                        type="button" 
+                        className="btn btn-success mt-3 p-3" 
+                        onClick={() => onSelect(plan, selectedDays)}
+                    >
+                        SELECT PACKAGE
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-);
+    );
+};
+
 
 const PaymentModal = ({ show, onHide, loading, paymentDetails }) => (
     <Modal size='sm' show={show} onHide={onHide} centered>
@@ -65,39 +103,47 @@ const PaymentModal = ({ show, onHide, loading, paymentDetails }) => (
     </Modal>
 );
 
-function BuyCredits({type}) {
+function BuyCredits({ type }) {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [paymentDetails, setPaymentDetails] = useState({});
     const user = useCurrentUser();
     const message = useShowMessage();
-    
 
     useEffect(() => {
         document.title = `Buy ${type} Credits`;
     }, []);
 
-    const choosePlan = (plan) => {
+    const choosePlan = (plan, selectedDays = 0) => {
         const user_id = user.role === "recruiter" ? user.companyId._id : user._id;
 
         if (user_id) {
             setShow(true);
             setLoading(true);
-            http.post('/payment/make-payment', {
+            const price = (selectedDays)?plan.price * selectedDays:plan.price;
+            const credits = (selectedDays)?0:plan.credits;
+
+            const creditType = selectedDays > 0
+            ? plan.name.replace(/\s+/g, "_").toLowerCase() // Convert to lowercase and replace spaces
+            : type.toLowerCase();
+
+            http.post("/payment/make-payment", {
                 plan: plan.name,
-                credits: plan.credits,
-                price: plan.price,
+                credits: credits, // Use selectedDays if perDayAd exists
+                selected_days:selectedDays,
+                price: price,
                 user_id,
-                creditType:type.toLowerCase()
+                creditType,
             })
-                .then(res => {
+                .then((res) => {
                     localStorage.setItem("placedOrder", "false");
                     setPaymentDetails({
                         url: res.data.url,
                         plan: res.data.metadata.plan,
                         price: +res.data.metadata.price / 100,
+                        selected_days:+selectedDays,
                         gst: +res.data.metadata.gst / 100,
-                        total: +res.data.metadata.total / 100
+                        total: +res.data.metadata.total / 100,
                     });
                     setLoading(false);
                 })
@@ -115,19 +161,40 @@ function BuyCredits({type}) {
         }
     };
 
+    // Separate plans into two groups
+    const creditPlans = plans[type].filter((plan) => !plan.perDayAd);
+    const perDayPlans = plans[type].filter((plan) => plan.perDayAd);
+
     return (
         <div className="container-fluid">
             <div className="content-wrapper p-0 pt-4 bg-white">
                 <h3 className="fs-4 text-center fw-bold">Buy Credits</h3>
-                <div className="d-flex flex-wrap gap-3 w-100 pb-3">
-    {plans[type].slice(0, 6).map((plan, index) => (
-        <div key={index} style={{ width: "23%" }}> {/* 6 items = 100%/6 ≈ 16% each */}
-            <PlanCard plan={plan} onSelect={choosePlan} />
-        </div>
-    ))}
-</div>
+                
+                {/* First Row: Regular Credit Plans */}
+                {creditPlans.length > 0 && (
+                    <div className="d-flex flex-wrap gap-3 w-100 pb-3">
+                        {creditPlans.slice(0, 6).map((plan, index) => (
+                            <div key={index} style={{ width: "23%" }}>
+                                <PlanCard plan={plan} onSelect={choosePlan} />
+                            </div>
+                        ))}
+                    </div>
+                )}
 
+                {/* Second Row: Plans with perDayAd */}
+                {perDayPlans.length > 0 && (
+                    <>
+                        <div className="d-flex flex-wrap gap-3 w-100 pb-3">
+                            {perDayPlans.slice(0, 6).map((plan, index) => (
+                                <div key={index} style={{ width: "23%" }}>
+                                    <PlanCard plan={plan} onSelect={choosePlan} />
+                                </div>
+                            ))}
+                        </div>
+                    </>
+                )}
             </div>
+
             <PaymentModal show={show} onHide={() => setShow(false)} loading={loading} paymentDetails={paymentDetails} />
         </div>
     );

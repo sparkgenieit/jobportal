@@ -31,6 +31,9 @@ function Sidebar() {
   const user = useCurrentUser()
   const job_credits = user?.job_credits
   const ad_credits = user?.ad_credits
+  const banner_ad_days = user?.banner_ad_days
+  const landing_page_ad_days = user?.landing_page_ad_days
+
   const usedFreeJobCredit = user?.usedFreeJobCredit
   const usedFreeAdCredit = user?.usedFreeAdCredit
 
@@ -205,6 +208,17 @@ function Sidebar() {
                           </span>
                         </div>
                         <div className="text-secondary small">Available Credits: {ad_credits ? ad_credits : 0}</div>
+                        <div className="text-secondary small">Available Credits: {ad_credits ? ad_credits : 0}</div>
+                        {landing_page_ad_days > 0 && (
+                            <div className="text-secondary small">
+                                Landing Page Ad Days: {landing_page_ad_days}
+                            </div>
+                        )}    
+                         {banner_ad_days > 0 && (
+                            <div className="text-secondary small">
+                                Banner Ad Days: {banner_ad_days}
+                            </div>
+                        )}                
                       </div>
                     </li>
 

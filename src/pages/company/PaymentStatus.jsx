@@ -10,6 +10,9 @@ export default function PaymentStatus() {
     const navigate = useNavigate()
     const [amount, setAmount] = useState(0);
     const [credits, setCredits] = useState(0);
+    const [selectedDays, setSelectedDays] = useState(0);
+
+    
 
     const [status, setStatus] = useState("");
     const [loading, setLoading] = useState(true)
@@ -27,6 +30,7 @@ export default function PaymentStatus() {
                         setAmount(res.data.metadata.total)
                         setStatus("Payment Completed")
                         setCredits( res.data.metadata.credits);
+                        setSelectedDays( res.data.metadata.selected_days);
                         setLoading(false)
                     }
                     dispatch(fetchUser())
@@ -64,7 +68,10 @@ export default function PaymentStatus() {
                         <>
                             <h2 className="text-success">{status}</h2>
                             <h3>Amount Paid : <span className='text-success'>${amount / 100}</span></h3>
-                            <h3>Credits Purchased : <span className='text-success'>{credits}</span></h3>
+                            <h3>
+                                {selectedDays > 0 ? "Total Days Purchased for Ad" : "Credits Purchased"} : 
+                                <span className='text-success'>{selectedDays > 0 ? selectedDays : credits}</span>
+                            </h3>
                             <div><a type='button' className='btn btn-info' onClick={PostJob}>Go Back</a></div>
                         </> :
                         <>
