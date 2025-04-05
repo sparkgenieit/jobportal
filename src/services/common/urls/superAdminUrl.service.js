@@ -25,6 +25,7 @@ class SuperAdminUrl {
         this.inboxDetails = "/admin-inbox/details/:id"
         this.addPage = "/add-page"
         this.pages = "/pages"
+        this.specificPage = "/specific-page"
         this.jobs = "/jobs"
         this.viewJob = "/jobs/:id"
         this.audit = "/audit"

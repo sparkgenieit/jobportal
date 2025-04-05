@@ -208,7 +208,6 @@ function Sidebar() {
                           </span>
                         </div>
                         <div className="text-secondary small">Available Credits: {ad_credits ? ad_credits : 0}</div>
-                        <div className="text-secondary small">Available Credits: {ad_credits ? ad_credits : 0}</div>
                         {landing_page_ad_days > 0 && (
                             <div className="text-secondary small">
                                 Landing Page Ad Days: {landing_page_ad_days}

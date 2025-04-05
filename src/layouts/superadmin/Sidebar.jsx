@@ -165,6 +165,17 @@ function Sidebar() {
             </li >
 
             <li className="nav-item">
+              <div className="nav-link" role='button' onClick={() => handleNavigation("/superadmin/specific-page")}>
+                <div className='d-flex justify-content-between w-100'>
+                  <span>Specific Page Management</span>
+                  <span>
+                    <IoDocuments size={"22"} />
+                  </span>
+                </div>
+              </div>
+            </li >
+
+            <li className="nav-item">
               <div className="nav-link" role='button' onClick={() => handleNavigation("/superadmin/users")} >
                 <div className='d-flex justify-content-between w-100'>
                   <span>User Management</span>

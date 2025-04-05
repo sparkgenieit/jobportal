@@ -104,6 +104,8 @@ function UserLogin() {
           if (response.data.role === 'employer') {
             localStorage.setItem('job_credits', response.data.job_credits);
             localStorage.setItem('ad_credits', response.data.ad_credits);
+            localStorage.setItem('landing_page_ad_days', response.data.landing_page_ad_days);
+            localStorage.setItem('banner_ad_days', response.data.banner_ad_days);
             localStorage.setItem('usedFreeJobCredit', response.data.usedFreeJobCredit);
             localStorage.setItem('usedFreeAdCredit', response.data.usedFreeAdCredit);
             message({ path: "/company" })

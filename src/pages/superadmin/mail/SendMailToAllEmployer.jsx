@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 
-import MdxEditor from "../../../components/MdxEditor"
+//import MdxEditor from "../../../components/MdxEditor"
 import http from "../../../helpers/http"
 import useShowMessage from "../../../helpers/Hooks/useShowMessage"
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 export default function SendMailToAllEmployer() {
 
@@ -75,7 +77,8 @@ export default function SendMailToAllEmployer() {
 
                 <div className="d-flex flex-column gap-2">
                     <label className="form-label">Message:</label>
-                    <MdxEditor value={message} setValue={(value) => setMessage(value)} />
+                    <ReactQuill theme="snow" value={message} onChange={setMessage} />
+                    
                 </div>
 
                 <div className="fs-6 fw-bold text-center text-danger" >

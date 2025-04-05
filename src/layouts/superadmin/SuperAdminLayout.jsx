@@ -13,6 +13,7 @@ import UserList from "../../pages/superadmin/user/UserList";
 import OrdersList from "../../pages/superadmin/Order-Management/OrdersList";
 import Addpage from "../../pages/superadmin/Pages-Management/AddPages";
 import PagesList from "../../pages/superadmin/Pages-Management/PagesList";
+import SpecificPageList from "../../pages/superadmin/Specific-Page-Management/SpecificPageList";
 import Skills from "../../pages/superadmin/Skills-Management/Skills";
 import Addskills from "../../pages/superadmin/Skills-Management/Addskills";
 import EditSkill from "../../pages/superadmin/Skills-Management/EditSkill";
@@ -87,6 +88,7 @@ export default function SuperAdminLayout() {
                         <Route path={superAdminUrl.inboxDetails} element={< Chat />} />
                         <Route path={superAdminUrl.addPage} element={<Addpage />} />
                         <Route path={superAdminUrl.pages} element={<PagesList />} />
+                        <Route path={superAdminUrl.specificPage} element={<SpecificPageList />} />
                         <Route path={superAdminUrl.jobs} element={<JobsListSuperAdmin />} />
                         <Route path={superAdminUrl.viewJob} element={<JobSuperAdmin />} />
                         <Route path={superAdminUrl.audit} element={<Audit />} />
