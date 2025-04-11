@@ -1,14 +1,20 @@
 import { useRef, useState, useEffect } from 'react';
 import NavBarInfo from '../../../layouts/common/navbarItems';
 import useShowMessage from '../../../helpers/Hooks/useShowMessage';
+import { useSearchParams } from 'react-router-dom';
+
 import useCurrentUser from '../../../helpers/Hooks/useCurrentUser';
 import { adService } from '../../../services/company/Ads.service';
 import { tryCatch } from '../../../helpers/functions';
 import { CitiesList } from '../../../helpers/constants';
 import ImageResizer from '../CompanyProfile/ImageResizer';
+import { getCloseDate } from '../../../helpers/functions';
+
 import { SpecificPageAd } from '../../common/NavbarItemPages/CategorySpecifyAd';
 import { getValue, validateAdForm } from './adsFunctions';
 import DatePickerComponent from "../common/DatePickerComponent"; // Adjust the path accordingly
+import { useDispatch, useSelector } from 'react-redux';
+
 
 const formatDate = (date) => {
   const year = date.getFullYear();
@@ -33,6 +39,11 @@ const safeParse = (data) => {
 
 export default function PostSpecificPageAd({ pageType, existingAd }) {
     console.log('PostSpecificPageAd',existingAd);
+      const [searchParams] = useSearchParams()
+    
+    const currentAd = useSelector((state) => state.general.currentAd)
+    const dispatch = useDispatch()
+
     const Categories = { ...NavBarInfo };
     let pageCategories;
   
@@ -66,9 +77,10 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
     const [selectSingleDay, setSelectSingleDay] = useState(true);
 
     const [blockedDates, setBlockedDates] = useState([]);
+    const cloneAdId = searchParams.get("c")
 
-  
-
+    
+console.log(cloneAdId);
 
     const [adData, setAdData] = useState({
       location: CitiesList[0],
@@ -84,6 +96,23 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
     const [adImage, setAdImage] = useState(null);
     const adFormRef = useRef(null);
   
+    useEffect(() => {
+      document.title = "Post a Ad"
+      // When the request is to clone an existing job
+      if (cloneAdId) {
+        setAdData({ ...currentAd, creationdate: new Date(), closedate: getCloseDate(new Date().toString()) })
+        setAdImage(currentAd.image);
+        if (currentAd.show_on_pages) {
+          try {
+            setSelectedPages(JSON.parse(currentAd.show_on_pages));
+          } catch (e) {
+            console.error('Failed to parse show_on_pages:', e);
+          }
+        }
+        setUserBookedDates(safeParse(currentAd.booked_dates).map(date => new Date(date)));
+      } 
+    }, [])
+
     useEffect(() => {
       async function fetchBlockedDates() {
         
@@ -184,11 +213,14 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
       formData.append('name', 'kiran');
       
       formData.append('created_by', user._id);
-      formData.append('start_date', formatDate(startDate));
-      formData.append('end_date', formatDate(endDate));
+      formData.append('start_date', startDate);
+      formData.append('end_date', endDate);
       formData.append('image', adImage);
       formData.delete('page');
-  
+      
+      const isCloned = !!cloneAdId;
+      formData.append("isCloned", isCloned.toString());
+
       const request = existingAd ? adService.updateAd(existingAd._id, formData) : adService.postAd(formData);
       const { error } = await tryCatch(() => request);
   

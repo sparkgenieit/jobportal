@@ -10,7 +10,7 @@ import useCurrentUser from "../../../helpers/Hooks/useCurrentUser";
 import Pagination from '../../../components/Pagination';
 import Loader from '../../../components/Loader';
 import DataTable from '../common/DataTable';
-import { setCurrentJob } from '../../../helpers/slices/generalSlice';
+import { setCurrentAd } from '../../../helpers/slices/generalSlice';
 
 function SearchInput({ name, setName, setPgNumber }) {
     return (
@@ -68,8 +68,8 @@ function AdsList({ role }) {
     };
 
     const handleDuplicate = (ad) => {
-        dispatch(setCurrentJob({ ...ad }));
-        message({ path: `/company/postajob?c=${ad._id}` });
+        dispatch(setCurrentAd({ ...ad }));
+        message({ path: `/company/ads/post/${ad.type}/?c=${ad._id}` });
     };
 
     const goToEdit = (ad) => {
@@ -118,6 +118,7 @@ function AdsList({ role }) {
                         <SearchInput name={name} setName={setName} setPgNumber={setPgNumber} />
                         {isLoading ? <Loader /> : ads ? (
                             <DataTable 
+                                dataType = {'Ad'}                        
                                 items={ads} 
                                 handleDuplicate={handleDuplicate} 
                                 closeAction={role !== "SuperAdmin" ? closeAd : null} 

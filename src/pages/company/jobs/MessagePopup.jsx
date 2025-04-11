@@ -12,8 +12,9 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob, 
     const showMessage = useShowMessage()
     const user = useCurrentUser()
 
-    const credits = user.role === "recruiter" ? user.companyId.credits : user.credits
-
+    const job_credits = user.role === "recruiter" ? user.companyId.job_credits : user.job_credits;
+    const ad_credits =  user.ad_credits
+console.log(ad_credits,'ad_credits');
     useEffect(() => {
         if (modal.type === "support") {
             setSubject("")
@@ -21,7 +22,7 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob, 
             setError({})
         }
         if (modal.type === "rejectedMessage") {
-            http.get(`/notifications/get-message/${modal.clickedJob._id}`)
+            http.get(`/notifications/get-message/${modal.clickedItem._id}`)
                 .then((res => {
                     setMessage(res.data.message)
                 }))
@@ -50,13 +51,13 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob, 
                 // subject,
                 // chat: [{
                 //     date: new Date(),
-                //     from: modal.clickedJob.company,
+                //     from: modal.clickedItem.company,
                 //     message,
                 //     by: "Enquirer"
                 // }],
-                // name: modal.clickedJob.jobTitle,
-                // organisation: modal.clickedJob.company,
-                // jobId: modal.clickedJob._id,
+                // name: modal.clickedItem.jobTitle,
+                // organisation: modal.clickedItem.company,
+                // jobId: modal.clickedItem._id,
                 // companyId: user_id,
                 // enquirer: "Job-inquiry"
                 //}
@@ -103,21 +104,45 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob, 
                             <div className="text-center">Are you sure you want to delete this job? This action cannot be undone.</div>
                         </div>
                         <div className="d-flex justify-content-between px-5 pt-4">
-                            <button type="button" onClick={() => handleDelete(modal.clickedJob)} className="btn btn-danger rounded-pill">Yes, Delete</button>
+                            <button type="button" onClick={() => handleDelete(modal.clickedItem)} className="btn btn-danger rounded-pill">Yes, Delete</button>
                             <button type="button" onClick={() => setModal({ show: false })} className="btn btn-info rounded-pill">Cancel</button>
                         </div>
 
                     </>
                 }
                 {modal.type === "repost" && <>
-                    {credits > 0 ?
+                    {job_credits > 0 ?
                         <>
                             <div className="d-flex flex-column align-items-center">
                                 <div className="text-center fw-bold p-3">Please review all details before reposting this job.</div>
 
                             </div>
                             <div className="d-flex justify-content-center px-5">
-                                <Link to={`/company/editjob/${modal.clickedJob._id}?repost=true`}>
+                                <Link to={`/company/editjob/${modal.clickedItem._id}?repost=true`}>
+                                    <button type="button" className="btn btn-info rounded-pill">Ok</button>
+                                </Link>
+                            </div>
+
+                        </> :
+                        <>
+                            <div className="d-flex flex-column align-items-center gap-3">
+
+                                <div>You don't have enough credits to repost the job</div>
+                                <button type="button" onClick={() => setModal({ show: false })} className="btn btn-outline-info rounded-pill">Ok</button>
+                            </div>
+
+                        </>}
+                </>
+                }
+                 {modal.type === "repostAd" && <> 
+                    {ad_credits > 0 ?
+                        <>
+                            <div className="d-flex flex-column align-items-center">
+                                <div className="text-center fw-bold p-3">Please review all details before reposting this job.</div>
+
+                            </div>
+                            <div className="d-flex justify-content-center px-5">
+                                <Link to={`/company/ads/editad/${modal.clickedItem._id}?repost=true`}>
                                     <button type="button" className="btn btn-info rounded-pill">Ok</button>
                                 </Link>
                             </div>
@@ -147,7 +172,7 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob, 
 
                         <p>Thank you for your attention to this matter.</p>
 
-                        <Link to={`/company/editjob/${modal.clickedJob._id}`}>
+                        <Link to={`/company/editjob/${modal.clickedItem._id}`}>
                             <button type="button" className="btn btn-info rounded-4">Edit Job</button>
                         </Link>
 
@@ -159,12 +184,12 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob, 
                     <div className="py-3 px-1">
                         <h4>Premature Job Closure</h4>
 
-                        <p>You are attempting to close a job that is still active and has not yet reached its expiry date of <strong>{new Date(modal.clickedJob.closedate).toLocaleDateString("en-GB")}</strong>. Please note that closing the job now will result in the forfeiture of any remaining advertising period. Additionally, please be aware that no credit or refund will be issued for the unused portion of the job posting period.</p>
+                        <p>You are attempting to close a job that is still active and has not yet reached its expiry date of <strong>{new Date(modal.clickedItem.closedate).toLocaleDateString("en-GB")}</strong>. Please note that closing the job now will result in the forfeiture of any remaining advertising period. Additionally, please be aware that no credit or refund will be issued for the unused portion of the job posting period.</p>
 
                         <p>If you are certain you wish to proceed with closing the job early, please confirm. Otherwise, consider allowing the job to run its full course to maximize your recruitment efforts.</p>
 
                         <div className="d-flex gap-5 pt-3 justify-content-end">
-                            <button type="button" onClick={() => closeJob(modal.clickedJob)} className="btn btn-danger rounded-pill">Close</button>
+                            <button type="button" onClick={() => closeJob(modal.clickedItem)} className="btn btn-danger rounded-pill">Close</button>
                             <button type="button" onClick={() => setModal({ show: false })} className="btn btn-outline-dark rounded-pill">Cancel</button>
                         </div>
                     </div>
@@ -175,24 +200,24 @@ export default function MessagePopup({ modal, setModal, handleDelete, closeJob, 
                         <h4>Inquiry - Support Request</h4>
                         <form onSubmit={handleSubmitForInquiry}>
                             <div className="pt-3 d-flex flex-column justify-content-between gap-3 ">
-                            {modal.clickedJob.jobTitle &&
+                            {modal.clickedItem.jobTitle &&
                                     <div>
-                                       Title: {modal.clickedJob.jobTitle}
+                                       Title: {modal.clickedItem.jobTitle}
                                     </div>
                                 }
-                                {modal.clickedJob.title &&
+                                {modal.clickedItem.title &&
                                     <div>
-                                       Title: {modal.clickedJob.title}
+                                       Title: {modal.clickedItem.title}
                                     </div>
                                 }
                               
                                 <div>
-                                    ID : {modal.clickedJob._id}
+                                    ID : {modal.clickedItem._id}
                                 </div>
 
-                                {modal.clickedJob.employjobreference &&
+                                {modal.clickedItem.employjobreference &&
                                     <div>
-                                        Job Reference : {modal.clickedJob.employjobreference}
+                                        Job Reference : {modal.clickedItem.employjobreference}
                                     </div>
                                 }
 

@@ -1,6 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 import NavBarInfo from "../../../layouts/common/navbarItems";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
+import { useSearchParams } from 'react-router-dom';
+
 import useCurrentUser from "../../../helpers/Hooks/useCurrentUser";
 import { adService } from "../../../services/company/Ads.service";
 import { tryCatch } from "../../../helpers/functions";
@@ -11,6 +13,9 @@ import DatePickerComponent from "../common/DatePickerComponent";
 import { BASE_API_URL } from '../../../helpers/constants';
 import TimePicker from "react-time-picker";
 import "react-time-picker/dist/TimePicker.css";
+import { getCloseDate } from '../../../helpers/functions';
+
+import { useDispatch, useSelector } from 'react-redux';
 
 const formatDate = (date) => date.toISOString().split("T")[0];
 
@@ -24,6 +29,10 @@ const getEndDate = (monthsToAdd) => {
 
 export default function AdForm({ pageType, existingAd = null, onSuccess }) {
     const adFormRef = useRef(null);
+    const [searchParams] = useSearchParams()
+    const currentAd = useSelector((state) => state.general.currentAd)
+    const dispatch = useDispatch()
+
     const message = useShowMessage();
     const user = useCurrentUser();
     console.log('User',user);
@@ -57,6 +66,7 @@ export default function AdForm({ pageType, existingAd = null, onSuccess }) {
     
     console.log('edituserBookedDates',userBookedDates);
     const [blockedDates, setBlockedDates] = useState([]);
+    const cloneAdId = searchParams.get("c")
 
       useEffect(() => {
            async function fetchBlockedDates(pageType) {
@@ -91,6 +101,14 @@ console.log('blockedDates',blockedDates);
         type: existingAd?.type || pageType,
         image: existingAd?.image || null,        
     });
+useEffect(() => {
+      document.title = "Post a Ad"
+      // When the request is to clone an existing job
+      if (cloneAdId) {
+        setAdData({ ...currentAd, creationdate: new Date(), closedate: getCloseDate(new Date().toString()) })
+        
+      } 
+    }, [])
 
     
     const handleForm = (e) => {
@@ -137,10 +155,12 @@ console.log('userBookedDatesJSON',formattedDates);
         formData.append("type", adData.type); // If this field is necessary
         formData.append('booked_dates',  JSON.stringify(formattedDates));
         
+        console.log(adData); 
+        const isCloned = !!cloneAdId;
+        formData.append("isCloned", isCloned.toString());
 
-
-
-        if (adData.image && typeof adData.image !== "string") formData.append("image", adData.image);
+        
+        if (cloneAdId || (adData.image && typeof adData.image !== "string")) formData.append("image", adData.image);
 
         const serviceCall = existingAd
         ? (formData) => adService.updateAd(existingAd._id, formData)  // Pass `existingAd._id` for updates
@@ -231,6 +251,7 @@ console.log('userBookedDatesJSON',formattedDates);
                         onChange={(e) => {
                             const file = e.target.files[0];
                             if (file) {
+                                console.log("KIRAN");
                                 setAdData({ ...adData, image: file, imageUrl: URL.createObjectURL(file) });
                             }
                         }}

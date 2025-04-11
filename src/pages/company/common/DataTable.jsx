@@ -40,6 +40,8 @@ const TableStatus = ({ data, setModal }) => {
                     <CiBellOn /> Revise
                 </span>
             );
+        case "EXPIRED":
+            return "Expired";
         case "QUEUE":
             return "In Queue";
         case "REVIEW":
@@ -49,11 +51,11 @@ const TableStatus = ({ data, setModal }) => {
     }
 };
 
-const TableActions = ({ data, goToEdit, handleDuplicate, setModal }) => (   
+const TableActions = ({ dataType, data, goToEdit, handleDuplicate, setModal }) => (   
 
     <>
         <td>
-            <span className='flex justify-center'>
+            <span className='flex justify-center'> 
                 <BsPencilFill onClick={() => goToEdit(data)} role="button" />
             </span>
         </td>
@@ -69,24 +71,38 @@ const TableActions = ({ data, goToEdit, handleDuplicate, setModal }) => (
                 </span>
             )}
         </td>
-        <td>
+       
+        <td>  
             {(data.status === "closed" || data.status === "expired") && (
                 <span className='flex justify-center' role="button" onClick={() => setModal({ show: true, type: "delete", clickedJob: data })}>
                     <BsTrash fontSize={16} />
                 </span>
             )}
-        </td>
-        <td>
-            {(data.status === "expired" || data.status === "closed") && (
-                <span className='flex justify-center' role="button" onClick={() => setModal({ show: true, type: "repost", clickedJob: data })}>
+        </td>    
+      
+         {(dataType == 'Job') && (
+        <td> 
+           {(data.status === "expired" || data.status === "closed" ) && ( 
+                <span className='flex justify-center' role="button" onClick={() => setModal({ show: true, type: "repost", clickedItem: data })}>
                     <BiRepost fontSize={24} />
                 </span>
-            )}
+             )} 
         </td>
+        )}
+
+        {(dataType == 'Ad') && (
+        <td> 
+           {(data.status === "EXPIRED"  ) && ( 
+                <span className='flex justify-center' role="button" onClick={() => setModal({ show: true, type: "repostAd", clickedItem: data })}>
+                    <BiRepost fontSize={24} />
+                </span>
+             )} 
+        </td>
+        )}
     </>
 );
 
-const TableRow = ({ data, setModal, getAppliedUsers, isTableCollapsed, goToEdit, handleDuplicate, columns }) => (
+const TableRow = ({dataType, data, setModal, getAppliedUsers, isTableCollapsed, goToEdit, handleDuplicate, columns }) => (
     <tr>
         
         {columns.includes("Support") && (
@@ -119,11 +135,11 @@ const TableRow = ({ data, setModal, getAppliedUsers, isTableCollapsed, goToEdit,
                                             {data.shortlistedUsers}
                                         </button>
                                     }</td>}
-        {isTableCollapsed && <TableActions data={data} goToEdit={goToEdit} handleDuplicate={handleDuplicate} setModal={setModal} />}
+        {isTableCollapsed && <TableActions dataType={dataType} data={data} goToEdit={goToEdit} handleDuplicate={handleDuplicate} setModal={setModal} />}
     </tr>
 );
 
-function DataTable({ items, handleDuplicate, closeAction, getAppliedUsers, handleDelete, goToEdit,columns }) {
+function DataTable({ dataType, items, handleDuplicate, closeAction, getAppliedUsers, handleDelete, goToEdit,columns }) {
     const isSidebarOpen = useSelector(state => state.general.isSidebarOpen);
     const [modal, setModal] = useState({});
     const [isTableCollapsed, setIsTableCollapsed] = useState(false);
@@ -147,6 +163,7 @@ console.log('ads',items);
                     <tbody>
                         {items.length > 0 && items.map(data => (
                             <TableRow
+                                dataType={dataType}
                                 key={data._id}
                                 data={data}
                                 setModal={setModal}

@@ -5,6 +5,7 @@ export const generalSlice = createSlice({
     initialState: {
         toaster: {},
         currentJob: {},
+        currentAd: {},
         isSidebarOpen: false,
         info: {},
         location: {}
@@ -22,6 +23,9 @@ export const generalSlice = createSlice({
         setCurrentJob: (state, action) => {
             state.currentJob = action.payload
         },
+        setCurrentAd: (state, action) => {
+            state.currentAd = action.payload
+        },
         setIsSidebarOpen: (state, action) => {
             if (action.payload) {
                 state.isSidebarOpen = action.payload
@@ -33,6 +37,6 @@ export const generalSlice = createSlice({
 })
 
 
-export const { setToaster, setCurrentJob, setIsSidebarOpen, setInfo, setLocation } = generalSlice.actions
+export const { setToaster, setCurrentJob, setCurrentAd, setIsSidebarOpen, setInfo, setLocation } = generalSlice.actions
 
 export default generalSlice.reducer

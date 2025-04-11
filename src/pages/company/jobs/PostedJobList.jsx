@@ -118,6 +118,7 @@ function PostedJobList() {
                         {isLoading ? <Loader /> : 
                           jobs ? (
                         <DataTable 
+                        dataType={'Job'}
                         items={jobs} 
                         handleDuplicate={handleDuplicate} 
                         closeAction={closeJob} 
