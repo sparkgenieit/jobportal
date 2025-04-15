@@ -21,6 +21,8 @@ import RecruiterList from "../../pages/company/Recruiter/RecruiterList";
 import ChatPage from '../../components/ChatPage';
 import NotFound from '../../components/NotFound';
 import Audit from '../../pages/company/Audit-Log';
+import AdAudit from '../../pages/company/AdAudit-Log';
+
 import CompanyProfile from '../../pages/company/CompanyProfile';
 import AdsList from '../../pages/company/common/AdsList';
 import { companyUrls } from '../../services/common/urls/companyUrls.service';
@@ -53,6 +55,7 @@ export default function CompanyLayout() {
                         <Route path={companyUrls.inbox} element={<Inbox />} />
                         <Route path={companyUrls.inboxDetails} element={<ChatPage name={"Enquirer"} />} />
                         <Route path={companyUrls.audit} element={<Audit />} />
+                        <Route path={companyUrls.adAudit} element={<AdAudit />} />
                         <Route path={companyUrls.adTransactions} element={<Transactions type='Ad' />} />
                         <Route path={companyUrls.jobTransactions} element={<Transactions  type='Job' />} />
                         <Route path={companyUrls.buyAdCredits} element={<BuyCredits type='Ad' />} />

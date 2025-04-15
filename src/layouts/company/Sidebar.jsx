@@ -250,7 +250,7 @@ function Sidebar() {
                     </li>
 
                     <li >
-                      <div role='button' onClick={() => handleNavigation()} className='d-flex justify-content-between align-items-center w-100'>
+                      <div role='button' onClick={() => handleNavigation("/adAudit")} className='d-flex justify-content-between align-items-center w-100'>
                         <span>
                           Ad Audit Log
                         </span>

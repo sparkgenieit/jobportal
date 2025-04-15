@@ -11,6 +11,8 @@ class CompanyUrls {
         this.inbox = "/inbox"
         this.inboxDetails = "/inbox/details/:id"
         this.audit = "/audit"
+        this.adAudit = "/adAudit"
+        
         this.transactions = "/transactions"
         this.adTransactions = "/AdTransactions"
         this.jobTransactions = "/JobTransactions"
