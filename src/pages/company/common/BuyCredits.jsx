@@ -115,6 +115,9 @@ function BuyCredits({ type }) {
     }, []);
 
     const choosePlan = (plan, selectedDays = 0) => {
+        if(!plan.perDayAd){
+            selectedDays = 0
+        }
         const user_id = user.role === "recruiter" ? user.companyId._id : user._id;
 
         if (user_id) {

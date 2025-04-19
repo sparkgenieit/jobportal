@@ -107,7 +107,7 @@ const TableRow = ({dataType, data, setModal, getAppliedUsers, isTableCollapsed, 
         
         {columns.includes("Support") && (
             <td>
-                <GoQuestion role="button" onClick={() => setModal({ show: true, type: "support", clickedJob: data,title:columns.includes("Job Title") ? data.jobTitle:data.title })} fontSize={20} />
+                <GoQuestion role="button" onClick={() => setModal({ show: true, type: "support", clickedItem: data,title:columns.includes("Job Title") ? data.jobTitle:data.title })} fontSize={20} />
             </td>
         )}
         {columns.includes("Job Title") && <td>{data.jobTitle}</td>}
