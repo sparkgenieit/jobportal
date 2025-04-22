@@ -87,9 +87,12 @@ console.log(cloneAdId);
       description: '',
       title: '',
       redirect_url: '',
+      price: '',
+      website: '',
       type: '',
       image: ''
     });
+
     const message = useShowMessage();
     const user = useCurrentUser();
     const [imageUrl, setImageUrl] = useState(null);
@@ -143,6 +146,8 @@ console.log(cloneAdId);
           description: existingAd.description,
           title: existingAd.title,
           redirect_url: existingAd.redirect_url,
+          price: existingAd?.price,
+          website: existingAd?.website,
           type: existingAd.type,
           image: existingAd.image,
         });
@@ -217,9 +222,11 @@ console.log(cloneAdId);
       formData.append('end_date', endDate);
       formData.append('image', adImage);
       formData.delete('page');
-      
+    
+
       const isCloned = !!cloneAdId;
       formData.append("isCloned", isCloned.toString());
+
 
       const request = existingAd ? adService.updateAd(existingAd._id, formData) : adService.postAd(formData);
       const { error } = await tryCatch(() => request);
@@ -366,6 +373,36 @@ console.log(cloneAdId);
                     <label htmlFor='redirect_url' className='text-nowrap' >Google Trace Link</label>
                     <input type='url' id='redirect_url' name='redirect_url' value={adData.redirect_url} onChange={handleForm} className='border border-slate-600 rounded-md px-3 py-2' />
                 </div>
+                <div className='grid lg:grid-cols-4 items-center'>
+                  <label htmlFor="price" className="me-2 mb-0" style={{ minWidth: "100px" }}>Price (in ₹)</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    name="price"
+                    id="price"
+                    className="form-control"
+                    style={{ width: "120px" }} // Adjust input width as needed
+                    value={adData.price}
+                    onChange={handleForm}
+                    required
+                  />
+                </div>
+
+
+
+                  <div className='grid lg:grid-cols-4 items-center'>
+                    <label htmlFor='website'>Website</label>
+                    <input
+                      type='text'
+                      id='website'
+                      name='website'
+                      value={adData.website}
+                      onChange={handleForm}
+                      className='border lg:col-span-3 border-slate-600 rounded-md w-full px-3 py-2'
+                      
+                    />
+                  </div>                  
 
                 <div className='flex justify-between  py-3 w-full'>
                     <div>
