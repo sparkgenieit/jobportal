@@ -5,6 +5,7 @@ import CategorySpecifyAd from './CategorySpecifyAd'
 import { useParams } from 'react-router-dom'
 import http from "../../../helpers/http";
 
+import ToastViewer from "../../../components/common/ToastViewer";
 
 export default function MainContent() {
 
@@ -36,11 +37,8 @@ export default function MainContent() {
             <div className='lg:col-span-3 text-sm'>
                 <CategorySpecifyAd page={params.topic} category= {params.name}/>
                 <div className='min-h-[70vh] py-6 px-3' >
-                {content ? (
-                        <div dangerouslySetInnerHTML={{ __html: content }} />
-                    ) : (
-                        <p>Loading Content...</p>
-                    )}
+                      <ToastViewer content={content} loading={!content} />
+              
                     
                 </div>
             </div>
