@@ -6,6 +6,7 @@ import httpUpload from "../../../helpers/httpUpload";
 import NavBarInfo from "../../../layouts/common/navbarItems";
 import useShowMessage from "../../../helpers/Hooks/useShowMessage";
 import ToastViewer from "../../../components/common/ToastViewer";
+import { BASE_API_URL } from '../../../helpers/constants';
 
 const SpecificPagesList = ({ pageType = "special" }) => {
   const getValue = (path) => path.split("/").at(-1);
@@ -146,23 +147,25 @@ const SpecificPagesList = ({ pageType = "special" }) => {
                   previewStyle="vertical"
                   height="500px"
                   initialEditType="wysiwyg"
+                  hideModeSwitch={true}
                   useCommandShortcut={true}
                   initialValue={content}
                   ref={toastEditorRef}
                   onChange={handleEditorChange}
-                  /*
+                  
                   hooks={{
                     addImageBlobHook: async (blob, callback) => {
                       const formData = new FormData();
                       formData.append('file', blob);
-                
+                  
                       try {
-                        const res = await httpUpload('/cms/upload-image', formData);
-                
-                        const data = await res.json();
-                
-                        if (data.url) {
-                          callback(data.url, 'image');
+                        const res = await httpUpload.post('/cms/upload-image', formData);
+                        const uploadedUrl = `${BASE_API_URL}${res.data.url}`;
+                  
+                        console.log('Uploaded URL:', uploadedUrl);
+                  
+                        if (res.data.url) {
+                          callback(uploadedUrl, 'image');
                         } else {
                           alert('Failed to upload image');
                         }
@@ -172,7 +175,8 @@ const SpecificPagesList = ({ pageType = "special" }) => {
                       }
                     }
                   }}
-                    */                  
+                  
+                                      
                 />
               )}
             </div>
