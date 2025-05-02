@@ -15,7 +15,8 @@ export const plans = {
       { name: 'Premium', price: 7.99, credits: 15 }
     ]
   };
-export const BASE_APP_URL = 'http://localhost:3000';
+//export const BASE_APP_URL = 'http://localhost:3000';
+export const BASE_APP_URL = 'https://jobportal-three-mu.vercel.app';
 
 //export const BASE_API_URL = 'http://localhost:3001';
 export const BASE_API_URL = 'https://job-portal-api-qzha.onrender.com';
