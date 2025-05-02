@@ -18,7 +18,7 @@ let prevScrollpos = 0
 export default function HomePageBanner() {
     const [bannerStyles, setBannerStyles] = useState({});
     const [adData, setAdData] = useState(null);
-
+    const [loading, setLoading] = useState(true); // Loading state
     useEffect(() => {
         function handleScroll() {
             const currentScrollPos = window.scrollY;
@@ -43,10 +43,19 @@ export default function HomePageBanner() {
     }, []);
 
     useEffect(() => {
-        adService.showAds("home-page-banner")
-            .then((res) => setAdData(res.data))
-            .catch(() => setAdData(null));
-    }, []);
+        // Check if the API call has already been made
+        if (loading) {
+            adService.showAds("home-page-banner")
+                .then((res) => {
+                    setAdData(res.data);
+                    setLoading(false);  // Set loading to false once data is fetched
+                })
+                .catch(() => {
+                    setAdData(null);
+                    setLoading(false);  // Stop loading even in case of an error
+                });
+        }
+    }, [loading]); // Dependency on `loading` to trigger only when it's true
 
     if (!adData) return null;
 

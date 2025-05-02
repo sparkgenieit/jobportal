@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import Footer from "../admin/Footer"
 import { fetchEmployerUnreadCount } from '../../helpers/slices/mailCountSlice';
 import Transactions from "../../pages/company/Transactions";
-import BuyCredits from "../../pages/company/jobs/BuyCredits";
+import BuyCredits from "../../pages/company/common/BuyCredits";
 import AppliedUsers from "../../pages/company/jobs/AppliedUsers";
 import AppliedUserProfile from "../../pages/company/jobs/AppliedUserProfile";
 import Inbox from "../../pages/company/Inbox";
