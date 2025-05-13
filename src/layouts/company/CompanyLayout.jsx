@@ -1,50 +1,48 @@
-import { useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
-
-import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux';
 
 import Header from './Header';
-import Footer from "../admin/Footer"
+import Footer from '../admin/Footer';
 import Sidebar from './Sidebar';
 import { fetchEmployerUnreadCount } from '../../helpers/slices/mailCountSlice';
-import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
-import CompanyHome from "../../pages/company/Home";
-import Transactions from "../../pages/company/Transactions";
-import Postajob from "../../pages/company/jobs/Postajob";
-import PostedJobList from "../../pages/company/jobs/PostedJobList";
-import BuyCredits from "../../pages/company/common/BuyCredits";
-import AppliedUsers from "../../pages/company/jobs/AppliedUsers";
-import AppliedUserProfile from "../../pages/company/jobs/AppliedUserProfile";
-import EmployerContactUs from "../../pages/company/Contact-Us";
-import Inbox from "../../pages/company/Inbox";
-import RecruiterList from "../../pages/company/Recruiter/RecruiterList";
-import ChatPage from '../../components/ChatPage';
-import NotFound from '../../components/NotFound';
-import Audit from '../../pages/company/Audit-Log';
-import AdAudit from '../../pages/company/AdAudit-Log';
-
-import CompanyProfile from '../../pages/company/CompanyProfile';
-import AdsList from '../../pages/company/common/AdsList';
 import { companyUrls } from '../../services/common/urls/companyUrls.service';
-import EditJob from '../../pages/company/jobs/EditJob';
-import EditAd from '../../pages/company/Ads/EditAd';
-import SelectAdType from '../../pages/company/Ads/SelectAdType';
-import PageDeciderBasedOnType from '../../pages/company/Ads/PageDeciderBasedOnType';
+
+const CompanyHome = lazy(() => import('../../pages/company/Home'));
+const Transactions = lazy(() => import('../../pages/company/Transactions'));
+const Postajob = lazy(() => import('../../pages/company/jobs/Postajob'));
+const PostedJobList = lazy(() => import('../../pages/company/jobs/PostedJobList'));
+const BuyCredits = lazy(() => import('../../pages/company/common/BuyCredits'));
+const AppliedUsers = lazy(() => import('../../pages/company/jobs/AppliedUsers'));
+const AppliedUserProfile = lazy(() => import('../../pages/company/jobs/AppliedUserProfile'));
+const EmployerContactUs = lazy(() => import('../../pages/company/Contact-Us'));
+const Inbox = lazy(() => import('../../pages/company/Inbox'));
+const RecruiterList = lazy(() => import('../../pages/company/Recruiter/RecruiterList'));
+const ChatPage = lazy(() => import('../../components/ChatPage'));
+const NotFound = lazy(() => import('../../components/NotFound'));
+const Audit = lazy(() => import('../../pages/company/Audit-Log'));
+const AdAudit = lazy(() => import('../../pages/company/AdAudit-Log'));
+const CompanyProfile = lazy(() => import('../../pages/company/CompanyProfile'));
+const AdsList = lazy(() => import('../../pages/company/common/AdsList'));
+const EditJob = lazy(() => import('../../pages/company/jobs/EditJob'));
+const EditAd = lazy(() => import('../../pages/company/Ads/EditAd'));
+const SelectAdType = lazy(() => import('../../pages/company/Ads/SelectAdType'));
+const PageDeciderBasedOnType = lazy(() => import('../../pages/company/Ads/PageDeciderBasedOnType'));
 
 export default function CompanyLayout() {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchEmployerUnreadCount())
-    }, [])
-    return (
-        <>
-            <div className='container-scroller'>
-                <Header />
-                <div className="container-fluid page-body-wrapper">
-                    <Sidebar />
-                    <Routes>
+        dispatch(fetchEmployerUnreadCount());
+    }, [dispatch]);
 
+    return (
+        <div className='container-scroller'>
+            <Header />
+            <div className="container-fluid page-body-wrapper">
+                <Sidebar />
+                <Suspense fallback={<div>Loading...</div>}>
+                    <Routes>
                         <Route index element={<CompanyHome />} />
                         <Route path={companyUrls.postJob} element={<Postajob />} />
                         <Route path={companyUrls.editJob} element={<EditJob />} />
@@ -57,23 +55,20 @@ export default function CompanyLayout() {
                         <Route path={companyUrls.audit} element={<Audit />} />
                         <Route path={companyUrls.adAudit} element={<AdAudit />} />
                         <Route path={companyUrls.adTransactions} element={<Transactions type='Ad' />} />
-                        <Route path={companyUrls.jobTransactions} element={<Transactions  type='Job' />} />
+                        <Route path={companyUrls.jobTransactions} element={<Transactions type='Job' />} />
                         <Route path={companyUrls.buyAdCredits} element={<BuyCredits type='Ad' />} />
-                        <Route path={companyUrls.buyJobCredits} element={<BuyCredits  type='Job' />} />
-                        
-
+                        <Route path={companyUrls.buyJobCredits} element={<BuyCredits type='Job' />} />
                         <Route path={companyUrls.companyProfile} element={<CompanyProfile />} />
                         <Route path={companyUrls.recruiters} element={<RecruiterList />} />
                         <Route path={companyUrls.ads} element={<AdsList role="CompanyAdmin" />} />
                         <Route path={companyUrls.selectAdType} element={<SelectAdType />} />
                         <Route path={companyUrls.postAd} element={<PageDeciderBasedOnType />} />
                         <Route path={companyUrls.editAd} element={<EditAd />} />
-
-                        <Route path="//" element={<NotFound />} />
+                        <Route path="*" element={<NotFound />} />
                     </Routes>
-                </div>
-                <Footer />
-            </div >
-        </>
-    )
+                </Suspense>
+            </div>
+            <Footer />
+        </div>
+    );
 }

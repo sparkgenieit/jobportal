@@ -1,58 +1,58 @@
-import { useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import Jobqueuelist from "../../pages/admin/joblist/Jobqueuelist";
-import Adsqueuelist from "../../pages/admin/adslist/Adsqueuelist";
-import Myasignads from "../../pages/admin/adslist/Myasignads";
-
-
-import SingleJobAdmin from "../../pages/admin/joblist/SingleJobAdmin";
-import SingleAdAdmin from "../../pages/admin/adslist/SingleAdAdmin";
-import AdminHome from "../../pages/admin/Home";
-import Myasignjobs from "../../pages/admin/joblist/Myasignjobs";
-import AdminInbox from "../../pages/admin/AdminInbox";
-import UnAssignedQueries from "../../pages/admin/UnAssignedQueries";
-import Chat from "../../pages/superadmin/mail/Chat";
-import SuperAdminInbox from "../../pages/superadmin/mail/Inbox";
-import MailAdmin from "../../pages/superadmin/mail/MailAdmin";
 import Header from './Header';
 import Footer from './Footer';
 import Sidebar from './Sidebar';
 import { fetchEmployerUnreadCount, setAdminUnreadCount } from '../../helpers/slices/mailCountSlice';
 import http from '../../helpers/http';
-import ChatPage from '../../components/ChatPage';
-import NotFound from '../../components/NotFound';
-import Audit from '../../pages/superadmin/Audit_Log/Audit_Log';
-import GeneralQueries from '../../pages/admin/GeneralQueries';
-import AdminAuditLogs from '../../pages/superadmin/Audit_Log/AdminAuditLogs';
-import ProfilesQueue from '../../pages/admin/companylist/ProfilesQueue';
-import CompanyProfileChanges from '../../pages/admin/companylist/CompanyProfileChanges';
-import AssignedProfiles from '../../pages/admin/companylist/AssigendProfiles';
 import { adminUrls } from '../../services/common/urls/adminUrls.service';
 
+const Jobqueuelist = lazy(() => import('../../pages/admin/joblist/Jobqueuelist'));
+const Adsqueuelist = lazy(() => import('../../pages/admin/adslist/Adsqueuelist'));
+const Myasignads = lazy(() => import('../../pages/admin/adslist/Myasignads'));
+const SingleJobAdmin = lazy(() => import('../../pages/admin/joblist/SingleJobAdmin'));
+const SingleAdAdmin = lazy(() => import('../../pages/admin/adslist/SingleAdAdmin'));
+const AdminHome = lazy(() => import('../../pages/admin/Home'));
+const Myasignjobs = lazy(() => import('../../pages/admin/joblist/Myasignjobs'));
+const AdminInbox = lazy(() => import('../../pages/admin/AdminInbox'));
+const UnAssignedQueries = lazy(() => import('../../pages/admin/UnAssignedQueries'));
+const Chat = lazy(() => import('../../pages/superadmin/mail/Chat'));
+const SuperAdminInbox = lazy(() => import('../../pages/superadmin/mail/Inbox'));
+const MailAdmin = lazy(() => import('../../pages/superadmin/mail/MailAdmin'));
+const ChatPage = lazy(() => import('../../components/ChatPage'));
+const NotFound = lazy(() => import('../../components/NotFound'));
+const Audit = lazy(() => import('../../pages/superadmin/Audit_Log/Audit_Log'));
+const GeneralQueries = lazy(() => import('../../pages/admin/GeneralQueries'));
+const AdminAuditLogs = lazy(() => import('../../pages/superadmin/Audit_Log/AdminAuditLogs'));
+const ProfilesQueue = lazy(() => import('../../pages/admin/companylist/ProfilesQueue'));
+const CompanyProfileChanges = lazy(() => import('../../pages/admin/companylist/CompanyProfileChanges'));
+const AssignedProfiles = lazy(() => import('../../pages/admin/companylist/AssigendProfiles'));
+
 export default function AdminLayout() {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const AdminMailUnreadCount = async () => {
         try {
-            const { data } = await http.get("/mails/unread-mails")
-            dispatch(setAdminUnreadCount(data))
+            const { data } = await http.get("/mails/unread-mails");
+            dispatch(setAdminUnreadCount(data));
         } catch (error) {
             console.log(error);
         }
-    }
+    };
+
     useEffect(() => {
-        AdminMailUnreadCount()
-        dispatch(fetchEmployerUnreadCount())
-    }, [])
+        AdminMailUnreadCount();
+        dispatch(fetchEmployerUnreadCount());
+    }, [dispatch]);
 
     return (
-        <>
-            <div className='container-scroller'>
-                <Header />
-                <div className="container-fluid page-body-wrapper">
-                    <Sidebar />
+        <div className='container-scroller'>
+            <Header />
+            <div className="container-fluid page-body-wrapper">
+                <Sidebar />
+                <Suspense fallback={<div>Loading...</div>}>
                     <Routes>
                         <Route index element={<AdminHome />} />
                         <Route path={adminUrls.jobQueueList} element={<Jobqueuelist />} />
@@ -64,20 +64,20 @@ export default function AdminLayout() {
                         <Route path={adminUrls.assignedJobs} element={<Myasignjobs />} />
                         <Route path={adminUrls.assignedAds} element={<Myasignads />} />
                         <Route path={adminUrls.viewJob} element={<SingleJobAdmin />} />
-                        <Route path={adminUrls.viewAd} element={<SingleAdAdmin />} /> 
+                        <Route path={adminUrls.viewAd} element={<SingleAdAdmin />} />
                         <Route path={adminUrls.adminInbox} element={<SuperAdminInbox />} />
-                        <Route path={adminUrls.adminMail} element={< MailAdmin />} />
-                        <Route path={adminUrls.adminInboxDetails} element={< Chat />} />
-                        <Route path={adminUrls.audit} element={< Audit />} />
-                        <Route path={adminUrls.logs} element={< AdminAuditLogs />} />
-                        <Route path={adminUrls.queueProfiles} element={< ProfilesQueue />} />
-                        <Route path={adminUrls.assignedProfiles} element={< AssignedProfiles />} />
-                        <Route path={adminUrls.companyProfile} element={< CompanyProfileChanges />} />
+                        <Route path={adminUrls.adminMail} element={<MailAdmin />} />
+                        <Route path={adminUrls.adminInboxDetails} element={<Chat />} />
+                        <Route path={adminUrls.audit} element={<Audit />} />
+                        <Route path={adminUrls.logs} element={<AdminAuditLogs />} />
+                        <Route path={adminUrls.queueProfiles} element={<ProfilesQueue />} />
+                        <Route path={adminUrls.assignedProfiles} element={<AssignedProfiles />} />
+                        <Route path={adminUrls.companyProfile} element={<CompanyProfileChanges />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
-                </div>
-                <Footer />
+                </Suspense>
             </div>
-        </>
-    )
+            <Footer />
+        </div>
+    );
 }
