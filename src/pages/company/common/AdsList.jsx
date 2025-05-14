@@ -16,7 +16,7 @@ function SearchInput({ name, setName, setPgNumber }) {
     return (
         <input
             type="text"
-            placeholder="Search by job title or reference"
+            placeholder="Search by Ad title or reference"
             className="form-control my-3 shadow"
             value={name}
             onChange={(e) => {

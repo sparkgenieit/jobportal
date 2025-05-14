@@ -25,7 +25,10 @@ const Addskills = lazy(() => import('../../pages/superadmin/Skills-Management/Ad
 const EditSkill = lazy(() => import('../../pages/superadmin/Skills-Management/EditSkill'));
 const EditCategory = lazy(() => import('../../pages/superadmin/categories/EditCategory'));
 const JobsListSuperAdmin = lazy(() => import('../../pages/superadmin/joblist/jobslist'));
+const AdsListSuperAdmin = lazy(() => import('../../pages/superadmin/adlist/adslist'));
 const JobSuperAdmin = lazy(() => import('../../pages/superadmin/joblist/JobSuperadmin'));
+const AdSuperAdmin = lazy(() => import('../../pages/superadmin/adlist/AdSuperadmin'));
+
 const Profile = lazy(() => import('../../pages/superadmin/user/Profile'));
 const LocationList = lazy(() => import('../../pages/superadmin/locations-list/LocationList'));
 const SendMailToAllEmployer = lazy(() => import('../../pages/superadmin/mail/SendMailToAllEmployer'));
@@ -88,6 +91,8 @@ export default function SuperAdminLayout() {
                         <Route path={superAdminUrl.pages} element={<PagesList />} />
                         <Route path={superAdminUrl.specificPage} element={<SpecificPageList />} />
                         <Route path={superAdminUrl.jobs} element={<JobsListSuperAdmin />} />
+                        <Route path={superAdminUrl.ads} element={<AdsListSuperAdmin />} />
+                        <Route path={superAdminUrl.viewAd} element={<AdSuperAdmin />} />
                         <Route path={superAdminUrl.viewJob} element={<JobSuperAdmin />} />
                         <Route path={superAdminUrl.audit} element={<Audit />} />
                         <Route path={superAdminUrl.adminAudit} element={<AdminAuditLogs />} />

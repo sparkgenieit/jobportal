@@ -5,6 +5,8 @@ import { BASE_API_URL } from "../../../helpers/constants";
 import { timeAgo } from "../../../helpers/functions";
 
 export default function AdminAd({ adView, handleApprove, setShow }) {
+
+    console.log(adView);
     const date = useMemo(() => new Date(adView?.creationdate).toLocaleDateString("en-GB"), [adView]);
 
     return (

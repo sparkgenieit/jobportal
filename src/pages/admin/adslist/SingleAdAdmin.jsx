@@ -15,6 +15,7 @@ function SingleAdAdmin() {
 
     const fetchAd = async () => {
         const { data, error } = await tryCatch(() => http.get(`/ads/details/${params.id}`));
+        console.log(data);
         if (data) {
             setAdView(data);
             document.title = data.title;
@@ -61,7 +62,7 @@ function SingleAdAdmin() {
     
     return (
         <>
-        {console.log(adView)}
+        {console.log('adView',adView)}
             <div className="container-fluid">
                 {adView && <AdminAd adView={adView} handleApprove={handleApprove} setShow={setShow} />}
             </div>

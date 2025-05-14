@@ -130,7 +130,16 @@ function Sidebar() {
                 </div>
               </div>
             </li >
-
+<li className="nav-item">
+              <div className="nav-link" role='button' onClick={() => handleNavigation("/superadmin/ads")} >
+                <div className='d-flex justify-content-between w-100'>
+                  <span>Ads List</span>
+                  <span>
+                    <FaListUl size={"20"} />
+                  </span>
+                </div>
+              </div>
+            </li >
 
             <li className="nav-item">
               <div className="nav-link" role='button' onClick={() => handleNavigation("/superadmin/Skills")} >

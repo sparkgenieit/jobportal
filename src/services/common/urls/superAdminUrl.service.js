@@ -27,7 +27,9 @@ class SuperAdminUrl {
         this.pages = "/pages"
         this.specificPage = "/specific-page"
         this.jobs = "/jobs"
+        this.ads = "/ads"
         this.viewJob = "/jobs/:id"
+        this.viewAd = "/ads/:id"
         this.audit = "/audit"
         this.adminAudit = "/audit/admin"
     }
