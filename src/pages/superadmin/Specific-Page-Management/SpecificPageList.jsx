@@ -22,7 +22,8 @@ const SpecificPagesList = ({ pageType = "special" }) => {
       }, {});
     pageCategories = transformData(Categories["b2B"]);
   } else {
-    const keysToRemove = ["places", "regions", "info", "b2B"];
+    //const keysToRemove = ["places", "regions", "info", "b2B"];
+    const keysToRemove = ["info", "b2B"];
     keysToRemove.forEach((key) => {
       delete Categories[key];
     });

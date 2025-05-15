@@ -14,6 +14,7 @@ import { SpecificPageAd } from '../../common/NavbarItemPages/CategorySpecifyAd';
 import { getValue, validateAdForm } from './adsFunctions';
 import DatePickerComponent from "../common/DatePickerComponent"; // Adjust the path accordingly
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchUser } from '../../../helpers/slices/userSlice';
 
 
 const formatDate = (date) => {
@@ -63,13 +64,12 @@ export default function PostSpecificPageAd({ pageType, existingAd }) {
       pageCategories = Categories;
     }
 
-    console.log('pageCategories',pageCategories);
-  
+  console.log('pageType',pageType);
     const [currentDate, setCurrentDate] = useState(formatDate(new Date()));
     const [category, setCategory] = useState('Select Category');
     const [page, setPage] = useState('Select Page');
     const [selectedPages, setSelectedPages] = useState({});
-    const pageTitle = pageType ? 'Post B2B Ad' : 'Post Specific Page Ad';
+    const pageTitle = (pageType === 'b2b') ? 'Post B2B Ad' : 'Post Specific Page Ad';
     const [noOfMonths, setNoOfMonths] = useState(1);
     const [startDate, setStartDate] = useState(formatDate(new Date()));
     const [endDate, setEndDate] = useState(getEndDate(noOfMonths));
@@ -215,7 +215,6 @@ console.log(cloneAdId);
       formData.append('show_on_pages', JSON.stringify(selectedPages));
       formData.append('noOfMonths', noOfMonths);
       formData.append('booked_dates',  JSON.stringify(userBookedDates));
-      formData.append('name', 'kiran');
       
       formData.append('created_by', user._id);
       formData.append('start_date', startDate);
@@ -232,7 +231,7 @@ console.log(cloneAdId);
       const { error } = await tryCatch(() => request);
   
       if (error) return message({ status: 'Error', error });
-  
+      dispatch(fetchUser()) //To Update Credits
       message({ status: 'Success', message: `Ad ${existingAd ? 'Updated' : 'Posted'} Successfully`, path: '/company/ads' });
     };
   
