@@ -1,7 +1,6 @@
-import React from "react"; // ✅ Add this
+import React, { useEffect, useRef, useState } from "react";
 import { Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
-import { useEffect, useState } from "react";
 
 interface ToastViewerProps {
   content?: string;
@@ -10,11 +9,19 @@ interface ToastViewerProps {
 
 export default function ToastViewer({ content = "", loading = false }: ToastViewerProps) {
   const [isClient, setIsClient] = useState(false);
+  const viewerRef = useRef<any>(null); // Viewer doesn't have good types, use `any`
 
-  // Avoid SSR issues
+  // Set client-side flag to avoid SSR issues
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  // Update content dynamically
+  useEffect(() => {
+    if (viewerRef.current && content?.trim()) {
+      viewerRef.current.getInstance().setMarkdown(content);
+    }
+  }, [content]);
 
   if (loading) {
     return <div>Loading content...</div>;
@@ -24,11 +31,7 @@ export default function ToastViewer({ content = "", loading = false }: ToastView
 
   return (
     <div className="border p-3 rounded bg-white shadow-sm">
-      {content?.trim() ? (
-        <Viewer initialValue={content} />
-      ) : (
-        <div className="text-muted">No content available.</div>
-      )}
+      <Viewer ref={viewerRef} />
     </div>
   );
 }
