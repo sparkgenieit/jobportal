@@ -37,10 +37,8 @@ export default function MainContent() {
             <div className='lg:col-span-3 text-sm'>
                 <CategorySpecifyAd page={params.topic} category= {params.name}/>
                 <div className='min-h-[70vh] py-6 px-3' >
-                      <ToastViewer content={content} loading={!content} />
-              
-                    
-                </div>
+                   <ToastViewer key={`${name}-${topic}`} content={content} loading={!content} />
+              </div>
             </div>
 
 

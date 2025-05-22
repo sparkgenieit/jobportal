@@ -22,7 +22,6 @@ const SpecificPagesList = ({ pageType = "special" }) => {
       }, {});
     pageCategories = transformData(Categories["b2B"]);
   } else {
-    //const keysToRemove = ["places", "regions", "info", "b2B"];
     const keysToRemove = ["info", "b2B"];
     keysToRemove.forEach((key) => {
       delete Categories[key];
@@ -51,7 +50,7 @@ const SpecificPagesList = ({ pageType = "special" }) => {
         } catch (err) {
           console.error("Error fetching page content:", err);
           setContent("");
-          setShowEditor(true); // allow creating new page
+          setShowEditor(true);
         }
       } else {
         setShowEditor(false);
@@ -60,6 +59,16 @@ const SpecificPagesList = ({ pageType = "special" }) => {
 
     fetchPageContent();
   }, [category, page]);
+
+  useEffect(() => {
+    if (!viewOnlyMode && toastEditorRef.current && content?.trim()) {
+      const instance = toastEditorRef.current.getInstance();
+      const current = instance.getMarkdown();
+      if (current !== content) {
+        instance.setMarkdown(content);
+      }
+    }
+  }, [content, viewOnlyMode]);
 
   const savePage = async () => {
     if (!content || content.trim() === "") {
@@ -103,6 +112,7 @@ const SpecificPagesList = ({ pageType = "special" }) => {
               onChange={(e) => {
                 setCategory(e.target.value);
                 setPage("Select Page");
+                setContent("");
                 setShowEditor(false);
               }}
             >
@@ -142,7 +152,6 @@ const SpecificPagesList = ({ pageType = "special" }) => {
             <div className="mt-4">
               {viewOnlyMode ? (
                 <ToastViewer content={content} loading={!content} />
-
               ) : (
                 <Editor
                   previewStyle="vertical"
@@ -150,21 +159,15 @@ const SpecificPagesList = ({ pageType = "special" }) => {
                   initialEditType="wysiwyg"
                   hideModeSwitch={true}
                   useCommandShortcut={true}
-                  initialValue={content}
                   ref={toastEditorRef}
                   onChange={handleEditorChange}
-                  
                   hooks={{
                     addImageBlobHook: async (blob, callback) => {
                       const formData = new FormData();
                       formData.append('file', blob);
-                  
                       try {
                         const res = await httpUpload.post('/cms/upload-image', formData);
                         const uploadedUrl = `${BASE_API_URL}${res.data.url}`;
-                  
-                        console.log('Uploaded URL:', uploadedUrl);
-                  
                         if (res.data.url) {
                           callback(uploadedUrl, 'image');
                         } else {
@@ -176,8 +179,6 @@ const SpecificPagesList = ({ pageType = "special" }) => {
                       }
                     }
                   }}
-                  
-                                      
                 />
               )}
             </div>

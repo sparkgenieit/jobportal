@@ -61,7 +61,6 @@ export default function Card2({ job }) {
         e.stopPropagation();
     }
 
-
     const openInNewTab = () => {
         const url = `${BASE_APP_URL}/jobs/${job._id}`
         window.open(url, '_blank', 'noopener,noreferrer')
@@ -98,187 +97,106 @@ export default function Card2({ job }) {
         e.stopPropagation();
     }
 
-
     const date = new Date(job?.creationdate).toLocaleDateString('en-GB')
 
     return (
-        <div onClick={openInNewTab} className='job-card px-3 py-2 border border-slate-300 rounded m-0 grid lg:grid-cols-4'>
-
-            {/* Left Side of Card */}
-            <div className=' lg:col-span-3 flex flex-col  gap-1'>
-                <div className='flex lg:hidden items-center text-sm  gap-3'>
-
+        <div onClick={openInNewTab} className='job-card px-3 py-2 rounded grid lg:grid-cols-4 bg-white'>
+            {/* Removed border and hover effect */}
+            <div className='lg:col-span-3 flex flex-col gap-1'>
+                <div className='flex lg:hidden items-center text-sm gap-3'>
                     {date} ({timeAgo(date)})
-
                     <div className='flex gap-3 lg:hidden justify-end items-center py-1'>
-                        <Tooltip tooltipText={"Share"} size={10}  >
-                            <FaShare fontSize={16} onClick={handleShare} />
-                        </Tooltip>
-
-                        <Tooltip tooltipText={isJobSaved ? "Saved" : "Save"} size={10} >
-                            {isJobSaved ?
-                                <IoBookmark fontSize={16} />
-                                :
-                                <CiBookmark fontSize={16} onClick={handleSave} />
-                            }
+                        <Tooltip tooltipText={"Share"} size={10}><FaShare fontSize={16} onClick={handleShare} /></Tooltip>
+                        <Tooltip tooltipText={isJobSaved ? "Saved" : "Save"} size={10}>
+                            {isJobSaved ? <IoBookmark fontSize={16} /> : <CiBookmark fontSize={16} onClick={handleSave} />}
                         </Tooltip>
                     </div>
                 </div>
 
-                <div className='  lg:hidden mb-2 w-[125px]'>
+                <div className='lg:hidden mb-2 w-[125px]'>
                     {job.companyLogo.length > 0 && <img className="rounded border company-logo" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                 </div>
-
 
                 <h3 className='font-bold job-title'>{job.jobTitle}</h3>
 
                 <div className='flex'>
-                    <Tooltip tooltipText={"View All Jobs"} size={12}>
-                        <CiViewList fontSize={22} onClick={(e) => { getJobsbyCompany(e) }} />
-                    </Tooltip>
-
-                    {job.info?.length > 0 ?
+                    <Tooltip tooltipText={"View All Jobs"} size={12}><CiViewList fontSize={22} onClick={getJobsbyCompany} /></Tooltip>
+                    {job.info?.length > 0 ? (
                         <Tooltip tooltipText={"View Company Info"} size={12}>
-                            <span className='underline text-blue-600' onClick={handleInfo}>
-                                {job.company}
-                            </span>
+                            <span className='underline text-blue-600' onClick={handleInfo}>{job.company}</span>
                         </Tooltip>
-                        :
-                        job.company}
+                    ) : job.company}
                 </div>
 
                 <div className='flex'>
                     <MdOutlineLocationOn size="22px" />
                     <Tooltip tooltipText={"View Activities"} size={12}>
-                        <span onClick={handleLocation} className='underline text-blue-600'>
-                            {job.location}
-                        </span>
+                        <span onClick={handleLocation} className='underline text-blue-600'>{job.location}</span>
                     </Tooltip>
                 </div>
 
                 <div className='grow mt-1'>
-                    <p className='text-slate-400 text-sm description'> {markdownToPlainText(job.description)}</p>
+                    <p className='text-slate-400 text-sm description'>{markdownToPlainText(job.description)}</p>
                 </div>
 
                 <div className='hidden lg:flex gap-2 text-sm items-center'>
                     {date} ({timeAgo(date)})
-
                     <div className='flex gap-2'>
-                        <Tooltip tooltipText={"Share"} size={10} >
-                            <FaShare fontSize={20} onClick={handleShare} />
-                        </Tooltip>
-
-                        <Tooltip tooltipText={isJobSaved ? "Saved" : "Save"} size={10} >
-                            {isJobSaved ?
-                                <IoBookmark fontSize={20} />
-                                :
-                                <CiBookmark fontSize={22} onClick={handleSave} />
-                            }
+                        <Tooltip tooltipText={"Share"} size={10}><FaShare fontSize={20} onClick={handleShare} /></Tooltip>
+                        <Tooltip tooltipText={isJobSaved ? "Saved" : "Save"} size={10}>
+                            {isJobSaved ? <IoBookmark fontSize={20} /> : <CiBookmark fontSize={22} onClick={handleSave} />}
                         </Tooltip>
                     </div>
                 </div>
             </div>
 
-
-            {/* Right Side of Card */}
             <div className='flex flex-col'>
-                <div className=' hidden lg:block'>
+                <div className='hidden lg:block'>
                     {job.companyLogo.length > 0 && <img className="rounded border border-slate-300 company-logo" src={`${BASE_API_URL}/uploads/logos/${job.companyLogo}`} alt={job.company} />}
                 </div>
 
-                <div className=' mobile-card flex'>
-
-                    <div className={'job-details'}>
+                <div className='mobile-card flex'>
+                    <div className='job-details'>
                         {job.rateperhour &&
                             <Tooltip tooltipText={"Approximate salary"}>
                                 <span className='flex gap-1 items-center'>
                                     <FaDollarSign fontSize={13} />
-                                    {job.salary_type === "negotiable" ?
-                                        "Negotiable"
-                                        :
+                                    {job.salary_type === "negotiable" ? "Negotiable" :
                                         <>
                                             {job.salary_type === "per annum" ? salaryPerAnnum(job.rateperhour) : job.rateperhour} {job.salary_type}
                                         </>
                                     }
                                 </span>
-                            </Tooltip>
-                        }
-
+                            </Tooltip>}
                         <Tooltip tooltipText={"Job Type"}>
-                            <span className='flex gap-1 items-center'>
-                                <BsBriefcase fontSize={13} />
-                                {job.jobtype}
-                            </span>
+                            <span className='flex gap-1 items-center'><BsBriefcase fontSize={13} />{job.jobtype}</span>
                         </Tooltip>
-
-
                         <Tooltip tooltipText={"Duration"}>
-                            <span className='flex gap-1 items-center'>
-                                <BsCalendar3 fontSize={13} />
-                                {job.duration}
-                            </span>
+                            <span className='flex gap-1 items-center'><BsCalendar3 fontSize={13} />{job.duration}</span>
                         </Tooltip>
-
                         {job.weeklyperhour > 0 &&
-                            <Tooltip tooltipText={"Weekly Hours"} className="flex gap-2">
-                                <span className='flex gap-1 items-center'>
-                                    <FaRegClock fontSize={13} />
-                                    {job.weeklyperhour} hours per week
-                                </span>
-                            </Tooltip>
-                        }
-
-
+                            <Tooltip tooltipText={"Weekly Hours"}>
+                                <span className='flex gap-1 items-center'><FaRegClock fontSize={13} />{job.weeklyperhour} hours/week</span>
+                            </Tooltip>}
                         {job.numberofvacancies > 1 &&
                             <Tooltip tooltipText={"Vacancies"}>
-                                <span className='flex gap-1 items-center'>
-                                    <MdOutlinePeopleOutline fontSize={16} />
-                                    {job.numberofvacancies} Vacancies
-                                </span>
-                            </Tooltip>
-                        }
-
+                                <span className='flex gap-1 items-center'><MdOutlinePeopleOutline fontSize={16} />{job.numberofvacancies} Vacancies</span>
+                            </Tooltip>}
                         {job.training?.includes("Yes") &&
-                            <span className=' flex  gap-1'>
-                                <FaCheckSquare fontSize={13} />
-                                Training provided
-                            </span>
-                        }
-
+                            <span className='flex gap-1'><FaCheckSquare fontSize={13} />Training provided</span>}
                         {job.benifits &&
-
-                            <ul className='flex gap-2 m-0 p-0  text-[12px] items-center list-none '>
-                                {job.benifits?.includes("Accommodation") &&
-                                    <li>
-                                        <Tooltip tooltipText={"Accommodation"}>
-                                            <IoHomeOutline fontSize={13} className='' />
-                                        </Tooltip>
-                                    </li>
-                                }
-
-                                {job.benifits?.includes("Food") &&
-                                    <li>
-                                        <Tooltip tooltipText={"Food"}>
-                                            <GiHotMeal fontSize={13} className='' />
-                                        </Tooltip>
-                                    </li>
-                                }
-
-                                {job.benifits?.includes("Transport") &&
-                                    <li>
-                                        <Tooltip tooltipText={"Transport"}>
-                                            <PiCarProfileThin fontSize={17} />
-                                        </Tooltip>
-                                    </li>
-                                }
-                                <li>
-                                    Benefits
-                                </li>
-                            </ul>
-                        }
+                            <ul className='flex gap-2 m-0 p-0 text-[12px] items-center list-none'>
+                                {job.benifits.includes("Accommodation") &&
+                                    <li><Tooltip tooltipText={"Accommodation"}><IoHomeOutline fontSize={13} /></Tooltip></li>}
+                                {job.benifits.includes("Food") &&
+                                    <li><Tooltip tooltipText={"Food"}><GiHotMeal fontSize={13} /></Tooltip></li>}
+                                {job.benifits.includes("Transport") &&
+                                    <li><Tooltip tooltipText={"Transport"}><PiCarProfileThin fontSize={17} /></Tooltip></li>}
+                                <li>Benefits</li>
+                            </ul>}
                     </div>
                 </div>
-            </div >
-        </div >
-    )
+            </div>
+        </div>
+    );
 }

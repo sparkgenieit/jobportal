@@ -31,7 +31,7 @@ export default function ToastViewer({ content = "", loading = false }: ToastView
 
   return (
     <div className="border p-3 rounded bg-white shadow-sm">
-      <Viewer ref={viewerRef} />
+      <Viewer ref={viewerRef} initialValue={content} />
     </div>
   );
 }

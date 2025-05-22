@@ -25,7 +25,7 @@ function City() {
                         <img style={{ height: "20vh", width: "100%" }} className="rounded" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRqDexPvTsSD7a1UZ3TxHRw9bE5nD_ZlZZlZAWAQbfGaE-GEszVIkIvsSE-tx6o" />
                     </div>
                     <div>
-                        <p><strong>Activities in this region</strong></p>
+                        <p><strong>Activitiesssss in this region</strong></p>
 
                         <ul>
                             <li>Sky Tower: Auckland's iconic landmark, offering breathtaking 360-degree views of the city and beyond. You can even do a Sky Walk or a Sky Jump for an adrenaline rush!</li>
