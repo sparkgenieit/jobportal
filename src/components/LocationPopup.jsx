@@ -20,7 +20,12 @@ export default function LocationPopup() {
 
             setLoading(true);
             try {
-                const citySlug = locationPopup.city.toLowerCase();
+               
+                 const citySlug = locationPopup.city.trim()
+        .toLowerCase()
+        .replace(/'/g, "")           // remove apostrophes
+        .replace(/\s+/g, "-")        // replace spaces with hyphens
+        .replace(/[^a-z0-9\-]/g, ""); // remove all other special characters
                 const response = await http.get(`/cms/?category=regions&page=${citySlug}`);
                 setInfo(response.data.content || []);
             } catch (error) {
