@@ -13,7 +13,7 @@ import { CiBookmark, CiViewList } from "react-icons/ci";
 import { BASE_API_URL } from '../../../helpers/constants';
 
 export const SpecificPageAd = ({ imageUrl, ad }) => {
-    console.log('adddd', ad);
+    console.log('adddd Specific', ad);
     const imgSrc = (imageUrl && imageUrl.includes('blob')) ? imageUrl : `${BASE_API_URL}/uploads/ads/${ad.image}`;
 
     return (
@@ -79,6 +79,8 @@ export default function CategorySpecifyAd({ page, category }) {
             const today = new Date();
 
             // Filter ads where today falls within the start_date and end_date
+
+        //    console.log(new Date(JSON.parse(pageData[0].booked_dates[0])));
             const validAds = pageData?.filter(ad => {
                 const startDate = new Date(ad.start_date);
                 const endDate = new Date(ad.end_date);
@@ -87,6 +89,9 @@ export default function CategorySpecifyAd({ page, category }) {
 
             if (validAds && validAds.length > 0) {
                 setAds(validAds);  // ✅ Set only valid ads
+            }
+            else{
+                setAds(null); 
             }
         };
 
