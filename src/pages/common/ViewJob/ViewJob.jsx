@@ -216,10 +216,17 @@ export default function ViewJob() {
     );
   }
 
-  // Memoize the main job view to avoid unnecessary re-renders
-  const jobContent = useMemo(() => {
-    if (!jobview || jobview.status !== "approved") return null;
-    return (
+if (loading) return <Loader />;
+
+if (!loading && (!jobview || jobview.status !== "approved")) {
+  return (
+    <div className="h-screen font-bold flex justify-center items-center">
+      Job Not Found
+    </div>
+  );
+}
+
+ return (
       <>
         <div className="m-0 p-0 grid md:grid-cols-3 mt-3">
           <div className="md:col-span-2 job-details-box">
@@ -555,22 +562,6 @@ export default function ViewJob() {
         </Modal>
       </>
     );
-  }, [
-    jobview,
-    isJobApplied,
-    isJobSaved,
-    handleApply,
-    handleShare,
-    handleSave,
-    handleInfo,
-    onReportJob,
-    onApply,
-    params.id,
-    role,
-    userId,
-    message,
-    dispatch,
-  ]);
 
-  return jobContent;
+   
 }
