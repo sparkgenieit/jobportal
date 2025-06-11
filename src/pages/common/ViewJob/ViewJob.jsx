@@ -157,6 +157,8 @@ export default function ViewJob() {
       handleShare={handleShare}
       handleInfo={handleInfo}
       showModal={showModal}
+      setShowModal={setShowModal} // ✅ Add this
+
       handleClose={handleClose}
       onReportJob={onReportJob}
       onApply={onApply}

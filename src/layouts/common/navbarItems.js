@@ -808,4 +808,27 @@ const NavBarInfo = {
     ]
 }
 
+function formatB2BPaths(b2bArray) {
+  return b2bArray.map(({ heading, links }) => {
+   // console.log(heading);
+    const formattedHeading = heading.toLowerCase().replace(/\s+/g, '-');
+    console.log(formattedHeading);
+    const updatedLinks = links.map(({ title }) => {
+         console.log('inside',formattedHeading);
+    
+      const formattedTitle = title.toLowerCase().replace(/\s+/g, '-');
+      return {
+        title,
+        path: `/categories/${formattedHeading}/${formattedTitle}`
+      };
+    });
+    return {
+      heading:formattedHeading,
+      links: updatedLinks
+    };
+  });
+}
+
+NavBarInfo.b2B = formatB2BPaths(NavBarInfo.b2B);
+
 export default NavBarInfo;
