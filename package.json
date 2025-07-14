@@ -20,6 +20,7 @@
     "@toast-ui/react-editor": "^3.2.3",
     "axios": "^1.6.5",
     "bootstrap": "^5.3.2",
+    "caniuse-lite": "^1.0.30001716",
     "html-react-parser": "^5.1.10",
     "marked": "^13.0.1",
     "prismjs": "^1.30.0",
