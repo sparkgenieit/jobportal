@@ -15,6 +15,9 @@ class SuperAdminUrl {
     this.galleryList = "/gallery";
     this.addGallery = "/gallery/add";
     this.editGallery = "/gallery/edit/:id";
+      this.galleryAdList = "/gallery-ad";
+    this.addGalleryAd = "/gallery-ad/add";
+    this.editGalleryAd = "/gallery-ad/edit/:id";
     this.skillsList = "/Skills";
     this.users = "/users";
     this.editSkills = "/Skills/:id";

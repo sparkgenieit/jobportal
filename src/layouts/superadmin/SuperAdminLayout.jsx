@@ -56,6 +56,17 @@ const EditGalleryItem = lazy(() =>
   import("../../pages/superadmin/Gallery-Management/EditGalleryItem")
 );
 
+const GalleryAdList = lazy(() =>
+  import("../../pages/superadmin/GalleryAd-Management/GalleryAdList")
+);
+const AddGalleryAd = lazy(() =>
+  import("../../pages/superadmin/GalleryAd-Management/AddGalleryAd")
+);
+
+const EditGalleryAd = lazy(() =>
+  import("../../pages/superadmin/GalleryAd-Management/EditGalleryAd")
+);
+
 const EditCategory = lazy(() =>
   import("../../pages/superadmin/categories/EditCategory")
 );
@@ -148,6 +159,10 @@ export default function SuperAdminLayout() {
             <Route path={superAdminUrl.galleryList} element={<GalleryList />} />
             <Route path={superAdminUrl.addGallery} element={<AddGalleryItem />} />
             <Route path={superAdminUrl.editGallery} element={<EditGalleryItem />} />
+            <Route path={superAdminUrl.galleryAdList} element={<GalleryAdList />} />
+            <Route path={superAdminUrl.addGalleryAd} element={<AddGalleryAd />} />
+            <Route path={superAdminUrl.editGalleryAd} element={<EditGalleryAd />} />
+          
             <Route path={superAdminUrl.orders} element={<OrdersList />} />
             <Route
               path={superAdminUrl.creditsManagement}

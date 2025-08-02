@@ -214,6 +214,20 @@ function Sidebar() {
                 </div>
               </div>
             </li>
+             <li className="nav-item">
+              <div
+                className="nav-link"
+                role="button"
+                onClick={() => handleNavigation("/superadmin/gallery-ad")}
+              >
+                <div className="d-flex justify-content-between w-100">
+                  <span>Gallery Ad Management</span>
+                  <span>
+                    <FaCogs size={"22"} />
+                  </span>
+                </div>
+              </div>
+            </li>
             <li className="nav-item">
               <div
                 className="nav-link"
